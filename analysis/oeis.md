@@ -110,6 +110,12 @@ The following OEIS searches were run (each via
   `43,46,49,52,55,58,61,65,68,71,74,77` (no hit). Original.
 - diagonal: `1,2,4,8,11,16,22,27,34,42` (no hit), `2,4,8,11,16,22,27,34,42`
   (no hit), `4,8,11,16,22,27,34,42` (no hit). Original.
+
+  Updated 2026 with extended data through n = 12: `1,2,4,8,11,16,22,27,34,42,49,58`.
+  This sequence is now known to satisfy
+  `P(n, n) = ⌊n²/3⌋ + n + C(n mod 3)` (Conjecture C in
+  `conjectures.md`, verified at n = 4..12). A re-search with the longer
+  prefix is recommended as part of any OEIS contribution.
 - keyword: `spanning tree grid graph full degree` (no hit),
   `spanning tree grid graph preserved degree` → A001353 (related, but
   about *count* of spanning trees, not max preserved).

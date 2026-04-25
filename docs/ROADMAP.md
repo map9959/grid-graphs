@@ -43,10 +43,12 @@ mathlib bound expressions) machinery are in this repo. See
 | 1 | Per-`m` closed-form conjectures | **Done** | `analysis/recurrences.md`, `analysis/conjectures.md` |
 | 2 | OEIS / prior-art lookup | **Done** | `analysis/oeis.md` |
 | 3 | DP backtracking → motif extraction (constructive LBs) | **Done (mostly)** | `analysis/proofs_m345.md`, `src/witness.rs` |
-| 4 | Matching upper bounds via Karp's max-mean cycle | **Done for m ≤ 6 rigorously, m ≤ 8 empirically** | `analysis/proofs_upper.md`, `src/transfer.rs`, `src/motif.rs` |
-| 5 | Square asymptotics (5a solver, 5b tile, 5c LP UB) | Pending — **recommended next** | — |
-| 6 | Lean formalization of `P(m, n) ≤ basicUB m n` | Pending | — |
-| 7 | Lean formalization of explicit constructions | Pending (multi-month) | — |
+| 4 | Matching upper bounds via Karp's max-mean cycle | **Done for m ≤ 6 rigorously, m ≤ 10 empirically** | `analysis/proofs_upper.md`, `src/transfer.rs`, `src/motif.rs` |
+| 5 | Conjecture A as a theorem (`α_m = (m+2)/3 ⇔ m ≡ 1 mod 3`) | Pending — **recommended next** | — |
+| 6 | Per-m closed forms for `m ≡ 0, 2 (mod 3)` | Pending | — |
+| 7 | Diagonal `P(n, n)`: prove Conjecture C | Pending; data through n = 12 supports closed form | `analysis/conjectures.md` (Conjecture C) |
+| 8 | Lean formalization of `P(m, n) ≤ basicUB m n` | Pending | — |
+| 9 | Lean formalization of per-`m` constructions and Conjecture A | Pending (multi-month) | — |
 
 ### What Phase 3 actually delivered
 
@@ -70,18 +72,38 @@ implemented (other residues mechanically extractable but tedious). For
 m = 8, the period-7 motif is now explicit at `n − 20 ∈ 14ℤ_{≥0}` (a
 1-in-14 residue subset of `n ≥ 20`).
 
-## Recommended next: Phase 5 — square asymptotics
+## Strategic re-plan after Phase 4
 
-Phase 4 established the asymptotic slope `α_m` rigorously for `m ≤ 6` via
-Karp's max-mean cycle on the column-state transfer graph and empirically
-(via witness gain-sequence period detection) for `m ≤ 8`. See
-`analysis/proofs_upper.md` for the per-`m` table.
+Phase 4 produced enough new evidence to substantially revise what
+"closing in on the closed formula" looks like. Three findings drive the
+revision:
 
-The natural next direction is **square asymptotics**: estimating
-`lim P(n, n) / n²`. Basic UB caps it at `1/3`; empirical ratio at
-`n = 10` is `0.42`. Sub-phase 5b (periodic 2D tile constructions) is
-the cheapest entry point; 5c (joint LP relaxation for tighter UBs) is
-exploratory.
+1. **Conjecture A is now confirmed at four data points** (m ∈ {1, 4, 7, 10}
+   tight, m ∈ {2, 3, 5, 6, 8, 9} not tight). It is the strongest empirical
+   regularity we have, and proving it would yield the first **theorem of
+   the form `α_m as a function of m`**, valid for an infinite family.
+
+2. **The diagonal `P(n, n)` admits a clean closed form** (Conjecture C in
+   `analysis/conjectures.md`):
+   ```
+   P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
+   ```
+   verified at every `n = 4..12`. The asymptotic density is
+   `lim P(n,n)/n² = 1/3` — i.e. the basic UB **is** asymptotically tight
+   on the diagonal, contradicting the previous "α-on-the-diagonal ≈ 0.42"
+   reading. Testing the conjecture at n ≥ 13 requires either a faster
+   solver or a smarter analysis.
+
+3. **The bitpacked DP scales further than thought**: P(11,11)=49 in
+   ~1.5 min, P(12,12)=58 in ~9 min, P(13,13) needs ~hour budget. So
+   "Phase 5a" (a better square solver) was over-estimated as
+   "weeks-of-work" — careful tuning may unlock n = 14, 15 within the
+   existing solver, or a moderate rewrite (e.g. parallelization, better
+   pruning, or a strip-DP) could push to n ≥ 20.
+
+The revised roadmap re-prioritizes accordingly: **first** prove
+Conjecture A (Phase 5), **then** the harder per-m families and
+diagonal closed form (Phases 6, 7), **finally** Lean formalization.
 
 ## Phase 4 — transfer matrix + Karp's max-mean cycle (DONE)
 
@@ -122,99 +144,260 @@ and m = 8 (specific n) where checked.
   per residue, not yet encoded in `check_constructions.py`.
 - m = 8 general n: only n − 20 ∈ 14ℤ_{≥0} implemented.
 
-## Phase 5 — square asymptotics
+## Phase 5 — Conjecture A as a theorem (`α_m = (m+2)/3 ⇔ m ≡ 1 mod 3`)
 
-`P(n, n) / n²`. Basic UB caps it at `1/3`; empirical ratio at `n = 10` is
-`0.42`. Three sub-phases of varying depth.
+**Goal**: Promote Conjecture A (in `analysis/conjectures.md`) from
+"empirically observed at m ∈ {1, 4, 7, 10}" to a fully proven theorem
+for the infinite family `m = 3k + 1, k ≥ 0`. This produces the first
+non-trivial closed-form formula for `α_m` valid for an entire residue
+class.
 
-### 5a — Better solver for `P(n, n)`, `n > 10`
-The current bitpacked DP has `m ≤ ~10`. To extend square data we need a
-new solver: e.g. branch-and-bound with the existing bound functions, or an
-ILP/MILP via OR-Tools/Gurobi. **Weeks of work.**
+**Why this next**: Conjecture A is the structural heart of the data.
+All other per-m phenomena hinge on whether m sits on the "tight" or
+"non-tight" branch. A proof here unlocks compact closed forms for the
+m ≡ 1 (mod 3) infinite family and clarifies what's special about the
+other two residues.
 
-### 5b — Periodic 2D tile constructions
-Design 3×3 or 4×4 motifs achieving full-degree density above `1/2`,
-prove tileability with consistent boundary, conclude
-`lim P(n, n) / n² ≥ ρ`. **Days of work**, uncertain whether `ρ` improves
-on the trivial spine construction.
+### What's needed
 
-### 5c — Tighter UB combining 4-cycle hitting set and deficiency
-Currently the basic UB on squares is `(1/3) n² + O(n)` (trivially). A 4-
-cycle hitting set bound says interior preserved vertices ≤ `(3/4) I` per
-unit-square obstruction. Combining gives `(7/12) n² + O(n)` — already
-weaker. Need an LP relaxation of the joint constraints; solve for small
-`n`, observe the asymptotic. **Open**, exploratory.
+The basic UB `α_m ≤ (m+2)/3` is **already algebraically proved** in
+`lean/GridGraphs/Bounds.lean` (modulo the operational connection
+deferred to Phase 8). So we need only the **matching lower bound**:
+an explicit periodic-period-1 column motif, valid for every
+m ≡ 1 (mod 3), achieving gain `(m+2)/3 = k + 1` per column for
+m = 3k + 1.
 
-**Recommended ordering within Phase 5**: 5b before 5a because it's cheaper
-and might match observed densities directly.
+### Subtasks
 
-## Phase 6 — Lean formalization of `P(m, n) ≤ basicUB m n`
+1. **5.1** Decode `tree_m4_double_spine`, `tree_m7_witness`, and the
+   m = 10 witness gain-period-1 motif (extracted by
+   `cargo run -- motif 10 25`) into a uniform parametric column
+   pattern. The m = 4 and m = 7 patterns are already encoded; m = 10
+   must be added to `analysis/check_constructions.py`.
+2. **5.2** State the parametric pattern in m = 3k + 1: a single column
+   pattern parameterized by k that, when repeated, yields gain k + 1
+   per column. Verify it for k = 0, 1, 2, 3 (m = 1, 4, 7, 10) using
+   the existing checker.
+3. **5.3** Prove that the parametric pattern is a valid spanning tree
+   for arbitrary k. The verification must address (i) edge count
+   m·n − 1, (ii) acyclicity, (iii) connectedness, (iv) the per-column
+   gain identity. The proof is purely combinatorial and amenable to
+   either pen-and-paper exposition (`analysis/proofs_5.md`) or Lean
+   formalization (deferred to Phase 9).
+4. **5.4** Conjecture B (period q_m = 1 ⇔ m ≡ 1 mod 3) follows from
+   5.3 since the construction is itself period 1, so q_m ≤ 1; combined
+   with the basic UB tightness, Conjecture B is also implied.
+5. **5.5** Test predictions at m = 13, 16 via the witness-DP
+   gain-period detector (no new solver needed; current DP scales to
+   m ≤ 12 squarewise but to m ≤ 16 if n is small).
+
+**Effort**: weeks. The big question is whether step 5.3 yields a
+clean inductive structure on k (likely yes given the period-1
+behavior).
+
+## Phase 6 — Per-m closed forms for `m ≡ 0, 2 (mod 3)`
+
+For m ≡ 0 (mod 3), data shows q_m = 2, 2 for m = 6, 9 and q_3 = 3.
+For m ≡ 2 (mod 3), q_m = 1, 3, 7 for m = 2, 5, 8 (no simple pattern).
+**Goal**: characterize α_m, q_m as functions of m for m ≡ 0 and m ≡ 2
+(mod 3), at least for the m ≤ 12 range where DP is feasible.
+
+### Subtasks
+
+1. **6.1** Compute `α_m, q_m` rigorously for m ∈ {7, 8, 9, 11, 12} via
+   either:
+   - a fast max-mean cycle implementation that handles m = 7, 8
+     state spaces (Howard's done correctly, or value iteration
+     with sparse adjacency), or
+   - the witness gain-period method extended to m = 11, 12 (cheap;
+     probably already gives correct answers).
+2. **6.2** Look for a uniform construction for m ≡ 0 (mod 3):
+   m = 3, 6, 9 with α = 4/3, 5/2, 7/2. Hypothesize a parametric
+   period-2 motif that scales with m and verify.
+3. **6.3** For m ≡ 2 (mod 3), the pattern is more erratic
+   (α_2 = 1, α_5 = 2, α_8 = 22/7). Establish whether α_11, α_14 follow
+   a pattern, or whether each m ≡ 2 (mod 3) requires its own ad-hoc
+   construction.
+4. **6.4** Update `analysis/check_constructions.py` with the new
+   parametric constructions; close the m = 6 (n%4 ∈ {1, 2, 3}) and
+   m = 8 (general n) gaps that Phase 4 left open.
+5. **6.5** Document in `analysis/proofs_5_6.md` (or extend
+   `analysis/proofs_upper.md`).
+
+**Effort**: weeks to months. The m ≡ 2 (mod 3) case may not admit a
+uniform formula, in which case Phase 6 succeeds on m ≡ 0 and partially
+on m ≡ 2.
+
+## Phase 7 — Diagonal `P(n, n)`: prove Conjecture C
+
+`analysis/conjectures.md`'s **Conjecture C** is:
+```
+P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
+```
+where `C(1) = -1, C(0) = C(2) = -2`. Verified at every n = 4..12.
+
+### Sub-phases
+
+#### 7a — Faster solver to push the empirical horizon
+
+Current solver: P(11, 11) ~ 1.5 min, P(12, 12) ~ 9 min, P(13, 13)
+> 30 min. To test Conjecture C at `n ∈ {13, 14, 15, 16}` we need a
+solver that scales to those sizes. Options, in increasing depth of
+work:
+1. **Beam search with the existing pruning**. The current DP has a
+   `BEAM=N` env var; tune to find a beam that recovers the true
+   optimum on n ≤ 12 and apply to n = 13, 14. Days of work; result
+   is **upper bound only** (since beam may miss true optimum).
+2. **Better pruning**. The current `PRUNE=1` heuristic uses
+   degree-budget potential. A 2D potential (using the 4-cycle hitting
+   set bound on remaining vertices) could prune harder. Days of work.
+3. **Rewrite as ILP/SAT**. Model the spanning-tree constraint with
+   acyclicity-by-arborescence and full-degree as a count target.
+   OR-Tools / Gurobi can sometimes handle these efficiently. 1–2 weeks.
+4. **Distributed bitpacked DP**. Partition the column-state space by
+   high bits of the canonical labeling and run shards in parallel.
+   1–2 weeks; useful for any large m, n.
+
+**Recommended order**: 1 → 2 → (4 if needed). Even getting to n = 14
+verifies Conjecture C for two additional values.
+
+#### 7b — Constructive matching lower bound for `P(n, n) ≥ ⌊n²/3⌋ + n + C(n mod 3)`
+
+The Phase 4 column motifs already give P(m, n) ≥ α_m·n + O(1) for
+fixed m. For squares, we need a 2D construction whose density
+approaches 1/3 with the correct linear correction.
+
+Hypothesis: a **diagonally-tiled period-3 pattern**, where each 3×3
+block is the m=3 period-3 motif rotated and tiled, achieves the
+asymptotic density. Subtasks:
+1. **7b.1** Build a candidate 3×3 (or 6×6) tile and verify density
+   ≥ 1/3 by hand on small `n × n` grids.
+2. **7b.2** Verify boundary effects yield the `+n + C` correction.
+3. **7b.3** Check the construction against `data/diagonal.csv` at
+   n ≤ 12.
+
+#### 7c — Matching upper bound for diagonal
+
+The basic UB `n²/3 + (4/3)n + O(1)` has the correct leading coefficient
+but the wrong linear coefficient. To match Conjecture C we need to
+shave `(4/3)n − n − ⌈n/3⌉ ≈ n/3` from the upper bound. A 4-cycle hitting
+set argument applied **carefully near the boundary** plausibly does this.
+
+Subtasks:
+1. **7c.1** Sharpen the basic UB to `n²/3 + n + O(1)` with explicit
+   constants. Likely a column-sweep argument: for any spanning tree,
+   the **first column's** vertices contribute fewer full-degree
+   vertices than interior columns.
+2. **7c.2** Combine 7b and 7c to prove `P(n, n) = n²/3 + n + O(1)`
+   asymptotically.
+
+**Effort**: 7a is days; 7b is weeks; 7c is months (if it works at
+all). Most realistic short-term win: 7a.1 (beam) + 7a.2 (pruning) to
+extend `data/diagonal.csv` through n = 14.
+
+## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` (formerly Phase 6)
 
 Build the operational layer in Lean to convert the empirical certification
 of the basic upper bound into a machine-checked theorem.
 
 **Effort**: 2–4 weeks.
 **Yield**: the principal upper bound moves from "empirically true for
-m, n ≤ 9" to "proven for all m, n".
+m, n ≤ 12" to "proven for all m, n".
 **Risk**: mathlib's `SimpleGraph.IsAcyclic` and spanning-tree API may
 need extension for the combinatorial sums; non-trivial library
 contributions may be required.
 
 ### Subtasks
 
-1. **6.1** Define `IsSpanningTree (T : SimpleGraph (GridVertex m n)) :
+1. **8.1** Define `IsSpanningTree (T : SimpleGraph (GridVertex m n)) :
    Prop` capturing acyclicity + connectedness + spanning + subgraph of
    `gridGraph m n`.
-2. **6.2** Define `vertexDeg T v : ℕ` and prove
+2. **8.2** Define `vertexDeg T v : ℕ` and prove
    `∑ v, vertexDeg T v = 2 * (m * n − 1)` for any spanning tree.
-3. **6.3** Define `numFullDegree T : ℕ` and `vertexDeficiency T v : ℕ`,
+3. **8.3** Define `numFullDegree T : ℕ` and `vertexDeficiency T v : ℕ`,
    plus the obvious lemma `numFullDegree T = card {v | vertexDeficiency T
    v = 0}`.
-4. **6.4** Prove the global identity `∑ v, vertexDeficiency T v = D m n`
-   (combines 6.2 with `Defs.lean::degSumGrid` and the proven
+4. **8.4** Prove the global identity `∑ v, vertexDeficiency T v = D m n`
+   (combines 8.2 with `Defs.lean::degSumGrid` and the proven
    `deficiency_closed_form`).
-5. **6.5** Prove the per-vertex deficiency cap: for any non-full-degree
+5. **8.5** Prove the per-vertex deficiency cap: for any non-full-degree
    vertex `v`, `vertexDeficiency T v ≤ deg_G v − 1` (i.e. ≤ 3, 2, 1 for
    interior, border, corner respectively).
-6. **6.6** Conclude `P m n ≤ basicUB m n` via deficiency packing
-   (combining 6.4, 6.5, and `ceilDiv3_mul_ge` already proved in
+6. **8.6** Conclude `P m n ≤ basicUB m n` via deficiency packing
+   (combining 8.4, 8.5, and `ceilDiv3_mul_ge` already proved in
    `Bounds.lean`).
-7. **6.7** Update `lean/STATUS.md`, `lean/EVIDENCE.md`, `lean/README.md`
+7. **8.7** Update `lean/STATUS.md`, `lean/EVIDENCE.md`, `lean/README.md`
    to reflect the theorem.
 
-## Phase 7 — Lean formalization of explicit constructions (long-term)
+## Phase 9 — Lean formalization of constructions and Conjecture A (long-term)
 
-Once Phase 3 produced explicit per-`m` constructions and Phase 6 the upper
-bound, the natural next Lean target is:
+Once Phase 5 produces the m = 3k + 1 parametric construction (with
+informal proof) and Phase 8 the basic UB theorem, Lean can finally
+state the **first proven theorem of the form**:
 
-> for each fixed `m ∈ {3, 4, 5, 6, 7, 8}`, formalize the explicit
-> construction as a Lean term and prove it achieves the conjectured count.
+> ∀ k ≥ 0, ∃ asymptotic constant `α_{3k+1} = k + 1` such that
+> `P(3k+1, n) = (k+1)·n + O_k(1)`.
 
-This produces machine-checked theorems for `P(m, n)` for `m ≤ 8`, all
-`n ≥ m`. **Effort**: indefinite; depends on Phase 6 foundations. Multi-month.
+Subsequent Lean goals (in order):
+1. **9.1** Formalize the m = 3k + 1 construction as a Lean term and
+   verify it (combinatorial induction on k).
+2. **9.2** Combine with the Phase 8 basic UB theorem to prove the
+   matching upper bound.
+3. **9.3** State Conjecture A as a theorem and prove the "if" direction
+   (the construction case). The "only if" direction (m ≢ 1 mod 3 ⇒
+   strict gap) is harder and may need to wait for Phase 6 results.
+4. **9.4** Per-m formalizations for m ∈ {3, 5, 6, 8} (the non-tight
+   widths) — depends on Phase 6 producing clean per-m formulas.
+
+**Effort**: indefinite, multi-month per item.
 
 ## Open problems
 
 Aggregated from the various analysis files. A fresh agent picking up this
 project should know about all of these:
 
-1. **m = 5 at n ≡ 1 (mod 3)**: ✓ resolved by Phase 4 — `tree_m5_period3_motif`
-   uses the "fully preserved interior column" trick.
-2. **m = 6 at n ≢ 0 (mod 4)**: not yet encoded; Phase 4 found the
+### Resolved (Phase 4)
+
+1. **m = 5 at n ≡ 1 (mod 3)**: ✓ — `tree_m5_period3_motif` uses the
+   "fully preserved interior column" trick.
+2. **m = 8 motif**: ✓ partially — `tree_m8_witness` encodes the
+   period-7 motif at `n ∈ {20, 34, 48}`. Generalizing to all residues
+   mod 7 is mechanical but not yet done.
+3. **Matching upper bounds for m ∈ {3, 5, 6}**: ✓ — Karp's max-mean
+   cycle delivers rigorous matching UBs. m = 8 matched empirically
+   only (state space too large for current Karp implementation).
+
+### Open
+
+4. **Conjecture A**: Is α_m = (m+2)/3 ⇔ m ≡ 1 (mod 3) for all m? Empirically
+   true at m ∈ {1, 4, 7, 10}. **Phase 5**.
+5. **α_m for m ≡ 0, 2 (mod 3)**: We have data points but no formula.
+   Phase 6.
+6. **Conjecture C** (diagonal closed form): `P(n, n) = ⌊n²/3⌋ + n + C(n%3)`
+   for n ≥ 4. Verified at n = 4..12. **Phase 7**.
+7. **m = 6 at n ≢ 0 (mod 4)**: not yet encoded; Phase 4 found the
    period-4 interior motif but residue-specific boundaries remain.
-3. **m = 8 motif**: ✓ resolved by Phase 4 — `tree_m8_witness` encodes
-   the period-7 motif at `n ∈ {20, 34, 48}`. Generalizing to all
-   residues mod 7 (let alone all n ≥ 13) is straightforward but
-   tedious.
-4. **Matching upper bounds for m ∈ {3, 5, 6}**: ✓ resolved by Phase 4
-   — Karp's max-mean cycle delivers rigorous matching UBs. `m = 8`
-   matched empirically only.
-5. **Square asymptotics**: `lim P(n, n)/n²` is unknown. Basic UB gives
-   `≤ 1/3`, empirical at n=10 is `≈ 0.42`. Phase 5.
-6. **Lean operational connection**: `P(m, n) ≤ basicUB m n` is empirically
-   true (`m, n ≤ 9` exhaustively verified) but not Lean-proved. Phase 6.
+   Subset of Phase 6.
+8. **m = 8 generalization**: only `n ∈ {20, 34, 48}` implemented.
+   Subset of Phase 6.
+9. **Lean operational connection**: `P(m, n) ≤ basicUB m n` is empirically
+   true (`m, n ≤ 12` exhaustively verified) but not Lean-proved.
+   **Phase 8**.
 
 ## Verification quickstart
+
+### Empirical data summary (post-Phase 4)
+
+- Per-m closed-form conjectures verified up to n = 35 for m ∈ {6, 7, 8}
+  (`data/extended_long.csv`).
+- Diagonal sequence `P(n, n)` for `n = 1..12` (`data/diagonal.csv`):
+  `1, 2, 4, 8, 11, 16, 22, 27, 34, 42, 49, 58`.
+- Wide-m exploration `P(m, n)` for `m ∈ {9, 10, 11, 12}, n ≤ 30`
+  (`data/wide_m.csv`).
+- α_m confirmed for m = 9 (= 7/2) and m = 10 (= 4) via gain-period
+  detection.
+
+### Quickstart commands
 
 A fresh agent should run these to confirm the current state:
 
@@ -260,10 +443,17 @@ discrepancy should be investigated before starting a new phase.
 
 ## Phase dependency notes
 
-- Phase 4 (DONE) depended on Phase 3 (uses the same DP + verified
-  motifs as cross-checks).
-- Phase 5 is independent of Phases 4, 6, 7.
-- Phase 6 is independent of Phase 4 (it formalizes the basic UB which
-  is already algebraically proved).
-- Phase 7 depends on Phase 6 (operational connection) and benefits from
-  Phase 4 (clean motifs for the construction side).
+- Phase 4 (DONE) depended on Phase 3.
+- Phase 5 (Conjecture A) builds on the Phase 3 / Phase 4 explicit
+  constructions for m = 4, 7, 10; independent of Phases 6, 7.
+- Phase 6 (per-m for m ≢ 1 mod 3) is independent of Phase 5 but
+  benefits from a faster max-mean cycle algorithm (potentially shared
+  with Phase 4 follow-up).
+- Phase 7 (diagonal Conjecture C) is largely independent. 7a can run
+  in parallel with 5/6. 7b/7c may benefit from Phase 5 motifs as
+  building blocks.
+- Phase 8 (Lean basicUB) is independent of Phases 5, 6, 7 (it
+  formalizes the basic UB which is already algebraically proved).
+- Phase 9 (Lean formalization of constructions / Conjecture A) depends
+  on Phase 5 (for the construction) and Phase 8 (for the operational
+  connection).
