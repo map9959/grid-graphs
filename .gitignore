@@ -1,0 +1,6 @@
+/target
+/plots_html
+*.csv
+*.html
+__pycache__/
+*.pyc

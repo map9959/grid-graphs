@@ -1,0 +1,17 @@
+[package]
+name = "grid_graphs"
+version = "0.1.0"
+edition = "2021"
+[dependencies]
+hashbrown = "0.14"
+fxhash = "0.2"
+anyhow = "1"
+plotly = { version = "0.10", default-features = true }
+
+[profile.release]
+# Aggressive optimization for this DP-heavy search.
+opt-level = 3           # Explicit (default) but keep here for clarity
+lto = "fat"             # Cross-crate inlining
+codegen-units = 1       # Better optimization at cost of compile time
+panic = "abort"         # Smaller / a bit faster
+strip = true            # Remove symbols
