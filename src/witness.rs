@@ -20,13 +20,21 @@ use std::hash::{BuildHasherDefault, Hasher};
 
 const MAX_M: usize = 16;
 
-#[inline] fn get4(x: u64, i: usize) -> u8 { ((x >> (i * 4)) & 0xF) as u8 }
-#[inline] fn set4(x: &mut u64, i: usize, v: u8) {
+#[inline]
+fn get4(x: u64, i: usize) -> u8 {
+    ((x >> (i * 4)) & 0xF) as u8
+}
+#[inline]
+fn set4(x: &mut u64, i: usize, v: u8) {
     let s = i * 4;
     *x = (*x & !(0xFu64 << s)) | ((v as u64) << s);
 }
-#[inline] fn get2(x: u32, i: usize) -> u8 { ((x >> (i * 2)) & 0x3) as u8 }
-#[inline] fn set2(x: &mut u32, i: usize, v: u8) {
+#[inline]
+fn get2(x: u32, i: usize) -> u8 {
+    ((x >> (i * 2)) & 0x3) as u8
+}
+#[inline]
+fn set2(x: &mut u32, i: usize, v: u8) {
     let s = i * 2;
     *x = (*x & !(0x3u32 << s)) | ((v as u32) << s);
 }
@@ -50,18 +58,25 @@ impl std::hash::Hash for Key {
 #[derive(Default)]
 struct KHasher(u64);
 impl Hasher for KHasher {
-    #[inline(always)] fn write(&mut self, bytes: &[u8]) {
+    #[inline(always)]
+    fn write(&mut self, bytes: &[u8]) {
         let mut h = self.0;
-        for &b in bytes { h = h.rotate_left(5) ^ b as u64 * 0x517cc1b727220a95; }
+        for &b in bytes {
+            h = h.rotate_left(5) ^ b as u64 * 0x517cc1b727220a95;
+        }
         self.0 = h;
     }
-    #[inline(always)] fn write_u64(&mut self, i: u64) {
+    #[inline(always)]
+    fn write_u64(&mut self, i: u64) {
         let mut x = i ^ 0x9e3779b97f4a7c15;
         x = (x ^ (x >> 30)).wrapping_mul(0xbf58476d1ce4e5b9);
         x = (x ^ (x >> 27)).wrapping_mul(0x94d049bb133111eb);
         self.0 ^= x;
     }
-    #[inline(always)] fn finish(&self) -> u64 { self.0 }
+    #[inline(always)]
+    fn finish(&self) -> u64 {
+        self.0
+    }
 }
 type FastBuild = BuildHasherDefault<KHasher>;
 
@@ -76,15 +91,23 @@ fn grid_deg(m: usize, n: usize, r: usize, c: usize) -> u8 {
 
 #[inline]
 fn comp_present(labels: u64, m: usize, comp: u8) -> bool {
-    for i in 0..m { if get4(labels, i) == comp { return true; } }
+    for i in 0..m {
+        if get4(labels, i) == comp {
+            return true;
+        }
+    }
     false
 }
 
 #[inline]
 fn merge_labels(labels: &mut u64, m: usize, a: u8, b: u8) {
-    if a == 0 || b == 0 || a == b { return; }
+    if a == 0 || b == 0 || a == b {
+        return;
+    }
     for i in 0..m {
-        if get4(*labels, i) == b { set4(labels, i, a); }
+        if get4(*labels, i) == b {
+            set4(labels, i, a);
+        }
     }
 }
 
@@ -95,11 +118,18 @@ fn canonicalize(labels: &mut u64, m: usize) {
     let mut new_labels: u64 = 0;
     for i in 0..m {
         let id = get4(*labels, i);
-        if id == 0 { continue; }
+        if id == 0 {
+            continue;
+        }
         let slot = map[id as usize];
         let nid = if slot == 0 {
-            let v = next; next += 1; map[id as usize] = v; v
-        } else { slot };
+            let v = next;
+            next += 1;
+            map[id as usize] = v;
+            v
+        } else {
+            slot
+        };
         set4(&mut new_labels, i, nid);
     }
     *labels = new_labels;
@@ -111,11 +141,17 @@ fn is_canonical(labels: u64, m: usize) -> bool {
     let mut max_id = 0u8;
     for i in 0..m {
         let id = get4(labels, i);
-        if id == 0 { continue; }
+        if id == 0 {
+            continue;
+        }
         bit |= 1u32 << id;
-        if id > max_id { max_id = id; }
+        if id > max_id {
+            max_id = id;
+        }
     }
-    if max_id == 0 { return true; }
+    if max_id == 0 {
+        return true;
+    }
     let needed = ((1u32 << (max_id + 1)) - 2) & !1;
     (bit & needed) == needed && bit.count_ones() as u8 == max_id
 }
@@ -137,21 +173,31 @@ pub type Edge = ((usize, usize), (usize, usize));
 pub struct Witness {
     pub m: usize,
     pub n: usize,
-    pub transposed: bool,    // true if the original (m, n) was swapped to enforce m ≤ n
-    pub value: i32,           // optimal full-degree count
-    pub edges: Vec<Edge>,     // m·n − 1 edges of an optimal spanning tree (canonical frame)
+    pub transposed: bool, // true if the original (m, n) was swapped to enforce m ≤ n
+    pub value: i32,       // optimal full-degree count
+    pub edges: Vec<Edge>, // m·n − 1 edges of an optimal spanning tree (canonical frame)
 }
 
 /// Backtracking solver. Returns Some(witness) on success; None for the
 /// degenerate empty grid.
 pub fn solve_with_witness(m_user: usize, n_user: usize) -> Option<Witness> {
-    if m_user == 0 || n_user == 0 { return None; }
+    if m_user == 0 || n_user == 0 {
+        return None;
+    }
     if m_user == 1 && n_user == 1 {
-        return Some(Witness { m: 1, n: 1, transposed: false, value: 1, edges: vec![] });
+        return Some(Witness {
+            m: 1,
+            n: 1,
+            transposed: false,
+            value: 1,
+            edges: vec![],
+        });
     }
     let (mut m, mut n) = (m_user, n_user);
     let transposed = m > n;
-    if transposed { std::mem::swap(&mut m, &mut n); }
+    if transposed {
+        std::mem::swap(&mut m, &mut n);
+    }
     assert!(m <= MAX_M);
 
     // Per-cell tables of (Key -> (best value, predecessor)). One per cell, plus the
@@ -171,7 +217,14 @@ pub fn solve_with_witness(m_user: usize, n_user: usize) -> Option<Witness> {
         set2(&mut degs0, r, 0);
     }
     canonicalize(&mut labels0, m);
-    layers[0].insert(Key { labels: labels0, degs: degs0, ecount: 0 }, (0, None));
+    layers[0].insert(
+        Key {
+            labels: labels0,
+            degs: degs0,
+            ecount: 0,
+        },
+        (0, None),
+    );
 
     let total_v = (m * n) as u16;
 
@@ -199,12 +252,18 @@ pub fn solve_with_witness(m_user: usize, n_user: usize) -> Option<Witness> {
                 let y_max = if last_row { 0 } else { 1 };
                 for x in 0..=x_max {
                     for y in 0..=y_max {
-                        if y == 1 && comp_r != 0 && comp_r == comp_down { continue; }
+                        if y == 1 && comp_r != 0 && comp_r == comp_down {
+                            continue;
+                        }
                         let deg_final = deg_r + x + y;
-                        if deg_final == 0 && total_v > 1 { continue; }
+                        if deg_final == 0 && total_v > 1 {
+                            continue;
+                        }
 
                         let e2 = ecount + x as u16 + y as u16;
-                        if e2 > total_v - 1 { continue; }
+                        if e2 > total_v - 1 {
+                            continue;
+                        }
 
                         let mut labels_cur = labels;
                         let mut degs_cur = degs;
@@ -234,7 +293,10 @@ pub fn solve_with_witness(m_user: usize, n_user: usize) -> Option<Witness> {
                             set2(&mut degs_next, r, x);
                         }
 
-                        if comp_r != 0 && !comp_present(labels_next, m, comp_r) && !(last_col && last_row) {
+                        if comp_r != 0
+                            && !comp_present(labels_next, m, comp_r)
+                            && !(last_col && last_row)
+                        {
                             continue;
                         }
 
@@ -247,8 +309,16 @@ pub fn solve_with_witness(m_user: usize, n_user: usize) -> Option<Witness> {
                         let add_pres = (deg_final == grid_deg(m, n, r, c)) as i32;
                         let val = preserved_so_far + add_pres;
 
-                        let nk = Key { labels: labels_next, degs: degs_next, ecount: e2 };
-                        let pred = Pred { prev_key: k, x: x as u8, y: y as u8 };
+                        let nk = Key {
+                            labels: labels_next,
+                            degs: degs_next,
+                            ecount: e2,
+                        };
+                        let pred = Pred {
+                            prev_key: k,
+                            x: x as u8,
+                            y: y as u8,
+                        };
                         match layers[p_index + 1].get_mut(&nk) {
                             Some(slot) => {
                                 if val > slot.0 {
@@ -276,7 +346,8 @@ pub fn solve_with_witness(m_user: usize, n_user: usize) -> Option<Witness> {
             }
         }
     }
-    let (mut cur_key, value) = best.expect("DP found no spanning tree (impossible for connected grid)");
+    let (mut cur_key, value) =
+        best.expect("DP found no spanning tree (impossible for connected grid)");
 
     // Backward walk: reconstruct (x, y) decisions per cell, in reverse.
     let mut decisions: Vec<(u8, u8)> = Vec::with_capacity(pcount);
@@ -304,7 +375,13 @@ pub fn solve_with_witness(m_user: usize, n_user: usize) -> Option<Witness> {
         }
     }
 
-    Some(Witness { m, n, transposed, value, edges })
+    Some(Witness {
+        m,
+        n,
+        transposed,
+        value,
+        edges,
+    })
 }
 
 #[cfg(test)]
@@ -341,14 +418,24 @@ mod tests {
                 // Validate in the canonical frame (m_eff, n_eff) where m_eff ≤ n_eff.
                 let (m_eff, n_eff) = (w.m, w.n);
                 // edge count check
-                assert_eq!(w.edges.len(), m_eff * n_eff - 1, "edge count m={m_user} n={n_user}");
+                assert_eq!(
+                    w.edges.len(),
+                    m_eff * n_eff - 1,
+                    "edge count m={m_user} n={n_user}"
+                );
                 // all edges are valid grid edges in the canonical frame
                 for &(a, b) in &w.edges {
                     let dr = (a.0 as isize - b.0 as isize).abs();
                     let dc = (a.1 as isize - b.1 as isize).abs();
-                    assert_eq!(dr + dc, 1, "non-grid edge {a:?}--{b:?} in {m_user}x{n_user}");
-                    assert!(a.0 < m_eff && b.0 < m_eff && a.1 < n_eff && b.1 < n_eff,
-                            "OOB edge {a:?}--{b:?} in {m_user}x{n_user} (canonical {m_eff}x{n_eff})");
+                    assert_eq!(
+                        dr + dc,
+                        1,
+                        "non-grid edge {a:?}--{b:?} in {m_user}x{n_user}"
+                    );
+                    assert!(
+                        a.0 < m_eff && b.0 < m_eff && a.1 < n_eff && b.1 < n_eff,
+                        "OOB edge {a:?}--{b:?} in {m_user}x{n_user} (canonical {m_eff}x{n_eff})"
+                    );
                 }
                 // connectedness via union-find
                 let mut parent: Vec<usize> = (0..m_eff * n_eff).collect();
@@ -386,9 +473,11 @@ mod tests {
                         }
                     }
                 }
-                assert_eq!(full, w.value,
-                           "full-degree mismatch in {m_user}x{n_user}: counted {full} expected {}",
-                           w.value);
+                assert_eq!(
+                    full, w.value,
+                    "full-degree mismatch in {m_user}x{n_user}: counted {full} expected {}",
+                    w.value
+                );
             }
         }
     }

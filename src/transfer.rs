@@ -59,13 +59,21 @@ use std::collections::VecDeque;
 /// we cap at 10 to keep state-space enumeration tractable in seconds.
 pub const MAX_M_TRANSFER: usize = 10;
 
-#[inline] fn get4(x: u64, i: usize) -> u8 { ((x >> (i * 4)) & 0xF) as u8 }
-#[inline] fn set4(x: &mut u64, i: usize, v: u8) {
+#[inline]
+fn get4(x: u64, i: usize) -> u8 {
+    ((x >> (i * 4)) & 0xF) as u8
+}
+#[inline]
+fn set4(x: &mut u64, i: usize, v: u8) {
     let s = i * 4;
     *x = (*x & !(0xFu64 << s)) | ((v as u64) << s);
 }
-#[inline] fn get2(x: u32, i: usize) -> u8 { ((x >> (i * 2)) & 0x3) as u8 }
-#[inline] fn set2(x: &mut u32, i: usize, v: u8) {
+#[inline]
+fn get2(x: u32, i: usize) -> u8 {
+    ((x >> (i * 2)) & 0x3) as u8
+}
+#[inline]
+fn set2(x: &mut u32, i: usize, v: u8) {
     let s = i * 2;
     *x = (*x & !(0x3u32 << s)) | ((v as u32) << s);
 }
@@ -87,7 +95,9 @@ fn canonicalize(labels: &mut u64, m: usize) {
     let mut new_labels: u64 = 0;
     for i in 0..m {
         let id = get4(*labels, i);
-        if id == 0 { continue; }
+        if id == 0 {
+            continue;
+        }
         let nid = if map[id as usize] == 0 {
             let v = next;
             next += 1;
@@ -105,7 +115,11 @@ fn canonicalize(labels: &mut u64, m: usize) {
 /// exist (interior regime). 3 if r is on the top or bottom border, else 4.
 #[inline]
 fn interior_target_deg(r: usize, m: usize) -> u8 {
-    if r == 0 || r + 1 == m { 3 } else { 4 }
+    if r == 0 || r + 1 == m {
+        3
+    } else {
+        4
+    }
 }
 
 /// Maximum partial degree (left + verticals) achievable for row r in an
@@ -124,8 +138,12 @@ struct DSU {
 
 impl DSU {
     fn new(n: usize) -> Self {
-        let mut s = DSU { parent: [0u8; 2 * MAX_M_TRANSFER + 2] };
-        for i in 0..n { s.parent[i] = i as u8; }
+        let mut s = DSU {
+            parent: [0u8; 2 * MAX_M_TRANSFER + 2],
+        };
+        for i in 0..n {
+            s.parent[i] = i as u8;
+        }
         s
     }
     fn find(&mut self, mut x: u8) -> u8 {
@@ -139,7 +157,9 @@ impl DSU {
     fn union_or_cycle(&mut self, a: u8, b: u8) -> bool {
         let ra = self.find(a);
         let rb = self.find(b);
-        if ra == rb { return true; }
+        if ra == rb {
+            return true;
+        }
         self.parent[ra as usize] = rb;
         false
     }
@@ -171,8 +191,12 @@ pub struct TransitionGraph {
 }
 
 impl TransitionGraph {
-    pub fn num_states(&self) -> usize { self.states.len() }
-    pub fn num_edges(&self) -> usize { self.edges.iter().map(|e| e.len()).sum() }
+    pub fn num_states(&self) -> usize {
+        self.states.len()
+    }
+    pub fn num_edges(&self) -> usize {
+        self.edges.iter().map(|e| e.len()).sum()
+    }
 }
 
 /// Enumerate "column-0 boundary" states: column c=0 has no left neighbor,
@@ -182,7 +206,9 @@ impl TransitionGraph {
 /// subset is acyclic. Each such subset induces components (connected
 /// runs) and per-row pdeg ∈ {0,1,2}.
 fn boundary_initial_states(m: usize) -> Vec<State> {
-    if m == 0 { return vec![]; }
+    if m == 0 {
+        return vec![];
+    }
     if m == 1 {
         // single vertex, label 1, pdeg 0
         let mut labels = 0u64;
@@ -248,7 +274,9 @@ fn step(
     let mut first_for_label = [u8::MAX; 16];
     for r in 0..m {
         let lab = get4(s.labels, r);
-        if lab == 0 { continue; }
+        if lab == 0 {
+            continue;
+        }
         if first_for_label[lab as usize] == u8::MAX {
             first_for_label[lab as usize] = r as u8;
         } else {
@@ -261,7 +289,9 @@ fn step(
     for r in 0..m {
         if (h_mask >> r) & 1 == 1 {
             let lab = get4(s.labels, r);
-            if lab > 0 { col_c_seen[lab as usize] = true; }
+            if lab > 0 {
+                col_c_seen[lab as usize] = true;
+            }
             // Union col-c row r (node r) with col-c+1 row r (node m+r).
             if dsu.union_or_cycle(r as u8, (m + r) as u8) {
                 return None; // cycle
@@ -287,19 +317,29 @@ fn step(
     let mut next_pdeg: u32 = 0;
     for r in 0..m {
         let mut d: u8 = 0;
-        if (h_mask >> r) & 1 == 1 { d += 1; }
-        if r > 0 && (v_mask >> (r - 1)) & 1 == 1 { d += 1; }
-        if r + 1 < m && (v_mask >> r) & 1 == 1 { d += 1; }
+        if (h_mask >> r) & 1 == 1 {
+            d += 1;
+        }
+        if r > 0 && (v_mask >> (r - 1)) & 1 == 1 {
+            d += 1;
+        }
+        if r + 1 < m && (v_mask >> r) & 1 == 1 {
+            d += 1;
+        }
         // Bound check: d cannot exceed the per-row maximum partial degree
         // for the next column.
-        let cap = if interior_out { max_pdeg_interior(r, m) } else {
+        let cap = if interior_out {
+            max_pdeg_interior(r, m)
+        } else {
             // For final column (no right neighbor), pdeg can saturate the
             // grid degree. interior_target_deg already excludes the right
             // edge, so the cap is the same. We still allow it; final-column
             // handling is for boundary mode only.
             max_pdeg_interior(r, m)
         };
-        if d > cap { return None; }
+        if d > cap {
+            return None;
+        }
         set2(&mut next_pdeg, r, d);
     }
 
@@ -328,10 +368,18 @@ fn step(
             // just keep symmetric for completeness.
             interior_target_deg(r, m) - 1
         };
-        if d_final == target { gain += 1; }
+        if d_final == target {
+            gain += 1;
+        }
     }
 
-    Some((State { labels: raw_labels, pdeg: next_pdeg }, gain))
+    Some((
+        State {
+            labels: raw_labels,
+            pdeg: next_pdeg,
+        },
+        gain,
+    ))
 }
 
 /// Enumerate every transition out of state `s` in the interior regime.
@@ -395,7 +443,9 @@ pub fn build_interior_graph(m: usize) -> TransitionGraph {
     // for max-mean cycle).
     let mut edges: Vec<Vec<(u32, i32)>> = Vec::new();
     while let Some(idx) = queue.pop_front() {
-        while (edges.len() as u32) <= idx { edges.push(Vec::new()); }
+        while (edges.len() as u32) <= idx {
+            edges.push(Vec::new());
+        }
         let s = states[idx as usize];
         let outs = outgoing_interior(m, &s);
         // Group outs by destination state, keep max gain per dst.
@@ -411,11 +461,20 @@ pub fn build_interior_graph(m: usize) -> TransitionGraph {
                     j
                 }
             };
-            best_to.entry(j).and_modify(|cur| { if gain > *cur { *cur = gain; } }).or_insert(gain);
+            best_to
+                .entry(j)
+                .and_modify(|cur| {
+                    if gain > *cur {
+                        *cur = gain;
+                    }
+                })
+                .or_insert(gain);
         }
         edges[idx as usize] = best_to.into_iter().map(|(j, g)| (j, g)).collect();
     }
-    while edges.len() < states.len() { edges.push(Vec::new()); }
+    while edges.len() < states.len() {
+        edges.push(Vec::new());
+    }
 
     TransitionGraph { states, edges }
 }
@@ -430,9 +489,14 @@ fn tarjan_sccs(num_v: usize, adj: &[Vec<(u32, i32)>]) -> Vec<Vec<u32>> {
     let mut sccs: Vec<Vec<u32>> = Vec::new();
 
     // Iterative Tarjan to avoid stack overflow on large graphs.
-    enum Frame { Enter(u32), Resume(u32, usize) }
+    enum Frame {
+        Enter(u32),
+        Resume(u32, usize),
+    }
     for start in 0..num_v as u32 {
-        if index[start as usize] >= 0 { continue; }
+        if index[start as usize] >= 0 {
+            continue;
+        }
         let mut work: Vec<Frame> = vec![Frame::Enter(start)];
         while let Some(frame) = work.pop() {
             match frame {
@@ -487,7 +551,9 @@ fn tarjan_sccs(num_v: usize, adj: &[Vec<(u32, i32)>]) -> Vec<Vec<u32>> {
                             let w = stack.pop().unwrap();
                             on_stack[w as usize] = false;
                             comp.push(w);
-                            if w == v { break; }
+                            if w == v {
+                                break;
+                            }
                         }
                         sccs.push(comp);
                     }
@@ -519,10 +585,14 @@ pub fn karp_max_mean_cycle_streaming(
     adj: &[Vec<(u32, i32)>],
 ) -> Option<(i64, i64, Vec<u32>)> {
     let n = verts.len();
-    if n == 0 { return None; }
+    if n == 0 {
+        return None;
+    }
     let max_global = *verts.iter().max().unwrap() as usize;
     let mut local: Vec<i32> = vec![-1; max_global + 1];
-    for (i, &v) in verts.iter().enumerate() { local[v as usize] = i as i32; }
+    for (i, &v) in verts.iter().enumerate() {
+        local[v as usize] = i as i32;
+    }
 
     // Build local adjacency (filter to within-SCC edges).
     let mut ladj: Vec<Vec<(u32, i32)>> = vec![Vec::new(); n];
@@ -536,7 +606,9 @@ pub fn karp_max_mean_cycle_streaming(
             }
         }
     }
-    if !has_edge { return None; }
+    if !has_edge {
+        return None;
+    }
 
     const NEG_INF: i64 = i64::MIN / 4;
 
@@ -547,10 +619,14 @@ pub fn karp_max_mean_cycle_streaming(
     for _k in 0..n {
         let mut f_cur: Vec<i64> = vec![NEG_INF; n];
         for u in 0..n {
-            if f_prev[u] == NEG_INF { continue; }
+            if f_prev[u] == NEG_INF {
+                continue;
+            }
             for &(v, w) in &ladj[u] {
                 let cand = f_prev[u] + w as i64;
-                if cand > f_cur[v as usize] { f_cur[v as usize] = cand; }
+                if cand > f_cur[v as usize] {
+                    f_cur[v as usize] = cand;
+                }
             }
         }
         f_n = f_cur.clone();
@@ -567,7 +643,9 @@ pub fn karp_max_mean_cycle_streaming(
     let mut min_den_per_v: Vec<i64> = vec![1; n];
     let mut min_k_per_v: Vec<i32> = vec![-1; n];
     for v in 0..n {
-        if f_n[v] == NEG_INF { continue; }
+        if f_n[v] == NEG_INF {
+            continue;
+        }
         // k = 0
         let num = f_n[v] - f_prev[v];
         let den = n as i64;
@@ -580,19 +658,28 @@ pub fn karp_max_mean_cycle_streaming(
     for k in 1..=n {
         let mut f_cur: Vec<i64> = vec![NEG_INF; n];
         for u in 0..n {
-            if f_prev[u] == NEG_INF { continue; }
+            if f_prev[u] == NEG_INF {
+                continue;
+            }
             for &(v, w) in &ladj[u] {
                 let cand = f_prev[u] + w as i64;
-                if cand > f_cur[v as usize] { f_cur[v as usize] = cand; }
+                if cand > f_cur[v as usize] {
+                    f_cur[v as usize] = cand;
+                }
             }
         }
         if k < n {
             for v in 0..n {
-                if f_n[v] == NEG_INF || f_cur[v] == NEG_INF { continue; }
+                if f_n[v] == NEG_INF || f_cur[v] == NEG_INF {
+                    continue;
+                }
                 let num = f_n[v] - f_cur[v];
                 let den = (n - k) as i64;
-                let better = if min_k_per_v[v] < 0 { true }
-                             else { num * min_den_per_v[v] < min_num_per_v[v] * den };
+                let better = if min_k_per_v[v] < 0 {
+                    true
+                } else {
+                    num * min_den_per_v[v] < min_num_per_v[v] * den
+                };
                 if better {
                     min_num_per_v[v] = num;
                     min_den_per_v[v] = den;
@@ -608,16 +695,23 @@ pub fn karp_max_mean_cycle_streaming(
     let mut best_num: i64 = 0;
     let mut best_den: i64 = 1;
     for v in 0..n {
-        if min_k_per_v[v] < 0 { continue; }
-        let better = if best_v < 0 { true }
-                     else { min_num_per_v[v] * best_den > best_num * min_den_per_v[v] };
+        if min_k_per_v[v] < 0 {
+            continue;
+        }
+        let better = if best_v < 0 {
+            true
+        } else {
+            min_num_per_v[v] * best_den > best_num * min_den_per_v[v]
+        };
         if better {
             best_v = v as i32;
             best_num = min_num_per_v[v];
             best_den = min_den_per_v[v];
         }
     }
-    if best_v < 0 { return None; }
+    if best_v < 0 {
+        return None;
+    }
 
     // To recover the cycle, do a third pass that records predecessors at
     // every step. Memory cost: O(n · |V|) just for predecessors —
@@ -625,8 +719,10 @@ pub fn karp_max_mean_cycle_streaming(
     // skipped (return cycle = empty) and only the rational mean returned.
     // We do the pred-table reconstruction here but cap memory at ~2GB by
     // emitting a synthetic cycle if the table would be too large.
-    let pred_bytes = (n + 1).checked_mul(n).and_then(|x| x.checked_mul(8))
-                            .unwrap_or(usize::MAX);
+    let pred_bytes = (n + 1)
+        .checked_mul(n)
+        .and_then(|x| x.checked_mul(8))
+        .unwrap_or(usize::MAX);
     if pred_bytes > 2_000_000_000 {
         // Skip cycle reconstruction; return the rational mean and an empty
         // representative-cycle list. The caller knows the value is correct.
@@ -644,7 +740,9 @@ pub fn karp_max_mean_cycle_streaming(
     for k in 0..n {
         let mut f_cur: Vec<i64> = vec![NEG_INF; n];
         for u in 0..n {
-            if f_prev2[u] == NEG_INF { continue; }
+            if f_prev2[u] == NEG_INF {
+                continue;
+            }
             for &(v, w) in &ladj[u] {
                 let cand = f_prev2[u] + w as i64;
                 if cand > f_cur[v as usize] {
@@ -663,7 +761,9 @@ pub fn karp_max_mean_cycle_streaming(
     path.push(cur);
     while k > 0 {
         let p = pred_table[k][cur as usize];
-        if p < 0 { break; }
+        if p < 0 {
+            break;
+        }
         path.push(p);
         cur = p;
         k -= 1;
@@ -685,13 +785,12 @@ pub fn karp_max_mean_cycle_streaming(
     }
     cycle_local.reverse();
     let cycle_global: Vec<u32> = cycle_local.iter().map(|&l| verts[l as usize]).collect();
-    let cycle_global = if cycle_global.len() >= 2
-        && cycle_global[0] == *cycle_global.last().unwrap()
-    {
-        cycle_global[..cycle_global.len() - 1].to_vec()
-    } else {
-        cycle_global
-    };
+    let cycle_global =
+        if cycle_global.len() >= 2 && cycle_global[0] == *cycle_global.last().unwrap() {
+            cycle_global[..cycle_global.len() - 1].to_vec()
+        } else {
+            cycle_global
+        };
 
     // Recompute true cycle weight to reduce to lowest terms.
     let cyc_n = cycle_global.len();
@@ -703,7 +802,9 @@ pub fn karp_max_mean_cycle_streaming(
         for &(w, gw) in &adj[a as usize] {
             if w == b {
                 let gi = gw as i64;
-                if found.map_or(true, |x| gi > x) { found = Some(gi); }
+                if found.map_or(true, |x| gi > x) {
+                    found = Some(gi);
+                }
             }
         }
         wsum += found.unwrap_or(0);
@@ -714,11 +815,14 @@ pub fn karp_max_mean_cycle_streaming(
     Some((wsum / g, cyc_den / g, cycle_global))
 }
 
-
 fn gcd(a: i64, b: i64) -> i64 {
     let mut x = a.abs();
     let mut y = b.abs();
-    while y != 0 { let t = y; y = x % y; x = t; }
+    while y != 0 {
+        let t = y;
+        y = x % y;
+        x = t;
+    }
     x
 }
 
@@ -732,17 +836,17 @@ mod tests {
     #[test]
     fn karp_matches_recurrence_alpha_for_small_m() {
         // (m, expected alpha numerator, expected alpha denominator)
-        let cases = [
-            (3, 4i64, 3i64),
-            (4, 2, 1),
-            (5, 2, 1),
-            (6, 5, 2),
-        ];
+        let cases = [(3, 4i64, 3i64), (4, 2, 1), (5, 2, 1), (6, 5, 2)];
         for &(m, en, ed) in &cases {
             let (alpha, _cyc, _g) = compute_alpha(m);
-            assert_eq!(alpha, Frac::new(en, ed),
-                       "Karp alpha_m mismatch at m={m}: got {} expected {}/{}",
-                       alpha, en, ed);
+            assert_eq!(
+                alpha,
+                Frac::new(en, ed),
+                "Karp alpha_m mismatch at m={m}: got {} expected {}/{}",
+                alpha,
+                en,
+                ed
+            );
         }
     }
 }
@@ -756,13 +860,19 @@ pub fn compute_alpha(m: usize) -> (Frac, Vec<u32>, TransitionGraph) {
     let t_build = t0.elapsed().as_secs_f64();
     let n = g.states.len();
     let n_edges: usize = g.edges.iter().map(|e| e.len()).sum();
-    eprintln!("[transfer] m={} graph built: {} states, {} edges in {:.2}s",
-              m, n, n_edges, t_build);
+    eprintln!(
+        "[transfer] m={} graph built: {} states, {} edges in {:.2}s",
+        m, n, n_edges, t_build
+    );
     let t1 = std::time::Instant::now();
     let sccs = tarjan_sccs(n, &g.edges);
-    eprintln!("[transfer] m={} SCCs: {} (largest {}) in {:.2}s",
-              m, sccs.len(), sccs.iter().map(|s| s.len()).max().unwrap_or(0),
-              t1.elapsed().as_secs_f64());
+    eprintln!(
+        "[transfer] m={} SCCs: {} (largest {}) in {:.2}s",
+        m,
+        sccs.len(),
+        sccs.iter().map(|s| s.len()).max().unwrap_or(0),
+        t1.elapsed().as_secs_f64()
+    );
     // Karp on each SCC; take maximum.
     let mut best: Option<(i64, i64, Vec<u32>)> = None;
     for comp in &sccs {
@@ -773,7 +883,10 @@ pub fn compute_alpha(m: usize) -> (Frac, Vec<u32>, TransitionGraph) {
             let mut best_self: Option<i32> = None;
             for &(w, gain) in &g.edges[v as usize] {
                 if w == v {
-                    best_self = Some(match best_self { Some(b) => b.max(gain), None => gain });
+                    best_self = Some(match best_self {
+                        Some(b) => b.max(gain),
+                        None => gain,
+                    });
                 }
             }
             if let Some(g_self) = best_self {
@@ -782,8 +895,11 @@ pub fn compute_alpha(m: usize) -> (Frac, Vec<u32>, TransitionGraph) {
                 best = match best {
                     None => Some((cand_num, cand_den, vec![v])),
                     Some((bn, bd, bc)) => {
-                        if cand_num * bd > bn * cand_den { Some((cand_num, cand_den, vec![v])) }
-                        else { Some((bn, bd, bc)) }
+                        if cand_num * bd > bn * cand_den {
+                            Some((cand_num, cand_den, vec![v]))
+                        } else {
+                            Some((bn, bd, bc))
+                        }
                     }
                 };
             }
@@ -791,13 +907,21 @@ pub fn compute_alpha(m: usize) -> (Frac, Vec<u32>, TransitionGraph) {
         }
         let t_scc = std::time::Instant::now();
         if let Some((num, den, cyc)) = karp_max_mean_cycle_streaming(comp, &g.edges) {
-            eprintln!("[transfer] Karp(streaming) on SCC of {} states: {}/{} ({:.2}s)",
-                      comp.len(), num, den, t_scc.elapsed().as_secs_f64());
+            eprintln!(
+                "[transfer] Karp(streaming) on SCC of {} states: {}/{} ({:.2}s)",
+                comp.len(),
+                num,
+                den,
+                t_scc.elapsed().as_secs_f64()
+            );
             best = match best {
                 None => Some((num, den, cyc)),
                 Some((bn, bd, bc)) => {
-                    if num * bd > bn * den { Some((num, den, cyc)) }
-                    else { Some((bn, bd, bc)) }
+                    if num * bd > bn * den {
+                        Some((num, den, cyc))
+                    } else {
+                        Some((bn, bd, bc))
+                    }
                 }
             };
         }

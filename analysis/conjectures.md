@@ -234,7 +234,7 @@ The density column shows a **clear monotone decrease** from n ≥ 7 onward
 The second-difference column from n = 4 onward shows the period-3 cycle
 **(2, 1, -1)** repeating four times.
 
-### Conjecture C — initial form (DISCONFIRMED at n ≥ 14)
+### Conjecture C — initial form (open at n ≥ 14)
 
 The first attempt at a diagonal closed form was
 
@@ -242,10 +242,11 @@ The first attempt at a diagonal closed form was
 > where `C(1) = −1` and `C(0) = C(2) = −2`.
 
 This holds for `n = 4..13` (verified by full DP for n ≤ 12 and
-high-confidence beam search at n = 13). It **fails** at n = 14: the
-formula predicts P(14, 14) = 77, but extensive beam search
-(BEAM = 10⁷, ~23 min wall) returns 76 — a one-off below the
-prediction. At n = 15 the gap grows further (predicted 88, beam = 87).
+high-confidence beam search at n = 13). At n = 14 the formula predicts
+P(14, 14) = 77, while extensive beam search (BEAM = 10⁷, ~23 min wall)
+found only 76. This is a **beam lower bound / unresolved discrepancy**,
+not a disproof: beam pruning can miss the optimum. Likewise, at n = 15
+the formula predicts 88 while beam search found 87.
 
 ### Updated diagonal data (Phase 7a)
 
@@ -257,9 +258,9 @@ we extended the empirical horizon. The full diagonal sequence is now:
 | n | P(n,n) | source | confidence |
 |---|--------|--------|------------|
 | 1..12 | 1, 2, 4, 8, 11, 16, 22, 27, 34, 42, 49, 58 | full DP | exact |
-| 13 | 68 | BEAM ≥ 10⁶, stable through 10⁷ | high |
-| 14 | 76 | BEAM = 10⁷, stable | high |
-| 15 | 87 | BEAM = 5·10⁶, stable | medium-high |
+| 13 | ≥68 | BEAM ≥ 10⁶, stable through 10⁷ | high lower bound; matches formula |
+| 14 | ≥76 | BEAM = 10⁷, stable | lower bound; formula predicts 77 |
+| 15 | ≥87 | BEAM = 5·10⁶, stable | lower bound; formula predicts 88 |
 | ≥ 16 | — | DP packing limits at m ≤ 14 reliably | — |
 
 The residual `r(n) := P(n, n) − ⌊n²/3⌋ − n` is then:
@@ -268,11 +269,12 @@ The residual `r(n) := P(n, n) − ⌊n²/3⌋ − n` is then:
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | r |0 |−1|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|−1|**−3**|**−3**|
 
-The strict 3-cycle (−1, −2, −2) holds for n = 4..13 but **breaks at
-n = 14** with two consecutive −3 values. The closed form for the
-diagonal is therefore **not** the simple Conjecture C above.
+The strict 3-cycle (−1, −2, −2) holds for n = 4..13. The beam lower
+bounds at n = 14 and n = 15 would break it if exact, but they are not
+certificates. The closed form for the diagonal therefore remains open
+pending exact verification or a matching upper bound.
 
-### Conjecture C′ (revised) — open
+### Conjecture C′ (revised alternative) — open
 
 The revised picture is:
 
@@ -280,20 +282,21 @@ The revised picture is:
    of the original Conjecture C remains intact — every additional row
    of data still shrinks the density toward 1/3.
 
-2. **Linear coefficient is approximately `1`** but not exactly: the
-   slope of `Q(n) = P(n, n) − ⌊n²/3⌋` averages 11/12 ≈ 0.917 over
-   `n = 4..15`, not exactly 1. The true asymptotic linear coefficient
-   may be a rational strictly less than 1.
+2. **Linear coefficient may be approximately `1` but not exactly**:
+   if the n = 14, 15 beam lower bounds are exact, the slope of
+   `Q(n) = P(n, n) − ⌊n²/3⌋` over `n = 4..15` averages 11/12 ≈ 0.917.
+   The true asymptotic linear coefficient may be a rational strictly
+   less than 1, but this depends on exact verification beyond n = 13.
 
-3. **The residual sequence `r(n)` is not exactly periodic**. It
-   appears to drift downward as n grows. A more faithful model is
-   probably `r(n) = a · n + b + (small periodic correction)` for
-   some small rational `a < 0`.
+3. **The residual sequence `r(n)` may not be exactly periodic**. Beam
+   data suggests possible downward drift, but exact data is not yet
+   available past n = 12 (or n = 13 if the stable beam value is accepted
+   as high-confidence evidence).
 
 A clean closed form for `P(n, n)` is therefore an **open problem**
-even after Phase 7a; collecting more data (n = 16, 17, 18 with a
-better solver) is the next step (Phase 7a continued, with packing
-relaxed beyond m ≤ 14).
+after Phase 7a; the immediate next step is exact or certificate-quality
+verification of n = 14, especially testing the predicted value 77 with
+targeted pruning.
 
 ### Why the original Conjecture C looked plausible
 

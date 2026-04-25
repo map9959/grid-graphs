@@ -228,40 +228,52 @@ For m ≡ 2 (mod 3), q_m = 1, 3, 7 for m = 2, 5, 8 (no simple pattern).
 uniform formula, in which case Phase 6 succeeds on m ≡ 0 and partially
 on m ≡ 2.
 
-## Phase 7 — Diagonal `P(n, n)`: prove Conjecture C
+## Phase 7 — Diagonal `P(n, n)`: verify and prove Conjecture C
 
-`analysis/conjectures.md`'s **Conjecture C** is:
+`analysis/conjectures.md`'s original **Conjecture C** is:
 ```
 P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
 ```
-where `C(1) = -1, C(0) = C(2) = -2`. Verified at every n = 4..12.
+where `C(1) = -1, C(0) = C(2) = -2`. Verified exactly at every
+n = 4..12, with high-confidence beam support at n = 13. Beam searches
+at n = 14 and n = 15 found values one below the prediction, but these
+are lower bounds only; the conjecture remains unresolved there until an
+exact DP run or matching upper bound certifies the value.
 
 ### Sub-phases
 
-#### 7a — Faster solver to push the empirical horizon
+#### 7a — Safer/faster solver to push the empirical horizon
 
 Current solver: P(11, 11) ~ 1.5 min, P(12, 12) ~ 9 min, P(13, 13)
-> 30 min. To test Conjecture C at `n ∈ {13, 14, 15, 16}` we need a
-solver that scales to those sizes. Options, in increasing depth of
-work:
-1. **Beam search with the existing pruning**. The current DP has a
-   `BEAM=N` env var; tune to find a beam that recovers the true
-   optimum on n ≤ 12 and apply to n = 13, 14. Days of work; result
-   is **upper bound only** (since beam may miss true optimum).
-2. **Better pruning**. The current `PRUNE=1` heuristic uses
+> 30 min. A previous 14x14 attempt can exhaust laptop memory if run
+with full parallel expansion. To test Conjecture C at
+`n ∈ {13, 14, 15, 16}` we need solver modes that scale safely to those
+sizes. Options, in increasing depth of work:
+1. **Laptop-safe exact/target search**. Use `LOWMEM=1` to force
+   streaming layer expansion and `TARGET=77` to test the n = 14
+   prediction as a feasibility target. `TARGET` uses only conservative
+   remaining-vertex pruning; `PRUNE=1` remains a heuristic accelerator and
+   should not be used for certification. A reached target gives a
+   construction at that value; a missed target is not by itself the exact
+   optimum unless paired with a complete upper-bound argument.
+2. **Beam search with bounded memory**. The current DP has a `BEAM=N`
+   env var; tune to find a beam that recovers the true optimum on n ≤ 12
+   and apply to n = 13, 14. Result is a **lower bound only** (beam may
+   miss the true optimum).
+3. **Better pruning**. The current `PRUNE=1` heuristic uses
    degree-budget potential. A 2D potential (using the 4-cycle hitting
    set bound on remaining vertices) could prune harder. Days of work.
-3. **Rewrite as ILP/SAT**. Model the spanning-tree constraint with
+4. **Rewrite as ILP/SAT**. Model the spanning-tree constraint with
    acyclicity-by-arborescence and full-degree as a count target.
    OR-Tools / Gurobi can sometimes handle these efficiently. 1–2 weeks.
-4. **Distributed bitpacked DP**. Partition the column-state space by
+5. **Distributed bitpacked DP**. Partition the column-state space by
    high bits of the canonical labeling and run shards in parallel.
    1–2 weeks; useful for any large m, n.
 
-**Recommended order**: 1 → 2 → (4 if needed). Even getting to n = 14
-verifies Conjecture C for two additional values.
+**Recommended order**: 1 → 2 → 3 → (5 if needed). The immediate target
+is to resolve whether P(14,14) reaches the conjectured value 77.
 
-#### 7b — Constructive matching lower bound for `P(n, n) ≥ ⌊n²/3⌋ + n + C(n mod 3)`
+#### 7b — Constructive matching lower bound for the diagonal formula
 
 The Phase 4 column motifs already give P(m, n) ≥ α_m·n + O(1) for
 fixed m. For squares, we need a 2D construction whose density
@@ -292,8 +304,8 @@ Subtasks:
    asymptotically.
 
 **Effort**: 7a is days; 7b is weeks; 7c is months (if it works at
-all). Most realistic short-term win: 7a.1 (beam) + 7a.2 (pruning) to
-extend `data/diagonal.csv` through n = 14.
+all). Most realistic short-term win: 7a.1 exact/target verification of
+14x14, followed by memory-bounded beam/pruning improvements.
 
 ## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` (formerly Phase 6)
 
@@ -374,7 +386,8 @@ project should know about all of these:
 5. **α_m for m ≡ 0, 2 (mod 3)**: We have data points but no formula.
    Phase 6.
 6. **Conjecture C** (diagonal closed form): `P(n, n) = ⌊n²/3⌋ + n + C(n%3)`
-   for n ≥ 4. Verified at n = 4..12. **Phase 7**.
+   for n ≥ 4. Verified exactly at n = 4..12, with beam lower-bound
+   discrepancies still unresolved at n = 14, 15. **Phase 7**.
 7. **m = 6 at n ≢ 0 (mod 4)**: not yet encoded; Phase 4 found the
    period-4 interior motif but residue-specific boundaries remain.
    Subset of Phase 6.

@@ -58,15 +58,25 @@ mod tests {
             // Reduce motif_sum / q.
             let gd = {
                 let (mut a, mut b) = (motif_sum, q as i64);
-                while b != 0 { let t = b; b = a % b; a = t; }
+                while b != 0 {
+                    let t = b;
+                    b = a % b;
+                    a = t;
+                }
                 a.max(1)
             };
             let num = motif_sum / gd;
             let den = (q as i64) / gd;
             // Equality of reduced fractions:
-            assert_eq!((num, den), (en, ed),
-                       "alpha mismatch at m={m} n={n}: got {}/{} expected {}/{}",
-                       num, den, en, ed);
+            assert_eq!(
+                (num, den),
+                (en, ed),
+                "alpha mismatch at m={m} n={n}: got {}/{} expected {}/{}",
+                num,
+                den,
+                en,
+                ed
+            );
         }
     }
 }
@@ -87,8 +97,16 @@ impl ColumnPattern {
     /// Pretty-print as a 2-row string: vertical pattern (m-1 chars) and
     /// horizontal pattern (m chars), separated by '|'.
     pub fn fmt_compact(&self) -> String {
-        let v: String = self.vert.iter().map(|&b| if b { '|' } else { '.' }).collect();
-        let h: String = self.horiz.iter().map(|&b| if b { '-' } else { '.' }).collect();
+        let v: String = self
+            .vert
+            .iter()
+            .map(|&b| if b { '|' } else { '.' })
+            .collect();
+        let h: String = self
+            .horiz
+            .iter()
+            .map(|&b| if b { '-' } else { '.' })
+            .collect();
         format!("v={} h={}", v, h)
     }
 }
@@ -98,10 +116,12 @@ impl ColumnPattern {
 pub fn extract_patterns(w: &witness::Witness) -> Vec<ColumnPattern> {
     let m = w.m;
     let n = w.n;
-    let mut cols: Vec<ColumnPattern> = (0..n).map(|_| ColumnPattern {
-        vert: vec![false; m.saturating_sub(1)],
-        horiz: vec![false; m],
-    }).collect();
+    let mut cols: Vec<ColumnPattern> = (0..n)
+        .map(|_| ColumnPattern {
+            vert: vec![false; m.saturating_sub(1)],
+            horiz: vec![false; m],
+        })
+        .collect();
     for &((r1, c1), (r2, c2)) in &w.edges {
         if c1 == c2 && r2 == r1 + 1 {
             // vertical within column c1
@@ -133,7 +153,9 @@ pub fn detect_period(
     min_window: usize,
 ) -> Option<(usize, usize, usize)> {
     let n = cols.len();
-    if n < 2 * skip + min_window { return None; }
+    if n < 2 * skip + min_window {
+        return None;
+    }
     for q in 1..=qmax {
         // Find longest run of indices c in skip..(n - skip - q) with
         // cols[c] == cols[c + q]. Take the longest one.
@@ -143,9 +165,15 @@ pub fn detect_period(
         let mut cur_len = 0usize;
         for c in skip..(n.saturating_sub(skip + q)) {
             if cols[c] == cols[c + q] {
-                if cur_start.is_none() { cur_start = Some(c); cur_len = 0; }
+                if cur_start.is_none() {
+                    cur_start = Some(c);
+                    cur_len = 0;
+                }
                 cur_len += 1;
-                if cur_len > best_len { best_len = cur_len; best_start = cur_start; }
+                if cur_len > best_len {
+                    best_len = cur_len;
+                    best_start = cur_start;
+                }
             } else {
                 cur_start = None;
                 cur_len = 0;
@@ -181,13 +209,17 @@ pub fn extract_per_column_gains(w: &witness::Witness) -> Vec<u32> {
         let rt = if c + 1 < n { 1 } else { 0 };
         up + dn + lf + rt
     };
-    (0..n).map(|c| {
-        let mut g = 0u32;
-        for r in 0..m {
-            if deg[r * n + c] == grid_deg(r, c) { g += 1; }
-        }
-        g
-    }).collect()
+    (0..n)
+        .map(|c| {
+            let mut g = 0u32;
+            for r in 0..m {
+                if deg[r * n + c] == grid_deg(r, c) {
+                    g += 1;
+                }
+            }
+            g
+        })
+        .collect()
 }
 
 /// Detect the smallest period q ∈ 1..=qmax in a numeric sequence such
@@ -205,17 +237,26 @@ pub fn detect_period_in_seq(
     min_repeats: usize,
 ) -> Option<(usize, usize, usize)> {
     let n = seq.len();
-    if n < 2 * skip { return None; }
+    if n < 2 * skip {
+        return None;
+    }
     let interior_start = skip;
     let interior_end = n - skip;
-    if interior_end <= interior_start { return None; }
+    if interior_end <= interior_start {
+        return None;
+    }
     let interior_len = interior_end - interior_start;
     for q in 1..=qmax {
-        if interior_len < min_repeats * q + 1 { continue; }
+        if interior_len < min_repeats * q + 1 {
+            continue;
+        }
         // Check seq[c] == seq[c + q] for every c in [interior_start, interior_end - q).
         let mut ok = true;
         for c in interior_start..(interior_end - q) {
-            if seq[c] != seq[c + q] { ok = false; break; }
+            if seq[c] != seq[c + q] {
+                ok = false;
+                break;
+            }
         }
         if ok {
             return Some((q, interior_start, interior_end));
@@ -233,10 +274,18 @@ pub fn analyze(m: usize, n: usize) -> String {
         None => return format!("# empty grid m={m} n={n}\n"),
     };
     let cols = extract_patterns(&w);
-    out.push_str(&format!("# m={} n={} value={} edges={}\n", w.m, w.n, w.value, w.edges.len()));
+    out.push_str(&format!(
+        "# m={} n={} value={} edges={}\n",
+        w.m,
+        w.n,
+        w.value,
+        w.edges.len()
+    ));
     if w.transposed {
-        out.push_str(&format!("# (note: input was {}x{}, working in transposed canonical frame {}x{})\n",
-                              n, m, w.m, w.n));
+        out.push_str(&format!(
+            "# (note: input was {}x{}, working in transposed canonical frame {}x{})\n",
+            n, m, w.m, w.n
+        ));
     }
     // ASCII visualization.
     out.push_str("# spanning-tree visualization (each block = one column):\n");
@@ -256,7 +305,9 @@ pub fn analyze(m: usize, n: usize) -> String {
             let mut vline = String::new();
             for c in 0..n_eff {
                 vline.push(if cols[c].vert[r] { '|' } else { ' ' });
-                if c + 1 < n_eff { vline.push(' '); }
+                if c + 1 < n_eff {
+                    vline.push(' ');
+                }
             }
             out.push_str(&vline);
             out.push('\n');
@@ -269,7 +320,9 @@ pub fn analyze(m: usize, n: usize) -> String {
     let gains = extract_per_column_gains(&w);
     out.push_str("# per-column full-degree counts (gain sequence):\n#  ");
     for (c, &g) in gains.iter().enumerate() {
-        if c > 0 && c % 14 == 0 { out.push_str("\n#  "); }
+        if c > 0 && c % 14 == 0 {
+            out.push_str("\n#  ");
+        }
         out.push_str(&format!("{:2} ", g));
     }
     out.push('\n');
@@ -282,7 +335,10 @@ pub fn analyze(m: usize, n: usize) -> String {
         let motif_sum: u32 = motif.iter().sum();
         out.push_str(&format!(
             "# gain-sequence period: q={} on window [{}..{}) (length {})\n",
-            q, s, e, e - s
+            q,
+            s,
+            e,
+            e - s
         ));
         out.push_str(&format!(
             "# gain motif: {:?} (sum {} over {} columns) => alpha = {}/{}\n",
@@ -291,12 +347,17 @@ pub fn analyze(m: usize, n: usize) -> String {
         // Also report the gcd-reduced rational.
         let gd = {
             let (mut a, mut b) = (motif_sum as i64, q as i64);
-            while b != 0 { let t = b; b = a % b; a = t; }
+            while b != 0 {
+                let t = b;
+                b = a % b;
+                a = t;
+            }
             a.max(1)
         };
         out.push_str(&format!(
             "# alpha (reduced) = {}/{}\n",
-            (motif_sum as i64) / gd, (q as i64) / gd
+            (motif_sum as i64) / gd,
+            (q as i64) / gd
         ));
     } else {
         out.push_str("# no period detected in gain sequence (within q ≤ 12)\n");
@@ -307,14 +368,19 @@ pub fn analyze(m: usize, n: usize) -> String {
     if let Some((q, s, e)) = detect_period(&cols, qmax, skip, std::cmp::max(2, qmax)) {
         out.push_str(&format!(
             "# edge-pattern period: q={} on window [{}..{}) (length {})\n",
-            q, s, e, e - s
+            q,
+            s,
+            e,
+            e - s
         ));
         for off in 0..q {
             let c = s + off;
             out.push_str(&format!("#   col[{}] {}\n", c, cols[c].fmt_compact()));
         }
     } else {
-        out.push_str("# no edge-pattern period detected (DP tie-breaking can scramble equal-value motifs)\n");
+        out.push_str(
+            "# no edge-pattern period detected (DP tie-breaking can scramble equal-value motifs)\n",
+        );
     }
     out
 }
