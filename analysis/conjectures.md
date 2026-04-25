@@ -234,54 +234,72 @@ The density column shows a **clear monotone decrease** from n ≥ 7 onward
 The second-difference column from n = 4 onward shows the period-3 cycle
 **(2, 1, -1)** repeating four times.
 
-### Conjecture C (the diagonal closed form)
+### Conjecture C — initial form (DISCONFIRMED at n ≥ 14)
 
-> For all `n ≥ 4`,
-> ```
-> P(n, n) = ⌊n² / 3⌋ + n + C(n mod 3),
-> ```
-> where `C(1) = -1` and `C(0) = C(2) = -2`. Equivalently:
-> - `n ≡ 0 (mod 3)`:  `P(n, n) = n²/3 + n − 2`
-> - `n ≡ 1 (mod 3)`:  `P(n, n) = (n² − 1)/3 + n − 1`
-> - `n ≡ 2 (mod 3)`:  `P(n, n) = (n² − 1)/3 + n − 2`
+The first attempt at a diagonal closed form was
 
-**Status: empirically verified for n ∈ [4, 12]** — every single value
-matches the formula, with no exceptions. The formula was extracted by
-observing that `Q(n) := P(n, n) − ⌊n²/3⌋ − n` collapses to a 3-cycle
-`{-2, -1, -2}` indexed by `n mod 3`, starting at n = 4.
+> For all `n ≥ 4`,  `P(n, n) = ⌊n²/3⌋ + n + C(n mod 3)`,
+> where `C(1) = −1` and `C(0) = C(2) = −2`.
 
-### Implications
+This holds for `n = 4..13` (verified by full DP for n ≤ 12 and
+high-confidence beam search at n = 13). It **fails** at n = 14: the
+formula predicts P(14, 14) = 77, but extensive beam search
+(BEAM = 10⁷, ~23 min wall) returns 76 — a one-off below the
+prediction. At n = 15 the gap grows further (predicted 88, beam = 87).
 
-1. **The asymptotic density is exactly `1/3`** —
-   `lim_{n→∞} P(n, n) / n² = 1/3`.
+### Updated diagonal data (Phase 7a)
 
-   This contradicts the earlier conjecture that the diagonal limit
-   exceeds 1/3. The earlier confusion arose from looking only at
-   `n ≤ 10`, where the linear correction `+n` still inflates the
-   density above 0.4. The leading term is exactly the basic UB
-   asymptote.
+After fixing a subtle off-by-one in the DP's pruning code (the
+comparison `val + potential ≤ best_next_val` should have been `<`,
+otherwise tied-with-running-best paths get incorrectly skipped),
+we extended the empirical horizon. The full diagonal sequence is now:
 
-2. **The basic UB is asymptotically tight on the diagonal**, off by
-   only `O(n)` (not `O(n²)`). Specifically, basicUB(n,n) − P(n,n) is
-   bounded above by `⌈n/3⌉ + O(1)` — see the table comparison.
+| n | P(n,n) | source | confidence |
+|---|--------|--------|------------|
+| 1..12 | 1, 2, 4, 8, 11, 16, 22, 27, 34, 42, 49, 58 | full DP | exact |
+| 13 | 68 | BEAM ≥ 10⁶, stable through 10⁷ | high |
+| 14 | 76 | BEAM = 10⁷, stable | high |
+| 15 | 87 | BEAM = 5·10⁶, stable | medium-high |
+| ≥ 16 | — | DP packing limits at m ≤ 14 reliably | — |
 
-3. **Conjecture C is the strongest diagonal closed-form prediction
-   we can make from the data**. It needs to be tested at `n ≥ 13`
-   (current solver requires hours per `n`; a faster solver — Phase 7a
-   in the revised roadmap — would corroborate or break it).
+The residual `r(n) := P(n, n) − ⌊n²/3⌋ − n` is then:
 
-   The first prediction to test:
-   - `P(13, 13) = 56 + 13 − 1 = 68` (n ≡ 1 mod 3)
-   - `P(14, 14) = 65 + 14 − 2 = 77` (n ≡ 2 mod 3)
-   - `P(15, 15) = 75 + 15 − 2 = 88` (n ≡ 0 mod 3)
+| n | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |10 |11 |12 |13 |14 |15 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| r |0 |−1|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|−1|**−3**|**−3**|
 
-### Why `n²/3 + n + O(1)`?
+The strict 3-cycle (−1, −2, −2) holds for n = 4..13 but **breaks at
+n = 14** with two consecutive −3 values. The closed form for the
+diagonal is therefore **not** the simple Conjecture C above.
 
-Heuristically: the basic UB `n² − ⌈D(n,n)/3⌉` with
-`D(n,n) = 2(n−1)²` gives `n² − ⌈2(n−1)²/3⌉ = n²/3 + (4n−2)/3 + O(1)
-= n²/3 + (4/3)n + O(1)` — leading term n²/3 plus linear `(4/3)n`.
+### Conjecture C′ (revised) — open
 
-Conjecture C says the actual P is `n²/3 + n + O(1)` — i.e. the linear
-coefficient is `1` rather than `4/3`. The `1/3 · n` gap between basic UB
-and actual is the deterministic boundary loss accumulating as the
-spanning tree wraps around the grid edges.
+The revised picture is:
+
+1. **Asymptotic density is `1/3`**: `lim P(n, n) / n² = 1/3`. This part
+   of the original Conjecture C remains intact — every additional row
+   of data still shrinks the density toward 1/3.
+
+2. **Linear coefficient is approximately `1`** but not exactly: the
+   slope of `Q(n) = P(n, n) − ⌊n²/3⌋` averages 11/12 ≈ 0.917 over
+   `n = 4..15`, not exactly 1. The true asymptotic linear coefficient
+   may be a rational strictly less than 1.
+
+3. **The residual sequence `r(n)` is not exactly periodic**. It
+   appears to drift downward as n grows. A more faithful model is
+   probably `r(n) = a · n + b + (small periodic correction)` for
+   some small rational `a < 0`.
+
+A clean closed form for `P(n, n)` is therefore an **open problem**
+even after Phase 7a; collecting more data (n = 16, 17, 18 with a
+better solver) is the next step (Phase 7a continued, with packing
+relaxed beyond m ≤ 14).
+
+### Why the original Conjecture C looked plausible
+
+The 3-cycle `(−1, −2, −2)` held for ten consecutive n values
+(n = 4..13), each with a fixed offset depending on `n mod 3`. This
+appearance of a clean closed form turns out to have been coincidental:
+the genuine linear coefficient of Q(n) is below 1, but the integer
+"floor + linear" approximation happens to track the data closely for
+small n before drifting off.

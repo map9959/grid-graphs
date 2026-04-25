@@ -1,6 +1,7 @@
 use hashbrown::HashMap;
 use std::{cmp::max, env};
 use std::hash::{BuildHasherDefault, Hasher};
+use rayon::prelude::*;
 
 const MAX_M: usize = 16;       // width cap (can go up to 16 due to 4-bit labels & 2-bit deg packing)
 // Packed frontier:
@@ -120,7 +121,17 @@ fn is_canonical(labels: u64, m: usize) -> bool {
 }
 
 #[inline(never)]
-fn solve(mut m: usize, mut n: usize, beam_cap: Option<usize>, prune: bool) -> i32 {
+fn solve(m: usize, n: usize, beam_cap: Option<usize>, prune: bool) -> i32 {
+    solve_inner(m, n, beam_cap, prune, false)
+}
+
+#[inline(never)]
+fn solve_profile(m: usize, n: usize, beam_cap: Option<usize>, prune: bool) -> i32 {
+    solve_inner(m, n, beam_cap, prune, true)
+}
+
+#[inline(never)]
+fn solve_inner(mut m: usize, mut n: usize, beam_cap: Option<usize>, prune: bool, profile: bool) -> i32 {
     if m == 0 || n == 0 { return 0; }
     if m == 1 && n == 1 { return 1; }
 
@@ -179,100 +190,100 @@ fn solve(mut m: usize, mut n: usize, beam_cap: Option<usize>, prune: bool) -> i3
     let mut rem_vertices = vec![vec![0u16; n]; m];
     for c2 in 0..n { for r2 in 0..m { rem_vertices[r2][c2] = (m - (r2+1)) as u16 + (m * (n - (c2+1))) as u16; } }
 
+    let mut profile_log: Vec<(usize, usize, usize, f64, usize)> = Vec::new();
+    // (col, row, state_count_in, time_secs, prune_skips)
+    let mut total_prune_skips: usize = 0;
+
+    // Threshold above which we use parallel expansion. For tiny states the
+    // overhead of thread spawning + merge dominates.
+    const PAR_THRESHOLD: usize = 8192;
+
     for c in 0..n {
         for r in 0..m {
+            let layer_start = if profile { Some(std::time::Instant::now()) } else { None };
+            let state_in = state.len();
             let last_col = c + 1 == n;
             let last_row = r + 1 == m;
 
             // Linear position index for (r,c) in processing order
             let p_index = c * m + r;
 
-            let mut next_state: HashMap<Key, i32, FastBuild> =
-                HashMap::with_hasher(FastBuild::default());
-            next_state.reserve(state.len().saturating_mul(2));
-            let mut best_next_val: i32 = -1;
+            // Collect state into a Vec for parallel iteration.
+            let state_vec: Vec<(Key, i32)> = state.drain().collect();
 
-            for (k, preserved_so_far) in state.drain() {
+            // Pre-fetch values referenced in the hot inner closure.
+            let counts = suffix_counts[p_index + 1];
+            let rem_up = rem_edges_upper[r][c];
+
+            let expand = |k: Key, preserved_so_far: i32,
+                          local: &mut HashMap<Key, i32, FastBuild>,
+                          local_best: &mut i32,
+                          local_skips: &mut usize| {
                 let labels = k.labels;
-                let degs   = k.degs;
-                let ecount     = k.ecount;
+                let degs = k.degs;
+                let ecount = k.ecount;
 
                 let comp_r = get4(labels, r);
-                let deg_r  = get2(degs,   r);
-                let comp_down = if !last_row { get4(labels, r+1) } else { 0 };
+                let deg_r = get2(degs, r);
+                let comp_down = if !last_row { get4(labels, r + 1) } else { 0 };
 
-                // choices
-                // Enumerate horizontal (x) then vertical (y) decisions; hot path favors 0
                 let x_max = if last_col { 0 } else { 1 };
                 let y_max = if last_row { 0 } else { 1 };
                 for x in 0..=x_max {
                     for y in 0..=y_max {
-                        if y == 1 && comp_r != 0 && comp_r == comp_down { continue; }   // cycle
+                        if y == 1 && comp_r != 0 && comp_r == comp_down { continue; }
                         let deg_final = deg_r + x + y;
-                        if deg_final == 0 && total_v > 1 { continue; }                  // isolation
+                        if deg_final == 0 && total_v > 1 { continue; }
 
-                        // bounds pruning on edges
                         let e2 = ecount + x as u16 + y as u16;
-                        let rem_up = rem_edges_upper[r][c];
                         if e2 > total_v - 1 || e2 + rem_up < total_v - 1 { continue; }
 
-                        // mutate local copies
                         let mut labels_cur = labels;
-                        let mut degs_cur   = degs;
-                        let mut need_fresh = false; // whether we assign a new id when opening to the right
+                        let mut degs_cur = degs;
+                        let mut need_fresh = false;
 
-                        // apply vertical
                         if y == 1 {
                             merge_labels(&mut labels_cur, m, comp_r, comp_down);
                             if !last_row {
-                                let d = get2(degs_cur, r+1);
-                                set2(&mut degs_cur, r+1, d+1);
+                                let d = get2(degs_cur, r + 1);
+                                set2(&mut degs_cur, r + 1, d + 1);
                             }
                         }
 
-                        // advance frontier at row r to the right cell
                         let mut labels_next = labels_cur;
-                        let mut degs_next   = degs_cur;
+                        let mut degs_next = degs_cur;
 
                         if last_col {
                             set4(&mut labels_next, r, 0);
-                            set2(&mut degs_next,   r, 0);
+                            set2(&mut degs_next, r, 0);
                         } else {
                             if x == 1 {
-                                // same component continues
-                                set4(&mut labels_next, r, get4(labels_cur, r)); // continues same comp
+                                set4(&mut labels_next, r, get4(labels_cur, r));
                             } else {
-                                // placeholder high id (15) before canonicalization
                                 set4(&mut labels_next, r, 15);
                                 need_fresh = true;
                             }
-                            set2(&mut degs_next, r, x); // right neighbor starts with deg x
+                            set2(&mut degs_next, r, x);
                         }
 
-                        // forbid premature component closure
                         if comp_r != 0 && !comp_present(labels_next, m, comp_r) && !(last_col && last_row) {
                             continue;
                         }
 
-                        // Fast-path: if extending horizontally within row (x==1) without vertical merge, and not at last_col, labels ordering preserved.
-                        if !(x==1 && y==0 && !last_col) {
-                            if need_fresh || !is_canonical(labels_next, m) { canonicalize(&mut labels_next, m); }
+                        if !(x == 1 && y == 0 && !last_col) {
+                            if need_fresh || !is_canonical(labels_next, m) {
+                                canonicalize(&mut labels_next, m);
+                            }
                         }
 
-                        // score increment
                         let add_pres = (deg_final == gd(r, c)) as i32;
                         let val = preserved_so_far + add_pres;
 
-                        let nk = Key{ labels:labels_next, degs:degs_next, ecount:e2 };
+                        let nk = Key { labels: labels_next, degs: degs_next, ecount: e2 };
                         if prune {
-                            // Degree-budget-aware preserved upper bound over remaining cells.
-                            // Remaining edges budget:
-                            let rem_edges_needed = (total_v - 1) - e2; // remaining edges to fill tree
-                            let mut budget = (2 * rem_edges_needed as u32) as i32; // degree-sum budget
-                            // Counts of degrees among remaining cells AFTER this cell
-                            let counts = suffix_counts[p_index + 1];
+                            let rem_edges_needed = (total_v - 1) - e2;
+                            let mut budget = (2 * rem_edges_needed as u32) as i32;
                             let mut potential = 0i32;
-                            // Iterate degrees ascending (1..4) for maximal count given budget
                             for d in 1..=4 {
                                 let mut avail = counts[d] as i32;
                                 if avail == 0 { continue; }
@@ -283,32 +294,110 @@ fn solve(mut m: usize, mut n: usize, beam_cap: Option<usize>, prune: bool) -> i3
                                 budget -= avail * d as i32;
                                 if budget <= 0 { break; }
                             }
-                            if val + potential <= best_next_val { continue; }
+                            if val + potential < *local_best {
+                                *local_skips += 1;
+                                continue;
+                            }
                         }
-                        if let Some(prev) = next_state.get_mut(&nk) {
-                            if val > *prev { *prev = val; if val > best_next_val { best_next_val = val; } }
+                        if let Some(prev) = local.get_mut(&nk) {
+                            if val > *prev {
+                                *prev = val;
+                                if val > *local_best { *local_best = val; }
+                            }
                         } else {
-                            next_state.insert(nk, val);
-                            if val > best_next_val { best_next_val = val; }
+                            local.insert(nk, val);
+                            if val > *local_best { *local_best = val; }
                         }
                     }
                 }
-            }
+            };
+
+            let (next_state, prune_skips_layer) = if state_vec.len() < PAR_THRESHOLD {
+                // Sequential path: avoid rayon overhead.
+                let mut local: HashMap<Key, i32, FastBuild> =
+                    HashMap::with_hasher(FastBuild::default());
+                local.reserve(state_vec.len().saturating_mul(2));
+                let mut local_best: i32 = -1;
+                let mut local_skips: usize = 0;
+                for (k, v) in state_vec.into_iter() {
+                    expand(k, v, &mut local, &mut local_best, &mut local_skips);
+                }
+                (local, local_skips)
+            } else {
+                // Parallel path: chunk the state, expand each chunk to a
+                // thread-local hashmap with its own running best, then merge.
+                let n_threads = rayon::current_num_threads().max(1);
+                let chunk_size = (state_vec.len() + n_threads - 1) / n_threads;
+                let chunks: Vec<&[(Key, i32)]> = state_vec.chunks(chunk_size).collect();
+                let locals: Vec<(HashMap<Key, i32, FastBuild>, usize)> = chunks
+                    .into_par_iter()
+                    .map(|chunk| {
+                        let mut local: HashMap<Key, i32, FastBuild> =
+                            HashMap::with_hasher(FastBuild::default());
+                        local.reserve(chunk.len().saturating_mul(2));
+                        let mut local_best: i32 = -1;
+                        let mut local_skips: usize = 0;
+                        for &(k, v) in chunk {
+                            expand(k, v, &mut local, &mut local_best, &mut local_skips);
+                        }
+                        (local, local_skips)
+                    })
+                    .collect();
+                // Merge.
+                let mut merged: HashMap<Key, i32, FastBuild> =
+                    HashMap::with_hasher(FastBuild::default());
+                merged.reserve(state_vec.len().saturating_mul(2));
+                let mut total_skips: usize = 0;
+                for (local, sk) in locals.into_iter() {
+                    total_skips += sk;
+                    for (k, v) in local.into_iter() {
+                        merged.entry(k)
+                            .and_modify(|prev| { if v > *prev { *prev = v; } })
+                            .or_insert(v);
+                    }
+                }
+                (merged, total_skips)
+            };
 
             // optional beam pruning
             if let Some(cap) = beam_cap {
                 if next_state.len() > cap {
-                    // Partial selection without allocating a second HashMap.
-                    let mut items: Vec<(Key,i32)> = next_state.into_iter().collect();
-                    // nth selects element that would be at index cap after full sort.
-                    items.select_nth_unstable_by(cap, |a,b| b.1.cmp(&a.1));
+                    let mut items: Vec<(Key, i32)> = next_state.into_iter().collect();
+                    items.select_nth_unstable_by(cap, |a, b| b.1.cmp(&a.1));
                     items.truncate(cap);
-                    // Rebuild map with reserved capacity (=cap) for next round.
-                    let mut shrunk: HashMap<Key,i32,FastBuild> = HashMap::with_capacity_and_hasher(cap, FastBuild::default());
-                    for (k,v) in items { shrunk.insert(k,v); }
+                    let mut shrunk: HashMap<Key, i32, FastBuild> =
+                        HashMap::with_capacity_and_hasher(cap, FastBuild::default());
+                    for (k, v) in items { shrunk.insert(k, v); }
                     state = shrunk;
                 } else { state = next_state; }
             } else { state = next_state; }
+
+            if profile {
+                let dt = layer_start.unwrap().elapsed().as_secs_f64();
+                total_prune_skips += prune_skips_layer;
+                profile_log.push((c, r, state_in, dt, prune_skips_layer));
+            }
+        }
+    }
+
+    if profile {
+        eprintln!("[profile] m={} n={} total prune-skips={}", m, n, total_prune_skips);
+        eprintln!("[profile] col row state_in    time    prune_skips");
+        let mut col_totals: std::collections::BTreeMap<usize, (f64, usize, usize)> = std::collections::BTreeMap::new();
+        for &(c, r, sin, dt, ps) in &profile_log {
+            let entry = col_totals.entry(c).or_insert((0.0, 0, 0));
+            entry.0 += dt;
+            entry.1 = entry.1.max(sin);
+            entry.2 += ps;
+            // Print only the row=m-1 entry for compactness.
+            if r + 1 == m {
+                eprintln!("[profile] {:3} {:3} {:>10} {:>7.2}s {:>10}", c, r, sin, dt, ps);
+            }
+        }
+        eprintln!("[profile] === per-column ===");
+        eprintln!("[profile] col  total_time  max_states  prune_skips");
+        for (c, (dt, mx, ps)) in col_totals {
+            eprintln!("[profile] {:3}  {:>9.2}s  {:>10}  {:>10}", c, dt, mx, ps);
         }
     }
 
@@ -349,7 +438,11 @@ fn main() {
     if args.len() == 3 {
         let m = args[1].parse::<usize>().expect("m");
         let n = args[2].parse::<usize>().expect("n");
-    let ans = solve(m, n, beam_cap, prune);
+        let ans = if env::var("PROFILE").map(|s| s == "1").unwrap_or(false) {
+            solve_profile(m, n, beam_cap, prune)
+        } else {
+            solve(m, n, beam_cap, prune)
+        };
         println!("{}", ans);
         return;
     }
