@@ -714,185 +714,37 @@ pub fn karp_max_mean_cycle_streaming(
     Some((wsum / g, cyc_den / g, cycle_global))
 }
 
-/// Karp's max-mean-cycle algorithm restricted to a single strongly
-/// connected subgraph. Given vertices `verts: &[u32]` (a permutation of
-/// the indices of an SCC) and the global adjacency `adj`, returns
-/// `Some((numerator, denominator, cycle_vertex_seq))` describing the
-/// maximum mean weight cycle in the SCC, or None if the SCC has no edges
-/// (singleton with no self-loop).
-///
-/// Complexity: O(|V_S| * |E_S|).
-pub fn karp_max_mean_cycle(
-    verts: &[u32],
-    adj: &[Vec<(u32, i32)>],
-) -> Option<(i64, i64, Vec<u32>)> {
-    let n = verts.len();
-    if n == 0 { return None; }
-    // Local index map from global vertex id to position 0..n.
-    let max_global = *verts.iter().max().unwrap() as usize;
-    let mut local: Vec<i32> = vec![-1; max_global + 1];
-    for (i, &v) in verts.iter().enumerate() { local[v as usize] = i as i32; }
-
-    // Local adjacency (filter to within-SCC edges).
-    let mut ladj: Vec<Vec<(usize, i32)>> = vec![Vec::new(); n];
-    let mut has_edge = false;
-    for (i, &v) in verts.iter().enumerate() {
-        for &(w, g) in &adj[v as usize] {
-            let lw = local.get(w as usize).copied().unwrap_or(-1);
-            if lw >= 0 {
-                ladj[i].push((lw as usize, g));
-                has_edge = true;
-            }
-        }
-    }
-    if !has_edge { return None; }
-
-    // F[k][v] = max total weight of a walk from a fixed source s using
-    // exactly k edges, ending at v. We use s = vertex 0 (any source in
-    // the SCC works since SCC implies all vertices reachable).
-    // Standard formulation uses min for shortest paths; for max-mean we
-    // use max.
-    const NEG_INF: i64 = i64::MIN / 4;
-    let mut f_prev: Vec<i64> = vec![NEG_INF; n];
-    f_prev[0] = 0;
-    // Track predecessors to reconstruct the cycle.
-    // pred[k][v] = (u, edge_weight) such that walk to v of length k
-    // ends with edge u -> v.
-    let mut f_table: Vec<Vec<i64>> = Vec::with_capacity(n + 1);
-    let mut pred_table: Vec<Vec<(i32, i32)>> = Vec::with_capacity(n + 1);
-    f_table.push(f_prev.clone());
-    pred_table.push(vec![(-1, 0); n]);
-
-    for _k in 0..n {
-        let mut f_cur: Vec<i64> = vec![NEG_INF; n];
-        let mut pred_cur: Vec<(i32, i32)> = vec![(-1, 0); n];
-        for u in 0..n {
-            if f_prev[u] == NEG_INF { continue; }
-            for &(v, w) in &ladj[u] {
-                let cand = f_prev[u] + w as i64;
-                if cand > f_cur[v] {
-                    f_cur[v] = cand;
-                    pred_cur[v] = (u as i32, w);
-                }
-            }
-        }
-        f_table.push(f_cur.clone());
-        pred_table.push(pred_cur);
-        f_prev = f_cur;
-    }
-
-    // Karp formula (max version): mu* = max_v min_{0 ≤ k ≤ n-1}
-    //                                  (F[n][v] - F[k][v]) / (n - k)
-    // We pick the v achieving the max as cycle witness.
-    let mut best_num: i64 = NEG_INF;
-    let mut best_den: i64 = 1;
-    let mut best_v: i32 = -1;
-    let mut best_k: i32 = -1;
-    for v in 0..n {
-        if f_table[n][v] == NEG_INF { continue; }
-        // min over k of (F_n - F_k) / (n - k)
-        let mut min_num: i64 = i64::MAX;
-        let mut min_den: i64 = 1;
-        let mut min_k: i32 = -1;
-        for k in 0..n {
-            if f_table[k][v] == NEG_INF { continue; }
-            let num = f_table[n][v] - f_table[k][v];
-            let den = (n - k) as i64;
-            // Compare num/den vs min_num/min_den => num * min_den vs min_num * den
-            if min_k < 0 || num * min_den < min_num * den {
-                min_num = num;
-                min_den = den;
-                min_k = k as i32;
-            }
-        }
-        if min_k < 0 { continue; }
-        // Compare min_num/min_den vs best_num/best_den (max).
-        if best_v < 0 || min_num * best_den > best_num * min_den {
-            best_num = min_num;
-            best_den = min_den;
-            best_v = v as i32;
-            best_k = min_k;
-        }
-    }
-    if best_v < 0 { return None; }
-
-    // Reconstruct: an extremal v achieves the max-mean cycle. The cycle
-    // can be extracted by walking backward from v using pred at length n,
-    // detecting a repeated vertex on the path. Standard reconstruction:
-    let _ = best_k; // best_k not needed for cycle extraction below.
-
-    // Walk backwards n steps from v using pred_table.
-    let mut path: Vec<i32> = Vec::with_capacity(n + 1);
-    let mut cur_v = best_v;
-    let mut cur_k = n;
-    path.push(cur_v);
-    while cur_k > 0 {
-        let (u, _w) = pred_table[cur_k][cur_v as usize];
-        if u < 0 { break; }
-        path.push(u);
-        cur_v = u;
-        cur_k -= 1;
-    }
-    // Find a repeated vertex in `path` (it must contain one because path
-    // length ≥ n+1 and only n vertices exist) — this isolates a cycle.
-    let mut first_seen: std::collections::HashMap<i32, usize> =
-        std::collections::HashMap::new();
-    let mut cycle_local_rev: Vec<i32> = Vec::new();
-    for (pos, &node) in path.iter().enumerate() {
-        if let Some(&old) = first_seen.get(&node) {
-            cycle_local_rev = path[old..=pos].to_vec();
-            break;
-        } else {
-            first_seen.insert(node, pos);
-        }
-    }
-    if cycle_local_rev.is_empty() {
-        return None;
-    }
-    // Reverse to get forward order; map back to global indices.
-    cycle_local_rev.reverse();
-    let cycle_global: Vec<u32> = cycle_local_rev.iter().map(|&l| verts[l as usize]).collect();
-    // Drop the duplicated last vertex; cycle_global[0] == cycle_global[last].
-    let cycle_global = if cycle_global.len() >= 2 && cycle_global[0] == *cycle_global.last().unwrap() {
-        cycle_global[..cycle_global.len() - 1].to_vec()
-    } else {
-        cycle_global
-    };
-
-    // Recompute the actual cycle weight (just to be safe — Karp's mu*
-    // should equal it).
-    let cyc_n = cycle_global.len();
-    let mut wsum: i64 = 0;
-    for i in 0..cyc_n {
-        let a = cycle_global[i];
-        let b = cycle_global[(i + 1) % cyc_n];
-        // Find max-weight edge a->b (in case of multi-edges).
-        let mut found: Option<i64> = None;
-        for &(w, g) in &adj[a as usize] {
-            if w == b {
-                let gi = g as i64;
-                if found.is_none() || gi > found.unwrap() { found = Some(gi); }
-            }
-        }
-        wsum += found.unwrap_or(0);
-    }
-    let cyc_den = cyc_n as i64;
-
-    // Use the actual cycle's mean as the result (it should equal Karp's
-    // mu*; this also reduces fraction noise). Reduce fraction via GCD.
-    let g = gcd(wsum.unsigned_abs() as i64, cyc_den);
-    let g = if g == 0 { 1 } else { g };
-    let num = wsum / g;
-    let den = cyc_den / g;
-    let _ = (best_num, best_den); // silence unused warning
-    Some((num, den, cycle_global))
-}
 
 fn gcd(a: i64, b: i64) -> i64 {
     let mut x = a.abs();
     let mut y = b.abs();
     while y != 0 { let t = y; y = x % y; x = t; }
     x
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Karp on the transfer-matrix gives the closed-form alpha_m from
+    /// recurrences.md for the widths where the state space is small
+    /// enough (m ≤ 6).
+    #[test]
+    fn karp_matches_recurrence_alpha_for_small_m() {
+        // (m, expected alpha numerator, expected alpha denominator)
+        let cases = [
+            (3, 4i64, 3i64),
+            (4, 2, 1),
+            (5, 2, 1),
+            (6, 5, 2),
+        ];
+        for &(m, en, ed) in &cases {
+            let (alpha, _cyc, _g) = compute_alpha(m);
+            assert_eq!(alpha, Frac::new(en, ed),
+                       "Karp alpha_m mismatch at m={m}: got {} expected {}/{}",
+                       alpha, en, ed);
+        }
+    }
 }
 
 /// Compute α_m and an optimal interior cycle. Returns (α_m as Frac,

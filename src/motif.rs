@@ -20,6 +20,57 @@
 
 use crate::witness;
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Gain-sequence period detection on optimal witnesses recovers the
+    /// rational alpha_m from analysis/recurrences.md for m ∈ {3..8}.
+    /// We use n large enough to expose at least 2 full periods of the
+    /// known q_m, plus the m₀ burn-in.
+    #[test]
+    fn gain_period_matches_recurrences_md() {
+        // (m, n, expected alpha numerator, expected alpha denominator)
+        // n picked to comfortably cover ≥ 2 full periods past the burn-in:
+        //   m=3 q=3 n0=3:  n=20 gives ~5 periods after burn-in
+        //   m=4 q=1 n0=3:  any n ≥ 6
+        //   m=5 q=3 n0=4:  n=20
+        //   m=6 q=2 n0=10: n=22
+        //   m=7 q=1 n0=7:  any n ≥ 14
+        //   m=8 q=7 n0=13: need ≥ 13 + 2*7 = 27, take n=35 for safety
+        let cases = [
+            (3usize, 20usize, 4i64, 3i64),
+            (4, 14, 2, 1),
+            (5, 20, 2, 1),
+            (6, 24, 5, 2),
+            (7, 18, 3, 1),
+            (8, 35, 22, 7),
+        ];
+        for &(m, n, en, ed) in &cases {
+            let w = witness::solve_with_witness(m, n).expect("non-empty");
+            let gains = extract_per_column_gains(&w);
+            let qmax = 12usize;
+            let skip = std::cmp::max(2, w.m);
+            let (q, _s, _e) = detect_period_in_seq(&gains, qmax, skip, 2)
+                .unwrap_or_else(|| panic!("no period detected at m={m} n={n}"));
+            let motif: Vec<u32> = gains[_s..(_s + q)].to_vec();
+            let motif_sum: i64 = motif.iter().map(|&x| x as i64).sum();
+            // Reduce motif_sum / q.
+            let gd = {
+                let (mut a, mut b) = (motif_sum, q as i64);
+                while b != 0 { let t = b; b = a % b; a = t; }
+                a.max(1)
+            };
+            let num = motif_sum / gd;
+            let den = (q as i64) / gd;
+            // Equality of reduced fractions:
+            assert_eq!((num, den), (en, ed),
+                       "alpha mismatch at m={m} n={n}: got {}/{} expected {}/{}",
+                       num, den, en, ed);
+        }
+    }
+}
+
 /// Per-column fill pattern.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ColumnPattern {
@@ -113,6 +164,66 @@ pub fn detect_period(
     None
 }
 
+/// Compute per-column gains: for each column c in [0, n), count the
+/// vertices (r, c) whose tree-degree equals their grid-degree.
+pub fn extract_per_column_gains(w: &witness::Witness) -> Vec<u32> {
+    let m = w.m;
+    let n = w.n;
+    let mut deg = vec![0u32; m * n];
+    for &((r1, c1), (r2, c2)) in &w.edges {
+        deg[r1 * n + c1] += 1;
+        deg[r2 * n + c2] += 1;
+    }
+    let grid_deg = |r: usize, c: usize| -> u32 {
+        let up = if r > 0 { 1 } else { 0 };
+        let dn = if r + 1 < m { 1 } else { 0 };
+        let lf = if c > 0 { 1 } else { 0 };
+        let rt = if c + 1 < n { 1 } else { 0 };
+        up + dn + lf + rt
+    };
+    (0..n).map(|c| {
+        let mut g = 0u32;
+        for r in 0..m {
+            if deg[r * n + c] == grid_deg(r, c) { g += 1; }
+        }
+        g
+    }).collect()
+}
+
+/// Detect the smallest period q ∈ 1..=qmax in a numeric sequence such
+/// that the *entire interior window* `seq[skip..(n - skip)]` is exactly
+/// q-periodic (i.e. seq[c] = seq[c + q] for every c in that window with
+/// c + q within the window). Returns (q, window_start, window_end).
+///
+/// We require at least min_repeats full periods inside the window before
+/// accepting. This is robust to local "false-positive" sub-periods like
+/// q=1 inside a {3,3,3,...,4,3,3,...} sequence.
+pub fn detect_period_in_seq(
+    seq: &[u32],
+    qmax: usize,
+    skip: usize,
+    min_repeats: usize,
+) -> Option<(usize, usize, usize)> {
+    let n = seq.len();
+    if n < 2 * skip { return None; }
+    let interior_start = skip;
+    let interior_end = n - skip;
+    if interior_end <= interior_start { return None; }
+    let interior_len = interior_end - interior_start;
+    for q in 1..=qmax {
+        if interior_len < min_repeats * q + 1 { continue; }
+        // Check seq[c] == seq[c + q] for every c in [interior_start, interior_end - q).
+        let mut ok = true;
+        for c in interior_start..(interior_end - q) {
+            if seq[c] != seq[c + q] { ok = false; break; }
+        }
+        if ok {
+            return Some((q, interior_start, interior_end));
+        }
+    }
+    None
+}
+
 /// High-level helper: solve, extract patterns, detect period, report.
 /// Returns a printable summary.
 pub fn analyze(m: usize, n: usize) -> String {
@@ -123,19 +234,14 @@ pub fn analyze(m: usize, n: usize) -> String {
     };
     let cols = extract_patterns(&w);
     out.push_str(&format!("# m={} n={} value={} edges={}\n", w.m, w.n, w.value, w.edges.len()));
-    // Per-column dump (transpose-aware).
     if w.transposed {
         out.push_str(&format!("# (note: input was {}x{}, working in transposed canonical frame {}x{})\n",
                               n, m, w.m, w.n));
     }
-    // Show a compact ASCII grid: m rows × n columns of vertices, with
-    // vertical edges between rows, horizontal edges between columns.
+    // ASCII visualization.
     out.push_str("# spanning-tree visualization (each block = one column):\n");
     let m_eff = w.m;
     let n_eff = w.n;
-    // For each row of vertices, print the row vertices and the horizontal
-    // edge to the next column. Then between rows, print the vertical
-    // edges within each column.
     for r in 0..m_eff {
         let mut line = String::new();
         for c in 0..n_eff {
@@ -157,45 +263,58 @@ pub fn analyze(m: usize, n: usize) -> String {
         }
     }
     out.push('\n');
-    // Periodicity detection.
+
+    // -- Per-column gain analysis (the rigorous, tie-break-invariant
+    //    quantity).
+    let gains = extract_per_column_gains(&w);
+    out.push_str("# per-column full-degree counts (gain sequence):\n#  ");
+    for (c, &g) in gains.iter().enumerate() {
+        if c > 0 && c % 14 == 0 { out.push_str("\n#  "); }
+        out.push_str(&format!("{:2} ", g));
+    }
+    out.push('\n');
+
     let qmax = 12usize;
     let skip = std::cmp::max(2, m_eff);
-    let min_window = std::cmp::max(2, qmax);
-    if let Some((q, s, e)) = detect_period(&cols, qmax, skip, min_window) {
+    let min_repeats = 2usize;
+    if let Some((q, s, e)) = detect_period_in_seq(&gains, qmax, skip, min_repeats) {
+        let motif: Vec<u32> = gains[s..s + q].to_vec();
+        let motif_sum: u32 = motif.iter().sum();
         out.push_str(&format!(
-            "# detected period q={} on column window [{}..{}) (length {})\n",
+            "# gain-sequence period: q={} on window [{}..{}) (length {})\n",
             q, s, e, e - s
         ));
-        out.push_str(&format!("# motif (one period, columns {}..{}):\n", s, s + q));
+        out.push_str(&format!(
+            "# gain motif: {:?} (sum {} over {} columns) => alpha = {}/{}\n",
+            motif, motif_sum, q, motif_sum, q
+        ));
+        // Also report the gcd-reduced rational.
+        let gd = {
+            let (mut a, mut b) = (motif_sum as i64, q as i64);
+            while b != 0 { let t = b; b = a % b; a = t; }
+            a.max(1)
+        };
+        out.push_str(&format!(
+            "# alpha (reduced) = {}/{}\n",
+            (motif_sum as i64) / gd, (q as i64) / gd
+        ));
+    } else {
+        out.push_str("# no period detected in gain sequence (within q ≤ 12)\n");
+    }
+
+    // -- Per-column edge-pattern period (informational; less reliable
+    //    due to DP tie-breaking).
+    if let Some((q, s, e)) = detect_period(&cols, qmax, skip, std::cmp::max(2, qmax)) {
+        out.push_str(&format!(
+            "# edge-pattern period: q={} on window [{}..{}) (length {})\n",
+            q, s, e, e - s
+        ));
         for off in 0..q {
             let c = s + off;
             out.push_str(&format!("#   col[{}] {}\n", c, cols[c].fmt_compact()));
         }
-        // Average gain per period: count full-degree vertices in columns
-        // [s, s+q) (which are interior since s ≥ skip ≥ m_eff). For each
-        // such vertex, full-degree means tree-degree == grid-degree.
-        // We compute degrees from the witness edges by scanning.
-        let mut deg = vec![0u32; m_eff * n_eff];
-        for &((r1, c1), (r2, c2)) in &w.edges {
-            deg[r1 * n_eff + c1] += 1;
-            deg[r2 * n_eff + c2] += 1;
-        }
-        let interior_target = |r: usize, _c: usize| -> u32 {
-            if r == 0 || r + 1 == m_eff { 3 } else { 4 }
-        };
-        let mut motif_full = 0u32;
-        for off in 0..q {
-            let c = s + off;
-            for r in 0..m_eff {
-                if deg[r * n_eff + c] == interior_target(r, c) { motif_full += 1; }
-            }
-        }
-        out.push_str(&format!(
-            "# motif gain per period = {} full-degree vertices over {} columns => alpha = {}/{}\n",
-            motif_full, q, motif_full, q
-        ));
     } else {
-        out.push_str("# no period detected (within q ≤ 12)\n");
+        out.push_str("# no edge-pattern period detected (DP tie-breaking can scramble equal-value motifs)\n");
     }
     out
 }

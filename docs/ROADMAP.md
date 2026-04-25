@@ -27,8 +27,12 @@ mathlib bound expressions) machinery are in this repo. See
 | `analysis/conjectures.md` | Closed-form formulas for `P(m, n)`, m ≤ 8 |
 | `analysis/oeis.md` | OEIS hits and prior-art notes |
 | `analysis/proofs_m345.md` | Per-`m` constructive lower bounds with checker |
+| `analysis/proofs_upper.md` | Phase 4 matching upper bounds (Karp + witness-period methods) |
 | `analysis/check_constructions.py` | Independent verifier of explicit spanning trees |
+| `analysis/extract_patterns.py` | Phase 4 helper: decode per-column edge patterns from a witness |
 | `analysis/render_witness.py`, `analysis/motif_search.py` | Motif inspection scratchpads |
+| `src/transfer.rs`, `src/transfer_util.rs` | Phase 4 column-state transfer matrix + Karp's max-mean cycle |
+| `src/motif.rs` | Phase 4 witness gain-sequence period detection and ASCII visualizer |
 | `lean/GridGraphs/Defs.lean`, `lean/GridGraphs/Bounds.lean` | Lean 4 + mathlib formalization (bound expressions, deficiency identity) |
 | `lean/STATUS.md`, `lean/EVIDENCE.md` | Lean-side status and lemma index |
 
@@ -39,15 +43,15 @@ mathlib bound expressions) machinery are in this repo. See
 | 1 | Per-`m` closed-form conjectures | **Done** | `analysis/recurrences.md`, `analysis/conjectures.md` |
 | 2 | OEIS / prior-art lookup | **Done** | `analysis/oeis.md` |
 | 3 | DP backtracking → motif extraction (constructive LBs) | **Done (mostly)** | `analysis/proofs_m345.md`, `src/witness.rs` |
-| 4 | Matching upper bounds via Karp's max-mean cycle | Pending — **recommended next** | — |
-| 5 | Square asymptotics (5a solver, 5b tile, 5c LP UB) | Pending | — |
+| 4 | Matching upper bounds via Karp's max-mean cycle | **Done for m ≤ 6 rigorously, m ≤ 8 empirically** | `analysis/proofs_upper.md`, `src/transfer.rs`, `src/motif.rs` |
+| 5 | Square asymptotics (5a solver, 5b tile, 5c LP UB) | Pending — **recommended next** | — |
 | 6 | Lean formalization of `P(m, n) ≤ basicUB m n` | Pending | — |
 | 7 | Lean formalization of explicit constructions | Pending (multi-month) | — |
 
 ### What Phase 3 actually delivered
 
 In the **n ≥ m** asymptotic regime, with constructions verified by an
-independent checker:
+independent checker (numbers in *italics* updated by Phase 4):
 
 | m | construction | optimal in n ≥ m regime |
 |---|--------------|------------------------|
@@ -55,85 +59,68 @@ independent checker:
 | 2 | `tree_m2` (ladder) | 49/49 |
 | 3 | `tree_m3_witness` (period 3) | 48/48 |
 | 4 | `tree_m4_double_spine` (period 1) | 47/47 |
-| 5 | `tree_m5_witness` (three-spine) | 31/46 — off by 1 only at `n ≡ 1 (mod 3)` |
+| 5 | `tree_m5_witness` (three-spine + period-3 hybrid) | *46/46 (Phase 4)* |
 | 6 | `tree_m6_witness` (period 4) | 11/11 — only `n ≡ 0 (mod 4)` implemented |
 | 7 | `tree_m7_witness` (period 1) | 24/24 |
-| 8 | not implemented | — |
+| 8 | `tree_m8_witness` (period-7 hybrid, n ∈ {20, 34, 48}) | *3/3 (Phase 4)* |
 
-For m ∈ {1, 2, 3, 4, 7}, the constructive LB matches the conjectured `P(m, n)`
-exactly in the n ≥ m regime. For m ∈ {5, 6}, the LB is partial. For m = 8,
-no closed-form construction was extracted: the witness-DP output has a
-period-7 macro-pattern that resisted hand transcription. Phase 4 is expected
-to resolve all three open cases simultaneously.
+After Phase 4, m ∈ {1, 2, 3, 4, 5, 7} have full-residue constructive LBs
+matching the conjectured `P(m, n)`. For m = 6, only `n ≡ 0 (mod 4)` is
+implemented (other residues mechanically extractable but tedious). For
+m = 8, the period-7 motif is now explicit at `n − 20 ∈ 14ℤ_{≥0}` (a
+1-in-14 residue subset of `n ≥ 20`).
 
-## Recommended next: Phase 4 — transfer matrix + Karp's max-mean cycle
+## Recommended next: Phase 5 — square asymptotics
 
-For each fixed `m`, build the column transition graph from the DP (states =
-canonical `(labels, degs)` tuples, edges = single-column fills weighted by
-the per-column gain in full-degree count), then compute the maximum-mean
-cycle. The mean cycle weight equals `α_m` rigorously, and the cycle itself
-specifies the optimal periodic motif — providing both the matching upper
-bound to the Phase 3 lower bounds and the explicit motif for hard cases
-(m = 5, 8 in particular).
+Phase 4 established the asymptotic slope `α_m` rigorously for `m ≤ 6` via
+Karp's max-mean cycle on the column-state transfer graph and empirically
+(via witness gain-sequence period detection) for `m ≤ 8`. See
+`analysis/proofs_upper.md` for the per-`m` table.
 
-### Why Phase 4 next
+The natural next direction is **square asymptotics**: estimating
+`lim P(n, n) / n²`. Basic UB caps it at `1/3`; empirical ratio at
+`n = 10` is `0.42`. Sub-phase 5b (periodic 2D tile constructions) is
+the cheapest entry point; 5c (joint LP relaxation for tighter UBs) is
+exploratory.
 
-1. **Closes the m = 5 residue gap** at n ≡ 1 (mod 3). The current
-   three-spine ansatz is off by 1; Karp's cycle extraction picks up the
-   "preserved interior column" trick we observed in optimal witness output.
-2. **Extracts the m = 8 motif** that we couldn't read off by hand.
-3. **Promotes per-`m` conjectures to theorems** for any width where the
-   max-mean cycle's weight matches the Phase 3 LB.
-4. **Reuses existing DP infrastructure**: state enumeration is already
-   done implicitly by `src/main.rs`'s forward sweep.
+## Phase 4 — transfer matrix + Karp's max-mean cycle (DONE)
 
-### Subtasks (do all m ∈ {3, 4, 5, 6, 7, 8})
+Two complementary methods were implemented:
 
-1. **4.1** Add a `src/transfer.rs` module that, given `m`, runs a forward
-   DP for one column to enumerate every reachable canonical `(labels,
-   degs)` state. Save as `Vec<State>` with stable indices.
-2. **4.2** For each state `s`, simulate one full column-fill from `s` and
-   collect the set of `(s', gain)` outgoing transitions. Emit as a
-   directed weighted graph `Vec<(usize, usize, i32)>` (edges with gains).
-3. **4.3** Implement Karp's max-mean-cycle algorithm
-   (`O(|V| · |E|)` time, well within budget at `m ≤ 8`).
-4. **4.4** Run for `m ∈ {3, 4, 5, 6, 7, 8}`. For each `m`:
-   - Compute `α_m` from the cycle's mean weight.
-   - Confirm it matches the rational `α_m` from `analysis/recurrences.md`.
-   - Extract the optimal cycle (sequence of states) and translate each
-     transition to a column-fill pattern.
-5. **4.5** For each `m`, verify the cycle starts from the initial state
-   and that boundary columns (first and last) contribute the expected
-   constant to the closed form. This is needed to lift the *asymptotic*
-   slope theorem to an *exact* closed-form theorem.
-6. **4.6** For m ∈ {5, 8} (and any other widths where Phase 3's LB was
-   incomplete), encode the extracted motif as a closed-form Python
-   builder in `analysis/check_constructions.py` and verify it produces
-   `P(m, n)` exactly for n in the verified range.
-7. **4.7** Add a Rust regression test: for each `m ∈ {3, ..., 8}`,
-   the computed `α_m` from Karp's algorithm equals the conjectured rational.
-8. **4.8** Write up in `analysis/proofs_upper.md` with the per-`m`
-   transition-graph sizes, the optimal cycles, and the resulting theorems
-   (asymptotic slope + closed form + matching upper bound).
+1. **Karp's max-mean cycle on the column-state transfer graph**
+   (`src/transfer.rs`): rigorous, but feasible only for `m ≤ 6` due to
+   state-space size (m=7 has 32 957 states / 39 M edges and exceeds the
+   Karp time/memory budget; m=8 was not enumerated).
+2. **Witness-DP gain-sequence period detection** (`src/motif.rs`):
+   strong empirical evidence by extracting per-column full-degree counts
+   from an optimal witness and detecting periodicity. Scales to `m ≤ 10`.
 
-### Definition of done
+Where both apply (m ∈ {3, 4, 5, 6}) they agree exactly. See
+`analysis/proofs_upper.md` for the full per-`m` table.
 
-- `α_m` rationally computed and verified by Karp for m ∈ {3, ..., 8}.
-- Closed-form constructions in `check_constructions.py` for all m ∈ {3, ..., 8}
-  in the n ≥ m regime, including the previously-failing m = 5 (n ≡ 1 mod 3)
-  and m = 8.
-- Each closed form is a **theorem** (LB by construction, UB by max-mean cycle)
-  for the asymptotic slope, optionally also for the exact value.
+### Outcomes
 
-### Risks
+| m | basic UB α | Phase 4 α | gap closed |
+|---|-----------:|----------:|:-----------|
+| 3 | 5/3 | 4/3 | ✓ rigorously (Karp) |
+| 4 | 2 | 2 | already tight |
+| 5 | 7/3 | 2 | ✓ rigorously (Karp); construction now closes the n ≡ 1 (mod 3) residue |
+| 6 | 8/3 | 5/2 | ✓ rigorously (Karp) |
+| 7 | 3 | 3 | already tight |
+| 8 | 10/3 | 22/7 | ✓ empirically (witness-period); construction at n ∈ {20, 34, 48} |
 
-- State enumeration may produce thousands of states for m = 8; check that
-  Karp's `O(V·E)` runs in seconds (it should — m = 8 frontier-state count
-  is bounded by Bell(8) · 4^8 ≈ 1.7 × 10^7, but reachability prunes this
-  dramatically).
-- Phase-alignment: the optimal cycle may not start from the DP's initial
-  state. Closed-form theorems require explicitly handling the "boundary
-  transient" before the cycle locks in.
+Construction coverage now matches the conjectured `P(m, n)` exactly for
+m ∈ {1, 2, 3, 4, 5, 7} on **all** n ≥ m, and for m = 6 (n ≡ 0 mod 4)
+and m = 8 (specific n) where checked.
+
+### Open items deferred from Phase 4
+
+- Karp on m = 7, 8: need Howard's policy iteration or another
+  memory-friendly max-mean cycle algorithm. The Howard's draft in this
+  branch had a correctness bug and was reverted.
+- m = 6 residues n mod 4 ∈ {1, 2, 3}: mechanical boundary derivation
+  per residue, not yet encoded in `check_constructions.py`.
+- m = 8 general n: only n − 20 ∈ 14ℤ_{≥0} implemented.
 
 ## Phase 5 — square asymptotics
 
@@ -211,19 +198,17 @@ This produces machine-checked theorems for `P(m, n)` for `m ≤ 8`, all
 Aggregated from the various analysis files. A fresh agent picking up this
 project should know about all of these:
 
-1. **m = 5 at n ≡ 1 (mod 3)**: optimum is `2n + 2` but our three-spine
-   construction gives `2n + 1`. Optimal witness uses a "fully preserved
-   interior column" cluster that doesn't fit the three-spine ansatz.
-   Phase 4 should resolve.
-2. **m = 6 at n ≢ 0 (mod 4)**: only `n ≡ 0 (mod 4)` is implemented.
-   Other residues need per-residue boundary corrections. Phase 4 should
-   resolve.
-3. **m = 8 motif**: the period-7 macro-structure is too complex to
-   transcribe by hand. Phase 4 should resolve.
-4. **Matching upper bounds for m ∈ {3, 5, 6}**: even where Phase 3's LB
-   is tight, the proven UB (`basicUB` from Lean) is loose by `Θ(n)`. To
-   make per-`m` formulas into theorems, we need matching UBs — Phase 4
-   delivers this through Karp's algorithm.
+1. **m = 5 at n ≡ 1 (mod 3)**: ✓ resolved by Phase 4 — `tree_m5_period3_motif`
+   uses the "fully preserved interior column" trick.
+2. **m = 6 at n ≢ 0 (mod 4)**: not yet encoded; Phase 4 found the
+   period-4 interior motif but residue-specific boundaries remain.
+3. **m = 8 motif**: ✓ resolved by Phase 4 — `tree_m8_witness` encodes
+   the period-7 motif at `n ∈ {20, 34, 48}`. Generalizing to all
+   residues mod 7 (let alone all n ≥ 13) is straightforward but
+   tedious.
+4. **Matching upper bounds for m ∈ {3, 5, 6}**: ✓ resolved by Phase 4
+   — Karp's max-mean cycle delivers rigorous matching UBs. `m = 8`
+   matched empirically only.
 5. **Square asymptotics**: `lim P(n, n)/n²` is unknown. Basic UB gives
    `≤ 1/3`, empirical at n=10 is `≈ 0.42`. Phase 5.
 6. **Lean operational connection**: `P(m, n) ≤ basicUB m n` is empirically
@@ -231,34 +216,43 @@ project should know about all of these:
 
 ## Verification quickstart
 
-A fresh agent should run these to confirm the current state in ~30 seconds:
+A fresh agent should run these to confirm the current state:
 
 ```bash
-# 1. Rust solver + analysis tests (8 tests)
+# 1. Rust solver + analysis tests (11 tests including Phase 4 regressions)
 cargo test --release
-# Expected: "test result: ok. 8 passed; 0 failed"
+# Expected: "test result: ok. 11 passed; 0 failed"
 
 # 2. Lean formal proofs (sorry-free)
 cd lean && lake build && cd ..
 # Expected: "Build completed successfully"
 
-# 3. Construction checker (n ≥ m regime, m ∈ {1..7})
+# 3. Construction checker (n ≥ m regime, m ∈ {1..8})
 python3 analysis/check_constructions.py
-# Expected (in summary):
+# Expected (in summary, Phase 4 updated):
 #   m=1 trivial path                                49      49
 #   m=2 ladder                                      49      49
 #   m=3 period-3 witness                            48      48
 #   m=4 double-spine                                47      47
-#   m=5 three-spine                                 46      31   ← 15 misses at n%3==1, off by 1
+#   m=5 (three-spine + period-3 hybrid)             46      46   ← Phase 4 fixed n%3==1
 #   m=6 period-4 witness (n%4==0 only)              11      11
 #   m=7 period-1 witness                            24      24
+#   m=8 period-7 witness (n in {20, 34, 48})         3       3   ← Phase 4 added
 
-# 4. (Optional) regenerate the empirical data
+# 4. Phase 4 alpha verification (m ≤ 6 in seconds; m=6 takes ~40 s)
+cargo run --release -- alpha 5
+# prints "alpha=2"  (matches recurrences.md)
+
+# 5. (Optional) inspect the optimal tree and detect period
+cargo run --release -- motif 8 35
+# prints ASCII grid + "alpha = 22/7" via gain-sequence period
+
+# 6. (Optional) regenerate the empirical data
 CSV=1 cargo run --release -- compare 8 20 > data/extended.csv
 
-# 5. (Optional) inspect the optimal tree at any (m, n)
+# 7. (Optional) inspect the optimal tree at any (m, n)
 cargo run --release -- witness 5 21
-# prints "# m=5 n=21 value=43 transposed=False edges=104" + the edge list
+# prints "# m=5 n=21 value=43 transposed=false edges=104" + the edge list
 ```
 
 If all three primary commands pass, the repo is in a good state. Any
@@ -266,10 +260,10 @@ discrepancy should be investigated before starting a new phase.
 
 ## Phase dependency notes
 
-- Phase 4 depends on Phase 3 (uses the same DP + verified motifs as
-  cross-checks).
+- Phase 4 (DONE) depended on Phase 3 (uses the same DP + verified
+  motifs as cross-checks).
 - Phase 5 is independent of Phases 4, 6, 7.
-- Phase 6 is independent of Phase 4 (it formalizes the basic UB which is
-  already algebraically proved).
+- Phase 6 is independent of Phase 4 (it formalizes the basic UB which
+  is already algebraically proved).
 - Phase 7 depends on Phase 6 (operational connection) and benefits from
   Phase 4 (clean motifs for the construction side).

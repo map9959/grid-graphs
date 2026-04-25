@@ -201,21 +201,69 @@ def tree_m5_three_spine(n: int) -> List[Edge]:
     return e
 
 
-def tree_m5_witness(n: int) -> List[Edge]:
-    """`m=5` construction: the three-spine pattern from
-    `tree_m5_three_spine`. Achieves `P = 2n + 1`.
+def tree_m5_period3_motif(n: int) -> List[Edge]:
+    """Period-3 motif for G(5, n) extracted from the witness DP at n=22.
 
-    Status:
-      - n ≡ 0 (mod 3) (conjectured P = 2n + 1):  tight ✓
-      - n ≡ 2 (mod 3) (conjectured P = 2n + 1):  tight ✓
-      - n ≡ 1 (mod 3) (conjectured P = 2n + 2):  off by 1 (achieves 2n + 1)
+    Per column c (0 ≤ c < n):
+      c % 3 == 0 :  V = 1111  H = 10111  (gain 4: rows 0, 2, 3, 4 full)
+      c % 3 == 1 :  V = 1000  H = 10000  (gain 1: row 0 full)
+      c % 3 == 2 :  V = 1000  H = 10111  (gain 1: row 0 full)
 
-    The n ≡ 1 case requires a structurally different motif (the optimal
-    witness uses a "fully preserved interior column" trick that doesn't
-    fit the three-spine ansatz). Closing this residue class is left as
-    follow-on work.
+    where V[r] is the vertical edge (r, c)-(r+1, c), H[r] is the
+    horizontal (r, c)-(r, c+1) (only for c < n-1).
+
+    Per period (3 columns) this contributes 8 + 2 + 5 = 15 = m·q − 0
+    edges. For n = 3k we'd get exactly 15k edges, but the spanning tree
+    has m·n − 1 = 15k − 1 edges, which means 1 too many — a cycle. So
+    for n ≡ 0 (mod 3) this motif is invalid (it would force a cycle in
+    the last column). We exclude that case here.
+
+    For n ≡ 1 (mod 3) and n ≡ 2 (mod 3), the spanning-tree edge count
+    works out exactly. Achieves `P(5, n) = 2n + 2` when n ≡ 1 (mod 3)
+    and `P(5, n) = 2n + 1` when n ≡ 2 (mod 3) — the conjectured
+    optimum.
+
+    The c % 3 == 0 column with V = 1111 is the "fully preserved
+    interior column" referenced in `analysis/proofs_m345.md`: every
+    vertex in this column has its full grid degree retained.
     """
-    return tree_m5_three_spine(n)
+    m = 5
+    interior_v = ["1111", "1000", "1000"]
+    interior_h = ["10111", "10000", "10111"]
+    e: List[Edge] = []
+    for c in range(n):
+        cp = c % 3
+        v = interior_v[cp]
+        h = interior_h[cp]
+        for r in range(m - 1):
+            if v[r] == "1":
+                e.append(((r, c), (r + 1, c)))
+        if c < n - 1:
+            for r in range(m):
+                if h[r] == "1":
+                    e.append(((r, c), (r, c + 1)))
+    return e
+
+
+def tree_m5_witness(n: int) -> List[Edge]:
+    """`m=5` construction, optimal in the n ≥ m regime for **all**
+    residues n mod 3 (Phase 4 update).
+
+    Strategy:
+      - n ≡ 0 (mod 3):  three-spine construction (preserves rows 0, 4)
+        — achieves `P(5, n) = 2n + 1`.
+      - n ≡ 1 or 2 (mod 3):  period-3 motif with "fully preserved
+        interior column" — achieves `P(5, n) = 2n + 2` (for n%3==1)
+        or `2n + 1` (for n%3==2), both matching the conjectured
+        optimum.
+
+    The n ≡ 1 case is the residue that the prior three-spine
+    construction missed by 1; the period-3 motif (extracted by the
+    Phase 4 witness analysis at n=22) closes that gap.
+    """
+    if n % 3 == 0:
+        return tree_m5_three_spine(n)
+    return tree_m5_period3_motif(n)
 
 
 def tree_m7_witness(n: int) -> List[Edge]:
@@ -256,6 +304,93 @@ def tree_m7_witness(n: int) -> List[Edge]:
         else:
             add_v(c, "101101"); add_h(c, "1001001")
 
+    return e
+
+
+def tree_m8_witness(n: int) -> List[Edge]:
+    """Period-7 motif for G(8, n) extracted from the witness DP.
+
+    The optimal m=8 spanning trees have a period-7 interior structure
+    that alternates between two reflected blocks (Block A and Block B,
+    related by row-reversal). For widths where n ≡ 6 (mod 7) and
+    n ≥ 20, we use the explicit witness layout observed at n = 20:
+
+        col 0     :  V = 1111111  H = 11111111   (left boundary, gain 8)
+        col 1     :  V = 0000000  H = 10001001   (left boundary, gain 0)
+        cols 2..n-3 (interior, alternating blocks A and B every 7 cols)
+        col n-2   :  V = 1000001  H = 10011101   (right boundary, gain 2)
+        col n-1   :  V = 1011111  H = 00000000   (right boundary, gain 5)
+
+    Each interior block of 7 columns contributes gain 22 = α₈·7. With
+    one boundary contribution of 8 + 0 + 2 + 5 = 15 spread over the 4
+    boundary cols, we have:
+      P(8, n) = 15 + 22·k where k = (n - 4) / 7.
+
+    Cross-check with closed form (recurrences.md): for n ≡ 6 (mod 7)
+    starting at n = 20 (k = 1): P(8, 20) = 15 + 22 = 37? — no, observed
+    P(8, 20) = 65. Let me re-tally: gain seq for n=20 is
+        [8, 0, 3,3,3,3,3,4,3, 3,3,3,3,3,4,3, 2, 5]
+        = 8 + 22 + 22 + 6 + 7 = 65 ✓.
+    So actually the right boundary takes 4 cols (cols 16-19) with
+    total gain 6 + 7 = 13, and the right boundary's last 2 cols add to
+    the right boundary's first 2 cols (which are partial). Treating
+    cols 16-17 as **part of an incomplete Block B**, the structure
+    becomes: cols 0-1 boundary (gain 8) + 2 full blocks (cols 2-15,
+    gain 44) + cols 16-19 right boundary (gain 13).
+
+    For arbitrary n the right boundary needs to be rederived per
+    residue class; this implementation handles only n = 20, 34, 48
+    (n − 20 divisible by 14 — i.e. an even number of full A/B block
+    pairs after the left boundary). Other widths fall through to an
+    empty edge list, which the caller will flag as invalid.
+    """
+    m = 8
+    if n < 20 or (n - 20) % 14 != 0:
+        return []
+
+    # Block A (cols 2..8): the period-7 motif.
+    block_a = [
+        ("1001101", "10101001"),  # gain 3
+        ("1110001", "10100101"),  # gain 3
+        ("1000111", "10010101"),  # gain 3
+        ("1011001", "10010001"),  # gain 3
+        ("1011001", "10010101"),  # gain 3
+        ("1011111", "10010101"),  # gain 4
+        ("1011001", "10010001"),  # gain 3
+    ]
+    # Block B (cols 9..15): row-reversal of Block A.
+    block_b = [
+        (v[::-1], h[::-1]) for v, h in block_a
+    ]
+    # Left boundary cols 0, 1.
+    left_cols = [
+        ("1111111", "11111111"),
+        ("0000000", "10001001"),
+    ]
+    # Right boundary cols n-4..n-1. Pattern observed at n = 20.
+    right_cols = [
+        ("1001101", "10101001"),
+        ("1110001", "10100101"),
+        ("1000001", "10011101"),
+        ("1011111", "00000000"),
+    ]
+    # Number of full A/B pairs in interior (each pair = 14 cols).
+    k = (n - 20) // 14 + 1
+    interior: List[tuple] = []
+    for _ in range(k):
+        interior.extend(block_a)
+        interior.extend(block_b)
+    cols = left_cols + interior + right_cols
+    assert len(cols) == n, f"expected {n} cols, built {len(cols)}"
+    e: List[Edge] = []
+    for c, (v, h) in enumerate(cols):
+        for r in range(m - 1):
+            if v[r] == "1":
+                e.append(((r, c), (r + 1, c)))
+        if c < n - 1:
+            for r in range(m):
+                if h[r] == "1":
+                    e.append(((r, c), (r, c + 1)))
     return e
 
 
@@ -333,9 +468,11 @@ def main():
         ("m=2 ladder", 2, tree_m2, range(2, 51)),
         ("m=3 period-3 witness", 3, tree_m3_witness, range(2, 51)),
         ("m=4 double-spine", 4, tree_m4_double_spine, range(2, 51)),
-        ("m=5 three-spine", 5, tree_m5_witness, range(2, 51)),
+        ("m=5 (three-spine for n%3=0; period-3 for n%3 in {1,2})", 5, tree_m5_witness, range(2, 51)),
         ("m=6 period-4 witness (n%4==0 only)", 6, tree_m6_witness, range(4, 49, 4)),
         ("m=7 period-1 witness", 7, tree_m7_witness, range(2, 31)),
+        ("m=8 period-7 witness (n in {20, 34, 48} only)", 8, tree_m8_witness,
+         [20, 34, 48]),
     ]
 
     summary = []
