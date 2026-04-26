@@ -259,7 +259,7 @@ we extended the empirical horizon. The full diagonal sequence is now:
 |---|--------|--------|------------|
 | 1..12 | 1, 2, 4, 8, 11, 16, 22, 27, 34, 42, 49, 58 | full DP | exact |
 | 13 | ≥68 | BEAM ≥ 10⁶, stable through 10⁷ | high lower bound; matches formula |
-| 14 | ≥76 | BEAM = 10⁷, stable | lower bound; formula predicts 77 |
+| 14 | 76 ≤ P ≤ 77 | bounded BEAM = 10⁶, 5·10⁶, 10⁷ stable; `fullub 14 14 = 77` | formula predicts 77; missing witness |
 | 15 | ≥87 | BEAM = 5·10⁶, stable | lower bound; formula predicts 88 |
 | ≥ 16 | — | DP packing limits at m ≤ 14 reliably | — |
 

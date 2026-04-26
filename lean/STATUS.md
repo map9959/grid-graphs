@@ -53,6 +53,19 @@ etc.) is in the deferred-work list.
 - `refinedUB_le_basicUB`: `refinedUB m n ≤ basicUB m n` (`m, n ≥ 1`). Matches
   the Rust assertion in `refined_never_worse_and_valid`.
 
+### `GridGraphs/Forced.lean`
+- `forcedEdgeGraph G F`: the graph of all `G`-edges incident to at least one
+  vertex of `F`.
+- `preservesIncidentEdges G T v`: edge-containment formulation of a vertex being
+  full-degree/preserved in `T` relative to `G`.
+- `forcedEdgeGraph_le_of_preserves`: if every vertex of `F` preserves all
+  incident `G`-edges in `T`, then `forcedEdgeGraph G F ≤ T`.
+- `forcedEdgeGraph_isAcyclic_of_preserves`: if `T` is acyclic, then the forced
+  graph of any such `F` is acyclic.
+- `forcedEdgeGraph_isAcyclic_of_preserves_tree`: same corollary for `T.IsTree`.
+- `grid_forcedEdgeGraph_isAcyclic_of_preserves`: grid-graph specialization of
+  the acyclicity lemma.
+
 ## Not proved (deferred — see notes)
 
 These statements would connect the bound *expressions* in `Bounds.lean` to the
@@ -69,6 +82,8 @@ function on the tree:
   interior / border / corner vertices.
 - `preserved_le_basicUB`: for any spanning tree `T`, `numPreserved T ≤ basicUB m n`.
 - `preserved_le_refinedUB`: same, with `refinedUB`.
+- Cardinality consequence of the forced-edge lemma: `P(m,n)` is bounded above by
+  the maximum cardinality of a vertex set whose forced-edge graph is acyclic.
 - `lower_bound_construction`: an explicit "double-comb" spanning tree achieving
   `numPreserved ≥ m + n − 1`.
 - `verts_partition`: `numCorners + numBorderNonCorner + numInterior = m * n`.

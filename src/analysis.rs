@@ -87,22 +87,14 @@ pub fn lower_bound(m: usize, n: usize) -> usize {
     lower_bound_simple(m, n)
 }
 
-/// Band construction (conservative): attempt to preserve all vertices in every
-/// other row (or every other column) and absorb deficiency in the skipped ones.
-/// The raw pattern (floor(m/2)*n) can exceed actual optima for small m; we apply
-/// a safety margin subtracting min(m,n). Result still improves over the simple
-/// bound for moderate dimensions while passing small-grid validation tests.
+/// Placeholder for a future verified band construction.
+///
+/// Earlier drafts returned a heuristic every-other-row estimate. Wider diagonal
+/// data shows that estimate can exceed the best known values, so it is not a
+/// valid lower bound. Until a construction is encoded and checked, keep this at
+/// the simple safe bound.
 pub fn lower_bound_band(m: usize, n: usize) -> usize {
-    if m == 0 || n == 0 {
-        return 0;
-    }
-    // Empirically a = (m/2)*n can exceed actual for small m (e.g., 3x6). Apply safety offset.
-    // Subtract min(m,n) as conservative margin; still stronger than simple bound for moderate sizes.
-    let a = (m / 2) * n;
-    let b = (n / 2) * m;
-    let margin = m.min(n);
-    let cand = a.max(b).saturating_sub(margin);
-    lower_bound_simple(m, n).max(cand)
+    lower_bound_simple(m, n)
 }
 
 /// Relaxed upper bound mixing capacity and 2×2 square coverage constraints.

@@ -1,6 +1,7 @@
 use hashbrown::HashMap;
 use rayon::prelude::*;
-use std::hash::{BuildHasherDefault, Hasher};
+use std::hash::{BuildHasherDefault, Hash, Hasher};
+use std::sync::{Arc, Mutex};
 use std::{cmp::max, env};
 
 const MAX_M: usize = 16; // width cap (can go up to 16 due to 4-bit labels & 2-bit deg packing)
@@ -34,6 +35,20 @@ struct Key {
     labels: u64, // 4-bit ids per row; 0 means empty slot (canonicalized sequentially)
     degs: u32,   // 2-bit degree so far per row-vertex in frontier
     ecount: u16, // edges chosen so far
+}
+
+#[derive(Clone, Copy, Eq, PartialEq)]
+struct FullKey {
+    labels: u64,
+    full: u16,
+}
+
+impl std::hash::Hash for FullKey {
+    #[inline(always)]
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        state.write_u64(self.labels);
+        state.write_u16(self.full);
+    }
 }
 
 impl std::hash::Hash for Key {
@@ -75,6 +90,24 @@ impl Hasher for KHasher {
     }
 }
 type FastBuild = BuildHasherDefault<KHasher>;
+
+#[inline]
+fn key_shard(k: &Key, mask: usize) -> usize {
+    let mut h = KHasher::default();
+    k.hash(&mut h);
+    (h.finish() as usize) & mask
+}
+
+fn shrink_to_cap(map: &mut HashMap<Key, i32, FastBuild>, cap: usize) {
+    if cap == 0 || map.len() <= cap {
+        return;
+    }
+    let mut items: Vec<(Key, i32)> = map.drain().collect();
+    items.select_nth_unstable_by(cap, |a, b| b.1.cmp(&a.1));
+    items.truncate(cap);
+    map.reserve(cap);
+    map.extend(items);
+}
 
 mod analysis; // bring in bounds
 use analysis::{lower_bound, lower_bound_band, upper_bound, upper_bound_relaxed};
@@ -172,6 +205,315 @@ fn solve_profile(m: usize, n: usize, beam_cap: Option<usize>, prune: bool) -> i3
     solve_inner(m, n, beam_cap, prune, true)
 }
 
+#[derive(Clone)]
+struct TinyDsu {
+    parent: [u8; 16],
+}
+
+impl TinyDsu {
+    fn new() -> Self {
+        let mut parent = [0u8; 16];
+        for (i, p) in parent.iter_mut().enumerate() {
+            *p = i as u8;
+        }
+        TinyDsu { parent }
+    }
+
+    fn find(&mut self, mut x: u8) -> u8 {
+        while self.parent[x as usize] != x {
+            self.parent[x as usize] = self.parent[self.parent[x as usize] as usize];
+            x = self.parent[x as usize];
+        }
+        x
+    }
+
+    fn union_or_cycle(&mut self, a: u8, b: u8) -> bool {
+        let ra = self.find(a);
+        let rb = self.find(b);
+        if ra == rb {
+            true
+        } else {
+            self.parent[rb as usize] = ra;
+            false
+        }
+    }
+}
+
+fn canonicalize_full(labels: &mut u64, m: usize) {
+    canonicalize(labels, m);
+}
+
+fn fullub_step(
+    m: usize,
+    n: usize,
+    r: usize,
+    c: usize,
+    k: FullKey,
+    cur_full_bool: bool,
+) -> Option<FullKey> {
+    let left_label = if c > 0 { get4(k.labels, r) } else { 0 };
+    let left_full = c > 0 && ((k.full >> r) & 1 == 1);
+    let up_label = if r > 0 { get4(k.labels, r - 1) } else { 0 };
+    let up_full = r > 0 && ((k.full >> (r - 1)) & 1 == 1);
+    let mut dsu = TinyDsu::new();
+    let fresh = 15u8;
+
+    if c > 0 && (left_full || cur_full_bool) && dsu.union_or_cycle(fresh, left_label) {
+        return None;
+    }
+    if r > 0 && (up_full || cur_full_bool) && dsu.union_or_cycle(fresh, up_label) {
+        return None;
+    }
+
+    let keep_current = r + 1 < m || c + 1 < n;
+    let mut labels_next = k.labels;
+    let mut full_next = k.full;
+    if keep_current {
+        set4(&mut labels_next, r, fresh);
+        if cur_full_bool {
+            full_next |= 1u16 << r;
+        } else {
+            full_next &= !(1u16 << r);
+        }
+    } else {
+        set4(&mut labels_next, r, 0);
+        full_next &= !(1u16 << r);
+    }
+
+    for i in 0..m {
+        let id = get4(labels_next, i);
+        if id != 0 {
+            let root = dsu.find(id);
+            set4(&mut labels_next, i, root);
+        } else {
+            full_next &= !(1u16 << i);
+        }
+    }
+    canonicalize_full(&mut labels_next, m);
+    Some(FullKey {
+        labels: labels_next,
+        full: full_next,
+    })
+}
+
+#[inline(never)]
+fn fullub(mut m: usize, mut n: usize) -> i32 {
+    if m == 0 || n == 0 {
+        return 0;
+    }
+    if m > n {
+        std::mem::swap(&mut m, &mut n);
+    }
+    assert!(
+        m < 15,
+        "fullub currently reserves label 15 as a fresh sentinel"
+    );
+
+    let mut state: HashMap<FullKey, i32, FastBuild> = HashMap::with_hasher(FastBuild::default());
+    state.insert(FullKey { labels: 0, full: 0 }, 0);
+
+    for c in 0..n {
+        for r in 0..m {
+            let old_state =
+                std::mem::replace(&mut state, HashMap::with_hasher(FastBuild::default()));
+            let mut next: HashMap<FullKey, i32, FastBuild> =
+                HashMap::with_hasher(FastBuild::default());
+            next.reserve(old_state.len().saturating_mul(2));
+            for (k, val) in old_state {
+                for cur_full_bool in [false, true] {
+                    let cur_full = cur_full_bool as u16;
+                    let Some(nk) = fullub_step(m, n, r, c, k, cur_full_bool) else {
+                        continue;
+                    };
+                    let nv = val + cur_full as i32;
+                    next.entry(nk)
+                        .and_modify(|prev| {
+                            if nv > *prev {
+                                *prev = nv;
+                            }
+                        })
+                        .or_insert(nv);
+                }
+            }
+            state = next;
+        }
+    }
+
+    state.into_values().max().unwrap_or(0)
+}
+
+#[derive(Clone, Copy)]
+struct FullPred {
+    prev: FullKey,
+    cur_full: bool,
+}
+
+fn fullub_with_witness(mut m: usize, mut n: usize) -> (i32, Vec<bool>) {
+    if m == 0 || n == 0 {
+        return (0, Vec::new());
+    }
+    let transposed = m > n;
+    if transposed {
+        std::mem::swap(&mut m, &mut n);
+    }
+    assert!(
+        m < 15,
+        "fullub currently reserves label 15 as a fresh sentinel"
+    );
+
+    let pcount = m * n;
+    let mut layers: Vec<HashMap<FullKey, (i32, Option<FullPred>), FastBuild>> = (0..=pcount)
+        .map(|_| HashMap::with_hasher(FastBuild::default()))
+        .collect();
+    layers[0].insert(FullKey { labels: 0, full: 0 }, (0, None));
+
+    for c in 0..n {
+        for r in 0..m {
+            let p = c * m + r;
+            let keys: Vec<FullKey> = layers[p].keys().copied().collect();
+            for k in keys {
+                let val = layers[p].get(&k).unwrap().0;
+                for cur_full in [false, true] {
+                    let Some(nk) = fullub_step(m, n, r, c, k, cur_full) else {
+                        continue;
+                    };
+                    let nv = val + cur_full as i32;
+                    let pred = FullPred { prev: k, cur_full };
+                    match layers[p + 1].get_mut(&nk) {
+                        Some(slot) => {
+                            if nv > slot.0 {
+                                *slot = (nv, Some(pred));
+                            }
+                        }
+                        None => {
+                            layers[p + 1].insert(nk, (nv, Some(pred)));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    let (mut cur, best) = layers[pcount]
+        .iter()
+        .max_by_key(|(_, (v, _))| *v)
+        .map(|(k, (v, _))| (*k, *v))
+        .unwrap();
+    let mut full = vec![false; pcount];
+    for p in (1..=pcount).rev() {
+        let pred = layers[p].get(&cur).unwrap().1.unwrap();
+        full[p - 1] = pred.cur_full;
+        cur = pred.prev;
+    }
+
+    if transposed {
+        let mut user_full = vec![false; pcount];
+        for c in 0..n {
+            for r in 0..m {
+                let src = c * m + r;
+                let dst = r * n + c;
+                user_full[dst] = full[src];
+            }
+        }
+        (best, user_full)
+    } else {
+        (best, full)
+    }
+}
+
+fn complete_forced_tree(
+    m: usize,
+    n: usize,
+    full: &[bool],
+) -> Option<Vec<((usize, usize), (usize, usize))>> {
+    let total = m * n;
+    if full.len() != total || total == 0 {
+        return None;
+    }
+    let mut parent: Vec<usize> = (0..total).collect();
+    fn find(parent: &mut [usize], mut x: usize) -> usize {
+        while parent[x] != x {
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        x
+    }
+
+    let mut edges = Vec::new();
+    let mut optional = Vec::new();
+    for r in 0..m {
+        for c in 0..n {
+            let a = r * n + c;
+            if c + 1 < n {
+                let b = r * n + c + 1;
+                let e = ((r, c), (r, c + 1));
+                if full[a] || full[b] {
+                    let ra = find(&mut parent, a);
+                    let rb = find(&mut parent, b);
+                    if ra == rb {
+                        return None;
+                    }
+                    parent[ra] = rb;
+                    edges.push(e);
+                } else {
+                    optional.push((a, b, e));
+                }
+            }
+            if r + 1 < m {
+                let b = (r + 1) * n + c;
+                let e = ((r, c), (r + 1, c));
+                if full[a] || full[b] {
+                    let ra = find(&mut parent, a);
+                    let rb = find(&mut parent, b);
+                    if ra == rb {
+                        return None;
+                    }
+                    parent[ra] = rb;
+                    edges.push(e);
+                } else {
+                    optional.push((a, b, e));
+                }
+            }
+        }
+    }
+
+    for (a, b, e) in optional {
+        let ra = find(&mut parent, a);
+        let rb = find(&mut parent, b);
+        if ra != rb {
+            parent[ra] = rb;
+            edges.push(e);
+        }
+    }
+    if edges.len() != total - 1 {
+        return None;
+    }
+    let root = find(&mut parent, 0);
+    for v in 1..total {
+        if find(&mut parent, v) != root {
+            return None;
+        }
+    }
+    Some(edges)
+}
+
+fn count_full_from_edges(m: usize, n: usize, edges: &[((usize, usize), (usize, usize))]) -> i32 {
+    let mut deg = vec![0u8; m * n];
+    for &((r1, c1), (r2, c2)) in edges {
+        deg[r1 * n + c1] += 1;
+        deg[r2 * n + c2] += 1;
+    }
+    let mut count = 0;
+    for r in 0..m {
+        for c in 0..n {
+            if deg[r * n + c] == grid_deg(m, n, r, c) {
+                count += 1;
+            }
+        }
+    }
+    count
+}
+
 #[inline(never)]
 fn solve_inner(
     mut m: usize,
@@ -212,6 +554,10 @@ fn solve_inner(
             deg_list.push(gd(r, c));
         }
     }
+    let mut prefix_deg_sum: Vec<i32> = vec![0; pcount + 1];
+    for p in 0..pcount {
+        prefix_deg_sum[p + 1] = prefix_deg_sum[p] + deg_list[p] as i32;
+    }
     // Suffix counts of degrees 1..4 (ignore index 0). suffix_counts[p] = counts AFTER processing cell p-1 (so use p+1 after processing p).
     let mut suffix_counts: Vec<[u16; 5]> = vec![[0u16; 5]; pcount + 1];
     for p in (0..pcount).rev() {
@@ -242,6 +588,7 @@ fn solve_inner(
     );
 
     let total_v = (m * n) as u16;
+    let total_deficiency = (2 * (m - 1) * (n - 1)) as i32;
 
     // simple admissible upper bound on future edges usable without cycles:
     // at (r,c) the remaining potential edges is
@@ -298,6 +645,104 @@ fn solve_inner(
             let counts = suffix_counts[p_index + 1];
             let rem_up = rem_edges_upper[r][c];
             let rem_v = rem_vertices[r][c] as i32;
+            let prefix_deg_after = prefix_deg_sum[p_index + 1];
+
+            let safe_future_potential = |nk: &Key, e2: u16, rem_edges_needed: u16| -> i32 {
+                let mut possible_counts = [0i32; 5];
+                for d in 1..=4 {
+                    possible_counts[d] = counts[d] as i32;
+                }
+
+                // For frontier vertices, some incident edges have already
+                // been decided. If any such edge is absent, that vertex can no
+                // longer become full-degree. If it is still possible, its
+                // already-selected partial degree can be credited toward the
+                // final degree-incidence budget.
+                let mut partial_credit = 0i32;
+                let mut partial_all = 0i32;
+                let mut forced_capacity = 0i32;
+                for i in 0..m {
+                    partial_all += get2(nk.degs, i) as i32;
+                    let (vr, vc, processed_incidents) = if i <= r {
+                        if last_col {
+                            continue;
+                        }
+                        // Slot i now represents (i, c+1); only its left edge
+                        // has been decided so far.
+                        (i, c + 1, 1i32)
+                    } else {
+                        // Slot i still represents (i, c). Its left edge was
+                        // decided in the previous column, and for i=r+1 the up
+                        // edge was just decided by this cell's y choice.
+                        let left = if c > 0 { 1 } else { 0 };
+                        let up = if i == r + 1 { 1 } else { 0 };
+                        (i, c, left + up)
+                    };
+                    let partial = get2(nk.degs, i) as i32;
+                    let grid_d = gd(vr, vc) as usize;
+                    if partial < processed_incidents {
+                        possible_counts[grid_d] -= 1;
+                        forced_capacity += grid_d as i32 - 1;
+                    } else {
+                        partial_credit += partial;
+                    }
+                }
+
+                let mut budget = 2 * rem_edges_needed as i32 + partial_credit;
+                let mut potential = 0i32;
+                for d in 1..=4 {
+                    let avail = possible_counts[d].max(0);
+                    if avail == 0 {
+                        continue;
+                    }
+                    let fit = budget / d as i32;
+                    if fit <= 0 {
+                        break;
+                    }
+                    let take = avail.min(fit);
+                    potential += take;
+                    budget -= take * d as i32;
+                    if budget <= 0 {
+                        break;
+                    }
+                }
+
+                // Deficiency packing bound for the unfinalized suffix. The
+                // finalized prefix has tree-degree sum 2*e2 - partial_all; the
+                // remaining deficiency must be absorbed by future non-full
+                // vertices, each with capacity at most grid_degree - 1.
+                let finalized_tree_deg = 2 * e2 as i32 - partial_all;
+                let def_so_far = prefix_deg_after - finalized_tree_deg;
+                let mut def_need = total_deficiency - def_so_far - forced_capacity;
+                let mut extra_nonfull = 0i32;
+                if def_need > 0 {
+                    for d in (1..=4).rev() {
+                        let cap = d as i32 - 1;
+                        if cap <= 0 {
+                            continue;
+                        }
+                        let avail = possible_counts[d].max(0);
+                        if avail == 0 {
+                            continue;
+                        }
+                        let need_here = (def_need + cap - 1) / cap;
+                        let take = avail.min(need_here);
+                        extra_nonfull += take;
+                        def_need -= take * cap;
+                        if def_need <= 0 {
+                            break;
+                        }
+                    }
+                }
+                let possible_total: i32 = possible_counts.iter().map(|&x| x.max(0)).sum();
+                let deficiency_potential = if def_need > 0 {
+                    0
+                } else {
+                    possible_total.saturating_sub(extra_nonfull)
+                };
+
+                potential.min(deficiency_potential)
+            };
 
             let expand = |k: Key,
                           preserved_so_far: i32,
@@ -378,6 +823,7 @@ fn solve_inner(
                             degs: degs_next,
                             ecount: e2,
                         };
+                        let rem_edges_needed = (total_v - 1) - e2;
                         if let Some(target) = target_floor {
                             // Safe feasibility pruning: even if every remaining
                             // vertex became full-degree, this branch cannot
@@ -386,10 +832,14 @@ fn solve_inner(
                                 *local_skips += 1;
                                 continue;
                             }
+                            let potential = safe_future_potential(&nk, e2, rem_edges_needed);
+                            if val + potential < target {
+                                *local_skips += 1;
+                                continue;
+                            }
                         }
 
                         if prune {
-                            let rem_edges_needed = (total_v - 1) - e2;
                             let mut budget = (2 * rem_edges_needed as u32) as i32;
                             let mut potential = 0i32;
                             for d in 1..=4 {
@@ -434,6 +884,8 @@ fn solve_inner(
 
             let use_parallel = !low_mem && state_in >= PAR_THRESHOLD;
             let (next_state, prune_skips_layer) = if !use_parallel {
+                let old_state =
+                    std::mem::replace(&mut state, HashMap::with_hasher(FastBuild::default()));
                 // Sequential/low-memory path: stream directly from the current
                 // layer instead of materializing state_vec and per-thread maps.
                 let mut local: HashMap<Key, i32, FastBuild> =
@@ -441,21 +893,53 @@ fn solve_inner(
                 local.reserve(state_in.saturating_mul(2));
                 let mut local_best: i32 = -1;
                 let mut local_skips: usize = 0;
-                for (k, v) in state.drain() {
+                for (k, v) in old_state.into_iter() {
                     expand(k, v, &mut local, &mut local_best, &mut local_skips);
                 }
                 (local, local_skips)
             } else {
+                let old_state =
+                    std::mem::replace(&mut state, HashMap::with_hasher(FastBuild::default()));
                 // Collect state into a Vec for parallel iteration. This is
                 // faster on large layers but has a higher peak-memory footprint;
                 // set LOWMEM=1 to force the streaming path above.
-                let state_vec: Vec<(Key, i32)> = state.drain().collect();
+                let state_vec: Vec<(Key, i32)> = old_state.into_iter().collect();
                 // Parallel path: chunk the state, expand each chunk to a
-                // thread-local hashmap with its own running best, then merge.
+                // thread-local hashmap with its own running best, then merge
+                // that chunk into global shards before the worker returns.
+                // This keeps parallelism but avoids holding all local maps and
+                // a separate full-size merged map at peak memory.
                 let n_threads = rayon::current_num_threads().max(1);
-                let chunk_size = (state_vec.len() + n_threads - 1) / n_threads;
+                let default_chunk_size = (state_vec.len() + n_threads - 1) / n_threads;
+                let chunk_size = if let Some(cap) = beam_cap {
+                    default_chunk_size.min((cap / (n_threads * 8)).max(8192))
+                } else {
+                    default_chunk_size
+                };
                 let chunks: Vec<&[(Key, i32)]> = state_vec.chunks(chunk_size).collect();
-                let locals: Vec<(HashMap<Key, i32, FastBuild>, usize)> = chunks
+
+                let shard_count = (n_threads * 16).next_power_of_two().max(64);
+                let shard_mask = shard_count - 1;
+                let per_shard_reserve = state_vec
+                    .len()
+                    .saturating_mul(2)
+                    .checked_div(shard_count)
+                    .unwrap_or(0)
+                    .saturating_add(1);
+                let shards: Arc<Vec<Mutex<HashMap<Key, i32, FastBuild>>>> = Arc::new(
+                    (0..shard_count)
+                        .map(|_| {
+                            let mut shard = HashMap::with_hasher(FastBuild::default());
+                            shard.reserve(per_shard_reserve);
+                            Mutex::new(shard)
+                        })
+                        .collect(),
+                );
+                let local_beam_cap = beam_cap.map(|cap| (cap / (n_threads * 2)).max(8192));
+                let shard_beam_cap =
+                    beam_cap.map(|cap| (cap / shard_count).saturating_mul(2).max(4096));
+
+                let total_skips: usize = chunks
                     .into_par_iter()
                     .map(|chunk| {
                         let mut local: HashMap<Key, i32, FastBuild> =
@@ -466,26 +950,50 @@ fn solve_inner(
                         for &(k, v) in chunk {
                             expand(k, v, &mut local, &mut local_best, &mut local_skips);
                         }
-                        (local, local_skips)
+                        if let Some(cap) = local_beam_cap {
+                            shrink_to_cap(&mut local, cap);
+                        }
+                        let mut touched = Vec::new();
+                        let mut seen = vec![false; shard_count];
+                        for (k, v) in local.into_iter() {
+                            let shard_idx = key_shard(&k, shard_mask);
+                            if !seen[shard_idx] {
+                                seen[shard_idx] = true;
+                                touched.push(shard_idx);
+                            }
+                            let mut shard = shards[shard_idx].lock().unwrap();
+                            shard
+                                .entry(k)
+                                .and_modify(|prev| {
+                                    if v > *prev {
+                                        *prev = v;
+                                    }
+                                })
+                                .or_insert(v);
+                        }
+                        if let Some(cap) = shard_beam_cap {
+                            for shard_idx in touched {
+                                let mut shard = shards[shard_idx].lock().unwrap();
+                                if shard.len() > cap.saturating_mul(2) {
+                                    shrink_to_cap(&mut shard, cap);
+                                }
+                            }
+                        }
+                        local_skips
                     })
-                    .collect();
-                // Merge.
+                    .sum();
+
+                let shards = match Arc::try_unwrap(shards) {
+                    Ok(shards) => shards,
+                    Err(_) => unreachable!("all shard workers completed"),
+                };
                 let mut merged: HashMap<Key, i32, FastBuild> =
                     HashMap::with_hasher(FastBuild::default());
-                merged.reserve(state_vec.len().saturating_mul(2));
-                let mut total_skips: usize = 0;
-                for (local, sk) in locals.into_iter() {
-                    total_skips += sk;
-                    for (k, v) in local.into_iter() {
-                        merged
-                            .entry(k)
-                            .and_modify(|prev| {
-                                if v > *prev {
-                                    *prev = v;
-                                }
-                            })
-                            .or_insert(v);
-                    }
+                let total_len: usize = shards.iter().map(|s| s.lock().unwrap().len()).sum();
+                merged.reserve(total_len);
+                for shard in shards.into_iter() {
+                    let shard = shard.into_inner().unwrap();
+                    merged.extend(shard.into_iter());
                 }
                 (merged, total_skips)
             };
@@ -513,6 +1021,12 @@ fn solve_inner(
                 let dt = layer_start.unwrap().elapsed().as_secs_f64();
                 total_prune_skips += prune_skips_layer;
                 profile_log.push((c, r, state_in, dt, prune_skips_layer));
+                if r + 1 == m {
+                    eprintln!(
+                        "[profile:live] col={:3} row={:3} state_in={:>10} layer_time={:>7.2}s prune_skips={:>10}",
+                        c, r, state_in, dt, prune_skips_layer
+                    );
+                }
             }
         }
     }
@@ -590,6 +1104,41 @@ fn main() {
         }
         return;
     }
+    if args.len() == 3 && args[1] == "fullub" {
+        let m = args[2].parse::<usize>().expect("m");
+        let n = m;
+        println!("{}", fullub(m, n));
+        return;
+    }
+    if args.len() == 4 && args[1] == "fullub-witness" {
+        let m = args[2].parse::<usize>().expect("m");
+        let n = args[3].parse::<usize>().expect("n");
+        let (value, full) = fullub_with_witness(m, n);
+        println!("# fullub m={m} n={n} value={value}");
+        for r in 0..m {
+            for c in 0..n {
+                print!("{}", if full[r * n + c] { 'X' } else { '.' });
+            }
+            println!();
+        }
+        match complete_forced_tree(m, n, &full) {
+            Some(edges) => {
+                let actual = count_full_from_edges(m, n, &edges);
+                println!("# completion succeeded edges={} full={actual}", edges.len());
+                for &((r1, c1), (r2, c2)) in &edges {
+                    println!("{} {} {} {}", r1, c1, r2, c2);
+                }
+            }
+            None => println!("# completion failed"),
+        }
+        return;
+    }
+    if args.len() == 4 && args[1] == "fullub" {
+        let m = args[2].parse::<usize>().expect("m");
+        let n = args[3].parse::<usize>().expect("n");
+        println!("{}", fullub(m, n));
+        return;
+    }
     if args.len() == 3 {
         let m = args[1].parse::<usize>().expect("m");
         let n = args[2].parse::<usize>().expect("n");
@@ -663,6 +1212,17 @@ fn main() {
         }
         return;
     }
+    if args.len() == 4 && args[1] == "bounds" {
+        let m = args[2].parse::<usize>().expect("m");
+        let n = args[3].parse::<usize>().expect("n");
+        let lb_s = lower_bound(m, n);
+        let lb_b = lower_bound_band(m, n);
+        let ub_cap = upper_bound(m, n);
+        let ub_rel = upper_bound_relaxed(m, n);
+        println!("m,n,LB_simple,LB_band,UB_cap,UB_rel");
+        println!("{m},{n},{lb_s},{lb_b},{ub_cap},{ub_rel}");
+        return;
+    }
     if args.len() == 4 && args[1] == "plotly" {
         let csv_path = std::path::Path::new(&args[2]);
         let out_dir = std::path::Path::new(&args[3]);
@@ -709,6 +1269,10 @@ fn main() {
     eprintln!("  {} table M N", args[0]);
     eprintln!("  {} compare M N   # empirical vs bounds", args[0]);
     eprintln!(
+        "  {} bounds M N    # formula bounds only, no DP solve",
+        args[0]
+    );
+    eprintln!(
         "  {} plotly results.csv out_dir  # generate interactive HTML plots",
         args[0]
     );
@@ -721,6 +1285,14 @@ fn main() {
         args[0]
     );
     eprintln!(
+        "  {} fullub M N   # forced-edge acyclicity upper bound",
+        args[0]
+    );
+    eprintln!(
+        "  {} fullub-witness M N  # print fullub set and completion tree",
+        args[0]
+    );
+    eprintln!(
         "  {} motif M N    # Phase 4: visualize optimal witness and detect period",
         args[0]
     );
@@ -729,4 +1301,92 @@ fn main() {
     eprintln!("     LOWMEM=1     # disable parallel expansion and stream layers");
     eprintln!("     TARGET=<val> # feasibility pruning for proving/reaching a value");
     eprintln!("     CSV=1        # CSV output for compare mode");
+}
+
+#[cfg(test)]
+mod fullub_tests {
+    use super::*;
+
+    fn brute_fullub(m: usize, n: usize) -> i32 {
+        let total = m * n;
+        assert!(total <= 20);
+        let mut best = 0i32;
+        for mask in 0u64..(1u64 << total) {
+            let mut parent: Vec<usize> = (0..total).collect();
+            fn find(parent: &mut [usize], mut x: usize) -> usize {
+                while parent[x] != x {
+                    parent[x] = parent[parent[x]];
+                    x = parent[x];
+                }
+                x
+            }
+            let selected = |idx: usize| ((mask >> idx) & 1) == 1;
+            let mut cycle = false;
+            for r in 0..m {
+                for c in 0..n {
+                    let a = r * n + c;
+                    if c + 1 < n {
+                        let b = r * n + c + 1;
+                        if selected(a) || selected(b) {
+                            let ra = find(&mut parent, a);
+                            let rb = find(&mut parent, b);
+                            if ra == rb {
+                                cycle = true;
+                                break;
+                            }
+                            parent[ra] = rb;
+                        }
+                    }
+                    if r + 1 < m {
+                        let b = (r + 1) * n + c;
+                        if selected(a) || selected(b) {
+                            let ra = find(&mut parent, a);
+                            let rb = find(&mut parent, b);
+                            if ra == rb {
+                                cycle = true;
+                                break;
+                            }
+                            parent[ra] = rb;
+                        }
+                    }
+                }
+                if cycle {
+                    break;
+                }
+            }
+            if !cycle {
+                best = best.max(mask.count_ones() as i32);
+            }
+        }
+        best
+    }
+
+    #[test]
+    fn fullub_matches_bruteforce_small() {
+        for m in 1..=4 {
+            for n in 1..=4 {
+                assert_eq!(fullub(m, n), brute_fullub(m, n), "{m}x{n}");
+            }
+        }
+    }
+
+    #[test]
+    fn exact_solution_below_fullub_small() {
+        for m in 1..=6 {
+            for n in 1..=8 {
+                assert!(solve(m, n, None, false) <= fullub(m, n), "{m}x{n}");
+            }
+        }
+    }
+
+    #[test]
+    fn fullub_witness_matches_value_small() {
+        for m in 1..=5 {
+            for n in 1..=5 {
+                let (value, full) = fullub_with_witness(m, n);
+                assert_eq!(value, fullub(m, n), "{m}x{n}");
+                assert_eq!(value, full.iter().filter(|&&x| x).count() as i32, "{m}x{n}");
+            }
+        }
+    }
 }

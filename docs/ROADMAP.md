@@ -259,19 +259,31 @@ sizes. Options, in increasing depth of work:
 2. **Beam search with bounded memory**. The current DP has a `BEAM=N`
    env var; tune to find a beam that recovers the true optimum on n ≤ 12
    and apply to n = 13, 14. Result is a **lower bound only** (beam may
-   miss the true optimum).
-3. **Better pruning**. The current `PRUNE=1` heuristic uses
+   miss the true optimum). Current bounded-beam runs at n = 14 are stable
+   at 76 for BEAM ∈ {10⁶, 5·10⁶, 10⁷}; the conjectured 77 remains
+   unresolved.
+3. **Forced-edge upper-bound DP**. `fullub M N` computes the maximum
+   cardinality of a vertex set whose forced-edge graph is acyclic, a
+   rigorous upper bound formalized in Lean (`GridGraphs.Forced`). It gives
+   `fullub 14 14 = 77` in ~3.5 minutes / ~0.4 GB, narrowing the exact
+   value to `76 ≤ P(14,14) ≤ 77`. The missing piece is a 77 witness or a
+   stronger upper bound proving 76.
+4. **Better pruning**. The current `PRUNE=1` heuristic uses
    degree-budget potential. A 2D potential (using the 4-cycle hitting
-   set bound on remaining vertices) could prune harder. Days of work.
-4. **Rewrite as ILP/SAT**. Model the spanning-tree constraint with
+   set bound on remaining vertices) could prune harder. A target-safe
+   degree/deficiency-capacity pruning pass was tested on 12x12 and 13x13;
+   it only prunes in the final columns and does not materially reduce the
+   plateau, so the next safe pruning attempt needs genuinely two-dimensional
+   constraints rather than more one-dimensional degree packing. Days of work.
+5. **Rewrite as ILP/SAT**. Model the spanning-tree constraint with
    acyclicity-by-arborescence and full-degree as a count target.
    OR-Tools / Gurobi can sometimes handle these efficiently. 1–2 weeks.
-5. **Distributed bitpacked DP**. Partition the column-state space by
+6. **Distributed bitpacked DP**. Partition the column-state space by
    high bits of the canonical labeling and run shards in parallel.
    1–2 weeks; useful for any large m, n.
 
-**Recommended order**: 1 → 2 → 3 → (5 if needed). The immediate target
-is to resolve whether P(14,14) reaches the conjectured value 77.
+**Recommended order**: find a 77 witness for n = 14, or strengthen the
+forced-edge bound enough to distinguish 76 from 77.
 
 #### 7b — Constructive matching lower bound for the diagonal formula
 
