@@ -1072,3 +1072,134 @@ Once `U_n` is explicit, prove:
    planar-dual connectivity argument; local cell hitting is insufficient.
 3. Prove the 3-strip lower-bound construction informally in this file.
 4. Only after the strip proof is stable, move it into Lean.
+
+## 2026-04-26 progress: skeleton constructions for residues 0 and 2
+
+This section is a handoff note from a session focused on synthesizing
+parametric residue-0 and residue-2 patterns. The session produced **partial**
+parametric constructions ("skeletons") that are forest-completable and
+dual-connected by construction but overshoot the conjectured `q(n)` by a small
+`O(k)` correction. The session also produced new tooling (`construction_lab.py`,
+`tile_alphabet.py`, `search_residue.py`) that will accelerate the remaining
+work.
+
+### Key new structural observations
+
+1. **Optimal dual edge counts differ by residue.** For optimal `U` witnesses:
+   - Residue 1: `dual_edges = (n-1)^2` exactly. The dual face graph is a
+     spanning tree of all faces + OUT.
+   - Residues 0 and 2: `dual_edges = (n-1)^2 + 1`. The dual is connected with
+     exactly **one** cycle. Verified at the cached witnesses `n = 12, 14, 15`.
+
+   This means residue-0 and residue-2 optimal patterns must have *one
+   unavoidable redundant U-U edge* relative to a tree. Any clean construction
+   that aims for the exact optimum must arrange this single extra dual edge.
+
+2. **The cached residue-0 / residue-2 witnesses are non-canonical.** Examining
+   `data/diagonal_u_{12,14,15}.txt`:
+   - n=12 row counts `1,11,10,4,10,8,5,10,6,9,11,1` and strip totals
+     `21,21,22,22` are highly irregular.
+   - n=14 has clean residue-1-style top/bottom anchor rows (`.UUUU...UU`)
+     with irregular column-stripe-like middle.
+   - n=15 transposes to a near-residue-1 top/bottom plus column-stripe
+     middle.
+
+   These are tie-breaking artifacts. A clean parametric construction is not
+   yet derivable directly from any single cached witness.
+
+3. **The "skeleton" parametric pattern has the right structural shape.**
+   Defined in `analysis/diagonal_patterns.py` as `residue_zero_pattern` and
+   `residue_two_pattern`:
+   - Top sandwich: `.U....`, `.UUUUUUUU` (residue-1-style top anchor).
+   - Middle: column stripes `.UU.UU.UU....`.
+   - Bottom sandwich: dense + sparse (residue-1-style bottom anchor).
+   - Inter-strip bridges: single U cells at row 2 between stripe blocks
+     (and right-boundary OUT anchor for residue 2).
+
+   The skeleton is **forest+dual valid by construction** for every relevant `n`
+   (verified by `construction_lab.py` for n in `{5,8,11,14}` and `{6,9,12,15}`),
+   but overshoots `q(n)` by:
+   - **Residue 2 (`n = 3k+2`): excess `= k`.**
+   - **Residue 0 (`n = 3k`): excess `= 2k - 3`** (for k >= 2).
+
+   Concretely, for n=5 the skeleton matches `q(5) = 14` exactly. For larger n
+   it does not.
+
+### What blocked the construction
+
+1. Greedy local removal from the skeleton fails: the only safely-removable
+   single cells are along one boundary column (n-1), and the maximum
+   simultaneous removal saturates well below the required `O(k)` deficit.
+2. Random simulated annealing from `v7` (residue-1-style at n=3k) successfully
+   produced valid `q(n)` patterns at n=6 and n=9 within seconds, but n=12
+   exceeded a 5 minute budget. The SA outputs are also irregular and do not
+   suggest a clean parametric form.
+3. Multiple analytic attempts (cropped residue-1, transposed residue-1,
+   alternating-side sparse rows, two-sided sparse rows, alternating bridges)
+   all hit the same "dual disconnects when count saturates" wall.
+
+### Hypothesis for the remaining gap
+
+The structural piece missing for residues 0 and 2 is an **extension layer**: a
+single periodic patch that absorbs the `O(k)` excess from the skeleton while
+preserving forest+dual validity. The patch must consume one extra dual edge
+per "redundancy unit" — directly matching the `dual_edges = (n-1)^2 + 1`
+observation.
+
+For residue 2 the excess is exactly `k`, hinting at *one removable cell per
+F-column gap*. The bridges at row 2 are the obvious candidates, but the brute
+naive removal disconnects the dual. The patch likely shifts the bridge into
+a "double-jog" that economizes by 1 U per gap.
+
+For residue 0 the excess `2k - 3` is more complicated. It is *almost* `2(k-1)`,
+suggesting a per-strip saving of 2 with one corner-correction `+1`. The
+inductive route from n=3k to n=3(k+1) (with cost increment `12k+3`) might be
+the cleanest.
+
+### Tooling produced this session
+
+- `analysis/construction_lab.py` — single-file checker for any candidate
+  pattern. Produces `(u_count, expected_u, dual_ok, forest_ok)` per call.
+  This replaces ad-hoc snippets and is the canonical way to validate a
+  candidate generator.
+- `analysis/tile_alphabet.py` — named tile alphabet (S, C, C', B, B', K) with
+  per-tile U-counts and N/S/E/W edge signatures, derived from
+  `tile_symmetry.py` outputs on cached witnesses. Foundation for any
+  tile-grammar synthesis approach.
+- `analysis/search_residue.py` — random/constrained local search; useful for
+  generating spot-check witnesses at small n and for verifying the structural
+  hypothesis.
+- `analysis/diagonal_patterns.py` (rewritten) — `residue_one_pattern`,
+  `residue_two_pattern`, `residue_zero_pattern`, plus the skeleton variants.
+  The status registries `STATUS_RESIDUE_*` flag which n are verified.
+
+### Recommended next steps for the next agent
+
+1. **Find the residue-2 extension patch first** (k = 1 already exact;
+   k = 2 deficit 2; k = 3 deficit 3). Two route ideas:
+   - Replace the row-2 bridge `(2, 3t)` for some t with a *staircase*
+     bridge that consumes 1 fewer U per step. Try `(2, 3t), (3, 3t+1)` as a
+     double-cell move replacing the single bridge plus one stripe cell.
+   - Use the cached n=14 witness as a reference for the EXACT placement and
+     reverse-engineer the patch rule.
+
+2. **Once residue 2 is parametric, attack residue 0** using the same patch
+   plus an additional adjustment (since the residue-0 pattern has different
+   right-boundary handling). Note that residue 0's excess `2k-3` is almost
+   exactly `2(k-1)`, suggesting a per-strip saving plus one boundary unit.
+
+3. **Avoid SA at large n.** The pattern doesn't appear to factor through SA
+   solutions cleanly. Stick to hand-design with `construction_lab.py` checks.
+
+4. **Do not push n > 15 empirically.** Prior runs of `fullub-pattern` are
+   cached in `data/diagonal_u_{12..15}.txt`; the construction problem is now
+   purely combinatorial.
+
+### Files to read for context
+
+- `analysis/diagonal_patterns.py` — current skeleton constructions.
+- `analysis/construction_lab.py` — primary verification tool.
+- `analysis/check_diagonal_patterns.py` — currently only validates residue 1.
+  Extend to dispatch on `n mod 3` once residues 0 and 2 are parametric.
+- `data/diagonal_u_*.txt` — cached witnesses.
+- This file (`analysis/proofs_diagonal.md`) — the complete proof program.
