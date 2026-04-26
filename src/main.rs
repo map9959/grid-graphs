@@ -205,42 +205,24 @@ fn solve_profile(m: usize, n: usize, beam_cap: Option<usize>, prune: bool) -> i3
     solve_inner(m, n, beam_cap, prune, true)
 }
 
-#[derive(Clone)]
-struct TinyDsu {
-    parent: [u8; 16],
-}
-
-impl TinyDsu {
-    fn new() -> Self {
-        let mut parent = [0u8; 16];
-        for (i, p) in parent.iter_mut().enumerate() {
-            *p = i as u8;
-        }
-        TinyDsu { parent }
-    }
-
-    fn find(&mut self, mut x: u8) -> u8 {
-        while self.parent[x as usize] != x {
-            self.parent[x as usize] = self.parent[self.parent[x as usize] as usize];
-            x = self.parent[x as usize];
-        }
-        x
-    }
-
-    fn union_or_cycle(&mut self, a: u8, b: u8) -> bool {
-        let ra = self.find(a);
-        let rb = self.find(b);
-        if ra == rb {
-            true
-        } else {
-            self.parent[rb as usize] = ra;
-            false
-        }
-    }
-}
-
 fn canonicalize_full(labels: &mut u64, m: usize) {
     canonicalize(labels, m);
+}
+
+fn first_unused_label(labels: u64, m: usize) -> u8 {
+    let mut used = [false; 16];
+    for i in 0..m {
+        used[get4(labels, i) as usize] = true;
+    }
+    (1u8..=15)
+        .find(|&id| !used[id as usize])
+        .expect("frontier width leaves a free 4-bit label")
+}
+
+fn fullkey_shard(k: &FullKey, mask: usize) -> usize {
+    let mut h = KHasher::default();
+    k.hash(&mut h);
+    (h.finish() as usize) & mask
 }
 
 fn fullub_step(
@@ -255,37 +237,39 @@ fn fullub_step(
     let left_full = c > 0 && ((k.full >> r) & 1 == 1);
     let up_label = if r > 0 { get4(k.labels, r - 1) } else { 0 };
     let up_full = r > 0 && ((k.full >> (r - 1)) & 1 == 1);
-    let mut dsu = TinyDsu::new();
-    let fresh = 15u8;
-
-    if c > 0 && (left_full || cur_full_bool) && dsu.union_or_cycle(fresh, left_label) {
-        return None;
-    }
-    if r > 0 && (up_full || cur_full_bool) && dsu.union_or_cycle(fresh, up_label) {
-        return None;
-    }
-
+    let force_left = c > 0 && (left_full || cur_full_bool);
+    let force_up = r > 0 && (up_full || cur_full_bool);
     let keep_current = r + 1 < m || c + 1 < n;
     let mut labels_next = k.labels;
     let mut full_next = k.full;
+    set4(&mut labels_next, r, 0);
+    full_next &= !(1u16 << r);
+
+    let current_label = match (force_left, force_up) {
+        (true, true) => {
+            if left_label == up_label {
+                return None;
+            }
+            merge_labels(&mut labels_next, m, left_label, up_label);
+            left_label
+        }
+        (true, false) => left_label,
+        (false, true) => up_label,
+        (false, false) => first_unused_label(labels_next, m),
+    };
+
     if keep_current {
-        set4(&mut labels_next, r, fresh);
+        set4(&mut labels_next, r, current_label);
         if cur_full_bool {
             full_next |= 1u16 << r;
         } else {
             full_next &= !(1u16 << r);
         }
-    } else {
-        set4(&mut labels_next, r, 0);
-        full_next &= !(1u16 << r);
     }
 
     for i in 0..m {
         let id = get4(labels_next, i);
-        if id != 0 {
-            let root = dsu.find(id);
-            set4(&mut labels_next, i, root);
-        } else {
+        if id == 0 {
             full_next &= !(1u16 << i);
         }
     }
@@ -305,120 +289,269 @@ fn fullub(mut m: usize, mut n: usize) -> i32 {
         std::mem::swap(&mut m, &mut n);
     }
     assert!(
-        m < 15,
-        "fullub currently reserves label 15 as a fresh sentinel"
+        m <= 15,
+        "fullub uses 4-bit component labels and supports width <= 15"
     );
 
     let mut state: HashMap<FullKey, i32, FastBuild> = HashMap::with_hasher(FastBuild::default());
     state.insert(FullKey { labels: 0, full: 0 }, 0);
+    const FULLUB_PAR_THRESHOLD: usize = 8192;
 
     for c in 0..n {
         for r in 0..m {
             let old_state =
                 std::mem::replace(&mut state, HashMap::with_hasher(FastBuild::default()));
-            let mut next: HashMap<FullKey, i32, FastBuild> =
-                HashMap::with_hasher(FastBuild::default());
-            next.reserve(old_state.len().saturating_mul(2));
-            for (k, val) in old_state {
-                for cur_full_bool in [false, true] {
-                    let cur_full = cur_full_bool as u16;
-                    let Some(nk) = fullub_step(m, n, r, c, k, cur_full_bool) else {
-                        continue;
-                    };
-                    let nv = val + cur_full as i32;
-                    next.entry(nk)
-                        .and_modify(|prev| {
-                            if nv > *prev {
-                                *prev = nv;
-                            }
-                        })
-                        .or_insert(nv);
+            if old_state.len() < FULLUB_PAR_THRESHOLD {
+                let mut next: HashMap<FullKey, i32, FastBuild> =
+                    HashMap::with_hasher(FastBuild::default());
+                next.reserve(old_state.len().saturating_mul(2));
+                for (k, val) in old_state {
+                    for cur_full_bool in [false, true] {
+                        let Some(nk) = fullub_step(m, n, r, c, k, cur_full_bool) else {
+                            continue;
+                        };
+                        let nv = val + cur_full_bool as i32;
+                        next.entry(nk)
+                            .and_modify(|prev| {
+                                if nv > *prev {
+                                    *prev = nv;
+                                }
+                            })
+                            .or_insert(nv);
+                    }
                 }
+                state = next;
+            } else {
+                let old_vec: Vec<(FullKey, i32)> = old_state.into_iter().collect();
+                let n_threads = rayon::current_num_threads().max(1);
+                let shard_count = (n_threads * 16).next_power_of_two().max(64);
+                let shard_mask = shard_count - 1;
+                let per_shard_reserve = old_vec
+                    .len()
+                    .saturating_mul(2)
+                    .checked_div(shard_count)
+                    .unwrap_or(0)
+                    .saturating_add(1);
+                let shards: Arc<Vec<Mutex<HashMap<FullKey, i32, FastBuild>>>> = Arc::new(
+                    (0..shard_count)
+                        .map(|_| {
+                            let mut shard = HashMap::with_hasher(FastBuild::default());
+                            shard.reserve(per_shard_reserve);
+                            Mutex::new(shard)
+                        })
+                        .collect(),
+                );
+                old_vec
+                    .par_chunks((old_vec.len() / (n_threads * 4)).max(8192))
+                    .for_each(|chunk| {
+                        let mut local: HashMap<FullKey, i32, FastBuild> =
+                            HashMap::with_hasher(FastBuild::default());
+                        local.reserve(chunk.len().saturating_mul(2));
+                        for &(k, val) in chunk {
+                            for cur_full_bool in [false, true] {
+                                let Some(nk) = fullub_step(m, n, r, c, k, cur_full_bool) else {
+                                    continue;
+                                };
+                                let nv = val + cur_full_bool as i32;
+                                local
+                                    .entry(nk)
+                                    .and_modify(|prev| {
+                                        if nv > *prev {
+                                            *prev = nv;
+                                        }
+                                    })
+                                    .or_insert(nv);
+                            }
+                        }
+                        for (k, v) in local {
+                            let idx = fullkey_shard(&k, shard_mask);
+                            let mut shard = shards[idx].lock().unwrap();
+                            shard
+                                .entry(k)
+                                .and_modify(|prev| {
+                                    if v > *prev {
+                                        *prev = v;
+                                    }
+                                })
+                                .or_insert(v);
+                        }
+                    });
+                let shards = match Arc::try_unwrap(shards) {
+                    Ok(shards) => shards,
+                    Err(_) => unreachable!("fullub workers completed"),
+                };
+                let mut next: HashMap<FullKey, i32, FastBuild> =
+                    HashMap::with_hasher(FastBuild::default());
+                let total_len: usize = shards.iter().map(|s| s.lock().unwrap().len()).sum();
+                next.reserve(total_len);
+                for shard in shards {
+                    next.extend(shard.into_inner().unwrap());
+                }
+                state = next;
             }
-            state = next;
         }
     }
 
     state.into_values().max().unwrap_or(0)
 }
 
-#[derive(Clone, Copy)]
-struct FullPred {
-    prev: FullKey,
-    cur_full: bool,
+#[derive(Clone, Copy, Default)]
+struct FullSet {
+    bits: [u64; 4],
+}
+
+impl FullSet {
+    fn set(&mut self, idx: usize, value: bool) {
+        let word = idx / 64;
+        let bit = idx % 64;
+        if value {
+            self.bits[word] |= 1u64 << bit;
+        } else {
+            self.bits[word] &= !(1u64 << bit);
+        }
+    }
+
+    fn get(&self, idx: usize) -> bool {
+        ((self.bits[idx / 64] >> (idx % 64)) & 1) == 1
+    }
 }
 
 fn fullub_with_witness(mut m: usize, mut n: usize) -> (i32, Vec<bool>) {
     if m == 0 || n == 0 {
         return (0, Vec::new());
     }
+    let (orig_m, orig_n) = (m, n);
     let transposed = m > n;
     if transposed {
         std::mem::swap(&mut m, &mut n);
     }
     assert!(
-        m < 15,
-        "fullub currently reserves label 15 as a fresh sentinel"
+        m <= 15,
+        "fullub uses 4-bit component labels and supports width <= 15"
     );
 
-    let pcount = m * n;
-    let mut layers: Vec<HashMap<FullKey, (i32, Option<FullPred>), FastBuild>> = (0..=pcount)
-        .map(|_| HashMap::with_hasher(FastBuild::default()))
-        .collect();
-    layers[0].insert(FullKey { labels: 0, full: 0 }, (0, None));
+    let mut state: HashMap<FullKey, (i32, FullSet), FastBuild> =
+        HashMap::with_hasher(FastBuild::default());
+    state.insert(FullKey { labels: 0, full: 0 }, (0, FullSet::default()));
+    const FULLUB_PAR_THRESHOLD: usize = 8192;
 
     for c in 0..n {
         for r in 0..m {
             let p = c * m + r;
-            let keys: Vec<FullKey> = layers[p].keys().copied().collect();
-            for k in keys {
-                let val = layers[p].get(&k).unwrap().0;
-                for cur_full in [false, true] {
-                    let Some(nk) = fullub_step(m, n, r, c, k, cur_full) else {
-                        continue;
-                    };
-                    let nv = val + cur_full as i32;
-                    let pred = FullPred { prev: k, cur_full };
-                    match layers[p + 1].get_mut(&nk) {
-                        Some(slot) => {
-                            if nv > slot.0 {
-                                *slot = (nv, Some(pred));
+            let old_state =
+                std::mem::replace(&mut state, HashMap::with_hasher(FastBuild::default()));
+            if old_state.len() < FULLUB_PAR_THRESHOLD {
+                let mut next: HashMap<FullKey, (i32, FullSet), FastBuild> =
+                    HashMap::with_hasher(FastBuild::default());
+                next.reserve(old_state.len().saturating_mul(2));
+                for (k, (val, chosen)) in old_state {
+                    for cur_full in [false, true] {
+                        let Some(nk) = fullub_step(m, n, r, c, k, cur_full) else {
+                            continue;
+                        };
+                        let nv = val + cur_full as i32;
+                        let mut nchosen = chosen;
+                        nchosen.set(p, cur_full);
+                        match next.get_mut(&nk) {
+                            Some(slot) => {
+                                if nv > slot.0 {
+                                    *slot = (nv, nchosen);
+                                }
                             }
-                        }
-                        None => {
-                            layers[p + 1].insert(nk, (nv, Some(pred)));
+                            None => {
+                                next.insert(nk, (nv, nchosen));
+                            }
                         }
                     }
                 }
+                state = next;
+            } else {
+                let old_vec: Vec<(FullKey, (i32, FullSet))> = old_state.into_iter().collect();
+                let n_threads = rayon::current_num_threads().max(1);
+                let shard_count = (n_threads * 16).next_power_of_two().max(64);
+                let shard_mask = shard_count - 1;
+                let per_shard_reserve = old_vec
+                    .len()
+                    .saturating_mul(2)
+                    .checked_div(shard_count)
+                    .unwrap_or(0)
+                    .saturating_add(1);
+                let shards: Arc<Vec<Mutex<HashMap<FullKey, (i32, FullSet), FastBuild>>>> = Arc::new(
+                    (0..shard_count)
+                        .map(|_| {
+                            let mut shard = HashMap::with_hasher(FastBuild::default());
+                            shard.reserve(per_shard_reserve);
+                            Mutex::new(shard)
+                        })
+                        .collect(),
+                );
+                old_vec
+                    .par_chunks((old_vec.len() / (n_threads * 4)).max(8192))
+                    .for_each(|chunk| {
+                        let mut local: HashMap<FullKey, (i32, FullSet), FastBuild> =
+                            HashMap::with_hasher(FastBuild::default());
+                        local.reserve(chunk.len().saturating_mul(2));
+                        for &(k, (val, chosen)) in chunk {
+                            for cur_full in [false, true] {
+                                let Some(nk) = fullub_step(m, n, r, c, k, cur_full) else {
+                                    continue;
+                                };
+                                let nv = val + cur_full as i32;
+                                let mut nchosen = chosen;
+                                nchosen.set(p, cur_full);
+                                match local.get_mut(&nk) {
+                                    Some(slot) => {
+                                        if nv > slot.0 {
+                                            *slot = (nv, nchosen);
+                                        }
+                                    }
+                                    None => {
+                                        local.insert(nk, (nv, nchosen));
+                                    }
+                                }
+                            }
+                        }
+                        for (k, v) in local {
+                            let idx = fullkey_shard(&k, shard_mask);
+                            let mut shard = shards[idx].lock().unwrap();
+                            match shard.get_mut(&k) {
+                                Some(slot) => {
+                                    if v.0 > slot.0 {
+                                        *slot = v;
+                                    }
+                                }
+                                None => {
+                                    shard.insert(k, v);
+                                }
+                            }
+                        }
+                    });
+                let shards = match Arc::try_unwrap(shards) {
+                    Ok(shards) => shards,
+                    Err(_) => unreachable!("fullub witness workers completed"),
+                };
+                let mut next: HashMap<FullKey, (i32, FullSet), FastBuild> =
+                    HashMap::with_hasher(FastBuild::default());
+                let total_len: usize = shards.iter().map(|s| s.lock().unwrap().len()).sum();
+                next.reserve(total_len);
+                for shard in shards {
+                    next.extend(shard.into_inner().unwrap());
+                }
+                state = next;
             }
         }
     }
 
-    let (mut cur, best) = layers[pcount]
-        .iter()
-        .max_by_key(|(_, (v, _))| *v)
-        .map(|(k, (v, _))| (*k, *v))
-        .unwrap();
-    let mut full = vec![false; pcount];
-    for p in (1..=pcount).rev() {
-        let pred = layers[p].get(&cur).unwrap().1.unwrap();
-        full[p - 1] = pred.cur_full;
-        cur = pred.prev;
-    }
-
-    if transposed {
-        let mut user_full = vec![false; pcount];
-        for c in 0..n {
-            for r in 0..m {
-                let src = c * m + r;
-                let dst = r * n + c;
-                user_full[dst] = full[src];
-            }
+    let (best, chosen) = state.into_values().max_by_key(|(v, _)| *v).unwrap();
+    let mut user_full = vec![false; orig_m * orig_n];
+    for c in 0..n {
+        for r in 0..m {
+            let src = c * m + r;
+            let (ur, uc) = if transposed { (c, r) } else { (r, c) };
+            user_full[ur * orig_n + uc] = chosen.get(src);
         }
-        (best, user_full)
-    } else {
-        (best, full)
     }
+    (best, user_full)
 }
 
 fn complete_forced_tree(
@@ -1133,6 +1266,34 @@ fn main() {
         }
         return;
     }
+    if args.len() == 4 && args[1] == "fullub-pattern" {
+        let m = args[2].parse::<usize>().expect("m");
+        let n = args[3].parse::<usize>().expect("n");
+        let (value, full) = fullub_with_witness(m, n);
+        let u_count = full.iter().filter(|&&x| !x).count();
+        println!("# fullub m={m} n={n} value={value} nonfull={u_count}");
+        println!("# F/full pattern (X=full, .=non-full):");
+        for r in 0..m {
+            for c in 0..n {
+                print!("{}", if full[r * n + c] { 'X' } else { '.' });
+            }
+            println!();
+        }
+        println!("# U/non-full pattern (U=non-full, .=full):");
+        for r in 0..m {
+            for c in 0..n {
+                print!("{}", if full[r * n + c] { '.' } else { 'U' });
+            }
+            println!();
+        }
+        if let Some(edges) = complete_forced_tree(m, n, &full) {
+            let actual = count_full_from_edges(m, n, &edges);
+            println!("# completion succeeded edges={} full={actual}", edges.len());
+        } else {
+            println!("# completion failed");
+        }
+        return;
+    }
     if args.len() == 4 && args[1] == "fullub" {
         let m = args[2].parse::<usize>().expect("m");
         let n = args[3].parse::<usize>().expect("n");
@@ -1290,6 +1451,10 @@ fn main() {
     );
     eprintln!(
         "  {} fullub-witness M N  # print fullub set and completion tree",
+        args[0]
+    );
+    eprintln!(
+        "  {} fullub-pattern M N  # print full/non-full patterns only",
         args[0]
     );
     eprintln!(

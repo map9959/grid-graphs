@@ -234,19 +234,18 @@ The density column shows a **clear monotone decrease** from n ≥ 7 onward
 The second-difference column from n = 4 onward shows the period-3 cycle
 **(2, 1, -1)** repeating four times.
 
-### Conjecture C — initial form (open at n ≥ 14)
+### Conjecture C — initial form (open at n ≥ 16)
 
 The first attempt at a diagonal closed form was
 
 > For all `n ≥ 4`,  `P(n, n) = ⌊n²/3⌋ + n + C(n mod 3)`,
 > where `C(1) = −1` and `C(0) = C(2) = −2`.
 
-This holds for `n = 4..13` (verified by full DP for n ≤ 12 and
-high-confidence beam search at n = 13). At n = 14 the formula predicts
-P(14, 14) = 77, while extensive beam search (BEAM = 10⁷, ~23 min wall)
-found only 76. This is a **beam lower bound / unresolved discrepancy**,
-not a disproof: beam pruning can miss the optimum. Likewise, at n = 15
-the formula predicts 88 while beam search found 87.
+This holds for `n = 4..15`. The values through n = 12 were verified by
+full spanning-tree DP. The n = 13 and n = 14 values are certified by the
+forced-edge upper-bound DP (`fullub`) plus completed spanning-tree
+witnesses; n = 15 is certified the same way after extending `fullub` to
+width 15.
 
 ### Updated diagonal data (Phase 7a)
 
@@ -258,51 +257,42 @@ we extended the empirical horizon. The full diagonal sequence is now:
 | n | P(n,n) | source | confidence |
 |---|--------|--------|------------|
 | 1..12 | 1, 2, 4, 8, 11, 16, 22, 27, 34, 42, 49, 58 | full DP | exact |
-| 13 | ≥68 | BEAM ≥ 10⁶, stable through 10⁷ | high lower bound; matches formula |
-| 14 | 76 ≤ P ≤ 77 | bounded BEAM = 10⁶, 5·10⁶, 10⁷ stable; `fullub 14 14 = 77` | formula predicts 77; missing witness |
-| 15 | ≥87 | BEAM = 5·10⁶, stable | lower bound; formula predicts 88 |
-| ≥ 16 | — | DP packing limits at m ≤ 14 reliably | — |
+| 13 | 68 | `fullub-witness 13 13` | exact: forced-edge UB plus completed tree witness |
+| 14 | 77 | `fullub-witness 14 14` | exact: forced-edge UB plus completed tree witness |
+| 15 | 88 | `fullub-witness 15 15` | exact: forced-edge UB plus completed tree witness |
+| ≥ 16 | — | fullub packing currently supports width ≤ 15 | — |
 
 The residual `r(n) := P(n, n) − ⌊n²/3⌋ − n` is then:
 
 | n | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |10 |11 |12 |13 |14 |15 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| r |0 |−1|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|−1|**−3**|**−3**|
+| r |0 |−1|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|
 
-The strict 3-cycle (−1, −2, −2) holds for n = 4..13. The beam lower
-bounds at n = 14 and n = 15 would break it if exact, but they are not
-certificates. The closed form for the diagonal therefore remains open
-pending exact verification or a matching upper bound.
+The strict 3-cycle (−1, −2, −2) holds for n = 4..15. The closed form for
+the diagonal therefore remains open pending exact verification or a
+matching upper bound at n = 16 and beyond.
 
-### Conjecture C′ (revised alternative) — open
+### Open diagonal proof questions
 
-The revised picture is:
+The current picture is:
 
 1. **Asymptotic density is `1/3`**: `lim P(n, n) / n² = 1/3`. This part
    of the original Conjecture C remains intact — every additional row
    of data still shrinks the density toward 1/3.
 
-2. **Linear coefficient may be approximately `1` but not exactly**:
-   if the n = 14, 15 beam lower bounds are exact, the slope of
-   `Q(n) = P(n, n) − ⌊n²/3⌋` over `n = 4..15` averages 11/12 ≈ 0.917.
-   The true asymptotic linear coefficient may be a rational strictly
-   less than 1, but this depends on exact verification beyond n = 13.
+2. **Linear coefficient may be exactly `1` or may eventually drift**:
+   the original `+n+C(n mod 3)` formula now holds through n = 15, but
+   the true asymptotic linear coefficient still depends on exact
+   verification beyond n = 15.
 
-3. **The residual sequence `r(n)` may not be exactly periodic**. Beam
-   data suggests possible downward drift, but exact data is not yet
-   available past n = 12 (or n = 13 if the stable beam value is accepted
-   as high-confidence evidence).
+3. **The residual sequence `r(n)` is exactly 3-periodic through n = 15**.
+   Whether this persists is open.
 
 A clean closed form for `P(n, n)` is therefore an **open problem**
 after Phase 7a; the immediate next step is exact or certificate-quality
-verification of n = 14, especially testing the predicted value 77 with
-targeted pruning.
+verification of n = 16.
 
 ### Why the original Conjecture C looked plausible
 
-The 3-cycle `(−1, −2, −2)` held for ten consecutive n values
-(n = 4..13), each with a fixed offset depending on `n mod 3`. This
-appearance of a clean closed form turns out to have been coincidental:
-the genuine linear coefficient of Q(n) is below 1, but the integer
-"floor + linear" approximation happens to track the data closely for
-small n before drifting off.
+The 3-cycle `(−1, −2, −2)` now holds for n = 4..15, each with a fixed
+offset depending on `n mod 3`. The next unresolved case is n = 16.

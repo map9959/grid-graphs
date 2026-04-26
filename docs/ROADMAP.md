@@ -46,7 +46,7 @@ mathlib bound expressions) machinery are in this repo. See
 | 4 | Matching upper bounds via Karp's max-mean cycle | **Done for m ≤ 6 rigorously, m ≤ 10 empirically** | `analysis/proofs_upper.md`, `src/transfer.rs`, `src/motif.rs` |
 | 5 | Conjecture A as a theorem (`α_m = (m+2)/3 ⇔ m ≡ 1 mod 3`) | Pending — **recommended next** | — |
 | 6 | Per-m closed forms for `m ≡ 0, 2 (mod 3)` | Pending | — |
-| 7 | Diagonal `P(n, n)`: prove Conjecture C | Pending; data through n = 12 supports closed form | `analysis/conjectures.md` (Conjecture C) |
+| 7 | Diagonal `P(n, n)`: prove Conjecture C | Pending; exact data through n = 15 supports closed form | `analysis/conjectures.md`, `analysis/proofs_diagonal.md` |
 | 8 | Lean formalization of `P(m, n) ≤ basicUB m n` | Pending | — |
 | 9 | Lean formalization of per-`m` constructions and Conjecture A | Pending (multi-month) | — |
 
@@ -88,7 +88,7 @@ revision:
    ```
    P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
    ```
-   verified at every `n = 4..12`. The asymptotic density is
+    verified at every `n = 4..14`. The asymptotic density is
    `lim P(n,n)/n² = 1/3` — i.e. the basic UB **is** asymptotically tight
    on the diagonal, contradicting the previous "α-on-the-diagonal ≈ 0.42"
    reading. Testing the conjecture at n ≥ 13 requires either a faster
@@ -235,14 +235,19 @@ on m ≡ 2.
 P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
 ```
 where `C(1) = -1, C(0) = C(2) = -2`. Verified exactly at every
-n = 4..12, with high-confidence beam support at n = 13. Beam searches
-at n = 14 and n = 15 found values one below the prediction, but these
-are lower bounds only; the conjecture remains unresolved there until an
-exact DP run or matching upper bound certifies the value.
+n = 4..15. The n = 13, 14, and 15 values were certified by the
+forced-edge upper-bound DP plus completed spanning-tree witnesses. The
+next unresolved case is n = 16.
 
 ### Sub-phases
 
 #### 7a — Safer/faster solver to push the empirical horizon
+
+**Current status: enough data. Stop pushing n for now.** Exact diagonal data
+now reaches n = 15 and supports Conjecture C. Since the forced-edge witness
+method still grows exponentially, running n = 16, 17, ... is no longer the
+highest-value next step. The proof effort should now focus on the structural
+decycling theorem in `analysis/proofs_diagonal.md`.
 
 Current solver: P(11, 11) ~ 1.5 min, P(12, 12) ~ 9 min, P(13, 13)
 > 30 min. A previous 14x14 attempt can exhaust laptop memory if run
@@ -250,7 +255,7 @@ with full parallel expansion. To test Conjecture C at
 `n ∈ {13, 14, 15, 16}` we need solver modes that scale safely to those
 sizes. Options, in increasing depth of work:
 1. **Laptop-safe exact/target search**. Use `LOWMEM=1` to force
-   streaming layer expansion and `TARGET=77` to test the n = 14
+   streaming layer expansion and target search for larger unresolved
    prediction as a feasibility target. `TARGET` uses only conservative
    remaining-vertex pruning; `PRUNE=1` remains a heuristic accelerator and
    should not be used for certification. A reached target gives a
@@ -259,15 +264,16 @@ sizes. Options, in increasing depth of work:
 2. **Beam search with bounded memory**. The current DP has a `BEAM=N`
    env var; tune to find a beam that recovers the true optimum on n ≤ 12
    and apply to n = 13, 14. Result is a **lower bound only** (beam may
-   miss the true optimum). Current bounded-beam runs at n = 14 are stable
-   at 76 for BEAM ∈ {10⁶, 5·10⁶, 10⁷}; the conjectured 77 remains
-   unresolved.
+   miss the true optimum). Bounded-beam runs at n = 14 were stable at 76,
+   but a later forced-edge witness completed the conjectured value 77.
+   The n = 15 beam lower bound was 87, but forced-edge witness completion
+   later certified the conjectured value 88.
 3. **Forced-edge upper-bound DP**. `fullub M N` computes the maximum
    cardinality of a vertex set whose forced-edge graph is acyclic, a
    rigorous upper bound formalized in Lean (`GridGraphs.Forced`). It gives
-   `fullub 14 14 = 77` in ~3.5 minutes / ~0.4 GB, narrowing the exact
-   value to `76 ≤ P(14,14) ≤ 77`. The missing piece is a 77 witness or a
-   stronger upper bound proving 76.
+   `fullub 14 14 = 77` and `fullub 15 15 = 88`. Streaming
+   `fullub-witness` completed both upper-bound sets to spanning trees,
+   proving `P(14,14)=77` and `P(15,15)=88`.
 4. **Better pruning**. The current `PRUNE=1` heuristic uses
    degree-budget potential. A 2D potential (using the 4-cycle hitting
    set bound on remaining vertices) could prune harder. A target-safe
@@ -282,10 +288,17 @@ sizes. Options, in increasing depth of work:
    high bits of the canonical labeling and run shards in parallel.
    1–2 weeks; useful for any large m, n.
 
-**Recommended order**: find a 77 witness for n = 14, or strengthen the
-forced-edge bound enough to distinguish 76 from 77.
+**Recommended order**: do not extend the computational horizon immediately.
+Instead, decode the n = 13, 14, 15 non-full sets `U`, prove a parametric
+period-3 construction, and prove the full induced-edge decycling lower bound.
 
 #### 7b — Constructive matching lower bound for the diagonal formula
+
+See `analysis/proofs_diagonal.md` for the current reduction. The diagonal
+problem is now split into a forced-edge/decycling upper bound and an explicit
+period-3 construction for the non-full set `U`. The local `2x2` cell-hitting
+condition has been formalized in Lean but is computationally too weak, so the
+proof must use the full forest/decycling condition.
 
 The Phase 4 column motifs already give P(m, n) ≥ α_m·n + O(1) for
 fixed m. For squares, we need a 2D construction whose density
@@ -302,22 +315,34 @@ asymptotic density. Subtasks:
 
 #### 7c — Matching upper bound for diagonal
 
-The basic UB `n²/3 + (4/3)n + O(1)` has the correct leading coefficient
-but the wrong linear coefficient. To match Conjecture C we need to
-shave `(4/3)n − n − ⌈n/3⌉ ≈ n/3` from the upper bound. A 4-cycle hitting
-set argument applied **carefully near the boundary** plausibly does this.
+The upper-bound problem is now a standalone induced-edge decycling theorem.
+For `U` = non-full vertices, `G(n,n) - E(G[U])` must be a forest. Equivalently
+in planar-dual language, the dual edges corresponding to `U-U` primal edges
+must connect all grid cells to the exterior face. The desired upper bound is a
+minimum-size theorem for such `U`.
 
 Subtasks:
-1. **7c.1** Sharpen the basic UB to `n²/3 + n + O(1)` with explicit
-   constants. Likely a column-sweep argument: for any spanning tree,
-   the **first column's** vertices contribute fewer full-degree
-   vertices than interior columns.
-2. **7c.2** Combine 7b and 7c to prove `P(n, n) = n²/3 + n + O(1)`
-   asymptotically.
+1. **7c.1** Prove the planar-dual equivalence informally: `G - E(G[U])` is a
+   forest iff the dual graph formed by `U-U` edges connects all faces.
+2. **7c.2** Decode the n = 13, 14, 15 `U` witnesses into a period-3 strip
+   pattern plus residue-specific boundary patches.
+   The `n ≡ 1 (mod 3)` pattern is now explicit in
+   `analysis/diagonal_patterns.py` and verified by dual connectivity for
+   n = 4, 7, 10, 13, 16. The stronger checker
+   `analysis/check_diagonal_patterns.py` verifies the same family through
+   n = 40 by completing the forced forest to a spanning tree. The proof note
+   now states this as Proposition L1 and isolates the generic forest-completion
+   lemma needed to convert valid `U` patterns into spanning trees.
+   Simple count-matching extensions for the other two residues were tested and
+   rejected because their dual graphs are disconnected; see
+   `analysis/proofs_diagonal.md`.
+3. **7c.3** Prove a strip-counting lower bound for any `U` whose dual edges
+   connect all faces. This is the core remaining combinatorial theorem.
+4. **7c.4** Move the stable theorem into Lean after the informal proof is
+   settled.
 
-**Effort**: 7a is days; 7b is weeks; 7c is months (if it works at
-all). Most realistic short-term win: 7a.1 exact/target verification of
-14x14, followed by memory-bounded beam/pruning improvements.
+**Effort**: 7a is done for now. 7b/7c are the main work; expect weeks for the
+informal construction/counting proof and substantially longer for Lean.
 
 ## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` (formerly Phase 6)
 
@@ -398,8 +423,8 @@ project should know about all of these:
 5. **α_m for m ≡ 0, 2 (mod 3)**: We have data points but no formula.
    Phase 6.
 6. **Conjecture C** (diagonal closed form): `P(n, n) = ⌊n²/3⌋ + n + C(n%3)`
-   for n ≥ 4. Verified exactly at n = 4..12, with beam lower-bound
-   discrepancies still unresolved at n = 14, 15. **Phase 7**.
+   for n ≥ 4. Verified exactly at n = 4..15; n = 16 is the next open
+   case. **Phase 7**.
 7. **m = 6 at n ≢ 0 (mod 4)**: not yet encoded; Phase 4 found the
    period-4 interior motif but residue-specific boundaries remain.
    Subset of Phase 6.

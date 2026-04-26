@@ -66,6 +66,26 @@ etc.) is in the deferred-work list.
 - `grid_forcedEdgeGraph_isAcyclic_of_preserves`: grid-graph specialization of
   the acyclicity lemma.
 
+### `GridGraphs/Diagonal.lean`
+- `IsInducedEdgeDecyclingSet G U`: the named condition that deleting all
+  edges internal to `U` leaves a forest, represented as acyclicity of
+  `forcedEdgeGraph G Uᶜ`.
+- `forcedEdgeGraph_compl_adj_iff`: the forced graph of `Uᶜ` consists exactly
+  of the `G`-edges that are not internal to `U`.
+- `compl_isInducedEdgeDecyclingSet_of_preserves`: the complement of any
+  preserved/full-degree set in an acyclic graph is an induced-edge decycling
+  set.
+- `fourCycle_has_unforced_edge`: in any acyclic forced-edge graph, a genuine
+  4-cycle must have at least one unforced boundary edge, i.e. an edge whose
+  two endpoints both lie outside the full-degree set.
+- `cell00`, `cell01`, `cell11`, `cell10`: the four vertices of a grid unit
+  cell, indexed by `Fin (m-1) × Fin (n-1)`.
+- `grid_cell_has_unforced_edge`: every grid unit cell in an acyclic forced-edge
+  graph has at least one boundary edge whose endpoints both lie outside the
+  full-degree set.
+- `connected_graph_has_spanning_tree`: any finite connected graph has a
+  spanning tree subgraph (wrapper around mathlib's `Connected.exists_isTree_le`).
+
 ## Not proved (deferred — see notes)
 
 These statements would connect the bound *expressions* in `Bounds.lean` to the
@@ -84,6 +104,13 @@ function on the tree:
 - `preserved_le_refinedUB`: same, with `refinedUB`.
 - Cardinality consequence of the forced-edge lemma: `P(m,n)` is bounded above by
   the maximum cardinality of a vertex set whose forced-edge graph is acyclic.
+- Diagonal counting theorem: any induced-edge decycling set `U` in the square
+  grid has at least the conjectured residue-class cardinality.
+- Parametric diagonal lower-bound construction realizing the conjectured count.
+- Forest-extension lemma preserving a specified forced forest while completing
+  to a spanning tree. `connected_graph_has_spanning_tree` proves existence of
+  some spanning tree in a connected graph, but not yet one containing all forced
+  edges.
 - `lower_bound_construction`: an explicit "double-comb" spanning tree achieving
   `numPreserved ≥ m + n − 1`.
 - `verts_partition`: `numCorners + numBorderNonCorner + numInterior = m * n`.
