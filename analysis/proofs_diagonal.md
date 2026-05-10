@@ -1348,3 +1348,100 @@ Based on this exploration, the next agent should consider:
    non-canonical even for small n. A proof of the conjectured `q(n)` for
    residue 2 may need to go via the upper bound (decycling theorem) without
    matching constructive lower bound for every n.
+
+## 2026-05-10 follow-up: residue-1 trim approach (rigid)
+
+This session also pursued the "residue-1 +/- perimeter trim" approach
+(direction 4 above). Findings:
+
+### Restriction approach (`v35`)
+
+**Construction.** Take residue-1 at width `n_prime = n + 2 = 3(k+1)+1` and
+restrict to top-left `n x n` (drop rightmost 2 cols and bottom 2 rows).
+
+**Properties.**
+
+* `|U| = 6k^2 + 6k + 2` exactly. Off from `q(n) = 6k^2 + 5k + 3` by `+(k-1)`.
+* `dual_edges = (n-1)^2` (dual is a tree).
+* Forest condition holds; greedy completion succeeds.
+* For `k = 1` (`n = 5`) this gives exactly `q(5) = 14`, so it IS a valid q-construction.
+
+**Limitation.** For `k >= 2` the pattern is **tree-rigid**: every U cell
+has at least one U-U incident primal edge, so removing any single U cell
+disconnects the dual tree. Exhaustive search confirmed:
+
+* Single-cell removals: 0 valid for `n in {8, 11, 14}`.
+* `(2 remove, 1 add)` swaps net `-1`: 0 valid (60s search at n=8).
+* `(3 remove, 1 add)` and `(2 remove, 0 add)`: 0 valid.
+
+The pattern's tree-tightness makes it impossible to reduce by `k-1` cells
+via local moves while preserving forest+dual.
+
+### Extension approach (`v44`, `v46`, `v48`)
+
+**Construction.** Take residue-1 at `n_prime = n - 1 = 3k+1` (the smaller
+residue-1 size), embed at top-left of `n x n`, and ADD cells to row `n-1`
+and col `n-1`:
+
+* `v44`: col `n-1` matches the dense-row pattern (U at rows where col n-2 is U),
+  row `n-1` is fully dense. `|U| = 6k^2 + 7k + 4 = q + (2k+1)`.
+* `v46`: col `n-1` matches dense, row `n-1` is sparse residue-1 style.
+  `|U| = 6k^2 + 3k + 2 = q - (2k+1)`. Misses by `2k+1`.
+* `v48` (mirrored res-1 trick): row 0 empty, row 1 fully dense `cols 0..n-1`,
+  row 2 dense `cols 1..n-1`, then residue-1-style blocks for rows 3..n-1.
+  `|U| = 6k^2 + 6k + 2 = q + (k-1)`. Same shape as `v35`.
+
+**Properties of `v48`.**
+
+* For `k = 1` (`n = 5`): exact match. `|U| = 14 = q(5)`. ✓
+* For `k >= 2`: dual+forest valid, off by `+(k-1)`.
+* Tree-rigid like `v35`: cannot reduce via local moves.
+
+### Key obstruction: residue-1 patterns are tree-tight
+
+Both `v35` and `v48` give patterns whose dual graph is exactly a tree
+(`dual_edges = (n-1)^2`). The natural cell removals would remove dual
+edges, breaking connectivity.
+
+For residue-2 q-optimal patterns, the dual is sometimes a tree
+(at `n = 8`) and sometimes tree+1cycle (at `n = 11`, `n = 14`). When the
+optimum has tree dual, it's structurally different from residue-1
+restrictions: e.g. `n = 8` optimal has row 0 entirely empty whereas all
+residue-1 restrictions have row 0 with at least col 1 U.
+
+### Inductive `n -> n+3` approach
+
+Naive splice of n=8 into n=11 (insert 3 rows + 3 cols somewhere) creates
+overlap + dual conflicts. Random search inserting `(sparse, dense, dense)`
+slabs at various positions failed to produce a valid extension.
+
+Reason: the residue-2 patterns are NOT block-structured in a way that
+allows local insertion. The cached witnesses for n=11 and n=14 have
+non-trivial cell counts in middle rows (varying between 5 and 9 for
+n=11) that aren't amenable to slab-insertion.
+
+### Recommended new direction: relax to "explicit + parametric tail"
+
+Rather than seeking a single closed-form pattern for all n, the proof
+program should accept:
+
+* **Explicit cached witnesses** for `n in {5, 8, 11, 14}` (and any future
+  `n` reachable by the solver).
+* **Parametric tail** for `n > 15` based on a SLAB INDUCTION: take an
+  explicit cached witness at `n_0 = 14` and define a 3x3 slab insertion
+  that adds 3 rows + 3 cols + 12k+11 U cells to reach `n_0 + 3`.
+
+The `12k+11` cells must include:
+
+* 1 sparse row (col 1 U): 1 cell
+* 2 dense rows (cols 1..n+2 U): 2(n+2) = 6k+8 cells
+* Cols inserted: U at every dense row position (residue-1 style)
+* Plus boundary patches for the right side
+
+A slab construction that preserves dual+forest is the key remaining
+combinatorial challenge. The cached `n = 14` pattern's symmetry
+(`row 12 mirror of row 1`, etc.) suggests the slab should be inserted
+at the row 6-7 transition point (the middle-most row).
+
+Cached explicit witnesses are now available in
+`diagonal_patterns.residue_two_explicit_pattern(n)` for `n in {5, 8, 11, 14}`.
