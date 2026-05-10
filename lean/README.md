@@ -30,15 +30,21 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 - `GridGraphs/Defs.lean`: Vertex/edge counts, deficiency, vertex-class
   partition, and the simple graph `gridGraph m n` itself (a real
   `SimpleGraph (Fin m × Fin n)` with proven `symm` and `loopless`).
+  Includes `Fintype` / `DecidableEq` / `DecidableRel` instances and real
+  `gridDegree` / `isPreserved` / `vertexDeficiency` / `numPreserved`
+  definitions built on `SimpleGraph.degree`.
 - `GridGraphs/Bounds.lean`: Algebraic bound expressions `D`, `I`, `ceilDiv3`,
   `basicUB`, `refinedUB`, `lowerB`, and their `sorry`-free properties.
 - `GridGraphs/Forced.lean`: Forced-edge subgraph of full-degree vertices;
   forced-edge acyclicity from a spanning tree.
 - `GridGraphs/Diagonal.lean`: Induced-edge decycling sets, complement-of-
-  preserved is decycling, every grid 4-cycle has an unforced boundary edge.
+  preserved is decycling, every grid 4-cycle has an unforced boundary edge,
+  cell-adjacency lemmas, and the cell-hitting corner condition.
 - `GridGraphs/ResidueOne.lean`: Residue-1 diagonal `U` construction
   (`uResidueOne k`) with proven cardinality `6 * k^2 + k + 1` (Proposition L1
   cardinality from `analysis/proofs_diagonal.md`).
+- `GridGraphs/Tests.lean`: `decide`-based regression checks pinning Lean
+  values of bound expressions and vertex counts to known Rust DP outputs.
 - `GridGraphs.lean`: Aggregate import.
 - `STATUS.md`: Detailed proof-status ledger.
 - `EVIDENCE.md`: Annotated lemma index plus empirical comparison against
@@ -59,6 +65,8 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
   full-degree set in an acyclic spanning subgraph is acyclic.
 - `grid_cell_has_unforced_edge`: every grid unit cell in an acyclic forced-
   edge graph has an unforced boundary edge.
+- `preserved_set_cell_corner`: spanning-subgraph form—every 2×2 cell
+  contains at least one corner outside the full-degree set.
 - `uResidueOne_card`: for `k ≥ 1`, the residue-1 diagonal `U` construction
   has `|U| = 6 * k^2 + k + 1`. Cardinality half of Proposition L1; the
   acyclicity / forest-extension half is documented as deferred in

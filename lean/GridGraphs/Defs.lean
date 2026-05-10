@@ -100,6 +100,12 @@ lemma deficiency_closed_form (m n : Nat) : deficiency m n = 2 * (m - 1) * (n - 1
 /-- Vertex type for m×n grid graph: pairs of finite indices. -/
 def GridVertex (m n : Nat) := Fin m × Fin n
 
+instance (m n : Nat) : Fintype (GridVertex m n) := by
+  unfold GridVertex; infer_instance
+
+instance (m n : Nat) : DecidableEq (GridVertex m n) := by
+  unfold GridVertex; infer_instance
+
 /-! Simple graph definition.
 We provide a minimal adjacency predicate directly (no Finset edge set needed).
 -/
@@ -137,52 +143,64 @@ def gridGraph (m n : Nat) : SimpleGraph (GridVertex m n) :=
       · exact Nat.succ_ne_self _ h1
       · exact Nat.succ_ne_self _ h1 }
 
-/--- Degree of a vertex in the grid graph (stub; returns 0). TODO: implement enumeration. -/
-def gridDegree (m n : Nat) (_v : GridVertex m n) : Nat := 0
+/-! ## Decidability and degree-related infrastructure
 
-/-- Maximum possible degree of a vertex in the grid graph. -/
-def maxGridDegree (m n : Nat) (v : GridVertex m n) : Nat :=
-  match m, n with
-  | 0, _ => 0
-  | _, 0 => 0
-  | 1, 1 => 2  -- corner vertex in 1×1 grid
-  | 1, _ => if v.1.val = 0 ∨ v.1.val = 0 then 1 else 2  -- border vertices in 1×n grid
-  | _, 1 => if v.2.val = 0 ∨ v.2.val = 0 then 1 else 2  -- border vertices in m×1 grid
-  | _, _ =>
-    if (v.1.val = 0 ∨ v.1.val = m - 1) ∧ (v.2.val = 0 ∨ v.2.val = n - 1) then
-      -- corner vertex
-      2
-    else if v.1.val = 0 ∨ v.1.val = m - 1 ∨ v.2.val = 0 ∨ v.2.val = n - 1 then
-      -- border (non-corner) vertex
-      3
-    else
-      -- interior vertex
-      4
+Every concrete grid uses these instances; in particular `(gridGraph m n).degree`
+needs `DecidableRel (gridGraph m n).Adj`. -/
 
-/-! Preservation predicates (stubs while API updated).
+instance gridGraph_decidableRel (m n : Nat) :
+    DecidableRel (gridGraph m n).Adj := by
+  intro v w
+  show Decidable (adjacent m n v w)
+  unfold adjacent
+  infer_instance
+
+/-- Degree of a vertex in the grid graph. Defined directly via mathlib's
+`SimpleGraph.degree`, which counts the (decidable) neighbour finset.
+
+In the abstract grid graph every cell is connected to its (up to four)
+orthogonal neighbours, so this returns 4 for interior vertices, 3 for
+non-corner border vertices, 2 for corners (and degenerate values for
+`m`-or-`n`-≤ 1 strips). -/
+def gridDegree (m n : Nat) (v : GridVertex m n) : Nat :=
+  (gridGraph m n).degree v
+
+/-! ### Preservation predicates
 
 In this codebase a vertex is **preserved** in a spanning tree `T` iff it is
 **full-degree**, i.e. `deg_T(v) = deg_G(v)`. The two terms are interchangeable;
 "preserved" follows the terminology of `docs/DERIVATION.md`. -/
 
-/-- A vertex `v` is *preserved* (equivalently, *full-degree*) in a spanning
-tree `T` of the grid graph iff every grid edge incident to `v` lies in `T`,
-i.e. `deg_T(v) = deg_G(v)`. (Currently a stub returning `True` while the
-spanning-tree API is being introduced.) -/
-def isPreserved (m n : Nat) (_T : SimpleGraph (GridVertex m n)) (_v : GridVertex m n) : Prop := True
+/-- A vertex `v` is *preserved* (equivalently, *full-degree*) in a subgraph
+`T` of the grid graph iff its tree-degree equals its grid-degree. -/
+def isPreserved (m n : Nat) (T : SimpleGraph (GridVertex m n))
+    [DecidableRel T.Adj] (v : GridVertex m n) : Prop :=
+  T.degree v = (gridGraph m n).degree v
 
-/-- Deficiency of a vertex in a spanning tree: difference between its grid
-degree and its tree degree. A vertex is preserved (full-degree) iff its
-deficiency is 0. -/
-def vertexDeficiency (m n : Nat) (_T : SimpleGraph (GridVertex m n)) (_v : GridVertex m n) : Nat := 0
+instance (m n : Nat) (T : SimpleGraph (GridVertex m n))
+    [DecidableRel T.Adj] (v : GridVertex m n) :
+    Decidable (isPreserved m n T v) := by
+  unfold isPreserved; infer_instance
 
-/-- Count of preserved (full-degree) vertices in a spanning tree `T`. -/
-def numPreserved (m n : Nat) (_T : SimpleGraph (GridVertex m n)) : Nat := numVerts m n -- stub
+/-- Deficiency of a vertex in a subgraph: difference between its grid degree
+and its `T`-degree. A vertex is preserved iff its deficiency is `0`.
 
-/-- Maximum number of preserved (full-degree) vertices over all spanning
-trees of the m × n grid graph. This is the quantity `P(m, n)` analyzed in
-`docs/DERIVATION.md` and `EVIDENCE.md`. -/
-def maxPreserved (m n : Nat) : Nat := numVerts m n -- stub
+Note: defined as a `Nat` subtraction; well-defined and `≥ 0` whenever
+`T ≤ gridGraph m n` (so that `T.degree v ≤ (gridGraph m n).degree v`). -/
+def vertexDeficiency (m n : Nat) (T : SimpleGraph (GridVertex m n))
+    [DecidableRel T.Adj] (v : GridVertex m n) : Nat :=
+  (gridGraph m n).degree v - T.degree v
+
+/-- Count of preserved (full-degree) vertices in a subgraph `T`. -/
+def numPreserved (m n : Nat) (T : SimpleGraph (GridVertex m n))
+    [DecidableRel T.Adj] : Nat :=
+  ((Finset.univ : Finset (GridVertex m n)).filter
+    (fun v => isPreserved m n T v)).card
+
+-- `maxPreserved m n` (the operational `P(m, n)`) requires an `IsSpanningTree`
+-- predicate over subgraphs of `gridGraph m n` and is intentionally not yet
+-- defined; it returns to this file once the Phase-8 spanning-tree API lands.
+-- See `STATUS.md` (deferred-work list) for context.
 
 /-! ### Vertex-class partition
 

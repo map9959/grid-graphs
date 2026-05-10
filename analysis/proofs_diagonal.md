@@ -1203,3 +1203,148 @@ the cleanest.
   Extend to dispatch on `n mod 3` once residues 0 and 2 are parametric.
 - `data/diagonal_u_*.txt` — cached witnesses.
 - This file (`analysis/proofs_diagonal.md`) — the complete proof program.
+
+## 2026-05-10 progress: residue-2 pattern shape from `fullub-pattern`
+
+This session investigated the residue-2 case in detail. Key findings:
+
+### Cached witnesses are highly variable across n
+
+Running `cargo run --release -- fullub-pattern n n` for `n = 5, 8, 11, 14`
+returns optimal `U` patterns with structurally different envelopes:
+
+* `n = 5`: row 0 has `U` only at col `n-1`; row 1 dense `cols 0..n-1`. Bottom
+  rows have a sparse anchor at col `n-1`.
+* `n = 8`: row 0 entirely empty; row 1 dense **including col 0**; row n-2
+  dense `cols 1..n-1`; row n-1 sparse at cols `1, n-1`. Middle rows 2..n-3
+  each have exactly `2k+1 = 5` U cells.
+* `n = 11`: row 0 sparse at col 1 (residue-1 style); row 1 dense `cols 1..n-1`;
+  row n-2 dense `cols 1..n-1`; row n-1 sparse col 1. Middle rows have
+  irregular cell counts (7, 7, 7, 7, 8, 5, 9 in one solver run).
+* `n = 14`: row 0 sparse col 1; row 1 dense `cols 1..n-1`; row n-2 dense
+  `cols 1..n-2` (note: missing col n-1!); row n-1 sparse cols `1, n-2`.
+  Middle rows mostly 9 = 2k+1 cells with one row at 8 and two at 10.
+
+The non-uniformity across `n` indicates that the `fullub-pattern` tie-breaking
+returns different optimal envelopes at different `n`. There is no single
+"canonical" optimal residue-2 pattern.
+
+### `n = 8` admits a clean explicit form
+
+For `n = 8` the solver consistently returns:
+
+```text
+........
+UUUUUUUU
+.UU.UUU.
+.UUUU.U.
+.U.UUUU.
+.UUU.UU.
+.UUUUUUU
+.U.....U
+```
+
+This pattern has:
+
+* Row 0 empty.
+* Row 1 dense at all `n` cols (including col 0).
+* Rows 2..n-3 each have `2k+1 = 5` U cells, taken from `cols 1..n-2 = {1..6}`,
+  with each row "skipping" exactly one col from `{2, 3, 4, 5}`. The skip
+  sequence per row is `[3, 5, 2, 4]` — a permutation of `{2..5}` so each
+  inner col is skipped exactly once. Cols `1` and `n-2 = 6` are always U.
+* Row n-2 dense `cols 1..n-1`.
+* Row n-1 sparse at cols `1, n-1`.
+
+Total: `0 + n + (n-4)(2k+1) + (n-1) + 2 = q(n)` exactly.
+
+`residue_two_explicit_pattern(8)` in `diagonal_patterns.py` returns this
+witness verbatim.
+
+### The "skip-permutation" hypothesis fails to extend cleanly
+
+The natural generalization for `n = 3k + 2` would be:
+
+* Row 0 empty (or sparse).
+* Row 1 fully dense (or `cols 1..n-1`).
+* Each middle row has `2k+1` U cells, picked from `cols 1..n-2` by skipping
+  `k - 1` cols.
+* Cols 1 and `n-2` always U in middle rows.
+* Bottom sandwich: row n-2 dense, row n-1 sparse anchor.
+
+For `n = 11` (`k = 3`, skip 2 cols per row from `{2..8}`, total `2 * 7 = 14`
+skips, average 2 skips per inner col): random search over 100k+ trials and
+diagonal/cyclic search over hundreds of parametric patterns failed to find any
+valid pattern of this exact form. Specifically, balanced (each inner col
+skipped exactly twice) patterns and diagonal `(a + d*i, b + d*i)` patterns
+were tried.
+
+The reason is dual-connectivity: the F-cells produced by skips at adjacent
+rows must routes the dual through a connected path, and arbitrary
+permutations break that.
+
+### What `n = 11` and `n = 14` solver outputs actually do
+
+The middle rows do **not** have a simple skip-permutation structure. Inspection
+of the n=11 witness shows row 7 has only 5 cells (much less than 2k+1=7) and
+row 8 has 9 cells (2 more than 2k+1). So the witness must "trade" cells across
+rows: one row underfills by 2 while a neighbouring row overfills by 2, in a
+way that maintains dual connectivity.
+
+This trade is reminiscent of the residue-0/residue-2 single-extra-dual-edge
+observation: perhaps the `+1` extra dual edge in `(n-1)^2 + 1` corresponds to
+exactly one such row trade.
+
+Concretely, for `n = 8` the solver's optimal has `dual_edges = 49 = (n-1)^2`,
+i.e. dual is a tree, no extra cycle. For `n = 11` and `n = 14` the solver's
+optimal has `dual_edges = (n-1)^2 + 1`, i.e. exactly one extra dual cycle. So
+not every residue-2 optimum has the "+1" cycle: `n = 8` is a degenerate small
+case where the dual tree is achievable.
+
+### Failed parametric attempts (variants v1..v25)
+
+Many variants were tested in the session, all using `construction_lab.run_check`:
+
+| Variant | Description | Result |
+|---------|-------------|--------|
+| v1 | residue_two_skeleton minus right anchor at (3, n-1) | excess = k-1 |
+| v3 | skeleton with bridge relocated `(2, 3t) -> (3, 3t)` and stripe (3, 3t+1) removed | count matches but dual disconnects |
+| v4 | skeleton minus bridges and right anchors | dual breaks: OUT isolated |
+| v5/v8/v11/v20 | k uniform residue-1 blocks + 2 extra rows | count matches but dual disconnects in cell-row n-2 right portion |
+| v13 | top + middle pure-stripe + bottom | F-cols 3, 6, ..., 3k disconnect bands; need k bridges minimum |
+| v14 | v13 + k bridges at row 2 | excess k-1 (always 1 cell disconnected at (n-3, n-2)) |
+| v15 | v14 minus (n-1, n-2) | excess k-2 with 2 cells disconnected; net no improvement |
+| v25 | n=8-style envelope + observed skip permutation | works for n=8 only; n>8 breaks dual |
+
+The systematic obstruction is: "k bridges minimum" + "1 disconnected cell at
+right" forces excess = k - 1 + 1 = k, matching the original skeleton excess.
+
+### Recommended directions
+
+Based on this exploration, the next agent should consider:
+
+1. **Don't pursue parametric "skip-permutation" extensions.** They don't
+   generalize beyond n=8, and the obstruction is structural (dual
+   connectivity in 7+ middle rows requires asymmetric cell allocations).
+
+2. **Try a completely different parametric ansatz**, e.g. a tile-grammar
+   approach where 3x3 (or larger) tiles encode the dual routing explicitly.
+   The `tile_alphabet.py` infrastructure is set up for this but assumes
+   3-divisible n. Tiles modulo a 3x3 base with a residue-2 boundary patch
+   may work.
+
+3. **Inductive construction n -> n+3**. Given a verified pattern at `n`, can
+   we extend it to `n + 3` by adding 3 rows + 3 cols? This avoids needing
+   uniform per-row formulas. The cached patterns suggest local edits are
+   irregular, so the induction step must take care to preserve forest+dual.
+
+4. **Settle for a "residue-2 = residue-1 + perimeter trim" theorem.** Since
+   `n = 3k+2 = (3k+1) + 1` and `n = 3k+2 = (3(k+1)+1) - 2`, perhaps the
+   residue-2 q(n) is tight if and only if the residue-1 q(n+/-1) admits a
+   specific boundary modification. This could yield an indirect proof
+   without an explicit residue-2 pattern.
+
+5. **Accept that residue 2 may not have a clean closed-form pattern.** The
+   evidence so far suggests residue-2 optimal patterns are structurally
+   non-canonical even for small n. A proof of the conjectured `q(n)` for
+   residue 2 may need to go via the upper bound (decycling theorem) without
+   matching constructive lower bound for every n.

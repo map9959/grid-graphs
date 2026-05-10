@@ -203,6 +203,71 @@ def residue_zero_pattern(n: int) -> list[str]:
 
 
 # -----------------------------------------------------------------------------
+# Explicit residue-2 patterns from `fullub-pattern` (non-parametric).
+#
+# These are exact optimal patterns extracted from the Rust solver. They are
+# kept as concrete witnesses while a parametric family is being developed.
+# -----------------------------------------------------------------------------
+
+
+_RESIDUE_TWO_EXPLICIT: dict[int, list[str]] = {
+    5: [
+        "....U",
+        "UUUUU",
+        "U.UU.",
+        "UUUU.",
+        "...U.",
+    ],
+    8: [
+        "........",
+        "UUUUUUUU",
+        ".UU.UUU.",
+        ".UUUU.U.",
+        ".U.UUUU.",
+        ".UUU.UU.",
+        ".UUUUUUU",
+        ".U.....U",
+    ],
+    11: [
+        ".U.........",
+        ".UUUUUUUUUU",
+        ".UU.UUUUUU.",
+        ".UUUU....U.",
+        ".U.UUUUUUU.",
+        ".UUU.UU.UU.",
+        ".UUUUUU.UU.",
+        ".U....UUUU.",
+        ".UUUUUUU.UU",
+        ".UUUUUUUUUU",
+        ".U.........",
+    ],
+    14: [
+        ".U............",
+        ".UUUUUUUUUUUUU",
+        ".UUUU.UU.UU.UU",
+        ".UU.UUUU.UUUU.",
+        ".UU.UU.UUU.UU.",
+        ".UU.UU.UUU.UU.",
+        ".UU.UU.U.U.UU.",
+        ".UU.UU.UUU.UU.",
+        ".UU.UU.UUU.UU.",
+        ".UU.UU.U.UUUU.",
+        ".UU.UU.UUUU.U.",
+        ".UU.UU.UU.UUU.",
+        ".UUUUUUUUUUUU.",
+        ".U..........U.",
+    ],
+}
+
+
+def residue_two_explicit_pattern(n: int) -> list[str]:
+    """Return an explicit optimal residue-2 pattern for small n where one is cached."""
+    if n not in _RESIDUE_TWO_EXPLICIT:
+        raise KeyError(f"no explicit pattern cached for n={n}")
+    return list(_RESIDUE_TWO_EXPLICIT[n])
+
+
+# -----------------------------------------------------------------------------
 # Status registry.
 # -----------------------------------------------------------------------------
 
@@ -210,7 +275,7 @@ def residue_zero_pattern(n: int) -> list[str]:
 # Validated cases for residue-0 / residue-2 skeletons. These dictionaries are
 # populated by `analysis/construction_lab.py` runs and consulted by tests.
 STATUS_RESIDUE_ONE: dict[int, str] = {n: "verified" for n in range(4, 41) if n % 3 == 1}
-STATUS_RESIDUE_TWO: dict[int, str] = {5: "verified"}
+STATUS_RESIDUE_TWO: dict[int, str] = {n: "explicit" for n in (5, 8, 11, 14)}
 STATUS_RESIDUE_ZERO: dict[int, str] = {}
 
 

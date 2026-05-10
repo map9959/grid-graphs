@@ -35,6 +35,14 @@ etc.) is in the deferred-work list.
 - `deficiency_closed_form`: `deficiency m n = 2*(m-1)*(n-1)`.
 - `gridGraph`: a real `SimpleGraph (Fin m × Fin n)` with proven `symm` /
   `loopless` fields.
+- `Fintype (GridVertex m n)`, `DecidableEq (GridVertex m n)`, and
+  `gridGraph_decidableRel`: instances enabling `(gridGraph m n).degree`.
+- `gridDegree m n v := (gridGraph m n).degree v`: the actual grid-graph
+  degree, replacing the previous stub.
+- `isPreserved m n T v`: `T.degree v = (gridGraph m n).degree v` for a
+  decidable subgraph `T`. Replaces the `True`-stub.
+- `vertexDeficiency m n T v`: `(gridGraph m n).degree v - T.degree v`.
+- `numPreserved m n T`: cardinality of the preserved-vertex `Finset`.
 - `verts_partition`: `numCorners m n + numBorderNonCorner m n + numInterior m n = m * n`.
   Pure arithmetic case-analysis on the `{0, 1, ≥2}` shape of `m, n`.
 
@@ -82,11 +90,27 @@ etc.) is in the deferred-work list.
   two endpoints both lie outside the full-degree set.
 - `cell00`, `cell01`, `cell11`, `cell10`: the four vertices of a grid unit
   cell, indexed by `Fin (m-1) × Fin (n-1)`.
+- `gridGraph_cell_adj_top`/`_right`/`_bot`/`_left`: the four boundary edges
+  of any grid unit cell are `gridGraph` edges.
+- `cell00_ne_cell11`, `cell01_ne_cell10`: the two diagonal disequalities,
+  needed to invoke `fourCycle_has_unforced_edge` on a cell.
 - `grid_cell_has_unforced_edge`: every grid unit cell in an acyclic forced-edge
   graph has at least one boundary edge whose endpoints both lie outside the
   full-degree set.
+- `grid_cell_has_unforced_corner`: vertex-form corollary—every grid unit cell
+  contains at least one corner outside the full-degree set.
+- `preserved_set_cell_corner`: spanning-subgraph specialisation—the set of
+  full-degree vertices in any acyclic subgraph misses at least one corner of
+  every unit cell.
 - `connected_graph_has_spanning_tree`: any finite connected graph has a
   spanning tree subgraph (wrapper around mathlib's `Connected.exists_isTree_le`).
+
+### `GridGraphs/Tests.lean`
+- `decide`-based regression checks pinning Lean definitions of `D`,
+  `basicUB`, `refinedUB`, `lowerB`, the vertex-class counts, and
+  `uResidueOne k` cardinalities to specific small-grid values that match
+  the Rust DP empirical data in `lean/results-empirical.csv`. A regression
+  in any bound expression breaks the build.
 
 ### `GridGraphs/ResidueOne.lean`
 - `isInUResidueOne k r c`: predicate defining the residue-1 non-full set

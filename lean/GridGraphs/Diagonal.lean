@@ -125,43 +125,82 @@ def cell11 {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) : GridVertex m n :=
 def cell10 {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) : GridVertex m n :=
   (⟨r.val + 1, by omega⟩, ⟨c.val, by omega⟩)
 
+/-! ### Adjacency of the four cell-edges in `gridGraph` -/
+
+lemma gridGraph_cell_adj_top {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) :
+    (gridGraph m n).Adj (cell00 r c) (cell01 r c) := by
+  left; exact ⟨rfl, Or.inl rfl⟩
+
+lemma gridGraph_cell_adj_right {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) :
+    (gridGraph m n).Adj (cell01 r c) (cell11 r c) := by
+  right; exact ⟨rfl, Or.inl rfl⟩
+
+lemma gridGraph_cell_adj_bot {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) :
+    (gridGraph m n).Adj (cell11 r c) (cell10 r c) := by
+  left; exact ⟨rfl, Or.inr rfl⟩
+
+lemma gridGraph_cell_adj_left {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) :
+    (gridGraph m n).Adj (cell10 r c) (cell00 r c) := by
+  right; exact ⟨rfl, Or.inr rfl⟩
+
+/-! ### Diagonal disequalities of cell corners -/
+
+lemma cell00_ne_cell11 {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) :
+    cell00 r c ≠ cell11 r c := by
+  intro h
+  have hrow : (cell00 r c).1.val = (cell11 r c).1.val := by rw [h]
+  dsimp [cell00, cell11] at hrow
+  omega
+
+lemma cell01_ne_cell10 {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1)) :
+    cell01 r c ≠ cell10 r c := by
+  intro h
+  have hrow : (cell01 r c).1.val = (cell10 r c).1.val := by rw [h]
+  dsimp [cell01, cell10] at hrow
+  omega
+
+/-- Every grid unit cell in an acyclic forced-edge graph has at least one
+boundary edge whose endpoints both lie outside the full-degree set. -/
 theorem grid_cell_has_unforced_edge {m n : Nat} (r : Fin (m - 1)) (c : Fin (n - 1))
     {F : Set (GridVertex m n)}
     (hacyc : (forcedEdgeGraph (gridGraph m n) F).IsAcyclic) :
     (cell00 r c ∉ F ∧ cell01 r c ∉ F) ∨
       (cell01 r c ∉ F ∧ cell11 r c ∉ F) ∨
       (cell11 r c ∉ F ∧ cell10 r c ∉ F) ∨
-      (cell10 r c ∉ F ∧ cell00 r c ∉ F) := by
-  apply fourCycle_has_unforced_edge (G := gridGraph m n)
-  · left
-    constructor
-    · rfl
-    · left
-      rfl
-  · right
-    constructor
-    · rfl
-    · left
-      rfl
-  · left
-    constructor
-    · rfl
-    · right
-      rfl
-  · right
-    constructor
-    · rfl
-    · right
-      rfl
-  · intro h
-    have hrow : (cell00 r c).1.val = (cell11 r c).1.val := by rw [h]
-    dsimp [cell00, cell11] at hrow
-    omega
-  · intro h
-    have hrow : (cell01 r c).1.val = (cell10 r c).1.val := by rw [h]
-    dsimp [cell01, cell10] at hrow
-    omega
-  · exact hacyc
+      (cell10 r c ∉ F ∧ cell00 r c ∉ F) :=
+  fourCycle_has_unforced_edge (G := gridGraph m n)
+    (gridGraph_cell_adj_top r c) (gridGraph_cell_adj_right r c)
+    (gridGraph_cell_adj_bot r c) (gridGraph_cell_adj_left r c)
+    (cell00_ne_cell11 r c) (cell01_ne_cell10 r c) hacyc
+
+/-- Existence form of the cell-hitting condition: in any acyclic forced-edge
+graph on the grid, every unit cell contains at least one corner outside the
+full-degree set. This is a direct corollary of `grid_cell_has_unforced_edge`,
+dropping the (stronger) edge-pair statement. -/
+theorem grid_cell_has_unforced_corner {m n : Nat}
+    (r : Fin (m - 1)) (c : Fin (n - 1))
+    {F : Set (GridVertex m n)}
+    (hacyc : (forcedEdgeGraph (gridGraph m n) F).IsAcyclic) :
+    cell00 r c ∉ F ∨ cell01 r c ∉ F ∨ cell11 r c ∉ F ∨ cell10 r c ∉ F := by
+  rcases grid_cell_has_unforced_edge r c hacyc with
+    ⟨h, _⟩ | ⟨h, _⟩ | ⟨h, _⟩ | ⟨h, _⟩
+  · exact Or.inl h
+  · exact Or.inr (Or.inl h)
+  · exact Or.inr (Or.inr (Or.inl h))
+  · exact Or.inr (Or.inr (Or.inr h))
+
+/-- Spanning-subgraph specialisation of `grid_cell_has_unforced_corner`:
+in any acyclic subgraph `T` of the grid graph, the set `F` of full-degree
+(preserved) vertices misses at least one corner of every unit cell. -/
+theorem preserved_set_cell_corner {m n : Nat}
+    (r : Fin (m - 1)) (c : Fin (n - 1))
+    {T : SimpleGraph (GridVertex m n)} (hT : T.IsAcyclic)
+    {F : Set (GridVertex m n)}
+    (hF : ∀ ⦃v : GridVertex m n⦄, v ∈ F →
+            preservesIncidentEdges (gridGraph m n) T v) :
+    cell00 r c ∉ F ∨ cell01 r c ∉ F ∨ cell11 r c ∉ F ∨ cell10 r c ∉ F :=
+  grid_cell_has_unforced_corner r c
+    (grid_forcedEdgeGraph_isAcyclic_of_preserves hT hF)
 
 /-! ## Generic connected-supergraph tree existence -/
 
