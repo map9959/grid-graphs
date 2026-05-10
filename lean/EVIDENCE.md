@@ -112,6 +112,50 @@ is proven exactly.
 | `q` (def) | the conjectured diagonal closed form from `analysis/proofs_diagonal.md` | `ResidueOne.lean:497` |
 | `uResidueOne_card_eq_q` | `|uResidueOne k| = q (3k + 1)` | `ResidueOne.lean:509` |
 
+### `GridGraphs/Spanning.lean` (refined) — `preserved_le_refinedUB`
+
+Phase 8.refined. Adds vertex-class predicates and the matching upper-bound
+theorem.
+
+| Lemma | Statement | Location |
+|-------|-----------|----------|
+| `isCornerVertex` / `isBorderVertex` / `isInteriorVertex` (defs) | vertex-class predicates | `Spanning.lean` |
+| `vertexClass_trichotomy` | every vertex is exactly one class | `Spanning.lean` |
+| `vertexDeficiency_le_of_corner`/`_of_border`/`_of_interior` | per-class caps via predicates | `Spanning.lean` |
+| `interior_card_eq` | `\|interiorSet\| = I m n` | `Spanning.lean` |
+| **`preserved_le_refinedUB`** | **`numPreserved m n T ≤ refinedUB m n` for spanning subtrees** | `Spanning.lean` |
+| `forall_spanning_subtree_preserved_le_refinedUB` | ∀-quantified form | `Spanning.lean` |
+
+### `GridGraphs/ForestExtension.lean` — Forest extension
+
+Standalone, generic lemma. Mathlib-style.
+
+| Lemma | Statement | Location |
+|-------|-----------|----------|
+| **`SimpleGraph.isAcyclic_extends_to_isTree`** | any acyclic `F ≤ G` in a finite connected graph extends to a spanning tree of `G` | `ForestExtension.lean` |
+
+Generalises mathlib's `Connected.exists_isTree_le` (case `F = ⊥`). Used
+to convert any acyclic forced subgraph into a real spanning tree
+witness.
+
+### `GridGraphs/DoubleComb.lean` — Lower-bound construction (partial)
+
+Definitions and connectivity for the simpler "top spine + every column"
+spanning-tree candidate, plus the L-bend forced-subgraph framework.
+
+| Lemma | Statement | Location |
+|-------|-----------|----------|
+| `lBendForced` (def) | the L-bend forced subgraph (top + left + verticals + horizontals minus corner cycle) | `DoubleComb.lean` |
+| `lBendForced_le_gridGraph` | L-bend ≤ gridGraph | `DoubleComb.lean` |
+| `topSpineColumns` (def) | top row spine + every column verticals | `DoubleComb.lean` |
+| `topSpineColumns_le_gridGraph` | candidate ≤ gridGraph | `DoubleComb.lean` |
+| `topSpineColumns_connected` | the candidate is connected for `m, n ≥ 1` | `DoubleComb.lean` |
+| `topSpineColumns_preserves_top_row` | every top-row vertex is full-degree in the candidate | `DoubleComb.lean` |
+
+Still deferred (in this file): the `IsTree` proof of `topSpineColumns`
+(needs edge count via degree-sum + `isTree_iff_connected_and_card`), the
+headline existence theorem, and the L-bend acyclicity proof.
+
 ### `GridGraphs/Tests.lean` — small-grid sanity tests
 
 A regression suite of `decide`-evaluated `example`s pinning Lean values
@@ -155,25 +199,23 @@ formalising the empirical bound `P(m, n) ≤ basicUB m n` that
 
 ### What is **not** formally proven (deferred)
 
-The following theorems are still open in Lean. The total-deficiency identity,
-per-vertex caps, and `preserved_le_basicUB` are now **proven** (Phase 8
-done — see `Spanning.lean` above).
+Phase 8 (basic + refined upper bounds, total deficiency, forest extension)
+is now **complete**. The remaining gaps are on the construction side.
 
-- For any spanning subtree `T`, `numPreserved(T) ≤ refinedUB m n`. The
-  ingredients (per-class caps `vertexDeficiency_le_one_of_corner`,
-  `_le_two_of_border`, `_le_three`) are all proved; the arithmetic for
-  `refinedUB`'s piecewise definition is the remaining work.
-- There exists a spanning tree achieving `numPreserved ≥ m + n − 1`. The
-  "double-comb" lower bound construction. Combined with `preserved_le_basicUB`,
-  this would close the basic sandwich `lowerB m n ≤ P(m, n) ≤ basicUB m n`.
-- **Forest-extension lemma**: any forest `F ≤ G` in a finite connected graph
-  `G` extends to a spanning tree of `G`. Combined with `uResidueOne_card`
-  and an acyclicity argument, this would give
-  `maxPreserved (3k+1) (3k+1) ≥ (3k+1)^2 − (6k^2 + k + 1)`,
-  i.e. the residue-1 half of Conjecture C from `docs/ROADMAP.md`. The
-  intermediate step (proving the forced-edge graph of `(uResidueOne k)ᶜ` is
-  acyclic) is currently empirical only — verified by
-  `analysis/check_diagonal_patterns.py` for every `n = 3k + 1` in `[4, 40]`.
+- Headline existence theorem `lowerB m n ≤ maxPreserved m n` (i.e. there
+  exists a spanning tree achieving `numPreserved ≥ m + n − 2`). The
+  L-bend forced subgraph and the simpler `topSpineColumns` candidate
+  are both defined in `DoubleComb.lean`; `topSpineColumns` is proved
+  connected and shown to preserve all top-row vertices. The remaining
+  step is to prove `IsTree` (via edge count) and combine with the
+  preservation lemma.
+- Diagonal residue-1 lower bound `maxPreserved (3k+1) (3k+1) ≥
+  (3k+1)² − (6k² + k + 1)`. With `isAcyclic_extends_to_isTree` and
+  `uResidueOne_card` already in place, the remaining ingredient is
+  acyclicity of the forced-edge graph of `(uResidueOne k)ᶜ`. This is
+  currently empirical only — verified by
+  `analysis/check_diagonal_patterns.py` for every `n = 3k + 1` in
+  `[4, 40]`.
 
 What we **do** have is the algebraic infrastructure (`D_expand`,
 `refinedUB_le_basicUB`, `lowerB_le_basicUB`, the 4×n closed forms) that is a
@@ -320,29 +362,86 @@ Aggregate statistics over the 100 rows above:
 - The 4×n family confirms the proven Lean closed forms: for every n ∈ {1..10},
   `basicUB(4,n) = 2n+2` and (for n ≥ 3) `refinedUB(4,n) = 2n+1`.
 
+### Diagonal `P(n, n)`
+
+The square diagonal is the most-studied special case. `P(n, n)` is computed
+exactly by the Rust DP for `n ≤ 10` (`results-empirical.csv`) and by the
+forced-edge upper-bound DP plus completed-spanning-tree witnesses for
+`n = 11..15` (`analysis/proofs_diagonal.md`). The conjectured closed form
+(Conjecture C in `analysis/conjectures.md` and `docs/ROADMAP.md`) is
+
+```
+P(n, n) = ⌊n² / 3⌋ + n + C(n mod 3),    n ≥ 4,
+```
+
+where `C(1) = −1`, `C(0) = C(2) = −2`. Equivalently, the non-full set has
+size `q(n)` from `lean/GridGraphs/ResidueOne.lean`'s `q` function, and
+`P(n, n) = n² − q(n)`.
+
+| n  | P(n, n) | basicUB(n, n) | refinedUB(n, n) | conjectured P |
+|----|---------|---------------|-----------------|---------------|
+| 1  | 1       | 1             | 1               | —             |
+| 2  | 2       | 3             | 3               | —             |
+| 3  | 4       | 6             | 5               | —             |
+| 4  | 8       | 10            | 9               | 8             |
+| 5  | 11      | 14            | 13              | 11            |
+| 6  | 16      | 19            | 19              | 16            |
+| 7  | 22      | 25            | 25              | 22            |
+| 8  | 27      | 31            | 31              | 27            |
+| 9  | 34      | 38            | 38              | 34            |
+| 10 | 42      | 46            | 46              | 42            |
+| 11 | 49      | 54            | 54              | 49            |
+| 12 | 58      | 63            | 63              | 58            |
+| 13 | 68      | 73            | 73              | 68            |
+| 14 | 77      | 83            | 83              | 77            |
+| 15 | 88      | 94            | 94              | 88            |
+
+Observations:
+- The conjectured closed form matches `P(n, n)` exactly at every
+  `n = 4..15` (the conjecture's stated range; `n = 1, 2, 3` are listed
+  as edge cases of the formula).
+- `refinedUB(n, n) = basicUB(n, n)` for `n ≥ 6` and for `n ∈ {1, 2}`; only
+  `n ∈ {3, 4, 5}` see a strict improvement (gap of 1). The refined bound
+  thus has nothing extra to offer on the diagonal once `n ≥ 6`.
+- The gap `basicUB(n, n) − P(n, n)` grows linearly: `2, 3, 3, 3, 4, 4, 4,
+  5, 5, 5, 6, 6` for `n = 4..15`. This means the basic upper bound is
+  **not** asymptotically tight on the diagonal — both `P(n, n)` and
+  `basicUB(n, n)` are asymptotic to `n²/3`, but the difference grows like
+  `n/3`. Asymptotic tightness on the diagonal would require a
+  diagonal-specific upper bound (Phase 7c in `docs/ROADMAP.md`).
+- `preserved_le_basicUB` (Phase 8) certifies the `P ≤ basicUB` column
+  formally for **all** `n`, not just the empirically tested range.
+
 ---
 
 ## How the formal and empirical layers connect
 
 The Lean proofs now cover **both** the algebraic bound expressions
 (`basicUB`, `refinedUB`, `lowerB`, with their identities, monotonicity, and
-ordering) **and** the operational connection
-`P(m, n) ≤ basicUB m n` via `Spanning.lean`. Concretely, for any spanning
-subtree `T` of `gridGraph m n`:
+ordering) **and** both operational upper bounds. Concretely, for any
+spanning subtree `T` of `gridGraph m n`:
 
 ```
-preserved_le_basicUB : numPreserved m n T ≤ basicUB m n
+preserved_le_basicUB   : numPreserved m n T ≤ basicUB   m n
+preserved_le_refinedUB : numPreserved m n T ≤ refinedUB m n
 ```
 
-is now a Lean theorem (Phase 8 of `docs/ROADMAP.md`). The empirical layer
-in this file (the `1 ≤ m, n ≤ 10` table) was previously the *only* layer
-asserting this inequality; it is now also formally proved.
+are now Lean theorems (Phase 8 of `docs/ROADMAP.md`, including the
+refined branch). The empirical layer in this file (the `1 ≤ m, n ≤ 10`
+table) was previously the *only* layer asserting these inequalities;
+they are now also formally proved.
+
+The forest-extension lemma `isAcyclic_extends_to_isTree` is now also
+formally proved as a standalone, generic mathlib-style lemma. This is
+the key bridge from "forced acyclic forest" to "spanning tree
+realizing the construction".
 
 What remains:
-- The matching upper bound `numPreserved ≤ refinedUB m n` (the per-class
-  deficiency caps in `Spanning.lean` are proved; the piecewise arithmetic
-  is the only remaining work).
-- The matching lower bound `lowerB m n ≤ maxPreserved m n` (would require
-  the explicit "double-comb" construction).
-- The diagonal residue-1 lower bound (depends on the forest-extension lemma
-  and acyclicity of the `(uResidueOne k)ᶜ`-forced graph).
+- The matching lower bound `lowerB m n ≤ maxPreserved m n`. The
+  infrastructure (`topSpineColumns` connectedness + top-row preservation,
+  the L-bend forced subgraph) is in place; the IsTree proof
+  (via edge count) and headline existence theorem are the remaining
+  pieces.
+- The diagonal residue-1 lower bound, which would now follow from
+  `isAcyclic_extends_to_isTree` plus acyclicity of the
+  `(uResidueOne k)ᶜ`-forced graph.

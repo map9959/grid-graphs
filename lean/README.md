@@ -45,8 +45,14 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
   cardinality from `analysis/proofs_diagonal.md`).
 - `GridGraphs/Spanning.lean`: `IsSpanningSubtree` predicate, total-deficiency
   identity, per-vertex deficiency caps (≤ 1 / ≤ 2 / ≤ 3 for corner / border /
-  interior), and the headline operational upper bound
-  `preserved_le_basicUB`.
+  interior), and the headline operational upper bounds
+  `preserved_le_basicUB` and `preserved_le_refinedUB`.
+- `GridGraphs/ForestExtension.lean`: the standalone, generic forest
+  extension lemma `isAcyclic_extends_to_isTree`.
+- `GridGraphs/DoubleComb.lean`: the L-bend forced subgraph and the
+  simpler `topSpineColumns` spanning-tree candidate, with connectedness
+  and top-row preservation. The IsTree proof and headline lower-bound
+  theorem are deferred.
 - `GridGraphs/Tests.lean`: `decide`-based regression checks pinning Lean
   values of bound expressions and vertex counts to known Rust DP outputs.
 - `GridGraphs.lean`: Aggregate import.
@@ -84,9 +90,13 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 - `vertexDeficiency_le_three`: per-vertex cap of 3 deficiency in any
   spanning subtree. Per-class refinements (≤ 1 / ≤ 2) for corner / border
   vertices.
-- **`preserved_le_basicUB`**: the operational connection
-  `numPreserved m n T ≤ basicUB m n` for any spanning subtree.
-  Phase 8 of `docs/ROADMAP.md` complete.
+- **`preserved_le_basicUB`** and **`preserved_le_refinedUB`**: the
+  operational connection of both algebraic upper bounds to
+  `numPreserved m n T` for any spanning subtree. Phase 8 of
+  `docs/ROADMAP.md` complete (including the refined branch).
+- **`SimpleGraph.isAcyclic_extends_to_isTree`**: any acyclic subgraph of
+  a finite connected graph extends to a spanning tree. Standalone,
+  generic, mathlib-style.
 
 See `STATUS.md` for the full list and `EVIDENCE.md` for line-numbered
 references plus empirical evidence.

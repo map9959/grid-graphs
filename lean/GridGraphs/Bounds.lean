@@ -45,8 +45,10 @@ in `Defs.lean` via `D_eq_deficiency` below. -/
   else
     m * n - ceilDiv3 d
 
-/-- Conservative lower bound `LB(m,n) = m + n − 1`. -/
-@[simp] def lowerB (m n : Nat) : Nat := m + n - 1
+/-- Conservative operational lower bound `LB(m,n) = m + n − 2` (for
+`m, n ≥ 2`; `0` otherwise via `Nat` truncation). Achieved by the
+"L-bend" double-comb construction in `DoubleComb.lean`. -/
+@[simp] def lowerB (m n : Nat) : Nat := m + n - 2
 
 /-! ## Algebraic properties of `ceilDiv3` -/
 

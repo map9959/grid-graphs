@@ -58,11 +58,12 @@ example : refinedUB 4 10 = 21 := by decide
 example : refinedUB 5 5 = 13 := by decide
 example : refinedUB 10 10 = 46 := by decide
 
-/-! ## Conservative lower bound `m + n − 1` -/
+/-! ## Conservative operational lower bound `m + n − 2` -/
 
-example : lowerB 5 5 = 9 := by decide
-example : lowerB 4 10 = 13 := by decide
-example : lowerB 10 10 = 19 := by decide
+example : lowerB 5 5 = 8 := by decide
+example : lowerB 4 10 = 12 := by decide
+example : lowerB 10 10 = 18 := by decide
+example : lowerB 2 2 = 2 := by decide
 
 /-! ## Residue-1 diagonal `U` cardinalities -/
 

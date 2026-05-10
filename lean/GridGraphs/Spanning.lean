@@ -704,4 +704,408 @@ theorem forall_spanning_subtree_preserved_le_basicUB
       IsSpanningSubtree (gridGraph m n) T → numPreserved m n T ≤ basicUB m n :=
   fun _ _ hT => preserved_le_basicUB hm hn hT
 
+/-! ## Refined upper bound `preserved_le_refinedUB`
+
+The refined bound exploits the per-class deficiency caps (corner ≤ 1,
+border ≤ 2, interior ≤ 3) to give a stronger inequality on thin grids
+where the basic bound is wasteful. -/
+
+/-- A grid vertex is on the corner if both coordinates are at the boundary. -/
+def isCornerVertex (m n : Nat) (v : GridVertex m n) : Prop :=
+  (v.1.val = 0 ∨ v.1.val + 1 = m) ∧ (v.2.val = 0 ∨ v.2.val + 1 = n)
+
+/-- A grid vertex is on the border non-corner: exactly one coordinate is at
+the boundary. -/
+def isBorderVertex (m n : Nat) (v : GridVertex m n) : Prop :=
+  ((v.1.val = 0 ∨ v.1.val + 1 = m) ∨ (v.2.val = 0 ∨ v.2.val + 1 = n))
+    ∧ ¬ isCornerVertex m n v
+
+/-- A grid vertex is interior if both coordinates are strictly inside. -/
+def isInteriorVertex (m n : Nat) (v : GridVertex m n) : Prop :=
+  ¬ ((v.1.val = 0 ∨ v.1.val + 1 = m) ∨ (v.2.val = 0 ∨ v.2.val + 1 = n))
+
+instance (m n : Nat) (v : GridVertex m n) : Decidable (isCornerVertex m n v) := by
+  unfold isCornerVertex; infer_instance
+
+instance (m n : Nat) (v : GridVertex m n) : Decidable (isBorderVertex m n v) := by
+  unfold isBorderVertex; infer_instance
+
+instance (m n : Nat) (v : GridVertex m n) : Decidable (isInteriorVertex m n v) := by
+  unfold isInteriorVertex; infer_instance
+
+/-- Every grid vertex falls in exactly one of the three classes. -/
+lemma vertexClass_trichotomy (m n : Nat) (v : GridVertex m n) :
+    isCornerVertex m n v ∨ isBorderVertex m n v ∨ isInteriorVertex m n v := by
+  unfold isCornerVertex isBorderVertex isInteriorVertex
+  by_cases hb : (v.1.val = 0 ∨ v.1.val + 1 = m) ∨ (v.2.val = 0 ∨ v.2.val + 1 = n)
+  · -- on boundary: corner or border.
+    by_cases hc : (v.1.val = 0 ∨ v.1.val + 1 = m) ∧ (v.2.val = 0 ∨ v.2.val + 1 = n)
+    · exact Or.inl hc
+    · exact Or.inr (Or.inl ⟨hb, hc⟩)
+  · -- interior.
+    exact Or.inr (Or.inr hb)
+
+/-! ### Per-class deficiency caps using the new predicates -/
+
+/-- Per-vertex cap by class: corner vertex absorbs ≤ 1 deficiency. -/
+lemma vertexDeficiency_le_of_corner {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    {T : SimpleGraph (GridVertex m n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph m n) T) (v : GridVertex m n)
+    (hv : isCornerVertex m n v) :
+    vertexDeficiency m n T v ≤ 1 :=
+  vertexDeficiency_le_one_of_corner hm hn hT v hv.1 hv.2
+
+/-- Per-vertex cap by class: border non-corner vertex absorbs ≤ 2 deficiency. -/
+lemma vertexDeficiency_le_of_border {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    {T : SimpleGraph (GridVertex m n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph m n) T) (v : GridVertex m n)
+    (hv : isBorderVertex m n v) :
+    vertexDeficiency m n T v ≤ 2 := by
+  unfold isBorderVertex isCornerVertex at hv
+  obtain ⟨hboundary, hnotcorner⟩ := hv
+  -- Either on row-boundary but not col-boundary, or vice versa.
+  rcases hboundary with h1 | h2
+  · -- v.1 boundary. If v.2 also boundary, corner — contradiction.
+    by_cases h2 : v.2.val = 0 ∨ v.2.val + 1 = n
+    · exact absurd ⟨h1, h2⟩ hnotcorner
+    · -- v.1 boundary, v.2 strict interior.
+      exact vertexDeficiency_le_two_of_border hm hn hT v (Or.inl ⟨h1, h2⟩)
+  · -- v.2 boundary. If v.1 also boundary, corner — contradiction.
+    by_cases h1 : v.1.val = 0 ∨ v.1.val + 1 = m
+    · exact absurd ⟨h1, h2⟩ hnotcorner
+    · -- v.1 strict interior, v.2 boundary.
+      exact vertexDeficiency_le_two_of_border hm hn hT v (Or.inr ⟨h1, h2⟩)
+
+/-- Per-vertex cap by class: interior vertex absorbs ≤ 3 deficiency.
+(Recovers the general `vertexDeficiency_le_three` cap.) -/
+lemma vertexDeficiency_le_of_interior {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    {T : SimpleGraph (GridVertex m n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph m n) T) (v : GridVertex m n)
+    (_hv : isInteriorVertex m n v) :
+    vertexDeficiency m n T v ≤ 3 :=
+  vertexDeficiency_le_three hm hn hT v
+
+/-! ### Cardinality of interior set ≤ I m n -/
+
+/-- The number of interior vertices in `Fin m × Fin n` equals `I m n`. -/
+lemma interior_card_eq (m n : Nat) :
+    ((Finset.univ : Finset (GridVertex m n)).filter
+        (fun v => isInteriorVertex m n v)).card = I m n := by
+  -- Use bijection with Fin (m-2) × Fin (n-2) when m, n ≥ 3, else 0.
+  unfold I isInteriorVertex
+  by_cases hcase : m < 3 ∨ n < 3
+  · -- m < 3 or n < 3: I = 0; show filter is empty.
+    rw [if_pos hcase]
+    rw [Finset.card_eq_zero]
+    rw [Finset.eq_empty_iff_forall_notMem]
+    intro v hv
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hv
+    -- hv : ¬ ((v.1.val = 0 ∨ v.1.val + 1 = m) ∨ (v.2.val = 0 ∨ v.2.val + 1 = n))
+    push_neg at hv
+    -- hv : (v.1.val ≠ 0 ∧ v.1.val + 1 ≠ m) ∧ (v.2.val ≠ 0 ∧ v.2.val + 1 ≠ n)
+    obtain ⟨⟨hv1a, hv1b⟩, hv2a, hv2b⟩ := hv
+    rcases hcase with hm | hn
+    · -- m < 3: v.1.val < m ≤ 2, but v.1.val ≠ 0 and v.1.val + 1 ≠ m forces a clash.
+      have := v.1.isLt
+      omega
+    · -- n < 3: symmetric.
+      have := v.2.isLt
+      omega
+  · -- m, n ≥ 3.
+    rw [if_neg hcase]
+    push_neg at hcase
+    obtain ⟨hm, hn⟩ := hcase
+    -- Build a bijection from Fin (m-2) × Fin (n-2) to the interior filter.
+    let f : Fin (m - 2) × Fin (n - 2) → GridVertex m n :=
+      fun p => (⟨p.1.val + 1, by have := p.1.isLt; omega⟩,
+                ⟨p.2.val + 1, by have := p.2.isLt; omega⟩)
+    have hf_inj : Function.Injective f := by
+      intros a b hab
+      have h1 : a.1.val + 1 = b.1.val + 1 := by
+        have := congrArg (Prod.fst · |>.val) hab
+        simpa [f] using this
+      have h2 : a.2.val + 1 = b.2.val + 1 := by
+        have := congrArg (Prod.snd · |>.val) hab
+        simpa [f] using this
+      apply Prod.ext
+      · apply Fin.ext; omega
+      · apply Fin.ext; omega
+    have himg : (Finset.univ : Finset (Fin (m - 2) × Fin (n - 2))).image f
+        = (Finset.univ : Finset (GridVertex m n)).filter
+            (fun v => ¬ ((v.1.val = 0 ∨ v.1.val + 1 = m) ∨
+                          (v.2.val = 0 ∨ v.2.val + 1 = n))) := by
+      ext v
+      simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter, f]
+      have hm3 : 3 ≤ m := hm
+      have hn3 : 3 ≤ n := hn
+      have hmeq : m - 2 + 2 = m := Nat.sub_add_cancel (by omega)
+      have hneq : n - 2 + 2 = n := Nat.sub_add_cancel (by omega)
+      constructor
+      · rintro ⟨⟨a, b⟩, hf⟩
+        rw [← hf]
+        have hai := a.isLt
+        have hbi := b.isLt
+        have ha2 : a.val + 2 ≤ m := by omega
+        have hb2 : b.val + 2 ≤ n := by omega
+        intro hbnd
+        rcases hbnd with (hb1 | hb1) | (hb2' | hb2')
+        all_goals (
+          dsimp at *
+          omega)
+      · intro hv
+        push_neg at hv
+        obtain ⟨⟨hv1a, hv1b⟩, hv2a, hv2b⟩ := hv
+        have hv1pos : v.1.val ≥ 1 := by omega
+        have hv2pos : v.2.val ≥ 1 := by omega
+        have hv1lt : v.1.val - 1 < m - 2 := by have := v.1.isLt; omega
+        have hv2lt : v.2.val - 1 < n - 2 := by have := v.2.isLt; omega
+        refine ⟨(⟨v.1.val - 1, hv1lt⟩, ⟨v.2.val - 1, hv2lt⟩), ?_⟩
+        apply Prod.ext
+        · apply Fin.ext; show v.1.val - 1 + 1 = v.1.val; omega
+        · apply Fin.ext; show v.2.val - 1 + 1 = v.2.val; omega
+    rw [← himg, Finset.card_image_of_injective _ hf_inj]
+    simp [Fintype.card_prod]
+
+/-! ### Headline refined upper bound -/
+
+/-- For any spanning subtree of the grid graph, the number of preserved
+vertices is at most the refined upper bound `refinedUB m n`. -/
+theorem preserved_le_refinedUB {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n)
+    {T : SimpleGraph (GridVertex m n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph m n) T) :
+    numPreserved m n T ≤ refinedUB m n := by
+  -- Strip cases (m = 1 or n = 1): D = 0, refinedUB = m * n.
+  -- Helper: refinedUB ≤ basicUB always (for m, n ≥ 1).
+  have hRB : refinedUB m n ≤ basicUB m n := refinedUB_le_basicUB hm hn
+  -- Quick fall-through: numPreserved ≤ basicUB ⇒ also ≤ ... when refined ≥ basic.
+  -- For m = 1 or n = 1 we have D = 0, so basicUB = mn = refinedUB; fallback works.
+  rcases Nat.lt_or_ge m 2 with hm1 | hm2
+  · -- m = 1: D = 0, basicUB = mn, refinedUB = mn (both branches collapse).
+    have hUB_eq : refinedUB m n = basicUB m n := by
+      have hD : D m n = 0 := by
+        unfold D; have : m - 1 = 0 := by omega
+        rw [this]; ring
+      have hI_le : 3 * I m n ≥ D m n := by rw [hD]; omega
+      unfold refinedUB
+      rw [if_neg (by omega : ¬ D m n > 3 * I m n)]
+      rfl
+    rw [hUB_eq]
+    exact preserved_le_basicUB hm hn hT
+  rcases Nat.lt_or_ge n 2 with hn1 | hn2
+  · -- n = 1: symmetric.
+    have hUB_eq : refinedUB m n = basicUB m n := by
+      have hD : D m n = 0 := by
+        unfold D; have : n - 1 = 0 := by omega
+        rw [this]; ring
+      unfold refinedUB
+      rw [if_neg (by omega : ¬ D m n > 3 * I m n)]
+      rfl
+    rw [hUB_eq]
+    exact preserved_le_basicUB hm hn hT
+  -- Main case: m, n ≥ 2.
+  unfold refinedUB
+  by_cases hcase : D m n > 3 * I m n
+  · -- Thin-grid branch.
+    rw [if_pos hcase]
+    -- Strategy: bound D ≤ 3 * |U_int| + 2 * |U_border| + |U_corner|, then
+    -- combine with |U_int| ≤ I to get 2 |U| ≥ D − I, hence
+    -- |U| ≥ ⌈(D − I)/2⌉, hence |P| ≤ m * n − ⌈(D − I)/2⌉.
+    set P : Finset (GridVertex m n) :=
+      (Finset.univ : Finset (GridVertex m n)).filter
+        (fun v => isPreserved m n T v)
+    set U : Finset (GridVertex m n) :=
+      (Finset.univ : Finset (GridVertex m n)).filter
+        (fun v => ¬ isPreserved m n T v)
+    set U_int : Finset (GridVertex m n) :=
+      U.filter (fun v => isInteriorVertex m n v)
+    set U_brd : Finset (GridVertex m n) :=
+      U.filter (fun v => isBorderVertex m n v)
+    set U_cor : Finset (GridVertex m n) :=
+      U.filter (fun v => isCornerVertex m n v)
+    -- |U| = |U_int| + |U_brd| + |U_cor|.
+    have hU_split : U.card = U_int.card + U_brd.card + U_cor.card := by
+      have hUnion : U = U_int ∪ U_brd ∪ U_cor := by
+        ext v
+        simp only [U_int, U_brd, U_cor, Finset.mem_union, Finset.mem_filter]
+        constructor
+        · intro hv
+          rcases vertexClass_trichotomy m n v with h | h | h
+          · exact Or.inr ⟨hv, h⟩
+          · exact Or.inl (Or.inr ⟨hv, h⟩)
+          · exact Or.inl (Or.inl ⟨hv, h⟩)
+        · rintro ((⟨hv, _⟩ | ⟨hv, _⟩) | ⟨hv, _⟩) <;> exact hv
+      have hdisj_int_brd : Disjoint U_int U_brd := by
+        rw [Finset.disjoint_left]
+        intro v hv1 hv2
+        simp only [U_int, U_brd, Finset.mem_filter] at hv1 hv2
+        -- hv1.2 : isInteriorVertex (i.e. ¬ boundary)
+        -- hv2.2 : isBorderVertex (i.e. boundary ∧ ¬ corner)
+        exact hv1.2 hv2.2.1
+      have hdisj_intbrd_cor : Disjoint (U_int ∪ U_brd) U_cor := by
+        rw [Finset.disjoint_left]
+        intro v hv1 hv2
+        simp only [Finset.mem_union, U_int, U_brd, Finset.mem_filter] at hv1
+        simp only [U_cor, Finset.mem_filter] at hv2
+        rcases hv1 with ⟨_, hint⟩ | ⟨_, hbrd⟩
+        · -- Interior: ¬ boundary, but corner is on boundary.
+          apply hint
+          exact Or.inl hv2.2.1
+        · -- Border: ¬ corner, but v is corner.
+          exact hbrd.2 hv2.2
+      rw [hUnion]
+      rw [Finset.card_union_of_disjoint hdisj_intbrd_cor]
+      rw [Finset.card_union_of_disjoint hdisj_int_brd]
+    -- |U_int| ≤ I m n.
+    have hU_int_le : U_int.card ≤ I m n := by
+      have h1 : U_int.card
+          ≤ ((Finset.univ : Finset (GridVertex m n)).filter
+              (fun v => isInteriorVertex m n v)).card := by
+        apply Finset.card_le_card
+        intro v hv
+        simp only [U_int, U, Finset.mem_filter, Finset.mem_univ, true_and] at hv
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+        exact hv.2
+      rw [interior_card_eq] at h1
+      exact h1
+    -- D ≤ 3 * |U_int| + 2 * |U_brd| + |U_cor|.
+    have hTotal : ∑ v, vertexDeficiency m n T v = D m n :=
+      total_deficiency hT
+    -- Sum decomposes by class on U; preserved have 0 deficiency.
+    have hSplit : ∑ v, vertexDeficiency m n T v
+        = (∑ v ∈ U_int, vertexDeficiency m n T v)
+          + (∑ v ∈ U_brd, vertexDeficiency m n T v)
+          + ∑ v ∈ U_cor, vertexDeficiency m n T v := by
+      have hP_zero : ∑ v ∈ P, vertexDeficiency m n T v = 0 := by
+        apply Finset.sum_eq_zero
+        intros v hv
+        simp only [P, Finset.mem_filter, Finset.mem_univ, true_and] at hv
+        unfold vertexDeficiency isPreserved at *
+        omega
+      have hU_eq : (∑ v ∈ U, vertexDeficiency m n T v)
+          = (∑ v ∈ U_int, vertexDeficiency m n T v)
+            + (∑ v ∈ U_brd, vertexDeficiency m n T v)
+            + ∑ v ∈ U_cor, vertexDeficiency m n T v := by
+        have : U = U_int ∪ U_brd ∪ U_cor := by
+          ext v
+          simp only [U_int, U_brd, U_cor, Finset.mem_union, Finset.mem_filter]
+          constructor
+          · intro hv
+            rcases vertexClass_trichotomy m n v with h | h | h
+            · exact Or.inr ⟨hv, h⟩
+            · exact Or.inl (Or.inr ⟨hv, h⟩)
+            · exact Or.inl (Or.inl ⟨hv, h⟩)
+          · rintro ((⟨hv, _⟩ | ⟨hv, _⟩) | ⟨hv, _⟩) <;> exact hv
+        rw [this]
+        rw [Finset.sum_union, Finset.sum_union]
+        · rw [Finset.disjoint_left]
+          intro v hv1 hv2
+          simp only [U_int, Finset.mem_filter] at hv1
+          simp only [U_brd, Finset.mem_filter] at hv2
+          unfold isBorderVertex isInteriorVertex isCornerVertex at *
+          obtain ⟨hbnd, _⟩ := hv2.2
+          exact hv1.2 hbnd
+        · rw [Finset.disjoint_left]
+          intro v hv1 hv2
+          simp only [U_int, U_brd, Finset.mem_union, Finset.mem_filter] at hv1
+          simp only [U_cor, Finset.mem_filter] at hv2
+          unfold isInteriorVertex isBorderVertex isCornerVertex at *
+          rcases hv1 with ⟨_, hint⟩ | ⟨_, hbrd⟩
+          · exact hint (Or.inl hv2.2.1)
+          · exact hbrd.2 hv2.2
+      have hUniv_split : (Finset.univ : Finset (GridVertex m n)) = P ∪ U := by
+        ext v
+        simp only [P, U, Finset.mem_univ, Finset.mem_union, Finset.mem_filter, true_and]
+        exact iff_of_true trivial (em (isPreserved m n T v))
+      have hPU_disj : Disjoint P U := by
+        rw [Finset.disjoint_filter]; intros _ _ hp hq; exact hq hp
+      rw [hUniv_split, Finset.sum_union hPU_disj, hP_zero]
+      simp [hU_eq]
+    have hD_bound : D m n ≤ 3 * U_int.card + 2 * U_brd.card + U_cor.card := by
+      rw [← hTotal, hSplit]
+      have h_int : (∑ v ∈ U_int, vertexDeficiency m n T v) ≤ 3 * U_int.card := by
+        calc ∑ v ∈ U_int, vertexDeficiency m n T v
+            ≤ ∑ _v ∈ U_int, 3 := by
+              apply Finset.sum_le_sum
+              intros v hv
+              simp only [U_int, U, Finset.mem_filter] at hv
+              exact vertexDeficiency_le_of_interior hm2 hn2 hT v hv.2
+          _ = 3 * U_int.card := by simp [Finset.sum_const, mul_comm]
+      have h_brd : (∑ v ∈ U_brd, vertexDeficiency m n T v) ≤ 2 * U_brd.card := by
+        calc ∑ v ∈ U_brd, vertexDeficiency m n T v
+            ≤ ∑ _v ∈ U_brd, 2 := by
+              apply Finset.sum_le_sum
+              intros v hv
+              simp only [U_brd, U, Finset.mem_filter] at hv
+              exact vertexDeficiency_le_of_border hm2 hn2 hT v hv.2
+          _ = 2 * U_brd.card := by simp [Finset.sum_const, mul_comm]
+      have h_cor : (∑ v ∈ U_cor, vertexDeficiency m n T v) ≤ U_cor.card := by
+        calc ∑ v ∈ U_cor, vertexDeficiency m n T v
+            ≤ ∑ _v ∈ U_cor, 1 := by
+              apply Finset.sum_le_sum
+              intros v hv
+              simp only [U_cor, U, Finset.mem_filter] at hv
+              exact vertexDeficiency_le_of_corner hm2 hn2 hT v hv.2
+          _ = U_cor.card := by simp [Finset.sum_const]
+      omega
+    -- Combine: D ≤ |U_int| + 2 |U|.
+    have h_2U : D m n ≤ U_int.card + 2 * U.card := by
+      rw [hU_split]
+      omega
+    -- |U_int| ≤ I, so D ≤ I + 2 |U|, hence |U| ≥ (D − I + 1) / 2.
+    have h_U_ge : 2 * U.card ≥ D m n - I m n := by omega
+    -- |P| + |U| = m * n.
+    have hPU_card : P.card + U.card = m * n := by
+      have hcomp : P.card + U.card = (Finset.univ : Finset (GridVertex m n)).card :=
+        Finset.filter_card_add_filter_neg_card_eq_card _
+      rw [hcomp]
+      unfold GridVertex; simp [Fintype.card_prod]
+    -- numPreserved = P.card.
+    have hP_eq : P.card = numPreserved m n T := rfl
+    -- We need: numPreserved ≤ m*n − I − ⌈(D − 3I)/2⌉.
+    -- Since 2|U| ≥ D − I, we have |U| ≥ ⌈(D − I)/2⌉ = (D − I + 1)/2.
+    -- And ⌈(D − I)/2⌉ = I + ⌈(D − 3I)/2⌉ (when D ≥ 3I). Verify by omega.
+    have hI_le_mn : I m n ≤ m * n := by
+      unfold I
+      split_ifs
+      · omega
+      · have hsub_m : m - 2 ≤ m := Nat.sub_le _ _
+        have hsub_n : n - 2 ≤ n := Nat.sub_le _ _
+        calc (m - 2) * (n - 2)
+            ≤ m * (n - 2) := Nat.mul_le_mul_right _ hsub_m
+          _ ≤ m * n := Nat.mul_le_mul_left _ hsub_n
+    -- 3 * I m n + (D m n - 3 * I m n + 1) / 2 ≤ m * n: need D m n ≤ ?
+    -- The inequality we want: P.card ≤ m * n - I m n - (D m n - 3 * I m n + 1) / 2.
+    -- Since P.card = m * n - U.card and U.card ≥ (D + ?) / 2, derive directly.
+    rw [← hP_eq]
+    -- Use Nat division facts to relate (D − I + 1)/2 ≥ I + (D − 3I + 1)/2.
+    have hI_lt_D : 3 * I m n < D m n := hcase
+    -- 2 * U.card ≥ D - I (from h_U_ge)
+    -- ⇒ U.card ≥ (D - I + 1) / 2 (using Nat ceiling).
+    -- We want: P.card ≤ m * n - I - (D - 3 * I + 1) / 2.
+    -- Equivalently: P.card + I + (D - 3*I + 1)/2 ≤ m * n.
+    -- And P.card + U.card = m*n, so it suffices: U.card ≥ I + (D - 3*I + 1)/2.
+    -- From 2 * U.card ≥ D - I: 2 * U.card ≥ D - I = 2 * I + (D - 3*I), so
+    --   U.card ≥ I + ⌈(D - 3*I)/2⌉ = I + (D - 3*I + 1)/2 if D - 3*I is odd,
+    --                                 I + (D - 3*I)/2 otherwise.
+    -- To see this works, just use omega on:
+    --   2 * U.card ≥ D - I, U.card ≤ m*n, omega will deduce U.card ≥ I + (D-3*I+1)/2
+    --   by introducing the divmod for (D - 3*I + 1)/2.
+    have hdiv_id : 2 * ((D m n - 3 * I m n + 1) / 2) + (D m n - 3 * I m n + 1) % 2
+        = D m n - 3 * I m n + 1 := Nat.div_add_mod _ _
+    have hdiv_mod_lt : (D m n - 3 * I m n + 1) % 2 < 2 := Nat.mod_lt _ (by decide)
+    omega
+  · -- Else branch: refinedUB collapses to basicUB.
+    rw [if_neg hcase]
+    -- Need numPreserved ≤ m * n - ceilDiv3 (D m n) = basicUB m n.
+    have hbasic : basicUB m n = m * n - ceilDiv3 (D m n) := rfl
+    rw [show m * n - ceilDiv3 (D m n) = basicUB m n from hbasic.symm]
+    exact preserved_le_basicUB hm hn hT
+
+/-- Universal form of the refined upper bound. -/
+theorem forall_spanning_subtree_preserved_le_refinedUB
+    {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n) :
+    ∀ (T : SimpleGraph (GridVertex m n)) [DecidableRel T.Adj],
+      IsSpanningSubtree (gridGraph m n) T → numPreserved m n T ≤ refinedUB m n :=
+  fun _ _ hT => preserved_le_refinedUB hm hn hT
+
 end GridGraphs

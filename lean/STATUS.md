@@ -105,6 +105,46 @@ etc.) is in the deferred-work list.
 - `connected_graph_has_spanning_tree`: any finite connected graph has a
   spanning tree subgraph (wrapper around mathlib's `Connected.exists_isTree_le`).
 
+### `GridGraphs/Spanning.lean` — refined upper bound (Phase 8.refined)
+- `isCornerVertex`, `isBorderVertex`, `isInteriorVertex`: vertex-class
+  predicates with decidability instances.
+- `vertexClass_trichotomy`: every grid vertex is exactly one of corner /
+  border / interior.
+- `vertexDeficiency_le_of_corner`/`_of_border`/`_of_interior`: per-class
+  deficiency caps (≤ 1 / ≤ 2 / ≤ 3) restated using the new predicates.
+- `interior_card_eq`: the number of interior vertices in `Fin m × Fin n`
+  equals `I m n`.
+- **`preserved_le_refinedUB`**: for any spanning subtree `T`,
+  `numPreserved m n T ≤ refinedUB m n`. Closes Phase 8.refined.
+- `forall_spanning_subtree_preserved_le_refinedUB`: ∀-quantified form.
+
+### `GridGraphs/ForestExtension.lean`
+- **`SimpleGraph.isAcyclic_extends_to_isTree`**: any acyclic subgraph
+  `F ≤ G` of a finite connected graph extends to a spanning tree of `G`.
+  Generalises mathlib's `Connected.exists_isTree_le` (which is the case
+  `F = ⊥`). Reusable mathlib-style lemma; key input for converting the
+  diagonal residue-1 forced forest to a spanning tree.
+
+### `GridGraphs/DoubleComb.lean`
+- `lBendForcedAdj` / `lBendForced`: the L-bend forced subgraph adjacency
+  and `SimpleGraph` definition. Forces top-row + left-column preservation.
+- `lBendForced_le_gridGraph`: the L-bend forced subgraph is contained in
+  `gridGraph m n`.
+- `topSpineColumnsAdj` / `topSpineColumns`: the simpler spanning-tree
+  candidate (top row + every column).
+- `topSpineColumns_le_gridGraph`: subgraph of `gridGraph`.
+- `topSpineColumns_reachable_in_column`, `topSpineColumns_reachable_top_row`,
+  `topSpineColumns_reachable_from_origin`: reachability lemmas.
+- `topSpineColumns_preconnected`, `topSpineColumns_connected`: the
+  candidate graph is connected for `m, n ≥ 1`.
+- `topSpineColumns_degree_top`, `topSpineColumns_preserves_top_row`:
+  every top-row vertex is preserved in `topSpineColumns m n`.
+- **Deferred**: the IsTree proof (via edge count and
+  `isTree_iff_connected_and_card`), the headline `lowerB_le_maxPreserved`,
+  and the L-bend acyclicity argument that would yield the full `m + n − 2`
+  lower bound. The infrastructure (definitions, connectedness,
+  preservation lemma) is in place.
+
 ### `GridGraphs/Tests.lean`
 - `decide`-based regression checks pinning Lean definitions of `D`,
   `basicUB`, `refinedUB`, `lowerB`, the vertex-class counts, and
@@ -184,10 +224,11 @@ full-degree vertices over all spanning trees of `gridGraph m n`. Each
 requires building a real spanning-tree predicate and a per-vertex degree
 function on the tree:
 
-- `preserved_le_refinedUB`: same as `preserved_le_basicUB`, with the refined
-  upper bound. Uses the per-class deficiency caps already proved
-  (`vertexDeficiency_le_one_of_corner`, `_le_two_of_border`,
-  `_le_three`); follow-up to `preserved_le_basicUB`.
+- The headline lower-bound theorem `lowerB m n ≤ maxPreserved m n` (i.e.
+  there exists a spanning subtree with `numPreserved ≥ m + n − 2`). The
+  L-bend forced subgraph is defined and shown to be a subgraph of the
+  grid graph in `DoubleComb.lean`; its acyclicity proof and the
+  forest-extension application remain.
 - Cardinality consequence of the forced-edge lemma: `P(m,n)` is bounded above by
   the maximum cardinality of a vertex set whose forced-edge graph is acyclic.
 - Diagonal counting theorem: any induced-edge decycling set `U` in the square
@@ -226,15 +267,15 @@ have `P = refinedUB` (refined bound is tight); the average gap
 
 ## Next Steps
 
-1. **`preserved_le_refinedUB`**: refine the headline upper bound using the
-   per-class deficiency caps (corner ≤ 1, border ≤ 2, interior ≤ 3). The
-   ingredients are all in `Spanning.lean`; the remaining work is the
-   piecewise arithmetic for `refinedUB`.
-2. Construct the double-comb spanning tree as a concrete subgraph and prove
-   it reaches `lowerB`. With `preserved_le_basicUB` in hand, this would close
-   the basic sandwich `lowerB m n ≤ P(m, n) ≤ basicUB m n` formally.
-3. Forest-extension lemma: any forest `F ≤ G` in finite connected `G`
-   extends to a spanning tree of `G`. Combined with `uResidueOne_card`,
-   this yields the diagonal residue-1 lower bound.
-4. Acyclicity of the residue-1 forced-edge graph (the hard half of
-   Proposition L1).
+1. Complete the double-comb lower bound: prove `topSpineColumns m n` has
+   exactly `mn − 1` edges (via degree-sum), then conclude `IsTree` via
+   `isTree_iff_connected_and_card`. Then state the headline existence
+   theorem: `∃ T, IsSpanningSubtree (gridGraph m n) T ∧ n ≤ numPreserved`.
+   This gives a partial lower bound (matching the `LB_simple = max(m, n)`
+   column of the empirical CSV).
+2. Stronger lower bound `m + n − 2` via the L-bend forced subgraph plus
+   `isAcyclic_extends_to_isTree`. Requires proving the L-bend is acyclic.
+3. Acyclicity of the residue-1 forced-edge graph (the hard half of
+   Proposition L1 in `analysis/proofs_diagonal.md`). Combined with
+   `isAcyclic_extends_to_isTree` and `uResidueOne_card`, this would yield
+   the formal diagonal residue-1 lower bound.
