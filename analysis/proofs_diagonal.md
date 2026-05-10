@@ -1445,3 +1445,91 @@ at the row 6-7 transition point (the middle-most row).
 
 Cached explicit witnesses are now available in
 `diagonal_patterns.residue_two_explicit_pattern(n)` for `n in {5, 8, 11, 14}`.
+
+## 2026-05-10 deep-dive: explicit slab n=8 → n=11 (works); n=11 → n=14 fails
+
+This session pursued the slab induction approach (Option A from the plan).
+Findings:
+
+### Slab n=8 → n=11: EXPLICITLY DERIVED, EXACT MATCH
+
+The cached n=11 pattern can be reconstructed from cached n=8 by:
+
+1. Insert 3 rows at positions `ir = n_old - 2 = 6` (so rows 6, 7, 8 in n_new=11).
+2. Insert 3 cols at positions `ic = n_old - 3 = 5` (so cols 5, 6, 7).
+3. Apply 3 cell modifications:
+   - ADD `(0, 1)` (top sparse anchor)
+   - REMOVE `(1, 0)` (drop col-0 from row 1)
+   - REMOVE `(n_new-1, n_new-1) = (10, 10)` (drop right-bottom anchor)
+4. Fill slab content with specific shape:
+   - Slab rows: `(.UUUUUU.UU.)`, `(.U....UUUU.)`, `(.UUUUUUU.UU)`.
+   - Slab cols: `(.UU.UUU.UU.)`, `(.UU.UUUUUU.)`, `(.UU.U..UUU.)`.
+
+This is implemented in `analysis/slab_construction.py::slab_extend_general`
+and verified to produce cached n=11 EXACTLY.
+
+The 3 cell modifications encode the ENVELOPE TRANSITION from n=8-style
+(row 0 entirely empty, row 1 dense including col 0, row n-1 has col n-1
+anchor) to n=11-style (row 0 sparse col 1, row 1 cols 1..n-1, row n-1 has
+col 1 only).
+
+### Slab n=11 → n=14: FAILS
+
+Applying the same `slab_extend_general` to cached n=11 gives an n=14
+candidate with `|U| = 120` (1 over `q(14) = 119`) and 2 disconnected dual
+cells. The 3 envelope-modification cells become NO-OPS for n_old=11 (since
+n=11's envelope already matches what they target), so they don't compensate
+for the slab's overcount.
+
+Further analysis: the slab cell count grows as `4*n_old + 4`. We need
+`12*k_old + 11`. For `n_old = 3*k_old + 2`:
+- `4*(3*k_old + 2) + 4 = 12*k_old + 12`.
+- Need `12*k_old + 11`, so slab is OFF BY 1 CELL for all k_old.
+- For k_old=2 (n=8), the 3 envelope mods contribute net -1, balancing.
+- For k_old >= 3, mods are no-ops, so no compensation.
+
+### Why local search can't fix the n=14 candidate
+
+SA with toggles restricted to slab cells (preserving cached n=11 elsewhere)
+got stuck at `|U|=121` (2 over q). With unrestricted toggles, SA found
+valid n=14 q-witnesses but they were structurally different from "cached
+n=11 + slab" — they MODIFY THE OLD STRUCTURE too.
+
+This means: **cached n=11 is NOT the "right" base for slab induction**.
+The "right" base would be an n=11 q-witness whose structure is preserved
+under slab insertion to give a valid n=14 q-witness.
+
+### Conclusion
+
+The slab approach captures part of the residue-2 structure but is incomplete:
+
+* **Confirmed**: explicit slab n=8 → n=11 works.
+* **Open**: identifying the slab + base pattern for n=11 onward such that
+  iterative slab insertion produces valid q-witnesses for all n=3k+2, k>=3.
+
+Possible directions for next session:
+
+1. **Search for an alternative n=11 q-witness** that, combined with a clean
+   slab, gives valid n=14. The current cached n=11 doesn't fit; SA could
+   help find a slab-compatible n=11.
+
+2. **Larger slab (6-row + 6-col, n → n+6)** that operates within a single
+   "n mod 6" residue class. The cached witnesses are at n ∈ {5, 11, 17, ...}
+   (mod 6 = 5) and {8, 14, 20, ...} (mod 6 = 2); a slab n → n+6 would
+   keep n in the same mod-6 class. Initial check: n=8 → n=14 doesn't have
+   a clean 6-row+6-col substructure either (best 11 diffs). May not work.
+
+3. **Compound slab with TWO envelope transitions**. Each iteration applies
+   a slab + envelope-correction. Requires identifying what the second
+   envelope correction looks like.
+
+4. **Accept that residue 2 may need explicit witnesses for all n**. With SA
+   tooling (`analysis/sa_residue2.py`) we can find witnesses up to some n,
+   but parametric form is elusive.
+
+Implementation status:
+
+* `analysis/slab_construction.py::slab_extend_general(rows_old)`: works for
+  n=8 → n=11 exactly. For other n, it's incomplete.
+* `analysis/sa_residue2.py`: SA search tool. Reaches q for n=5, n=8 from
+  v35 seed. Stalls for n >= 11.
