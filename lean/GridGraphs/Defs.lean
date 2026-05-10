@@ -143,6 +143,40 @@ def gridGraph (m n : Nat) : SimpleGraph (GridVertex m n) :=
       · exact Nat.succ_ne_self _ h1
       · exact Nat.succ_ne_self _ h1 }
 
+/-! ## Identification with the boxProduct of pathGraphs
+
+The grid graph is exactly the box product `pathGraph m □ pathGraph n` from
+mathlib. This identification is essentially definitional (after a
+disjunction reorder) and inherits connectivity, degree decomposition, and
+edge-count formulas for free. -/
+
+theorem gridGraph_eq_boxProd (m n : Nat) :
+    gridGraph m n = SimpleGraph.pathGraph m □ SimpleGraph.pathGraph n := by
+  ext ⟨a₁, b₁⟩ ⟨a₂, b₂⟩
+  show adjacent m n (a₁, b₁) (a₂, b₂) ↔
+    (SimpleGraph.pathGraph m □ SimpleGraph.pathGraph n).Adj (a₁, b₁) (a₂, b₂)
+  unfold adjacent
+  rw [SimpleGraph.boxProd_adj]
+  simp only [SimpleGraph.pathGraph_adj]
+  -- gridGraph 1st disjunct (row eq, cols differ) = boxProd 2nd disjunct.
+  -- gridGraph 2nd disjunct (col eq, rows differ) = boxProd 1st disjunct.
+  constructor
+  · rintro (⟨hr, hc⟩ | ⟨hc, hr⟩)
+    · exact Or.inr ⟨hc, hr⟩
+    · exact Or.inl ⟨hr, hc⟩
+  · rintro (⟨hr, hc⟩ | ⟨hc, hr⟩)
+    · exact Or.inr ⟨hc, hr⟩
+    · exact Or.inl ⟨hr, hc⟩
+
+/-- Connectedness of the grid graph for `m, n ≥ 1`, inherited from
+mathlib's `pathGraph_connected` via the box-product identification. -/
+theorem gridGraph_connected {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n) :
+    (gridGraph m n).Connected := by
+  rcases Nat.exists_eq_succ_of_ne_zero (by omega : m ≠ 0) with ⟨m', rfl⟩
+  rcases Nat.exists_eq_succ_of_ne_zero (by omega : n ≠ 0) with ⟨n', rfl⟩
+  rw [gridGraph_eq_boxProd]
+  exact (SimpleGraph.pathGraph_connected m').boxProd (SimpleGraph.pathGraph_connected n')
+
 /-! ## Decidability and degree-related infrastructure
 
 Every concrete grid uses these instances; in particular `(gridGraph m n).degree`

@@ -43,6 +43,10 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 - `GridGraphs/ResidueOne.lean`: Residue-1 diagonal `U` construction
   (`uResidueOne k`) with proven cardinality `6 * k^2 + k + 1` (Proposition L1
   cardinality from `analysis/proofs_diagonal.md`).
+- `GridGraphs/Spanning.lean`: `IsSpanningSubtree` predicate, total-deficiency
+  identity, per-vertex deficiency caps (≤ 1 / ≤ 2 / ≤ 3 for corner / border /
+  interior), and the headline operational upper bound
+  `preserved_le_basicUB`.
 - `GridGraphs/Tests.lean`: `decide`-based regression checks pinning Lean
   values of bound expressions and vertex counts to known Rust DP outputs.
 - `GridGraphs.lean`: Aggregate import.
@@ -71,6 +75,18 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
   has `|U| = 6 * k^2 + k + 1`. Cardinality half of Proposition L1; the
   acyclicity / forest-extension half is documented as deferred in
   `STATUS.md`.
+- `gridGraph_eq_boxProd`: the grid graph is the box product
+  `pathGraph m □ pathGraph n` (enabling free connectivity / degree
+  decomposition from mathlib).
+- `gridGraph_connected`: connectivity of the grid graph for `m, n ≥ 1`.
+- `total_deficiency`: `∑ v, vertexDeficiency m n T v = D m n` for any
+  spanning subtree `T`.
+- `vertexDeficiency_le_three`: per-vertex cap of 3 deficiency in any
+  spanning subtree. Per-class refinements (≤ 1 / ≤ 2) for corner / border
+  vertices.
+- **`preserved_le_basicUB`**: the operational connection
+  `numPreserved m n T ≤ basicUB m n` for any spanning subtree.
+  Phase 8 of `docs/ROADMAP.md` complete.
 
 See `STATUS.md` for the full list and `EVIDENCE.md` for line-numbered
 references plus empirical evidence.

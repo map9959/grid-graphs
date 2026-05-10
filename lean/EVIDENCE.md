@@ -120,22 +120,56 @@ of `D`, `basicUB`, `refinedUB`, `lowerB`, the vertex-class counts, and
 `lean/results-empirical.csv`. Any regression in the bound expressions or
 vertex counts breaks `lake build`.
 
+### `GridGraphs/Spanning.lean` — operational upper bound `P(m,n) ≤ basicUB m n`
+
+Phase 8 from `docs/ROADMAP.md`. Bridges the algebraic bound expressions to
+the operational quantity `numPreserved m n T` for a spanning subtree `T`.
+
+| Lemma | Statement | Location |
+|-------|-----------|----------|
+| `gridGraph_eq_boxProd` | `gridGraph m n = pathGraph m □ pathGraph n` | `Defs.lean` |
+| `gridGraph_connected` | `(gridGraph m n).Connected` for `m, n ≥ 1` | `Defs.lean` |
+| `pathGraph_degree_interior` etc. | path-graph degree at interior / endpoints | `Spanning.lean:49–137` |
+| `gridGraph_degree` | `(gridGraph m n).degree v = (pathGraph m).degree v.1 + (pathGraph n).degree v.2` | `Spanning.lean:155` |
+| `gridGraph_degree_le_four` | every grid vertex has degree ≤ 4 | `Spanning.lean:173` |
+| `gridGraph_degree_corner` / `_border` / `_interior` | per-class closed forms (2/3/4) | `Spanning.lean:201,218,247` |
+| `pathGraph_card_edgeFinset` | `#(pathGraph k).edgeFinset = k − 1` | `Spanning.lean:262` |
+| `gridGraph_card_edgeFinset` | `2 * #(gridGraph m n).edgeFinset = 2 * numEdges m n` | `Spanning.lean:353` |
+| `IsSpanningSubtree` (def) | `T ≤ G ∧ T.IsTree` | `Spanning.lean:388` |
+| `IsSpanningSubtree.degree_le` | `T.degree v ≤ G.degree v` | `Spanning.lean:401` |
+| `IsSpanningSubtree.card_edgeFinset` | `#T.edgeFinset + 1 = Fintype.card V` | `Spanning.lean:407` |
+| `IsSpanningSubtree.sum_degrees` | `∑ v, T.degree v = 2 * (Fintype.card V − 1)` | `Spanning.lean:413` |
+| `sum_gridGraph_degree` | `∑ v, (gridGraph m n).degree v = 2 * numEdges m n` | `Spanning.lean:425` |
+| **`total_deficiency`** | **`∑ v, vertexDeficiency m n T v = D m n` for spanning subtrees** | `Spanning.lean:434` |
+| `tree_degree_pos` | `T.degree v ≥ 1` for `m * n ≥ 2` | `Spanning.lean:491` |
+| **`vertexDeficiency_le_three`** | **per-vertex cap of 3 for `m, n ≥ 2`** | `Spanning.lean:534` |
+| `vertexDeficiency_le_one_of_corner` | corner cap of 1 | `Spanning.lean:544` |
+| `vertexDeficiency_le_two_of_border` | border (non-corner) cap of 2 | `Spanning.lean:556` |
+| **`preserved_le_basicUB`** | **`numPreserved m n T ≤ basicUB m n` for spanning subtrees** | `Spanning.lean:571` |
+| `forall_spanning_subtree_preserved_le_basicUB` | ∀-quantified form | `Spanning.lean:701` |
+
+The headline `preserved_le_basicUB` connects the algebraic bound
+expressions of `Bounds.lean` to the operational `numPreserved` quantity,
+formalising the empirical bound `P(m, n) ≤ basicUB m n` that
+`results-empirical.csv` documents for `m, n ≤ 10`.
+
 ### What is **not** formally proven (deferred)
 
-The following theorems require defining a real spanning-tree structure on
-`gridGraph m n`, computing actual vertex degrees inside a tree, and proving
-deficiency accounting. They are intentionally **absent** from this branch (the
-previous file shipped them as `sorry` against a placeholder
-`PreservedCount := 0`, which proved nothing).
+The following theorems are still open in Lean. The total-deficiency identity,
+per-vertex caps, and `preserved_le_basicUB` are now **proven** (Phase 8
+done — see `Spanning.lean` above).
 
-- The total deficiency of any spanning tree of the grid equals `D(m,n)`.
-- For any spanning tree `T`, `numPreserved(T) ≤ basicUB m n`.
-- For any spanning tree `T`, `numPreserved(T) ≤ refinedUB m n`.
-- There exists a spanning tree achieving `numPreserved ≥ m + n − 1`.
-- `maxPreserved m n ≥ lowerB m n` and `maxPreserved m n ≤ refinedUB m n`.
+- For any spanning subtree `T`, `numPreserved(T) ≤ refinedUB m n`. The
+  ingredients (per-class caps `vertexDeficiency_le_one_of_corner`,
+  `_le_two_of_border`, `_le_three`) are all proved; the arithmetic for
+  `refinedUB`'s piecewise definition is the remaining work.
+- There exists a spanning tree achieving `numPreserved ≥ m + n − 1`. The
+  "double-comb" lower bound construction. Combined with `preserved_le_basicUB`,
+  this would close the basic sandwich `lowerB m n ≤ P(m, n) ≤ basicUB m n`.
 - **Forest-extension lemma**: any forest `F ≤ G` in a finite connected graph
-  `G` extends to a spanning tree of `G`. Combined with `uResidueOne_card`,
-  this would give `maxPreserved (3k+1) (3k+1) ≥ (3k+1)^2 − (6k^2 + k + 1)`,
+  `G` extends to a spanning tree of `G`. Combined with `uResidueOne_card`
+  and an acyclicity argument, this would give
+  `maxPreserved (3k+1) (3k+1) ≥ (3k+1)^2 − (6k^2 + k + 1)`,
   i.e. the residue-1 half of Conjecture C from `docs/ROADMAP.md`. The
   intermediate step (proving the forced-edge graph of `(uResidueOne k)ᶜ` is
   acyclic) is currently empirical only — verified by
@@ -290,18 +324,25 @@ Aggregate statistics over the 100 rows above:
 
 ## How the formal and empirical layers connect
 
-The Lean proofs cover the **bound expressions** themselves (their algebraic
-identities, monotonicity, ordering) and the closed-form deficiency identity
-`D(m,n) = 2(m-1)(n-1)`. They do **not** yet prove that these expressions are
-upper/lower bounds on the operational quantity `P(m, n)` (the maximum number
-of full-degree vertices in a spanning tree of `G(m, n)`); the empirical layer
-is what currently certifies that connection (for `m, n ≤ 9` exhaustively).
+The Lean proofs now cover **both** the algebraic bound expressions
+(`basicUB`, `refinedUB`, `lowerB`, with their identities, monotonicity, and
+ordering) **and** the operational connection
+`P(m, n) ≤ basicUB m n` via `Spanning.lean`. Concretely, for any spanning
+subtree `T` of `gridGraph m n`:
 
-Closing that gap formally requires three further pieces of Lean infrastructure
-(see `STATUS.md` for the deferred-work catalogue):
-1. A `Finset`/`SimpleGraph.IsSpanningTree` predicate on subgraphs of
-   `gridGraph m n`.
-2. A vertex-level degree function inside a chosen tree, plus the global identity
-   `Σ_v deg_T(v) = 2(|V| − 1)`.
-3. A `vertexDeficiency` definition and the cap lemma `def(v) ≤ deg_G(v) − 1`
-   (equivalently `≤ 3` for interior, `≤ 2` for border, `≤ 1` for corner).
+```
+preserved_le_basicUB : numPreserved m n T ≤ basicUB m n
+```
+
+is now a Lean theorem (Phase 8 of `docs/ROADMAP.md`). The empirical layer
+in this file (the `1 ≤ m, n ≤ 10` table) was previously the *only* layer
+asserting this inequality; it is now also formally proved.
+
+What remains:
+- The matching upper bound `numPreserved ≤ refinedUB m n` (the per-class
+  deficiency caps in `Spanning.lean` are proved; the piecewise arithmetic
+  is the only remaining work).
+- The matching lower bound `lowerB m n ≤ maxPreserved m n` (would require
+  the explicit "double-comb" construction).
+- The diagonal residue-1 lower bound (depends on the forest-extension lemma
+  and acyclicity of the `(uResidueOne k)ᶜ`-forced graph).

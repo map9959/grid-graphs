@@ -112,6 +112,51 @@ etc.) is in the deferred-work list.
   the Rust DP empirical data in `lean/results-empirical.csv`. A regression
   in any bound expression breaks the build.
 
+### `GridGraphs/Spanning.lean` — operational upper bound `P(m, n) ≤ basicUB m n`
+
+This module bridges the algebraic bound expressions in `Bounds.lean` to
+the operational quantity `numPreserved m n T` for a spanning subtree `T`,
+formalising Phase 8 of `docs/ROADMAP.md`.
+
+**Box-product identification (Defs.lean):**
+- `gridGraph_eq_boxProd`: `gridGraph m n = pathGraph m □ pathGraph n`.
+- `gridGraph_connected`: connectivity for `m, n ≥ 1`, inherited from
+  `pathGraph_connected` and `connected_boxProd`.
+
+**Path-graph and grid-graph degree:**
+- `pathGraph_degree_interior`, `pathGraph_degree_left_end`,
+  `pathGraph_degree_right_end`, `pathGraph_degree_one`: closed forms.
+- `gridGraph_degree`: `(gridGraph m n).degree v
+    = (pathGraph m).degree v.1 + (pathGraph n).degree v.2`,
+  via `degree_boxProd`.
+- `gridGraph_degree_le_four`: every grid vertex has degree ≤ 4.
+- `gridGraph_degree_corner` / `_border` / `_interior`: per-class closed
+  forms (`= 2`, `= 3`, `= 4`) for `m, n ≥ 2`.
+- `pathGraph_card_edgeFinset`: `#(pathGraph k).edgeFinset = k − 1`.
+- `gridGraph_card_edgeFinset`: `2 * #(gridGraph m n).edgeFinset = 2 * numEdges m n`.
+
+**Spanning-subtree predicate:**
+- `IsSpanningSubtree G T`: `T ≤ G ∧ T.IsTree`.
+- `IsSpanningSubtree.le`, `.isTree`, `.isAcyclic`, `.isConnected`,
+  `.degree_le`, `.card_edgeFinset`, `.sum_degrees`: convenience accessors
+  packaging the mathlib facts.
+
+**Total deficiency identity:**
+- `sum_gridGraph_degree`: `∑ v, (gridGraph m n).degree v = 2 * numEdges m n`.
+- `total_deficiency`: `∑ v, vertexDeficiency m n T v = D m n` for any spanning
+  subtree `T`.
+
+**Per-vertex deficiency caps:**
+- `tree_degree_pos`: `T.degree v ≥ 1` whenever `m * n ≥ 2`.
+- `vertexDeficiency_le_three`: cap of 3 (basic).
+- `vertexDeficiency_le_one_of_corner`: corner vertex cap of 1.
+- `vertexDeficiency_le_two_of_border`: border (non-corner) vertex cap of 2.
+
+**Headline operational upper bound:**
+- **`preserved_le_basicUB`**: for any spanning subtree `T` of `gridGraph m n`,
+  `numPreserved m n T ≤ basicUB m n`. Phase 8 from `docs/ROADMAP.md`.
+- `forall_spanning_subtree_preserved_le_basicUB`: ∀-quantified form.
+
 ### `GridGraphs/ResidueOne.lean`
 - `isInUResidueOne k r c`: predicate defining the residue-1 non-full set
   `U` of the `(3k+1) × (3k+1)` grid (cf. `analysis/diagonal_patterns.py`'s
@@ -139,14 +184,10 @@ full-degree vertices over all spanning trees of `gridGraph m n`. Each
 requires building a real spanning-tree predicate and a per-vertex degree
 function on the tree:
 
-- Spanning-tree structure: a `Finset (Sym2 (GridVertex m n))` predicate /
-  `SimpleGraph.IsSpanningTree` instance for `gridGraph m n`.
-- Tree-degree identity: `Σ_v deg_T(v) = 2*(m*n − 1)`.
-- Total deficiency in any spanning tree equals `D m n`.
-- Per-vertex deficiency cap: `def(v) ≤ deg_G(v) − 1`, i.e. ≤ 3 / 2 / 1 for
-  interior / border / corner vertices.
-- `preserved_le_basicUB`: for any spanning tree `T`, `numPreserved T ≤ basicUB m n`.
-- `preserved_le_refinedUB`: same, with `refinedUB`.
+- `preserved_le_refinedUB`: same as `preserved_le_basicUB`, with the refined
+  upper bound. Uses the per-class deficiency caps already proved
+  (`vertexDeficiency_le_one_of_corner`, `_le_two_of_border`,
+  `_le_three`); follow-up to `preserved_le_basicUB`.
 - Cardinality consequence of the forced-edge lemma: `P(m,n)` is bounded above by
   the maximum cardinality of a vertex set whose forced-edge graph is acyclic.
 - Diagonal counting theorem: any induced-edge decycling set `U` in the square
@@ -185,13 +226,15 @@ have `P = refinedUB` (refined bound is tight); the average gap
 
 ## Next Steps
 
-1. Define `IsSpanningTree T` and `vertexDegree T v` for a subgraph
-   `T : SimpleGraph (GridVertex m n)`.
-2. Prove `total_deficiency`: `∑ v, (deg_G v − deg_T v) = D m n` for spanning
-   trees `T`. This is the load-bearing identity for both upper bounds.
-3. Use `total_deficiency` plus the per-vertex cap to prove
-   `preserved_le_basicUB`. Combined with `D_eq_deficiency`,
-   `lowerB_le_basicUB`, `refinedUB_le_basicUB` already in this branch, this
-   yields the basic sandwich.
-4. Construct the double-comb spanning tree as a concrete `Finset` and prove
-   it reaches `lowerB`.
+1. **`preserved_le_refinedUB`**: refine the headline upper bound using the
+   per-class deficiency caps (corner ≤ 1, border ≤ 2, interior ≤ 3). The
+   ingredients are all in `Spanning.lean`; the remaining work is the
+   piecewise arithmetic for `refinedUB`.
+2. Construct the double-comb spanning tree as a concrete subgraph and prove
+   it reaches `lowerB`. With `preserved_le_basicUB` in hand, this would close
+   the basic sandwich `lowerB m n ≤ P(m, n) ≤ basicUB m n` formally.
+3. Forest-extension lemma: any forest `F ≤ G` in finite connected `G`
+   extends to a spanning tree of `G`. Combined with `uResidueOne_card`,
+   this yields the diagonal residue-1 lower bound.
+4. Acyclicity of the residue-1 forced-edge graph (the hard half of
+   Proposition L1).

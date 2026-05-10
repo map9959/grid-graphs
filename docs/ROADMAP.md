@@ -47,7 +47,7 @@ mathlib bound expressions) machinery are in this repo. See
 | 5 | Conjecture A as a theorem (`α_m = (m+2)/3 ⇔ m ≡ 1 mod 3`) | Pending — **recommended next** | — |
 | 6 | Per-m closed forms for `m ≡ 0, 2 (mod 3)` | Pending | — |
 | 7 | Diagonal `P(n, n)`: prove Conjecture C | Pending; exact data through n = 15 supports closed form | `analysis/conjectures.md`, `analysis/proofs_diagonal.md` |
-| 8 | Lean formalization of `P(m, n) ≤ basicUB m n` | Pending | — |
+| 8 | Lean formalization of `P(m, n) ≤ basicUB m n` | **Done** | `lean/GridGraphs/Spanning.lean` (`preserved_le_basicUB`) |
 | 9 | Lean formalization of per-`m` constructions and Conjecture A | Pending (multi-month) | — |
 
 ### What Phase 3 actually delivered
@@ -344,39 +344,48 @@ Subtasks:
 **Effort**: 7a is done for now. 7b/7c are the main work; expect weeks for the
 informal construction/counting proof and substantially longer for Lean.
 
-## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` (formerly Phase 6)
+## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` ✅ **DONE**
 
-Build the operational layer in Lean to convert the empirical certification
-of the basic upper bound into a machine-checked theorem.
+Built in `lean/GridGraphs/Spanning.lean`. The headline theorem
+`preserved_le_basicUB` states: for every spanning subtree `T` of
+`gridGraph m n` (with `m, n ≥ 1`), `numPreserved m n T ≤ basicUB m n`.
 
-**Effort**: 2–4 weeks.
-**Yield**: the principal upper bound moves from "empirically true for
-m, n ≤ 12" to "proven for all m, n".
-**Risk**: mathlib's `SimpleGraph.IsAcyclic` and spanning-tree API may
-need extension for the combinatorial sums; non-trivial library
-contributions may be required.
+### What was actually built
 
-### Subtasks
+1. **8.1** ✅ `IsSpanningSubtree G T : T ≤ G ∧ T.IsTree`. Convenience
+   accessors `.le`, `.isTree`, `.isAcyclic`, `.isConnected`.
+2. **8.2** ✅ Tree edge count `IsSpanningSubtree.card_edgeFinset`
+   (`#T.edgeFinset + 1 = |V|`) and degree sum
+   `IsSpanningSubtree.sum_degrees` (`∑ v, T.degree v = 2(|V| − 1)`),
+   from mathlib's `IsTree.card_edgeFinset` and
+   `sum_degrees_eq_twice_card_edges`.
+3. **8.3** ✅ `vertexDeficiency m n T v` (in `Defs.lean`),
+   `numPreserved m n T` (filtered Finset count), `isPreserved`.
+4. **8.4** ✅ `total_deficiency`: `∑ v, vertexDeficiency m n T v = D m n`.
+5. **8.5** ✅ `vertexDeficiency_le_three` plus per-class refinements
+   `vertexDeficiency_le_one_of_corner`, `vertexDeficiency_le_two_of_border`.
+6. **8.6** ✅ `preserved_le_basicUB`: the headline theorem.
+7. **8.7** ✅ `lean/STATUS.md`, `lean/EVIDENCE.md`, `lean/README.md`
+   updated.
 
-1. **8.1** Define `IsSpanningTree (T : SimpleGraph (GridVertex m n)) :
-   Prop` capturing acyclicity + connectedness + spanning + subgraph of
-   `gridGraph m n`.
-2. **8.2** Define `vertexDeg T v : ℕ` and prove
-   `∑ v, vertexDeg T v = 2 * (m * n − 1)` for any spanning tree.
-3. **8.3** Define `numFullDegree T : ℕ` and `vertexDeficiency T v : ℕ`,
-   plus the obvious lemma `numFullDegree T = card {v | vertexDeficiency T
-   v = 0}`.
-4. **8.4** Prove the global identity `∑ v, vertexDeficiency T v = D m n`
-   (combines 8.2 with `Defs.lean::degSumGrid` and the proven
-   `deficiency_closed_form`).
-5. **8.5** Prove the per-vertex deficiency cap: for any non-full-degree
-   vertex `v`, `vertexDeficiency T v ≤ deg_G v − 1` (i.e. ≤ 3, 2, 1 for
-   interior, border, corner respectively).
-6. **8.6** Conclude `P m n ≤ basicUB m n` via deficiency packing
-   (combining 8.4, 8.5, and `ceilDiv3_mul_ge` already proved in
-   `Bounds.lean`).
-7. **8.7** Update `lean/STATUS.md`, `lean/EVIDENCE.md`, `lean/README.md`
-   to reflect the theorem.
+### Key insight enabling the proof
+
+The grid graph was identified with the box product:
+```
+gridGraph m n = pathGraph m □ pathGraph n
+```
+(`gridGraph_eq_boxProd` in `Defs.lean`). This let us inherit connectivity
+from `connected_boxProd` and `pathGraph_connected`, and the per-vertex
+degree decomposition `(gridGraph m n).degree v = (pathGraph m).degree v.1
++ (pathGraph n).degree v.2` from `degree_boxProd`. The actual proof was
+substantially shorter than originally estimated (~700 lines, ~1 day of
+work) once this identification was found.
+
+### Refined upper bound (sub-phase 8.refined)
+
+`preserved_le_refinedUB` is **not** yet proved but the per-class deficiency
+caps are all in place. The remaining work is the piecewise arithmetic for
+`refinedUB`'s definition. Estimated effort: ~2–3 hours.
 
 ## Phase 9 — Lean formalization of constructions and Conjecture A (long-term)
 
