@@ -35,6 +35,8 @@ etc.) is in the deferred-work list.
 - `deficiency_closed_form`: `deficiency m n = 2*(m-1)*(n-1)`.
 - `gridGraph`: a real `SimpleGraph (Fin m × Fin n)` with proven `symm` /
   `loopless` fields.
+- `verts_partition`: `numCorners m n + numBorderNonCorner m n + numInterior m n = m * n`.
+  Pure arithmetic case-analysis on the `{0, 1, ≥2}` shape of `m, n`.
 
 ### `GridGraphs/Bounds.lean`
 - Definitions of `D`, `I`, `ceilDiv3`, `basicUB`, `refinedUB`, `lowerB` matching
@@ -86,6 +88,25 @@ etc.) is in the deferred-work list.
 - `connected_graph_has_spanning_tree`: any finite connected graph has a
   spanning tree subgraph (wrapper around mathlib's `Connected.exists_isTree_le`).
 
+### `GridGraphs/ResidueOne.lean`
+- `isInUResidueOne k r c`: predicate defining the residue-1 non-full set
+  `U` of the `(3k+1) × (3k+1)` grid (cf. `analysis/diagonal_patterns.py`'s
+  `residue_one_pattern`).
+- `uResidueOne k : Finset (GridVertex (3*k+1) (3*k+1))`: the corresponding
+  `Finset`.
+- `uResidueOne_card`: `|uResidueOne k| = 6 * k^2 + k + 1` for `k ≥ 1`.
+  This is the cardinality half of Proposition L1 from
+  `analysis/proofs_diagonal.md`. The acyclicity / forest-extension half
+  (proving the forced-edge graph of `(uResidueOne k)ᶜ` extends to a
+  spanning tree achieving `n² − |U|` full-degree vertices) is **not** in
+  this file; it depends on the still-open dual-equivalence and
+  forest-extension theorems documented in `analysis/proofs_diagonal.md`.
+- `q n`: the conjectured diagonal closed-form `q`-formula.
+- `uResidueOne_card_eq_q`: the proven cardinality equals `q (3k + 1)`.
+  Cross-link to `analysis/proofs_diagonal.md` and
+  `analysis/check_diagonal_patterns.py`, which empirically verifies the
+  forest-extension half of L1 for every `n = 3k+1` in `[4, 40]`.
+
 ## Not proved (deferred — see notes)
 
 These statements would connect the bound *expressions* in `Bounds.lean` to the
@@ -110,10 +131,13 @@ function on the tree:
 - Forest-extension lemma preserving a specified forced forest while completing
   to a spanning tree. `connected_graph_has_spanning_tree` proves existence of
   some spanning tree in a connected graph, but not yet one containing all forced
-  edges.
+  edges. This is the key remaining input for converting the proven
+  `uResidueOne_card` into the operational lower bound on `P(3k+1, 3k+1)`.
 - `lower_bound_construction`: an explicit "double-comb" spanning tree achieving
   `numPreserved ≥ m + n − 1`.
-- `verts_partition`: `numCorners + numBorderNonCorner + numInterior = m * n`.
+- The diagonal lower bound `maxPreserved (3k+1) (3k+1) ≥ (3k+1)^2 − (6k^2 + k + 1)
+  = 3k^2 + 5k`, depending on the forest-extension lemma above to convert
+  `uResidueOne_card` into a concrete spanning tree.
 
 The previous version of this file claimed these were proven; in fact
 `Bounds.lean` shipped them with `sorry` against a placeholder

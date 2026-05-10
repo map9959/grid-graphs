@@ -38,6 +38,7 @@ symmetry and irreflexivity (loopless), at `Defs.lean:112`.
 | `succ_mul_succ_sub_one` | `(a+1)*(b+1) - 1 = a*b + a + b` | `Defs.lean:33` |
 | `deficiency_succ_succ` | `deficiency (m+1) (n+1) = 2*m*n` | `Defs.lean:40` |
 | **`deficiency_closed_form`** | **`deficiency m n = 2 * (m-1) * (n-1)`** | `Defs.lean:63` |
+| **`verts_partition`** | **`numCorners + numBorderNonCorner + numInterior = m * n`** | `Defs.lean:193` |
 
 ### `GridGraphs/Bounds.lean` — algebraic bound expressions
 
@@ -63,6 +64,27 @@ formulas in `docs/DERIVATION.md`.
 | **`lowerB_le_basicUB`** | **`m + n − 1 ≤ basicUB m n`** (m, n ≥ 1) | `Bounds.lean:186` |
 | **`refinedUB_le_basicUB`** | **`refinedUB m n ≤ basicUB m n`** (m, n ≥ 1) | `Bounds.lean:205` |
 
+### `GridGraphs/ResidueOne.lean` — residue-1 diagonal `U` cardinality
+
+For `n = 3k + 1` (square grid `n × n`), the residue-1 lower-bound construction
+`residue_one_pattern` from `analysis/diagonal_patterns.py` (see Proposition L1
+in `analysis/proofs_diagonal.md`) is encoded as a `Finset` and its cardinality
+is proven exactly.
+
+| Lemma | Statement | Location |
+|-------|-----------|----------|
+| `isInUResidueOne` (def) | predicate carving out the four row-classes of `U` | `ResidueOne.lean:44` |
+| `uResidueOne` (def) | the construction as a `Finset (GridVertex (3k+1) (3k+1))` | `ResidueOne.lean:57` |
+| `uResidueOne_card_sum` | row decomposition via `Finset.card_eq_sum_card_fiberwise` | `ResidueOne.lean:112` |
+| `row_col_count` | per-row column count: 1 / 3k / 3k+1 / 0 by row class | `ResidueOne.lean:150` |
+| `card_rows_sparse` | `k` sparse-anchor rows | `ResidueOne.lean:231` |
+| `card_rows_dense` | `2k − 1` dense rows | `ResidueOne.lean:273` |
+| `card_rows_full` | `1` final dense row (only `r = 3k − 1`) | `ResidueOne.lean:380` |
+| `card_rows_empty` | `1` bottom empty row (only `r = 3k`) | `ResidueOne.lean:395` |
+| **`uResidueOne_card`** | **`|uResidueOne k| = 6 * k^2 + k + 1`** for `k ≥ 1` | `ResidueOne.lean:416` |
+| `q` (def) | the conjectured diagonal closed form from `analysis/proofs_diagonal.md` | `ResidueOne.lean:497` |
+| `uResidueOne_card_eq_q` | `|uResidueOne k| = q (3k + 1)` | `ResidueOne.lean:509` |
+
 ### What is **not** formally proven (deferred)
 
 The following theorems require defining a real spanning-tree structure on
@@ -76,6 +98,13 @@ previous file shipped them as `sorry` against a placeholder
 - For any spanning tree `T`, `numPreserved(T) ≤ refinedUB m n`.
 - There exists a spanning tree achieving `numPreserved ≥ m + n − 1`.
 - `maxPreserved m n ≥ lowerB m n` and `maxPreserved m n ≤ refinedUB m n`.
+- **Forest-extension lemma**: any forest `F ≤ G` in a finite connected graph
+  `G` extends to a spanning tree of `G`. Combined with `uResidueOne_card`,
+  this would give `maxPreserved (3k+1) (3k+1) ≥ (3k+1)^2 − (6k^2 + k + 1)`,
+  i.e. the residue-1 half of Conjecture C from `docs/ROADMAP.md`. The
+  intermediate step (proving the forced-edge graph of `(uResidueOne k)ᶜ` is
+  acyclic) is currently empirical only — verified by
+  `analysis/check_diagonal_patterns.py` for every `n = 3k + 1` in `[4, 40]`.
 
 What we **do** have is the algebraic infrastructure (`D_expand`,
 `refinedUB_le_basicUB`, `lowerB_le_basicUB`, the 4×n closed forms) that is a

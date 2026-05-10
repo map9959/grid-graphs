@@ -27,12 +27,18 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 
 ## Contents
 
-- `GridGraphs/Defs.lean`: Vertex/edge counts, deficiency, and the simple graph
-  `gridGraph m n` itself (a real `SimpleGraph (Fin m × Fin n)` with proven
-  `symm` and `loopless`).
+- `GridGraphs/Defs.lean`: Vertex/edge counts, deficiency, vertex-class
+  partition, and the simple graph `gridGraph m n` itself (a real
+  `SimpleGraph (Fin m × Fin n)` with proven `symm` and `loopless`).
 - `GridGraphs/Bounds.lean`: Algebraic bound expressions `D`, `I`, `ceilDiv3`,
   `basicUB`, `refinedUB`, `lowerB`, and their `sorry`-free properties.
-- `GridGraphs/Packing.lean`: Currently empty (placeholder).
+- `GridGraphs/Forced.lean`: Forced-edge subgraph of full-degree vertices;
+  forced-edge acyclicity from a spanning tree.
+- `GridGraphs/Diagonal.lean`: Induced-edge decycling sets, complement-of-
+  preserved is decycling, every grid 4-cycle has an unforced boundary edge.
+- `GridGraphs/ResidueOne.lean`: Residue-1 diagonal `U` construction
+  (`uResidueOne k`) with proven cardinality `6 * k^2 + k + 1` (Proposition L1
+  cardinality from `analysis/proofs_diagonal.md`).
 - `GridGraphs.lean`: Aggregate import.
 - `STATUS.md`: Detailed proof-status ledger.
 - `EVIDENCE.md`: Annotated lemma index plus empirical comparison against
@@ -43,11 +49,20 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 
 - `deficiency_closed_form`: `deficiency m n = 2 * (m-1) * (n-1)`.
 - `D_eq_deficiency`: the algebraic `D` matches the operational `deficiency`.
+- `verts_partition`: the corner / border-non-corner / interior counts sum to `m * n`.
 - `basicUB_4n` / `refinedUB_4n`: closed forms `2n+2` / `2n+1` for the 4×n
   family, matching the Rust regression test `refined_expected_4xn_pattern`.
 - `refinedUB_le_basicUB`: the refined bound never exceeds the basic bound.
 - `lowerB_le_basicUB`: the conservative lower bound never exceeds the basic
   upper bound (sanity of the bound chain).
+- `forcedEdgeGraph_isAcyclic_of_preserves`: the forced-edge graph of any
+  full-degree set in an acyclic spanning subgraph is acyclic.
+- `grid_cell_has_unforced_edge`: every grid unit cell in an acyclic forced-
+  edge graph has an unforced boundary edge.
+- `uResidueOne_card`: for `k ≥ 1`, the residue-1 diagonal `U` construction
+  has `|U| = 6 * k^2 + k + 1`. Cardinality half of Proposition L1; the
+  acyclicity / forest-extension half is documented as deferred in
+  `STATUS.md`.
 
 See `STATUS.md` for the full list and `EVIDENCE.md` for line-numbered
 references plus empirical evidence.

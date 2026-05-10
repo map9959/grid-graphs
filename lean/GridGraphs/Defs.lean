@@ -184,15 +184,71 @@ trees of the m × n grid graph. This is the quantity `P(m, n)` analyzed in
 `docs/DERIVATION.md` and `EVIDENCE.md`. -/
 def maxPreserved (m n : Nat) : Nat := numVerts m n -- stub
 
--- Auxiliary algebra without subtraction: rewriting with (m-2) and (n-2) for m,n ≥3.
--- (Removed deeper algebra lemma algebra_ge3; to re-introduce, consider using existing nat arithmetic lemmas.)
+/-! ### Vertex-class partition
 
--- Partition of vertices into corner/border/interior.
--- TODO: provide full proof without extensive case analysis.
--- lemma verts_partition (m n : Nat) :
---   numCorners m n + numBorderNonCorner m n + numInterior m n = numVerts m n := by
---   admit
+The three vertex categories `numCorners`, `numBorderNonCorner`, `numInterior`
+exhaust the `m × n` vertex set. Established by case analysis on the
+`{0, 1, ≥2}` shape of `m` and `n`, matching the underlying definitions. -/
 
--- (Removed total_deficiency lemma placeholder.)
+lemma verts_partition (m n : Nat) :
+    numCorners m n + numBorderNonCorner m n + numInterior m n = numVerts m n := by
+  -- Case split that mirrors the pattern-matching of the count definitions.
+  match m, n with
+  | 0, n =>
+    simp [numCorners, numBorderNonCorner, numInterior, numVerts]
+  | Nat.succ m', 0 =>
+    simp [numCorners, numBorderNonCorner, numInterior, numVerts]
+  | 1, 1 =>
+    decide
+  | 1, Nat.succ (Nat.succ k) =>
+    -- 1 × (k+2) row: 2 corners + k border + 0 interior = k + 2 = numVerts.
+    show 2 + ((k + 2) - 2) + (if 1 < 3 || (k+2) < 3 then 0 else (1-2) * ((k+2)-2))
+        = 1 * (k + 2)
+    have h : (1 < 3 || (k+2) < 3) = true := by simp
+    simp only [h, if_true]
+    omega
+  | Nat.succ (Nat.succ k), 1 =>
+    -- (k+2) × 1 column: 2 corners + k border + 0 interior = k + 2 = numVerts.
+    show 2 + ((k + 2) - 2) + (if (k+2) < 3 || 1 < 3 then 0 else ((k+2)-2) * (1-2))
+        = (k + 2) * 1
+    have h : ((k+2) < 3 || 1 < 3) = true := by simp
+    simp only [h, if_true]
+    omega
+  | Nat.succ (Nat.succ k), Nat.succ (Nat.succ l) =>
+    -- (k+2) × (l+2) grid: 4 corners + (2(k+2) + 2(l+2) - 8) border
+    -- + (k * l) interior = (k+2)(l+2).
+    show 4 + (2 * (k + 2) + 2 * (l + 2) - 8)
+        + (if (k+2) < 3 || (l+2) < 3 then 0 else ((k+2) - 2) * ((l+2) - 2))
+        = (k + 2) * (l + 2)
+    -- The interior `if` condition is false only when both arms are ≥ 3, i.e.
+    -- `k ≥ 1` and `l ≥ 1`. Split on `k = 0` and `l = 0`.
+    rcases k with _ | k'
+    · rcases l with _ | l'
+      · -- m = 2, n = 2: 4 corners only.
+        decide
+      · -- m = 2, n = l' + 3: zero interior (m < 3).
+        have hcond : ((0:Nat) + 2 < 3 || (l' + 1 + 2) < 3) = true := by simp
+        simp only [hcond, if_true]
+        omega
+    · rcases l with _ | l'
+      · -- m = k' + 3, n = 2: zero interior (n < 3).
+        have hcond : ((k' + 1 + 2) < 3 || (0:Nat) + 2 < 3) = true := by simp
+        simp only [hcond, if_true]
+        omega
+      · -- m = k' + 3, n = l' + 3 (both ≥ 3): full interior contributes.
+        have hcond_false : ((k' + 1 + 2) < 3 || (l' + 1 + 2) < 3) = false := by
+          simp only [Bool.or_eq_false_iff, decide_eq_false_iff_not]
+          exact ⟨by omega, by omega⟩
+        rw [hcond_false]
+        -- The remaining `if false = true then ... else ...` reduces because
+        -- `false = true` is `False` propositionally; `simp` handles it.
+        simp only [Bool.false_eq_true, ite_false]
+        -- Reduce the surviving Nat subtractions.
+        have hm2 : (k' + 1 + 2) - 2 = k' + 1 := by omega
+        have hn2 : (l' + 1 + 2) - 2 = l' + 1 := by omega
+        have hborder : 2 * (k' + 1 + 2) + 2 * (l' + 1 + 2) - 8
+            = 2 * k' + 2 * l' + 4 := by omega
+        rw [hm2, hn2, hborder]
+        ring
 
 end GridGraphs
