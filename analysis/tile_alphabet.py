@@ -5,15 +5,14 @@ This module is the foundation for the tile-grammar synthesis program for
 residues 0 and 2 of `n mod 3`. It defines:
 
 * The named tile alphabet (slab S, cap C, bridge B, ...).
-* Per-tile U-count and dual-edge boundary signature.
+* Per-tile U-count and boundary U masks.
 * Helpers to render tiles into U/. row-strings and to assemble tile matrices
   into an `n x n` U-pattern.
 
-The boundary signature of a tile is a pair `(north_edges, south_edges,
-west_edges, east_edges)` of subsets of `{0,1,2}` indicating which of the three
-boundary cells along each side carries a U-U primal edge crossing the tile
-boundary into the neighbouring tile. These are the dual-routing interface
-hooks used by `tile_grammar.py`.
+The boundary masks are subsets of `{0,1,2}` indicating which boundary cells
+are U. A crossing U-U edge exists only when neighbouring tile masks overlap at
+that position. These are inputs to, not complete descriptions of, the dual
+routing interface needed by a future tile grammar.
 
 Tiles are stored as 3x3 string tuples with `U` for non-full and `.` for full.
 All tiles in this alphabet are aligned to the residue-1 phase: the canonical

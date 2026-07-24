@@ -3,18 +3,18 @@
 
 Given a valid q-witness at n_old = 3k+2, attempts to construct a q-witness at
 n_new = n_old + 3 by inserting a 3-row + 3-col slab at position (n_old-2,
-n_old-3) (just before the bottom 2 rows / right 2 cols of the old pattern).
+n_old-3) (just before the bottom 2 rows / right 3 cols of the old pattern).
 
 Status:
-  * `slab_extend_n8_to_n11`: WORKS exactly. Reproduces cached n=11 from cached
+  * `slab_extend_general` on n=8: WORKS exactly. Reproduces cached n=11 from cached
     n=8 using a specific slab + 3 cell modifications.
   * `slab_extend_general`: PARTIALLY WORKS. The slab content alone overcounts
     by 1 cell when applied iteratively. The 3 cell mods only have effect when
     going from "n=8 envelope" (top-row empty, row-1 fully dense incl col 0) to
     "n=11 envelope" (top-row sparse col 1, row-1 cols 1..n-1, sparse col-1
     bottom). After that transition, the mods become no-ops.
-  * Iterative slab (n=11 -> n=14 -> n=17 -> ...) overshoots q by k_old - 2
-    cells per iteration AND breaks dual connectivity.
+  * Each subsequent slab adds one U too many for that extension and breaks dual
+    connectivity; the excess accumulates under iteration.
 
 The slab content is HAND-DERIVED from cached patterns, NOT proven to work for
 general k. It is a starting point for further investigation.
@@ -34,8 +34,40 @@ from construction_lab import run_check
 from diagonal_patterns import residue_two_explicit_pattern
 
 
-def slab_extend_general(rows_old: list[str], apply_mods: bool = True) -> list[str]:
-    """Insert 3 rows + 3 cols at position (n_old-2, n_old-3) into rows_old.
+def embed_with_slab(
+    rows_old: list[str], ir: int, ic: int, width: int = 3
+) -> list[list[str]]:
+    """Embed a square pattern with blank rows/columns inserted before `ir`/`ic`."""
+    n_old = len(rows_old)
+    if any(len(row) != n_old for row in rows_old):
+        raise ValueError("rows_old must be square")
+    if not 0 <= ir <= n_old or not 0 <= ic <= n_old:
+        raise ValueError("slab insertion indices must lie on the old grid boundary")
+    if width < 1:
+        raise ValueError("slab width must be positive")
+
+    n_new = n_old + width
+    new = [["." for _ in range(n_new)] for _ in range(n_new)]
+    for r in range(n_old):
+        nr = r if r < ir else r + width
+        for c in range(n_old):
+            if rows_old[r][c] == "U":
+                nc = c if c < ic else c + width
+                new[nr][nc] = "U"
+    return new
+
+
+def slab_extend_general(
+    rows_old: list[str],
+    apply_mods: bool = True,
+    *,
+    ir: int | None = None,
+    ic: int | None = None,
+) -> list[str]:
+    """Insert the hand-derived 3-row/3-column motif into rows_old.
+
+    The insertion defaults to `(n_old-2, n_old-3)`; `ir` and `ic` expose other
+    positions for diagnostics, though the motif remains boundary-oriented.
 
     Slab content is hand-derived from the n=8 -> n=11 example. Applies cell
     modifications (ADD (0,1), REMOVE (1,0), REMOVE (n_new-1, n_new-1)) which
@@ -44,27 +76,15 @@ def slab_extend_general(rows_old: list[str], apply_mods: bool = True) -> list[st
     Verified: slab_extend_general(cached_n8) == cached_n11 (exact match).
 
     Known limitation: slab_extend_general(cached_n11) overshoots q(14) by 1
-    and has 2 cells with broken dual connectivity. Needs refinement.
+    and leaves 2 dual faces disconnected. Needs refinement.
     """
     n_old = len(rows_old)
     if n_old % 3 != 2:
         raise ValueError("n_old must be 3k+2")
     n_new = n_old + 3
-    ir = n_old - 2
-    ic = n_old - 3
-    new = [["." for _ in range(n_new)] for _ in range(n_new)]
-
-    def map_r(r: int) -> int:
-        return r if r < ir else r + 3
-
-    def map_c(c: int) -> int:
-        return c if c < ic else c + 3
-
-    # Copy old data
-    for r in range(n_old):
-        for c in range(n_old):
-            if rows_old[r][c] == "U":
-                new[map_r(r)][map_c(c)] = "U"
+    ir = n_old - 2 if ir is None else ir
+    ic = n_old - 3 if ic is None else ic
+    new = embed_with_slab(rows_old, ir, ic)
 
     if apply_mods:
         # Cell modifications (envelope transition)

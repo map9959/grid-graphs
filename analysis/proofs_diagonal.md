@@ -1199,8 +1199,9 @@ the cleanest.
 
 - `analysis/diagonal_patterns.py` — current skeleton constructions.
 - `analysis/construction_lab.py` — primary verification tool.
-- `analysis/check_diagonal_patterns.py` — currently only validates residue 1.
-  Extend to dispatch on `n mod 3` once residues 0 and 2 are parametric.
+- `analysis/check_diagonal_patterns.py` — validates the residue-1 family and
+  every cached exact residue-0/2 witness. Extend its parametric dispatch once
+  residues 0 and 2 have infinite constructions.
 - `data/diagonal_u_*.txt` — cached witnesses.
 - This file (`analysis/proofs_diagonal.md`) — the complete proof program.
 
@@ -1533,3 +1534,222 @@ Implementation status:
   n=8 → n=11 exactly. For other n, it's incomplete.
 * `analysis/sa_residue2.py`: SA search tool. Reaches q for n=5, n=8 from
   v35 seed. Stalls for n >= 11.
+
+## 2026-07-19 follow-up: bounded slab families ruled out computationally
+
+The fixed slab was tested in several broader but still finite extension
+families without running the exact optimizer beyond the permitted horizon.
+
+1. Exhaustive alignment of cached witnesses over every 3-row/3-column
+   insertion position finds 3 copied-cell rewrites for `n=8 → n=11`, but at
+   least 22 for `n=11 → n=14`. The latter rewrites reach five copied-cell
+   layers from the seam. Transposition gives the axis-swapped same optimum.
+2. Fixed-count annealing with a graded structural penalty could not leave the
+   hand slab's basin at n=14: slab-only, seam halos through width 4, and fully
+   unrestricted searches all remained at two disconnected dual faces and two
+   forced cycles. This is heuristic evidence only.
+3. No exact-count construction was found by pumping copied contiguous 3-row
+   and 3-column bands. For `n=14 → n=17`, exhaustive search over every
+   insertion position, every contiguous source band, and every independent
+   3x3 crossing tile rejected 1,853,550 exact-count candidates.
+4. Applying the hand slab directly to cached n=14 is much worse, connecting
+   only 27 of 257 dual vertices at n=17.
+
+The next construction attempt should therefore not freeze all old tiles. A
+finite-state tile grammar must allow a bounded rewrite of the preceding band
+and carry the dual connectivity partition across its frontier, in addition to
+boundary U masks, U cost, and dual cyclomatic excess. The cleaner residue-0
+tile layout is a reasonable development target before returning to residue 2.
+
+### Finite-state grammar implementation
+
+`analysis/tile_grammar.py` now provides the exact dual-frontier transition.
+After each primal row it retains OUT plus the exposed row of cell faces, their
+connectivity partition, the previous U mask, accumulated U cost, and dual
+cycle excess. A component is rejected exactly when it disappears behind the
+frontier without an attachment to OUT or the new frontier. Three transitions
+form one tile-band production, so replacing the preceding band no longer
+requires freezing the older witness cell-for-cell.
+
+The transition was exhaustively compared with the canonical dual checker on
+all 66,064 U-patterns through 4x4. For connected patterns, its cycle count was
+also checked against `dual_edges - dual_vertices + 1`.
+
+As a first production test, the 24 dihedral variants of the named 3x3 alphabet
+find exact residue-0 witnesses at n=6 and n=9. Horizontal tile-by-tile
+composition was then implemented with three synchronized partial partitions,
+so later rows cannot rescue a component that should already be sealed. The
+streamed transition agrees with the complete-row transition for every oriented
+two-tile band at every reachable incoming state of a 6x6 grid.
+
+Widening the observed boundary roles to all geometrically compatible oriented
+tiles then finds an exact n=12 residue-0 witness after 237,702 tile extensions.
+It has 86 U vertices, connected dual with one cycle, and a valid forced forest.
+The n=6, n=9, and n=12 grammar witnesses are cached in
+`diagonal_patterns.residue_zero_explicit_pattern`.
+
+The search now also computes exact suffix U-cost sets and can meet a top-down
+frontier with a vertically reflected bottom-up frontier. Exhaustive comparison
+at all 1,040 row cuts through 3x3 verifies that this join preserves both dual
+connectivity and cyclomatic excess. In the n=12 wide search, suffix pruning
+reduces tile extensions from 237,702 to 85,242.
+
+The previously guessed wide boundary roles do not contain the cached n=15
+witness. A less geometric search fixes only that witness's final tile band and
+allows all upper positions to vary through their observed dihedral tile class.
+It finds a new exact n=15 witness after 190,877 extensions, with 137 U vertices,
+one dual cycle, a valid forced forest, and an entirely empty top row. This
+witness is also cached in `diagonal_patterns.residue_zero_explicit_pattern`.
+The experiment suggests that an inductive production should preserve the
+bottom frontier state rather than fixed tile roles along every boundary.
+
+This does not yet yield a tail rule. Pumping a copied tile row and column with
+an arbitrary crossing tile fails for grammar n=12→15 and cached n=15→18. An
+exhaustive follow-up tested every one of the 900 n=15 pump alignments with all
+exact-cost 2x2 crossing rewrites (1,514 cost assignments and 1,875,209 streamed
+transitions), also without a valid n=18 candidate. Any inductive production
+must therefore rewrite a larger tile region or use a non-pumping transition.
+
+That larger local hypothesis was tested next by synthesizing the entire
+inserted tile row and column jointly. Since q(18)-q(15)=63, their 11 tiles must
+contain eight 6-U and three 5-U tiles. For each of the solver and grammar n=15
+orientations, all 180 cost-compatible copied class profiles were tested across
+the 36 insertion alignments. None gives compatible top and reflected-bottom
+states. With the inserted column completely free, the central alignment does
+produce one state on each side, but each side has cycle excess one and their
+merged excess is four.
+
+The two internal cycles close at preserved source tiles `(1,1)` and `(3,2)`.
+Allowing every same-cost 3x3 pattern at those positions does not remove them.
+Beam-200 scans over all top/bottom singleton replacements and the tested pairs
+cover more than 13 million transitions without a cycle-free half. Finally, the
+best n=12→15 alignment preserves only 10 of 16 old tile classes; transferring
+its six changed positions, inserted cost profiles, and a one-band continuation
+also seals the n=18 bottom half. Thus even the nonlocal crossing model is too
+rigid: an inductive grammar rule must regenerate a substantial multi-band
+region on both sides of the insertion rather than preserve most old tiles.
+
+The next implementation compares frontiers across widths by deleting the three
+new mask columns and exposed faces and recanonicalizing the partition. This
+reveals an exact but temporary recurrence: the cached n=9 and n=12 states agree
+after each of their first two bands, with six additional U vertices per band.
+There is no such intermediate match from n=12 to n=15, consistent with the
+cycle appearing two bands earlier in the n=15 witness.
+
+The grammar now prunes components sealed behind a partially streamed horizontal
+band and ranks the final reflected beam by its actual join with the forward
+frontier. Complete same-cost rewrites of both preserved bands adjacent to an
+n=15→18 insertion were tested at every central column alignment and at the
+remaining row splits. At the recorded beams no cost-compatible pair connects.
+The closest joins have two components, generally isolating a short left interval
+of cut faces; an unrestricted oriented-tile control is much less focused and
+leaves ten components at beam 100. These bounded results identify the next
+relaxation: enrich the same-cost boundary patterns needed to bridge that
+interval while keeping the multi-band frontier target.
+
+The isolated interval in the strongest alignment can meet OUT directly only at
+cut columns 0 or 2. Both possibilities were tested after replacing the relevant
+cut and boundary tiles by every same-cost 3x3 pattern. The unforced searches
+retain exactly the same two-component partition; forcing either crossing leaves
+no forward half state, even when cycle excess two is allowed. The column-2
+upper-half failure is exhaustive in 590 transitions. Hence this obstruction is
+not a missing local edge: attaching the interval requires changing the incoming
+partition, which in turn requires redistributing U cost across a larger
+boundary region.
+
+Explicit tile-cost profiles resolve the n=18 construction. At insertion `(3,1)`,
+the successful profile changes only synthesized tile `(1,2)` from five to six
+U vertices and permits every 6-U 3x3 pattern at that position. This preserved
+delta +1 is balanced by reducing the inserted cross from cost 63 to 62, namely
+seven 6-U and four 5-U tiles. A target-ranked bidirectional search finds the
+witness after 20,640 transitions. Independent checks give 200 U vertices, dual
+connectivity `290/290`, cyclomatic excess one, and a valid forced forest. The
+witness is cached in `_RESIDUE_ZERO_EXPLICIT[18]`.
+
+This is not yet an induction. A beam-50/prefix-beam-100 scan over all 49
+n=18→21 insertion alignments finds no candidate in 1,098,253 transitions. The
+best alignment `(4,3)` leaves one isolated cut face and has direct bridge
+columns 5 and 6. The natural shifted +1 profile worsens the join to three
+components; forcing column 5 merely moves the isolated interval, and forcing
+column 6 seals the forward half. No exact optimization was performed above
+n=15; all n=18 and n=21 work here is candidate construction and verification.
+
+The one-face n=21 obstruction was then searched systematically within its local
+cost corridor. The six upper tiles at synthesized positions
+`(2,0..2),(3,0..2)` have costs `(5,6,6,6,5,5)`. Every profile of Hamming radius
+at most three, total delta zero or one, was tested with arbitrary patterns at
+changed positions. No profile improves the baseline two-component join;
+survivors have at least four components. Requiring both successive candidate
+bridges `(5,6)` or `(5,8)` also fails. On the lower side, cut-tile changes only
+move the interval, 6-to-5 changes in the following band seal all reflected
+states, and 5-to-6 bottom-cap changes leave at least three components. These are
+bounded grammar searches, but they close the local corridor branch cleanly.
+
+A parallel follow-up tested genuinely different geometries. An unaligned
+cell-slab domain fixes every source cell outside an arbitrary width-three cross
+and exactly contains the cached n=15→18 construction. Across 36 n=18→21 phase
+starts, a beam-20/prefix-beam-50 sweep uses 2,922,306 transitions without a join
+below four components. Dihedral transformed cores, stable four-class boundary
+roles, variable meet cuts, and initial wide-band replacement domains also fail
+to improve the known two-component insertion join at their recorded bounds.
+
+The corresponding frontier analysis gives a sharper target. A final n=21 band
+of seven 5-U tiles has cost 35; exhaustive streaming gives 3,784 backward states.
+Eighteen of them project exactly to n=18 suffix states under 180-degree rotation
+or its reflection, with 56 total slab-position matches. Consequently a direct
+state production should reach cost 240 after six bands and merge with one of
+these exact caps to total 275. Generic beam ranking leaves 19 components, so a
+certificate-oriented search must retain partition diversity or guide every band
+toward the projected trace rather than rank only the final half-state.
+
+The exact cap-target implementation confirms the finite artifact on every run:
+59,952 transitions yield 3,784 cost-35 backward states, of which 18 carry 56
+projection certificates. A six-band unrestricted prefix search uses exact cost
+240, exact-partition diversity, and projected-trace guidance. At complete-state
+widths through 1,600 it uses 159,264 transitions but its best final merge still
+has 17 components. This is a bounded failure of the current selector, not of
+the exact cap targets.
+
+Separately, executable quotient anchors now verify that deleting cross columns
+4--6 from n=18 gives the n=15 states after prefix bands 1 and 2 and after the
+shifted tail entry and final row. Removed costs are `(5,12,58,63)`, and cycle
+excess is preserved. The resulting identity
+`12 + (4n - 14) + 5 = 4n + 3` has the correct inductive cost, but exhaustive
+continuation congruence and a repeatable bulk loop remain to be proved.
+
+Changing the horizontal partial beam semantics improves but does not solve the
+cap-target search. Port-diverse and obligation-balanced retention reach 14 and
+13 components respectively, compared with 17 for the legacy selector. Doubling
+the obligation partial width gives no further improvement. Propagating the 18
+exact caps inward and joining at multiple cuts reaches 9 components with excess
+2 at cut `4/3`, and 11 components with excess 1 at cut `5/2`.
+
+More importantly, the first quotient congruence gate fails exhaustively. Among
+24 possible first slab tiles, eight live states collapse to three projected
+keys. `O02` and `O03` share one key, but applying the same `O20` continuation
+leaves identical projected mask, partition, and cost with cycle excess 1 versus
+3. Thus slab deletion loses hidden cycle information and cannot support a
+pumping proof until the state records the deleted component attachments.
+
+The separate exact-cardinality search subsequently resolves the finite n=21
+construction. Pump-seeded annealing first reaches a reproducible near-hit with
+275 U vertices, one isolated dual face, and cycle excess one. Exhaustive
+two-for-two bridge repair and exact-count 4x5, 4x6, and 5x5 corner rewrites are
+negative. Component-directed three-for-three exchanges from that near-hit find
+valid witnesses independently at seeds 20, 25, and 26. The seed-25 witness is
+cached in `_RESIDUE_ZERO_EXPLICIT[21]`; independent checks report dual
+connectivity `401/401`, 401 dual edges, and a valid forced forest. This extends
+the finite residue-zero witness sequence through n=21 without changing the
+open parametric-production task or the prohibition on exact optimization above
+n=15.
+
+The n=21 rows then reveal an exact parametric residue-zero family. Define
+ordinary phase rows `R_a`, seam rows `S_a = R_a \ {3a+2}`, the explicit
+17-row base `B_7`, and the recurrence
+`B_(k+1) = R_(k-2) S_(k-2) B_k R_k`. The word has `2k-2` ordinary rows and
+`k-2` seam rows, proving the exact count `6k^2-3k+2`. Direct edge enumeration
+gives `9k^2-6k+2` U-U dual edges, equal to the number of dual vertices.
+Connectivity reduces to a finite `B_7` frontier certificate plus six local
+phase transitions under extension. The generated family reproduces n=21 and
+passes all end-to-end checks through n=120. See `PHASE_PATTERN.md` for the
+proof-ready statement and remaining Lean obligations.

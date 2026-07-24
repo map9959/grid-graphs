@@ -1,6 +1,7 @@
 import Mathlib
 import Mathlib.Combinatorics.SimpleGraph.Acyclic
 import GridGraphs.Defs
+import GridGraphs.ForestExtension
 
 /-!
 # Forced edges from full-degree vertices
@@ -43,6 +44,20 @@ full-degree preservation. -/
 def preservesIncidentEdges (G T : SimpleGraph V) (v : V) : Prop :=
   ∀ ⦃w : V⦄, G.Adj v w → T.Adj v w
 
+/-- Every forced edge is an edge of the ambient graph. -/
+theorem forcedEdgeGraph_le (G : SimpleGraph V) (F : Set V) :
+    forcedEdgeGraph G F ≤ G := by
+  intro v w h
+  exact h.1
+
+/-- Containing the forced-edge graph preserves every ambient edge incident to
+a vertex in `F`. -/
+theorem preservesIncidentEdges_of_forcedEdgeGraph_le {G T : SimpleGraph V}
+    {F : Set V} (h : forcedEdgeGraph G F ≤ T) :
+    ∀ ⦃v : V⦄, v ∈ F → preservesIncidentEdges G T v := by
+  intro v hv w hvw
+  exact h ⟨hvw, Or.inl hv⟩
+
 /-- If every vertex of `F` preserves all incident `G`-edges in `T`, then the
 forced-edge graph of `F` is a subgraph of `T`. -/
 theorem forcedEdgeGraph_le_of_preserves {G T : SimpleGraph V} {F : Set V}
@@ -76,5 +91,17 @@ theorem grid_forcedEdgeGraph_isAcyclic_of_preserves {m n : Nat}
     (hF : ∀ ⦃v : GridVertex m n⦄, v ∈ F → preservesIncidentEdges (gridGraph m n) T v) :
     (forcedEdgeGraph (gridGraph m n) F).IsAcyclic := by
   exact forcedEdgeGraph_isAcyclic_of_preserves hT hF
+
+/-- An acyclic forced-edge graph in a finite connected graph extends to a tree
+that preserves all incident edges at the forced vertices. -/
+theorem exists_isTree_preserving_of_forcedEdgeGraph_isAcyclic
+    {G : SimpleGraph V} [Fintype V] [DecidableEq V] [DecidableRel G.Adj]
+    {F : Set V} (hG : G.Connected) (hforced : (forcedEdgeGraph G F).IsAcyclic) :
+    ∃ T : SimpleGraph V, T ≤ G ∧ T.IsTree ∧
+      ∀ ⦃v : V⦄, v ∈ F → preservesIncidentEdges G T v := by
+  obtain ⟨T, hforced_le, hT_le, hT_tree⟩ :=
+    SimpleGraph.isAcyclic_extends_to_isTree (forcedEdgeGraph_le G F) hforced hG
+  exact ⟨T, hT_le, hT_tree,
+    preservesIncidentEdges_of_forcedEdgeGraph_le hforced_le⟩
 
 end GridGraphs

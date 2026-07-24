@@ -12,20 +12,17 @@ Status by residue (n mod 3):
       through n = 40 by completing the forced forest to a spanning tree.
 
   residue 0 (n = 3k, k >= 2):
-      `residue_zero_pattern(n)` returns a structured "skeleton" construction
-      built from top/bottom residue-1 anchor sandwiches plus column stripes.
-      For some k it does not yet match the conjectured count exactly; see the
-      docstring for current status. Validated cases are listed in
-      `STATUS_RESIDUE_ZERO`.
+      `residue_zero_pattern(n)` returns cached exact witnesses for
+      n in {6, 9, 12, 15, 18}, then the exact phase-boundary family for every
+      n >= 21. `residue_zero_skeleton_pattern(n)` retains the older surplus
+      scaffold for analysis.
 
   residue 2 (n = 3k+2, k >= 1):
       `residue_two_pattern(n)` likewise. Validated cases listed in
       `STATUS_RESIDUE_TWO`.
 
-The skeleton constructions are parametric and dual-connected by construction,
-but their U-counts are off by a small `O(k)` correction term that must be
-absorbed by an "extension layer" (small per-block patches) which is the
-remaining piece needed for a clean parametric proof.
+The residue-2 skeleton remains off by an `O(k)` correction. For residue zero,
+the phase-boundary family absorbs the correction with `k-2` seam rows.
 """
 
 from __future__ import annotations
@@ -107,8 +104,8 @@ def residue_two_skeleton_pattern(n: int) -> list[str]:
 
     See module docstring. The skeleton is dual-connected and forest-completable
     by construction (verified for n in {5, 8, 11, 14}). For n = 5 it gives the
-    exact count q(5) = 14. For n >= 8 it gives q(n) + (k - 1) extra U's that
-    correspond to the F-column bridges added at row 2.
+    exact count q(5) = 14. For n >= 8 it gives q(n) + k extra U's. Of these,
+    k - 1 correspond to the F-column bridges added at row 2.
 
     Use `analysis/construction_lab.py` to verify the skeleton against
     `dual_connectivity_check` and `forest_completion_check` for any specific n.
@@ -197,9 +194,173 @@ def residue_zero_skeleton_pattern(n: int) -> list[str]:
     return ["".join("U" if x else "." for x in row) for row in u]
 
 
+def residue_zero_improved_pattern(n: int) -> list[str]:
+    """Return the dual-connected residue-zero scaffold with surplus n/3 - 2."""
+    rows = [list(row) for row in residue_zero_skeleton_pattern(n)]
+    for r in range(2, n - 3, 3):
+        rows[r][n - 1] = "."
+    return ["".join(row) for row in rows]
+
+
+def residue_zero_phase_pattern(n: int) -> list[str]:
+    """Return the exact phase-boundary construction for n = 3k, k >= 7."""
+    if n % 3 != 0 or n < 21:
+        raise ValueError("residue_zero_phase_pattern requires n >= 21, n ≡ 0 mod 3")
+    k = n // 3
+
+    def phase_row(a: int, seam: bool = False) -> str:
+        dots = set(range(0, 3 * a + 1, 3))
+        tail_start = 3 * a + (2 if seam else 5)
+        dots.update(range(tail_start, n, 3))
+        return "".join("." if c in dots else "U" for c in range(n))
+
+    interior = [
+        phase_row(4),
+        phase_row(3),
+        phase_row(2),
+        phase_row(2, seam=True),
+        phase_row(1),
+        phase_row(0),
+        phase_row(0, seam=True),
+        phase_row(0),
+        phase_row(1, seam=True),
+        phase_row(1),
+        phase_row(2),
+        phase_row(3, seam=True),
+        phase_row(3),
+        phase_row(4, seam=True),
+        phase_row(4),
+        phase_row(5),
+        phase_row(6),
+    ]
+    for size in range(8, k + 1):
+        interior = [
+            phase_row(size - 3),
+            phase_row(size - 3, seam=True),
+            *interior,
+            phase_row(size - 1),
+        ]
+
+    return [
+        "." * n,
+        "U" * n,
+        *interior,
+        "." + "U" * (n - 1),
+        ".U" + "." * (n - 2),
+    ]
+
+
 def residue_zero_pattern(n: int) -> list[str]:
     """Best available residue-0 pattern."""
+    if n in _RESIDUE_ZERO_EXPLICIT:
+        return list(_RESIDUE_ZERO_EXPLICIT[n])
+    if n >= 21:
+        return residue_zero_phase_pattern(n)
     return residue_zero_skeleton_pattern(n)
+
+
+_RESIDUE_ZERO_EXPLICIT: dict[int, list[str]] = {
+    6: [
+        "......",
+        "UUUUUU",
+        ".UUUU.",
+        ".U..UU",
+        ".UUUUU",
+        ".UU...",
+    ],
+    9: [
+        ".........",
+        "UUUUUUUUU",
+        ".UUUUU.UU",
+        ".U...UUU.",
+        ".UUUUUUU.",
+        ".UUUU..U.",
+        ".U..UUUU.",
+        ".UUUUUUU.",
+        ".UU....U.",
+    ],
+    12: [
+        "............",
+        "UUUUUUUUUUUU",
+        ".UUUUUUUU.UU",
+        ".U......UUU.",
+        ".UUUUUUUUUU.",
+        ".UUUUUUU..U.",
+        ".U.....UUUU.",
+        ".UUUUUUUUUU.",
+        ".UU.UUU...U.",
+        ".UUUU.UUUUU.",
+        ".UUUUUUUUUU.",
+        ".U........U.",
+    ],
+    15: [
+        "...............",
+        "UUUUUUUUUUUUUUU",
+        ".UU.UUUUUUUUUU.",
+        ".UU.UU.......U.",
+        ".UU.UUUUUUUUUU.",
+        ".UU.U.UU.UU.UU.",
+        ".UUUU.UU.UU.UU.",
+        ".U.UU.UU.UU.UU.",
+        ".UUUU.UU.UU.UU.",
+        ".UU.UUUU.UU.UU.",
+        ".UU.UU.UUUU.UU.",
+        ".UU.UU.UU.UUUU.",
+        ".UU.UU.UU.UU.U.",
+        ".UUUUUUUUUUUUU.",
+        ".U..........UU.",
+    ],
+    18: [
+        "..................",
+        "UUUUUUUUUUUUUUUUUU",
+        ".UU.UU.UUUUUUUUUU.",
+        ".UU.UU.UU.......U.",
+        ".UU.UU.UUUUUUUUUU.",
+        ".UU.UUUU.UU.UU.UU.",
+        ".UUUU.UU.UU.UU.UU.",
+        ".U.UU.UU.UU.UU.UU.",
+        ".UUUU.UU.UU.UU.UU.",
+        ".UU.U.UU.UU.UU.UU.",
+        ".UU.UUUU.UU.UU.UU.",
+        ".UU.UU.U.UU.UU.UU.",
+        ".UU.UU.UUUU.UU.UU.",
+        ".UU.UU.UU.UUUU.UU.",
+        ".UU.UU.UU.UU.UUUU.",
+        ".UU.UU.UU.UU.UU.U.",
+        ".UUUUUUUUUUUUUUUU.",
+        ".U.............UU.",
+    ],
+    21: [
+        ".....................",
+        "UUUUUUUUUUUUUUUUUUUUU",
+        ".UU.UU.UU.UU.UUUU.UU.",
+        ".UU.UU.UU.UUUU.UU.UU.",
+        ".UU.UU.UUUU.UU.UU.UU.",
+        ".UU.UU.U.UU.UU.UU.UU.",
+        ".UU.UUUU.UU.UU.UU.UU.",
+        ".UUUU.UU.UU.UU.UU.UU.",
+        ".U.UU.UU.UU.UU.UU.UU.",
+        ".UUUU.UU.UU.UU.UU.UU.",
+        ".UU.U.UU.UU.UU.UU.UU.",
+        ".UU.UUUU.UU.UU.UU.UU.",
+        ".UU.UU.UUUU.UU.UU.UU.",
+        ".UU.UU.UU.U.UU.UU.UU.",
+        ".UU.UU.UU.UUUU.UU.UU.",
+        ".UU.UU.UU.UU.U.UU.UU.",
+        ".UU.UU.UU.UU.UUUU.UU.",
+        ".UU.UU.UU.UU.UU.UUUU.",
+        ".UU.UU.UU.UU.UU.UU.UU",
+        ".UUUUUUUUUUUUUUUUUUUU",
+        ".U...................",
+    ],
+}
+
+
+def residue_zero_explicit_pattern(n: int) -> list[str]:
+    """Return a cached exact residue-0 witness where available."""
+    if n not in _RESIDUE_ZERO_EXPLICIT:
+        raise KeyError(f"no explicit residue-0 pattern cached for n={n}")
+    return list(_RESIDUE_ZERO_EXPLICIT[n])
 
 
 # -----------------------------------------------------------------------------
@@ -272,11 +433,12 @@ def residue_two_explicit_pattern(n: int) -> list[str]:
 # -----------------------------------------------------------------------------
 
 
-# Validated cases for residue-0 / residue-2 skeletons. These dictionaries are
-# populated by `analysis/construction_lab.py` runs and consulted by tests.
+# Explicit-cache registries. Parametric families are checked separately.
 STATUS_RESIDUE_ONE: dict[int, str] = {n: "verified" for n in range(4, 41) if n % 3 == 1}
 STATUS_RESIDUE_TWO: dict[int, str] = {n: "explicit" for n in (5, 8, 11, 14)}
-STATUS_RESIDUE_ZERO: dict[int, str] = {}
+STATUS_RESIDUE_ZERO: dict[int, str] = {
+    n: "explicit" for n in (6, 9, 12, 15, 18, 21)
+}
 
 
 # -----------------------------------------------------------------------------

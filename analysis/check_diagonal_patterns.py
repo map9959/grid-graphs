@@ -9,15 +9,26 @@ It does not run the frontier DP. Given a generated non-full set U, it:
 3. greedily completes the forest using U-U edges,
 4. verifies the completed tree has the claimed number of full-degree vertices.
 
-Currently the only verified infinite-family generator is n ≡ 1 mod 3 from
-`diagonal_patterns.py`.
+The n ≡ 1 mod 3 infinite family and all cached exact residue-0/2 witnesses from
+`diagonal_patterns.py` are checked.
 """
 
 from __future__ import annotations
 
 import argparse
 
-from diagonal_patterns import q_formula, residue_one_pattern
+from construction_lab import dual_connectivity_check
+from diagonal_patterns import (
+    STATUS_RESIDUE_TWO,
+    STATUS_RESIDUE_ZERO,
+    q_formula,
+    residue_one_pattern,
+    residue_two_explicit_pattern,
+    residue_zero_explicit_pattern,
+    residue_zero_improved_pattern,
+    residue_zero_phase_pattern,
+    residue_zero_pattern,
+)
 
 
 class DSU:
@@ -54,7 +65,10 @@ def grid_degree(n: int, r: int, c: int) -> int:
 
 def verify_pattern(rows: list[str]) -> tuple[int, int, int]:
     n = len(rows)
-    assert all(len(row) == n for row in rows), "pattern must be square"
+    if not all(len(row) == n for row in rows):
+        raise ValueError("pattern must be square")
+    if any(value not in ".U" for row in rows for value in row):
+        raise ValueError("pattern entries must be '.' or 'U'")
     is_u = [ch == "U" for row in rows for ch in row]
     is_full = [not x for x in is_u]
     dsu = DSU(n * n)
@@ -98,15 +112,38 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("nmax", type=int, nargs="?", default=40)
     args = parser.parse_args()
+    if residue_zero_phase_pattern(21) != residue_zero_explicit_pattern(21):
+        raise AssertionError("phase-family base no longer matches cached n=21")
+    for n in range(6, args.nmax + 1, 3):
+        improved = residue_zero_improved_pattern(n)
+        nonfull, _, _ = verify_pattern(improved)
+        expected = q_formula(n) + n // 3 - 2
+        if nonfull != expected:
+            raise AssertionError(
+                f"improved residue-zero count at n={n}: {nonfull}, expected {expected}"
+            )
     print("n,nonfull,expected_nonfull,full,expected_full,edges,status")
     for n in range(4, args.nmax + 1):
-        if n % 3 != 1:
+        if n % 3 == 1:
+            rows = residue_one_pattern(n)
+        elif n in STATUS_RESIDUE_TWO:
+            rows = residue_two_explicit_pattern(n)
+        elif n in STATUS_RESIDUE_ZERO:
+            rows = residue_zero_explicit_pattern(n)
+        elif n % 3 == 0 and n >= 21:
+            rows = residue_zero_pattern(n)
+        else:
             continue
-        rows = residue_one_pattern(n)
         nonfull, full, edges = verify_pattern(rows)
+        dual_ok, _, _ = dual_connectivity_check(rows)
         expected_nonfull = q_formula(n)
         expected_full = n * n - expected_nonfull
-        status = nonfull == expected_nonfull and full == expected_full and edges == n * n - 1
+        status = (
+            nonfull == expected_nonfull
+            and full == expected_full
+            and edges == n * n - 1
+            and dual_ok
+        )
         print(f"{n},{nonfull},{expected_nonfull},{full},{expected_full},{edges},{status}")
         if not status:
             raise SystemExit(1)

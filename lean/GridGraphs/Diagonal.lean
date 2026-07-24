@@ -209,8 +209,8 @@ around mathlib's `Connected.exists_isTree_le`, recorded here because it is the
 eventual endpoint of the construction side: after adding enough connector edges
 to make a graph connected, a spanning tree exists inside it.
 
-This lemma does **not** say that the spanning tree contains a specified forced
-forest. That stronger forest-extension statement remains a separate target. -/
+For a specified forced forest, use
+`exists_isTree_preserving_of_forcedEdgeGraph_isAcyclic`. -/
 theorem connected_graph_has_spanning_tree {G : SimpleGraph V} [Finite V]
     (hG : G.Connected) : ∃ T : SimpleGraph V, T ≤ G ∧ T.IsTree := by
   simpa using hG.exists_isTree_le
