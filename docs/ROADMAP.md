@@ -28,12 +28,14 @@ mathlib bound expressions) machinery are in this repo. See
 | `analysis/oeis.md` | OEIS hits and prior-art notes |
 | `analysis/proofs_m345.md` | Per-`m` constructive lower bounds with checker |
 | `analysis/proofs_upper.md` | Phase 4 matching upper bounds (Karp + witness-period methods) |
+| `analysis/proofs_diagonal.md`, `analysis/PHASE_PATTERN.md` | Diagonal proof program and exact residue-zero phase family |
+| `analysis/diagonal_patterns.py`, `analysis/check_diagonal_patterns.py` | Parametric diagonal constructions and independent checker |
 | `analysis/check_constructions.py` | Independent verifier of explicit spanning trees |
 | `analysis/extract_patterns.py` | Phase 4 helper: decode per-column edge patterns from a witness |
 | `analysis/render_witness.py`, `analysis/motif_search.py` | Motif inspection scratchpads |
 | `src/transfer.rs`, `src/transfer_util.rs` | Phase 4 column-state transfer matrix + Karp's max-mean cycle |
 | `src/motif.rs` | Phase 4 witness gain-sequence period detection and ASCII visualizer |
-| `lean/GridGraphs/Defs.lean`, `lean/GridGraphs/Bounds.lean` | Lean 4 + mathlib formalization (bound expressions, deficiency identity) |
+| `lean/GridGraphs/Defs.lean`, `lean/GridGraphs/Bounds.lean`, `lean/GridGraphs/Forced.lean`, `lean/GridGraphs/ForestExtension.lean` | Lean definitions, bounds, forced edges, and forest-to-tree completion |
 | `lean/STATUS.md`, `lean/EVIDENCE.md` | Lean-side status and lemma index |
 
 ## Status
@@ -46,7 +48,7 @@ mathlib bound expressions) machinery are in this repo. See
 | 4 | Matching upper bounds via Karp's max-mean cycle | **Done for m ≤ 6 rigorously, m ≤ 10 empirically** | `analysis/proofs_upper.md`, `src/transfer.rs`, `src/motif.rs` |
 | 5 | Conjecture A as a theorem (`α_m = (m+2)/3 ⇔ m ≡ 1 mod 3`) | Pending — **recommended next** | — |
 | 6 | Per-m closed forms for `m ≡ 0, 2 (mod 3)` | Pending | — |
-| 7 | Diagonal `P(n, n)`: prove Conjecture C | Pending; exact data through n = 15 supports closed form | `analysis/conjectures.md`, `analysis/proofs_diagonal.md` |
+| 7 | Diagonal `P(n, n)`: prove Conjecture C | **In progress**; exact data through n=15, constructive families complete for residues 0 and 1 | `analysis/proofs_diagonal.md`, `analysis/PHASE_PATTERN.md` |
 | 8 | Lean formalization of `P(m, n) ≤ basicUB m n` | **Done** | `lean/GridGraphs/Spanning.lean` (`preserved_le_basicUB`) |
 | 9 | Lean formalization of per-`m` constructions and Conjecture A | Pending (multi-month) | — |
 
@@ -88,11 +90,14 @@ revision:
    ```
    P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
    ```
-    verified at every `n = 4..14`. The asymptotic density is
+    verified exactly at every `n = 4..15`. Explicit matching constructions are
+    now available for every `n ≡ 1 (mod 3)` and every `n ≡ 0 (mod 3)`; the
+    latter uses the phase-boundary family extracted from the n=21 witness. The
+    asymptotic density is
    `lim P(n,n)/n² = 1/3` — i.e. the basic UB **is** asymptotically tight
    on the diagonal, contradicting the previous "α-on-the-diagonal ≈ 0.42"
-   reading. Testing the conjecture at n ≥ 13 requires either a faster
-   solver or a smarter analysis.
+    reading. Residue two and the universal induced-edge decycling lower bound
+    remain open.
 
 3. **The bitpacked DP scales further than thought**: P(11,11)=49 in
    ~1.5 min, P(12,12)=58 in ~9 min, P(13,13) needs ~hour budget. So
@@ -101,9 +106,9 @@ revision:
    existing solver, or a moderate rewrite (e.g. parallelization, better
    pruning, or a strip-DP) could push to n ≥ 20.
 
-The revised roadmap re-prioritizes accordingly: **first** prove
-Conjecture A (Phase 5), **then** the harder per-m families and
-diagonal closed form (Phases 6, 7), **finally** Lean formalization.
+Current work can proceed in parallel: prove Conjecture A (Phase 5), continue
+the harder per-m families (Phase 6), and finish the now-advanced diagonal proof
+(Phase 7). Lean formalization is already active rather than a final-only phase.
 
 ## Phase 4 — transfer matrix + Karp's max-mean cycle (DONE)
 
@@ -237,7 +242,8 @@ P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
 where `C(1) = -1, C(0) = C(2) = -2`. Verified exactly at every
 n = 4..15. The n = 13, 14, and 15 values were certified by the
 forced-edge upper-bound DP plus completed spanning-tree witnesses. The
-next unresolved case is n = 16.
+next unresolved exact case is n = 16, although the residue-one construction
+already supplies the conjectured matching lower-bound witness there.
 
 ### Sub-phases
 
@@ -288,30 +294,44 @@ sizes. Options, in increasing depth of work:
    high bits of the canonical labeling and run shards in parallel.
    1–2 weeks; useful for any large m, n.
 
-**Recommended order**: do not extend the computational horizon immediately.
-Instead, decode the n = 13, 14, 15 non-full sets `U`, prove a parametric
-period-3 construction, and prove the full induced-edge decycling lower bound.
+**Recommended order**: do not extend the exact computational horizon. Exact
+optimization above n=15 is explicitly out of scope. Finish the residue-zero
+phase-connectivity proof, find the stateful residue-two defect, and prove the
+full induced-edge decycling lower bound.
 
 #### 7b — Constructive matching lower bound for the diagonal formula
 
 See `analysis/proofs_diagonal.md` for the current reduction. The diagonal
-problem is now split into a forced-edge/decycling upper bound and an explicit
-period-3 construction for the non-full set `U`. The local `2x2` cell-hitting
+problem is now split into a forced-edge/decycling upper bound and explicit
+residue-specific constructions for the non-full set `U`. The local `2x2` cell-hitting
 condition has been formalized in Lean but is computationally too weak, so the
 proof must use the full forest/decycling condition.
 
-The Phase 4 column motifs already give P(m, n) ≥ α_m·n + O(1) for
-fixed m. For squares, we need a 2D construction whose density
-approaches 1/3 with the correct linear correction.
+Current constructive status:
 
-Hypothesis: a **diagonally-tiled period-3 pattern**, where each 3×3
-block is the m=3 period-3 motif rotated and tiled, achieves the
-asymptotic density. Subtasks:
-1. **7b.1** Build a candidate 3×3 (or 6×6) tile and verify density
-   ≥ 1/3 by hand on small `n × n` grids.
-2. **7b.2** Verify boundary effects yield the `+n + C` correction.
-3. **7b.3** Check the construction against `data/diagonal.csv` at
-   n ≤ 12.
+1. **7b.1 — residue one complete.** `residue_one_pattern(3k+1)` is an
+   explicit exact family, checked through n=120 in the combined regression
+   sweep. Its count and forced-forest structure are understood.
+2. **7b.2 — residue zero family found.** Cached exact witnesses cover
+   n=6,9,12,15,18,21. For every `n=3k>=21`,
+   `residue_zero_phase_pattern(n)` gives the exact conjectured count. It
+   reproduces the cached n=21 witness exactly and passes construction checks
+   through n=120, with a separate stress check at n=300.
+3. **7b.3 — residue-zero proof scaffold.** Ordinary rows `R_a`, seam rows
+   `S_a`, and the recurrence
+   `B_(k+1) = R_(k-2) S_(k-2) B_k R_k` give the cardinality identity
+   `|U|=6k²-3k+2`. The U-U dual has the predicted unicyclic edge count.
+   Connectivity reduces to a finite `B_7` frontier certificate and six local
+   extension transitions; see `analysis/PHASE_PATTERN.md`.
+4. **7b.4 — residue two open.** Cached exact witnesses cover n=5,8,11,14.
+   Their stable count architecture is
+   `q(3k+2)=2n+(3k-2)(2k+1)+1`. Exact frontier searches rule out an unchanged
+   residue-zero phase bulk with a fixed cap and rule out representing the
+   final `+1` by one promoted row. The next target is a stateful boundary
+   defect that absorbs one or two bulk rows and evolves under `k→k+1`.
+
+No exact optimizer was used above n=15; all larger checks are explicit
+candidate construction and verification.
 
 #### 7c — Matching upper bound for diagonal
 
@@ -322,27 +342,27 @@ must connect all grid cells to the exterior face. The desired upper bound is a
 minimum-size theorem for such `U`.
 
 Subtasks:
-1. **7c.1** Prove the planar-dual equivalence informally: `G - E(G[U])` is a
-   forest iff the dual graph formed by `U-U` edges connects all faces.
-2. **7c.2** Decode the n = 13, 14, 15 `U` witnesses into a period-3 strip
-   pattern plus residue-specific boundary patches.
-   The `n ≡ 1 (mod 3)` pattern is now explicit in
-   `analysis/diagonal_patterns.py` and verified by dual connectivity for
-   n = 4, 7, 10, 13, 16. The stronger checker
-   `analysis/check_diagonal_patterns.py` verifies the same family through
-   n = 40 by completing the forced forest to a spanning tree. The proof note
-   now states this as Proposition L1 and isolates the generic forest-completion
-   lemma needed to convert valid `U` patterns into spanning trees.
-   Simple count-matching extensions for the other two residues were tested and
-   rejected because their dual graphs are disconnected; see
-   `analysis/proofs_diagonal.md`.
+1. **7c.1** Formalize the grid planar-dual implication: connectivity of the
+   dual graph formed by `U-U` edges implies that
+   `G - E(G[U])` is a forest. This is the main missing construction-side Lean
+   theorem.
+2. **7c.2** Complete the residue-zero frontier-connectivity proof from
+   `analysis/PHASE_PATTERN.md`. The exact count and dual edge formulas are
+   already algebraic; the remaining certificate is finite and local.
 3. **7c.3** Prove a strip-counting lower bound for any `U` whose dual edges
    connect all faces. This is the core remaining combinatorial theorem.
 4. **7c.4** Move the stable theorem into Lean after the informal proof is
    settled.
 
-**Effort**: 7a is done for now. 7b/7c are the main work; expect weeks for the
-informal construction/counting proof and substantially longer for Lean.
+The generic completion step is no longer open. Lean theorem
+`SimpleGraph.isAcyclic_extends_to_isTree` extends any forced forest inside a
+finite connected graph, and
+`exists_isTree_preserving_of_forcedEdgeGraph_isAcyclic` packages this as a
+tree preserving every forced vertex.
+
+**Effort**: 7a is done for now. Residue-zero construction is found; the main
+remaining work is its finite connectivity proof, the residue-two stateful
+defect, and the universal counting upper bound.
 
 ## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` ✅ **DONE**
 
@@ -432,16 +452,18 @@ project should know about all of these:
 5. **α_m for m ≡ 0, 2 (mod 3)**: We have data points but no formula.
    Phase 6.
 6. **Conjecture C** (diagonal closed form): `P(n, n) = ⌊n²/3⌋ + n + C(n%3)`
-   for n ≥ 4. Verified exactly at n = 4..15; n = 16 is the next open
-   case. **Phase 7**.
+   for n ≥ 4. Verified exactly at n=4..15. Constructive families now cover
+   all residues 0 and 1; residue 2 and the matching universal upper bound
+   remain open. **Phase 7**.
 7. **m = 6 at n ≢ 0 (mod 4)**: not yet encoded; Phase 4 found the
    period-4 interior motif but residue-specific boundaries remain.
    Subset of Phase 6.
 8. **m = 8 generalization**: only `n ∈ {20, 34, 48}` implemented.
    Subset of Phase 6.
-9. **Lean operational connection**: `P(m, n) ≤ basicUB m n` is empirically
-   true (`m, n ≤ 12` exhaustively verified) but not Lean-proved.
-   **Phase 8**.
+9. **Diagonal planar dual in Lean**: forced-edge necessity, forest extension,
+   and preserving-tree completion are formalized. The missing bridge is the
+   grid-specialized theorem from connected U-U dual edges to forced-graph
+   acyclicity. **Phase 7c**.
 
 ## Verification quickstart
 
@@ -481,23 +503,27 @@ python3 analysis/check_constructions.py
 #   m=7 period-1 witness                            24      24
 #   m=8 period-7 witness (n in {20, 34, 48})         3       3   ← Phase 4 added
 
-# 4. Phase 4 alpha verification (m ≤ 6 in seconds; m=6 takes ~40 s)
+# 4. Diagonal parametric constructions, including residue-zero phase family
+python3 analysis/check_diagonal_patterns.py 120
+# Expected: every printed row has status True; includes n=21,24,...,120
+
+# 5. Phase 4 alpha verification (m ≤ 6 in seconds; m=6 takes ~40 s)
 cargo run --release -- alpha 5
 # prints "alpha=2"  (matches recurrences.md)
 
-# 5. (Optional) inspect the optimal tree and detect period
+# 6. (Optional) inspect the optimal tree and detect period
 cargo run --release -- motif 8 35
 # prints ASCII grid + "alpha = 22/7" via gain-sequence period
 
-# 6. (Optional) regenerate the empirical data
+# 7. (Optional) regenerate the empirical data
 CSV=1 cargo run --release -- compare 8 20 > data/extended.csv
 
-# 7. (Optional) inspect the optimal tree at any (m, n)
+# 8. (Optional) inspect the optimal tree at any (m, n)
 cargo run --release -- witness 5 21
 # prints "# m=5 n=21 value=43 transposed=false edges=104" + the edge list
 ```
 
-If all three primary commands pass, the repo is in a good state. Any
+If all four primary commands pass, the repo is in a good state. Any
 discrepancy should be investigated before starting a new phase.
 
 ## Phase dependency notes
@@ -508,11 +534,11 @@ discrepancy should be investigated before starting a new phase.
 - Phase 6 (per-m for m ≢ 1 mod 3) is independent of Phase 5 but
   benefits from a faster max-mean cycle algorithm (potentially shared
   with Phase 4 follow-up).
-- Phase 7 (diagonal Conjecture C) is largely independent. 7a can run
-  in parallel with 5/6. 7b/7c may benefit from Phase 5 motifs as
-  building blocks.
+- Phase 7 (diagonal Conjecture C) is largely independent. Residue-zero and
+  residue-one constructions are available; residue two and the universal
+  counting theorem can proceed in parallel with Phases 5/6.
 - Phase 8 (Lean basicUB) is independent of Phases 5, 6, 7 (it
   formalizes the basic UB which is already algebraically proved).
-- Phase 9 (Lean formalization of constructions / Conjecture A) depends
-  on Phase 5 (for the construction) and Phase 8 (for the operational
-  connection).
+- Phase 9 (Lean formalization of constructions / Conjecture A) depends on
+  Phase 5 for the construction. Phase 8's operational connection is complete;
+  diagonal formalization additionally needs the Phase 7c planar-dual lemma.
