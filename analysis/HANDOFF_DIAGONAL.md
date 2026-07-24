@@ -1,4 +1,4 @@
-# Diagonal `P(n,n)` proof — handoff (2026-04-26)
+# Diagonal `P(n,n)` proof — handoff (2026-07-23)
 
 You are inheriting the diagonal proof program at the point where residue 1 is
 fully constructive (`n = 3k + 1`, validated through `n = 40` by
@@ -232,3 +232,10 @@ checks through n=120 (with a separate stress check at n=300). Cardinality is
 proved algebraically: `B_k` has `2k-2` ordinary and `k-2` seam rows. The dual
 edge count equals the number of dual vertices, and connectivity reduces to a
 finite base/frontier transition certificate. See `PHASE_PATTERN.md`.
+
+The first residue-two adaptation wave is negative for an unchanged phase bulk
+plus fixed caps. Its useful invariant is the count decomposition
+`q(3k+2) = 2n + (3k-2)(2k+1) + 1`, which cached n=11 and n=14 realize. Exact
+frontier searches show that the `+1` cannot be a single promoted phase row;
+the boundary defect must evolve with `k`. Continue with a stateful defect that
+absorbs one or two boundary rows of the bulk, not another fixed-cap search.

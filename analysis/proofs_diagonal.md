@@ -1753,3 +1753,12 @@ Connectivity reduces to a finite `B_7` frontier certificate plus six local
 phase transitions under extension. The generated family reproduces n=21 and
 passes all end-to-end checks through n=120. See `PHASE_PATTERN.md` for the
 proof-ready statement and remaining Lean obligations.
+
+For residue two, the same phase vocabulary gives a clean count target but not
+yet a construction. Cached n=11 and n=14 decompose as four cap rows of total
+cost `2n`, `3k-2` phase-like rows of baseline cost `2k+1`, and a defect of net
+cost `+1`, yielding `6k^2+5k+3`. Exact frontier search rules out representing
+that defect by one promoted phase row, and bounded cap searches rule out an
+unchanged residue-zero bulk with an external fixed cap. A residue-two proof
+therefore needs a stateful boundary defect whose geometry changes under
+`k -> k+1`.

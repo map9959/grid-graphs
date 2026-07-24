@@ -317,3 +317,27 @@ search, and its phase rows now give a repeatable exact family for every
 `n=3k>=21`; see `PHASE_PATTERN.md`. Residue 2 remains open because adapting the
 phase boundary to its different cap and cardinality correction has not yet been
 done.
+
+## Phase-bulk adaptation result
+
+For `n=3k+2`, the cached n=11 and n=14 witnesses support the exact count
+architecture
+
+```text
+four cap rows:                    2n
+3k-2 phase-like interior rows:   (3k-2)(2k+1)
+stateful defect:                 +1
+total:                           6k^2+5k+3.
+```
+
+This is only a cardinality architecture. An exact frontier search over pure
+phase words proves that the `+1` cannot be one promoted row. Reinterpreting the
+n=14 defect at larger widths also fails, so the defect geometry must evolve.
+
+An independent cap search tested an unchanged residue-zero `B_k` bulk against
+171 symbolic row masks, all top/bottom splits, both vertical orientations, and
+exhaustive sparse final rows. No n=23 cap closes. Cropping `B_(k+1)` and
+exhaustively deleting one row and one column from residue-zero patterns for
+n=23,26,29,32 are also negative. These are candidate searches, not optimizer
+runs. The next search should absorb one or two boundary rows of `B_k` into a
+stateful defect and propagate its exact frontier state with `k`.
