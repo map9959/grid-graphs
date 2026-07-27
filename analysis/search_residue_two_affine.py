@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from itertools import combinations
+from pathlib import Path
 
 from construction_lab import run_check
 from diagonal_patterns import residue_two_affine_pattern
@@ -101,11 +102,27 @@ def bridge_edges(edges, total_faces: int) -> set[int]:
     return bridges
 
 
-def search(n: int, add_row_start: int, add_row_end: int, add_count: int) -> bool:
-    bits = rows_to_bits(residue_two_affine_pattern(n))
+def search(
+    n: int, add_row_start: int, add_row_end: int, add_count: int, source: str = "affine"
+) -> bool:
+    if source == "middle250":
+        if n != 20:
+            raise ValueError("middle250 source requires n=20")
+        from search_residue_two_middle import KNOWN_250
+
+        source_rows = KNOWN_250
+    elif source == "phase250":
+        if n != 20:
+            raise ValueError("phase250 source requires n=20")
+        source_rows = Path(__file__).with_name(
+            "residue_two_phase_front_witness.txt"
+        ).read_text().splitlines()
+    else:
+        source_rows = residue_two_affine_pattern(n)
+    bits = rows_to_bits(source_rows)
     baseline = dual_metrics(bits, n)
     if baseline.components != 1:
-        raise AssertionError("affine candidate regression")
+        raise AssertionError(f"{source} candidate regression")
     original_us = [vertex for vertex in range(n * n) if bits & (1 << vertex)]
     dots = [
         vertex
@@ -156,7 +173,7 @@ def search(n: int, add_row_start: int, add_row_end: int, add_count: int) -> bool
             rows = bits_to_rows(candidate, n)
             info = run_check(n, rows, verbose=True)
             if not info["all_ok"]:
-                raise AssertionError("connected affine trim failed verification")
+                raise AssertionError(f"connected {source} trim failed verification")
             print(
                 f"found add={[divmod(v, n) for v in added]} "
                 f"remove={[divmod(v, n) for v in removed]}"
@@ -164,7 +181,7 @@ def search(n: int, add_row_start: int, add_row_end: int, add_count: int) -> bool
             print("\n".join(rows))
             return True
     print(
-        f"no {add_count}-add/{add_count + 1}-remove trim "
+        f"no {add_count}-add/{add_count + 1}-remove trim from {source} "
         f"rows={add_row_start}..{add_row_end - 1}; "
         f"additions={addition_count} exact_checks={checked} "
         f"bridge_pruned_vertices={bridge_pruned} edge_pruned_pairs={edge_pruned}"
@@ -178,11 +195,14 @@ def main() -> None:
     parser.add_argument("--add-row-start", type=int, default=0)
     parser.add_argument("--add-row-end", type=int)
     parser.add_argument("--add-count", type=int, choices=(1, 2, 3, 4), default=1)
+    parser.add_argument(
+        "--source", choices=("affine", "middle250", "phase250"), default="affine"
+    )
     args = parser.parse_args()
     add_row_end = args.n if args.add_row_end is None else args.add_row_end
     if not 0 <= args.add_row_start < add_row_end <= args.n:
         raise ValueError(f"addition row range must lie in 0..{args.n}")
-    if not search(args.n, args.add_row_start, add_row_end, args.add_count):
+    if not search(args.n, args.add_row_start, add_row_end, args.add_count, args.source):
         raise SystemExit(1)
 
 

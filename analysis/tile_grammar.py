@@ -13,13 +13,17 @@ This module is a synthesis primitive, not yet a residue-2 construction.
 from __future__ import annotations
 
 import argparse
-from collections.abc import Callable
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from itertools import product
 from pathlib import Path
 
 from construction_lab import DSU, dual_connectivity_check, q_formula, run_check
-from diagonal_patterns import residue_two_explicit_pattern, residue_zero_explicit_pattern
+from diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+    residue_zero_explicit_pattern,
+)
 from tile_alphabet import ALPHABET, Tile
 from tile_symmetry import orbit
 
@@ -49,6 +53,46 @@ class PartialBandState:
     partition_two: tuple[int, ...]
     partition_three: tuple[int, ...]
     tile_names: tuple[str, ...]
+
+
+ROW_PACKET_ALPHABET: dict[str, str] = {
+    "L": "UU.",
+    "X": "U.U",
+    "R": ".UU",
+    "H": "UUU",
+}
+
+
+@dataclass(frozen=True, slots=True)
+class PartialRowState:
+    """Exact state after consuming a prefix of one new vertex row."""
+
+    columns: int
+    right_u: bool
+    row_mask: int
+    row_u_cost: int
+    packet_charge: int
+    h_count: int
+    partition: tuple[int, ...]
+    cycle_excess: int
+    packet_names: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class RowPacketTransition:
+    outgoing: FrontierState
+    row_mask: int
+    packet_names: tuple[str, ...]
+    packet_charge: int
+    h_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class RowPacketVerification:
+    incoming_states: int
+    checked_rows: int
+    sealed_rows: int
+    attempted_transitions: int
 
 
 PartialSelector = Callable[
@@ -175,6 +219,270 @@ def advance_row(state: FrontierState, current_u_mask: int) -> FrontierState | No
         u_cost=state.u_cost + current_u_mask.bit_count(),
         cycle_excess=cycles,
     )
+
+
+def _row_node_order(state: FrontierState) -> tuple[list[object], list[object], list[object]]:
+    old = (
+        [("old", c) for c in range(state.n - 1)]
+        if state.row_index > 0
+        else []
+    )
+    new = (
+        [("new", c) for c in range(state.n - 1)]
+        if state.row_index + 1 < state.n
+        else []
+    )
+    return [("out", 0), *old, *new], old, new
+
+
+def _initial_partial_row(state: FrontierState) -> PartialRowState:
+    order, old, _ = _row_node_order(state)
+    incoming_nodes = [("out", 0), *old]
+    if len(state.partition) != len(incoming_nodes):
+        raise ValueError("frontier partition has the wrong size")
+    dsu = DSU(order)
+    incoming = dsu_from_partition(incoming_nodes, state.partition)
+    representatives: dict[object, object] = {}
+    for node in incoming_nodes:
+        root = incoming.find(node)
+        if root in representatives:
+            dsu.union(node, representatives[root])
+        else:
+            representatives[root] = node
+    return PartialRowState(0, False, 0, 0, 0, 0, canonical_partition(dsu, order), 0, ())
+
+
+def _append_row_bits(
+    state: FrontierState, partial: PartialRowState, bits: str
+) -> PartialRowState:
+    if any(bit not in ".U" for bit in bits):
+        raise ValueError("fixed bits and packet values must contain only '.' and 'U'")
+    if partial.columns + len(bits) > state.n:
+        raise ValueError("row prefix extends beyond the grid width")
+    order, old, new = _row_node_order(state)
+    out = ("out", 0)
+    dsu = dsu_from_partition(order, partial.partition)
+    columns = partial.columns
+    right_u = partial.right_u
+    mask = partial.row_mask
+    cost = partial.row_u_cost
+    cycles = partial.cycle_excess
+
+    def add_edge(a: object, b: object) -> None:
+        nonlocal cycles
+        if not dsu.union(a, b):
+            cycles += 1
+
+    for bit in bits:
+        current_u = bit == "U"
+        c = columns
+        if (
+            old
+            and current_u
+            and state.previous_u_mask & (1 << c)
+        ):
+            left = out if c == 0 else old[c - 1]
+            right = out if c + 1 == state.n else old[c]
+            add_edge(left, right)
+        if c > 0 and right_u and current_u:
+            above = out if not old else old[c - 1]
+            below = out if not new else new[c - 1]
+            add_edge(above, below)
+        if current_u:
+            mask |= 1 << c
+            cost += 1
+        right_u = current_u
+        columns += 1
+
+    return PartialRowState(
+        columns=columns,
+        right_u=right_u,
+        row_mask=mask,
+        row_u_cost=cost,
+        packet_charge=partial.packet_charge,
+        h_count=partial.h_count,
+        partition=canonical_partition(dsu, order),
+        cycle_excess=cycles,
+        packet_names=partial.packet_names,
+    )
+
+
+def _partial_row_has_sealed_component(
+    state: FrontierState, partial: PartialRowState
+) -> bool:
+    """Reject only old faces that no unprocessed column can still touch."""
+    order, old, new = _row_node_order(state)
+    labels = dict(zip(order, partial.partition))
+    retired_end = max(0, partial.columns - 1)
+    reachable = {labels[("out", 0)]}
+    reachable.update(labels[node] for node in new)
+    reachable.update(labels[node] for node in old[retired_end:])
+    return any(labels[node] not in reachable for node in old[:retired_end])
+
+
+def _partial_row_key(partial: PartialRowState) -> tuple:
+    return (
+        partial.columns,
+        partial.right_u,
+        partial.row_mask,
+        partial.row_u_cost,
+        partial.packet_charge,
+        partial.h_count,
+        partial.partition,
+        partial.cycle_excess,
+    )
+
+
+def stream_row_packets(
+    incoming: FrontierState,
+    prefix: str,
+    suffix: str,
+    packet_domains: Sequence[Sequence[str]],
+    *,
+    packet_alphabet: Mapping[str, str] = ROW_PACKET_ALPHABET,
+    packet_charge_bounds: tuple[int | None, int | None] = (None, None),
+    u_cost_bounds: tuple[int | None, int | None] = (None, None),
+) -> tuple[list[RowPacketTransition], int]:
+    """Stream one row exactly, deduplicating full (unprojected) DSU states.
+
+    Packet charge is ``len(U) - 2`` per packet. U-cost bounds apply to the
+    outgoing state's cumulative cost, while packet-charge bounds are row-local.
+    The attempted count is the number of partial-state/packet pairs expanded.
+    """
+    if incoming.finished:
+        raise ValueError("cannot advance a finished frontier")
+    if any(not domain for domain in packet_domains):
+        raise ValueError("packet domains must be nonempty")
+    unknown = {
+        name for domain in packet_domains for name in domain if name not in packet_alphabet
+    }
+    if unknown:
+        raise ValueError(f"unknown packet names: {sorted(unknown)}")
+    widths = {len(packet_alphabet[name]) for domain in packet_domains for name in domain}
+    if len(prefix) + len(suffix) + sum(
+        len(packet_alphabet[domain[0]]) for domain in packet_domains
+    ) != incoming.n:
+        raise ValueError("fixed bits and packet domains do not span the grid width")
+    if any(
+        len(packet_alphabet[name]) != len(packet_alphabet[domain[0]])
+        for domain in packet_domains
+        for name in domain
+    ):
+        raise ValueError("all packets in a domain must have the same width")
+    if not widths and len(prefix) + len(suffix) != incoming.n:
+        raise ValueError("fixed bits do not span the grid width")
+
+    min_charge, max_charge = packet_charge_bounds
+    min_cost, max_cost = u_cost_bounds
+    if min_charge is not None and max_charge is not None and min_charge > max_charge:
+        raise ValueError("packet charge bounds are reversed")
+    if min_cost is not None and max_cost is not None and min_cost > max_cost:
+        raise ValueError("U-cost bounds are reversed")
+
+    suffix_charge_min = [0] * (len(packet_domains) + 1)
+    suffix_charge_max = [0] * (len(packet_domains) + 1)
+    suffix_cost_min = [0] * (len(packet_domains) + 1)
+    suffix_cost_max = [0] * (len(packet_domains) + 1)
+    for index in range(len(packet_domains) - 1, -1, -1):
+        counts = [packet_alphabet[name].count("U") for name in packet_domains[index]]
+        suffix_charge_min[index] = suffix_charge_min[index + 1] + min(counts) - 2
+        suffix_charge_max[index] = suffix_charge_max[index + 1] + max(counts) - 2
+        suffix_cost_min[index] = suffix_cost_min[index + 1] + min(counts)
+        suffix_cost_max[index] = suffix_cost_max[index + 1] + max(counts)
+
+    initial = _append_row_bits(incoming, _initial_partial_row(incoming), prefix)
+    partials = {_partial_row_key(initial): initial}
+    attempted = 0
+    suffix_u_cost = suffix.count("U")
+    for domain_index, domain in enumerate(packet_domains):
+        candidates: dict[tuple, PartialRowState] = {}
+        for partial in partials.values():
+            for name in domain:
+                attempted += 1
+                value = packet_alphabet[name]
+                child = _append_row_bits(incoming, partial, value)
+                child = PartialRowState(
+                    columns=child.columns,
+                    right_u=child.right_u,
+                    row_mask=child.row_mask,
+                    row_u_cost=child.row_u_cost,
+                    packet_charge=partial.packet_charge + value.count("U") - 2,
+                    h_count=partial.h_count + (value.count("U") == 3),
+                    partition=child.partition,
+                    cycle_excess=child.cycle_excess,
+                    packet_names=(*partial.packet_names, name),
+                )
+                if _partial_row_has_sealed_component(incoming, child):
+                    continue
+                remaining = domain_index + 1
+                if (
+                    min_charge is not None
+                    and child.packet_charge + suffix_charge_max[remaining] < min_charge
+                ):
+                    continue
+                if (
+                    max_charge is not None
+                    and child.packet_charge + suffix_charge_min[remaining] > max_charge
+                ):
+                    continue
+                lowest_cost = (
+                    incoming.u_cost
+                    + child.row_u_cost
+                    + suffix_cost_min[remaining]
+                    + suffix_u_cost
+                )
+                highest_cost = (
+                    incoming.u_cost
+                    + child.row_u_cost
+                    + suffix_cost_max[remaining]
+                    + suffix_u_cost
+                )
+                if min_cost is not None and highest_cost < min_cost:
+                    continue
+                if max_cost is not None and lowest_cost > max_cost:
+                    continue
+                candidates.setdefault(_partial_row_key(child), child)
+        partials = candidates
+        if not partials:
+            break
+
+    results = []
+    for partial in partials.values():
+        child = _append_row_bits(incoming, partial, suffix)
+        if _partial_row_has_sealed_component(incoming, child):
+            continue
+        total_cost = incoming.u_cost + child.row_u_cost
+        if min_charge is not None and child.packet_charge < min_charge:
+            continue
+        if max_charge is not None and child.packet_charge > max_charge:
+            continue
+        if min_cost is not None and total_cost < min_cost:
+            continue
+        if max_cost is not None and total_cost > max_cost:
+            continue
+        order, _, new = _row_node_order(incoming)
+        dsu = dsu_from_partition(order, child.partition)
+        partition = canonical_partition(dsu, [("out", 0), *new])
+        if incoming.row_index + 1 == incoming.n and partition != (0,):
+            continue
+        outgoing = FrontierState(
+            n=incoming.n,
+            row_index=incoming.row_index + 1,
+            previous_u_mask=child.row_mask,
+            partition=partition,
+            u_cost=total_cost,
+            cycle_excess=incoming.cycle_excess + child.cycle_excess,
+        )
+        results.append(
+            RowPacketTransition(
+                outgoing,
+                child.row_mask,
+                child.packet_names,
+                child.packet_charge,
+                child.h_count,
+            )
+        )
+    return results, attempted
 
 
 def advance_band(
@@ -1284,6 +1592,106 @@ def verify_streamed_transitions(oriented: bool = False) -> int:
     return checked
 
 
+def verify_streamed_row_packets() -> RowPacketVerification:
+    """Exhaustively compare packet streaming with ``advance_row``.
+
+    The primary checks cover every basic and center-seam mutable n=20 row from
+    both fixed cap states. A one-packet n=5 check additionally covers the
+    initial state and every possible one-row incoming frontier.
+    """
+    checked_rows = 0
+    sealed_rows = 0
+    attempted_transitions = 0
+    incoming_count = 0
+
+    def compare(
+        incoming: FrontierState,
+        prefix: str,
+        suffix: str,
+        domain_count: int,
+        alphabet: Mapping[str, str] = ROW_PACKET_ALPHABET,
+    ) -> None:
+        nonlocal checked_rows, sealed_rows, attempted_transitions, incoming_count
+        names_in_alphabet = tuple(alphabet)
+        domains = [names_in_alphabet] * domain_count
+        streamed, attempted = stream_row_packets(
+            incoming, prefix, suffix, domains, packet_alphabet=alphabet
+        )
+        attempted_transitions += attempted
+        incoming_count += 1
+        actual = {item.row_mask: item for item in streamed}
+        if len(actual) != len(streamed):
+            raise AssertionError("packet stream returned duplicate complete row masks")
+
+        expected_masks = set()
+        for names in product(names_in_alphabet, repeat=domain_count):
+            middle = "".join(alphabet[name] for name in names)
+            mask = row_mask(prefix + middle + suffix)
+            direct = advance_row(incoming, mask)
+            checked_rows += 1
+            if direct is None:
+                sealed_rows += 1
+                if mask in actual:
+                    raise AssertionError(
+                        f"stream retained a directly sealed row: n={incoming.n}, "
+                        f"incoming={frontier_key(incoming)}, row={render_mask(mask, incoming.n)}"
+                    )
+                continue
+            expected_masks.add(mask)
+            item = actual.get(mask)
+            expected_charge = sum(
+                alphabet[name].count("U") - 2 for name in names
+            )
+            if item is None or (
+                item.outgoing != direct
+                or item.row_mask != direct.previous_u_mask
+                or item.packet_names != names
+                or item.packet_charge != expected_charge
+                or item.h_count != sum(alphabet[name].count("U") == 3 for name in names)
+            ):
+                raise AssertionError(
+                    f"packet transition mismatch: n={incoming.n}, "
+                    f"incoming={frontier_key(incoming)}, row={render_mask(mask, incoming.n)}, "
+                    f"direct={direct}, streamed={item}"
+                )
+        extra = set(actual) - expected_masks
+        if extra:
+            raise AssertionError(f"packet stream produced unexpected masks: {sorted(extra)}")
+
+    rows = residue_two_affine_pattern(20)
+    top = initial_state(20)
+    for row in rows[:3]:
+        advanced = advance_row(top, row_mask(row))
+        if advanced is None:
+            raise AssertionError("fixed n=20 top state sealed unexpectedly")
+        top = advanced
+    reflected_bottom = initial_state(20)
+    for row in reversed(rows[-2:]):
+        advanced = advance_row(reflected_bottom, row_mask(row))
+        if advanced is None:
+            raise AssertionError("reflected n=20 bottom state sealed unexpectedly")
+        reflected_bottom = advanced
+    compare(top, ".", ".", 6)
+    compare(reflected_bottom, ".", ".", 6)
+    phase_alphabet = {**ROW_PACKET_ALPHABET, "S": ".U."}
+    compare(top, ".", ".", 6, phase_alphabet)
+    compare(reflected_bottom, ".", ".", 6, phase_alphabet)
+
+    compare(initial_state(5), ".", ".", 1)
+    for previous_mask in range(1 << 5):
+        incoming = advance_row(initial_state(5), previous_mask)
+        if incoming is None:
+            raise AssertionError("a first row cannot seal a dual component")
+        compare(incoming, ".", ".", 1)
+
+    return RowPacketVerification(
+        incoming_states=incoming_count,
+        checked_rows=checked_rows,
+        sealed_rows=sealed_rows,
+        attempted_transitions=attempted_transitions,
+    )
+
+
 def verify_bidirectional_merge(max_n: int = 3) -> int:
     """Compare every possible row cut with ordinary full-pattern analysis."""
     checked = 0
@@ -1338,6 +1746,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--verify", action="store_true")
     parser.add_argument("--verify-streamed", action="store_true")
+    parser.add_argument("--verify-row-packets", action="store_true")
     parser.add_argument("--verify-bidirectional", action="store_true")
     parser.add_argument("--max-n", type=int, default=4)
     parser.add_argument("--trace", type=int, choices=(5, 8, 11, 14))
@@ -1358,6 +1767,13 @@ def main() -> None:
         checked = verify_streamed_transitions(oriented=args.oriented)
         alphabet = "oriented" if args.oriented else "canonical"
         print(f"verified {checked} streamed {alphabet} transition sets")
+    if args.verify_row_packets:
+        result = verify_streamed_row_packets()
+        print(
+            f"verified {result.checked_rows} packet rows from "
+            f"{result.incoming_states} incoming states; sealed={result.sealed_rows} "
+            f"attempted={result.attempted_transitions}"
+        )
     if args.verify_bidirectional:
         checked = verify_bidirectional_merge(args.max_n)
         print(f"verified {checked} bidirectional cuts through n={args.max_n}")
@@ -1470,6 +1886,7 @@ def main() -> None:
     if (
         not args.verify
         and not args.verify_streamed
+        and not args.verify_row_packets
         and not args.verify_bidirectional
         and args.trace is None
         and args.compare_zero is None
@@ -1480,9 +1897,9 @@ def main() -> None:
         and args.class_pattern is None
     ):
         parser.error(
-            "choose --verify, --verify-streamed, --verify-bidirectional, --trace, "
-            "--compare-zero, --synthesize, --zero-template, --zero-wide, --zero-bidirectional, "
-            "and/or --class-pattern"
+            "choose --verify, --verify-streamed, --verify-row-packets, "
+            "--verify-bidirectional, --trace, --compare-zero, --synthesize, "
+            "--zero-template, --zero-wide, --zero-bidirectional, and/or --class-pattern"
         )
     if args.fix_bottom_band and args.class_pattern is None:
         parser.error("--fix-bottom-band requires --class-pattern")

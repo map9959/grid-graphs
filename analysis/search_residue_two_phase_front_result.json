@@ -1,0 +1,271 @@
+{
+  "schema": "grid-graphs.residue-two-phase-front.v2",
+  "provenance": {
+    "known_250_rows_sha256": "e83264719effbe47764b6b66537aa028cfbc43d8b825607fd7e68e9bea3cc046",
+    "known_249_near_rows_sha256": "34d8fb20c9a6cd395060f82cfafd27f229239a137119f9c2f9dfe16946e6b68a",
+    "canonical_row_encoding": "ASCII rows joined by LF with one final LF",
+    "source_files": {
+      "generator_source": {
+        "path": "search_residue_two_phase_front.py",
+        "sha256": "cdfe67924cadb8d72b7942240cd87578b3dd6b201a4ec4493888fe24e9dd24f2"
+      },
+      "base_witness_source": {
+        "path": "search_residue_two_middle.py",
+        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+      },
+      "frontier_kernel": {
+        "path": "tile_grammar.py",
+        "sha256": "c0efadada7b825cc89106ae476ebece1693a7b3d1f7c3abadb0d49dd7c30b9ab"
+      }
+    }
+  },
+  "scope": {
+    "kind": "bounded width-independent row language; not global optimization",
+    "row_rule": ". L^a C R^(k-a-|C|) .",
+    "center_bound": 5,
+    "basic_center_alphabet": [
+      "X",
+      "H"
+    ],
+    "phase_center_alphabet": [
+      "X",
+      "H",
+      "S"
+    ],
+    "S": ".U.",
+    "observed_mutable_words": [
+      "LXXXXH",
+      "HXXXHR",
+      "XXXHRR",
+      "HXHRRR",
+      "LHRRRR",
+      "LXRRRR",
+      "HHRRRR",
+      "XRRRRR",
+      "HRRRRR",
+      "XHRRRR",
+      "HXRRRR"
+    ],
+    "all_observed_rows_in_basic_domain": true,
+    "state_key": "full unprojected FrontierState",
+    "join_counts": {
+      "joined_pairs": "compatible pairs of deduplicated forward/backward FrontierState nodes",
+      "tied_best": "best-profile pairs of deduplicated forward/backward FrontierState nodes",
+      "joined_assignment_pairs": "sum of top.ways * bottom.ways over joined state pairs",
+      "tied_best_assignment_pairs": "sum of top.ways * bottom.ways over tied-best state pairs"
+    },
+    "first_row_unconstrained_check": "enumerates the complete declared row domain without target-feasibility pruning"
+  },
+  "searches": [
+    {
+      "n": 20,
+      "target_u": 250,
+      "mode": "basic",
+      "label": "BEAM-500 bounded-language",
+      "conclusion": "BEAM-500 bounded-language POSITIVE",
+      "beam": 500,
+      "split": 8,
+      "domain_size": 176,
+      "forward_states": 500,
+      "backward_states": 500,
+      "joined_pairs": 249000,
+      "joined_assignment_pairs": 1153620,
+      "best_join": [
+        1,
+        1
+      ],
+      "tied_best": 5,
+      "tied_best_assignment_pairs": 5,
+      "first_row_unconstrained_legal_rows": null,
+      "witness": [
+        ".U..................",
+        ".UUUUUUUUUUUUUUUUUUU",
+        ".UUUU.UU.UU.UU.UU.UU",
+        ".UU.U.UU.UU.UU.UUUU.",
+        ".UU.UUUU.UU.UUUU.UU.",
+        ".UU.UU.U.UUUU.UU.UU.",
+        ".UU.UU.UUU.UU.UU.UU.",
+        ".UU.UU.UUU.UU.UU.UU.",
+        ".UU.UUUU.U.UU.UU.UU.",
+        ".UU.U.UUUU.UU.UU.UU.",
+        ".UU.UUU.UU.UU.UU.UU.",
+        ".UU.UUU.UU.UU.UU.UU.",
+        ".UU.U.U.UU.UU.UU.UU.",
+        ".UU.UUU.UU.UU.UU.UU.",
+        ".UUUU.UUUU.UU.UU.UU.",
+        ".U.UU.UU.U.UU.UU.UU.",
+        ".UUUU.UUUU.UU.UU.UU.",
+        ".UU.UUU.UU.UU.UU.UU.",
+        ".UUUUUUUUUUUUUUUUUU.",
+        ".U................U."
+      ],
+      "layers": [
+        {
+          "side": "backward",
+          "row": 1,
+          "incoming_states": 1,
+          "packet_extensions": 294,
+          "live_transitions": 47,
+          "exact_states": 47,
+          "retained_states": 47,
+          "assignments_represented": 47
+        },
+        {
+          "side": "backward",
+          "row": 2,
+          "incoming_states": 47,
+          "packet_extensions": 15230,
+          "live_transitions": 3518,
+          "exact_states": 3079,
+          "retained_states": 500,
+          "assignments_represented": 691
+        },
+        {
+          "side": "backward",
+          "row": 3,
+          "incoming_states": 500,
+          "packet_extensions": 112706,
+          "live_transitions": 16353,
+          "exact_states": 10943,
+          "retained_states": 500,
+          "assignments_represented": 833
+        },
+        {
+          "side": "backward",
+          "row": 4,
+          "incoming_states": 500,
+          "packet_extensions": 99245,
+          "live_transitions": 13116,
+          "exact_states": 7271,
+          "retained_states": 500,
+          "assignments_represented": 772
+        },
+        {
+          "side": "backward",
+          "row": 5,
+          "incoming_states": 500,
+          "packet_extensions": 104031,
+          "live_transitions": 14169,
+          "exact_states": 9647,
+          "retained_states": 500,
+          "assignments_represented": 887
+        },
+        {
+          "side": "backward",
+          "row": 6,
+          "incoming_states": 500,
+          "packet_extensions": 96897,
+          "live_transitions": 12181,
+          "exact_states": 8544,
+          "retained_states": 500,
+          "assignments_represented": 1200
+        },
+        {
+          "side": "backward",
+          "row": 7,
+          "incoming_states": 500,
+          "packet_extensions": 97330,
+          "live_transitions": 11172,
+          "exact_states": 8247,
+          "retained_states": 500,
+          "assignments_represented": 1887
+        },
+        {
+          "side": "forward",
+          "row": 1,
+          "incoming_states": 1,
+          "packet_extensions": 345,
+          "live_transitions": 32,
+          "exact_states": 32,
+          "retained_states": 32,
+          "assignments_represented": 32
+        },
+        {
+          "side": "forward",
+          "row": 2,
+          "incoming_states": 32,
+          "packet_extensions": 9314,
+          "live_transitions": 1534,
+          "exact_states": 1322,
+          "retained_states": 500,
+          "assignments_represented": 647
+        },
+        {
+          "side": "forward",
+          "row": 3,
+          "incoming_states": 500,
+          "packet_extensions": 132391,
+          "live_transitions": 20722,
+          "exact_states": 12198,
+          "retained_states": 500,
+          "assignments_represented": 681
+        },
+        {
+          "side": "forward",
+          "row": 4,
+          "incoming_states": 500,
+          "packet_extensions": 123035,
+          "live_transitions": 19320,
+          "exact_states": 13863,
+          "retained_states": 500,
+          "assignments_represented": 633
+        },
+        {
+          "side": "forward",
+          "row": 5,
+          "incoming_states": 500,
+          "packet_extensions": 111241,
+          "live_transitions": 15320,
+          "exact_states": 10915,
+          "retained_states": 500,
+          "assignments_represented": 761
+        },
+        {
+          "side": "forward",
+          "row": 6,
+          "incoming_states": 500,
+          "packet_extensions": 108256,
+          "live_transitions": 14382,
+          "exact_states": 10507,
+          "retained_states": 500,
+          "assignments_represented": 830
+        },
+        {
+          "side": "forward",
+          "row": 7,
+          "incoming_states": 500,
+          "packet_extensions": 100455,
+          "live_transitions": 13405,
+          "exact_states": 11170,
+          "retained_states": 500,
+          "assignments_represented": 879
+        },
+        {
+          "side": "forward",
+          "row": 8,
+          "incoming_states": 500,
+          "packet_extensions": 94267,
+          "live_transitions": 12092,
+          "exact_states": 10627,
+          "retained_states": 500,
+          "assignments_represented": 612
+        }
+      ]
+    }
+  ],
+  "output": {
+    "witness": {
+      "producer": "grid-graphs.residue-two-phase-front.v2",
+      "path": "residue_two_phase_front_witness.txt",
+      "status": "current",
+      "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11"
+    },
+    "rerun": {
+      "n": 20,
+      "surplus": 1,
+      "mode": "basic",
+      "beam": 500,
+      "split": 8
+    }
+  }
+}

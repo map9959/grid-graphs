@@ -1,0 +1,1621 @@
+{
+  "schema": "grid-graphs.residue-two-five-column-bidirectional.v1",
+  "exact": true,
+  "result": "negative",
+  "provenance": {
+    "phase_witness_rows_sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11",
+    "source_files": {
+      "generator": {
+        "path": "search_residue_two_five_column_bidirectional.py",
+        "sha256": "bd492c3cd7119cbd7f600aaf0143b20222779ebd13ecba22356fdbad1019f4ee"
+      },
+      "phase_witness": {
+        "path": "residue_two_phase_front_witness.txt",
+        "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11"
+      },
+      "five_column_domain": {
+        "path": "search_residue_two_two_lobe_phase_corridor_five_columns.py",
+        "sha256": "fea5c3ce79816fc202c92932b0671dfcb268efbfe2b9601f8f93ddcc3d0600d5"
+      },
+      "phase_front": {
+        "path": "search_residue_two_phase_front.py",
+        "sha256": "cdfe67924cadb8d72b7942240cd87578b3dd6b201a4ec4493888fe24e9dd24f2"
+      },
+      "phase_rows_source": {
+        "path": "search_residue_two_phase_packet_corridor_22.py",
+        "sha256": "466b3f5113807e8ed4fc65c19ff0948f34847373915bb724ef8d9815ee08326e"
+      },
+      "corridor_caps": {
+        "path": "search_residue_two_two_lobe_phase_corridor.py",
+        "sha256": "12b029b9c7c324b858bf3e3048b96012b15e7bba35d23f35128a97f66fb03f75"
+      },
+      "frontier": {
+        "path": "tile_grammar.py",
+        "sha256": "c0efadada7b825cc89106ae476ebece1693a7b3d1f7c3abadb0d49dd7c30b9ab"
+      }
+    }
+  },
+  "scope": {
+    "n": 20,
+    "target_u": 249,
+    "fixed_body_rows": [
+      [
+        0,
+        3
+      ],
+      [
+        10,
+        13
+      ]
+    ],
+    "mutable_rows": [
+      [
+        4,
+        9
+      ],
+      [
+        14,
+        17
+      ]
+    ],
+    "mutable_packet_columns": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "frozen_packet_columns": [
+      5
+    ],
+    "row_language": "complete basic L*(X|H)+R*, center width <=5, ending R",
+    "mutable_h_quota": 11,
+    "domain_sizes": {
+      "4": 114,
+      "5": 114,
+      "6": 114,
+      "7": 114,
+      "8": 114,
+      "9": 114,
+      "14": 114,
+      "15": 114,
+      "16": 114,
+      "17": 114
+    },
+    "domain_hashes": {
+      "4": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "5": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "6": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "7": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "8": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "9": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "14": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "15": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "16": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48",
+      "17": "28cd6186a66479b0889d9e6d5d9e8cf336ca65a0b97f164c676110d7eb826c48"
+    },
+    "cuts": [
+      "8/9",
+      "9/10",
+      "13/14"
+    ],
+    "cap_lanes": [
+      "fixed",
+      [
+        19,
+        1
+      ],
+      [
+        18,
+        2
+      ],
+      [
+        17,
+        3
+      ]
+    ],
+    "storage": "ordinary in-memory dictionaries",
+    "deduplication": "mutable H bucket then full unprojected FrontierState",
+    "multiplicities": "exact within each cap lane",
+    "aggregate_lane_counts": "lane-counted; fixed cap also appears in all-(18,2), so lane sums are not distinct-union counts"
+  },
+  "memory_guard_states_per_layer": 1000000,
+  "forward_layers": [
+    {
+      "incoming_states": 1,
+      "domain_size": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "new_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "fe93ba7ad8a66e3e397490723645653c7ed0f43952ca40aa2df8714fe127c847",
+      "row": 0,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 1,
+      "domain_size": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "new_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "1b7bd632dce611db08957d2c0fe07e190e600b61fe2585f32d1d93b2c3953b1a",
+      "row": 1,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 1,
+      "domain_size": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "new_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "fe1086c43ef79ae6410cf1f8ca28bf34739e3323e1e3fad64db1b82b178154f8",
+      "row": 2,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 1,
+      "domain_size": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "new_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "bf77bf44ca39808201453dc82aa0a8daaf4d5d3682ae2dbf9b4c1f491b811b85",
+      "row": 3,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 1,
+      "domain_size": 114,
+      "transitions_attempted": 114,
+      "viable_transitions": 24,
+      "outgoing_states": 24,
+      "new_states": 24,
+      "assignments_represented": 24,
+      "frontier_sha256": "c6de389811d885b3804ec1366e4e18d64b2250228785bd46024ed18e9f4a1c89",
+      "row": 4,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 24,
+      "domain_size": 114,
+      "transitions_attempted": 2736,
+      "viable_transitions": 1073,
+      "outgoing_states": 909,
+      "new_states": 909,
+      "assignments_represented": 1073,
+      "frontier_sha256": "1d001c5ae1aeab8378d1a8ee4d12d25161bddc7a414fa8609b06a3a6a9673f5f",
+      "row": 5,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 909,
+      "domain_size": 114,
+      "transitions_attempted": 103626,
+      "viable_transitions": 33654,
+      "outgoing_states": 17337,
+      "new_states": 17337,
+      "assignments_represented": 38858,
+      "frontier_sha256": "99799c8d23f74f14b3944f85ed343b1e8bf5d9d8b3ebcac0334ed6895a09359c",
+      "row": 6,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 17337,
+      "domain_size": 114,
+      "transitions_attempted": 1976418,
+      "viable_transitions": 455949,
+      "outgoing_states": 84193,
+      "new_states": 84193,
+      "assignments_represented": 987227,
+      "frontier_sha256": "13ef40bf3720612057854bcf4591c93724d8efc03ceeefe8f5a3cf9e7a298723",
+      "row": 7,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 84193,
+      "domain_size": 114,
+      "transitions_attempted": 9598002,
+      "viable_transitions": 1143198,
+      "outgoing_states": 125235,
+      "new_states": 125235,
+      "assignments_represented": 9505432,
+      "frontier_sha256": "177640f07fc1c0b6e504563f30dce2f580d862ea22d3d01288414823d5123170",
+      "row": 8,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 125235,
+      "domain_size": 114,
+      "transitions_attempted": 14276790,
+      "viable_transitions": 1197594,
+      "outgoing_states": 113640,
+      "new_states": 113640,
+      "assignments_represented": 32229924,
+      "frontier_sha256": "6cf9496a54d0f7ac3993e0b168645f16914902a67ab5132867dd87d68a6199ab",
+      "row": 9,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 113640,
+      "domain_size": 1,
+      "transitions_attempted": 113640,
+      "viable_transitions": 23348,
+      "outgoing_states": 2129,
+      "new_states": 2129,
+      "assignments_represented": 3563339,
+      "frontier_sha256": "689c58287fa3e9af7701a155e747979d5e959bc79d81baab54d8aeb8bab8fa3e",
+      "row": 10,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 2129,
+      "domain_size": 1,
+      "transitions_attempted": 2129,
+      "viable_transitions": 2129,
+      "outgoing_states": 983,
+      "new_states": 983,
+      "assignments_represented": 3563339,
+      "frontier_sha256": "2c12167222b230d33d7e0dccc39a0763332ecc007da088f668d9885501f990d0",
+      "row": 11,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 983,
+      "domain_size": 1,
+      "transitions_attempted": 983,
+      "viable_transitions": 623,
+      "outgoing_states": 449,
+      "new_states": 449,
+      "assignments_represented": 2715534,
+      "frontier_sha256": "84e6b6dac7a321750955d2d593612dbc2cacb5aafa3c50990f5aa49abc1edec1",
+      "row": 12,
+      "direction": "forward"
+    },
+    {
+      "incoming_states": 449,
+      "domain_size": 1,
+      "transitions_attempted": 449,
+      "viable_transitions": 449,
+      "outgoing_states": 449,
+      "new_states": 449,
+      "assignments_represented": 2715534,
+      "frontier_sha256": "87604c70d3cbcb2f25bbebd92fe612341b3f8f5d27fd61f6d88e11ce4d2455dd",
+      "row": 13,
+      "direction": "forward"
+    }
+  ],
+  "lanes": [
+    {
+      "name": "fixed",
+      "distribution": [
+        18,
+        2
+      ],
+      "census_status": "complete",
+      "backward_layers": [
+        {
+          "incoming_states": 1,
+          "domain_size": 1,
+          "transitions_attempted": 1,
+          "viable_transitions": 1,
+          "outgoing_states": 1,
+          "new_states": 1,
+          "assignments_represented": 1,
+          "frontier_sha256": "530ee7ae12cdc210b5972b7eb09bd2412d40a08791d59fd41819cfd0f8047f78",
+          "row": 19,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1,
+          "domain_size": 1,
+          "transitions_attempted": 1,
+          "viable_transitions": 1,
+          "outgoing_states": 1,
+          "new_states": 1,
+          "assignments_represented": 1,
+          "frontier_sha256": "2e7fc65dd3163e1d50cb0b0e20d665b7c1c62a430b58b3547d98a40edda38407",
+          "row": 18,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1,
+          "domain_size": 114,
+          "transitions_attempted": 114,
+          "viable_transitions": 31,
+          "outgoing_states": 31,
+          "new_states": 31,
+          "assignments_represented": 31,
+          "frontier_sha256": "b353161ee3a3acd1407e58a8ed544f7bbaed350955c93bf5ac05f1fe48de5b20",
+          "row": 17,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 31,
+          "domain_size": 114,
+          "transitions_attempted": 3534,
+          "viable_transitions": 1737,
+          "outgoing_states": 1539,
+          "new_states": 1539,
+          "assignments_represented": 1737,
+          "frontier_sha256": "6f7040d600ca5212ffcecc9b8ae11241c76bbfab6c12edbf686b639a44b328ee",
+          "row": 16,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1539,
+          "domain_size": 114,
+          "transitions_attempted": 175446,
+          "viable_transitions": 59529,
+          "outgoing_states": 24536,
+          "new_states": 24536,
+          "assignments_represented": 64471,
+          "frontier_sha256": "1323b659ab8c3169c5ba2a8ea61e6300fe3ea3a6a6b9d7e540c68401b891edea",
+          "row": 15,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 24536,
+          "domain_size": 114,
+          "transitions_attempted": 2797104,
+          "viable_transitions": 717808,
+          "outgoing_states": 87407,
+          "new_states": 87407,
+          "assignments_represented": 1785552,
+          "frontier_sha256": "04d3f1aec647382ed6bc2e2fd946b4a6e74955fc3baf814393e66861fcf3cf52",
+          "row": 14,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 87407,
+          "domain_size": 1,
+          "transitions_attempted": 87407,
+          "viable_transitions": 21389,
+          "outgoing_states": 1783,
+          "new_states": 1783,
+          "assignments_represented": 310473,
+          "frontier_sha256": "4c197a10e5ce399826c2ab9ddb451f892d27f710c40e67e29f662362a184c4f0",
+          "row": 13,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1783,
+          "domain_size": 1,
+          "transitions_attempted": 1783,
+          "viable_transitions": 650,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 212202,
+          "frontier_sha256": "1ccb1fb0361727f33e756a086a33fcf897cc559d13fd63802eee8718b631c015",
+          "row": 12,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 1,
+          "transitions_attempted": 401,
+          "viable_transitions": 401,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 212202,
+          "frontier_sha256": "58cbd620eb2e3ae953bd717e3efd56926407a8247157057db8b209cd97bbb2a0",
+          "row": 11,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 1,
+          "transitions_attempted": 401,
+          "viable_transitions": 401,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 212202,
+          "frontier_sha256": "505d518dbce61f2684d55c86cee16321a1bff5fa35fc4b7c2a0c78ee5b0e56f1",
+          "row": 10,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 114,
+          "transitions_attempted": 45714,
+          "viable_transitions": 3032,
+          "outgoing_states": 3032,
+          "new_states": 3032,
+          "assignments_represented": 735354,
+          "frontier_sha256": "620deabc543b31552ffd95485de8ac99d30beb389f671d7fc1b7e1ffa045b267",
+          "row": 9,
+          "direction": "reflected-bottom"
+        }
+      ],
+      "cuts": {
+        "8/9": {
+          "forward": {
+            "states": 125235,
+            "assignments_represented": 9505432,
+            "h_counts": {
+              "5": 40,
+              "6": 648,
+              "7": 3680,
+              "8": 11294,
+              "9": 23232,
+              "10": 37033,
+              "11": 49308
+            },
+            "u_costs": [
+              112,
+              113,
+              114,
+              115,
+              116,
+              117,
+              118
+            ],
+            "frontier_sha256": "177640f07fc1c0b6e504563f30dce2f580d862ea22d3d01288414823d5123170"
+          },
+          "backward": {
+            "states": 3032,
+            "assignments_represented": 735354,
+            "h_counts": {
+              "5": 3,
+              "6": 37,
+              "7": 162,
+              "8": 367,
+              "9": 611,
+              "10": 839,
+              "11": 1013
+            },
+            "u_costs": [
+              136,
+              137,
+              138,
+              139,
+              140,
+              141,
+              142
+            ],
+            "frontier_sha256": "620deabc543b31552ffd95485de8ac99d30beb389f671d7fc1b7e1ffa045b267"
+          },
+          "candidate_state_pairs": 3424,
+          "candidate_assignment_pairs": 43687,
+          "quota_buckets": [
+            {
+              "forward_h": 5,
+              "backward_h": 6,
+              "forward_states": 40,
+              "backward_states": 37
+            },
+            {
+              "forward_h": 6,
+              "backward_h": 5,
+              "forward_states": 648,
+              "backward_states": 3
+            }
+          ]
+        },
+        "9/10": {
+          "forward": {
+            "states": 113640,
+            "assignments_represented": 32229924,
+            "h_counts": {
+              "5": 1,
+              "6": 79,
+              "7": 1123,
+              "8": 5995,
+              "9": 17572,
+              "10": 34972,
+              "11": 53898
+            },
+            "u_costs": [
+              124,
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "frontier_sha256": "6cf9496a54d0f7ac3993e0b168645f16914902a67ab5132867dd87d68a6199ab"
+          },
+          "backward": {
+            "states": 401,
+            "assignments_represented": 212202,
+            "h_counts": {
+              "4": 1,
+              "5": 11,
+              "6": 38,
+              "7": 56,
+              "8": 67,
+              "9": 74,
+              "10": 81,
+              "11": 73
+            },
+            "u_costs": [
+              123,
+              124,
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "frontier_sha256": "505d518dbce61f2684d55c86cee16321a1bff5fa35fc4b7c2a0c78ee5b0e56f1"
+          },
+          "candidate_state_pairs": 2030,
+          "candidate_assignment_pairs": 41635,
+          "quota_buckets": [
+            {
+              "forward_h": 5,
+              "backward_h": 6,
+              "forward_states": 1,
+              "backward_states": 38
+            },
+            {
+              "forward_h": 6,
+              "backward_h": 5,
+              "forward_states": 79,
+              "backward_states": 11
+            },
+            {
+              "forward_h": 7,
+              "backward_h": 4,
+              "forward_states": 1123,
+              "backward_states": 1
+            }
+          ]
+        },
+        "13/14": {
+          "forward": {
+            "states": 449,
+            "assignments_represented": 2715534,
+            "h_counts": {
+              "7": 24,
+              "8": 69,
+              "9": 104,
+              "10": 119,
+              "11": 133
+            },
+            "u_costs": [
+              177,
+              178,
+              179,
+              180,
+              181
+            ],
+            "frontier_sha256": "87604c70d3cbcb2f25bbebd92fe612341b3f8f5d27fd61f6d88e11ce4d2455dd"
+          },
+          "backward": {
+            "states": 87407,
+            "assignments_represented": 1785552,
+            "h_counts": {
+              "4": 124,
+              "5": 925,
+              "6": 3651,
+              "7": 9088,
+              "8": 15711,
+              "9": 20307,
+              "10": 20634,
+              "11": 16967
+            },
+            "u_costs": [
+              72,
+              73,
+              74,
+              75,
+              76,
+              77,
+              78,
+              79
+            ],
+            "frontier_sha256": "04d3f1aec647382ed6bc2e2fd946b4a6e74955fc3baf814393e66861fcf3cf52"
+          },
+          "candidate_state_pairs": 2976,
+          "candidate_assignment_pairs": 47644,
+          "quota_buckets": [
+            {
+              "forward_h": 7,
+              "backward_h": 4,
+              "forward_states": 24,
+              "backward_states": 124
+            }
+          ]
+        }
+      },
+      "join": {
+        "exact": true,
+        "result": "negative",
+        "pairs_checked": 2030,
+        "assignment_pairs_checked": 41635,
+        "connected_state_pairs": 0,
+        "connected_assignment_pairs": 0,
+        "minimum_profile": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "all-19-1",
+      "distribution": [
+        19,
+        1
+      ],
+      "census_status": "complete",
+      "backward_layers": [
+        {
+          "incoming_states": 1,
+          "domain_size": 20,
+          "transitions_attempted": 20,
+          "viable_transitions": 20,
+          "outgoing_states": 20,
+          "new_states": 20,
+          "assignments_represented": 20,
+          "frontier_sha256": "c8118183d8d5832b737bedbc89dc1d2855f4463d4d5a813194d4dfda3271623d",
+          "row": 19,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 20,
+          "domain_size": 20,
+          "transitions_attempted": 400,
+          "viable_transitions": 2,
+          "outgoing_states": 2,
+          "new_states": 2,
+          "assignments_represented": 2,
+          "frontier_sha256": "144ffcc5bb54bfd67304c2b1f143530188c8f61e301eef06421b7846016db83d",
+          "row": 18,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 2,
+          "domain_size": 114,
+          "transitions_attempted": 228,
+          "viable_transitions": 62,
+          "outgoing_states": 31,
+          "new_states": 31,
+          "assignments_represented": 62,
+          "frontier_sha256": "66441b435f9ed37bcebfe66e076609333eedc0259a63721c6fcbe6b95ab89910",
+          "row": 17,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 31,
+          "domain_size": 114,
+          "transitions_attempted": 3534,
+          "viable_transitions": 1737,
+          "outgoing_states": 1539,
+          "new_states": 1539,
+          "assignments_represented": 3474,
+          "frontier_sha256": "213431b9b5e9ce405b79b60155d3dac4c77d5cce039be42431f9946037d83f5f",
+          "row": 16,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1539,
+          "domain_size": 114,
+          "transitions_attempted": 175446,
+          "viable_transitions": 59529,
+          "outgoing_states": 24536,
+          "new_states": 24536,
+          "assignments_represented": 128942,
+          "frontier_sha256": "47e0ff59f07ae02e343ac3a042aa3d21ddad99d8da2ef4b3af64cd0e704ad193",
+          "row": 15,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 24536,
+          "domain_size": 114,
+          "transitions_attempted": 2797104,
+          "viable_transitions": 717808,
+          "outgoing_states": 87407,
+          "new_states": 87407,
+          "assignments_represented": 3571104,
+          "frontier_sha256": "e7ee2007a00db99828ad977efad2e323d336e6ddaffa266923590896b7f00b1f",
+          "row": 14,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 87407,
+          "domain_size": 1,
+          "transitions_attempted": 87407,
+          "viable_transitions": 21389,
+          "outgoing_states": 1783,
+          "new_states": 1783,
+          "assignments_represented": 620946,
+          "frontier_sha256": "bc43fda9e14c389956bde656002a08220cd4993dd736d51917e205d88866258b",
+          "row": 13,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1783,
+          "domain_size": 1,
+          "transitions_attempted": 1783,
+          "viable_transitions": 650,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 424404,
+          "frontier_sha256": "feb6f89f0f9522b2a92db1608d73b51b9c51736f8652b1636711e6d6d72676bf",
+          "row": 12,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 1,
+          "transitions_attempted": 401,
+          "viable_transitions": 401,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 424404,
+          "frontier_sha256": "8ab4fe1f0f658e405d2da2e577e27e17c91b7881507e21f5c26bc763e0c89a5d",
+          "row": 11,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 1,
+          "transitions_attempted": 401,
+          "viable_transitions": 401,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 424404,
+          "frontier_sha256": "a6217bdff3379c102611bcb67d37a30bdad4c000eaab7517a043459969486ee7",
+          "row": 10,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 114,
+          "transitions_attempted": 45714,
+          "viable_transitions": 3032,
+          "outgoing_states": 3032,
+          "new_states": 3032,
+          "assignments_represented": 1470708,
+          "frontier_sha256": "4e1106b07039711db6e1e7a32d3d64ff5cc1631b3de8574f06f4b420f2625389",
+          "row": 9,
+          "direction": "reflected-bottom"
+        }
+      ],
+      "cuts": {
+        "8/9": {
+          "forward": {
+            "states": 125235,
+            "assignments_represented": 9505432,
+            "h_counts": {
+              "5": 40,
+              "6": 648,
+              "7": 3680,
+              "8": 11294,
+              "9": 23232,
+              "10": 37033,
+              "11": 49308
+            },
+            "u_costs": [
+              112,
+              113,
+              114,
+              115,
+              116,
+              117,
+              118
+            ],
+            "frontier_sha256": "177640f07fc1c0b6e504563f30dce2f580d862ea22d3d01288414823d5123170"
+          },
+          "backward": {
+            "states": 3032,
+            "assignments_represented": 1470708,
+            "h_counts": {
+              "5": 3,
+              "6": 37,
+              "7": 162,
+              "8": 367,
+              "9": 611,
+              "10": 839,
+              "11": 1013
+            },
+            "u_costs": [
+              136,
+              137,
+              138,
+              139,
+              140,
+              141,
+              142
+            ],
+            "frontier_sha256": "4e1106b07039711db6e1e7a32d3d64ff5cc1631b3de8574f06f4b420f2625389"
+          },
+          "candidate_state_pairs": 3424,
+          "candidate_assignment_pairs": 87374,
+          "quota_buckets": [
+            {
+              "forward_h": 5,
+              "backward_h": 6,
+              "forward_states": 40,
+              "backward_states": 37
+            },
+            {
+              "forward_h": 6,
+              "backward_h": 5,
+              "forward_states": 648,
+              "backward_states": 3
+            }
+          ]
+        },
+        "9/10": {
+          "forward": {
+            "states": 113640,
+            "assignments_represented": 32229924,
+            "h_counts": {
+              "5": 1,
+              "6": 79,
+              "7": 1123,
+              "8": 5995,
+              "9": 17572,
+              "10": 34972,
+              "11": 53898
+            },
+            "u_costs": [
+              124,
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "frontier_sha256": "6cf9496a54d0f7ac3993e0b168645f16914902a67ab5132867dd87d68a6199ab"
+          },
+          "backward": {
+            "states": 401,
+            "assignments_represented": 424404,
+            "h_counts": {
+              "4": 1,
+              "5": 11,
+              "6": 38,
+              "7": 56,
+              "8": 67,
+              "9": 74,
+              "10": 81,
+              "11": 73
+            },
+            "u_costs": [
+              123,
+              124,
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "frontier_sha256": "a6217bdff3379c102611bcb67d37a30bdad4c000eaab7517a043459969486ee7"
+          },
+          "candidate_state_pairs": 2030,
+          "candidate_assignment_pairs": 83270,
+          "quota_buckets": [
+            {
+              "forward_h": 5,
+              "backward_h": 6,
+              "forward_states": 1,
+              "backward_states": 38
+            },
+            {
+              "forward_h": 6,
+              "backward_h": 5,
+              "forward_states": 79,
+              "backward_states": 11
+            },
+            {
+              "forward_h": 7,
+              "backward_h": 4,
+              "forward_states": 1123,
+              "backward_states": 1
+            }
+          ]
+        },
+        "13/14": {
+          "forward": {
+            "states": 449,
+            "assignments_represented": 2715534,
+            "h_counts": {
+              "7": 24,
+              "8": 69,
+              "9": 104,
+              "10": 119,
+              "11": 133
+            },
+            "u_costs": [
+              177,
+              178,
+              179,
+              180,
+              181
+            ],
+            "frontier_sha256": "87604c70d3cbcb2f25bbebd92fe612341b3f8f5d27fd61f6d88e11ce4d2455dd"
+          },
+          "backward": {
+            "states": 87407,
+            "assignments_represented": 3571104,
+            "h_counts": {
+              "4": 124,
+              "5": 925,
+              "6": 3651,
+              "7": 9088,
+              "8": 15711,
+              "9": 20307,
+              "10": 20634,
+              "11": 16967
+            },
+            "u_costs": [
+              72,
+              73,
+              74,
+              75,
+              76,
+              77,
+              78,
+              79
+            ],
+            "frontier_sha256": "e7ee2007a00db99828ad977efad2e323d336e6ddaffa266923590896b7f00b1f"
+          },
+          "candidate_state_pairs": 2976,
+          "candidate_assignment_pairs": 95288,
+          "quota_buckets": [
+            {
+              "forward_h": 7,
+              "backward_h": 4,
+              "forward_states": 24,
+              "backward_states": 124
+            }
+          ]
+        }
+      },
+      "join": {
+        "exact": true,
+        "result": "negative",
+        "pairs_checked": 2030,
+        "assignment_pairs_checked": 83270,
+        "connected_state_pairs": 0,
+        "connected_assignment_pairs": 0,
+        "minimum_profile": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "all-18-2",
+      "distribution": [
+        18,
+        2
+      ],
+      "census_status": "complete",
+      "backward_layers": [
+        {
+          "incoming_states": 1,
+          "domain_size": 190,
+          "transitions_attempted": 190,
+          "viable_transitions": 190,
+          "outgoing_states": 190,
+          "new_states": 190,
+          "assignments_represented": 190,
+          "frontier_sha256": "5cba7dc85d2bbcbca95e1484f824cee26dbf08be9818d33f418ada287cc9d878",
+          "row": 19,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 190,
+          "domain_size": 190,
+          "transitions_attempted": 36100,
+          "viable_transitions": 1,
+          "outgoing_states": 1,
+          "new_states": 1,
+          "assignments_represented": 1,
+          "frontier_sha256": "2e7fc65dd3163e1d50cb0b0e20d665b7c1c62a430b58b3547d98a40edda38407",
+          "row": 18,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1,
+          "domain_size": 114,
+          "transitions_attempted": 114,
+          "viable_transitions": 31,
+          "outgoing_states": 31,
+          "new_states": 31,
+          "assignments_represented": 31,
+          "frontier_sha256": "b353161ee3a3acd1407e58a8ed544f7bbaed350955c93bf5ac05f1fe48de5b20",
+          "row": 17,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 31,
+          "domain_size": 114,
+          "transitions_attempted": 3534,
+          "viable_transitions": 1737,
+          "outgoing_states": 1539,
+          "new_states": 1539,
+          "assignments_represented": 1737,
+          "frontier_sha256": "6f7040d600ca5212ffcecc9b8ae11241c76bbfab6c12edbf686b639a44b328ee",
+          "row": 16,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1539,
+          "domain_size": 114,
+          "transitions_attempted": 175446,
+          "viable_transitions": 59529,
+          "outgoing_states": 24536,
+          "new_states": 24536,
+          "assignments_represented": 64471,
+          "frontier_sha256": "1323b659ab8c3169c5ba2a8ea61e6300fe3ea3a6a6b9d7e540c68401b891edea",
+          "row": 15,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 24536,
+          "domain_size": 114,
+          "transitions_attempted": 2797104,
+          "viable_transitions": 717808,
+          "outgoing_states": 87407,
+          "new_states": 87407,
+          "assignments_represented": 1785552,
+          "frontier_sha256": "04d3f1aec647382ed6bc2e2fd946b4a6e74955fc3baf814393e66861fcf3cf52",
+          "row": 14,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 87407,
+          "domain_size": 1,
+          "transitions_attempted": 87407,
+          "viable_transitions": 21389,
+          "outgoing_states": 1783,
+          "new_states": 1783,
+          "assignments_represented": 310473,
+          "frontier_sha256": "4c197a10e5ce399826c2ab9ddb451f892d27f710c40e67e29f662362a184c4f0",
+          "row": 13,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1783,
+          "domain_size": 1,
+          "transitions_attempted": 1783,
+          "viable_transitions": 650,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 212202,
+          "frontier_sha256": "1ccb1fb0361727f33e756a086a33fcf897cc559d13fd63802eee8718b631c015",
+          "row": 12,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 1,
+          "transitions_attempted": 401,
+          "viable_transitions": 401,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 212202,
+          "frontier_sha256": "58cbd620eb2e3ae953bd717e3efd56926407a8247157057db8b209cd97bbb2a0",
+          "row": 11,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 1,
+          "transitions_attempted": 401,
+          "viable_transitions": 401,
+          "outgoing_states": 401,
+          "new_states": 401,
+          "assignments_represented": 212202,
+          "frontier_sha256": "505d518dbce61f2684d55c86cee16321a1bff5fa35fc4b7c2a0c78ee5b0e56f1",
+          "row": 10,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 401,
+          "domain_size": 114,
+          "transitions_attempted": 45714,
+          "viable_transitions": 3032,
+          "outgoing_states": 3032,
+          "new_states": 3032,
+          "assignments_represented": 735354,
+          "frontier_sha256": "620deabc543b31552ffd95485de8ac99d30beb389f671d7fc1b7e1ffa045b267",
+          "row": 9,
+          "direction": "reflected-bottom"
+        }
+      ],
+      "cuts": {
+        "8/9": {
+          "forward": {
+            "states": 125235,
+            "assignments_represented": 9505432,
+            "h_counts": {
+              "5": 40,
+              "6": 648,
+              "7": 3680,
+              "8": 11294,
+              "9": 23232,
+              "10": 37033,
+              "11": 49308
+            },
+            "u_costs": [
+              112,
+              113,
+              114,
+              115,
+              116,
+              117,
+              118
+            ],
+            "frontier_sha256": "177640f07fc1c0b6e504563f30dce2f580d862ea22d3d01288414823d5123170"
+          },
+          "backward": {
+            "states": 3032,
+            "assignments_represented": 735354,
+            "h_counts": {
+              "5": 3,
+              "6": 37,
+              "7": 162,
+              "8": 367,
+              "9": 611,
+              "10": 839,
+              "11": 1013
+            },
+            "u_costs": [
+              136,
+              137,
+              138,
+              139,
+              140,
+              141,
+              142
+            ],
+            "frontier_sha256": "620deabc543b31552ffd95485de8ac99d30beb389f671d7fc1b7e1ffa045b267"
+          },
+          "candidate_state_pairs": 3424,
+          "candidate_assignment_pairs": 43687,
+          "quota_buckets": [
+            {
+              "forward_h": 5,
+              "backward_h": 6,
+              "forward_states": 40,
+              "backward_states": 37
+            },
+            {
+              "forward_h": 6,
+              "backward_h": 5,
+              "forward_states": 648,
+              "backward_states": 3
+            }
+          ]
+        },
+        "9/10": {
+          "forward": {
+            "states": 113640,
+            "assignments_represented": 32229924,
+            "h_counts": {
+              "5": 1,
+              "6": 79,
+              "7": 1123,
+              "8": 5995,
+              "9": 17572,
+              "10": 34972,
+              "11": 53898
+            },
+            "u_costs": [
+              124,
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "frontier_sha256": "6cf9496a54d0f7ac3993e0b168645f16914902a67ab5132867dd87d68a6199ab"
+          },
+          "backward": {
+            "states": 401,
+            "assignments_represented": 212202,
+            "h_counts": {
+              "4": 1,
+              "5": 11,
+              "6": 38,
+              "7": 56,
+              "8": 67,
+              "9": 74,
+              "10": 81,
+              "11": 73
+            },
+            "u_costs": [
+              123,
+              124,
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "frontier_sha256": "505d518dbce61f2684d55c86cee16321a1bff5fa35fc4b7c2a0c78ee5b0e56f1"
+          },
+          "candidate_state_pairs": 2030,
+          "candidate_assignment_pairs": 41635,
+          "quota_buckets": [
+            {
+              "forward_h": 5,
+              "backward_h": 6,
+              "forward_states": 1,
+              "backward_states": 38
+            },
+            {
+              "forward_h": 6,
+              "backward_h": 5,
+              "forward_states": 79,
+              "backward_states": 11
+            },
+            {
+              "forward_h": 7,
+              "backward_h": 4,
+              "forward_states": 1123,
+              "backward_states": 1
+            }
+          ]
+        },
+        "13/14": {
+          "forward": {
+            "states": 449,
+            "assignments_represented": 2715534,
+            "h_counts": {
+              "7": 24,
+              "8": 69,
+              "9": 104,
+              "10": 119,
+              "11": 133
+            },
+            "u_costs": [
+              177,
+              178,
+              179,
+              180,
+              181
+            ],
+            "frontier_sha256": "87604c70d3cbcb2f25bbebd92fe612341b3f8f5d27fd61f6d88e11ce4d2455dd"
+          },
+          "backward": {
+            "states": 87407,
+            "assignments_represented": 1785552,
+            "h_counts": {
+              "4": 124,
+              "5": 925,
+              "6": 3651,
+              "7": 9088,
+              "8": 15711,
+              "9": 20307,
+              "10": 20634,
+              "11": 16967
+            },
+            "u_costs": [
+              72,
+              73,
+              74,
+              75,
+              76,
+              77,
+              78,
+              79
+            ],
+            "frontier_sha256": "04d3f1aec647382ed6bc2e2fd946b4a6e74955fc3baf814393e66861fcf3cf52"
+          },
+          "candidate_state_pairs": 2976,
+          "candidate_assignment_pairs": 47644,
+          "quota_buckets": [
+            {
+              "forward_h": 7,
+              "backward_h": 4,
+              "forward_states": 24,
+              "backward_states": 124
+            }
+          ]
+        }
+      },
+      "join": {
+        "exact": true,
+        "result": "negative",
+        "pairs_checked": 2030,
+        "assignment_pairs_checked": 41635,
+        "connected_state_pairs": 0,
+        "connected_assignment_pairs": 0,
+        "minimum_profile": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "all-17-3",
+      "distribution": [
+        17,
+        3
+      ],
+      "census_status": "complete",
+      "backward_layers": [
+        {
+          "incoming_states": 1,
+          "domain_size": 1140,
+          "transitions_attempted": 1140,
+          "viable_transitions": 1140,
+          "outgoing_states": 1140,
+          "new_states": 1140,
+          "assignments_represented": 1140,
+          "frontier_sha256": "0e64bf8992fa0cc5e70e788d0bbd99a14342f746c5848ef1f4c256e6bf757cb8",
+          "row": 19,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 1140,
+          "domain_size": 1140,
+          "transitions_attempted": 1299600,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 18,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 114,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 17,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 114,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 16,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 114,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 15,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 114,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 14,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 1,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 13,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 1,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 12,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 1,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 11,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 1,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 10,
+          "direction": "reflected-bottom"
+        },
+        {
+          "incoming_states": 0,
+          "domain_size": 114,
+          "transitions_attempted": 0,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "new_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "row": 9,
+          "direction": "reflected-bottom"
+        }
+      ],
+      "cuts": {
+        "8/9": {
+          "forward": {
+            "states": 125235,
+            "assignments_represented": 9505432,
+            "h_counts": {
+              "5": 40,
+              "6": 648,
+              "7": 3680,
+              "8": 11294,
+              "9": 23232,
+              "10": 37033,
+              "11": 49308
+            },
+            "u_costs": [
+              112,
+              113,
+              114,
+              115,
+              116,
+              117,
+              118
+            ],
+            "frontier_sha256": "177640f07fc1c0b6e504563f30dce2f580d862ea22d3d01288414823d5123170"
+          },
+          "backward": {
+            "states": 0,
+            "assignments_represented": 0,
+            "h_counts": {},
+            "u_costs": [],
+            "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "candidate_state_pairs": 0,
+          "candidate_assignment_pairs": 0,
+          "quota_buckets": []
+        },
+        "9/10": {
+          "forward": {
+            "states": 113640,
+            "assignments_represented": 32229924,
+            "h_counts": {
+              "5": 1,
+              "6": 79,
+              "7": 1123,
+              "8": 5995,
+              "9": 17572,
+              "10": 34972,
+              "11": 53898
+            },
+            "u_costs": [
+              124,
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "frontier_sha256": "6cf9496a54d0f7ac3993e0b168645f16914902a67ab5132867dd87d68a6199ab"
+          },
+          "backward": {
+            "states": 0,
+            "assignments_represented": 0,
+            "h_counts": {},
+            "u_costs": [],
+            "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "candidate_state_pairs": 0,
+          "candidate_assignment_pairs": 0,
+          "quota_buckets": []
+        },
+        "13/14": {
+          "forward": {
+            "states": 449,
+            "assignments_represented": 2715534,
+            "h_counts": {
+              "7": 24,
+              "8": 69,
+              "9": 104,
+              "10": 119,
+              "11": 133
+            },
+            "u_costs": [
+              177,
+              178,
+              179,
+              180,
+              181
+            ],
+            "frontier_sha256": "87604c70d3cbcb2f25bbebd92fe612341b3f8f5d27fd61f6d88e11ce4d2455dd"
+          },
+          "backward": {
+            "states": 0,
+            "assignments_represented": 0,
+            "h_counts": {},
+            "u_costs": [],
+            "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "candidate_state_pairs": 0,
+          "candidate_assignment_pairs": 0,
+          "quota_buckets": []
+        }
+      },
+      "join": {
+        "exact": true,
+        "result": "negative",
+        "pairs_checked": 0,
+        "assignment_pairs_checked": 0,
+        "connected_state_pairs": 0,
+        "connected_assignment_pairs": 0,
+        "minimum_profile": null
+      }
+    }
+  ],
+  "cut_census": [
+    {
+      "cut": "8/9",
+      "candidate_state_pairs": 10272,
+      "candidate_assignment_pairs": 174748,
+      "peak_side_states": 125235
+    },
+    {
+      "cut": "9/10",
+      "candidate_state_pairs": 6090,
+      "candidate_assignment_pairs": 166540,
+      "peak_side_states": 113640
+    },
+    {
+      "cut": "13/14",
+      "candidate_state_pairs": 8928,
+      "candidate_assignment_pairs": 190576,
+      "peak_side_states": 87407
+    }
+  ],
+  "chosen_cut": "9/10",
+  "witness": null,
+  "independent_validation": null,
+  "run": {
+    "max_seconds": 720,
+    "elapsed_seconds": 662.166625,
+    "stop_reason": "completed"
+  }
+}

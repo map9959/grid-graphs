@@ -1,0 +1,177 @@
+{
+  "schema": "grid-graphs.residue-two-packet-halo.v1",
+  "provenance": {
+    "candidate": "search_residue_two_middle.KNOWN_249_NEAR",
+    "sha256": "34d8fb20c9a6cd395060f82cfafd27f229239a137119f9c2f9dfe16946e6b68a",
+    "canonical_encoding": "ASCII rows joined by LF with one final LF"
+  },
+  "scope": {
+    "n": 20,
+    "target_u": 249,
+    "packet_rows_inclusive": [
+      8,
+      13
+    ],
+    "packet_column_indices": [
+      0,
+      1,
+      2
+    ],
+    "packet_primal_column_starts": [
+      1,
+      4,
+      7
+    ],
+    "packet_count": 18,
+    "incident_packet_count": 10,
+    "incident_packets": [
+      {
+        "row": 9,
+        "packet_column": 0
+      },
+      {
+        "row": 9,
+        "packet_column": 1
+      },
+      {
+        "row": 9,
+        "packet_column": 2
+      },
+      {
+        "row": 10,
+        "packet_column": 0
+      },
+      {
+        "row": 10,
+        "packet_column": 2
+      },
+      {
+        "row": 11,
+        "packet_column": 0
+      },
+      {
+        "row": 11,
+        "packet_column": 2
+      },
+      {
+        "row": 12,
+        "packet_column": 0
+      },
+      {
+        "row": 12,
+        "packet_column": 1
+      },
+      {
+        "row": 12,
+        "packet_column": 2
+      }
+    ],
+    "maximum_changed_packets": 4,
+    "radius_metric": "packet Hamming distance from the provenance candidate",
+    "outside_packet_window": "frozen exactly to the provenance candidate",
+    "packet_charge": "packet U count minus 2",
+    "requires_exact_zero_packet_charge_change": true,
+    "requires_changed_packet_incident_to_detached_cut": true,
+    "detached_face_rectangle": {
+      "rows_inclusive": [
+        9,
+        11
+      ],
+      "columns_inclusive": [
+        3,
+        6
+      ]
+    }
+  },
+  "alphabet": {
+    "L": "UU.",
+    "X": "U.U",
+    "R": ".UU",
+    "H": "UUU",
+    "A": "U..",
+    "S": ".U.",
+    "B": "..U",
+    "E": "..."
+  },
+  "method": {
+    "enumeration": "position combinations with exact charge quota pruning",
+    "dual_check": "exact dynamic dual after contraction of all fixed active edges",
+    "contracted_dual_vertices": 67,
+    "regression": {
+      "full_dual_method": "fresh full 362-vertex adjacency and component traversal",
+      "exhaustive_zero_charge_radii": [
+        1,
+        2
+      ],
+      "exhaustive_candidates_checked": 990,
+      "sampled_zero_charge_radii": [
+        3,
+        4
+      ],
+      "deterministic_sample_rule": "first 2500 at each of radii 3 and 4, plus mixed candidate bits congruent to 0 mod 64",
+      "higher_radius_zero_charge_seen": {
+        "3": 22020,
+        "4": 360670
+      },
+      "sampled_candidates_checked": 6387,
+      "sampled_candidates_by_radius": {
+        "3": 2544,
+        "4": 3843
+      },
+      "disagreements": 0
+    }
+  },
+  "counts_by_radius": [
+    {
+      "changed_packets": 0,
+      "position_sets": 0,
+      "nominal": 0,
+      "zero_charge": 0,
+      "cut_open": 0,
+      "dual_connected": 0,
+      "forest": 0
+    },
+    {
+      "changed_packets": 1,
+      "position_sets": 10,
+      "nominal": 70,
+      "zero_charge": 20,
+      "cut_open": 12,
+      "dual_connected": 0,
+      "forest": 0
+    },
+    {
+      "changed_packets": 2,
+      "position_sets": 125,
+      "nominal": 6125,
+      "zero_charge": 970,
+      "cut_open": 594,
+      "dual_connected": 0,
+      "forest": 0
+    },
+    {
+      "changed_packets": 3,
+      "position_sets": 760,
+      "nominal": 260680,
+      "zero_charge": 22020,
+      "cut_open": 16850,
+      "dual_connected": 0,
+      "forest": 0
+    },
+    {
+      "changed_packets": 4,
+      "position_sets": 2990,
+      "nominal": 7178990,
+      "zero_charge": 360670,
+      "cut_open": 306938,
+      "dual_connected": 0,
+      "forest": 0
+    }
+  ],
+  "result": {
+    "exhaustive": true,
+    "witness_count": 0,
+    "status": "no_witness",
+    "witnesses": []
+  }
+}

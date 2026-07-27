@@ -1,0 +1,670 @@
+{
+  "schema": "grid-graphs.residue-two-phase-packet-corridor-22.v1",
+  "exact": true,
+  "provenance": {
+    "phase_witness_rows_sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11",
+    "known_249_near_rows_sha256": "34d8fb20c9a6cd395060f82cfafd27f229239a137119f9c2f9dfe16946e6b68a",
+    "canonical_encoding": "ASCII rows joined by LF with one final LF",
+    "source_files": {
+      "generator": {
+        "path": "search_residue_two_phase_packet_corridor_22.py",
+        "sha256": "466b3f5113807e8ed4fc65c19ff0948f34847373915bb724ef8d9815ee08326e"
+      },
+      "phase_witness": {
+        "path": "residue_two_phase_front_witness.txt",
+        "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11"
+      },
+      "base_pattern_source": {
+        "path": "search_residue_two_middle.py",
+        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+      },
+      "frontier_kernel": {
+        "path": "tile_grammar.py",
+        "sha256": "c0efadada7b825cc89106ae476ebece1693a7b3d1f7c3abadb0d49dd7c30b9ab"
+      }
+    }
+  },
+  "scope": {
+    "base": "analysis/residue_two_phase_front_witness.txt",
+    "comparison": "search_residue_two_middle.KNOWN_249_NEAR",
+    "n": 20,
+    "target_u": 249,
+    "phase_witness_u": 250,
+    "phase_vs_near_differing_packets": [
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        14,
+        0
+      ],
+      [
+        14,
+        1
+      ],
+      [
+        14,
+        2
+      ],
+      [
+        15,
+        0
+      ],
+      [
+        15,
+        2
+      ],
+      [
+        16,
+        0
+      ],
+      [
+        16,
+        1
+      ],
+      [
+        16,
+        2
+      ],
+      [
+        17,
+        0
+      ],
+      [
+        17,
+        1
+      ]
+    ],
+    "phase_path_packets": [
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        9,
+        2
+      ]
+    ],
+    "lower_defect_rectangle": {
+      "rows": [
+        14,
+        17
+      ],
+      "packet_columns": [
+        0,
+        2
+      ]
+    },
+    "mutable_packets": [
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        14,
+        0
+      ],
+      [
+        14,
+        1
+      ],
+      [
+        14,
+        2
+      ],
+      [
+        15,
+        0
+      ],
+      [
+        15,
+        1
+      ],
+      [
+        15,
+        2
+      ],
+      [
+        16,
+        0
+      ],
+      [
+        16,
+        1
+      ],
+      [
+        16,
+        2
+      ],
+      [
+        17,
+        0
+      ],
+      [
+        17,
+        1
+      ],
+      [
+        17,
+        2
+      ]
+    ],
+    "mutable_packet_count": 22,
+    "alphabet": [
+      "L",
+      "X",
+      "R",
+      "H"
+    ],
+    "outside_mutable_packets": "frozen exactly to the corrected phase witness",
+    "primary_cap_rows": [
+      18,
+      19
+    ],
+    "primary_cap_u_distribution": [
+      18,
+      2
+    ],
+    "fixed_u_primary": 198,
+    "required_h_packets_primary": 7,
+    "charge_feasible_assignments_before_topology": 2447119995408,
+    "alternate_cap_distributions": [
+      [
+        19,
+        1
+      ],
+      [
+        18,
+        2
+      ],
+      [
+        17,
+        3
+      ]
+    ],
+    "deduplication_key": "full FrontierState",
+    "exact_multiplicities": true,
+    "beam": null,
+    "state_cap": null,
+    "partition_projection": null
+  },
+  "result": "negative",
+  "completed_rows": [
+    {
+      "row": 0,
+      "mutable_packet_columns": [],
+      "incoming_states": 1,
+      "packet_extensions": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "f1c3bf94224ce867d272cc8fa0e15a9cc395f2f07c57f0a3173e4054a259cc61"
+    },
+    {
+      "row": 1,
+      "mutable_packet_columns": [],
+      "incoming_states": 1,
+      "packet_extensions": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "093d2b8697701cb8deefdcecc0c659816e6771d27ac7908366e29e33add26c80"
+    },
+    {
+      "row": 2,
+      "mutable_packet_columns": [],
+      "incoming_states": 1,
+      "packet_extensions": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "589f665faf91aa3d85c2298110b62eb4ad71c2eae887117bd8d27906e5cf520e"
+    },
+    {
+      "row": 3,
+      "mutable_packet_columns": [],
+      "incoming_states": 1,
+      "packet_extensions": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "24c9752257802911cb4257e9daa202978dacaed5af298413b7e4044446c09b33"
+    },
+    {
+      "row": 4,
+      "mutable_packet_columns": [
+        0,
+        1
+      ],
+      "incoming_states": 1,
+      "packet_extensions": 24,
+      "viable_transitions": 3,
+      "outgoing_states": 3,
+      "assignments_represented": 3,
+      "frontier_sha256": "a8c067e508d70c368e585c157f6866eb4adab8962f4bf201e25510c8770e8685"
+    },
+    {
+      "row": 5,
+      "mutable_packet_columns": [
+        0,
+        1
+      ],
+      "incoming_states": 3,
+      "packet_extensions": 128,
+      "viable_transitions": 21,
+      "outgoing_states": 21,
+      "assignments_represented": 21,
+      "frontier_sha256": "2220e78b57f063f64e2319e2b3b35a37948c1ce8085bf0fa754dc07017702f20"
+    },
+    {
+      "row": 6,
+      "mutable_packet_columns": [
+        0,
+        1
+      ],
+      "incoming_states": 21,
+      "packet_extensions": 752,
+      "viable_transitions": 122,
+      "outgoing_states": 103,
+      "assignments_represented": 122,
+      "frontier_sha256": "bb5f2b4d8593b70fec9e126cef69571b762ea355def9e51644fb27a5ea903cb5"
+    },
+    {
+      "row": 7,
+      "mutable_packet_columns": [
+        1,
+        2
+      ],
+      "incoming_states": 103,
+      "packet_extensions": 2926,
+      "viable_transitions": 508,
+      "outgoing_states": 252,
+      "assignments_represented": 574,
+      "frontier_sha256": "7b1a19fccd744757b8139ef66ac241bdc04266ce971303e8421f83c78b9f570b"
+    },
+    {
+      "row": 8,
+      "mutable_packet_columns": [
+        2
+      ],
+      "incoming_states": 252,
+      "packet_extensions": 2569,
+      "viable_transitions": 355,
+      "outgoing_states": 237,
+      "assignments_represented": 877,
+      "frontier_sha256": "7f8f027d2870c95dd2a76455ba80757d5d4e665616eb373a5bb0721db7e394e6"
+    },
+    {
+      "row": 9,
+      "mutable_packet_columns": [
+        2
+      ],
+      "incoming_states": 237,
+      "packet_extensions": 2203,
+      "viable_transitions": 307,
+      "outgoing_states": 160,
+      "assignments_represented": 1206,
+      "frontier_sha256": "4eaa4d85c001ab238a8cdf4f67eb272ea4fdc1ae5fdbcd27ec7ebfd6b3fcdd53"
+    },
+    {
+      "row": 10,
+      "mutable_packet_columns": [],
+      "incoming_states": 160,
+      "packet_extensions": 160,
+      "viable_transitions": 131,
+      "outgoing_states": 111,
+      "assignments_represented": 991,
+      "frontier_sha256": "be234c7621a0febdfe2ebe9f310237acc6f1f7835087cb382a5aee13bab71eb6"
+    },
+    {
+      "row": 11,
+      "mutable_packet_columns": [],
+      "incoming_states": 111,
+      "packet_extensions": 111,
+      "viable_transitions": 111,
+      "outgoing_states": 111,
+      "assignments_represented": 991,
+      "frontier_sha256": "06ad2b88c71d547151b20f8fec37081acd4a8c11c858bb88e14092e8bce85d23"
+    },
+    {
+      "row": 12,
+      "mutable_packet_columns": [],
+      "incoming_states": 111,
+      "packet_extensions": 111,
+      "viable_transitions": 53,
+      "outgoing_states": 53,
+      "assignments_represented": 527,
+      "frontier_sha256": "d8d466c3740dc35e7b79dbab45b879be3e9a62d8be15d0f4759ef0bf7c3e9a45"
+    },
+    {
+      "row": 13,
+      "mutable_packet_columns": [],
+      "incoming_states": 53,
+      "packet_extensions": 53,
+      "viable_transitions": 53,
+      "outgoing_states": 53,
+      "assignments_represented": 527,
+      "frontier_sha256": "acc8d19e74547187128799df4c23a9cb169f99a5ccf0f38fd966f72267042e62"
+    },
+    {
+      "row": 14,
+      "mutable_packet_columns": [
+        0,
+        1,
+        2
+      ],
+      "incoming_states": 53,
+      "packet_extensions": 1749,
+      "viable_transitions": 108,
+      "outgoing_states": 108,
+      "assignments_represented": 694,
+      "frontier_sha256": "adf891f85d5a64a32c11cf787a3d0d9801a9b72fb91c586fd3070799214f059c"
+    },
+    {
+      "row": 15,
+      "mutable_packet_columns": [
+        0,
+        1,
+        2
+      ],
+      "incoming_states": 108,
+      "packet_extensions": 4916,
+      "viable_transitions": 494,
+      "outgoing_states": 407,
+      "assignments_represented": 1830,
+      "frontier_sha256": "0b7e68f48fadd66b7b1dacec1564c199017b5dfbe59b3cf9f9db2382f5bccde9"
+    },
+    {
+      "row": 16,
+      "mutable_packet_columns": [
+        0,
+        1,
+        2
+      ],
+      "incoming_states": 407,
+      "packet_extensions": 7083,
+      "viable_transitions": 284,
+      "outgoing_states": 211,
+      "assignments_represented": 548,
+      "frontier_sha256": "e583767ece053bf1fb8202a24a22fc8463a6951e31c8f7a59f1dd9125175e97e"
+    },
+    {
+      "row": 17,
+      "mutable_packet_columns": [
+        0,
+        1,
+        2
+      ],
+      "incoming_states": 211,
+      "packet_extensions": 2770,
+      "viable_transitions": 53,
+      "outgoing_states": 43,
+      "assignments_represented": 58,
+      "frontier_sha256": "f1fe9665db872b12b11b7de297c6c0669614d25e28e4b1366d9dfe0ef3f76507"
+    }
+  ],
+  "corridor_after_row17": {
+    "states": 43,
+    "assignments": 58,
+    "u_costs": [
+      229
+    ],
+    "frontier_sha256": "f1fe9665db872b12b11b7de297c6c0669614d25e28e4b1366d9dfe0ef3f76507"
+  },
+  "fixed_cap": {
+    "distribution": [
+      18,
+      2
+    ],
+    "rows": [
+      {
+        "row": 18,
+        "u_count": 18,
+        "masks": 1,
+        "incoming_states": 43,
+        "transitions_attempted": 43,
+        "incoming_assignments": 58,
+        "live_transitions": 43,
+        "outgoing_states": 40,
+        "assignments_represented": 58,
+        "frontier_sha256": "bd5d720c3220d9b3a35ef167e5874600fb4d60b1681ae1a995394429210f6ff2"
+      },
+      {
+        "row": 19,
+        "u_count": 2,
+        "masks": 1,
+        "incoming_states": 40,
+        "transitions_attempted": 40,
+        "incoming_assignments": 58,
+        "live_transitions": 0,
+        "outgoing_states": 0,
+        "assignments_represented": 0,
+        "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    ],
+    "final_states": 0,
+    "final_assignments": 0,
+    "accepted_states": 0,
+    "accepted_assignments": 0,
+    "result": "negative"
+  },
+  "alternate_caps": [
+    {
+      "distribution": [
+        19,
+        1
+      ],
+      "rows": [
+        {
+          "row": 18,
+          "u_count": 19,
+          "masks": 20,
+          "incoming_states": 43,
+          "transitions_attempted": 860,
+          "incoming_assignments": 58,
+          "live_transitions": 334,
+          "outgoing_states": 307,
+          "assignments_represented": 452,
+          "frontier_sha256": "923bd064d3407e677be85e766df755290a29cf80234135389725233e4616a638"
+        },
+        {
+          "row": 19,
+          "u_count": 1,
+          "masks": 20,
+          "incoming_states": 307,
+          "transitions_attempted": 6140,
+          "incoming_assignments": 452,
+          "live_transitions": 0,
+          "outgoing_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      ],
+      "final_states": 0,
+      "final_assignments": 0,
+      "accepted_states": 0,
+      "accepted_assignments": 0,
+      "result": "negative"
+    },
+    {
+      "distribution": [
+        18,
+        2
+      ],
+      "rows": [
+        {
+          "row": 18,
+          "u_count": 18,
+          "masks": 190,
+          "incoming_states": 43,
+          "transitions_attempted": 8170,
+          "incoming_assignments": 58,
+          "live_transitions": 1093,
+          "outgoing_states": 992,
+          "assignments_represented": 1474,
+          "frontier_sha256": "8ef5c20d8db2b4c5d6e599da74ae12c835c1ae95de4a0d21ba3648f6336d4075"
+        },
+        {
+          "row": 19,
+          "u_count": 2,
+          "masks": 190,
+          "incoming_states": 992,
+          "transitions_attempted": 188480,
+          "incoming_assignments": 1474,
+          "live_transitions": 0,
+          "outgoing_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      ],
+      "final_states": 0,
+      "final_assignments": 0,
+      "accepted_states": 0,
+      "accepted_assignments": 0,
+      "result": "negative"
+    },
+    {
+      "distribution": [
+        17,
+        3
+      ],
+      "rows": [
+        {
+          "row": 18,
+          "u_count": 17,
+          "masks": 1140,
+          "incoming_states": 43,
+          "transitions_attempted": 49020,
+          "incoming_assignments": 58,
+          "live_transitions": 1950,
+          "outgoing_states": 1750,
+          "assignments_represented": 2605,
+          "frontier_sha256": "5e6157a4e9b873742ecc40d80be5017c54c14a3705c76bb2ae078b74c9fada5d"
+        },
+        {
+          "row": 19,
+          "u_count": 3,
+          "masks": 1140,
+          "incoming_states": 1750,
+          "transitions_attempted": 1995000,
+          "incoming_assignments": 2605,
+          "live_transitions": 0,
+          "outgoing_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      ],
+      "final_states": 0,
+      "final_assignments": 0,
+      "accepted_states": 0,
+      "accepted_assignments": 0,
+      "result": "negative"
+    }
+  ],
+  "witness": null
+}

@@ -1,0 +1,834 @@
+{
+  "baseline": {
+    "detached_face_rectangle": {
+      "bounds": "inclusive",
+      "columns": [
+        3,
+        6
+      ],
+      "face_count": 12,
+      "rows": [
+        9,
+        11
+      ]
+    },
+    "dual_component_sizes": [
+      12,
+      350
+    ],
+    "rows": [
+      ".U..................",
+      ".UUUUUUUUUUUUUUUUUUU",
+      ".UUUU.UU.UU.UU.UU.UU",
+      ".UU.U.UU.UU.UU.UUUU.",
+      ".UUUU.UU.UU.UUUU.UU.",
+      ".U.UU.UU.UUUU.UU.UU.",
+      ".UUUU.UUUU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.",
+      ".UU.U.U.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.",
+      ".UU.U.U.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.",
+      ".UUUU.U.UU.UU.UU.UU.",
+      ".U.UUUU.UU.UU.UU.UU.",
+      ".UUU.UU.UU.UU.UU.UU.",
+      ".UUUUUUUUUUUUUUUUUU.",
+      ".U................U."
+    ],
+    "sha256": "34d8fb20c9a6cd395060f82cfafd27f229239a137119f9c2f9dfe16946e6b68a",
+    "sha256_encoding": "ASCII rows joined by LF, including one trailing LF",
+    "u_count": 249,
+    "u_u_edge_count": 361
+  },
+  "cut": {
+    "boundary_edges": [
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            8,
+            3
+          ],
+          [
+            9,
+            3
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            9,
+            3
+          ]
+        ],
+        "primal_edge": [
+          [
+            9,
+            3
+          ],
+          [
+            9,
+            4
+          ]
+        ]
+      },
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            8,
+            4
+          ],
+          [
+            9,
+            4
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            9,
+            5
+          ]
+        ],
+        "primal_edge": [
+          [
+            9,
+            4
+          ],
+          [
+            9,
+            5
+          ]
+        ]
+      },
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            8,
+            5
+          ],
+          [
+            9,
+            5
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            9,
+            5
+          ]
+        ],
+        "primal_edge": [
+          [
+            9,
+            5
+          ],
+          [
+            9,
+            6
+          ]
+        ]
+      },
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            8,
+            6
+          ],
+          [
+            9,
+            6
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            9,
+            7
+          ]
+        ],
+        "primal_edge": [
+          [
+            9,
+            6
+          ],
+          [
+            9,
+            7
+          ]
+        ]
+      },
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            11,
+            3
+          ],
+          [
+            12,
+            3
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            12,
+            3
+          ]
+        ],
+        "primal_edge": [
+          [
+            12,
+            3
+          ],
+          [
+            12,
+            4
+          ]
+        ]
+      },
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            11,
+            4
+          ],
+          [
+            12,
+            4
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            12,
+            5
+          ]
+        ],
+        "primal_edge": [
+          [
+            12,
+            4
+          ],
+          [
+            12,
+            5
+          ]
+        ]
+      },
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            11,
+            5
+          ],
+          [
+            12,
+            5
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            12,
+            5
+          ]
+        ],
+        "primal_edge": [
+          [
+            12,
+            5
+          ],
+          [
+            12,
+            6
+          ]
+        ]
+      },
+      {
+        "deficit": 1,
+        "dual_faces": [
+          [
+            11,
+            6
+          ],
+          [
+            12,
+            6
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            12,
+            7
+          ]
+        ],
+        "primal_edge": [
+          [
+            12,
+            6
+          ],
+          [
+            12,
+            7
+          ]
+        ]
+      },
+      {
+        "deficit": 2,
+        "dual_faces": [
+          [
+            9,
+            2
+          ],
+          [
+            9,
+            3
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            9,
+            3
+          ],
+          [
+            10,
+            3
+          ]
+        ],
+        "primal_edge": [
+          [
+            9,
+            3
+          ],
+          [
+            10,
+            3
+          ]
+        ]
+      },
+      {
+        "deficit": 2,
+        "dual_faces": [
+          [
+            9,
+            6
+          ],
+          [
+            9,
+            7
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            9,
+            7
+          ],
+          [
+            10,
+            7
+          ]
+        ],
+        "primal_edge": [
+          [
+            9,
+            7
+          ],
+          [
+            10,
+            7
+          ]
+        ]
+      },
+      {
+        "deficit": 2,
+        "dual_faces": [
+          [
+            10,
+            2
+          ],
+          [
+            10,
+            3
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            10,
+            3
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "primal_edge": [
+          [
+            10,
+            3
+          ],
+          [
+            11,
+            3
+          ]
+        ]
+      },
+      {
+        "deficit": 2,
+        "dual_faces": [
+          [
+            10,
+            6
+          ],
+          [
+            10,
+            7
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            10,
+            7
+          ],
+          [
+            11,
+            7
+          ]
+        ],
+        "primal_edge": [
+          [
+            10,
+            7
+          ],
+          [
+            11,
+            7
+          ]
+        ]
+      },
+      {
+        "deficit": 2,
+        "dual_faces": [
+          [
+            11,
+            2
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            11,
+            3
+          ],
+          [
+            12,
+            3
+          ]
+        ],
+        "primal_edge": [
+          [
+            11,
+            3
+          ],
+          [
+            12,
+            3
+          ]
+        ]
+      },
+      {
+        "deficit": 2,
+        "dual_faces": [
+          [
+            11,
+            6
+          ],
+          [
+            11,
+            7
+          ]
+        ],
+        "missing_endpoints": [
+          [
+            11,
+            7
+          ],
+          [
+            12,
+            7
+          ]
+        ],
+        "primal_edge": [
+          [
+            11,
+            7
+          ],
+          [
+            12,
+            7
+          ]
+        ]
+      }
+    ],
+    "deficit_counts": {
+      "1": 8,
+      "2": 6
+    }
+  },
+  "orders": [
+    {
+      "counts": {
+        "contracted_pruned": 76,
+        "duplicate": 0,
+        "edge_pruned": 292,
+        "exact_checks": 0,
+        "forest_rejected": 0,
+        "generated": 400,
+        "hits": 0,
+        "rank_pruned": 32,
+        "regression_checked": 400,
+        "regression_checked_by_class": {
+          "contracted_pruned": 76,
+          "edge_pruned": 292,
+          "exact_check": 0,
+          "rank_pruned": 32
+        },
+        "unique": 400
+      },
+      "expected_generated": 400,
+      "order": 1
+    },
+    {
+      "counts": {
+        "contracted_pruned": 2419,
+        "duplicate": 0,
+        "edge_pruned": 22756,
+        "exact_checks": 0,
+        "forest_rejected": 0,
+        "generated": 35100,
+        "hits": 0,
+        "rank_pruned": 9925,
+        "regression_checked": 35100,
+        "regression_checked_by_class": {
+          "contracted_pruned": 2419,
+          "edge_pruned": 22756,
+          "exact_check": 0,
+          "rank_pruned": 9925
+        },
+        "unique": 35100
+      },
+      "expected_generated": 35100,
+      "order": 2
+    },
+    {
+      "counts": {
+        "contracted_pruned": 86458,
+        "duplicate": 0,
+        "edge_pruned": 922852,
+        "exact_checks": 0,
+        "forest_rejected": 0,
+        "generated": 1185600,
+        "hits": 0,
+        "rank_pruned": 176290,
+        "regression_checked": 18525,
+        "regression_checked_by_class": {
+          "contracted_pruned": 1342,
+          "edge_pruned": 14486,
+          "exact_check": 0,
+          "rank_pruned": 2697
+        },
+        "unique": 1185600
+      },
+      "expected_generated": 1185600,
+      "order": 3
+    },
+    {
+      "counts": {
+        "contracted_pruned": 1022009,
+        "duplicate": 0,
+        "edge_pruned": 15616896,
+        "exact_checks": 0,
+        "forest_rejected": 0,
+        "generated": 19191900,
+        "hits": 0,
+        "rank_pruned": 2552995,
+        "regression_checked": 18743,
+        "regression_checked_by_class": {
+          "contracted_pruned": 1018,
+          "edge_pruned": 15207,
+          "exact_check": 0,
+          "rank_pruned": 2518
+        },
+        "unique": 19191900
+      },
+      "expected_generated": 19191900,
+      "order": 4
+    }
+  ],
+  "pruning": {
+    "static_contracted_components": 67,
+    "unchanged_order": [
+      "U-U edge lower bound",
+      "contracted nonloop-edge rank upper bound",
+      "exact contracted-component connectivity",
+      "forest_completion_check and run_check"
+    ]
+  },
+  "regression": {
+    "method": "fresh full-face dual DSU versus contracted edge/connectivity metrics",
+    "order_3": {
+      "selection": "zero-based enumeration index divisible by stride",
+      "stride": 64
+    },
+    "order_4": {
+      "selection": "zero-based enumeration index divisible by stride",
+      "stride": 1024
+    },
+    "orders_1_2": "every unique candidate"
+  },
+  "result": {
+    "bounded_only": true,
+    "connected_valid_hits": 0,
+    "neighborhoods_exhausted": true
+  },
+  "schema": {
+    "id": "grid-graphs.search_residue_two_cut_exchange.result.v1",
+    "version": 1
+  },
+  "scope": {
+    "addition_rule": "Missing endpoints of boundary cut edges of the detached 3x4 face rectangle; each addition activates or contributes to such an edge.",
+    "bounded": true,
+    "coordinates": "zero-based",
+    "eligible_additions": [
+      [
+        9,
+        3
+      ],
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        10,
+        3
+      ],
+      [
+        10,
+        7
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        11,
+        7
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        12,
+        5
+      ],
+      [
+        12,
+        7
+      ]
+    ],
+    "eligible_removals": [
+      [
+        8,
+        1
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        8,
+        4
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        8,
+        6
+      ],
+      [
+        8,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        9,
+        1
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        9,
+        4
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        9,
+        8
+      ],
+      [
+        9,
+        9
+      ],
+      [
+        10,
+        1
+      ],
+      [
+        10,
+        2
+      ],
+      [
+        10,
+        4
+      ],
+      [
+        10,
+        5
+      ],
+      [
+        10,
+        6
+      ],
+      [
+        10,
+        8
+      ],
+      [
+        10,
+        9
+      ],
+      [
+        11,
+        1
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        11,
+        4
+      ],
+      [
+        11,
+        5
+      ],
+      [
+        11,
+        6
+      ],
+      [
+        11,
+        8
+      ],
+      [
+        11,
+        9
+      ],
+      [
+        12,
+        1
+      ],
+      [
+        12,
+        2
+      ],
+      [
+        12,
+        4
+      ],
+      [
+        12,
+        6
+      ],
+      [
+        12,
+        8
+      ],
+      [
+        12,
+        9
+      ],
+      [
+        13,
+        1
+      ],
+      [
+        13,
+        2
+      ],
+      [
+        13,
+        4
+      ],
+      [
+        13,
+        5
+      ],
+      [
+        13,
+        6
+      ],
+      [
+        13,
+        8
+      ],
+      [
+        13,
+        9
+      ]
+    ],
+    "exchange": "k additions and k removals",
+    "executed_orders": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "global_optimizer": false,
+    "n": 20,
+    "negative_claim": "No hit exists only in the explicitly listed cardinality-preserving exchange neighborhoods; this is not a global impossibility result.",
+    "removal_window": {
+      "bounds": "inclusive",
+      "columns": [
+        1,
+        9
+      ],
+      "rows": [
+        8,
+        13
+      ]
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "schema": "grid-graphs.residue-two-suffix-corridor.v1",
+  "exact": true,
+  "provenance": {
+    "known_250_rows_sha256": "e83264719effbe47764b6b66537aa028cfbc43d8b825607fd7e68e9bea3cc046",
+    "source_files": {
+      "generator": {
+        "path": "search_residue_two_suffix_corridor.py",
+        "sha256": "11aa1607a2970a0208d701af40d687c790ccf0a6217772bbb27726f842dc7dbc"
+      },
+      "base_pattern_source": {
+        "path": "search_residue_two_middle.py",
+        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+      },
+      "frontier_kernel": {
+        "path": "tile_grammar.py",
+        "sha256": "c0efadada7b825cc89106ae476ebece1693a7b3d1f7c3abadb0d49dd7c30b9ab"
+      }
+    }
+  },
+  "scope": {
+    "base": "search_residue_two_middle.KNOWN_250",
+    "n": 20,
+    "target_u": 249,
+    "fixed_rows": [
+      [
+        0,
+        10
+      ],
+      [
+        18,
+        19
+      ]
+    ],
+    "mutable_rows": [
+      11,
+      17
+    ],
+    "mutable_packet_columns": [
+      0,
+      1
+    ],
+    "mutable_packets": 14,
+    "alphabet": [
+      "L",
+      "X",
+      "R",
+      "H"
+    ],
+    "fixed_u": 215,
+    "required_h_packets": 6,
+    "charge_feasible_assignments_before_topology": 19702683,
+    "beam_or_state_cap": null,
+    "partition_projection": null
+  },
+  "result": "negative",
+  "final_states": 0,
+  "accepted_states": 0,
+  "accepted_assignments": 0,
+  "rows": [
+    {
+      "row": 11,
+      "incoming_states": 1,
+      "packet_extensions": 23,
+      "viable_transitions": 2,
+      "outgoing_states": 2,
+      "assignments_represented": 2
+    },
+    {
+      "row": 12,
+      "incoming_states": 2,
+      "packet_extensions": 79,
+      "viable_transitions": 11,
+      "outgoing_states": 11,
+      "assignments_represented": 11
+    },
+    {
+      "row": 13,
+      "incoming_states": 11,
+      "packet_extensions": 324,
+      "viable_transitions": 40,
+      "outgoing_states": 37,
+      "assignments_represented": 40
+    },
+    {
+      "row": 14,
+      "incoming_states": 37,
+      "packet_extensions": 1055,
+      "viable_transitions": 127,
+      "outgoing_states": 90,
+      "assignments_represented": 136
+    },
+    {
+      "row": 15,
+      "incoming_states": 90,
+      "packet_extensions": 1823,
+      "viable_transitions": 165,
+      "outgoing_states": 97,
+      "assignments_represented": 247
+    },
+    {
+      "row": 16,
+      "incoming_states": 97,
+      "packet_extensions": 1289,
+      "viable_transitions": 71,
+      "outgoing_states": 46,
+      "assignments_represented": 127
+    },
+    {
+      "row": 17,
+      "incoming_states": 46,
+      "packet_extensions": 361,
+      "viable_transitions": 2,
+      "outgoing_states": 2,
+      "assignments_represented": 3
+    },
+    {
+      "row": 18,
+      "incoming_states": 2,
+      "packet_extensions": 2,
+      "viable_transitions": 2,
+      "outgoing_states": 2,
+      "assignments_represented": 3
+    },
+    {
+      "row": 19,
+      "incoming_states": 2,
+      "packet_extensions": 2,
+      "viable_transitions": 0,
+      "outgoing_states": 0,
+      "assignments_represented": 0
+    }
+  ],
+  "witness": null
+}

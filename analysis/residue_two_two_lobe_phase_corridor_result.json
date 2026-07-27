@@ -1,0 +1,737 @@
+{
+  "schema": "grid-graphs.residue-two-two-lobe-phase-corridor.v1",
+  "exact": true,
+  "result": "negative",
+  "provenance": {
+    "canonical_rows": "ASCII rows joined by LF with one final LF",
+    "phase_witness_rows_sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11",
+    "known_249_near_rows_sha256": "34d8fb20c9a6cd395060f82cfafd27f229239a137119f9c2f9dfe16946e6b68a",
+    "source_files": {
+      "generator": {
+        "path": "search_residue_two_two_lobe_phase_corridor.py",
+        "sha256": "12b029b9c7c324b858bf3e3048b96012b15e7bba35d23f35128a97f66fb03f75"
+      },
+      "phase_witness": {
+        "path": "residue_two_phase_front_witness.txt",
+        "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11"
+      },
+      "phase_front_kernel": {
+        "path": "search_residue_two_phase_front.py",
+        "sha256": "cdfe67924cadb8d72b7942240cd87578b3dd6b201a4ec4493888fe24e9dd24f2"
+      },
+      "corridor_kernel": {
+        "path": "search_residue_two_suffix_corridor.py",
+        "sha256": "11aa1607a2970a0208d701af40d687c790ccf0a6217772bbb27726f842dc7dbc"
+      },
+      "frontier_kernel": {
+        "path": "tile_grammar.py",
+        "sha256": "c0efadada7b825cc89106ae476ebece1693a7b3d1f7c3abadb0d49dd7c30b9ab"
+      },
+      "known_near_source": {
+        "path": "search_residue_two_middle.py",
+        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+      }
+    }
+  },
+  "scope": {
+    "base": "analysis/residue_two_phase_front_witness.txt",
+    "n": 20,
+    "target_u": 249,
+    "fixed_body_rows": [
+      [
+        0,
+        3
+      ],
+      [
+        10,
+        13
+      ]
+    ],
+    "mutable_row_lobes": [
+      [
+        4,
+        9
+      ],
+      [
+        14,
+        17
+      ]
+    ],
+    "mutable_packet_columns": [
+      0,
+      1,
+      2
+    ],
+    "frozen_packet_columns_in_every_mutable_row": [
+      3,
+      4,
+      5
+    ],
+    "row_language": "L*(X|H)+R*",
+    "center_width_max": 5,
+    "packet_count": 6,
+    "row_domains": {
+      "4": {
+        "frozen_right_word": "XHR",
+        "size": 15,
+        "words": [
+          "LLLXHR",
+          "LLXXHR",
+          "LLHXHR",
+          "LXXXHR",
+          "LHXXHR",
+          "LXHXHR",
+          "LHHXHR",
+          "XXXXHR",
+          "HXXXHR",
+          "XHXXHR",
+          "HHXXHR",
+          "XXHXHR",
+          "HXHXHR",
+          "XHHXHR",
+          "HHHXHR"
+        ],
+        "rows_sha256": "39490964f0ee03348038e8c59e78f2243d1cc6794a46ae0724631cee34ac66de"
+      },
+      "5": {
+        "frozen_right_word": "HRR",
+        "size": 15,
+        "words": [
+          "LLLHRR",
+          "LLXHRR",
+          "LLHHRR",
+          "LXXHRR",
+          "LHXHRR",
+          "LXHHRR",
+          "LHHHRR",
+          "XXXHRR",
+          "HXXHRR",
+          "XHXHRR",
+          "HHXHRR",
+          "XXHHRR",
+          "HXHHRR",
+          "XHHHRR",
+          "HHHHRR"
+        ],
+        "rows_sha256": "81eafddd40da3c9870774c17502551eb8c36e218066ebf3c28ecb40f66035655"
+      },
+      "6": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      },
+      "7": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      },
+      "8": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      },
+      "9": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      },
+      "14": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      },
+      "15": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      },
+      "16": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      },
+      "17": {
+        "frozen_right_word": "RRR",
+        "size": 22,
+        "words": [
+          "XRRRRR",
+          "HRRRRR",
+          "LXRRRR",
+          "LHRRRR",
+          "LLXRRR",
+          "LLHRRR",
+          "XXRRRR",
+          "HXRRRR",
+          "XHRRRR",
+          "HHRRRR",
+          "LXXRRR",
+          "LHXRRR",
+          "LXHRRR",
+          "LHHRRR",
+          "XXXRRR",
+          "HXXRRR",
+          "XHXRRR",
+          "HHXRRR",
+          "XXHRRR",
+          "HXHRRR",
+          "XHHRRR",
+          "HHHRRR"
+        ],
+        "rows_sha256": "7a095c5055d59c1752b162a15b004a306288a44f19bfa78760cb77b2cca2e572"
+      }
+    },
+    "contains_corrected_phase_witness_geometry": true,
+    "contains_known_249_near_geometry": true,
+    "fixed_cap_rows": [
+      18,
+      19
+    ],
+    "fixed_cap_distribution": [
+      18,
+      2
+    ],
+    "tested_cap_distributions": [
+      [
+        19,
+        1
+      ],
+      [
+        18,
+        2
+      ],
+      [
+        17,
+        3
+      ]
+    ],
+    "deduplication_key": "full unprojected FrontierState",
+    "exact_multiplicities": true,
+    "beam": null,
+    "projection": null,
+    "state_cap": null
+  },
+  "completed_body_rows": [
+    {
+      "row": 0,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "f1c3bf94224ce867d272cc8fa0e15a9cc395f2f07c57f0a3173e4054a259cc61"
+    },
+    {
+      "row": 1,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "093d2b8697701cb8deefdcecc0c659816e6771d27ac7908366e29e33add26c80"
+    },
+    {
+      "row": 2,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "589f665faf91aa3d85c2298110b62eb4ad71c2eae887117bd8d27906e5cf520e"
+    },
+    {
+      "row": 3,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 1,
+      "transitions_attempted": 1,
+      "viable_transitions": 1,
+      "outgoing_states": 1,
+      "assignments_represented": 1,
+      "frontier_sha256": "24c9752257802911cb4257e9daa202978dacaed5af298413b7e4044446c09b33"
+    },
+    {
+      "row": 4,
+      "kind": "phase-front-domain",
+      "domain_size": 15,
+      "incoming_states": 1,
+      "transitions_attempted": 15,
+      "viable_transitions": 6,
+      "outgoing_states": 6,
+      "assignments_represented": 6,
+      "frontier_sha256": "4d5ac6637d02685688874118a932ee20757e4287aee2ca7c40168567a37abd5e"
+    },
+    {
+      "row": 5,
+      "kind": "phase-front-domain",
+      "domain_size": 15,
+      "incoming_states": 6,
+      "transitions_attempted": 90,
+      "viable_transitions": 62,
+      "outgoing_states": 58,
+      "assignments_represented": 62,
+      "frontier_sha256": "94a2286d4b9f0aec1d2abe6a43f11654264d48c64ee931c5aab0e100d1b4c628"
+    },
+    {
+      "row": 6,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 58,
+      "transitions_attempted": 1276,
+      "viable_transitions": 617,
+      "outgoing_states": 421,
+      "assignments_represented": 648,
+      "frontier_sha256": "61ada590c8cf745f08af3d9ef42c06d87c5f6d5646827510c7b241a86ff047d1"
+    },
+    {
+      "row": 7,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 421,
+      "transitions_attempted": 9262,
+      "viable_transitions": 3677,
+      "outgoing_states": 1686,
+      "assignments_represented": 5292,
+      "frontier_sha256": "ceec2275a780bfd0be2a74a22ebf8b44d35277a1109759e0a211052d98ec0907"
+    },
+    {
+      "row": 8,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 1686,
+      "transitions_attempted": 37092,
+      "viable_transitions": 10748,
+      "outgoing_states": 3398,
+      "assignments_represented": 34427,
+      "frontier_sha256": "42a6e61454d0ec08198b8882f6edbbee3ea472737a66301ca806263feb4c062b"
+    },
+    {
+      "row": 9,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 3398,
+      "transitions_attempted": 74756,
+      "viable_transitions": 17050,
+      "outgoing_states": 4155,
+      "assignments_represented": 127674,
+      "frontier_sha256": "d8052b57ec376c3b0d05bf5122af820234ae8c206c044325ab001d085cb19f1c"
+    },
+    {
+      "row": 10,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 4155,
+      "transitions_attempted": 4155,
+      "viable_transitions": 2361,
+      "outgoing_states": 553,
+      "assignments_represented": 66222,
+      "frontier_sha256": "5d2864ab594888a732e1f12b2a55f5d19e4c02b509fb6973ae8556089e9fc9d3"
+    },
+    {
+      "row": 11,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 553,
+      "transitions_attempted": 553,
+      "viable_transitions": 553,
+      "outgoing_states": 256,
+      "assignments_represented": 66222,
+      "frontier_sha256": "9faa0aef2791ae171f610f2839e57f9f7cfb92c359dcf4e314bb8db72ad55edd"
+    },
+    {
+      "row": 12,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 256,
+      "transitions_attempted": 256,
+      "viable_transitions": 156,
+      "outgoing_states": 108,
+      "assignments_represented": 45475,
+      "frontier_sha256": "4a9db8ccfe9c835568df5cd65412a14c7bd17684b5ef74fe21ac57ed51d19bf7"
+    },
+    {
+      "row": 13,
+      "kind": "fixed",
+      "domain_size": 1,
+      "incoming_states": 108,
+      "transitions_attempted": 108,
+      "viable_transitions": 108,
+      "outgoing_states": 108,
+      "assignments_represented": 45475,
+      "frontier_sha256": "48e36ba1dc08fea5e944c92d211e4574f4ae0f46f9fbb335c8c38173f546abc8"
+    },
+    {
+      "row": 14,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 108,
+      "transitions_attempted": 2376,
+      "viable_transitions": 224,
+      "outgoing_states": 224,
+      "assignments_represented": 21968,
+      "frontier_sha256": "df5a91859924d23f0cd4232de3c7c3f35114e071d2f48af91c59ebc3393a1fdd"
+    },
+    {
+      "row": 15,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 224,
+      "transitions_attempted": 4928,
+      "viable_transitions": 892,
+      "outgoing_states": 686,
+      "assignments_represented": 26680,
+      "frontier_sha256": "1c27aa8b00b6b85c5cad2282342f13abad0594e34ae71f3f9a1425b40104b5a7"
+    },
+    {
+      "row": 16,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 686,
+      "transitions_attempted": 15092,
+      "viable_transitions": 630,
+      "outgoing_states": 429,
+      "assignments_represented": 5190,
+      "frontier_sha256": "db31f9fb356313aa9afb221662d49d9115a424cceb8105aa18c39c767b3c8963"
+    },
+    {
+      "row": 17,
+      "kind": "phase-front-domain",
+      "domain_size": 22,
+      "incoming_states": 429,
+      "transitions_attempted": 9438,
+      "viable_transitions": 120,
+      "outgoing_states": 90,
+      "assignments_represented": 225,
+      "frontier_sha256": "a66ff8e6fffca790aac73268b6abbc05270856c0352bfadfa6d35f104074893f"
+    }
+  ],
+  "corridor_after_row17": {
+    "states": 90,
+    "assignments_represented": 225,
+    "u_costs": [
+      229
+    ],
+    "frontier_sha256": "a66ff8e6fffca790aac73268b6abbc05270856c0352bfadfa6d35f104074893f"
+  },
+  "fixed_cap": {
+    "kind": "fixed",
+    "distribution": [
+      18,
+      2
+    ],
+    "rows": [
+      {
+        "row": 18,
+        "u_count": 18,
+        "mask_count": 1,
+        "incoming_states": 90,
+        "transitions_attempted": 90,
+        "viable_transitions": 90,
+        "outgoing_states": 79,
+        "assignments_represented": 225,
+        "frontier_sha256": "d8ffb5682297936308d70677cb9088b6cda685fcdff35323429d2fec3e063fcd"
+      },
+      {
+        "row": 19,
+        "u_count": 2,
+        "mask_count": 1,
+        "incoming_states": 79,
+        "transitions_attempted": 79,
+        "viable_transitions": 0,
+        "outgoing_states": 0,
+        "assignments_represented": 0,
+        "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    ],
+    "final_states": 0,
+    "final_assignments": 0,
+    "accepted_states": 0,
+    "accepted_assignments": 0,
+    "result": "negative"
+  },
+  "cap_distributions": [
+    {
+      "kind": "all masks with exact row U counts",
+      "distribution": [
+        19,
+        1
+      ],
+      "rows": [
+        {
+          "row": 18,
+          "u_count": 19,
+          "mask_count": 20,
+          "incoming_states": 90,
+          "transitions_attempted": 1800,
+          "viable_transitions": 744,
+          "outgoing_states": 646,
+          "assignments_represented": 1840,
+          "frontier_sha256": "b6de16eeac7c84144efaafcec9452a3a64ece04902b211a1180feb2da9cd5f87"
+        },
+        {
+          "row": 19,
+          "u_count": 1,
+          "mask_count": 20,
+          "incoming_states": 646,
+          "transitions_attempted": 12920,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      ],
+      "final_states": 0,
+      "final_assignments": 0,
+      "accepted_states": 0,
+      "accepted_assignments": 0,
+      "result": "negative"
+    },
+    {
+      "kind": "all masks with exact row U counts",
+      "distribution": [
+        18,
+        2
+      ],
+      "rows": [
+        {
+          "row": 18,
+          "u_count": 18,
+          "mask_count": 190,
+          "incoming_states": 90,
+          "transitions_attempted": 17100,
+          "viable_transitions": 2562,
+          "outgoing_states": 2199,
+          "assignments_represented": 6230,
+          "frontier_sha256": "1fbe76bfb5d56255969ed5afeb79eac22ea2106c0bcba47d06d90ea203cfe86a"
+        },
+        {
+          "row": 19,
+          "u_count": 2,
+          "mask_count": 190,
+          "incoming_states": 2199,
+          "transitions_attempted": 417810,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      ],
+      "final_states": 0,
+      "final_assignments": 0,
+      "accepted_states": 0,
+      "accepted_assignments": 0,
+      "result": "negative"
+    },
+    {
+      "kind": "all masks with exact row U counts",
+      "distribution": [
+        17,
+        3
+      ],
+      "rows": [
+        {
+          "row": 18,
+          "u_count": 17,
+          "mask_count": 1140,
+          "incoming_states": 90,
+          "transitions_attempted": 102600,
+          "viable_transitions": 4766,
+          "outgoing_states": 4052,
+          "assignments_represented": 11344,
+          "frontier_sha256": "607f17ae0c1bedf3ab5d5752bbf88c99925b47e5986c9c1eadba474524e99ee8"
+        },
+        {
+          "row": 19,
+          "u_count": 3,
+          "mask_count": 1140,
+          "incoming_states": 4052,
+          "transitions_attempted": 4619280,
+          "viable_transitions": 0,
+          "outgoing_states": 0,
+          "assignments_represented": 0,
+          "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      ],
+      "final_states": 0,
+      "final_assignments": 0,
+      "accepted_states": 0,
+      "accepted_assignments": 0,
+      "result": "negative"
+    }
+  ],
+  "witness": null,
+  "independent_validation": null
+}

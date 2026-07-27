@@ -19,8 +19,8 @@ Status by residue (n mod 3):
 
   residue 2 (n = 3k+2, k >= 1):
       `residue_two_pattern(n)` returns cached exact witnesses through n=14,
-      then the affine pump family for n>=17. The affine family is valid but
-      has surplus k-4 over the conjectured U count.
+      then the affine pump family for n>=17. Checked members are valid through
+      the documented range, with surplus k-4 over the conjectured U count.
 
 The residue-2 skeleton remains off by an `O(k)` correction. For residue zero,
 the phase-boundary family absorbs the correction with `k-2` seam rows.
@@ -142,8 +142,8 @@ def residue_two_skeleton_pattern(n: int) -> list[str]:
 def residue_two_pattern(n: int) -> list[str]:
     """Best available residue-2 pattern.
 
-    Cached exact witnesses cover n=5,8,11,14. For n>=17, the affine pump is
-    dual-connected and forest-completable with surplus k-4.
+    Cached exact witnesses cover n=5,8,11,14. For n>=17, the affine pump has
+    surplus k-4 and has passed dual/forest checks through the documented range.
     """
     if n in _RESIDUE_TWO_EXPLICIT:
         return list(_RESIDUE_TWO_EXPLICIT[n])
@@ -174,7 +174,7 @@ _RESIDUE_TWO_AFFINE_17 = [
 
 
 def residue_two_affine_pattern(n: int) -> list[str]:
-    """Return the valid affine residue-two pump for n=3k+2, k>=5."""
+    """Return the affine residue-two word pattern for n=3k+2, k>=5."""
     if n % 3 != 2 or n < 17:
         raise ValueError("residue_two_affine_pattern requires n >= 17, n ≡ 2 mod 3")
     rows = list(_RESIDUE_TWO_AFFINE_17)

@@ -1,0 +1,233 @@
+{
+  "schema": "grid-graphs.residue-two-suffix-corridor-21.v1",
+  "exact": true,
+  "provenance": {
+    "known_250_rows_sha256": "e83264719effbe47764b6b66537aa028cfbc43d8b825607fd7e68e9bea3cc046",
+    "source_files": {
+      "generator": {
+        "path": "search_residue_two_suffix_corridor_21.py",
+        "sha256": "83b48039bfb6c229a55b871da2c293ca3250cc880a83c7bab40109846976c6a6"
+      },
+      "corridor_search": {
+        "path": "search_residue_two_suffix_corridor.py",
+        "sha256": "11aa1607a2970a0208d701af40d687c790ccf0a6217772bbb27726f842dc7dbc"
+      },
+      "base_pattern_source": {
+        "path": "search_residue_two_middle.py",
+        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+      },
+      "frontier_kernel": {
+        "path": "tile_grammar.py",
+        "sha256": "c0efadada7b825cc89106ae476ebece1693a7b3d1f7c3abadb0d49dd7c30b9ab"
+      }
+    }
+  },
+  "scope": {
+    "base": "search_residue_two_middle.KNOWN_250",
+    "n": 20,
+    "target_u": 249,
+    "fixed_rows_primary_search": [
+      [
+        0,
+        10
+      ],
+      [
+        18,
+        19
+      ]
+    ],
+    "mutable_rows": [
+      11,
+      17
+    ],
+    "mutable_packet_columns": [
+      0,
+      1,
+      2
+    ],
+    "mutable_packets": 21,
+    "packet_count_per_row": 6,
+    "alphabet": [
+      "L",
+      "X",
+      "R",
+      "H"
+    ],
+    "fixed_u_primary_search": 201,
+    "required_h_packets_primary_search": 6,
+    "charge_feasible_assignments_before_topology": 778629089448,
+    "alternate_cap_distributions": [
+      [
+        19,
+        1
+      ],
+      [
+        18,
+        2
+      ],
+      [
+        17,
+        3
+      ]
+    ],
+    "deduplication_key": "full FrontierState",
+    "exact_multiplicities": true,
+    "beam": null,
+    "state_cap": null,
+    "partition_projection": null
+  },
+  "result": "negative",
+  "completed_corridor_rows": [
+    {
+      "row": 11,
+      "incoming_states": 1,
+      "packet_extensions": 50,
+      "viable_transitions": 5,
+      "outgoing_states": 5,
+      "assignments_represented": 5,
+      "frontier_sha256": "ada0c28e1989ff3f405d5c0cd0a292c9337ed5e3bbddda7961bfa4a97980a122"
+    },
+    {
+      "row": 12,
+      "incoming_states": 5,
+      "packet_extensions": 539,
+      "viable_transitions": 89,
+      "outgoing_states": 83,
+      "assignments_represented": 89,
+      "frontier_sha256": "d90e13b13d7e28ca6fed0a8db0c04942be370059c276b7679680b10b9ce50165"
+    },
+    {
+      "row": 13,
+      "incoming_states": 83,
+      "packet_extensions": 5382,
+      "viable_transitions": 712,
+      "outgoing_states": 485,
+      "assignments_represented": 793,
+      "frontier_sha256": "6514085caed53ca72d860f7192adc8cd23eacc207653243e8d26e6a2938e06cb"
+    },
+    {
+      "row": 14,
+      "incoming_states": 485,
+      "packet_extensions": 20381,
+      "viable_transitions": 1952,
+      "outgoing_states": 787,
+      "assignments_represented": 2782,
+      "frontier_sha256": "a16ef8fb6d4ed453e4c8b535968d5d5fd67fe70ea9100a5e6e8c754c2fdae540"
+    },
+    {
+      "row": 15,
+      "incoming_states": 787,
+      "packet_extensions": 19782,
+      "viable_transitions": 1169,
+      "outgoing_states": 481,
+      "assignments_represented": 2372,
+      "frontier_sha256": "a04f53e1fae78c5db687d1ceeba90c95f77a27b3d7d17e69eb927dc148e82d75"
+    },
+    {
+      "row": 16,
+      "incoming_states": 481,
+      "packet_extensions": 7708,
+      "viable_transitions": 221,
+      "outgoing_states": 129,
+      "assignments_represented": 435,
+      "frontier_sha256": "0931cc1ff4fca335dc90e6c8c21cc599bcfbb9e8640c40a912c4c460b45df4ac"
+    },
+    {
+      "row": 17,
+      "incoming_states": 129,
+      "packet_extensions": 1298,
+      "viable_transitions": 4,
+      "outgoing_states": 4,
+      "assignments_represented": 6,
+      "frontier_sha256": "346ec214faec1d377b929f6f0689daf390e3504d4a69e54b6c0357a9b22234d7"
+    }
+  ],
+  "fixed_cap": {
+    "result": "negative",
+    "rows": [
+      {
+        "row": 18,
+        "incoming_states": 4,
+        "assignments_attempted": 6,
+        "live_transitions": 4,
+        "outgoing_states": 4,
+        "assignments_represented": 6,
+        "frontier_sha256": "ff715293996a49adac5eeb92ba84066a905051b9d0de30fcffc08edc32b22a96"
+      },
+      {
+        "row": 19,
+        "incoming_states": 4,
+        "assignments_attempted": 6,
+        "live_transitions": 0,
+        "outgoing_states": 0,
+        "assignments_represented": 0,
+        "frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    ],
+    "final_states": 0,
+    "accepted_states": 0,
+    "accepted_assignments": 0
+  },
+  "alternate_caps": [
+    {
+      "row18_u": 19,
+      "row19_u": 1,
+      "row18_masks": 20,
+      "row18_transitions_attempted": 80,
+      "row18_live_transitions": 32,
+      "row18_states": 32,
+      "row18_assignments": 48,
+      "row18_frontier_sha256": "19eebb1318066bab90588f88540ae1aee5cba1f5ae4611fe05a4bddddc24a003",
+      "row19_masks": 20,
+      "row19_transitions_attempted": 640,
+      "row19_live_transitions": 0,
+      "row19_states": 0,
+      "row19_assignments": 0,
+      "row19_frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "accepted_states": 0,
+      "accepted_assignments": 0
+    },
+    {
+      "row18_u": 18,
+      "row19_u": 2,
+      "row18_masks": 190,
+      "row18_transitions_attempted": 760,
+      "row18_live_transitions": 104,
+      "row18_states": 104,
+      "row18_assignments": 156,
+      "row18_frontier_sha256": "3b60c341245869143c2ce1d51e04a18ad51c64cde65968d0f8d3b58fe7e5bc1d",
+      "row19_masks": 190,
+      "row19_transitions_attempted": 19760,
+      "row19_live_transitions": 0,
+      "row19_states": 0,
+      "row19_assignments": 0,
+      "row19_frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "accepted_states": 0,
+      "accepted_assignments": 0
+    },
+    {
+      "row18_u": 17,
+      "row19_u": 3,
+      "row18_masks": 1140,
+      "row18_transitions_attempted": 4560,
+      "row18_live_transitions": 180,
+      "row18_states": 180,
+      "row18_assignments": 270,
+      "row18_frontier_sha256": "270d40dc4add4e691f71e42f86458f13c8c4be7904cee2dcbe52831e89fb9d9b",
+      "row19_masks": 1140,
+      "row19_transitions_attempted": 205200,
+      "row19_live_transitions": 0,
+      "row19_states": 0,
+      "row19_assignments": 0,
+      "row19_frontier_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "accepted_states": 0,
+      "accepted_assignments": 0
+    }
+  ],
+  "witness": null,
+  "corridor_after_row17": {
+    "states": 4,
+    "assignments": 6,
+    "frontier_sha256": "346ec214faec1d377b929f6f0689daf390e3504d4a69e54b6c0357a9b22234d7"
+  }
+}

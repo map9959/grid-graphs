@@ -1,0 +1,138 @@
+{
+  "schema": "grid-graphs.residue-two-suffix-caps.v1",
+  "exact": true,
+  "provenance": {
+    "known_250_rows_sha256": "e83264719effbe47764b6b66537aa028cfbc43d8b825607fd7e68e9bea3cc046",
+    "source_files": {
+      "generator": {
+        "path": "search_residue_two_suffix_caps.py",
+        "sha256": "57d62f749ee3159a5f6845de415f339c471fb44d6074a3af02629bb7ddf09530"
+      },
+      "corridor_search": {
+        "path": "search_residue_two_suffix_corridor.py",
+        "sha256": "11aa1607a2970a0208d701af40d687c790ccf0a6217772bbb27726f842dc7dbc"
+      },
+      "base_pattern_source": {
+        "path": "search_residue_two_middle.py",
+        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+      },
+      "frontier_kernel": {
+        "path": "tile_grammar.py",
+        "sha256": "c0efadada7b825cc89106ae476ebece1693a7b3d1f7c3abadb0d49dd7c30b9ab"
+      }
+    }
+  },
+  "scope": {
+    "search_kind": "bounded_cap_language_not_global_optimization",
+    "base": "search_residue_two_middle.KNOWN_250",
+    "n": 20,
+    "target_u": 249,
+    "fixed_rows": [
+      [
+        0,
+        10
+      ]
+    ],
+    "corridor_mutable_rows": [
+      11,
+      17
+    ],
+    "corridor_mutable_packet_columns": [
+      0,
+      1
+    ],
+    "corridor_mutable_packets": 14,
+    "corridor_packet_count_per_row": 6,
+    "corridor_alphabet": [
+      "L",
+      "X",
+      "R",
+      "H"
+    ],
+    "cap_rows": [
+      18,
+      19
+    ],
+    "cap_mask_width": 20,
+    "cap_u_count_distributions": [
+      [
+        19,
+        1
+      ],
+      [
+        18,
+        2
+      ],
+      [
+        17,
+        3
+      ]
+    ],
+    "cap_masks": "all masks of each declared exact row U count",
+    "deduplication_key": "full FrontierState",
+    "path_multiplicities_retained": true,
+    "predecessor_retained_for_reconstruction": true,
+    "beam": null,
+    "state_cap": null,
+    "partition_projection": null
+  },
+  "result": "negative",
+  "corridor_after_row17": {
+    "exact_states": 2,
+    "assignment_multiplicity": 3
+  },
+  "distributions": [
+    {
+      "row18_u": 19,
+      "row19_u": 1,
+      "row18_masks_attempted": 20,
+      "row18_transitions_attempted": 40,
+      "row18_live": 16,
+      "row18_exact_states": 16,
+      "row18_assignment_multiplicity": 24,
+      "row19_masks": 20,
+      "row19_pairs_attempted": 320,
+      "row19_pairs_live": 0,
+      "row19_pairs_accepted": 0,
+      "row19_exact_states": 0,
+      "row19_live_assignment_multiplicity": 0,
+      "accepted_exact_states": 0,
+      "accepted_assignment_multiplicity": 0
+    },
+    {
+      "row18_u": 18,
+      "row19_u": 2,
+      "row18_masks_attempted": 190,
+      "row18_transitions_attempted": 380,
+      "row18_live": 52,
+      "row18_exact_states": 52,
+      "row18_assignment_multiplicity": 78,
+      "row19_masks": 190,
+      "row19_pairs_attempted": 9880,
+      "row19_pairs_live": 0,
+      "row19_pairs_accepted": 0,
+      "row19_exact_states": 0,
+      "row19_live_assignment_multiplicity": 0,
+      "accepted_exact_states": 0,
+      "accepted_assignment_multiplicity": 0
+    },
+    {
+      "row18_u": 17,
+      "row19_u": 3,
+      "row18_masks_attempted": 1140,
+      "row18_transitions_attempted": 2280,
+      "row18_live": 90,
+      "row18_exact_states": 90,
+      "row18_assignment_multiplicity": 135,
+      "row19_masks": 1140,
+      "row19_pairs_attempted": 102600,
+      "row19_pairs_live": 0,
+      "row19_pairs_accepted": 0,
+      "row19_exact_states": 0,
+      "row19_live_assignment_multiplicity": 0,
+      "accepted_exact_states": 0,
+      "accepted_assignment_multiplicity": 0
+    }
+  ],
+  "witness": null
+}
