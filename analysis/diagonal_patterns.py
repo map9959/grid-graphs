@@ -18,8 +18,9 @@ Status by residue (n mod 3):
       scaffold for analysis.
 
   residue 2 (n = 3k+2, k >= 1):
-      `residue_two_pattern(n)` likewise. Validated cases listed in
-      `STATUS_RESIDUE_TWO`.
+      `residue_two_pattern(n)` returns cached exact witnesses through n=14,
+      then the affine pump family for n>=17. The affine family is valid but
+      has surplus k-4 over the conjectured U count.
 
 The residue-2 skeleton remains off by an `O(k)` correction. For residue zero,
 the phase-boundary family absorbs the correction with `k-2` seam rows.
@@ -141,11 +142,48 @@ def residue_two_skeleton_pattern(n: int) -> list[str]:
 def residue_two_pattern(n: int) -> list[str]:
     """Best available residue-2 pattern.
 
-    For n = 5 returns the exact skeleton. For n >= 8 the skeleton overshoots
-    the conjectured count by exactly k = (n-2)/3 cells (the bridge anchor row),
-    so the construction is not yet parametric beyond k = 1.
+    Cached exact witnesses cover n=5,8,11,14. For n>=17, the affine pump is
+    dual-connected and forest-completable with surplus k-4.
     """
+    if n in _RESIDUE_TWO_EXPLICIT:
+        return list(_RESIDUE_TWO_EXPLICIT[n])
+    if n >= 17:
+        return residue_two_affine_pattern(n)
     return residue_two_skeleton_pattern(n)
+
+
+_RESIDUE_TWO_AFFINE_17 = [
+    ".U...............",
+    ".UUUUUUUUUUUUUUUU",
+    ".UUUU.UU.UU.UU.UU",
+    ".UU.UUUU.UU.UUUU.",
+    ".UU.UU.UUUU.U.UU.",
+    ".UU.UU.UU.UUU.UU.",
+    ".UU.UU.UU.U.UUUU.",
+    ".UU.UU.UUUU.UU.U.",
+    ".UU.UU.U.UU.UUUU.",
+    ".UU.UU.UUUU.U.UU.",
+    ".UU.UU.UU.UUU.UU.",
+    ".UU.UU.UU.UUU.UU.",
+    ".UU.UU.UU.U.UUUU.",
+    ".UU.UU.UU.UUUU.U.",
+    ".UU.UU.UU.UU.UUU.",
+    ".UUUUUUUUUUUUUUU.",
+    ".U.............U.",
+]
+
+
+def residue_two_affine_pattern(n: int) -> list[str]:
+    """Return the valid affine residue-two pump for n=3k+2, k>=5."""
+    if n % 3 != 2 or n < 17:
+        raise ValueError("residue_two_affine_pattern requires n >= 17, n ≡ 2 mod 3")
+    rows = list(_RESIDUE_TWO_AFFINE_17)
+    while len(rows) < n:
+        old_n = len(rows)
+        row_indices = [*range(9), 9, 10, 11, *range(9, old_n)]
+        column_indices = [*range(4), 4, 5, 6, *range(4, old_n)]
+        rows = ["".join(rows[row][column] for column in column_indices) for row in row_indices]
+    return rows
 
 
 # -----------------------------------------------------------------------------

@@ -24,6 +24,7 @@ from diagonal_patterns import (
     q_formula,
     residue_one_pattern,
     residue_two_explicit_pattern,
+    residue_two_affine_pattern,
     residue_zero_explicit_pattern,
     residue_zero_improved_pattern,
     residue_zero_phase_pattern,
@@ -114,6 +115,16 @@ def main() -> None:
     args = parser.parse_args()
     if residue_zero_phase_pattern(21) != residue_zero_explicit_pattern(21):
         raise AssertionError("phase-family base no longer matches cached n=21")
+    for n in range(17, args.nmax + 1, 3):
+        affine = residue_two_affine_pattern(n)
+        nonfull, _, _ = verify_pattern(affine)
+        expected = q_formula(n) + (n - 14) // 3
+        dual_ok, _, _ = dual_connectivity_check(affine)
+        if nonfull != expected or not dual_ok:
+            raise AssertionError(
+                f"affine residue-two failure at n={n}: count={nonfull}, "
+                f"expected={expected}, dual={dual_ok}"
+            )
     for n in range(6, args.nmax + 1, 3):
         improved = residue_zero_improved_pattern(n)
         nonfull, _, _ = verify_pattern(improved)

@@ -329,6 +329,20 @@ Current constructive status:
    residue-zero phase bulk with a fixed cap and rule out representing the
    final `+1` by one promoted row. The next target is a stateful boundary
    defect that absorbs one or two bulk rows and evolves under `k→k+1`.
+   Current searches reach reproducible exact-count n=17 patterns with one
+   isolated dual face, and a valid crossed-crop family through tested n=41
+   whose n=23 member is four U above target. Exhaustive local repair and
+   contracted edge-count certificates close the current patch languages; the
+   next step is a new defect control state rather than a wider fixed cap.
+   A new affine pump now supplies a valid infinite near-family from n=17 with
+   surplus `k-4`, improving the prior skeleton surplus `k` by four vertices.
+   Its fixed recurrence is documented in `analysis/AFFINE_RESIDUE2.md` and
+   checked through n=119. The exact-count family still requires a second
+   control state that saves one vertex per pump.
+   The first A→B search proves that the saving cannot live solely in the
+   inserted cross, a seven-column halo, or the final three-row cap; all are
+   exact negative certificates. The next B-state language must couple the
+   early cycle-bearing prelude to the bottom OUT attachment.
 
 No exact optimizer was used above n=15; all larger checks are explicit
 candidate construction and verification.

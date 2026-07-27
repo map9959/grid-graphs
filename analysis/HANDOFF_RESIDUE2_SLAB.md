@@ -341,3 +341,96 @@ exhaustively deleting one row and one column from residue-zero patterns for
 n=23,26,29,32 are also negative. These are candidate searches, not optimizer
 runs. The next search should absorb one or two boundary rows of `B_k` into a
 stateful defect and propagate its exact frontier state with `k`.
+
+## 2026-07-23 stateful-defect search
+
+Three independent exact-cardinality n=17 searches now reach a one-face
+obstruction at 178 U vertices. `search_residue_two_near.py` stores phase-crop
+and pumped near-hits with dual `256/257`, 256 edges, and cycle excess one. A
+coupled three-row defect/dense-cap search gives a third near-hit with dual
+`256/257`, 257 edges, and cycle excess two; its isolated face is `(12,3)`.
+Bridge-directed low-degree two-for-two repairs, corner and centered patches
+through the recorded 4x6/6x4 bounds, and coupled two-corner 3x4/4x3 patches are negative. A
+randomized bridge-containing three-for-three walk checks 886,309 edge-feasible
+candidates without a connection. Kicked annealing returns to the same basins.
+
+The exact frontier language improved substantially without closing. A
+two-ended `(10,11)` defect reduces the detached meet interval from eight faces
+to four. Coupling two defect rows with the dense cap tests 4,069,751 exact
+transitions; only cost triple `(9,12,15)` survives. Its best excess-one join
+leaves two isolated faces, while an excess-two join leaves one. Independent
+two-transposition rows and width-10/12 hidden-port macros remain negative at
+their recorded exact/beam bounds.
+
+`search_residue_two_crop.py` records a separate positive near-family. Delete
+row 3 and column 3 from `residue_zero_phase_pattern(n+1)`, then apply crossed
+three-row deletions `(r,2),(r+2,3) -> dots` at starts `r=3+4j` and
+`r=2k-2+4j` in range. The result remains dual-connected and forest-completable
+through tested `k=7..13`. At n=23 it has 336 U, only four above target. Direct
+low-degree trims and 46,165,828 bounded interaction reroutes are negative. The
+next two-addition/six-removal 7x9 ladder class is impossible by an exact edge
+certificate: after exterior contraction it needs 63 mutable dual edges, but
+its maximum is 61.
+
+Do not enlarge those local boxes. For n=17, introduce a genuinely new
+three-row control state that changes the remaining cap ports. For the crop
+family, seek a different saving macro before the two lower crossed deletions
+interact.
+
+## Affine pump breakthrough
+
+The connected 179-U affine packet is not isolated. Duplicating rows 9--11
+before row 9 and columns 4--6 before column 4 gives a fixed recurrence for all
+`n=3k+2>=17`. It is dual-connected and forest-completable through every tested
+member up to n=119, with
+
+```text
+|U| = 6k^2 + 6k - 1 = q(3k+2) + k - 4,
+dual cycle excess = 2k - 9.
+```
+
+This improves the old residue-two skeleton surplus from `k` to `k-4` and is
+now dispatched by `residue_two_pattern`. See `AFFINE_RESIDUE2.md`.
+
+The n=17 base has been exhaustively trimmed through four additions/five
+removals with unrestricted removal sets and cycle excess; no 178-U result
+exists in those neighborhoods. The exact affine 178-U state is also globally
+negative under two-for-two and three-for-three exchange. This does not prove
+that q(17)=178 is impossible. It shows that the next breakthrough must change
+the recurrence state, not trim the affine base locally.
+
+The strongest exact finite certificates are now:
+
+```text
+three original n=17 one-face near-hits:
+  global bridge-anchored 3-for-3 negative, 10,980,135,056 exchanges each
+
+exact affine 178-U transducer state:
+  global 2-for-2 negative, 21,770,646 exchanges
+  global 3-for-3 negative, 204,996,099,440 exchanges
+
+connected affine 179-U base:
+  no trim through 4 additions / 5 removals
+
+crossed-crop n=23 full-height mutable corridor:
+  widths 4, 6, and 8 exhaustively negative
+  width 10 bounded negative; exact search remains unfinished.
+```
+
+Cycle excess was unrestricted in the global exchange certificates. Do not
+resume those radii or optimize only toward excess one.
+
+The first explicit two-state pump attempt is also closed at its smallest
+domains. The affine `17->20` cross costs 72; exact contracted rank proves no
+cost-71 assignment in that frozen cross can connect. A full mutable column slab
+0--6 and every topology-valid alternate row-16 plus arbitrary three-row suffix
+are exact negatives. The connected affine n=20 member has no trim to 250 U
+through global three-addition/four-removal exchange. A viable B transition must
+change the early cycle/prelude and bottom cap as one nonlocal state update.
+
+Even that split update is negative in the first exact language. Freeing the top
+and bottom four rows while freezing affine rows 4--15 checks 148,906,752
+transitions with no connected join. A three-box cycle/reroute/OUT MITM exhausts
+all 188 quota distributions and remains disconnected. The next state must
+rewrite part of the middle phase transport, not only the insertion cross and
+boundary controls.

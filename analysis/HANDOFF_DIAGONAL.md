@@ -239,3 +239,19 @@ plus fixed caps. Its useful invariant is the count decomposition
 frontier searches show that the `+1` cannot be a single promoted phase row;
 the boundary defect must evolve with `k`. Continue with a stateful defect that
 absorbs one or two boundary rows of the bulk, not another fixed-cap search.
+
+That search now has reproducible artifacts. `search_residue_two_near.py` stores
+three n=17 one-face near-hits and exact local/two-corner negative searches;
+`search_residue_two_anneal.py` performs directed kicked repairs.
+`search_residue_two_crop.py` gives a valid crossed-crop family through tested
+n=41, with residual excess four at n=23. Its known local absorption classes are
+closed by exhaustive searches and an edge-count certificate. The next move is
+a new defect control state, not larger beams or wider versions of the same
+patches.
+
+The principal positive residue-two result is now the affine pump. Starting from
+a valid 179-U n=17 base, a fixed row/column duplication produces valid patterns
+for every tested `n=3k+2` through n=119 with surplus `k-4`. This uniformly
+improves the old `+k` skeleton and is implemented by
+`residue_two_affine_pattern`; see `AFFINE_RESIDUE2.md`. Exact conjectured-count
+residue-two construction remains open.

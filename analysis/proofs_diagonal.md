@@ -1762,3 +1762,38 @@ that defect by one promoted phase row, and bounded cap searches rule out an
 unchanged residue-zero bulk with an external fixed cap. A residue-two proof
 therefore needs a stateful boundary defect whose geometry changes under
 `k -> k+1`.
+
+The first stateful-defect wave produces two sharper finite objects but no exact
+residue-two family. At n=17, independent phase-crop, pump, and coupled-cap
+searches reach exact 178-U configurations with one isolated dual face. Complete
+bounded one-/two-for-two and local/two-corner patch searches do not connect it;
+the best three-row cap macro trades cycle rank against one or two isolated
+ports. At n=23, a crop of the solved residue-zero phase family supports
+iterable crossed three-row deletions and remains a valid forced forest with
+only four surplus U vertices. Exact contracted-dual enumeration rules out the
+natural bounded residual ladder: it can supply at most 61 of the 63 mutable
+dual edges required for connectivity. These certificates isolate the missing
+ingredient as a new finite defect state, rather than an unsearched fixed cap or
+small local rewrite.
+
+A separate affine alignment gives the first improved infinite residue-two
+family. The valid n=17 pattern has 179 U vertices. Repeatedly duplicating rows
+9--11 before row 9 and columns 4--6 before column 4 preserves dual connectivity
+and forced-forest completion in all checks through n=119. For `n=3k+2` its
+count is `6k^2+6k-1=q(n)+k-4`, improving the old skeleton surplus by four. Its
+dual edge count is `9k^2+8k-8`, hence cycle excess `2k-9`. The finite-control
+recurrence and proof obligations are recorded in `AFFINE_RESIDUE2.md`.
+
+The natural second-state transition would reduce the affine `17->20` pump cost
+from 72 to 71 and keep the surplus fixed at one. Exact interface searches rule
+out a saving confined to the inserted cross, the full seven-column slab, or an
+alternate row-16/three-row-cap closure. Global topology-safe exchange also
+rules out trimming the connected 251-U n=20 member through three additions and
+four removals. Thus the next finite-control state, if it exists, must jointly
+modify the early cycle-bearing prelude and the final OUT attachment.
+
+An exact split prelude/cap search still fails when the affine middle rows are
+frozen, and a three-box cycle/reroute/OUT search fails over every add/remove
+quota distribution. Hence a constant-surplus residue-two pump, if it exists,
+must change the middle phase-transport state itself rather than attach a
+bounded correction only at the insertion cross or boundary caps.
