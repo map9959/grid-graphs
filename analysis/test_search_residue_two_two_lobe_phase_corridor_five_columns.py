@@ -23,6 +23,7 @@ from search_residue_two_two_lobe_phase_corridor_five_columns import (
     scope,
     validate_scope,
 )
+from test_support import slow_test
 
 
 class FiveColumnTwoLobePhaseCorridorTests(unittest.TestCase):
@@ -66,6 +67,7 @@ class FiveColumnTwoLobePhaseCorridorTests(unittest.TestCase):
             self.assertIsNone(record["witness"])
             self.assertIsNone(record["independent_validation"])
 
+    @slow_test
     def test_one_second_timeout_writes_an_incomplete_certificate(self) -> None:
         script = Path(__file__).with_name(
             "search_residue_two_two_lobe_phase_corridor_five_columns.py"

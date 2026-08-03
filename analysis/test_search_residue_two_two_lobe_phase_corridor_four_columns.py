@@ -21,6 +21,7 @@ from search_residue_two_two_lobe_phase_corridor_four_columns import (
     scope,
     validate_scope,
 )
+from test_support import slow_test
 
 
 class FourColumnTwoLobePhaseCorridorTests(unittest.TestCase):
@@ -45,14 +46,21 @@ class FourColumnTwoLobePhaseCorridorTests(unittest.TestCase):
             self.assertEqual(len(masks_with_u_count(first)), comb(20, first))
             self.assertEqual(len(masks_with_u_count(second)), comb(20, second))
 
-    def test_committed_result_matches_exact_widened_frontier(self) -> None:
+    def test_committed_result_is_valid(self) -> None:
         record = json.loads(DEFAULT_RESULT.read_text())
         rows = phase_rows()
         self.assertEqual(record["provenance"], provenance(rows))
         self.assertEqual(record["scope"], scope(rows))
-        layer, stats = body_search(rows, report=False)
         self.assertTrue(record["exact"])
         self.assertEqual(record["result"], "negative")
+        self.assertEqual(record["fixed_cap"]["result"], "negative")
+        self.assertTrue(all(item["result"] == "negative" for item in record["cap_distributions"]))
+
+    @slow_test
+    def test_committed_result_matches_exact_widened_frontier(self) -> None:
+        record = json.loads(DEFAULT_RESULT.read_text())
+        rows = phase_rows()
+        layer, stats = body_search(rows, report=False)
         self.assertEqual(len(record["completed_body_rows"]), len(stats))
         self.assertEqual(record["corridor_after_row17"]["states"], len(layer))
         self.assertEqual(
@@ -70,8 +78,6 @@ class FourColumnTwoLobePhaseCorridorTests(unittest.TestCase):
             [[row["mask_count"] for row in item["rows"]] for item in record["cap_distributions"]],
             [[20, 20], [190, 190], [1140, 1140]],
         )
-        self.assertEqual(record["fixed_cap"]["result"], "negative")
-        self.assertTrue(all(item["result"] == "negative" for item in record["cap_distributions"]))
 
 
 if __name__ == "__main__":

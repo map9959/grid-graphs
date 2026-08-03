@@ -15,12 +15,13 @@ from enumerate_residue_two_n23_affine_caps import (
     write_cap_seed,
 )
 from diagonal_patterns import residue_two_affine_pattern
+from test_support import slow_test
 
 
 class AffineCapCensusTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.record = census()
+        cls.record = json.loads(DEFAULT_RESULT.read_text())
 
     def test_requested_transition_regressions(self) -> None:
         affine = residue_two_affine_pattern(23)
@@ -79,8 +80,9 @@ class AffineCapCensusTests(unittest.TestCase):
         }
         self.assertEqual(pairs, {(top, bottom) for top in range(2, 7) for bottom in range(2, 7)})
 
+    @slow_test
     def test_committed_census_reproduces(self) -> None:
-        self.assertEqual(json.loads(DEFAULT_RESULT.read_text()), self.record)
+        self.assertEqual(self.record, census())
 
     def test_optional_output_is_labeled_cap_seed_not_witness(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -15,16 +15,10 @@ from search_residue_two_suffix_corridor_21 import (
     frontier_sha256,
     provenance,
 )
+from test_support import slow_test
 
 
 class SuffixCorridor21Tests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.layer, cls.stats = layer_after_row17(
-            report=False,
-            mutable_packet_columns=MUTABLE_PACKET_COLUMNS,
-        )
-
     def test_scope_is_exactly_twenty_one_packets(self) -> None:
         mutable = []
         for row in range(11, 18):
@@ -43,29 +37,39 @@ class SuffixCorridor21Tests(unittest.TestCase):
         self.assertEqual(FIXED_U, 201)
         self.assertEqual(REQUIRED_H_PACKETS, 6)
 
+    @slow_test
     def test_exact_corridor_counts_and_hash_are_stable(self) -> None:
+        layer, stats = layer_after_row17(
+            report=False,
+            mutable_packet_columns=MUTABLE_PACKET_COLUMNS,
+        )
         self.assertEqual(
-            [stats.outgoing_states for stats in self.stats],
+            [item.outgoing_states for item in stats],
             [5, 83, 485, 787, 481, 129, 4],
         )
         self.assertEqual(
-            [stats.assignments_represented for stats in self.stats],
+            [item.assignments_represented for item in stats],
             [5, 89, 793, 2782, 2372, 435, 6],
         )
         self.assertEqual(
-            frontier_sha256(self.layer),
+            frontier_sha256(layer),
             "346ec214faec1d377b929f6f0689daf390e3504d4a69e54b6c0357a9b22234d7",
         )
 
+    @slow_test
     def test_fixed_and_alternate_caps_are_exact_negative(self) -> None:
-        fixed, witness = fixed_cap_search(self.layer)
+        layer, _ = layer_after_row17(
+            report=False,
+            mutable_packet_columns=MUTABLE_PACKET_COLUMNS,
+        )
+        fixed, witness = fixed_cap_search(layer)
         self.assertIsNone(witness)
         self.assertEqual(fixed["result"], "negative")
         self.assertEqual(
             [row["outgoing_states"] for row in fixed["rows"]], [4, 0]
         )
 
-        caps, witness = alternate_cap_search(self.layer, report=False)
+        caps, witness = alternate_cap_search(layer, report=False)
         self.assertIsNone(witness)
         self.assertEqual(
             [(cap.row18_u, cap.row19_u) for cap in caps], list(DISTRIBUTIONS)
@@ -80,10 +84,9 @@ class SuffixCorridor21Tests(unittest.TestCase):
         self.assertEqual(record["result"], "negative")
         self.assertEqual(record["scope"]["mutable_packets"], 21)
         self.assertEqual(record["provenance"], provenance())
-        self.assertEqual(record["corridor_after_row17"]["states"], len(self.layer))
         self.assertEqual(
             record["corridor_after_row17"]["frontier_sha256"],
-            frontier_sha256(self.layer),
+            "346ec214faec1d377b929f6f0689daf390e3504d4a69e54b6c0357a9b22234d7",
         )
 
 

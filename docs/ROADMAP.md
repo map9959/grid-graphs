@@ -323,9 +323,12 @@ Current constructive status:
    `|U|=6k²-3k+2`. The U-U dual has the predicted unicyclic edge count.
    Connectivity reduces to a finite `B_7` frontier certificate and six local
    extension transitions; see `analysis/PHASE_PATTERN.md`.
-4. **7b.4 — residue two open.** Cached exact witnesses cover n=5,8,11,14.
-   Their stable count architecture is
-   `q(3k+2)=2n+(3k-2)(2k+1)+1`. Exact frontier searches rule out an unchanged
+4. **7b.4 — residue two formula disproved at n=17.** Cached exact witnesses
+   cover n=5,8,11,14. Their previously conjectured count architecture was
+   `q(3k+2)=2n+(3k-2)(2k+1)+1`. An exact mirror-quotiented frontier search
+   globally rules out 178 U at n=17, while the affine construction supplies a
+   validated connected 179-U pattern. Thus `P(17,17)=110`, one below the old
+   formula. Earlier frontier searches rule out an unchanged
    residue-zero phase bulk with a fixed cap and rule out representing the
    final `+1` by one promoted row. The next target is a stateful boundary
    defect that absorbs one or two bulk rows and evolves under `k→k+1`.
@@ -337,15 +340,15 @@ Current constructive status:
    A new affine pump now supplies a valid infinite near-family from n=17 with
    surplus `k-4`, improving the prior skeleton surplus `k` by four vertices.
    Its fixed recurrence is documented in `analysis/AFFINE_RESIDUE2.md` and
-   checked through n=119. The exact-count family still requires a second
-   control state that saves one vertex per pump.
+   checked through n=119. Whether later residue-two values return to the old
+   count or inherit a changed correction is open.
    The first A→B search proves that the saving cannot live solely in the
    inserted cross, a seven-column halo, or the final three-row cap; all are
    exact negative certificates. The next B-state language must couple the
    early cycle-bearing prelude to the bottom OUT attachment.
 
-No exact optimizer was used above n=15; all larger checks are explicit
-candidate construction and verification.
+Exact frontier optimization now covers n=16 and n=17. Checks at larger widths
+remain explicit candidate construction and verification.
 
 #### 7c — Matching upper bound for diagonal
 

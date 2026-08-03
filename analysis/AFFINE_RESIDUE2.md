@@ -80,9 +80,18 @@ Its optional topology checks remain finite computation rather than induction.
 
 ## Exact-Count Status
 
-The conjectured n=17 target is 178 U vertices. Several 178-U patterns reach one
-isolated dual face, but no valid target witness is known. The connected 179-U
-base has no valid trim within any of these complete neighborhoods:
+The former conjectured n=17 target of 178 U vertices is globally impossible.
+The exact frontier computation described below exhausts every pattern with at
+most 178 U vertices. Combined with the validated connected 179-U base, this
+proves that the minimum is 179 and therefore
+
+```text
+P(17,17) = 17^2 - 179 = 110.
+```
+
+Several 178-U patterns reach one isolated dual face. Before the global result,
+the connected 179-U base was also shown to have no valid trim within any of
+these complete neighborhoods:
 
 ```text
 one addition / two removals,
@@ -92,8 +101,8 @@ four additions / five removals.
 ```
 
 The exact affine 178-U packet is also negative under unrestricted global
-two-for-two and three-for-three exchange. These are neighborhood certificates,
-not a proof that 178 U is globally impossible.
+two-for-two and three-for-three exchange. These remain useful neighborhood
+certificates, but are superseded for `n=17` by the global exact frontier result.
 
 The next constructive goal is a second pump control state whose transition
 saves one U relative to the affine pump while changing the frontier attachment
@@ -184,6 +193,174 @@ depth three admits no legal bounded phase row, while depth four admits 212 and
 the reflected bottom sandwich admits 63. An exact affine/D4 cap census records
 841 one-step-live, charge-feasible full-state pairs for each of targets 332 and
 333. No middle search has yet connected those cap seeds.
+
+## Affine Deletion Neighborhoods
+
+At `n=17`, only three single-U deletions from the connected 179-U affine base
+retain the necessary 256 U-U edges: `(0,1)`, `(16,1)`, and `(16,15)`. They are
+three distinct D4 orbits. Each resulting 178-U pattern has two dual components,
+with exactly one face detached from the 256-face OUT component. A direct census
+of 59,607 one-for-one exchange candidates from these three patterns found no
+witness.
+
+The fixed-target SAT encoding then searched every same-cardinality pattern
+within six exchanges of each deletion pattern, requiring at least 256 U-U
+edges and a connected dual. All three declared neighborhoods are exactly
+UNSAT. The radius-six solve times were 394.357 seconds for `(0,1)`, 475.704
+seconds for `(16,1)`, and 466.382 seconds for `(16,15)`. This rules out a
+bounded neighborhood of the affine base; it is not a global impossibility
+result for 178 U at `n=17`.
+
+A later exact moving-seam search tests a nonlocal lift from the cached 119-U
+`n=14` witness. It fixes only the affine top three and bottom two rows, copies
+the two boundary columns, and otherwise allows every binary width-three packet
+inside a smoothly moving full-height radius-one tube. With the affine HOLD
+placement fixed but all 94,932 affine-compatible seam schedules allowed, the
+bidirectional frontier join has 279 connected 179-U pairs. At 178 U it exactly
+checks 817,914 cost-feasible full-partition pairs and none is connected. The
+single affine seam schedule similarly has 149 connected 179-U joins and zero
+among 345,143 feasible 178-U pairs. See
+`search_residue_two_moving_seam.py` and
+`residue_two_moving_seam_result.json`.
+
+Relocating exactly one of the three affine HOLD rows is also exhausted. The
+exact control automaton retains 21 operation words and 1,274,550 compatible
+seam paths. It produces 508 connected 179-U joins, but none among 1,807,842
+cost-feasible 178-U joins. The automaton tracks one removed and one inserted
+HOLD explicitly, so unioning schedules cannot silently create paths with
+multiple relocations.
+
+Exactly two HOLD relocations are now exhausted as well. Radius-one affine
+compatibility leaves 63 operation words and 8,992,170 seam paths. At a cut
+after row eight, the exact search builds 34,791 top and 42,993 bottom states.
+It finds 1,172 connected 179-U joins, but none among 4,256,057 cost-feasible
+178-U joins. Cost buckets avoid scanning rejected cost pairs, and an exact
+connectivity cache reduces the 178 join to lookups of topology results already
+computed by the 179 control.
+
+Allowing one boundary-column cell to differ anywhere on the mutable rows is
+also exactly negative for the fixed affine seam schedule. The global rewrite
+budget distinguishes unchanged, left-toggle, and right-toggle lanes without
+identifying the two boundary sides. It retains 177 connected 179-U joins, but
+none among 1,527,250 cost-feasible 178-U joins. The reconstructed positive
+control uses zero boundary rewrites.
+
+The combined one-HOLD-relocation plus one-boundary-rewrite language is now
+complete through 21 operation-word shards. They exactly partition the
+1,274,550 strict-affine-compatible control/seam paths; aggregate counts are
+lane/schedule sums because emitted patterns may overlap. All 21 shards have
+validated exact 179-U controls, totaling 6,431 connected lane joins. At 178 U,
+all 71,215,050 cost-feasible lane joins are disconnected. Per-shard artifacts
+and the complete manifest are in `data/moving-seam-shards/`.
+
+This certificate still inherits the parent schedule calibration: schedules
+that require a boundary rewrite merely to become affine-compatible are outside
+its scope.
+
+These are exact scoped negatives, not a global result: three HOLD relocations,
+boundary-enabled schedule calibration, alternate caps, multiple boundary
+rewrites, and a radius-two tube remain
+outside the completed language. Radius two and the full affine-compatible
+schedule family were attempted but exceeded their resource gates and are
+recorded as `INCOMPLETE`.
+
+A subsequent native-backend gate exported deterministic global CNFs and used
+CaDiCaL 3.0.1. The known-SAT `n=14`, 119-U, exactly-170-edge control returned
+`UNKNOWN` after 110 seconds in all four combinations of default/SAT-targeted
+configuration and no/D4 symmetry. The known-SAT `n=15`, 137-U,
+exactly-197-edge control also returned `UNKNOWN` after 290 seconds with the
+default configuration, both with and without D4. Since the backend could not
+recover the smaller controls, no global `n=17` run or UNSAT proof attempt was
+started.
+
+A global single-commodity-flow MIP was tested as a second native-backend gate.
+The deterministic LP exporter in `src/bin/search_n17_mip.rs` uses binary
+vertex variables `x`, continuous variables `y` with the exact product hull
+`y_e = x_a x_b`, and continuous directed flows from OUT that send one unit to
+every bounded face. Singleton dual cuts and the necessary total-edge rank bound
+are included. Thus its integer feasible patterns are exactly the same global
+patterns as the rooted SAT model; this is a computational formulation change,
+not a relaxation or a new mathematical search scope.
+
+HiGHS 1.15.1 solved and independently revalidated the exact `n=3`, 5-U
+positive control and proved the 4-U control infeasible. On the first hard gate,
+however, the unpinned `n=14`, 119-U model found no incumbent in 1,800 seconds
+after 282,904 branch-and-bound nodes and 69,434,554 LP iterations. The model had
+196 binary variables, 1,092 continuous variables, 2,161 rows, and 6,696
+nonzeros. Following the declared go/no-go rule, the `n=14`, 118-U negative
+control and all larger MIP runs were not started. This flow formulation
+therefore fails the same witness-discovery calibration as rooted SAT and gives
+no evidence about the global 178-U target.
+
+An independent exact frontier solver in `src/bin/search_n17_frontier.rs` avoids
+SAT discovery. It streams primal vertices, stores the canonical connectivity
+partition of exposed dual vertices, rejects retired components, and keeps only
+the minimum U cost for each structural state. A dual-rank deficit bound safely
+prunes any state whose target would require more future rank than two per
+remaining U. The solver agrees with exhaustive brute force through `n=3` and
+obtained these release-mode controls:
+
+```text
+n   minimum U   peak states   generated transitions   wall time   peak RSS
+12         86       309,484                48,653,376         21s      71 MiB
+13        101       942,584               175,652,061       2m40s     210 MiB
+14        119     2,886,116               656,191,514      12m16s     446 MiB
+15        137     8,878,120             2,341,368,355      21m11s   1,605 MiB
+16        156    27,428,146             8,373,712,900      59m40s   3,461 MiB
+```
+
+Thus the known targets through `n=16` are independently certified as exact
+minima despite the global SAT backend failing to recover even `n=14`.
+
+The isolated experimental solver `src/bin/search_n17_frontier_pruned.rs` then
+quotiented states by left-right reflection at completed row boundaries. This is
+an exact symmetry reduction: reflection preserves U cost, the full processed
+dual partition, and the set of possible future continuations. Exhaustive tests
+compare every target through `n=3`; additional controls recover the exact
+minima at `n=8` and `n=12`. The global target run returned:
+
+```text
+UNSAT n=17 u_count=178 pruning=Mirror
+peak_states=45,898,352
+transitions=16,359,946,462
+mirror_merges=126,288,370
+elapsed=1h53m45s
+peak_RSS=8,784,308 KiB
+```
+
+The state set becomes empty before the final vertex, so no connected dual can
+use at most 178 U vertices. Dual connectivity is monotone under adding U
+vertices, making this equivalent to exact-target UNSAT. The result and source
+hash are recorded in `frontier_n17_mirror_result.json`; together with the
+validated 179-U construction, it proves `P(17,17)=110`.
+
+An exact reverse transition and forward/backward meet mode were subsequently
+added to the same solver (`--meet-step T`). The inverse enumerates every
+predecessor partition allowed by the at-most-two local dual-edge unions and
+then validates each candidate with the forward transition. Exhaustive tests
+compare the complete inverse relation on every canonical pre/post state through
+`n=3`; target-bounded meets agree with brute force at every cut through that
+range.
+
+The scaling experiment rejects this decomposition for larger widths. Terminal
+co-reachability is too weak: the backward traversal quickly approaches every
+set partition of the active bag for every row mask.
+
+```text
+n   meet step   forward states   backward states   reverse candidates
+4           8               31               240                2,428
+5          12              121             1,544               27,536
+6          18              276            12,992              304,976
+7          24            1,030           105,760            3,771,392
+```
+
+At `n=7` the exact reverse half already takes 5.7 seconds while the forward
+meet layer has only 1,030 states. Prefix rank and selected-frontier lower bounds
+do not reduce the backward plateau. Consequently this meet-in-the-middle mode
+is retained as a correctness diagnostic, but witness reconstruction and larger
+controls were deliberately not pursued. A useful next exact algorithm must
+compress or avoid the reverse partition universe rather than merely split the
+row-major schedule.
 
 ## Run/Rank Relaxation
 

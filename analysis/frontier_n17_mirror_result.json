@@ -1,0 +1,21 @@
+{
+  "schema": "grid-graphs.frontier-result.v1",
+  "date": "2026-08-02",
+  "command": "target/release/search_n17_frontier_pruned --n 17 --u-count 178 --pruning mirror --progress",
+  "status": "UNSAT",
+  "n": 17,
+  "u_count_limit": 178,
+  "minimum_u": 179,
+  "p_n_n": 110,
+  "known_positive_control_u_count": 179,
+  "pruning": "row-boundary left-right reflection quotient",
+  "peak_states": 45898352,
+  "generated_transitions": 16359946462,
+  "mirror_merges": 126288370,
+  "elapsed_seconds": 6824.946,
+  "peak_rss_kib": 8784308,
+  "source_sha256": "92bd8862ca5a382c0d0ea123cebb323ea329c2d2bbd5209d1045138c395000a8",
+  "release_binary_sha256": "346c7cb0a0046875b2f84661979efcf8b981b97d3c5a34660244fbd9b4185415",
+  "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+  "interpretation": "The exact frontier state set is empty after 288 streamed vertices. Therefore no dual-connected pattern uses at most 178 U vertices. A separately validated 179-U dual-connected construction makes 179 the exact minimum and gives P(17,17)=289-179=110."
+}

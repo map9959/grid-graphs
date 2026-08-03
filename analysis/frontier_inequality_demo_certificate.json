@@ -1,0 +1,33 @@
+{
+  "schema": "grid-graphs.frontier-inequality.v1",
+  "scope": {
+    "semantics": "enumerated-transitions-only",
+    "complete_for_source": false,
+    "description": "Two valid row transitions of the all-U 2x2 pattern; demonstrative only"
+  },
+  "states": [
+    {"id": "start", "potential": [0, 1]},
+    {"id": "top-UU", "potential": [3, 2]},
+    {"id": "finished-UU-UU", "potential": [7, 2]}
+  ],
+  "transitions": [
+    {
+      "id": "top-row",
+      "in": "start",
+      "out": "top-UU",
+      "dU": 2,
+      "dRank": 1,
+      "charge": 2,
+      "metadata": {"row_masks": [3], "dEdges": 1, "dCycles": 0}
+    },
+    {
+      "id": "bottom-row",
+      "in": "top-UU",
+      "out": "finished-UU-UU",
+      "dU": 2,
+      "dRank": 0,
+      "charge": 4,
+      "metadata": {"row_masks": [3], "dEdges": 3, "dCycles": 3}
+    }
+  ]
+}

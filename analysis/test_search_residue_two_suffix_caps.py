@@ -13,6 +13,7 @@ from search_residue_two_suffix_caps import (
     search,
 )
 from search_residue_two_suffix_corridor import layer_after_row17
+from test_support import slow_test
 
 
 class SuffixCapsTests(unittest.TestCase):
@@ -24,12 +25,21 @@ class SuffixCapsTests(unittest.TestCase):
                 self.assertEqual(len(set(masks)), len(masks))
                 self.assertTrue(all(mask.bit_count() == count for mask in masks))
 
+    def test_committed_certificate_is_valid(self) -> None:
+        committed = json.loads(DEFAULT_CERTIFICATE.read_text())
+        self.assertTrue(committed["exact"])
+        self.assertEqual(committed["result"], "negative")
+        self.assertEqual(committed["corridor_after_row17"]["exact_states"], 2)
+        self.assertIsNone(committed["witness"])
+
+    @slow_test
     def test_corridor_layer_is_exact_cost_229(self) -> None:
         layer, _ = layer_after_row17(report=False)
         self.assertEqual(len(layer), 2)
         self.assertEqual(sum(node.ways for node in layer.values()), 3)
         self.assertTrue(all(state.row_index == 18 and state.u_cost == 229 for state in layer))
 
+    @slow_test
     def test_full_exact_cap_search(self) -> None:
         result = search(report=False)
         self.assertIsNone(result.witness)
@@ -63,6 +73,7 @@ class SuffixCapsTests(unittest.TestCase):
         self.assertIsNone(scope["state_cap"])
         self.assertIsNone(scope["partition_projection"])
 
+    @slow_test
     def test_committed_certificate_matches_fresh_exact_result(self) -> None:
         result = search(report=False)
         committed = json.loads(DEFAULT_CERTIFICATE.read_text())

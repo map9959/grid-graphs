@@ -20,6 +20,7 @@ from search_residue_two_suffix_corridor import (
     validate_scope,
 )
 from tile_grammar import FrontierState, advance_row, initial_state, row_mask, stream_row_packets
+from test_support import slow_test
 
 
 def state_before_row(row: int) -> FrontierState:
@@ -82,6 +83,14 @@ class SuffixCorridorTests(unittest.TestCase):
         self.assertTrue(dual_connectivity_check(result.witness)[0])
         self.assertTrue(forest_completion_check(result.witness)[0])
 
+    def test_committed_certificate_is_valid(self) -> None:
+        committed = json.loads(DEFAULT_CERTIFICATE.read_text())
+        self.assertTrue(committed["exact"])
+        self.assertEqual(committed["result"], "negative")
+        self.assertEqual(committed["scope"]["mutable_packets"], 14)
+        self.assertEqual(committed["final_states"], 0)
+
+    @slow_test
     def test_exact_corridor_is_negative_with_stable_counts(self) -> None:
         result = search(report=False)
         self.assertIsNone(result.witness)
@@ -95,6 +104,7 @@ class SuffixCorridorTests(unittest.TestCase):
             [2, 11, 40, 136, 247, 127, 3, 3, 0],
         )
 
+    @slow_test
     def test_committed_certificate_matches_fresh_exact_result(self) -> None:
         result = search(report=False)
         committed = json.loads(DEFAULT_CERTIFICATE.read_text())

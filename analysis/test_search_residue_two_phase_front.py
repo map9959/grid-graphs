@@ -17,6 +17,7 @@ from search_residue_two_phase_front import (
     search,
     write_artifacts,
 )
+from test_support import slow_test
 
 
 class PhaseFrontArtifactTests(unittest.TestCase):
@@ -45,6 +46,7 @@ class PhaseFrontArtifactTests(unittest.TestCase):
         self.assertEqual(search["best_join"], [1, 1])
         self.assertEqual(record["output"]["witness"]["sha256"], _rows_sha256(rows))
 
+    @slow_test
     def test_committed_result_and_witness_reproduce(self) -> None:
         record = json.loads(DEFAULT_RESULT.read_text())
         rerun = record["output"]["rerun"]

@@ -234,14 +234,15 @@ The density column shows a **clear monotone decrease** from n ≥ 7 onward
 The second-difference column from n = 4 onward shows the period-3 cycle
 **(2, 1, -1)** repeating four times.
 
-### Conjecture C — initial form (open at n ≥ 16)
+### Conjecture C — initial form (disproved at n = 17)
 
 The first attempt at a diagonal closed form was
 
 > For all `n ≥ 4`,  `P(n, n) = ⌊n²/3⌋ + n + C(n mod 3)`,
 > where `C(1) = −1` and `C(0) = C(2) = −2`.
 
-This holds for `n = 4..15`. The values through n = 12 were verified by
+This holds for `n = 4..16` but fails at `n=17`, where the formula predicts 111
+and the exact value is 110. The values through n = 12 were verified by
 full spanning-tree DP. The n = 13 and n = 14 values are certified by the
 forced-edge upper-bound DP (`fullub`) plus completed spanning-tree
 witnesses; n = 15 is certified the same way after extending `fullub` to
@@ -260,17 +261,20 @@ we extended the empirical horizon. The full diagonal sequence is now:
 | 13 | 68 | `fullub-witness 13 13` | exact: forced-edge UB plus completed tree witness |
 | 14 | 77 | `fullub-witness 14 14` | exact: forced-edge UB plus completed tree witness |
 | 15 | 88 | `fullub-witness 15 15` | exact: forced-edge UB plus completed tree witness |
-| ≥ 16 | — | fullub packing currently supports width ≤ 15 | — |
+| 16 | 100 | exact frontier dual-connectivity DP | exact |
+| 17 | 110 | exact mirror-quotiented frontier DP plus 179-U witness | exact |
+| ≥ 18 | — | — | open |
 
 The residual `r(n) := P(n, n) − ⌊n²/3⌋ − n` is then:
 
-| n | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |10 |11 |12 |13 |14 |15 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| r |0 |−1|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|
+| n | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |10 |11 |12 |13 |14 |15 |16 |17 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| r |0 |−1|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|−1|−2|−2|−1|−3|
 
-The strict 3-cycle (−1, −2, −2) holds for n = 4..15. The closed form for
-the diagonal therefore remains open pending exact verification or a
-matching upper bound at n = 16 and beyond.
+The strict 3-cycle (−1, −2, −2) holds for n = 4..16 and then breaks at n=17.
+The exact frontier computation proves that no pattern with at most 178 U
+vertices has connected dual, while a validated 179-U pattern exists. Hence
+`P(17,17)=289-179=110` and `r(17)=-3`.
 
 ### Open diagonal proof questions
 
@@ -281,18 +285,17 @@ The current picture is:
    of data still shrinks the density toward 1/3.
 
 2. **Linear coefficient may be exactly `1` or may eventually drift**:
-   the original `+n+C(n mod 3)` formula now holds through n = 15, but
-   the true asymptotic linear coefficient still depends on exact
-   verification beyond n = 15.
+   the original `+n+C(n mod 3)` formula holds through n = 16 but fails at 17,
+   so the true asymptotic linear coefficient still depends on exact
+   verification beyond n = 17.
 
-3. **The residual sequence `r(n)` is exactly 3-periodic through n = 15**.
-   Whether this persists is open.
+3. **The residual sequence is not exactly 3-periodic**: `r(17)=-3` is the
+   first exception to the cycle observed from n=4 through n=16.
 
-A clean closed form for `P(n, n)` is therefore an **open problem**
-after Phase 7a; the immediate next step is exact or certificate-quality
-verification of n = 16.
+A revised closed form for `P(n,n)` is therefore an **open problem**. The next
+unresolved diagonal value is n=18.
 
 ### Why the original Conjecture C looked plausible
 
-The 3-cycle `(−1, −2, −2)` now holds for n = 4..15, each with a fixed
-offset depending on `n mod 3`. The next unresolved case is n = 16.
+The 3-cycle `(−1, −2, −2)` holds for n = 4..16, each with a fixed offset
+depending on `n mod 3`, but the exact n=17 result disproves its continuation.

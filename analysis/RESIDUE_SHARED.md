@@ -131,3 +131,72 @@ ordered top/bottom depth pairs, each of targets 332 and 333 has 1,369
 charge-arithmetic-feasible state pairs and 841 pairs where both caps admit a
 declared next row. The middle gaps remain unsearched, so these are cap seeds,
 not witnesses.
+
+## Moving-Seam Lift Census
+
+`census_moving_seam_alignment.py` compares residue-two witnesses under a
+monotone `n -> n+3` row alignment with exactly three repeated source rows and a
+smoothly moving inserted three-column packet. Boundary rewrites are counted
+separately from a packet-radius tube. Across D4 orientations, the minimum packet
+radii are one for `8->11`, `11->14`, and `14->17` (to the 179-U affine member),
+but three for the 179-U affine `17->20` to the unicyclic 250-U phase-front
+witness. The latter requires 100 aligned-cell rewrites, so it is similarity
+evidence rather than a local recurrence.
+
+`search_residue_two_moving_seam.py` turns the `14->17` radius-one alignment into
+an exact dual-frontier transducer. It permits all eight patterns in every tube
+packet, keeps full connectivity partitions, joins exact top and reflected-bottom
+frontiers, and uses no beam or projected key. Fixed affine top-three and
+bottom-two rows and copied boundary columns define the first declared language.
+
+Two complete schedule families are now negative at 178 U while retaining many
+positive 179-U joins:
+
+```text
+schedule                  paths   feasible joins at 179   feasible joins at 178
+fixed affine                  1              1,126,025                345,143
+affine HOLDs, free seams  94,932              3,252,699                817,914
+one HOLD relocation   1,274,550              7,580,873              1,807,842
+two HOLD relocations  8,992,170             19,759,638              4,256,057
+
+connected joins at 179: 149, 279, 508, and 1,172
+connected joins at 178:   0,   0,   0, and     0
+```
+
+Thus changing arbitrary packets throughout the full-height radius-one tube
+cannot absorb the missing U under those caps when the affine row-duplication
+placement is fixed or one HOLD is relocated. The relocation automaton contains
+21 operation words and explicitly tracks its one removed/one inserted HOLD
+budget, preventing paths from recombining into larger schedule changes. The
+same exact product construction with two removed/two inserted HOLDs retains 63
+operation words and is also negative at 178 after checking 4,256,057
+cost-feasible joins. Its 179-U control has 1,172 connected joins.
+This is stronger than a local Hamming-neighborhood negative but remains scoped:
+three HOLD relocations, radius two, boundary changes, and alternate caps are not
+excluded. Radius two reached 148,631 top states by target row five and was
+stopped while processing row six; the full 50,234,264-path
+affine-compatible schedule family was likewise stopped after reaching 54,265
+bottom states. Both are `INCOMPLETE`, not negative certificates. Exact counts
+and timings are in `residue_two_moving_seam_result.json`.
+
+The first boundary widening is now complete for the fixed affine schedule. It
+allows at most one changed cell among the two boundary columns on mutable rows,
+tracked separately in each half and combined with a global budget at the join.
+The 179-U control has 177 connected joins. At 178 U, all 1,527,250
+cost-feasible joins are disconnected. This excludes both left and right
+single-boundary changes throughout the full-height tube under the fixed seam
+schedule.
+
+The initially incomplete one-HOLD-plus-boundary search is now complete through
+21 deterministic operation-word shards. The shards partition all 1,274,550
+strict-affine-compatible control/seam paths, while emitted grid patterns may
+overlap and all aggregate counts are therefore lane/schedule sums. Every shard
+has an independently validated exact 179-U control; their 6,431 connected
+179-U joins calibrate the language. At 178 U, all 71,215,050 cost-feasible
+lane joins are disconnected. The full manifest and per-shard records are in
+`data/moving-seam-shards/`.
+
+This completes the existing strict-compatible one-HOLD schedule language with
+one boundary rewrite. It does not include schedules that fail strict affine
+compatibility but would become compatible only because the boundary rewrite is
+allowed.
