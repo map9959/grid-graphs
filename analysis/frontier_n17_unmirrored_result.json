@@ -1,0 +1,36 @@
+{
+  "schema": "grid-graphs.frontier-result.v1",
+  "date": "2026-08-03",
+  "command": "target/release/search_n17_frontier --n 17 --u-count 178 --progress --checkpoint /tmp/opencode/frontier-n17-k178.chk --resume",
+  "status": "UNSAT",
+  "n": 17,
+  "u_count_limit": 178,
+  "minimum_u": 179,
+  "p_n_n": 110,
+  "pruning": "none",
+  "state_set_empty_after_step": 288,
+  "completed_steps": 289,
+  "peak_states": 85066722,
+  "generated_transitions": 30053510406,
+  "resume_elapsed_seconds": 9449.550,
+  "peak_rss_kib": 14006952,
+  "source_sha256": "4991e07b6ef965a68e8d695e151fdcbf1eab643305444bf66e57eadde0aa3adc",
+  "release_binary_sha256": "939ab36534870138dea6c8fe6151a16c85b884672f7e7ff4ed65b51c55f76d5e",
+  "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+  "resume_provenance": {
+    "completed_steps": 34,
+    "checkpoint_bytes": 63091312,
+    "checkpoint_sha256": "73a14eeb58a999bd510c3bab5062589e686cece13272b4b63e6a1d96969129ee",
+    "states": 3505070,
+    "peak_states": 3545567,
+    "generated_transitions": 39095964
+  },
+  "final_checkpoint": {
+    "path": "/tmp/opencode/frontier-n17-k178.chk",
+    "completed_steps": 289,
+    "states": 0,
+    "bytes": 52,
+    "sha256": "b007b112de2350a2efd29fa86b0f6b717ce6fb694582aca7466bde27fa558cec"
+  },
+  "interpretation": "The exact unmirrored frontier state set is empty after 288 streamed vertices, independently confirming that no dual-connected pattern uses at most 178 U vertices. Together with the validated 179-U witness, this gives P(17,17)=110. The elapsed time records only the resumed segment from the preserved step-34 checkpoint; transition and peak-state counts cover the complete search."
+}

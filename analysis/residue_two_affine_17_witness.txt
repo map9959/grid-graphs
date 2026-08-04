@@ -1,0 +1,18 @@
+# Canonical connected n=17 residue-two affine witness, |U|=179.
+.U...............
+.UUUUUUUUUUUUUUUU
+.UUUU.UU.UU.UU.UU
+.UU.UUUU.UU.UUUU.
+.UU.UU.UUUU.U.UU.
+.UU.UU.UU.UUU.UU.
+.UU.UU.UU.U.UUUU.
+.UU.UU.UUUU.UU.U.
+.UU.UU.U.UU.UUUU.
+.UU.UU.UUUU.U.UU.
+.UU.UU.UU.UUU.UU.
+.UU.UU.UU.UUU.UU.
+.UU.UU.UU.U.UUUU.
+.UU.UU.UU.UUUU.U.
+.UU.UU.UU.UU.UUU.
+.UUUUUUUUUUUUUUU.
+.U.............U.

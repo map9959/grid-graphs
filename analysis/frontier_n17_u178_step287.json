@@ -1,0 +1,33 @@
+{
+  "schema": "grid-graphs.frontier-state-dump.v1",
+  "n": 17,
+  "target": 178,
+  "completed_steps": 287,
+  "processed_cell": [16, 14],
+  "row_mask_current_columns": [0, 14],
+  "row_mask_previous_columns": [15, 16],
+  "after_nodes": [{"slot":0,"node":256,"kind":"OUT"}, {"slot":1,"node":254,"kind":"face","face":[15,14]}, {"slot":2,"node":255,"kind":"face","face":[15,15]}],
+  "state_count": 20,
+  "states": [
+    {"packed_state":"0x820","cost":177,"row_u":0,"row_bits_col0_first":".................","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"retired_component"}]},
+    {"packed_state":"0x4000000000000000000820","cost":177,"row_u":2,"row_bits_col0_first":".U...............","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"retired_component"}]},
+    {"packed_state":"0x10000000000000000000000820","cost":177,"row_u":32768,"row_bits_col0_first":"...............U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10002000000000000000000820","cost":177,"row_u":32769,"row_bits_col0_first":"U..............U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10004000000000000000000820","cost":177,"row_u":32770,"row_bits_col0_first":".U.............U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10006000000000000000000820","cost":177,"row_u":32771,"row_bits_col0_first":"UU.............U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x1000c000000000000000000820","cost":177,"row_u":32774,"row_bits_col0_first":".UU............U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10010000000000000000000820","cost":177,"row_u":32776,"row_bits_col0_first":"...U...........U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10014000000000000000000820","cost":177,"row_u":32778,"row_bits_col0_first":".U.U...........U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10020000000000000000000820","cost":177,"row_u":32784,"row_bits_col0_first":"....U..........U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10024000000000000000000820","cost":177,"row_u":32786,"row_bits_col0_first":".U..U..........U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10080000000000000000000820","cost":177,"row_u":32832,"row_bits_col0_first":"......U........U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10100000000000000000000820","cost":177,"row_u":32896,"row_bits_col0_first":".......U.......U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10104000000000000000000820","cost":177,"row_u":32898,"row_bits_col0_first":".U.....U.......U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10400000000000000000000820","cost":177,"row_u":33280,"row_bits_col0_first":".........U.....U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10404000000000000000000820","cost":177,"row_u":33282,"row_bits_col0_first":".U.......U.....U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10800000000000000000000820","cost":177,"row_u":33792,"row_bits_col0_first":"..........U....U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x10804000000000000000000820","cost":177,"row_u":33794,"row_bits_col0_first":".U........U....U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x14000000000000000000000820","cost":177,"row_u":40960,"row_bits_col0_first":".............U.U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]},
+    {"packed_state":"0x14004000000000000000000820","cost":177,"row_u":40962,"row_bits_col0_first":".U...........U.U.","labels":[0,1,2],"next_transitions":[{"chosen":false,"outcome":"retired_component"},{"chosen":true,"outcome":"rank","next_cost":178,"components":2,"rank_deficit":1}]}
+  ]
+}

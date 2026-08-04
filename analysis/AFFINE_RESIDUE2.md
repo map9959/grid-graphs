@@ -334,6 +334,15 @@ vertices, making this equivalent to exact-target UNSAT. The result and source
 hash are recorded in `frontier_n17_mirror_result.json`; together with the
 validated 179-U construction, it proves `P(17,17)=110`.
 
+The preserved unmirrored search was subsequently resumed from step 34 and also
+returned `UNSAT`, emptying at step 288 after 30,053,510,406 generated
+transitions. It peaked at 85,066,722 states and 14,006,952 KiB RSS; the resumed
+segment took 9,449.550 seconds. Exact source, binary, initial-checkpoint, and
+final-checkpoint hashes are recorded in `frontier_n17_unmirrored_result.json`.
+This removes dependence on the reflection quotient from the computational
+certificate, while retaining the same independently validated 179-U upper
+bound.
+
 An exact reverse transition and forward/backward meet mode were subsequently
 added to the same solver (`--meet-step T`). The inverse enumerates every
 predecessor partition allowed by the at-most-two local dual-edge unions and
@@ -382,3 +391,23 @@ An exhaustive one-for-one search from all three near-hits checks 59,274
 candidates; four pass rectangles and none pass the seam quotients. A bounded
 100,000-candidate second hop also finds no seam-quotient-feasible state. These
 are restricted-neighborhood results, not an impossibility proof.
+
+## Terminal obstruction and surplus-one B control
+
+The final exact frontier layer sharpens the 178-U obstruction. After step 287,
+all 20 surviving states have three separate active components: `OUT`,
+`face(15,14)`, and `face(15,15)`. Eighteen can spend their final U to join the
+two faces but remain one attachment short of `OUT`; the other two retire a
+component. The accepted 179-U witness has already joined `OUT` to
+`face(15,14)`, so its final U performs the remaining face-to-face merge. See
+`RESIDUE2_TERMINAL_B_STATE.md` and the two exact JSON frontier artifacts.
+
+The same note records a finite surplus-one, connected, unicyclic phase-carrier
+descriptor shared by the 179-U `n=17` and 250-U `n=20` witnesses. An exact,
+affine-calibrated test of its basic `X/H` carrier on the first strict radius-3
+schedule finds the 335-U affine control but no 333-U connected state. This
+negative now extends to the complete `X/H/S` phase carrier on that schedule:
+the compiled exact search checks 1,677,381 top and 7,280,367 bottom states and
+finds zero connected pairs among the 238 cost-compatible 333-U joins, while
+retaining 705 connected 335-U controls. This disproves that fixed-schedule pump,
+not another schedule, a broader B-state recurrence, or the global 333-U target.

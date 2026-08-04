@@ -1,0 +1,179 @@
+{
+  "boundary_rewrites": 0,
+  "budgets": {
+    "333": {
+      "bottom_states": 0,
+      "bottom_stats": [
+        {
+          "alignment_transitions": 38,
+          "attempted_packet_extensions": 0,
+          "cost_prunes": 38,
+          "deduplicated_states": 0,
+          "depth": 1,
+          "generated_row_transitions": 0,
+          "incoming_states": 7,
+          "rank_prunes": 0,
+          "side": "bottom",
+          "target_row": 22
+        }
+      ],
+      "boundary_rewrite_budget": 0,
+      "boundary_rewrites": 0,
+      "complete": true,
+      "conclusion": "UNSAT_IN_LANGUAGE",
+      "cut": 11,
+      "elapsed_seconds": 0.028823156986618415,
+      "fixed_rows": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22
+      ],
+      "join_stats": {
+        "alignment_buckets": 0,
+        "cache_hits": 0,
+        "candidate_state_pairs": 0,
+        "connected_pairs": 0,
+        "cost_pruned_pairs": 0,
+        "merge_evaluations": 0,
+        "merged_pairs": 0,
+        "scope_pruned_pairs": 0
+      },
+      "radius": 2,
+      "schedule": null,
+      "schema": "grid-graphs.residue-two-moving-seam-search.v2",
+      "source_n": 20,
+      "steps": null,
+      "target_fully_fixed": false,
+      "target_n": 23,
+      "top_states": 0,
+      "top_stats": [
+        {
+          "alignment_transitions": 7,
+          "attempted_packet_extensions": 0,
+          "cost_prunes": 7,
+          "deduplicated_states": 0,
+          "depth": 1,
+          "generated_row_transitions": 0,
+          "incoming_states": 1,
+          "rank_prunes": 0,
+          "side": "top",
+          "target_row": 0
+        }
+      ],
+      "u_count": 333,
+      "validation": null,
+      "witness": null
+    },
+    "335": {
+      "bottom_states": 0,
+      "bottom_stats": [
+        {
+          "alignment_transitions": 38,
+          "attempted_packet_extensions": 0,
+          "cost_prunes": 38,
+          "deduplicated_states": 0,
+          "depth": 1,
+          "generated_row_transitions": 0,
+          "incoming_states": 7,
+          "rank_prunes": 0,
+          "side": "bottom",
+          "target_row": 22
+        }
+      ],
+      "boundary_rewrite_budget": 0,
+      "boundary_rewrites": 0,
+      "complete": true,
+      "conclusion": "UNSAT_IN_LANGUAGE",
+      "cut": 11,
+      "elapsed_seconds": 0.028833720003603958,
+      "fixed_rows": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22
+      ],
+      "join_stats": {
+        "alignment_buckets": 0,
+        "cache_hits": 0,
+        "candidate_state_pairs": 0,
+        "connected_pairs": 0,
+        "cost_pruned_pairs": 0,
+        "merge_evaluations": 0,
+        "merged_pairs": 0,
+        "scope_pruned_pairs": 0
+      },
+      "radius": 2,
+      "schedule": null,
+      "schema": "grid-graphs.residue-two-moving-seam-search.v2",
+      "source_n": 20,
+      "steps": null,
+      "target_fully_fixed": false,
+      "target_n": 23,
+      "top_states": 0,
+      "top_stats": [
+        {
+          "alignment_transitions": 7,
+          "attempted_packet_extensions": 0,
+          "cost_prunes": 7,
+          "deduplicated_states": 0,
+          "depth": 1,
+          "generated_row_transitions": 0,
+          "incoming_states": 1,
+          "rank_prunes": 0,
+          "side": "top",
+          "target_row": 0
+        }
+      ],
+      "u_count": 335,
+      "validation": null,
+      "witness": null
+    }
+  },
+  "cut": 11,
+  "elapsed_seconds": 0.029151979004382156,
+  "exact_in_declared_language": true,
+  "fixed_row_source": "residue_two_affine_pattern(23)",
+  "fixed_rows": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22
+  ],
+  "radius": 2,
+  "schedule": "complete monotone alignment automaton with exactly three HOLDs",
+  "schema": "grid-graphs.residue-two-b-state-pump.v1",
+  "scope_note": "This is exact only in the declared moving-seam language and affine cap rows; a negative result is not a global n=23 impossibility proof.",
+  "source": {
+    "control_state": "connected unicyclic surplus-one phase-front B20",
+    "n": 20,
+    "path": "residue_two_phase_front_witness.txt",
+    "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11",
+    "u_count": 250
+  },
+  "target_n": 23
+}

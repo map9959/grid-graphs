@@ -1,0 +1,967 @@
+{
+  "schema": "grid-graphs.residue-two-b-control.v1",
+  "shared_control": {
+    "surplus": 1,
+    "dual_connected": true,
+    "cycle_excess": 1,
+    "row_carrier": ". L^a C R^(k-a-|C|) .",
+    "center_alphabet": [
+      "X",
+      "H"
+    ],
+    "center_width_bound": 5,
+    "interpretation": "A17 and B20 are instances of the same abstract surplus-one, connected, unicyclic bounded-phase control class. This is a finite carrier class, not yet a proved repeatable recurrence state."
+  },
+  "a17": {
+    "n": 17,
+    "u_count": 179,
+    "old_q": 178,
+    "surplus": 1,
+    "dual_edges": 257,
+    "dual_vertices": 257,
+    "dual_connected": true,
+    "dual_connected_vertices": 257,
+    "dual_total_vertices": 257,
+    "cycle_excess": 1,
+    "forest_ok": true,
+    "forest_reason": "ok",
+    "mutable_packet_words": [
+      "LHXXH",
+      "LLHXR",
+      "LLLHR",
+      "LLLXH",
+      "LLHXX",
+      "LLXXH",
+      "LLHXR",
+      "LLLHR",
+      "LLLHR",
+      "LLLXH",
+      "LLLHX",
+      "LLLLH"
+    ],
+    "maximum_center_width": 4,
+    "all_rows_in_basic_phase_carrier": true
+  },
+  "b20": {
+    "n": 20,
+    "u_count": 250,
+    "old_q": 249,
+    "surplus": 1,
+    "dual_edges": 362,
+    "dual_vertices": 362,
+    "dual_connected": true,
+    "dual_connected_vertices": 362,
+    "dual_total_vertices": 362,
+    "cycle_excess": 1,
+    "forest_ok": true,
+    "forest_reason": "ok",
+    "mutable_packet_words": [
+      "LXXXXH",
+      "LHXXHR",
+      "LLXHRR",
+      "LLHRRR",
+      "LLHRRR",
+      "LHXRRR",
+      "LXHRRR",
+      "LHRRRR",
+      "LHRRRR",
+      "LXRRRR",
+      "LHRRRR",
+      "HXHRRR",
+      "XXXRRR",
+      "HXHRRR",
+      "LHRRRR"
+    ],
+    "maximum_center_width": 5,
+    "all_rows_in_basic_phase_carrier": true,
+    "path": "residue_two_phase_front_witness.txt",
+    "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11"
+  },
+  "a17_to_b20_alignment": {
+    "minimum_strict_radius": 3,
+    "rewrite_census": {
+      "inserted_u": 47,
+      "inserted_dot": 13,
+      "aligned_rewrites": 100,
+      "rewrites_to_u": 59,
+      "rewrites_to_dot": 41,
+      "boundary_rewrites": 0,
+      "boundary_rewrites_to_u": 0,
+      "boundary_rewrites_to_dot": 0,
+      "exterior_cells": 82
+    },
+    "hold_rows": [
+      {
+        "target_row": 17,
+        "source_row": 16
+      },
+      {
+        "target_row": 18,
+        "source_row": 16
+      },
+      {
+        "target_row": 19,
+        "source_row": 16
+      }
+    ],
+    "seam_schedule": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1
+    ],
+    "steps": [
+      {
+        "target_row": 0,
+        "operation": "ADVANCE",
+        "source_row": 0,
+        "source_cursor_before": 0,
+        "seam": 0,
+        "row_census": {
+          "inserted_u": 1,
+          "inserted_dot": 2,
+          "aligned_rewrites": 1,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 1,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 8
+        }
+      },
+      {
+        "target_row": 1,
+        "operation": "ADVANCE",
+        "source_row": 1,
+        "source_cursor_before": 1,
+        "seam": 0,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 0,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 8
+        }
+      },
+      {
+        "target_row": 2,
+        "operation": "ADVANCE",
+        "source_row": 2,
+        "source_cursor_before": 2,
+        "seam": 0,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 1,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 1,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 8
+        }
+      },
+      {
+        "target_row": 3,
+        "operation": "ADVANCE",
+        "source_row": 3,
+        "source_cursor_before": 3,
+        "seam": 0,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 3,
+          "rewrites_to_u": 1,
+          "rewrites_to_dot": 2,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 8
+        }
+      },
+      {
+        "target_row": 4,
+        "operation": "ADVANCE",
+        "source_row": 4,
+        "source_cursor_before": 4,
+        "seam": 1,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 4,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 2,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 5,
+        "operation": "ADVANCE",
+        "source_row": 5,
+        "source_cursor_before": 5,
+        "seam": 1,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 4,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 2,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 6,
+        "operation": "ADVANCE",
+        "source_row": 6,
+        "source_cursor_before": 6,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 5,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 7,
+        "operation": "ADVANCE",
+        "source_row": 7,
+        "source_cursor_before": 7,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 5,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 8,
+        "operation": "ADVANCE",
+        "source_row": 8,
+        "source_cursor_before": 8,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 9,
+        "operation": "ADVANCE",
+        "source_row": 9,
+        "source_cursor_before": 9,
+        "seam": 1,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 4,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 2,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 10,
+        "operation": "ADVANCE",
+        "source_row": 10,
+        "source_cursor_before": 10,
+        "seam": 1,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 5,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 11,
+        "operation": "ADVANCE",
+        "source_row": 11,
+        "source_cursor_before": 11,
+        "seam": 1,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 5,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 12,
+        "operation": "ADVANCE",
+        "source_row": 12,
+        "source_cursor_before": 12,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 7,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 4,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 13,
+        "operation": "ADVANCE",
+        "source_row": 13,
+        "source_cursor_before": 13,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 14,
+        "operation": "ADVANCE",
+        "source_row": 14,
+        "source_cursor_before": 14,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 8,
+          "rewrites_to_u": 4,
+          "rewrites_to_dot": 4,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 15,
+        "operation": "ADVANCE",
+        "source_row": 15,
+        "source_cursor_before": 15,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 5,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 5,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 16,
+        "operation": "ADVANCE",
+        "source_row": 16,
+        "source_cursor_before": 16,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 9,
+          "rewrites_to_u": 9,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 17,
+        "operation": "HOLD",
+        "source_row": 16,
+        "source_cursor_before": 17,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 9,
+          "rewrites_to_u": 9,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 18,
+        "operation": "HOLD",
+        "source_row": 16,
+        "source_cursor_before": 17,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 13,
+          "rewrites_to_u": 13,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 19,
+        "operation": "HOLD",
+        "source_row": 16,
+        "source_cursor_before": 17,
+        "seam": 1,
+        "row_census": {
+          "inserted_u": 0,
+          "inserted_dot": 3,
+          "aligned_rewrites": 0,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      }
+    ]
+  },
+  "b20_to_affine23_alignment": {
+    "minimum_strict_radius": 3,
+    "rewrite_census": {
+      "inserted_u": 47,
+      "inserted_dot": 22,
+      "aligned_rewrites": 136,
+      "rewrites_to_u": 84,
+      "rewrites_to_dot": 52,
+      "boundary_rewrites": 0,
+      "boundary_rewrites_to_u": 0,
+      "boundary_rewrites_to_dot": 0,
+      "exterior_cells": 118
+    },
+    "hold_rows": [
+      {
+        "target_row": 20,
+        "source_row": 19
+      },
+      {
+        "target_row": 21,
+        "source_row": 19
+      },
+      {
+        "target_row": 22,
+        "source_row": 19
+      }
+    ],
+    "seam_schedule": [
+      0,
+      0,
+      0,
+      1,
+      2,
+      2,
+      3,
+      3,
+      3,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      2
+    ],
+    "steps": [
+      {
+        "target_row": 0,
+        "operation": "ADVANCE",
+        "source_row": 0,
+        "source_cursor_before": 0,
+        "seam": 0,
+        "row_census": {
+          "inserted_u": 1,
+          "inserted_dot": 2,
+          "aligned_rewrites": 1,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 1,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 11
+        }
+      },
+      {
+        "target_row": 1,
+        "operation": "ADVANCE",
+        "source_row": 1,
+        "source_cursor_before": 1,
+        "seam": 0,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 0,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 11
+        }
+      },
+      {
+        "target_row": 2,
+        "operation": "ADVANCE",
+        "source_row": 2,
+        "source_cursor_before": 2,
+        "seam": 0,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 1,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 1,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 11
+        }
+      },
+      {
+        "target_row": 3,
+        "operation": "ADVANCE",
+        "source_row": 3,
+        "source_cursor_before": 3,
+        "seam": 1,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 2,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 8
+        }
+      },
+      {
+        "target_row": 4,
+        "operation": "ADVANCE",
+        "source_row": 4,
+        "source_cursor_before": 4,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 5,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 5,
+        "operation": "ADVANCE",
+        "source_row": 5,
+        "source_cursor_before": 5,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 4,
+          "rewrites_to_u": 2,
+          "rewrites_to_dot": 2,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 6,
+        "operation": "ADVANCE",
+        "source_row": 6,
+        "source_cursor_before": 6,
+        "seam": 3,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 7,
+        "operation": "ADVANCE",
+        "source_row": 7,
+        "source_cursor_before": 7,
+        "seam": 3,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 8,
+        "operation": "ADVANCE",
+        "source_row": 8,
+        "source_cursor_before": 8,
+        "seam": 3,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 8,
+          "rewrites_to_u": 4,
+          "rewrites_to_dot": 4,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 9,
+        "operation": "ADVANCE",
+        "source_row": 9,
+        "source_cursor_before": 9,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 10,
+        "operation": "ADVANCE",
+        "source_row": 10,
+        "source_cursor_before": 10,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 11,
+        "operation": "ADVANCE",
+        "source_row": 11,
+        "source_cursor_before": 11,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 12,
+        "operation": "ADVANCE",
+        "source_row": 12,
+        "source_cursor_before": 12,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 7,
+          "rewrites_to_u": 4,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 13,
+        "operation": "ADVANCE",
+        "source_row": 13,
+        "source_cursor_before": 13,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 14,
+        "operation": "ADVANCE",
+        "source_row": 14,
+        "source_cursor_before": 14,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 7,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 4,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 15,
+        "operation": "ADVANCE",
+        "source_row": 15,
+        "source_cursor_before": 15,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 9,
+          "rewrites_to_u": 5,
+          "rewrites_to_dot": 4,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 16,
+        "operation": "ADVANCE",
+        "source_row": 16,
+        "source_cursor_before": 16,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 7,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 4,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 17,
+        "operation": "ADVANCE",
+        "source_row": 17,
+        "source_cursor_before": 17,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 6,
+          "rewrites_to_u": 3,
+          "rewrites_to_dot": 3,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 18,
+        "operation": "ADVANCE",
+        "source_row": 18,
+        "source_cursor_before": 18,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 5,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 5,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      },
+      {
+        "target_row": 19,
+        "operation": "ADVANCE",
+        "source_row": 19,
+        "source_cursor_before": 19,
+        "seam": 3,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 11,
+          "rewrites_to_u": 11,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 20,
+        "operation": "HOLD",
+        "source_row": 19,
+        "source_cursor_before": 20,
+        "seam": 3,
+        "row_census": {
+          "inserted_u": 2,
+          "inserted_dot": 1,
+          "aligned_rewrites": 11,
+          "rewrites_to_u": 11,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 21,
+        "operation": "HOLD",
+        "source_row": 19,
+        "source_cursor_before": 20,
+        "seam": 3,
+        "row_census": {
+          "inserted_u": 3,
+          "inserted_dot": 0,
+          "aligned_rewrites": 16,
+          "rewrites_to_u": 16,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 2
+        }
+      },
+      {
+        "target_row": 22,
+        "operation": "HOLD",
+        "source_row": 19,
+        "source_cursor_before": 20,
+        "seam": 2,
+        "row_census": {
+          "inserted_u": 0,
+          "inserted_dot": 3,
+          "aligned_rewrites": 0,
+          "rewrites_to_u": 0,
+          "rewrites_to_dot": 0,
+          "boundary_rewrites": 0,
+          "boundary_rewrites_to_u": 0,
+          "boundary_rewrites_to_dot": 0,
+          "exterior_cells": 5
+        }
+      }
+    ]
+  },
+  "required_b23": {
+    "n": 23,
+    "u_count": 333,
+    "surplus": 1,
+    "required_increment_from_b20": 83
+  }
+}

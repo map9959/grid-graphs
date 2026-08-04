@@ -326,9 +326,11 @@ Current constructive status:
 4. **7b.4 — residue two formula disproved at n=17.** Cached exact witnesses
    cover n=5,8,11,14. Their previously conjectured count architecture was
    `q(3k+2)=2n+(3k-2)(2k+1)+1`. An exact mirror-quotiented frontier search
-   globally rules out 178 U at n=17, while the affine construction supplies a
-   validated connected 179-U pattern. Thus `P(17,17)=110`, one below the old
-   formula. Earlier frontier searches rule out an unchanged
+    globally rules out 178 U at n=17, while the affine construction supplies a
+    validated connected 179-U pattern. A subsequent unmirrored exact run also
+    returns UNSAT after 30,053,510,406 transitions, removing dependence on the
+    reflection quotient. Thus `P(17,17)=110`, one below the old formula.
+    Earlier frontier searches rule out an unchanged
    residue-zero phase bulk with a fixed cap and rule out representing the
    final `+1` by one promoted row. The next target is a stateful boundary
    defect that absorbs one or two bulk rows and evolves under `k→k+1`.
@@ -342,10 +344,21 @@ Current constructive status:
    Its fixed recurrence is documented in `analysis/AFFINE_RESIDUE2.md` and
    checked through n=119. Whether later residue-two values return to the old
    count or inherit a changed correction is open.
-   The first A→B search proves that the saving cannot live solely in the
-   inserted cross, a seven-column halo, or the final three-row cap; all are
-   exact negative certificates. The next B-state language must couple the
-   early cycle-bearing prelude to the bottom OUT attachment.
+    The first A→B search proves that the saving cannot live solely in the
+    inserted cross, a seven-column halo, or the final three-row cap; all are
+    exact negative certificates. The next B-state language must couple the
+    early cycle-bearing prelude to the bottom OUT attachment.
+    Terminal-state replay now makes that requirement exact at n=17: every
+    178-U survivor is one prior OUT attachment short, whereas the 179-U witness
+    makes that attachment before its final face-to-face merge. The 179-U and
+    250-U witnesses share a bounded, surplus-one unicyclic `X/H` phase carrier,
+    but affine-calibrated exact tests of its first strict radius-three pump
+    schedule are negative at 333 U while positive at the 335-U control. A
+    compiled search extends this result from the basic `X/H` carrier to the
+    complete bounded `X/H/S` phase carrier, checking 1,677,381 top and
+    7,280,367 bottom states. Thus another schedule, different caps, or a sharper
+    connectivity state remains necessary. See
+    `analysis/RESIDUE2_TERMINAL_B_STATE.md`.
 
 Exact frontier optimization now covers n=16 and n=17. Checks at larger widths
 remain explicit candidate construction and verification.

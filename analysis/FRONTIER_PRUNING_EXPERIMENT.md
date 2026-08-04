@@ -62,3 +62,18 @@ target. The result therefore rules out every 178-U pattern globally. Together
 with the independently validated connected 179-U construction, the exact
 minimum is 179 and `P(17,17)=110`. Machine-readable run metadata and source
 hashes are in `frontier_n17_mirror_result.json`.
+
+The independent unmirrored repetition was resumed from its verified step-34
+checkpoint with:
+
+```text
+target/release/search_n17_frontier --n 17 --u-count 178 --progress \
+  --checkpoint /tmp/opencode/frontier-n17-k178.chk --resume
+```
+
+It also returned `UNSAT`, with the state set empty at step 288. The unquotiented
+run generated 30,053,510,406 transitions, peaked at 85,066,722 states and
+14,006,952 KiB RSS, and took 9,449.550 seconds for the resumed segment. Its
+source, binary, initial checkpoint, and final empty-checkpoint hashes are in
+`frontier_n17_unmirrored_result.json`. This independently confirms that the
+row-boundary reflection quotient did not cause the global negative result.

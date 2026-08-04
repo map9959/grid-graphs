@@ -1,0 +1,164 @@
+{
+  "schema": "grid-graphs.residue-two-b23-near-miss-exchanges.v1",
+  "scope": "All one-for-one and two-for-two exchanges whose additions are one-cell bridges of an original component cut and whose changed cells lie in mutable rows 6..16.",
+  "examples": [
+    {
+      "source_sha256": "9493b47b35b1c4dd6eb0aac4be618553ab06f4b17fbee6fdf536fdf4fdd565d5",
+      "candidate_addition_cells": [
+        [
+          10,
+          17
+        ],
+        [
+          10,
+          19
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          11,
+          14
+        ],
+        [
+          11,
+          16
+        ]
+      ],
+      "candidate_removal_cells": 163,
+      "by_exchange_size": {
+        "1": {
+          "addition_sets": 5,
+          "connected_after_additions": 2,
+          "first_removals_tested": 0,
+          "connected_first_removals": 0,
+          "final_removals_tested": 326
+        },
+        "2": {
+          "addition_sets": 10,
+          "connected_after_additions": 7,
+          "first_removals_tested": 1141,
+          "connected_first_removals": 0,
+          "final_removals_tested": 0
+        }
+      },
+      "witnesses": []
+    },
+    {
+      "source_sha256": "cc23cf2e0ae2656501ff92b28a101356fc00cb4eabf42320175d9a7767a5e79a",
+      "candidate_addition_cells": [
+        [
+          9,
+          12
+        ],
+        [
+          9,
+          14
+        ],
+        [
+          9,
+          16
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          12,
+          14
+        ],
+        [
+          12,
+          16
+        ],
+        [
+          16,
+          17
+        ],
+        [
+          16,
+          19
+        ]
+      ],
+      "candidate_removal_cells": 163,
+      "by_exchange_size": {
+        "1": {
+          "addition_sets": 8,
+          "connected_after_additions": 0,
+          "first_removals_tested": 0,
+          "connected_first_removals": 0,
+          "final_removals_tested": 0
+        },
+        "2": {
+          "addition_sets": 28,
+          "connected_after_additions": 12,
+          "first_removals_tested": 1956,
+          "connected_first_removals": 0,
+          "final_removals_tested": 0
+        }
+      },
+      "witnesses": []
+    },
+    {
+      "source_sha256": "0b318445b4d5300a9853165b8e17d59f981d729a4fa0cfedf91d6dd6e6aa335d",
+      "candidate_addition_cells": [
+        [
+          9,
+          12
+        ],
+        [
+          9,
+          14
+        ],
+        [
+          9,
+          16
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          12,
+          14
+        ],
+        [
+          12,
+          16
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          15,
+          17
+        ],
+        [
+          15,
+          19
+        ]
+      ],
+      "candidate_removal_cells": 163,
+      "by_exchange_size": {
+        "1": {
+          "addition_sets": 9,
+          "connected_after_additions": 0,
+          "first_removals_tested": 0,
+          "connected_first_removals": 0,
+          "final_removals_tested": 0
+        },
+        "2": {
+          "addition_sets": 36,
+          "connected_after_additions": 18,
+          "first_removals_tested": 2934,
+          "connected_first_removals": 1,
+          "final_removals_tested": 162
+        }
+      },
+      "witnesses": []
+    }
+  ],
+  "witness_count": 0
+}

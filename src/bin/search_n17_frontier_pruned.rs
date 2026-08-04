@@ -5,6 +5,7 @@
 //! are present exactly when both primal endpoints are in U.
 
 use std::env;
+use std::fmt::Write as _;
 use std::fs;
 use std::hash::BuildHasherDefault;
 use std::io::{BufReader, BufWriter, Read, Write};
@@ -134,6 +135,8 @@ struct SearchOptions<'a> {
     resume: bool,
     progress: bool,
     pruning: PruningMode,
+    dump_step: Option<usize>,
+    dump_out: Option<&'a Path>,
 }
 
 struct Checkpoint {
@@ -848,6 +851,258 @@ fn apply_row_pruning(
     (states, mirror_merges, geometry_prunes, closure_prunes)
 }
 
+fn transition_diagnostic(
+    state: State,
+    cost: u16,
+    step: &Step,
+    chosen: bool,
+    target: usize,
+    dual_nodes: usize,
+) -> String {
+    let next_cost = cost + u16::from(chosen);
+    if next_cost as usize > target {
+        return format!("{{\"chosen\":{chosen},\"outcome\":\"budget\"}}");
+    }
+    let Some(next) = advance(state, step, chosen) else {
+        return format!("{{\"chosen\":{chosen},\"outcome\":\"retired_component\"}}");
+    };
+    let components = component_count(next.labels(), step.after_indices.len());
+    let current_rank = step.introduced_nodes - components;
+    let rank_deficit = (dual_nodes - 1) - current_rank;
+    let minimum_additional_u = rank_deficit.div_ceil(2);
+    if next_cost as usize + minimum_additional_u > target {
+        return format!(
+            "{{\"chosen\":{chosen},\"outcome\":\"rank\",\"next_cost\":{next_cost},\"components\":{components},\"rank_deficit\":{rank_deficit}}}"
+        );
+    }
+    format!(
+        "{{\"chosen\":{chosen},\"outcome\":\"accepted\",\"next_cost\":{next_cost},\"next_state\":\"0x{:x}\",\"components\":{components},\"rank_deficit\":{rank_deficit}}}",
+        next.0
+    )
+}
+
+fn dump_states(
+    path: &Path,
+    n: usize,
+    target: usize,
+    completed: usize,
+    schedule: &[Step],
+    states: &FastMap<State, u16>,
+) -> Result<(), String> {
+    if completed == 0 || completed > schedule.len() {
+        return Err(format!("cannot dump completed step {completed}"));
+    }
+    let step = &schedule[completed - 1];
+    let after_nodes: Vec<_> = step
+        .after_indices
+        .iter()
+        .map(|&index| step.nodes[index])
+        .collect();
+    let mut entries: Vec<_> = states.iter().map(|(&state, &cost)| (state, cost)).collect();
+    entries.sort_unstable_by_key(|(state, cost)| (state.0, *cost));
+    let dual_nodes = (n - 1) * (n - 1) + 1;
+    let out = dual_nodes - 1;
+    let mut output = String::new();
+    writeln!(output, "{{").unwrap();
+    writeln!(
+        output,
+        "  \"schema\": \"grid-graphs.frontier-state-dump.v1\","
+    )
+    .unwrap();
+    writeln!(output, "  \"n\": {n},").unwrap();
+    writeln!(output, "  \"target\": {target},").unwrap();
+    writeln!(output, "  \"completed_steps\": {completed},").unwrap();
+    writeln!(
+        output,
+        "  \"processed_cell\": [{}, {}],",
+        step.row, step.col
+    )
+    .unwrap();
+    writeln!(output, "  \"row_mask_current_columns\": [0, {}],", step.col).unwrap();
+    if step.col + 1 < n {
+        writeln!(
+            output,
+            "  \"row_mask_previous_columns\": [{}, {}],",
+            step.col + 1,
+            n - 1
+        )
+        .unwrap();
+    } else {
+        writeln!(output, "  \"row_mask_previous_columns\": null,").unwrap();
+    }
+    write!(output, "  \"after_nodes\": [").unwrap();
+    for (slot, &node) in after_nodes.iter().enumerate() {
+        if slot > 0 {
+            output.push_str(", ");
+        }
+        if node == out {
+            write!(
+                output,
+                "{{\"slot\":{slot},\"node\":{node},\"kind\":\"OUT\"}}"
+            )
+            .unwrap();
+        } else {
+            write!(
+                output,
+                "{{\"slot\":{slot},\"node\":{node},\"kind\":\"face\",\"face\":[{},{}]}}",
+                node / (n - 1),
+                node % (n - 1)
+            )
+            .unwrap();
+        }
+    }
+    output.push_str("],\n");
+    writeln!(output, "  \"state_count\": {},", entries.len()).unwrap();
+    writeln!(output, "  \"states\": [").unwrap();
+    for (entry_index, (state, cost)) in entries.iter().enumerate() {
+        let labels: Vec<_> = (0..after_nodes.len())
+            .map(|slot| label_at(state.labels(), slot))
+            .collect();
+        let row_bits: String = (0..n)
+            .map(|col| {
+                if state.row_u() & (1 << col) != 0 {
+                    'U'
+                } else {
+                    '.'
+                }
+            })
+            .collect();
+        let transitions = if completed < schedule.len() {
+            let next_step = &schedule[completed];
+            format!(
+                "[{},{}]",
+                transition_diagnostic(*state, *cost, next_step, false, target, dual_nodes),
+                transition_diagnostic(*state, *cost, next_step, true, target, dual_nodes)
+            )
+        } else {
+            "[]".into()
+        };
+        write!(
+            output,
+            "    {{\"packed_state\":\"0x{:x}\",\"cost\":{},\"row_u\":{},\"row_bits_col0_first\":\"{}\",\"labels\":[{}],\"next_transitions\":{}}}",
+            state.0,
+            cost,
+            state.row_u(),
+            row_bits,
+            labels
+                .iter()
+                .map(|label| label.to_string())
+                .collect::<Vec<_>>()
+                .join(","),
+            transitions
+        )
+        .unwrap();
+        if entry_index + 1 < entries.len() {
+            output.push(',');
+        }
+        output.push('\n');
+    }
+    output.push_str("  ]\n}\n");
+    fs::write(path, output)
+        .map_err(|error| format!("failed to write state dump {}: {error}", path.display()))
+}
+
+fn parse_pattern(path: &Path, n: usize) -> Result<Vec<Vec<bool>>, String> {
+    let contents = fs::read_to_string(path)
+        .map_err(|error| format!("failed to read pattern {}: {error}", path.display()))?;
+    let mut rows = Vec::new();
+    for line in contents.lines() {
+        let line = line.trim();
+        if line.is_empty()
+            || line.starts_with('#')
+            || !line.bytes().all(|ch| ch == b'U' || ch == b'.')
+        {
+            continue;
+        }
+        if line.len() != n {
+            return Err(format!(
+                "pattern row has width {}, expected {n}",
+                line.len()
+            ));
+        }
+        rows.push(line.bytes().map(|ch| ch == b'U').collect());
+    }
+    if rows.len() != n {
+        return Err(format!("pattern has {} rows, expected {n}", rows.len()));
+    }
+    Ok(rows)
+}
+
+fn replay_pattern(
+    pattern_path: &Path,
+    output_path: &Path,
+    n: usize,
+    mode: PruningMode,
+) -> Result<(), String> {
+    if mode != PruningMode::None && mode != PruningMode::Mirror {
+        return Err("pattern replay supports only none or mirror pruning".into());
+    }
+    let pattern = parse_pattern(pattern_path, n)?;
+    let schedule = steps(n)?;
+    let mut state = State::new(0, 0);
+    let mut cost = 0u16;
+    let mut reflected_orientation = false;
+    let mut records = Vec::new();
+    for (index, step) in schedule.iter().enumerate() {
+        let source_col = if reflected_orientation {
+            n - 1 - step.col
+        } else {
+            step.col
+        };
+        let chosen = pattern[step.row][source_col];
+        state = advance(state, step, chosen).ok_or_else(|| {
+            format!(
+                "pattern seals a dual component at step {} ({},{})",
+                index + 1,
+                step.row,
+                step.col
+            )
+        })?;
+        cost += u16::from(chosen);
+        let mut reflected_at_boundary = false;
+        if mode.mirror() && (index + 1) % n == 0 {
+            let reflected = reflected_row_boundary_state(state, step, n);
+            if reflected.0 < state.0 {
+                state = reflected;
+                reflected_orientation = !reflected_orientation;
+                reflected_at_boundary = true;
+            }
+        }
+        if (index + 1) % n == 0 || index + 4 >= schedule.len() {
+            let after_nodes: Vec<_> = step
+                .after_indices
+                .iter()
+                .map(|&slot| step.nodes[slot])
+                .collect();
+            let labels: Vec<_> = (0..after_nodes.len())
+                .map(|slot| label_at(state.labels(), slot))
+                .collect();
+            records.push(format!(
+                "{{\"completed_steps\":{},\"processed_cell\":[{},{}],\"source_col\":{},\"chosen\":{},\"cost\":{},\"packed_state\":\"0x{:x}\",\"row_u\":{},\"labels\":[{}],\"after_nodes\":[{}],\"orientation_reflected\":{},\"reflected_at_boundary\":{}}}",
+                index + 1,
+                step.row,
+                step.col,
+                source_col,
+                chosen,
+                cost,
+                state.0,
+                state.row_u(),
+                labels.iter().map(|value| value.to_string()).collect::<Vec<_>>().join(","),
+                after_nodes.iter().map(|value| value.to_string()).collect::<Vec<_>>().join(","),
+                reflected_orientation,
+                reflected_at_boundary,
+            ));
+        }
+    }
+    let output = format!(
+        "{{\n  \"schema\": \"grid-graphs.frontier-pattern-replay.v1\",\n  \"n\": {n},\n  \"pattern\": \"{}\",\n  \"pruning\": \"{mode:?}\",\n  \"u_count\": {cost},\n  \"accepted\": true,\n  \"records\": [\n    {}\n  ]\n}}\n",
+        pattern_path.display(),
+        records.join(",\n    ")
+    );
+    fs::write(output_path, output)
+        .map_err(|error| format!("failed to write replay {}: {error}", output_path.display()))
+}
+
 fn process_memory_kib(field: &str) -> Option<u64> {
     let status = fs::read_to_string("/proc/self/status").ok()?;
     status.lines().find_map(|line| {
@@ -1077,11 +1332,35 @@ fn search_with_options(
             states.insert(State::new(0, 0), 0u16);
             (0, states, 1, 0)
         };
-    let mut state_counts = vec![0; completed_steps];
-    state_counts.push(states.len());
     let mut mirror_merges = 0u64;
     let mut geometry_prunes = 0u64;
     let mut closure_prunes = 0u64;
+    if completed_steps > 0 && options.pruning != PruningMode::None {
+        let (pruned, mirror, geometry, closure) = apply_row_pruning(
+            states,
+            options.pruning,
+            n,
+            target,
+            &schedule,
+            completed_steps,
+        );
+        states = pruned;
+        mirror_merges += mirror;
+        geometry_prunes += geometry;
+        closure_prunes += closure;
+    }
+    let mut state_counts = vec![0; completed_steps];
+    state_counts.push(states.len());
+    if options.dump_step == Some(completed_steps) {
+        dump_states(
+            options.dump_out.unwrap(),
+            n,
+            target,
+            completed_steps,
+            &schedule,
+            &states,
+        )?;
+    }
     if options.progress && completed_steps > 0 {
         eprintln!(
             "resumed step={completed_steps}/{} states={} peak_states={} transitions={} rss_kib={}",
@@ -1112,6 +1391,16 @@ fn search_with_options(
         closure_prunes += step_closure;
         peak_states = peak_states.max(states.len());
         state_counts.push(states.len());
+        if options.dump_step == Some(completed) {
+            dump_states(
+                options.dump_out.unwrap(),
+                n,
+                target,
+                completed,
+                &schedule,
+                &states,
+            )?;
+        }
         if options.progress {
             eprintln!(
                 "step={completed}/{} row={} col={} states={} generated={} mirror_merged={} geometry_pruned={} closure_pruned={} total_transitions={} step_seconds={:.3} elapsed_seconds={:.3} rss_kib={} peak_rss_kib={}",
@@ -1179,6 +1468,10 @@ struct Config {
     checkpoint: Option<PathBuf>,
     resume: bool,
     pruning: PruningMode,
+    dump_step: Option<usize>,
+    dump_out: Option<PathBuf>,
+    replay_pattern: Option<PathBuf>,
+    replay_out: Option<PathBuf>,
 }
 
 fn parse_args() -> Result<Config, String> {
@@ -1191,6 +1484,10 @@ fn parse_args() -> Result<Config, String> {
     let mut checkpoint = None;
     let mut resume = false;
     let mut pruning = PruningMode::None;
+    let mut dump_step = None;
+    let mut dump_out = None;
+    let mut replay_pattern = None;
+    let mut replay_out = None;
     let mut at = 0;
     while at < args.len() {
         match args[at].as_str() {
@@ -1206,7 +1503,8 @@ fn parse_args() -> Result<Config, String> {
                 resume = true;
                 at += 1;
             }
-            "--n" | "--u-count" | "--meet-step" | "--checkpoint" | "--pruning" => {
+            "--n" | "--u-count" | "--meet-step" | "--checkpoint" | "--pruning" | "--dump-step"
+            | "--dump-out" | "--replay-pattern" | "--replay-out" => {
                 let flag = args[at].clone();
                 let value = args
                     .get(at + 1)
@@ -1227,6 +1525,18 @@ fn parse_args() -> Result<Config, String> {
                     checkpoint = Some(PathBuf::from(value));
                 } else if flag == "--pruning" {
                     pruning = PruningMode::parse(value)?;
+                } else if flag == "--dump-step" {
+                    dump_step = Some(
+                        value
+                            .parse::<usize>()
+                            .map_err(|_| format!("invalid integer for {flag}"))?,
+                    );
+                } else if flag == "--dump-out" {
+                    dump_out = Some(PathBuf::from(value));
+                } else if flag == "--replay-pattern" {
+                    replay_pattern = Some(PathBuf::from(value));
+                } else if flag == "--replay-out" {
+                    replay_out = Some(PathBuf::from(value));
                 } else {
                     target = Some(
                         value
@@ -1245,7 +1555,11 @@ fn parse_args() -> Result<Config, String> {
                        --progress         print live timing and memory telemetry\n\
                        --pruning MODE     none|mirror|geometry|closure|all\n\
                        --checkpoint PATH  atomically checkpoint after every row\n\
-                       --resume           resume the matching checkpoint"
+                       --resume           resume the matching checkpoint\n\
+                       --dump-step N      dump exact states after completed step N\n\
+                       --dump-out PATH    state dump destination\n\
+                       --replay-pattern P replay a U/. pattern through the frontier\n\
+                       --replay-out PATH  replay report destination"
                 );
                 process::exit(0);
             }
@@ -1258,8 +1572,11 @@ fn parse_args() -> Result<Config, String> {
     if resume && checkpoint.is_none() {
         return Err("--resume requires --checkpoint".into());
     }
-    if pruning != PruningMode::None && (checkpoint.is_some() || resume) {
-        return Err("experimental pruning cannot be combined with checkpoint or resume".into());
+    if dump_step.is_some() != dump_out.is_some() {
+        return Err("--dump-step and --dump-out require each other".into());
+    }
+    if replay_pattern.is_some() != replay_out.is_some() {
+        return Err("--replay-pattern and --replay-out require each other".into());
     }
     Ok(Config {
         n: n.ok_or("--n is required")?,
@@ -1270,12 +1587,30 @@ fn parse_args() -> Result<Config, String> {
         checkpoint,
         resume,
         pruning,
+        dump_step,
+        dump_out,
+        replay_pattern,
+        replay_out,
     })
 }
 
 fn main() {
     let result = parse_args().and_then(|config| {
-        if let Some(meeting_step) = config.meeting_step {
+        if let Some(pattern) = &config.replay_pattern {
+            replay_pattern(
+                pattern,
+                config.replay_out.as_ref().unwrap(),
+                config.n,
+                config.pruning,
+            )?;
+            println!(
+                "replayed pattern={} n={} pruning={:?} output={}",
+                pattern.display(),
+                config.n,
+                config.pruning,
+                config.replay_out.as_ref().unwrap().display()
+            );
+        } else if let Some(meeting_step) = config.meeting_step {
             let stats = bidirectional_search(config.n, config.target, meeting_step)?;
             println!(
                 "{} n={} u_count={} minimum_u={:?} meeting_step={} forward_states={} backward_states={} reverse_candidates={}",
@@ -1305,6 +1640,8 @@ fn main() {
                     resume: config.resume,
                     progress: config.progress,
                     pruning: config.pruning,
+                    dump_step: config.dump_step,
+                    dump_out: config.dump_out.as_deref(),
                 },
             )?;
             println!(
@@ -1525,6 +1862,7 @@ mod tests {
                 resume: true,
                 progress: false,
                 pruning: PruningMode::None,
+                ..SearchOptions::default()
             },
         )
         .unwrap();
@@ -1533,6 +1871,34 @@ mod tests {
         assert_eq!(resumed.minimum_u, full.minimum_u);
         assert_eq!(resumed.generated_transitions, full.generated_transitions);
         assert_eq!(resumed.peak_states, full.peak_states);
+
+        write_checkpoint(&path, n, target, n, peak, transitions, &states).unwrap();
+        let resumed_mirror = search_with_options(
+            n,
+            target,
+            SearchOptions {
+                checkpoint: Some(&path),
+                resume: true,
+                pruning: PruningMode::Mirror,
+                ..SearchOptions::default()
+            },
+        )
+        .unwrap();
+        fs::remove_file(&path).unwrap();
+        let full_mirror = search_with_options(
+            n,
+            target,
+            SearchOptions {
+                pruning: PruningMode::Mirror,
+                ..SearchOptions::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(resumed_mirror.minimum_u, full_mirror.minimum_u);
+        assert_eq!(
+            resumed_mirror.generated_transitions,
+            full_mirror.generated_transitions
+        );
     }
 
     #[test]

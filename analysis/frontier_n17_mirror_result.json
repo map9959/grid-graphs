@@ -17,5 +17,18 @@
   "source_sha256": "92bd8862ca5a382c0d0ea123cebb323ea329c2d2bbd5209d1045138c395000a8",
   "release_binary_sha256": "346c7cb0a0046875b2f84661979efcf8b981b97d3c5a34660244fbd9b4185415",
   "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
-  "interpretation": "The exact frontier state set is empty after 288 streamed vertices. Therefore no dual-connected pattern uses at most 178 U vertices. A separately validated 179-U dual-connected construction makes 179 the exact minimum and gives P(17,17)=289-179=110."
+  "interpretation": "The exact frontier state set is empty after 288 streamed vertices. Therefore no dual-connected pattern uses at most 178 U vertices. A separately validated 179-U dual-connected construction makes 179 the exact minimum and gives P(17,17)=289-179=110.",
+  "unmirrored_verification": {
+    "status": "COMPLETE_UNSAT",
+    "method": "unmirrored exact frontier search",
+    "result": "frontier_n17_unmirrored_result.json",
+    "peak_states": 85066722,
+    "generated_transitions": 30053510406,
+    "resume_elapsed_seconds": 9449.550,
+    "peak_rss_kib": 14006952,
+    "state_set_empty_after_step": 288,
+    "source_sha256": "4991e07b6ef965a68e8d695e151fdcbf1eab643305444bf66e57eadde0aa3adc",
+    "release_binary_sha256": "939ab36534870138dea6c8fe6151a16c85b884672f7e7ff4ed65b51c55f76d5e",
+    "final_checkpoint_sha256": "b007b112de2350a2efd29fa86b0f6b717ce6fb694582aca7466bde27fa558cec"
+  }
 }
