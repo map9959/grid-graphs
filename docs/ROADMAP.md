@@ -359,6 +359,24 @@ Current constructive status:
     7,280,367 bottom states. Thus another schedule, different caps, or a sharper
     connectivity state remains necessary. See
     `analysis/RESIDUE2_TERMINAL_B_STATE.md`.
+    Exact ranked traces now show that the selected adjacent-width alignments are
+    not state-preserving: only one of 58 comparable cuts matches all visible
+    channels, and hidden slab-only components are pervasive. An asynchronous
+    landmark census recovers 40 two-sided lanes for the affine positive control
+    but none from phase-B20 to affine23. A B20-derived cap-to-cap manifest then
+    combines six self-renewing slab lanes with all middle schedules. Its exact
+    product is computationally infeasible, growing from 21,365 to 1,701,918
+    states in one row. Calibrated beams through 20,000 states find 14,086
+    connected joins at 335 U but none at 333 U, whose best joins retain three
+    components. This is heuristic rather than UNSAT and redirects work toward
+    an attachment potential or schedule decomposition; see
+    `analysis/RESIDUE2_STATE_TRANSFER.md`.
+    A proposed equality-only grammar with contiguous packet-group component
+    support has also been falsified exactly: a recovered optimal 72-U `n=11`
+    path has one transient support hole at row 8. It retains the learned local
+    motif alphabet and face-cut width one. The replacement candidate is a hull
+    carrier that may pass silently through an unoccupied packet; see
+    `analysis/residue_two_n11_grammar_counterexample.json`.
 
 Exact frontier optimization now covers n=16 and n=17. Checks at larger widths
 remain explicit candidate construction and verification.

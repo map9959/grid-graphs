@@ -678,7 +678,8 @@ pub fn karp_max_mean_cycle_streaming(
                 let better = if min_k_per_v[v] < 0 {
                     true
                 } else {
-                    num * min_den_per_v[v] < min_num_per_v[v] * den
+                    (num as i128) * (min_den_per_v[v] as i128)
+                        < (min_num_per_v[v] as i128) * (den as i128)
                 };
                 if better {
                     min_num_per_v[v] = num;

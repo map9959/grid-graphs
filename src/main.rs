@@ -72,7 +72,7 @@ impl Hasher for KHasher {
         // fallback (rare)
         let mut h = self.0;
         for &b in bytes {
-            h = h.rotate_left(5) ^ b as u64 * 0x517cc1b727220a95;
+            h = h.rotate_left(5) ^ (b as u64).wrapping_mul(0x517cc1b727220a95);
         }
         self.0 = h;
     }

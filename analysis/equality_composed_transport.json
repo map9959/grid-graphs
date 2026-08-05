@@ -1,0 +1,515 @@
+{
+  "schema": "grid-graphs.equality-composed-transport.v1",
+  "scope": {
+    "corridor_chain": [
+      2,
+      5,
+      8
+    ],
+    "seam_step": 1,
+    "composed_slab_widths": [
+      3,
+      3
+    ],
+    "direct_slab_width": 6,
+    "intermediate_join": "literal-full-row-mask-path-equality",
+    "semantics": "complete-minimum-path-cap-reset-and-direct-multiband-census"
+  },
+  "relations": {
+    "2_to_5": {
+      "source_n": 2,
+      "target_n": 5,
+      "source_paths": 4,
+      "target_paths": 242,
+      "successful_source_target_pairs": 115,
+      "successful_target_paths": 98,
+      "alignment_paths": 3467,
+      "cycle_preserving_source_target_pairs": 43,
+      "cycle_preserving_alignment_paths": 1756,
+      "operation_words": {
+        "AAHHH": 484,
+        "AHAHH": 465,
+        "AHHAH": 453,
+        "AHHHA": 400,
+        "HAAHH": 513,
+        "HAHAH": 491,
+        "HAHHA": 442,
+        "HHAAH": 74,
+        "HHAHA": 73,
+        "HHHAA": 72
+      },
+      "terminal_cycle_delta_histogram": {
+        "0": 1756,
+        "1": 1090,
+        "2": 389,
+        "3": 232
+      }
+    },
+    "5_to_8": {
+      "source_n": 5,
+      "target_n": 8,
+      "source_paths": 242,
+      "target_paths": 704,
+      "successful_source_target_pairs": 113,
+      "successful_target_paths": 58,
+      "alignment_paths": 3517,
+      "cycle_preserving_source_target_pairs": 35,
+      "cycle_preserving_alignment_paths": 1849,
+      "operation_words": {
+        "AAAAAHHH": 1635,
+        "AAAAHAHH": 437,
+        "AAAAHHAH": 50,
+        "AAAAHHHA": 44,
+        "AAAHAAHH": 459,
+        "AAAHHAAH": 446,
+        "AAHAAAHH": 95,
+        "AAHAHAAH": 45,
+        "AAHHAAAH": 32,
+        "AAHHHAAA": 274
+      },
+      "terminal_cycle_delta_histogram": {
+        "-2": 36,
+        "-1": 258,
+        "0": 1849,
+        "1": 652,
+        "2": 251,
+        "3": 471
+      }
+    },
+    "direct_2_to_8": {
+      "source_n": 2,
+      "target_n": 8,
+      "source_paths": 4,
+      "target_paths": 704,
+      "successful_source_target_pairs": 384,
+      "successful_target_paths": 308,
+      "alignment_paths": 19023,
+      "cycle_preserving_source_target_pairs": 88,
+      "cycle_preserving_alignment_paths": 4663,
+      "operation_words": {
+        "AAHHHHHH": 1094,
+        "AHAHHHHH": 1072,
+        "AHHAHHHH": 1008,
+        "AHHHAHHH": 1008,
+        "AHHHHAHH": 1008,
+        "AHHHHHAH": 1008,
+        "AHHHHHHA": 888,
+        "HAAHHHHH": 1384,
+        "HAHAHHHH": 1286,
+        "HAHHAHHH": 1286,
+        "HAHHHAHH": 1286,
+        "HAHHHHAH": 1286,
+        "HAHHHHHA": 1131,
+        "HHAAHHHH": 296,
+        "HHAHAHHH": 296,
+        "HHAHHAHH": 296,
+        "HHAHHHAH": 296,
+        "HHAHHHHA": 260,
+        "HHHAAHHH": 296,
+        "HHHAHAHH": 296,
+        "HHHAHHAH": 296,
+        "HHHAHHHA": 260,
+        "HHHHAAHH": 280,
+        "HHHHAHAH": 280,
+        "HHHHAHHA": 248,
+        "HHHHHAAH": 280,
+        "HHHHHAHA": 248,
+        "HHHHHHAA": 350
+      },
+      "terminal_cycle_delta_histogram": {
+        "0": 4663,
+        "1": 7300,
+        "2": 3530,
+        "3": 3530
+      }
+    }
+  },
+  "cap_mediated_composition": {
+    "joined_intermediate_paths": 10,
+    "source_intermediate_target_triples": 80,
+    "source_target_pairs": 53,
+    "alignment_chains": 49638,
+    "cycle_preserving_joined_intermediate_paths": 4,
+    "cycle_preserving_triples": 8,
+    "cycle_preserving_source_target_pairs": 6,
+    "cycle_preserving_alignment_chains": 2832
+  },
+  "direct_multiband_comparison": {
+    "composed_source_target_pairs": 53,
+    "direct_width_six_source_target_pairs": 384,
+    "common_source_target_pairs": 53,
+    "cycle_preserving_composed_source_target_pairs": 6,
+    "cycle_preserving_direct_source_target_pairs": 88,
+    "cycle_preserving_common_source_target_pairs": 6
+  },
+  "fixed_n11_continuation_control": {
+    "source_paths": 704,
+    "cap_reachable_source_paths": 58,
+    "target": "cached-exact-n11-all-distinct-d4-orientations",
+    "successful_source_orientation_pairs": 0,
+    "cap_reachable_source_orientation_pairs": 0,
+    "alignment_paths": 0,
+    "orientations": [
+      {
+        "orientation": "rotate_0",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      },
+      {
+        "orientation": "rotate_90",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      },
+      {
+        "orientation": "rotate_180",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      },
+      {
+        "orientation": "rotate_270",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      },
+      {
+        "orientation": "rotate_0_reflect_lr",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      },
+      {
+        "orientation": "rotate_90_reflect_lr",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      },
+      {
+        "orientation": "rotate_180_reflect_lr",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      },
+      {
+        "orientation": "rotate_270_reflect_lr",
+        "alignment_paths": 0,
+        "cap_reachable_alignment_paths": 0
+      }
+    ]
+  },
+  "composition_samples": [
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 168,
+      "alignment_chains": 4590
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 173,
+      "alignment_chains": 544
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 196,
+      "alignment_chains": 544
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 228,
+      "alignment_chains": 136
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 456,
+      "alignment_chains": 714
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 461,
+      "alignment_chains": 68
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 484,
+      "alignment_chains": 68
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 55,
+      "target_path": 628,
+      "alignment_chains": 68
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 168,
+      "alignment_chains": 2856
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 173,
+      "alignment_chains": 1156
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 178,
+      "alignment_chains": 884
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 180,
+      "alignment_chains": 1326
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 181,
+      "alignment_chains": 884
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 456,
+      "alignment_chains": 612
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 461,
+      "alignment_chains": 272
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 466,
+      "alignment_chains": 272
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 468,
+      "alignment_chains": 408
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 60,
+      "target_path": 469,
+      "alignment_chains": 272
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 92,
+      "target_path": 288,
+      "alignment_chains": 4046
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 92,
+      "target_path": 296,
+      "alignment_chains": 510
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 92,
+      "target_path": 304,
+      "alignment_chains": 255
+    },
+    {
+      "source_path": 2,
+      "intermediate_path": 92,
+      "target_path": 544,
+      "alignment_chains": 544
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 378,
+      "alignment_chains": 884
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 381,
+      "alignment_chains": 884
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 382,
+      "alignment_chains": 1326
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 398,
+      "alignment_chains": 884
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 404,
+      "alignment_chains": 1768
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 490,
+      "alignment_chains": 272
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 493,
+      "alignment_chains": 272
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 494,
+      "alignment_chains": 408
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 510,
+      "alignment_chains": 272
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 109,
+      "target_path": 516,
+      "alignment_chains": 544
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 111,
+      "target_path": 336,
+      "alignment_chains": 2397
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 111,
+      "target_path": 341,
+      "alignment_chains": 306
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 111,
+      "target_path": 364,
+      "alignment_chains": 306
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 111,
+      "target_path": 404,
+      "alignment_chains": 442
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 111,
+      "target_path": 516,
+      "alignment_chains": 136
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 111,
+      "target_path": 584,
+      "alignment_chains": 136
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 461,
+      "alignment_chains": 100
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 466,
+      "alignment_chains": 100
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 468,
+      "alignment_chains": 100
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 469,
+      "alignment_chains": 300
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 484,
+      "alignment_chains": 300
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 490,
+      "alignment_chains": 160
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 493,
+      "alignment_chains": 160
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 494,
+      "alignment_chains": 240
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 510,
+      "alignment_chains": 260
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 516,
+      "alignment_chains": 720
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 140,
+      "target_path": 632,
+      "alignment_chains": 40
+    },
+    {
+      "source_path": 1,
+      "intermediate_path": 142,
+      "target_path": 456,
+      "alignment_chains": 1360
+    }
+  ],
+  "limitations": [
+    "The n=2 source has only one interior frontier depth.",
+    "Composition resets through a complete n=5 square; it is not an interior self-loop.",
+    "The direct width-six language requires one contiguous six-column moving slab.",
+    "No claim is made about equality states first appearing above width 8.",
+    "The n=11 continuation checks the cached exact witness and its D4 orbit, not all n=11 optima.",
+    "Retained-cell rewrites are forbidden in every relation."
+  ],
+  "provenance": {
+    "producer": "analysis/equality_composed_transport.py",
+    "command": [
+      "python3",
+      "-B",
+      "analysis/equality_composed_transport.py",
+      "--output",
+      "analysis/equality_composed_transport.json"
+    ]
+  }
+}

@@ -1,0 +1,550 @@
+{
+  "alphabet": {
+    "allowed": [
+      {
+        "description": "empty initial/terminal frontier restriction",
+        "id": "empty",
+        "observations": {
+          "5": 20,
+          "8": 42
+        },
+        "symbol": []
+      },
+      {
+        "description": "three OUT faces",
+        "id": "000",
+        "observations": {
+          "5": 4,
+          "8": 14
+        },
+        "symbol": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "description": "two OUT faces then one component",
+        "id": "001",
+        "observations": {
+          "5": 9,
+          "8": 26
+        },
+        "symbol": [
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "description": "OUT face then a repeated component",
+        "id": "011",
+        "observations": {
+          "5": 0,
+          "8": 4
+        },
+        "symbol": [
+          0,
+          1,
+          1
+        ]
+      },
+      {
+        "description": "OUT face then two distinct components",
+        "id": "012",
+        "observations": {
+          "5": 8,
+          "8": 27
+        },
+        "symbol": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "description": "one component then two OUT faces",
+        "id": "100",
+        "observations": {
+          "5": 1,
+          "8": 6
+        },
+        "symbol": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "description": "two distinct components separated by OUT",
+        "id": "102",
+        "observations": {
+          "5": 7,
+          "8": 25
+        },
+        "symbol": [
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "description": "a repeated component then OUT",
+        "id": "110",
+        "observations": {
+          "5": 2,
+          "8": 2
+        },
+        "symbol": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "description": "one component on all three faces",
+        "id": "111",
+        "observations": {
+          "5": 4,
+          "8": 18
+        },
+        "symbol": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "description": "a repeated component then a distinct component",
+        "id": "112",
+        "observations": {
+          "5": 5,
+          "8": 42
+        },
+        "symbol": [
+          1,
+          1,
+          2
+        ]
+      },
+      {
+        "description": "two distinct components then OUT",
+        "id": "120",
+        "observations": {
+          "5": 8,
+          "8": 18
+        },
+        "symbol": [
+          1,
+          2,
+          0
+        ]
+      },
+      {
+        "description": "one component then a distinct repeated component",
+        "id": "122",
+        "observations": {
+          "5": 5,
+          "8": 11
+        },
+        "symbol": [
+          1,
+          2,
+          2
+        ]
+      },
+      {
+        "description": "three distinct non-OUT components",
+        "id": "123",
+        "observations": {
+          "5": 44,
+          "8": 181
+        },
+        "symbol": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "excluded": [
+      {
+        "id": "010",
+        "reason": "OUT/non-OUT/OUT rooted island; absent from both complete equality corridors",
+        "symbol": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "id": "101",
+        "reason": "non-OUT/OUT/non-OUT sandwich of one component around OUT; absent from both complete equality corridors",
+        "symbol": [
+          1,
+          0,
+          1
+        ]
+      },
+      {
+        "id": "121",
+        "reason": "non-OUT ABA sandwich around a distinct component; absent from both complete equality corridors",
+        "symbol": [
+          1,
+          2,
+          1
+        ]
+      }
+    ],
+    "learning_rule": "union of every rooted packet restriction in every n=5 and n=8 equality-corridor state"
+  },
+  "definitions": {
+    "carrier_only": "the residue_two_carrier_grammar recognizer",
+    "combined": "carrier_only and local_motifs_only",
+    "combined_face_cut": "combined and maximum face-cut open width at most one",
+    "face_cut_justification": "all 325 states in the complete n=5,n=8 equality training corridors have maximum open width at most one",
+    "face_cut_open_width": "number of non-OUT component occurrence hulls crossing a cut between adjacent frontier faces",
+    "local_motifs_only": "every packet restriction belongs to the learned alphabet",
+    "local_symbol": "canonical partition restriction to one packet with OUT rooted at zero",
+    "packet_layout": "the left frontier face is separate; consecutive triples of face slots 1..n-2 are packets"
+  },
+  "limitations": [
+    "The alphabet and face-cut rule are observations learned only from complete n=5 and n=8 equality corridors.",
+    "The n=11 and n=14 equality traces and n=17 179-U near-equality trace are single fixed controls.",
+    "Retaining all enumerated equality edges is not a proof at another width.",
+    "No zero-slack coverage, induction, or unbounded grammar claim is made."
+  ],
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_local_motif_grammar.py",
+      "--output",
+      "analysis/residue_two_local_motif_grammar.json"
+    ],
+    "producer": "analysis/residue_two_local_motif_grammar.py"
+  },
+  "row_transitions": {
+    "5": {
+      "carrier_only": {
+        "frontier_accepted_transitions": 2966,
+        "incoming_states": 337,
+        "leaving_grammar": 0,
+        "masks_attempted": 10784,
+        "retained_equality_corridor_edges": 220,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 2966,
+        "total_equality_corridor_edges": 220
+      },
+      "combined": {
+        "frontier_accepted_transitions": 2858,
+        "incoming_states": 331,
+        "leaving_grammar": 7,
+        "masks_attempted": 10592,
+        "retained_equality_corridor_edges": 220,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 2851,
+        "total_equality_corridor_edges": 220
+      },
+      "combined_face_cut": {
+        "frontier_accepted_transitions": 2858,
+        "incoming_states": 331,
+        "leaving_grammar": 7,
+        "masks_attempted": 10592,
+        "retained_equality_corridor_edges": 220,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 2851,
+        "total_equality_corridor_edges": 220
+      },
+      "local_motifs_only": {
+        "frontier_accepted_transitions": 2858,
+        "incoming_states": 331,
+        "leaving_grammar": 7,
+        "masks_attempted": 10592,
+        "retained_equality_corridor_edges": 220,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 2851,
+        "total_equality_corridor_edges": 220
+      }
+    },
+    "8": {
+      "carrier_only": {
+        "frontier_accepted_transitions": 461145,
+        "incoming_states": 14209,
+        "leaving_grammar": 442,
+        "masks_attempted": 3637504,
+        "retained_equality_corridor_edges": 368,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 460703,
+        "total_equality_corridor_edges": 368
+      },
+      "combined": {
+        "frontier_accepted_transitions": 445713,
+        "incoming_states": 13893,
+        "leaving_grammar": 2290,
+        "masks_attempted": 3556608,
+        "retained_equality_corridor_edges": 368,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 443423,
+        "total_equality_corridor_edges": 368
+      },
+      "combined_face_cut": {
+        "frontier_accepted_transitions": 445077,
+        "incoming_states": 13878,
+        "leaving_grammar": 2268,
+        "masks_attempted": 3552768,
+        "retained_equality_corridor_edges": 368,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 442809,
+        "total_equality_corridor_edges": 368
+      },
+      "local_motifs_only": {
+        "frontier_accepted_transitions": 447570,
+        "incoming_states": 14010,
+        "leaving_grammar": 2222,
+        "masks_attempted": 3586560,
+        "retained_equality_corridor_edges": 368,
+        "retains_all_equality_edges": true,
+        "staying_in_grammar": 445348,
+        "total_equality_corridor_edges": 368
+      }
+    }
+  },
+  "schema": "grid-graphs.residue-two-local-motif-grammar.v1",
+  "scope": {
+    "complete_structurally_reachable_layers": [
+      5,
+      8
+    ],
+    "complete_training_corridors": [
+      5,
+      8
+    ],
+    "coverage_beyond_enumerated_states_claimed": false,
+    "fixed_equality_traces": [
+      11,
+      14
+    ],
+    "near_equality_control": {
+      "u_count": 179,
+      "width": 17
+    },
+    "semantics": "finite-learned-structural-refinement-diagnostic-only",
+    "theorem_or_certificate": false
+  },
+  "sources": {
+    "n11-fixed-equality-trace": {
+      "acceptance_combinations": {
+        "carrier_only+local_motifs_only+combined+combined_face_cut": 12
+      },
+      "excluded_local_symbol_occurrences": {},
+      "grammars": {
+        "carrier_only": {
+          "accepted": 12,
+          "excluded": 0
+        },
+        "combined": {
+          "accepted": 12,
+          "excluded": 0
+        },
+        "combined_face_cut": {
+          "accepted": 12,
+          "excluded": 0
+        },
+        "local_motifs_only": {
+          "accepted": 12,
+          "excluded": 0
+        }
+      },
+      "maximum_face_cut_open_width_histogram": {
+        "0": 5,
+        "1": 7
+      },
+      "states": 12
+    },
+    "n14-fixed-equality-trace": {
+      "acceptance_combinations": {
+        "carrier_only+local_motifs_only+combined+combined_face_cut": 15
+      },
+      "excluded_local_symbol_occurrences": {},
+      "grammars": {
+        "carrier_only": {
+          "accepted": 15,
+          "excluded": 0
+        },
+        "combined": {
+          "accepted": 15,
+          "excluded": 0
+        },
+        "combined_face_cut": {
+          "accepted": 15,
+          "excluded": 0
+        },
+        "local_motifs_only": {
+          "accepted": 15,
+          "excluded": 0
+        }
+      },
+      "maximum_face_cut_open_width_histogram": {
+        "0": 11,
+        "1": 4
+      },
+      "states": 15
+    },
+    "n17-fixed-near-equality-179-U-trace": {
+      "acceptance_combinations": {
+        "carrier_only+local_motifs_only+combined+combined_face_cut": 18
+      },
+      "excluded_local_symbol_occurrences": {},
+      "grammars": {
+        "carrier_only": {
+          "accepted": 18,
+          "excluded": 0
+        },
+        "combined": {
+          "accepted": 18,
+          "excluded": 0
+        },
+        "combined_face_cut": {
+          "accepted": 18,
+          "excluded": 0
+        },
+        "local_motifs_only": {
+          "accepted": 18,
+          "excluded": 0
+        }
+      },
+      "maximum_face_cut_open_width_histogram": {
+        "0": 7,
+        "1": 11
+      },
+      "states": 18
+    },
+    "n5-complete-equality-corridor": {
+      "acceptance_combinations": {
+        "carrier_only+local_motifs_only+combined+combined_face_cut": 117
+      },
+      "excluded_local_symbol_occurrences": {},
+      "grammars": {
+        "carrier_only": {
+          "accepted": 117,
+          "excluded": 0
+        },
+        "combined": {
+          "accepted": 117,
+          "excluded": 0
+        },
+        "combined_face_cut": {
+          "accepted": 117,
+          "excluded": 0
+        },
+        "local_motifs_only": {
+          "accepted": 117,
+          "excluded": 0
+        }
+      },
+      "maximum_face_cut_open_width_histogram": {
+        "0": 96,
+        "1": 21
+      },
+      "states": 117
+    },
+    "n5-full-structurally-reachable-layers": {
+      "acceptance_combinations": {
+        "carrier_only": 6,
+        "carrier_only+local_motifs_only+combined+combined_face_cut": 363
+      },
+      "excluded_local_symbol_occurrences": {
+        "010": 6
+      },
+      "grammars": {
+        "carrier_only": {
+          "accepted": 369,
+          "excluded": 0
+        },
+        "combined": {
+          "accepted": 363,
+          "excluded": 6
+        },
+        "combined_face_cut": {
+          "accepted": 363,
+          "excluded": 6
+        },
+        "local_motifs_only": {
+          "accepted": 363,
+          "excluded": 6
+        }
+      },
+      "maximum_face_cut_open_width_histogram": {
+        "0": 297,
+        "1": 72
+      },
+      "states": 369
+    },
+    "n8-complete-equality-corridor": {
+      "acceptance_combinations": {
+        "carrier_only+local_motifs_only+combined+combined_face_cut": 208
+      },
+      "excluded_local_symbol_occurrences": {},
+      "grammars": {
+        "carrier_only": {
+          "accepted": 208,
+          "excluded": 0
+        },
+        "combined": {
+          "accepted": 208,
+          "excluded": 0
+        },
+        "combined_face_cut": {
+          "accepted": 208,
+          "excluded": 0
+        },
+        "local_motifs_only": {
+          "accepted": 208,
+          "excluded": 0
+        }
+      },
+      "maximum_face_cut_open_width_histogram": {
+        "0": 122,
+        "1": 86
+      },
+      "states": 208
+    },
+    "n8-full-structurally-reachable-layers": {
+      "acceptance_combinations": {
+        "carrier_only": 316,
+        "carrier_only+local_motifs_only+combined": 15,
+        "carrier_only+local_motifs_only+combined+combined_face_cut": 14134,
+        "local_motifs_only": 117
+      },
+      "excluded_local_symbol_occurrences": {
+        "010": 280,
+        "121": 36
+      },
+      "grammars": {
+        "carrier_only": {
+          "accepted": 14465,
+          "excluded": 117
+        },
+        "combined": {
+          "accepted": 14149,
+          "excluded": 433
+        },
+        "combined_face_cut": {
+          "accepted": 14134,
+          "excluded": 448
+        },
+        "local_motifs_only": {
+          "accepted": 14266,
+          "excluded": 316
+        }
+      },
+      "maximum_face_cut_open_width_histogram": {
+        "0": 7522,
+        "1": 7029,
+        "2": 31
+      },
+      "states": 14582
+    }
+  }
+}

@@ -1,0 +1,1258 @@
+{
+  "conclusion": "The scalar concentric-strip recurrence is valid and laptop-scale, but its residue-two upper bounds remain above the proposed formula. Connectivity or ordered annulus attachment data is required beyond scalar layer counts.",
+  "definitions": {
+    "depth_three_relaxation": "B_j+B_(j+1)+B_(j+2)+X_j+Y_j+X_(j+1) <= 4 floor((4s_j+2)/3), using minimum forced shoulder occupancy",
+    "depth_two_relaxation": "B_j+B_(j+1)+X_j <= 4s_j, using the minimum forced occupancy of the eight first-shoulder sites",
+    "nested_degree": "3F_j <= s_j^2 - 2 + B_j",
+    "weighted_boundary": "full boundary vertices plus full geometric corners"
+  },
+  "residue_two": [
+    {
+      "exact_small_anchor_improvement": 2,
+      "exact_small_anchored_gap_above_proposed_formula": 0,
+      "exact_small_anchored_upper_bound_P": 11,
+      "gap_above_proposed_formula": 2,
+      "known_or_candidate_P": 11,
+      "maximizing_layers": [
+        {
+          "full_boundary": 12,
+          "full_corners": 4,
+          "side": 5,
+          "weighted_boundary": 16
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 3,
+          "weighted_boundary": 0
+        }
+      ],
+      "n": 5,
+      "proposed_formula_P": 11,
+      "rank_aware_gap_above_proposed_formula": 1,
+      "rank_aware_upper_bound_P": 12,
+      "rank_improvement": 1,
+      "relaxation_upper_bound_P": 13
+    },
+    {
+      "exact_small_anchor_improvement": 3,
+      "exact_small_anchored_gap_above_proposed_formula": 0,
+      "exact_small_anchored_upper_bound_P": 27,
+      "gap_above_proposed_formula": 3,
+      "known_or_candidate_P": 27,
+      "maximizing_layers": [
+        {
+          "full_boundary": 24,
+          "full_corners": 4,
+          "side": 8,
+          "weighted_boundary": 28
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 6,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 4,
+          "full_corners": 0,
+          "side": 4,
+          "weighted_boundary": 4
+        },
+        {
+          "full_boundary": 2,
+          "full_corners": 2,
+          "side": 2,
+          "weighted_boundary": 4
+        }
+      ],
+      "n": 8,
+      "proposed_formula_P": 27,
+      "rank_aware_gap_above_proposed_formula": 3,
+      "rank_aware_upper_bound_P": 30,
+      "rank_improvement": 0,
+      "relaxation_upper_bound_P": 30
+    },
+    {
+      "exact_small_anchor_improvement": 4,
+      "exact_small_anchored_gap_above_proposed_formula": 0,
+      "exact_small_anchored_upper_bound_P": 49,
+      "gap_above_proposed_formula": 4,
+      "known_or_candidate_P": 49,
+      "maximizing_layers": [
+        {
+          "full_boundary": 36,
+          "full_corners": 4,
+          "side": 11,
+          "weighted_boundary": 40
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 9,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 6,
+          "full_corners": 0,
+          "side": 7,
+          "weighted_boundary": 6
+        },
+        {
+          "full_boundary": 11,
+          "full_corners": 1,
+          "side": 5,
+          "weighted_boundary": 12
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 3,
+          "weighted_boundary": 0
+        }
+      ],
+      "n": 11,
+      "proposed_formula_P": 49,
+      "rank_aware_gap_above_proposed_formula": 4,
+      "rank_aware_upper_bound_P": 53,
+      "rank_improvement": 0,
+      "relaxation_upper_bound_P": 53
+    },
+    {
+      "exact_small_anchor_improvement": 5,
+      "exact_small_anchored_gap_above_proposed_formula": 0,
+      "exact_small_anchored_upper_bound_P": 77,
+      "gap_above_proposed_formula": 5,
+      "known_or_candidate_P": 77,
+      "maximizing_layers": [
+        {
+          "full_boundary": 48,
+          "full_corners": 4,
+          "side": 14,
+          "weighted_boundary": 52
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 12,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 6,
+          "full_corners": 0,
+          "side": 10,
+          "weighted_boundary": 6
+        },
+        {
+          "full_boundary": 24,
+          "full_corners": 0,
+          "side": 8,
+          "weighted_boundary": 24
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 6,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 2,
+          "full_corners": 0,
+          "side": 4,
+          "weighted_boundary": 2
+        },
+        {
+          "full_boundary": 2,
+          "full_corners": 2,
+          "side": 2,
+          "weighted_boundary": 4
+        }
+      ],
+      "n": 14,
+      "proposed_formula_P": 77,
+      "rank_aware_gap_above_proposed_formula": 5,
+      "rank_aware_upper_bound_P": 82,
+      "rank_improvement": 0,
+      "relaxation_upper_bound_P": 82
+    },
+    {
+      "exact_small_anchor_improvement": 7,
+      "exact_small_anchored_gap_above_proposed_formula": 0,
+      "exact_small_anchored_upper_bound_P": 110,
+      "gap_above_proposed_formula": 7,
+      "known_or_candidate_P": 110,
+      "maximizing_layers": [
+        {
+          "full_boundary": 60,
+          "full_corners": 4,
+          "side": 17,
+          "weighted_boundary": 64
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 15,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 6,
+          "full_corners": 0,
+          "side": 13,
+          "weighted_boundary": 6
+        },
+        {
+          "full_boundary": 36,
+          "full_corners": 0,
+          "side": 11,
+          "weighted_boundary": 36
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 9,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 2,
+          "full_corners": 0,
+          "side": 7,
+          "weighted_boundary": 2
+        },
+        {
+          "full_boundary": 12,
+          "full_corners": 4,
+          "side": 5,
+          "weighted_boundary": 16
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 3,
+          "weighted_boundary": 0
+        }
+      ],
+      "n": 17,
+      "proposed_formula_P": 110,
+      "rank_aware_gap_above_proposed_formula": 7,
+      "rank_aware_upper_bound_P": 117,
+      "rank_improvement": 0,
+      "relaxation_upper_bound_P": 117
+    },
+    {
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_gap_above_proposed_formula": 8,
+      "exact_small_anchored_upper_bound_P": 158,
+      "gap_above_proposed_formula": 8,
+      "known_or_candidate_P": 150,
+      "maximizing_layers": [
+        {
+          "full_boundary": 72,
+          "full_corners": 4,
+          "side": 20,
+          "weighted_boundary": 76
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 18,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 6,
+          "full_corners": 0,
+          "side": 16,
+          "weighted_boundary": 6
+        },
+        {
+          "full_boundary": 48,
+          "full_corners": 0,
+          "side": 14,
+          "weighted_boundary": 48
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 12,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 2,
+          "full_corners": 0,
+          "side": 10,
+          "weighted_boundary": 2
+        },
+        {
+          "full_boundary": 24,
+          "full_corners": 4,
+          "side": 8,
+          "weighted_boundary": 28
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "side": 6,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 4,
+          "full_corners": 0,
+          "side": 4,
+          "weighted_boundary": 4
+        },
+        {
+          "full_boundary": 2,
+          "full_corners": 2,
+          "side": 2,
+          "weighted_boundary": 4
+        }
+      ],
+      "n": 20,
+      "proposed_formula_P": 150,
+      "rank_aware_gap_above_proposed_formula": 8,
+      "rank_aware_upper_bound_P": 158,
+      "rank_improvement": 0,
+      "relaxation_upper_bound_P": 158
+    }
+  ],
+  "schema": "grid-graphs.concentric-strip-bound.v1",
+  "scope": {
+    "n_range": [
+      2,
+      20
+    ],
+    "semantics": "valid-integer-relaxation-not-a-sharp-grid-proof",
+    "uses_exact_thin_grid_theorems": [
+      "P(2,s)=s",
+      "P(3,s)=floor((4s+2)/3)"
+    ]
+  },
+  "table": [
+    {
+      "degree_plus_depth_two_bound": 2,
+      "degree_plus_depth_two_three_bound": 2,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_bound": 2,
+      "n": 2,
+      "rank_aware_bound": 2,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 4,
+      "degree_plus_depth_two_three_bound": 4,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_bound": 4,
+      "n": 3,
+      "rank_aware_bound": 4,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 8,
+      "degree_plus_depth_two_three_bound": 8,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_bound": 8,
+      "n": 4,
+      "rank_aware_bound": 8,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 13,
+      "degree_plus_depth_two_three_bound": 13,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 2,
+      "exact_small_anchored_bound": 11,
+      "n": 5,
+      "rank_aware_bound": 12,
+      "rank_improvement": 1
+    },
+    {
+      "degree_plus_depth_two_bound": 18,
+      "degree_plus_depth_two_three_bound": 16,
+      "depth_three_improvement": 2,
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_bound": 16,
+      "n": 6,
+      "rank_aware_bound": 16,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 23,
+      "degree_plus_depth_two_three_bound": 23,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 1,
+      "exact_small_anchored_bound": 22,
+      "n": 7,
+      "rank_aware_bound": 23,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 30,
+      "degree_plus_depth_two_three_bound": 30,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 3,
+      "exact_small_anchored_bound": 27,
+      "n": 8,
+      "rank_aware_bound": 30,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 37,
+      "degree_plus_depth_two_three_bound": 36,
+      "depth_three_improvement": 1,
+      "exact_small_anchor_improvement": 2,
+      "exact_small_anchored_bound": 34,
+      "n": 9,
+      "rank_aware_bound": 36,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 44,
+      "degree_plus_depth_two_three_bound": 44,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 2,
+      "exact_small_anchored_bound": 42,
+      "n": 10,
+      "rank_aware_bound": 44,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 53,
+      "degree_plus_depth_two_three_bound": 53,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 4,
+      "exact_small_anchored_bound": 49,
+      "n": 11,
+      "rank_aware_bound": 53,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 62,
+      "degree_plus_depth_two_three_bound": 62,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 4,
+      "exact_small_anchored_bound": 58,
+      "n": 12,
+      "rank_aware_bound": 62,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 71,
+      "degree_plus_depth_two_three_bound": 71,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 3,
+      "exact_small_anchored_bound": 68,
+      "n": 13,
+      "rank_aware_bound": 71,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 82,
+      "degree_plus_depth_two_three_bound": 82,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 5,
+      "exact_small_anchored_bound": 77,
+      "n": 14,
+      "rank_aware_bound": 82,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 93,
+      "degree_plus_depth_two_three_bound": 93,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 5,
+      "exact_small_anchored_bound": 88,
+      "n": 15,
+      "rank_aware_bound": 93,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 104,
+      "degree_plus_depth_two_three_bound": 104,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 4,
+      "exact_small_anchored_bound": 100,
+      "n": 16,
+      "rank_aware_bound": 104,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 117,
+      "degree_plus_depth_two_three_bound": 117,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 7,
+      "exact_small_anchored_bound": 110,
+      "n": 17,
+      "rank_aware_bound": 117,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 130,
+      "degree_plus_depth_two_three_bound": 130,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_bound": 130,
+      "n": 18,
+      "rank_aware_bound": 130,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 143,
+      "degree_plus_depth_two_three_bound": 143,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_bound": 143,
+      "n": 19,
+      "rank_aware_bound": 143,
+      "rank_improvement": 0
+    },
+    {
+      "degree_plus_depth_two_bound": 158,
+      "degree_plus_depth_two_three_bound": 158,
+      "depth_three_improvement": 0,
+      "exact_small_anchor_improvement": 0,
+      "exact_small_anchored_bound": 158,
+      "n": 20,
+      "rank_aware_bound": 158,
+      "rank_improvement": 0
+    }
+  ],
+  "witness_validation": {
+    "n11-exact": {
+      "depth_three_strips": [
+        {
+          "full_incidence_sum": 56,
+          "limit": 60,
+          "side": 11
+        },
+        {
+          "full_incidence_sum": 19,
+          "limit": 48,
+          "side": 9
+        },
+        {
+          "full_incidence_sum": 24,
+          "limit": 40,
+          "side": 7
+        },
+        {
+          "full_incidence_sum": 22,
+          "limit": 28,
+          "side": 5
+        },
+        {
+          "full_incidence_sum": 4,
+          "limit": 16,
+          "side": 3
+        }
+      ],
+      "depth_two_strips": [
+        {
+          "full_incidence_sum": 43,
+          "limit": 44,
+          "side": 11
+        },
+        {
+          "full_incidence_sum": 6,
+          "limit": 36,
+          "side": 9
+        },
+        {
+          "full_incidence_sum": 19,
+          "limit": 28,
+          "side": 7
+        },
+        {
+          "full_incidence_sum": 14,
+          "limit": 20,
+          "side": 5
+        },
+        {
+          "full_incidence_sum": 3,
+          "limit": 12,
+          "side": 3
+        }
+      ],
+      "full_vertices": 49,
+      "layers": [
+        {
+          "degree_inequality_slack": 11,
+          "full_boundary": 35,
+          "full_corners": 4,
+          "full_total": 49,
+          "side": 11,
+          "weighted_boundary": 39
+        },
+        {
+          "degree_inequality_slack": 37,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 14,
+          "side": 9,
+          "weighted_boundary": 0
+        },
+        {
+          "degree_inequality_slack": 11,
+          "full_boundary": 5,
+          "full_corners": 1,
+          "full_total": 14,
+          "side": 7,
+          "weighted_boundary": 6
+        },
+        {
+          "degree_inequality_slack": 6,
+          "full_boundary": 8,
+          "full_corners": 2,
+          "full_total": 9,
+          "side": 5,
+          "weighted_boundary": 10
+        },
+        {
+          "degree_inequality_slack": 5,
+          "full_boundary": 1,
+          "full_corners": 0,
+          "full_total": 1,
+          "side": 3,
+          "weighted_boundary": 1
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 0,
+          "side": 1,
+          "weighted_boundary": 0
+        }
+      ],
+      "n": 11
+    },
+    "n14-exact": {
+      "depth_three_strips": [
+        {
+          "full_incidence_sum": 70,
+          "limit": 76,
+          "side": 14
+        },
+        {
+          "full_incidence_sum": 27,
+          "limit": 64,
+          "side": 12
+        },
+        {
+          "full_incidence_sum": 34,
+          "limit": 56,
+          "side": 10
+        },
+        {
+          "full_incidence_sum": 32,
+          "limit": 44,
+          "side": 8
+        },
+        {
+          "full_incidence_sum": 16,
+          "limit": 32,
+          "side": 6
+        },
+        {
+          "full_incidence_sum": 17,
+          "limit": 24,
+          "side": 4
+        }
+      ],
+      "depth_two_strips": [
+        {
+          "full_incidence_sum": 55,
+          "limit": 56,
+          "side": 14
+        },
+        {
+          "full_incidence_sum": 8,
+          "limit": 48,
+          "side": 12
+        },
+        {
+          "full_incidence_sum": 27,
+          "limit": 40,
+          "side": 10
+        },
+        {
+          "full_incidence_sum": 23,
+          "limit": 32,
+          "side": 8
+        },
+        {
+          "full_incidence_sum": 7,
+          "limit": 24,
+          "side": 6
+        },
+        {
+          "full_incidence_sum": 10,
+          "limit": 16,
+          "side": 4
+        }
+      ],
+      "full_vertices": 77,
+      "layers": [
+        {
+          "degree_inequality_slack": 14,
+          "full_boundary": 47,
+          "full_corners": 4,
+          "full_total": 77,
+          "side": 14,
+          "weighted_boundary": 51
+        },
+        {
+          "degree_inequality_slack": 52,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 30,
+          "side": 12,
+          "weighted_boundary": 0
+        },
+        {
+          "degree_inequality_slack": 16,
+          "full_boundary": 7,
+          "full_corners": 1,
+          "full_total": 30,
+          "side": 10,
+          "weighted_boundary": 8
+        },
+        {
+          "degree_inequality_slack": 10,
+          "full_boundary": 15,
+          "full_corners": 2,
+          "full_total": 23,
+          "side": 8,
+          "weighted_boundary": 17
+        },
+        {
+          "degree_inequality_slack": 13,
+          "full_boundary": 3,
+          "full_corners": 0,
+          "full_total": 8,
+          "side": 6,
+          "weighted_boundary": 3
+        },
+        {
+          "degree_inequality_slack": 2,
+          "full_boundary": 3,
+          "full_corners": 0,
+          "full_total": 5,
+          "side": 4,
+          "weighted_boundary": 3
+        },
+        {
+          "degree_inequality_slack": 0,
+          "full_boundary": 2,
+          "full_corners": 2,
+          "full_total": 2,
+          "side": 2,
+          "weighted_boundary": 4
+        }
+      ],
+      "n": 14
+    },
+    "n17-affine-exact": {
+      "depth_three_strips": [
+        {
+          "full_incidence_sum": 85,
+          "limit": 92,
+          "side": 17
+        },
+        {
+          "full_incidence_sum": 35,
+          "limit": 80,
+          "side": 15
+        },
+        {
+          "full_incidence_sum": 44,
+          "limit": 72,
+          "side": 13
+        },
+        {
+          "full_incidence_sum": 45,
+          "limit": 60,
+          "side": 11
+        },
+        {
+          "full_incidence_sum": 29,
+          "limit": 48,
+          "side": 9
+        },
+        {
+          "full_incidence_sum": 28,
+          "limit": 40,
+          "side": 7
+        },
+        {
+          "full_incidence_sum": 19,
+          "limit": 28,
+          "side": 5
+        },
+        {
+          "full_incidence_sum": 4,
+          "limit": 16,
+          "side": 3
+        }
+      ],
+      "depth_two_strips": [
+        {
+          "full_incidence_sum": 67,
+          "limit": 68,
+          "side": 17
+        },
+        {
+          "full_incidence_sum": 11,
+          "limit": 60,
+          "side": 15
+        },
+        {
+          "full_incidence_sum": 35,
+          "limit": 52,
+          "side": 13
+        },
+        {
+          "full_incidence_sum": 30,
+          "limit": 44,
+          "side": 11
+        },
+        {
+          "full_incidence_sum": 15,
+          "limit": 36,
+          "side": 9
+        },
+        {
+          "full_incidence_sum": 20,
+          "limit": 28,
+          "side": 7
+        },
+        {
+          "full_incidence_sum": 13,
+          "limit": 20,
+          "side": 5
+        },
+        {
+          "full_incidence_sum": 4,
+          "limit": 12,
+          "side": 3
+        }
+      ],
+      "full_vertices": 110,
+      "layers": [
+        {
+          "degree_inequality_slack": 20,
+          "full_boundary": 59,
+          "full_corners": 4,
+          "full_total": 110,
+          "side": 17,
+          "weighted_boundary": 63
+        },
+        {
+          "degree_inequality_slack": 70,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 51,
+          "side": 15,
+          "weighted_boundary": 0
+        },
+        {
+          "degree_inequality_slack": 25,
+          "full_boundary": 10,
+          "full_corners": 1,
+          "full_total": 51,
+          "side": 13,
+          "weighted_boundary": 11
+        },
+        {
+          "degree_inequality_slack": 18,
+          "full_boundary": 20,
+          "full_corners": 2,
+          "full_total": 41,
+          "side": 11,
+          "weighted_boundary": 22
+        },
+        {
+          "degree_inequality_slack": 21,
+          "full_boundary": 5,
+          "full_corners": 0,
+          "full_total": 21,
+          "side": 9,
+          "weighted_boundary": 5
+        },
+        {
+          "degree_inequality_slack": 7,
+          "full_boundary": 8,
+          "full_corners": 0,
+          "full_total": 16,
+          "side": 7,
+          "weighted_boundary": 8
+        },
+        {
+          "degree_inequality_slack": 8,
+          "full_boundary": 7,
+          "full_corners": 2,
+          "full_total": 8,
+          "side": 5,
+          "weighted_boundary": 9
+        },
+        {
+          "degree_inequality_slack": 4,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 1,
+          "side": 3,
+          "weighted_boundary": 0
+        },
+        {
+          "full_boundary": 1,
+          "full_corners": 0,
+          "full_total": 1,
+          "side": 1,
+          "weighted_boundary": 4
+        }
+      ],
+      "n": 17
+    },
+    "n20-phase-250-U": {
+      "depth_three_strips": [
+        {
+          "full_incidence_sum": 98,
+          "limit": 108,
+          "side": 20
+        },
+        {
+          "full_incidence_sum": 47,
+          "limit": 96,
+          "side": 18
+        },
+        {
+          "full_incidence_sum": 57,
+          "limit": 88,
+          "side": 16
+        },
+        {
+          "full_incidence_sum": 58,
+          "limit": 76,
+          "side": 14
+        },
+        {
+          "full_incidence_sum": 36,
+          "limit": 64,
+          "side": 12
+        },
+        {
+          "full_incidence_sum": 39,
+          "limit": 56,
+          "side": 10
+        },
+        {
+          "full_incidence_sum": 33,
+          "limit": 44,
+          "side": 8
+        },
+        {
+          "full_incidence_sum": 20,
+          "limit": 32,
+          "side": 6
+        },
+        {
+          "full_incidence_sum": 16,
+          "limit": 24,
+          "side": 4
+        }
+      ],
+      "depth_two_strips": [
+        {
+          "full_incidence_sum": 79,
+          "limit": 80,
+          "side": 20
+        },
+        {
+          "full_incidence_sum": 12,
+          "limit": 72,
+          "side": 18
+        },
+        {
+          "full_incidence_sum": 47,
+          "limit": 64,
+          "side": 16
+        },
+        {
+          "full_incidence_sum": 42,
+          "limit": 56,
+          "side": 14
+        },
+        {
+          "full_incidence_sum": 16,
+          "limit": 48,
+          "side": 12
+        },
+        {
+          "full_incidence_sum": 28,
+          "limit": 40,
+          "side": 10
+        },
+        {
+          "full_incidence_sum": 26,
+          "limit": 32,
+          "side": 8
+        },
+        {
+          "full_incidence_sum": 11,
+          "limit": 24,
+          "side": 6
+        },
+        {
+          "full_incidence_sum": 10,
+          "limit": 16,
+          "side": 4
+        }
+      ],
+      "full_vertices": 150,
+      "layers": [
+        {
+          "degree_inequality_slack": 23,
+          "full_boundary": 71,
+          "full_corners": 4,
+          "full_total": 150,
+          "side": 20,
+          "weighted_boundary": 75
+        },
+        {
+          "degree_inequality_slack": 85,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 79,
+          "side": 18,
+          "weighted_boundary": 0
+        },
+        {
+          "degree_inequality_slack": 29,
+          "full_boundary": 11,
+          "full_corners": 1,
+          "full_total": 79,
+          "side": 16,
+          "weighted_boundary": 12
+        },
+        {
+          "degree_inequality_slack": 23,
+          "full_boundary": 31,
+          "full_corners": 2,
+          "full_total": 68,
+          "side": 14,
+          "weighted_boundary": 33
+        },
+        {
+          "degree_inequality_slack": 37,
+          "full_boundary": 6,
+          "full_corners": 0,
+          "full_total": 37,
+          "side": 12,
+          "weighted_boundary": 6
+        },
+        {
+          "degree_inequality_slack": 14,
+          "full_boundary": 8,
+          "full_corners": 1,
+          "full_total": 31,
+          "side": 10,
+          "weighted_boundary": 9
+        },
+        {
+          "degree_inequality_slack": 9,
+          "full_boundary": 13,
+          "full_corners": 3,
+          "full_total": 23,
+          "side": 8,
+          "weighted_boundary": 16
+        },
+        {
+          "degree_inequality_slack": 10,
+          "full_boundary": 5,
+          "full_corners": 1,
+          "full_total": 10,
+          "side": 6,
+          "weighted_boundary": 6
+        },
+        {
+          "degree_inequality_slack": 3,
+          "full_boundary": 3,
+          "full_corners": 1,
+          "full_total": 5,
+          "side": 4,
+          "weighted_boundary": 4
+        },
+        {
+          "degree_inequality_slack": 0,
+          "full_boundary": 2,
+          "full_corners": 2,
+          "full_total": 2,
+          "side": 2,
+          "weighted_boundary": 4
+        }
+      ],
+      "n": 20
+    },
+    "n4-exact-soundness-control": {
+      "depth_three_strips": [
+        {
+          "full_incidence_sum": 20,
+          "limit": 24,
+          "side": 4
+        }
+      ],
+      "depth_two_strips": [
+        {
+          "full_incidence_sum": 16,
+          "limit": 16,
+          "side": 4
+        }
+      ],
+      "full_vertices": 8,
+      "layers": [
+        {
+          "degree_inequality_slack": 2,
+          "full_boundary": 8,
+          "full_corners": 4,
+          "full_total": 8,
+          "side": 4,
+          "weighted_boundary": 12
+        },
+        {
+          "degree_inequality_slack": 2,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 0,
+          "side": 2,
+          "weighted_boundary": 0
+        }
+      ],
+      "n": 4
+    },
+    "n5-exact": {
+      "depth_three_strips": [
+        {
+          "full_incidence_sum": 26,
+          "limit": 28,
+          "side": 5
+        },
+        {
+          "full_incidence_sum": 4,
+          "limit": 16,
+          "side": 3
+        }
+      ],
+      "depth_two_strips": [
+        {
+          "full_incidence_sum": 18,
+          "limit": 20,
+          "side": 5
+        },
+        {
+          "full_incidence_sum": 3,
+          "limit": 12,
+          "side": 3
+        }
+      ],
+      "full_vertices": 11,
+      "layers": [
+        {
+          "degree_inequality_slack": 3,
+          "full_boundary": 10,
+          "full_corners": 3,
+          "full_total": 11,
+          "side": 5,
+          "weighted_boundary": 13
+        },
+        {
+          "degree_inequality_slack": 5,
+          "full_boundary": 1,
+          "full_corners": 0,
+          "full_total": 1,
+          "side": 3,
+          "weighted_boundary": 1
+        },
+        {
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 0,
+          "side": 1,
+          "weighted_boundary": 0
+        }
+      ],
+      "n": 5
+    },
+    "n8-exact": {
+      "depth_three_strips": [
+        {
+          "full_incidence_sum": 42,
+          "limit": 44,
+          "side": 8
+        },
+        {
+          "full_incidence_sum": 8,
+          "limit": 32,
+          "side": 6
+        },
+        {
+          "full_incidence_sum": 12,
+          "limit": 24,
+          "side": 4
+        }
+      ],
+      "depth_two_strips": [
+        {
+          "full_incidence_sum": 30,
+          "limit": 32,
+          "side": 8
+        },
+        {
+          "full_incidence_sum": 4,
+          "limit": 24,
+          "side": 6
+        },
+        {
+          "full_incidence_sum": 8,
+          "limit": 16,
+          "side": 4
+        }
+      ],
+      "full_vertices": 27,
+      "layers": [
+        {
+          "degree_inequality_slack": 7,
+          "full_boundary": 23,
+          "full_corners": 3,
+          "full_total": 27,
+          "side": 8,
+          "weighted_boundary": 26
+        },
+        {
+          "degree_inequality_slack": 22,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 4,
+          "side": 6,
+          "weighted_boundary": 0
+        },
+        {
+          "degree_inequality_slack": 6,
+          "full_boundary": 4,
+          "full_corners": 0,
+          "full_total": 4,
+          "side": 4,
+          "weighted_boundary": 4
+        },
+        {
+          "degree_inequality_slack": 2,
+          "full_boundary": 0,
+          "full_corners": 0,
+          "full_total": 0,
+          "side": 2,
+          "weighted_boundary": 0
+        }
+      ],
+      "n": 8
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "cases": {
+    "n5-scalar-optimum": {
+      "connected_patterns": 0,
+      "cycle_histogram": {
+        "0": 1309,
+        "1": 433,
+        "2": 70,
+        "3": 8
+      },
+      "full_count": 13,
+      "layer_full_counts": {
+        "center": 1,
+        "side_3_boundary": 0,
+        "side_5_boundary": 12
+      },
+      "maximum_dual_edges": 14,
+      "maximum_edge_pattern": [
+        ".UU..",
+        ".UUU.",
+        ".U.U.",
+        ".UUU.",
+        ".UU.."
+      ],
+      "maximum_rank": 14,
+      "maximum_rank_at_maximum_edges": 14,
+      "minimum_component_count": 3,
+      "minimum_components_at_maximum_edges": 3,
+      "minimum_cycle_at_maximum_rank": 0,
+      "minimum_cycles_at_maximum_edges": 0,
+      "minimum_run_sum": 10,
+      "n": 5,
+      "patterns": 1820,
+      "rank_histogram": {
+        "10": 246,
+        "11": 613,
+        "12": 676,
+        "13": 240,
+        "14": 8,
+        "8": 1,
+        "9": 36
+      },
+      "rank_maximizing_pattern": [
+        ".UU..",
+        ".UUU.",
+        ".U.U.",
+        ".UUU.",
+        ".UU.."
+      ],
+      "required_rank": 16,
+      "u_count": 12
+    },
+    "n8-scalar-optimum": {
+      "connected_patterns": 0,
+      "cycle_histogram": {
+        "0": 7680,
+        "1": 103368,
+        "10": 20,
+        "2": 509196,
+        "3": 1161652,
+        "4": 1379524,
+        "5": 890980,
+        "6": 327796,
+        "7": 73380,
+        "8": 8792,
+        "9": 532
+      },
+      "full_count": 30,
+      "layer_full_counts": {
+        "side_2_boundary": 2,
+        "side_4_boundary": 4,
+        "side_6_boundary": 0,
+        "side_8_boundary": 24
+      },
+      "maximum_dual_edges": 49,
+      "maximum_edge_pattern": [
+        ".UUUU...",
+        ".UUUUUU.",
+        ".UU..UU.",
+        ".UUU..U.",
+        ".UUU..U.",
+        ".UUUUUU.",
+        ".UUUUUU.",
+        "........"
+      ],
+      "maximum_rank": 45,
+      "maximum_rank_at_maximum_edges": 42,
+      "minimum_component_count": 5,
+      "minimum_components_at_maximum_edges": 8,
+      "minimum_cycle_at_maximum_rank": 0,
+      "minimum_cycles_at_maximum_edges": 7,
+      "minimum_run_sum": 19,
+      "n": 8,
+      "patterns": 4462920,
+      "rank_histogram": {
+        "34": 642,
+        "35": 3580,
+        "36": 20928,
+        "37": 112626,
+        "38": 391626,
+        "39": 873424,
+        "40": 1271928,
+        "41": 1109298,
+        "42": 530476,
+        "43": 132904,
+        "44": 14976,
+        "45": 512
+      },
+      "rank_maximizing_pattern": [
+        ".U.UU.U.",
+        ".UUUUUU.",
+        ".UU..UU.",
+        ".UU.UUU.",
+        ".UU.U.U.",
+        ".UU.UUU.",
+        ".UUUUUU.",
+        "........"
+      ],
+      "required_rank": 49,
+      "u_count": 34
+    }
+  },
+  "schema": "grid-graphs.concentric-layer-rank-census.v1",
+  "scope": {
+    "semantics": "exact-enumeration-of-declared-layer-count-patterns"
+  }
+}

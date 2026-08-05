@@ -1,0 +1,271 @@
+{
+  "analysis": {
+    "conclusion": "The runs-plus-rows-remaining quotient is falsified as a sharp cross-width residue-two invariant: width-8 constraints lower the phase-two terminal constant to 2.",
+    "held_out_widths_reproduce_known_minima": false,
+    "known_minima_reproduced_all_widths": false,
+    "pooled_phase_terminal_constants": {
+      "0": [
+        4,
+        1
+      ],
+      "1": [
+        2,
+        1
+      ],
+      "2": [
+        2,
+        1
+      ]
+    },
+    "potential_value_denominators": [
+      1
+    ],
+    "residue_two_terminal_constant_survives_n8": false
+  },
+  "census": {
+    "accepted_concrete_transitions": 570905,
+    "attempted_concrete_transitions": 4291576,
+    "discarded_parallel_constraints": 397538,
+    "feature_states": 6006,
+    "pooled_strongest_transitions": 173367,
+    "tight_pooled_transitions": 26541
+  },
+  "hashes": {
+    "concrete_transition_stream_sha256": "58455b4925c97003269d154b8497f6ec9df21a853e71ddca77227fbf5ae228ac",
+    "exact_fraction_potentials_sha256": "773a3bf37a2fe210f68b1457c0805b65d5a59ad030aed9eaebc98a170197948c",
+    "pooled_strongest_constraints_sha256": "6d77d58e256728404c3da9334609b718397005eaac03f67300181cafdc534cf5"
+  },
+  "scope": {
+    "base_feature_level": "runs",
+    "feature_level": "runs+rows_remaining",
+    "held_out_meaning": "n=7 and n=8 were not used to choose the pre-existing runs feature; their exact transitions are included in this reported pooled synthesis",
+    "held_out_widths": [
+      7,
+      8
+    ],
+    "refinement": "one explicit active-frontier rows-to-terminal coordinate",
+    "refinement_reason": "the unrefined runs projection has a negative constraint cycle when width 7 is included; the rows-remaining refinement restores finite feasibility through width 7 but becomes too weak at width 8",
+    "semantics": "width-enumerated-diagnostic-only-not-a-uniform-proof",
+    "uniform_row_charge": 1,
+    "widths": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "widths": {
+    "3": {
+      "accepted_transitions": 84,
+      "accepted_transitions_by_destination_row": [
+        8,
+        24,
+        52
+      ],
+      "attempted_transitions": 184,
+      "exact_charge_one_terminal_constant": [
+        4,
+        1
+      ],
+      "exact_reproduces_known_minimum": true,
+      "feature_states": 31,
+      "implied_minimum_u": 5,
+      "known_minimum_u": 5,
+      "pooled_implied_minimum_u": 5,
+      "pooled_reproduces_known_minimum": true,
+      "pooled_terminal_constant": [
+        4,
+        1
+      ],
+      "reachable_states_by_row": [
+        1,
+        8,
+        14,
+        8
+      ],
+      "terminal_feature_states": 8
+    },
+    "4": {
+      "accepted_transitions": 504,
+      "accepted_transitions_by_destination_row": [
+        16,
+        62,
+        202,
+        224
+      ],
+      "attempted_transitions": 1440,
+      "exact_charge_one_terminal_constant": [
+        2,
+        1
+      ],
+      "exact_reproduces_known_minimum": true,
+      "feature_states": 97,
+      "implied_minimum_u": 8,
+      "known_minimum_u": 8,
+      "pooled_implied_minimum_u": 8,
+      "pooled_reproduces_known_minimum": true,
+      "pooled_terminal_constant": [
+        2,
+        1
+      ],
+      "reachable_states_by_row": [
+        1,
+        16,
+        34,
+        39,
+        16
+      ],
+      "terminal_feature_states": 14
+    },
+    "5": {
+      "accepted_transitions": 2966,
+      "accepted_transitions_by_destination_row": [
+        32,
+        161,
+        790,
+        930,
+        1053
+      ],
+      "attempted_transitions": 10784,
+      "exact_charge_one_terminal_constant": [
+        5,
+        1
+      ],
+      "exact_reproduces_known_minimum": true,
+      "feature_states": 285,
+      "implied_minimum_u": 14,
+      "known_minimum_u": 14,
+      "pooled_implied_minimum_u": 13,
+      "pooled_reproduces_known_minimum": false,
+      "pooled_terminal_constant": [
+        2,
+        1
+      ],
+      "reachable_states_by_row": [
+        1,
+        32,
+        85,
+        105,
+        114,
+        32
+      ],
+      "terminal_feature_states": 22
+    },
+    "6": {
+      "accepted_transitions": 16381,
+      "accepted_transitions_by_destination_row": [
+        64,
+        417,
+        2914,
+        3710,
+        4632,
+        4644
+      ],
+      "attempted_transitions": 76800,
+      "exact_charge_one_terminal_constant": [
+        4,
+        1
+      ],
+      "exact_reproduces_known_minimum": true,
+      "feature_states": 717,
+      "implied_minimum_u": 20,
+      "known_minimum_u": 20,
+      "pooled_implied_minimum_u": 20,
+      "pooled_reproduces_known_minimum": true,
+      "pooled_terminal_constant": [
+        4,
+        1
+      ],
+      "reachable_states_by_row": [
+        1,
+        64,
+        205,
+        279,
+        325,
+        326,
+        64
+      ],
+      "terminal_feature_states": 32
+    },
+    "7": {
+      "accepted_transitions": 87968,
+      "accepted_transitions_by_destination_row": [
+        128,
+        1081,
+        10772,
+        14800,
+        20253,
+        20467,
+        20467
+      ],
+      "attempted_transitions": 534912,
+      "exact_charge_one_terminal_constant": [
+        2,
+        1
+      ],
+      "exact_reproduces_known_minimum": true,
+      "feature_states": 1621,
+      "implied_minimum_u": 27,
+      "known_minimum_u": 27,
+      "pooled_implied_minimum_u": 27,
+      "pooled_reproduces_known_minimum": true,
+      "pooled_terminal_constant": [
+        2,
+        1
+      ],
+      "reachable_states_by_row": [
+        1,
+        128,
+        497,
+        743,
+        930,
+        940,
+        940,
+        128
+      ],
+      "terminal_feature_states": 44
+    },
+    "8": {
+      "accepted_transitions": 463002,
+      "accepted_transitions_by_destination_row": [
+        256,
+        2802,
+        39736,
+        58819,
+        88535,
+        90803,
+        90974,
+        91077
+      ],
+      "attempted_transitions": 3667456,
+      "exact_charge_one_terminal_constant": [
+        5,
+        1
+      ],
+      "exact_reproduces_known_minimum": true,
+      "feature_states": 3301,
+      "implied_minimum_u": 37,
+      "known_minimum_u": 37,
+      "pooled_implied_minimum_u": 36,
+      "pooled_reproduces_known_minimum": false,
+      "pooled_terminal_constant": [
+        2,
+        1
+      ],
+      "reachable_states_by_row": [
+        1,
+        256,
+        1202,
+        1975,
+        2671,
+        2734,
+        2741,
+        2746,
+        256
+      ],
+      "terminal_feature_states": 58
+    }
+  }
+}

@@ -129,6 +129,75 @@ struct SearchStats {
     closure_prunes: u64,
 }
 
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+struct GrammarHistoryState {
+    frontier: State,
+    violated: bool,
+}
+
+#[derive(Clone, Copy)]
+struct GrammarTrace {
+    cost: u16,
+    row_parent: GrammarHistoryState,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+enum GrammarViolationKind {
+    #[default]
+    Combined,
+    SupportHole,
+    ConcurrentCarriers,
+    LocalMotif,
+    FaceCut,
+}
+
+impl GrammarViolationKind {
+    fn parse(value: &str) -> Result<Self, String> {
+        match value {
+            "combined" => Ok(Self::Combined),
+            "support-hole" => Ok(Self::SupportHole),
+            "concurrent-carriers" => Ok(Self::ConcurrentCarriers),
+            "local-motif" => Ok(Self::LocalMotif),
+            "face-cut" => Ok(Self::FaceCut),
+            _ => Err(format!(
+                "invalid grammar violation kind {value:?}; expected combined|support-hole|concurrent-carriers|local-motif|face-cut"
+            )),
+        }
+    }
+}
+
+#[derive(Clone, Copy, Default)]
+struct GrammarDefects {
+    support_hole: bool,
+    concurrent_carriers: bool,
+    local_motif: bool,
+    face_cut: bool,
+}
+
+impl GrammarDefects {
+    fn has(self, kind: GrammarViolationKind) -> bool {
+        match kind {
+            GrammarViolationKind::Combined => {
+                self.support_hole || self.concurrent_carriers || self.local_motif
+            }
+            GrammarViolationKind::SupportHole => self.support_hole,
+            GrammarViolationKind::ConcurrentCarriers => self.concurrent_carriers,
+            GrammarViolationKind::LocalMotif => self.local_motif,
+            GrammarViolationKind::FaceCut => self.face_cut,
+        }
+    }
+}
+
+#[derive(Debug)]
+struct GrammarQueryStats {
+    minimum_good_u: Option<u16>,
+    minimum_bad_u: Option<u16>,
+    peak_states: usize,
+    generated_transitions: u64,
+    elapsed: Duration,
+    bad_witness_rows: Option<Vec<u32>>,
+}
+
 #[derive(Default)]
 struct SearchOptions<'a> {
     checkpoint: Option<&'a Path>,
@@ -782,6 +851,347 @@ fn extend_chunk(
         }
     }
     (next, generated)
+}
+
+fn extend_grammar_chunk(
+    entries: &[(GrammarHistoryState, GrammarTrace)],
+    step: &Step,
+    target: usize,
+    dual_nodes: usize,
+) -> (FastMap<GrammarHistoryState, GrammarTrace>, u64) {
+    let mut next: FastMap<GrammarHistoryState, GrammarTrace> = FastMap::with_capacity_and_hasher(
+        entries.len().saturating_mul(2),
+        BuildHasherDefault::default(),
+    );
+    let mut transition_cache: FastMap<(u128, u8), Option<u128>> =
+        FastMap::with_hasher(BuildHasherDefault::default());
+    let mut generated = 0;
+    for &(history, trace) in entries {
+        let state = history.frontier;
+        let row_u = state.row_u();
+        for chosen in [false, true] {
+            let next_cost = trace.cost + u16::from(chosen);
+            if next_cost as usize > target {
+                continue;
+            }
+            generated += 1;
+            let mut active_edges = 0;
+            if chosen {
+                for (edge_index, edge) in step.edges.iter().enumerate() {
+                    let neighbor_u = match edge.neighbor {
+                        Neighbor::Left => step.col > 0 && row_u & (1 << (step.col - 1)) != 0,
+                        Neighbor::Up => step.row > 0 && row_u & (1 << step.col) != 0,
+                    };
+                    if neighbor_u {
+                        active_edges |= 1 << edge_index;
+                    }
+                }
+            }
+            let next_labels = *transition_cache
+                .entry((state.labels(), active_edges))
+                .or_insert_with(|| advance_labels(state.labels(), step, active_edges));
+            if let Some(labels) = next_labels {
+                let components = component_count(labels, step.after_indices.len());
+                let current_rank = step.introduced_nodes - components;
+                let rank_deficit = (dual_nodes - 1) - current_rank;
+                let minimum_additional_u = rank_deficit.div_ceil(2);
+                if next_cost as usize + minimum_additional_u > target {
+                    continue;
+                }
+                let mut next_row_u = row_u;
+                if chosen {
+                    next_row_u |= 1 << step.col;
+                } else {
+                    next_row_u &= !(1 << step.col);
+                }
+                let candidate = GrammarHistoryState {
+                    frontier: State::new(labels, next_row_u),
+                    violated: history.violated,
+                };
+                let candidate_trace = GrammarTrace {
+                    cost: next_cost,
+                    row_parent: trace.row_parent,
+                };
+                next.entry(candidate)
+                    .and_modify(|existing| {
+                        if (
+                            candidate_trace.cost,
+                            candidate_trace.row_parent.frontier.0,
+                            candidate_trace.row_parent.violated,
+                        ) < (
+                            existing.cost,
+                            existing.row_parent.frontier.0,
+                            existing.row_parent.violated,
+                        ) {
+                            *existing = candidate_trace;
+                        }
+                    })
+                    .or_insert(candidate_trace);
+            }
+        }
+    }
+    (next, generated)
+}
+
+fn residue_two_grammar_defects(state: State, slots: usize, n: usize) -> GrammarDefects {
+    if n < 5 || n % 3 != 2 {
+        return GrammarDefects {
+            support_hole: true,
+            ..GrammarDefects::default()
+        };
+    }
+    if slots == 1 {
+        return GrammarDefects::default();
+    }
+    if slots != n {
+        return GrammarDefects {
+            support_hole: true,
+            ..GrammarDefects::default()
+        };
+    }
+    let out = label_at(state.labels(), 0);
+    let packet_count = (n - 2) / 3;
+    let mut supports: FastMap<usize, u64> = FastMap::with_hasher(BuildHasherDefault::default());
+    for face in 0..n - 1 {
+        let component = label_at(state.labels(), face + 1);
+        if component == out {
+            continue;
+        }
+        let group = if face == 0 { 0 } else { (face + 2) / 3 };
+        *supports.entry(component).or_insert(0) |= 1 << group;
+    }
+    let support_hole = supports.values().any(|support| {
+        let first = support.trailing_zeros() as usize;
+        let last = (u64::BITS - 1 - support.leading_zeros()) as usize;
+        let interval = ((1u64 << (last - first + 1)) - 1) << first;
+        *support != interval
+    });
+    let concurrent_carriers = (0..packet_count).any(|cut| {
+        supports
+            .values()
+            .filter(|support| {
+                let first = support.trailing_zeros() as usize;
+                let last = (u64::BITS - 1 - support.leading_zeros()) as usize;
+                first <= cut && cut < last
+            })
+            .count()
+            > 1
+    });
+    let local_motif = (0..packet_count).any(|packet| {
+        let first = label_at(state.labels(), 2 + 3 * packet);
+        let middle = label_at(state.labels(), 3 + 3 * packet);
+        let last = label_at(state.labels(), 4 + 3 * packet);
+        let forbidden_010 = first == out && middle != out && last == out;
+        let forbidden_101 = first != out && middle == out && last == first;
+        let forbidden_121 = first != out && middle != out && middle != first && last == first;
+        forbidden_010 || forbidden_101 || forbidden_121
+    });
+    let mut face_hulls: FastMap<usize, (usize, usize)> =
+        FastMap::with_hasher(BuildHasherDefault::default());
+    for face in 0..n - 1 {
+        let component = label_at(state.labels(), face + 1);
+        if component != out {
+            face_hulls
+                .entry(component)
+                .and_modify(|hull| hull.1 = face)
+                .or_insert((face, face));
+        }
+    }
+    let face_cut = (0..n - 2).any(|cut| {
+        face_hulls
+            .values()
+            .filter(|(first, last)| *first <= cut && cut < *last)
+            .count()
+            > 1
+    });
+    GrammarDefects {
+        support_hole,
+        concurrent_carriers,
+        local_motif,
+        face_cut,
+    }
+}
+
+fn mark_grammar_violations(
+    states: FastMap<GrammarHistoryState, GrammarTrace>,
+    n: usize,
+    slots: usize,
+    kind: GrammarViolationKind,
+) -> FastMap<GrammarHistoryState, GrammarTrace> {
+    let mut marked: FastMap<GrammarHistoryState, GrammarTrace> =
+        FastMap::with_capacity_and_hasher(states.len(), BuildHasherDefault::default());
+    for (history, trace) in states {
+        let candidate = GrammarHistoryState {
+            frontier: history.frontier,
+            violated: history.violated
+                || residue_two_grammar_defects(history.frontier, slots, n).has(kind),
+        };
+        marked
+            .entry(candidate)
+            .and_modify(|existing| {
+                if (
+                    trace.cost,
+                    trace.row_parent.frontier.0,
+                    trace.row_parent.violated,
+                ) < (
+                    existing.cost,
+                    existing.row_parent.frontier.0,
+                    existing.row_parent.violated,
+                ) {
+                    *existing = trace;
+                }
+            })
+            .or_insert(trace);
+    }
+    marked
+}
+
+fn grammar_violation_search(
+    n: usize,
+    target: usize,
+    progress: bool,
+    recover_witness: bool,
+    kind: GrammarViolationKind,
+) -> Result<GrammarQueryStats, String> {
+    if n < 5 || n > MAX_N || n % 3 != 2 {
+        return Err(format!(
+            "grammar violation query requires n=3k+2 in 5..={MAX_N}"
+        ));
+    }
+    if target > n * n {
+        return Err(format!("U count cannot exceed {}", n * n));
+    }
+    let started = Instant::now();
+    let schedule = steps(n)?;
+    let dual_nodes = (n - 1) * (n - 1) + 1;
+    let mut states = FastMap::with_hasher(BuildHasherDefault::default());
+    let initial = GrammarHistoryState {
+        frontier: State::new(0, 0),
+        violated: false,
+    };
+    states.insert(
+        initial,
+        GrammarTrace {
+            cost: 0,
+            row_parent: initial,
+        },
+    );
+    let mut peak_states = 1;
+    let mut generated_transitions = 0;
+    let mut row_parents: Option<Vec<FastMap<GrammarHistoryState, (GrammarHistoryState, u32)>>> =
+        recover_witness.then(Vec::new);
+    for (index, step) in schedule.iter().enumerate() {
+        let step_started = Instant::now();
+        let entries: Vec<_> = states.into_iter().collect();
+        let (next, generated) = extend_grammar_chunk(&entries, step, target, dual_nodes);
+        generated_transitions += generated;
+        states = next;
+        let completed = index + 1;
+        if completed % n == 0 {
+            states = mark_grammar_violations(states, n, step.after_indices.len(), kind);
+            if let Some(layers) = &mut row_parents {
+                layers.push(
+                    states
+                        .iter()
+                        .map(|(&state, trace)| (state, (trace.row_parent, state.frontier.row_u())))
+                        .collect(),
+                );
+            }
+            for (state, trace) in &mut states {
+                trace.row_parent = *state;
+            }
+        }
+        peak_states = peak_states.max(states.len());
+        if progress {
+            eprintln!(
+                "grammar_query step={completed}/{} row={} col={} states={} generated={} total_transitions={} step_seconds={:.3} elapsed_seconds={:.3} rss_kib={} peak_rss_kib={}",
+                schedule.len(),
+                step.row,
+                step.col,
+                states.len(),
+                generated,
+                generated_transitions,
+                step_started.elapsed().as_secs_f64(),
+                started.elapsed().as_secs_f64(),
+                process_memory_kib("VmRSS:").map_or("unknown".into(), |value| value.to_string()),
+                process_memory_kib("VmHWM:").map_or("unknown".into(), |value| value.to_string()),
+            );
+        }
+    }
+    let minimum_good_u = states
+        .iter()
+        .filter_map(|(state, trace)| (!state.violated).then_some(trace.cost))
+        .min();
+    let minimum_bad_u = states
+        .iter()
+        .filter_map(|(state, trace)| state.violated.then_some(trace.cost))
+        .min();
+    let bad_witness_rows = match (row_parents, minimum_bad_u) {
+        (Some(parents), Some(cost)) => {
+            let terminal = states
+                .iter()
+                .filter(|(state, trace)| state.violated && trace.cost == cost)
+                .map(|(state, _)| *state)
+                .min_by_key(|state| (state.frontier.0, state.violated))
+                .expect("minimum bad cost must have a terminal state");
+            Some(backtrack_grammar_witness(n, &parents, terminal)?)
+        }
+        _ => None,
+    };
+    Ok(GrammarQueryStats {
+        minimum_good_u,
+        minimum_bad_u,
+        peak_states,
+        generated_transitions,
+        elapsed: started.elapsed(),
+        bad_witness_rows,
+    })
+}
+
+fn backtrack_grammar_witness(
+    n: usize,
+    row_parents: &[FastMap<GrammarHistoryState, (GrammarHistoryState, u32)>],
+    mut target: GrammarHistoryState,
+) -> Result<Vec<u32>, String> {
+    if row_parents.len() != n {
+        return Err("grammar witness recovery requires every row-boundary layer".into());
+    }
+    let mut rows = Vec::with_capacity(n);
+    for row in (0..n).rev() {
+        let (parent, row_mask) = row_parents[row]
+            .get(&target)
+            .copied()
+            .ok_or_else(|| format!("no grammar witness predecessor at row {row}"))?;
+        target = parent;
+        rows.push(row_mask);
+    }
+    if target.frontier != State::new(0, 0) || target.violated {
+        return Err("grammar witness did not backtrack to the initial state".into());
+    }
+    rows.reverse();
+    Ok(rows)
+}
+
+fn write_grammar_witness(path: &Path, n: usize, rows: &[u32]) -> Result<(), String> {
+    if rows.len() != n {
+        return Err("grammar witness has the wrong row count".into());
+    }
+    let rendered = rows
+        .iter()
+        .map(|mask| {
+            (0..n)
+                .map(|col| if mask & (1 << col) != 0 { 'U' } else { '.' })
+                .collect::<String>()
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    fs::write(path, rendered).map_err(|error| {
+        format!(
+            "failed to write grammar witness {}: {error}",
+            path.display()
+        )
+    })
 }
 
 fn apply_row_pruning(
@@ -1472,6 +1882,9 @@ struct Config {
     dump_out: Option<PathBuf>,
     replay_pattern: Option<PathBuf>,
     replay_out: Option<PathBuf>,
+    grammar_violation_query: bool,
+    grammar_violation_kind: GrammarViolationKind,
+    grammar_witness_out: Option<PathBuf>,
 }
 
 fn parse_args() -> Result<Config, String> {
@@ -1488,6 +1901,9 @@ fn parse_args() -> Result<Config, String> {
     let mut dump_out = None;
     let mut replay_pattern = None;
     let mut replay_out = None;
+    let mut grammar_violation_query = false;
+    let mut grammar_violation_kind = GrammarViolationKind::Combined;
+    let mut grammar_witness_out = None;
     let mut at = 0;
     while at < args.len() {
         match args[at].as_str() {
@@ -1499,12 +1915,25 @@ fn parse_args() -> Result<Config, String> {
                 progress = true;
                 at += 1;
             }
+            "--grammar-violation-query" => {
+                grammar_violation_query = true;
+                at += 1;
+            }
             "--resume" => {
                 resume = true;
                 at += 1;
             }
-            "--n" | "--u-count" | "--meet-step" | "--checkpoint" | "--pruning" | "--dump-step"
-            | "--dump-out" | "--replay-pattern" | "--replay-out" => {
+            "--n"
+            | "--u-count"
+            | "--meet-step"
+            | "--checkpoint"
+            | "--pruning"
+            | "--dump-step"
+            | "--dump-out"
+            | "--replay-pattern"
+            | "--replay-out"
+            | "--grammar-witness-out"
+            | "--grammar-violation-kind" => {
                 let flag = args[at].clone();
                 let value = args
                     .get(at + 1)
@@ -1537,6 +1966,10 @@ fn parse_args() -> Result<Config, String> {
                     replay_pattern = Some(PathBuf::from(value));
                 } else if flag == "--replay-out" {
                     replay_out = Some(PathBuf::from(value));
+                } else if flag == "--grammar-witness-out" {
+                    grammar_witness_out = Some(PathBuf::from(value));
+                } else if flag == "--grammar-violation-kind" {
+                    grammar_violation_kind = GrammarViolationKind::parse(value)?;
                 } else {
                     target = Some(
                         value
@@ -1559,7 +1992,10 @@ fn parse_args() -> Result<Config, String> {
                        --dump-step N      dump exact states after completed step N\n\
                        --dump-out PATH    state dump destination\n\
                        --replay-pattern P replay a U/. pattern through the frontier\n\
-                       --replay-out PATH  replay report destination"
+                        --replay-out PATH  replay report destination
+                        --grammar-violation-query  split paths by any carrier/local-motif violation
+                        --grammar-violation-kind K combined|support-hole|concurrent-carriers|local-motif|face-cut
+                        --grammar-witness-out PATH recover one minimum violating U/. pattern"
                 );
                 process::exit(0);
             }
@@ -1578,6 +2014,19 @@ fn parse_args() -> Result<Config, String> {
     if replay_pattern.is_some() != replay_out.is_some() {
         return Err("--replay-pattern and --replay-out require each other".into());
     }
+    if grammar_violation_query
+        && (meeting_step.is_some()
+            || checkpoint.is_some()
+            || resume
+            || pruning != PruningMode::None
+            || dump_step.is_some()
+            || replay_pattern.is_some())
+    {
+        return Err("--grammar-violation-query supports only --progress and --per-step".into());
+    }
+    if grammar_witness_out.is_some() && !grammar_violation_query {
+        return Err("--grammar-witness-out requires --grammar-violation-query".into());
+    }
     Ok(Config {
         n: n.ok_or("--n is required")?,
         target: target.ok_or("--u-count is required")?,
@@ -1591,12 +2040,39 @@ fn parse_args() -> Result<Config, String> {
         dump_out,
         replay_pattern,
         replay_out,
+        grammar_violation_query,
+        grammar_violation_kind,
+        grammar_witness_out,
     })
 }
 
 fn main() {
     let result = parse_args().and_then(|config| {
-        if let Some(pattern) = &config.replay_pattern {
+        if config.grammar_violation_query {
+            let stats = grammar_violation_search(
+                config.n,
+                config.target,
+                config.progress,
+                config.grammar_witness_out.is_some(),
+                config.grammar_violation_kind,
+            )?;
+            if let (Some(path), Some(rows)) =
+                (&config.grammar_witness_out, &stats.bad_witness_rows)
+            {
+                write_grammar_witness(path, config.n, rows)?;
+            }
+            println!(
+                "GRAMMAR_QUERY n={} u_count={} kind={:?} minimum_good_u={:?} minimum_bad_u={:?} peak_states={} transitions={} elapsed_seconds={:.3}",
+                config.n,
+                config.target,
+                config.grammar_violation_kind,
+                stats.minimum_good_u,
+                stats.minimum_bad_u,
+                stats.peak_states,
+                stats.generated_transitions,
+                stats.elapsed.as_secs_f64(),
+            );
+        } else if let Some(pattern) = &config.replay_pattern {
             replay_pattern(
                 pattern,
                 config.replay_out.as_ref().unwrap(),
@@ -1816,6 +2292,28 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn residue_two_grammar_classifier_detects_local_and_carrier_defects() {
+        let accepted = State::new(canonicalize_labels([0, 1, 2, 3, 4]), 0);
+        assert!(!residue_two_grammar_defects(accepted, 5, 5).has(GrammarViolationKind::Combined));
+
+        let motif_010 = State::new(canonicalize_labels([0, 1, 0, 2, 0]), 0);
+        assert!(residue_two_grammar_defects(motif_010, 5, 5).has(GrammarViolationKind::Combined));
+
+        let support_hole = State::new(canonicalize_labels([0, 1, 2, 3, 4, 1, 5, 6]), 0);
+        assert!(residue_two_grammar_defects(support_hole, 8, 8).has(GrammarViolationKind::Combined));
+        assert!(!residue_two_grammar_defects(State::new(0, 0), 1, 8)
+            .has(GrammarViolationKind::Combined));
+    }
+
+    #[test]
+    fn n5_minimum_paths_never_violate_the_combined_grammar() {
+        let result =
+            grammar_violation_search(5, 14, false, false, GrammarViolationKind::Combined).unwrap();
+        assert_eq!(result.minimum_good_u, Some(14));
+        assert_eq!(result.minimum_bad_u, None);
     }
 
     #[test]

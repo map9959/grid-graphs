@@ -286,6 +286,8 @@ dependencies = [
  "hashbrown 0.14.5",
  "plotly",
  "rayon",
+ "serde",
+ "serde_json",
  "varisat",
  "varisat-dimacs",
 ]

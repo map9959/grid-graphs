@@ -1,0 +1,1600 @@
+{
+  "schema": "grid-graphs.equality-moving-slab.v1",
+  "scope": {
+    "source_n": 5,
+    "target_n": 8,
+    "seam_step": 1,
+    "operations": {
+      "ADVANCE": 5,
+      "HOLD": 3
+    },
+    "semantics": "optimal-path-moving-visible-interface-census"
+  },
+  "census": {
+    "source_paths": 242,
+    "target_paths": 704,
+    "successful_target_paths": 58,
+    "alignment_paths": 3517,
+    "terminal_cycle_preserving_alignments": 1849,
+    "operation_words": {
+      "AAAAAHHH": 1635,
+      "AAAAHAHH": 437,
+      "AAAAHHAH": 50,
+      "AAAAHHHA": 44,
+      "AAAHAAHH": 459,
+      "AAAHHAAH": 446,
+      "AAHAAAHH": 95,
+      "AAHAHAAH": 45,
+      "AAHHAAAH": 32,
+      "AAHHHAAA": 274
+    },
+    "terminal_cycle_delta_histogram": {
+      "-2": 36,
+      "-1": 258,
+      "0": 1849,
+      "1": 652,
+      "2": 251,
+      "3": 471
+    },
+    "sample_seam_words": {
+      "0,0,0,0,0,0,1,2": 3,
+      "0,0,0,0,0,1,2,3": 3,
+      "0,0,0,0,1,2,1,2": 3,
+      "0,0,0,0,1,2,2,2": 3,
+      "0,0,0,0,1,2,2,3": 3,
+      "0,0,0,1,2,3,2,2": 1,
+      "0,0,1,2,2,3,2,2": 2,
+      "1,2,3,3,2,1,2,3": 1,
+      "1,2,3,3,2,3,2,2": 2,
+      "2,1,0,0,0,0,1,2": 1,
+      "2,1,0,0,0,1,2,3": 1,
+      "2,1,0,0,1,2,1,2": 1,
+      "2,1,0,0,1,2,2,2": 1,
+      "2,1,0,0,1,2,2,3": 1,
+      "2,1,2,1,0,0,1,2": 2,
+      "2,1,2,1,0,1,2,3": 2,
+      "2,1,2,2,1,0,1,2": 1,
+      "2,1,2,2,2,1,0,0": 1,
+      "2,1,2,2,2,3,3,2": 1,
+      "2,1,2,3,3,2,2,3": 2,
+      "2,2,3,3,2,1,2,3": 1,
+      "2,2,3,3,2,3,2,2": 2,
+      "2,3,4,5,4,3,2,2": 2,
+      "2,3,4,5,4,3,2,3": 4,
+      "3,3,3,2,1,0,1,2": 1,
+      "3,3,3,2,1,1,2,3": 1,
+      "3,3,3,2,2,1,2,3": 1,
+      "3,3,3,2,2,3,3,2": 1,
+      "3,3,3,2,3,2,2,3": 1,
+      "3,3,3,3,2,3,2,2": 1,
+      "4,5,4,3,2,1,2,3": 2,
+      "4,5,4,3,2,3,2,2": 3,
+      "4,5,4,5,4,3,2,2": 1,
+      "4,5,4,5,4,3,2,3": 2
+    },
+    "interior_decoration_transport_graph": {
+      "vertices": 154,
+      "edges": 251,
+      "self_loops": 0,
+      "vertices_on_directed_cycles": 0
+    },
+    "cycle_preserving_interior_decoration_graph": {
+      "vertices": 96,
+      "edges": 159,
+      "self_loops": 0,
+      "vertices_on_directed_cycles": 0
+    }
+  },
+  "samples": [
+    {
+      "target_path": 0,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 5,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        1,
+        2,
+        3,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 10,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 12,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 13,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 28,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        1,
+        2,
+        3,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 42,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 45,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 46,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        1,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 62,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 68,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 168,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        2,
+        3,
+        3,
+        2,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        2,
+        30,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 173,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        2,
+        3,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        2,
+        30,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 178,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        2,
+        3
+      ],
+      "source_masks": [
+        2,
+        30,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 180,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        2,
+        3
+      ],
+      "source_masks": [
+        2,
+        30,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 181,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        2,
+        30,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 196,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        2,
+        3,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        2,
+        30,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 202,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 205,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 206,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        1,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 222,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 228,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 288,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        3,
+        3,
+        3,
+        2,
+        2,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        6,
+        30,
+        10,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 296,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        3,
+        3,
+        3,
+        2,
+        3,
+        2,
+        2,
+        3
+      ],
+      "source_masks": [
+        6,
+        30,
+        10,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 304,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        6,
+        30,
+        10,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 336,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        4,
+        5,
+        4,
+        3,
+        2,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 341,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        4,
+        5,
+        4,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 346,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        4,
+        5,
+        4,
+        5,
+        4,
+        3,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 348,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        4,
+        5,
+        4,
+        5,
+        4,
+        3,
+        2,
+        3
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 349,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        4,
+        5,
+        4,
+        5,
+        4,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        26,
+        14
+      ]
+    },
+    {
+      "target_path": 364,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        4,
+        5,
+        4,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "source_masks": [
+        0,
+        31,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 378,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        2,
+        2
+      ],
+      "source_masks": [
+        8,
+        15,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 381,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        2,
+        3
+      ],
+      "source_masks": [
+        8,
+        15,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 382,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        1,
+        2
+      ],
+      "source_masks": [
+        8,
+        15,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 398,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        8,
+        15,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 404,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD"
+      ],
+      "seams": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "source_masks": [
+        8,
+        15,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 456,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        3,
+        3,
+        2,
+        2,
+        3
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "target_path": 461,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        2,
+        1,
+        0,
+        1,
+        2
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 463,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        2,
+        2,
+        1,
+        0,
+        0
+      ],
+      "source_masks": [
+        10,
+        14,
+        27,
+        31,
+        0
+      ]
+    },
+    {
+      "target_path": 466,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        1,
+        0,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 468,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        1,
+        0,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 469,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        1,
+        0,
+        0,
+        1,
+        2
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 484,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        1,
+        0,
+        0,
+        1,
+        2
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 490,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        0,
+        0,
+        1,
+        2,
+        2,
+        2
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 493,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        0,
+        0,
+        1,
+        2,
+        2,
+        3
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 494,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        0,
+        0,
+        1,
+        2,
+        1,
+        2
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 510,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        0,
+        0,
+        0,
+        1,
+        2,
+        3
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 516,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        11,
+        14
+      ]
+    },
+    {
+      "target_path": 517,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        2
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        15,
+        12
+      ]
+    },
+    {
+      "target_path": 520,
+      "operations": [
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "ADVANCE",
+        "ADVANCE",
+        "ADVANCE",
+        "HOLD",
+        "HOLD"
+      ],
+      "seams": [
+        2,
+        1,
+        2,
+        3,
+        3,
+        2,
+        2,
+        3
+      ],
+      "source_masks": [
+        10,
+        14,
+        14,
+        14,
+        14
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": "analysis/equality_moving_slab.py",
+    "command": [
+      "python3",
+      "-B",
+      "analysis/equality_moving_slab.py",
+      "--output",
+      "analysis/equality_moving_slab.json"
+    ]
+  }
+}

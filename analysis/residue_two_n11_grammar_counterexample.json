@@ -1,0 +1,497 @@
+{
+  "conclusion": "Zero-slack equality paths are not covered by contiguous packet-group support. A corrected carrier language must permit a live hull carrier to pass silently through an unoccupied packet.",
+  "exact_search": {
+    "command": [
+      "cargo",
+      "run",
+      "--release",
+      "--bin",
+      "search_n17_frontier_pruned",
+      "--",
+      "--n",
+      "11",
+      "--u-count",
+      "72",
+      "--grammar-violation-query",
+      "--grammar-violation-kind",
+      "support-hole"
+    ],
+    "engine": "src/bin/search_n17_frontier_pruned.rs",
+    "generated_transitions": 20631703,
+    "minimum_bad_u": 72,
+    "minimum_good_u": 72,
+    "peak_product_states": 191615
+  },
+  "failure": {
+    "component": 3,
+    "kind": "support_hole",
+    "missing_groups": [
+      2
+    ],
+    "occupied_groups": [
+      1,
+      3
+    ],
+    "repaired_by_next_row": true,
+    "row": 8
+  },
+  "pattern": [
+    ".U.......U.",
+    ".UUUUUUUUU.",
+    ".UU.UU.UUU.",
+    ".UU.UUUU.U.",
+    ".UU.U.UUUU.",
+    ".UU.UUU.UU.",
+    ".UU.UUU.UU.",
+    ".UUUU.U.UU.",
+    "UU.UUUU.UU.",
+    "UUUUUUUUUUU",
+    "..........."
+  ],
+  "schema": "grid-graphs.residue-two-n11-grammar-counterexample.v1",
+  "scope": {
+    "arbitrary_width_claimed": false,
+    "charged_curvature": 5,
+    "global_optimality_source": "known exact n=11 minimum U=72",
+    "semantics": "exact-counterexample-to-contiguous-support-coverage",
+    "u_count": 72,
+    "width": 11
+  },
+  "states": [
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 0,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "previous_row": ".U.......U.",
+      "row": 1,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 0,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "previous_row": ".UUUUUUUUU.",
+      "row": 2,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 1,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          1,
+          2
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        8,
+        9
+      ],
+      "previous_row": ".UU.UU.UUU.",
+      "row": 3,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 1,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          1,
+          2
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "previous_row": ".UU.UUUU.U.",
+      "row": 4,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 1,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        7,
+        8,
+        9
+      ],
+      "previous_row": ".UU.U.UUUU.",
+      "row": 5,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 1,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        6,
+        9
+      ],
+      "previous_row": ".UU.UUU.UU.",
+      "row": 6,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 1,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          1,
+          2
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        5,
+        6,
+        7,
+        5,
+        8
+      ],
+      "previous_row": ".UU.UUU.UU.",
+      "row": 7,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": false,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 1,
+      "packet_motifs": [
+        [
+          1,
+          1,
+          2
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        3,
+        8
+      ],
+      "previous_row": ".UUUU.U.UU.",
+      "row": 8,
+      "support_holes": [
+        {
+          "component": 3,
+          "missing_groups": [
+            2
+          ],
+          "occupied_groups": [
+            1,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 1,
+      "packet_motifs": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "partition": [
+        0,
+        1,
+        2,
+        3,
+        1,
+        1,
+        4,
+        5,
+        6,
+        1,
+        7
+      ],
+      "previous_row": "UU.UUUU.UU.",
+      "row": 9,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 0,
+      "packet_motifs": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "partition": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "previous_row": "UUUUUUUUUUU",
+      "row": 10,
+      "support_holes": []
+    },
+    {
+      "carrier_accepted": true,
+      "concurrent_packet_carriers": [],
+      "forbidden_motifs": [],
+      "hull_carrier_local_accepted": true,
+      "maximum_face_cut_open_width": 0,
+      "packet_motifs": [
+        [],
+        [],
+        []
+      ],
+      "partition": [
+        0
+      ],
+      "previous_row": "...........",
+      "row": 11,
+      "support_holes": []
+    }
+  ],
+  "surviving_restrictions": {
+    "all_packet_motifs_in_n5_n8_alphabet": true,
+    "all_states_in_hull_carrier_local_language": true,
+    "maximum_face_cut_open_width": 1,
+    "no_concurrent_packet_carriers": true
+  }
+}

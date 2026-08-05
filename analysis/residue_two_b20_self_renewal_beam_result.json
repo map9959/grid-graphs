@@ -1,0 +1,87 @@
+{
+  "schema": "grid-graphs.residue-two-self-renewal-discovery.v1",
+  "claim": {
+    "kind": "HEURISTIC_DISCOVERY",
+    "exact": false,
+    "complete": false,
+    "source": "residue_two_phase_front_witness.txt",
+    "source_n": 20,
+    "target_n": 23,
+    "carrier": "bounded X/H/S center with width at most five",
+    "caps": "exact radius-zero inserted-packet lifts reproducing B20 top-depth-3 and reverse-bottom-depth-2 interfaces",
+    "schedules": "all geometrically legal middle ADVANCE/HOLD/seam paths retained by the manifest",
+    "strict_boundaries": true,
+    "budgets": [333, 335],
+    "conclusion": "No 333-U connected join was found in beams up to 20000 states per side; this is not an UNSAT result. The 335-U calibration produced connected joins."
+  },
+  "manifest": {
+    "path": "analysis/residue_two_b20_self_renewal_manifest.json",
+    "sha256": "548b88dcc38fe1b5d2fd6297a5faf6ab66e98cafb51dffaf67ec653704ac2706",
+    "active_lanes": 6,
+    "top_seeds": 17,
+    "bottom_seeds": 17,
+    "mask_domains": 27,
+    "signature_states": 2318,
+    "signature_transitions": 10521
+  },
+  "runs": [
+    {
+      "beam": 5000,
+      "top_states": 5000,
+      "bottom_states": 5000,
+      "common_cut_signatures": 56,
+      "minimum_join_cost": 332,
+      "elapsed_seconds": 70.918147255,
+      "budgets": {
+        "333": {
+          "tested_pairs": 15767,
+          "connected_pairs": 0,
+          "best_components": 3
+        },
+        "335": {
+          "tested_pairs": 124981,
+          "connected_pairs": 675,
+          "best_components": 1
+        }
+      }
+    },
+    {
+      "beam": 20000,
+      "top_states": 20000,
+      "bottom_states": 20000,
+      "common_cut_signatures": 56,
+      "minimum_join_cost": 332,
+      "elapsed_seconds": 258.098636158,
+      "budgets": {
+        "333": {
+          "tested_pairs": 47410,
+          "connected_pairs": 0,
+          "best_components": 3
+        },
+        "335": {
+          "tested_pairs": 1632649,
+          "connected_pairs": 14086,
+          "best_components": 1
+        }
+      }
+    }
+  ],
+  "feasibility_diagnostic": {
+    "attempted_exact_product": "aborted by user after state explosion",
+    "states_after_row_4": 21365,
+    "states_after_row_5": 1701918,
+    "interpretation": "The exact all-schedule product is computationally infeasible in this representation."
+  },
+  "validation": {
+    "335_witness_reconstructed": false,
+    "335_join_independently_validated": false,
+    "note": "Connected-pair counts are produced by the exact frontier merge kernel over beam-retained states, but no row witness was reconstructed. They calibrate search topology and do not constitute a standalone positive certificate."
+  },
+  "provenance": {
+    "search_source": "src/bin/search_residue_two_self_renewal.rs",
+    "search_source_sha256": "fb557c03504be8b4e0d00330a08eaaae52d49a422891264dbd5aa90f982490d0",
+    "release_binary_sha256": "ff0f916f560e81eddaaf8c555605fd48afb6c2d8a382a0d3dcfc23027a9b2cf4",
+    "manifest_exporter": "analysis/export_residue_two_self_renewal_manifest.py",
+    "manifest_exporter_sha256": "0eddb0a2f037b28b64ccbd45e8787a047a6f6aed9c9960823627fc1286ca548b"
+  }
+}

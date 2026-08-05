@@ -1,0 +1,1411 @@
+{
+  "definition": {
+    "budgeted_merge_capacity": "maximum independent edge merges over every remaining cell choice sequence within the U budget; exact suffix enumeration",
+    "independent_edge_merge": "an active dual edge whose endpoints were in distinct components when applied",
+    "matched_neighbor_mask": "bit 0 = chosen cell has a U left neighbor; bit 1 = chosen cell has a U upper neighbor",
+    "rooted_attachment_debt": "number of live dual components not containing OUT"
+  },
+  "explicit_witness_histories": {
+    "11": {
+      "n": 11,
+      "row_boundaries": [
+        {
+          "completed_rows": 0,
+          "components": 1,
+          "rooted_debt": 0,
+          "u_cost": 0
+        },
+        {
+          "active_dual_edges_in_row": 0,
+          "completed_rows": 1,
+          "components": 11,
+          "independent_merges_in_row": 0,
+          "rooted_debt": 10,
+          "row_u_bits_col0_first": ".U.........",
+          "row_u_mask": 2,
+          "u_cost": 1
+        },
+        {
+          "active_dual_edges_in_row": 10,
+          "completed_rows": 2,
+          "components": 11,
+          "independent_merges_in_row": 10,
+          "rooted_debt": 10,
+          "row_u_bits_col0_first": ".UUUUUUUUUU",
+          "row_u_mask": 2046,
+          "u_cost": 11
+        },
+        {
+          "active_dual_edges_in_row": 14,
+          "completed_rows": 3,
+          "components": 7,
+          "independent_merges_in_row": 14,
+          "rooted_debt": 6,
+          "row_u_bits_col0_first": ".UU.UUUUUU.",
+          "row_u_mask": 1014,
+          "u_cost": 19
+        },
+        {
+          "active_dual_edges_in_row": 7,
+          "completed_rows": 4,
+          "components": 10,
+          "independent_merges_in_row": 7,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UUUU....U.",
+          "row_u_mask": 542,
+          "u_cost": 24
+        },
+        {
+          "active_dual_edges_in_row": 10,
+          "completed_rows": 5,
+          "components": 10,
+          "independent_merges_in_row": 10,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".U.UUUUUUU.",
+          "row_u_mask": 1018,
+          "u_cost": 32
+        },
+        {
+          "active_dual_edges_in_row": 10,
+          "completed_rows": 6,
+          "components": 10,
+          "independent_merges_in_row": 10,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UUU.UU.UU.",
+          "row_u_mask": 878,
+          "u_cost": 39
+        },
+        {
+          "active_dual_edges_in_row": 13,
+          "completed_rows": 7,
+          "components": 7,
+          "independent_merges_in_row": 13,
+          "rooted_debt": 6,
+          "row_u_bits_col0_first": ".UUUUUU.UU.",
+          "row_u_mask": 894,
+          "u_cost": 47
+        },
+        {
+          "active_dual_edges_in_row": 7,
+          "completed_rows": 8,
+          "components": 10,
+          "independent_merges_in_row": 7,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".U....UUUU.",
+          "row_u_mask": 962,
+          "u_cost": 52
+        },
+        {
+          "active_dual_edges_in_row": 11,
+          "completed_rows": 9,
+          "components": 9,
+          "independent_merges_in_row": 11,
+          "rooted_debt": 8,
+          "row_u_bits_col0_first": ".UUUUUUU.UU",
+          "row_u_mask": 1790,
+          "u_cost": 61
+        },
+        {
+          "active_dual_edges_in_row": 18,
+          "completed_rows": 10,
+          "components": 2,
+          "independent_merges_in_row": 17,
+          "rooted_debt": 1,
+          "row_u_bits_col0_first": ".UUUUUUUUUU",
+          "row_u_mask": 2046,
+          "u_cost": 71
+        },
+        {
+          "active_dual_edges_in_row": 1,
+          "completed_rows": 11,
+          "components": 1,
+          "independent_merges_in_row": 1,
+          "rooted_debt": 0,
+          "row_u_bits_col0_first": ".U.........",
+          "row_u_mask": 2,
+          "u_cost": 72
+        }
+      ],
+      "rows_sha256": "86ef96135476a5a4aeba1c75e628c0b1e0a5fe0418b9693d63eb3ac26ccf9efd",
+      "u_count": 72
+    },
+    "14": {
+      "n": 14,
+      "row_boundaries": [
+        {
+          "completed_rows": 0,
+          "components": 1,
+          "rooted_debt": 0,
+          "u_cost": 0
+        },
+        {
+          "active_dual_edges_in_row": 0,
+          "completed_rows": 1,
+          "components": 14,
+          "independent_merges_in_row": 0,
+          "rooted_debt": 13,
+          "row_u_bits_col0_first": ".U............",
+          "row_u_mask": 2,
+          "u_cost": 1
+        },
+        {
+          "active_dual_edges_in_row": 13,
+          "completed_rows": 2,
+          "components": 14,
+          "independent_merges_in_row": 13,
+          "rooted_debt": 13,
+          "row_u_bits_col0_first": ".UUUUUUUUUUUUU",
+          "row_u_mask": 16382,
+          "u_cost": 14
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 3,
+          "components": 11,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 10,
+          "row_u_bits_col0_first": ".UUUU.UU.UU.UU",
+          "row_u_mask": 14046,
+          "u_cost": 24
+        },
+        {
+          "active_dual_edges_in_row": 15,
+          "completed_rows": 4,
+          "components": 10,
+          "independent_merges_in_row": 14,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UU.UUUU.UUUU.",
+          "row_u_mask": 7926,
+          "u_cost": 34
+        },
+        {
+          "active_dual_edges_in_row": 13,
+          "completed_rows": 5,
+          "components": 10,
+          "independent_merges_in_row": 13,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UU.UU.UUU.UU.",
+          "row_u_mask": 7094,
+          "u_cost": 43
+        },
+        {
+          "active_dual_edges_in_row": 14,
+          "completed_rows": 6,
+          "components": 9,
+          "independent_merges_in_row": 14,
+          "rooted_debt": 8,
+          "row_u_bits_col0_first": ".UU.UU.UUU.UU.",
+          "row_u_mask": 7094,
+          "u_cost": 52
+        },
+        {
+          "active_dual_edges_in_row": 11,
+          "completed_rows": 7,
+          "components": 11,
+          "independent_merges_in_row": 11,
+          "rooted_debt": 10,
+          "row_u_bits_col0_first": ".UU.UU.U.U.UU.",
+          "row_u_mask": 6838,
+          "u_cost": 60
+        },
+        {
+          "active_dual_edges_in_row": 13,
+          "completed_rows": 8,
+          "components": 11,
+          "independent_merges_in_row": 13,
+          "rooted_debt": 10,
+          "row_u_bits_col0_first": ".UU.UU.UUU.UU.",
+          "row_u_mask": 7094,
+          "u_cost": 69
+        },
+        {
+          "active_dual_edges_in_row": 14,
+          "completed_rows": 9,
+          "components": 10,
+          "independent_merges_in_row": 14,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UU.UU.UUU.UU.",
+          "row_u_mask": 7094,
+          "u_cost": 78
+        },
+        {
+          "active_dual_edges_in_row": 13,
+          "completed_rows": 10,
+          "components": 10,
+          "independent_merges_in_row": 13,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UU.UU.U.UUUU.",
+          "row_u_mask": 7862,
+          "u_cost": 87
+        },
+        {
+          "active_dual_edges_in_row": 13,
+          "completed_rows": 11,
+          "components": 10,
+          "independent_merges_in_row": 13,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UU.UU.UUUU.U.",
+          "row_u_mask": 6070,
+          "u_cost": 96
+        },
+        {
+          "active_dual_edges_in_row": 13,
+          "completed_rows": 12,
+          "components": 10,
+          "independent_merges_in_row": 13,
+          "rooted_debt": 9,
+          "row_u_bits_col0_first": ".UU.UU.UU.UUU.",
+          "row_u_mask": 7606,
+          "u_cost": 105
+        },
+        {
+          "active_dual_edges_in_row": 20,
+          "completed_rows": 13,
+          "components": 3,
+          "independent_merges_in_row": 20,
+          "rooted_debt": 2,
+          "row_u_bits_col0_first": ".UUUUUUUUUUUU.",
+          "row_u_mask": 8190,
+          "u_cost": 117
+        },
+        {
+          "active_dual_edges_in_row": 2,
+          "completed_rows": 14,
+          "components": 1,
+          "independent_merges_in_row": 2,
+          "rooted_debt": 0,
+          "row_u_bits_col0_first": ".U..........U.",
+          "row_u_mask": 4098,
+          "u_cost": 119
+        }
+      ],
+      "rows_sha256": "a88fa29d9a0260f0ddf29729f89c531ab96e6d81d04ce021d39400f22bb9a5a9",
+      "u_count": 119
+    },
+    "17": {
+      "n": 17,
+      "row_boundaries": [
+        {
+          "completed_rows": 0,
+          "components": 1,
+          "rooted_debt": 0,
+          "u_cost": 0
+        },
+        {
+          "active_dual_edges_in_row": 0,
+          "completed_rows": 1,
+          "components": 17,
+          "independent_merges_in_row": 0,
+          "rooted_debt": 16,
+          "row_u_bits_col0_first": ".U...............",
+          "row_u_mask": 2,
+          "u_cost": 1
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 2,
+          "components": 17,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 16,
+          "row_u_bits_col0_first": ".UUUUUUUUUUUUUUUU",
+          "row_u_mask": 131070,
+          "u_cost": 17
+        },
+        {
+          "active_dual_edges_in_row": 19,
+          "completed_rows": 3,
+          "components": 14,
+          "independent_merges_in_row": 19,
+          "rooted_debt": 13,
+          "row_u_bits_col0_first": ".UUUU.UU.UU.UU.UU",
+          "row_u_mask": 112350,
+          "u_cost": 29
+        },
+        {
+          "active_dual_edges_in_row": 18,
+          "completed_rows": 4,
+          "components": 13,
+          "independent_merges_in_row": 17,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UUUU.UU.UUUU.",
+          "row_u_mask": 63222,
+          "u_cost": 41
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 5,
+          "components": 13,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UU.UUUU.U.UU.",
+          "row_u_mask": 55222,
+          "u_cost": 52
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 6,
+          "components": 13,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UU.UU.UUU.UU.",
+          "row_u_mask": 56758,
+          "u_cost": 63
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 7,
+          "components": 13,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UU.UU.U.UUUU.",
+          "row_u_mask": 62902,
+          "u_cost": 74
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 8,
+          "components": 13,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UU.UUUU.UU.U.",
+          "row_u_mask": 47030,
+          "u_cost": 85
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 9,
+          "components": 13,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UU.U.UU.UUUU.",
+          "row_u_mask": 63158,
+          "u_cost": 96
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 10,
+          "components": 13,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UU.UUUU.U.UU.",
+          "row_u_mask": 55222,
+          "u_cost": 107
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 11,
+          "components": 13,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 12,
+          "row_u_bits_col0_first": ".UU.UU.UU.UUU.UU.",
+          "row_u_mask": 56758,
+          "u_cost": 118
+        },
+        {
+          "active_dual_edges_in_row": 17,
+          "completed_rows": 12,
+          "components": 12,
+          "independent_merges_in_row": 17,
+          "rooted_debt": 11,
+          "row_u_bits_col0_first": ".UU.UU.UU.UUU.UU.",
+          "row_u_mask": 56758,
+          "u_cost": 129
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 13,
+          "components": 12,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 11,
+          "row_u_bits_col0_first": ".UU.UU.UU.U.UUUU.",
+          "row_u_mask": 62902,
+          "u_cost": 140
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 14,
+          "components": 12,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 11,
+          "row_u_bits_col0_first": ".UU.UU.UU.UUUU.U.",
+          "row_u_mask": 48566,
+          "u_cost": 151
+        },
+        {
+          "active_dual_edges_in_row": 16,
+          "completed_rows": 15,
+          "components": 12,
+          "independent_merges_in_row": 16,
+          "rooted_debt": 11,
+          "row_u_bits_col0_first": ".UU.UU.UU.UU.UUU.",
+          "row_u_mask": 60854,
+          "u_cost": 162
+        },
+        {
+          "active_dual_edges_in_row": 25,
+          "completed_rows": 16,
+          "components": 3,
+          "independent_merges_in_row": 25,
+          "rooted_debt": 2,
+          "row_u_bits_col0_first": ".UUUUUUUUUUUUUUU.",
+          "row_u_mask": 65534,
+          "u_cost": 177
+        },
+        {
+          "active_dual_edges_in_row": 2,
+          "completed_rows": 17,
+          "components": 1,
+          "independent_merges_in_row": 2,
+          "rooted_debt": 0,
+          "row_u_bits_col0_first": ".U.............U.",
+          "row_u_mask": 32770,
+          "u_cost": 179
+        }
+      ],
+      "rows_sha256": "5ce058e7a921bb1c0d2daadcbccde8acea1375be85a196acfdaec88bb019392f",
+      "u_count": 179
+    },
+    "5": {
+      "n": 5,
+      "row_boundaries": [
+        {
+          "completed_rows": 0,
+          "components": 1,
+          "rooted_debt": 0,
+          "u_cost": 0
+        },
+        {
+          "active_dual_edges_in_row": 0,
+          "completed_rows": 1,
+          "components": 5,
+          "independent_merges_in_row": 0,
+          "rooted_debt": 4,
+          "row_u_bits_col0_first": "....U",
+          "row_u_mask": 16,
+          "u_cost": 1
+        },
+        {
+          "active_dual_edges_in_row": 5,
+          "completed_rows": 2,
+          "components": 4,
+          "independent_merges_in_row": 5,
+          "rooted_debt": 3,
+          "row_u_bits_col0_first": "UUUUU",
+          "row_u_mask": 31,
+          "u_cost": 6
+        },
+        {
+          "active_dual_edges_in_row": 4,
+          "completed_rows": 3,
+          "components": 4,
+          "independent_merges_in_row": 4,
+          "rooted_debt": 3,
+          "row_u_bits_col0_first": "U.UU.",
+          "row_u_mask": 13,
+          "u_cost": 9
+        },
+        {
+          "active_dual_edges_in_row": 6,
+          "completed_rows": 4,
+          "components": 2,
+          "independent_merges_in_row": 6,
+          "rooted_debt": 1,
+          "row_u_bits_col0_first": "UUUU.",
+          "row_u_mask": 15,
+          "u_cost": 13
+        },
+        {
+          "active_dual_edges_in_row": 1,
+          "completed_rows": 5,
+          "components": 1,
+          "independent_merges_in_row": 1,
+          "rooted_debt": 0,
+          "row_u_bits_col0_first": "...U.",
+          "row_u_mask": 8,
+          "u_cost": 14
+        }
+      ],
+      "rows_sha256": "336ab60c80a94f1ff01ea3a412a5b55988632fc02ab451c8f6ef4db3e5019a50",
+      "u_count": 14
+    },
+    "8": {
+      "n": 8,
+      "row_boundaries": [
+        {
+          "completed_rows": 0,
+          "components": 1,
+          "rooted_debt": 0,
+          "u_cost": 0
+        },
+        {
+          "active_dual_edges_in_row": 0,
+          "completed_rows": 1,
+          "components": 8,
+          "independent_merges_in_row": 0,
+          "rooted_debt": 7,
+          "row_u_bits_col0_first": "........",
+          "row_u_mask": 0,
+          "u_cost": 0
+        },
+        {
+          "active_dual_edges_in_row": 7,
+          "completed_rows": 2,
+          "components": 8,
+          "independent_merges_in_row": 7,
+          "rooted_debt": 7,
+          "row_u_bits_col0_first": "UUUUUUUU",
+          "row_u_mask": 255,
+          "u_cost": 8
+        },
+        {
+          "active_dual_edges_in_row": 8,
+          "completed_rows": 3,
+          "components": 7,
+          "independent_merges_in_row": 8,
+          "rooted_debt": 6,
+          "row_u_bits_col0_first": ".UU.UUU.",
+          "row_u_mask": 118,
+          "u_cost": 13
+        },
+        {
+          "active_dual_edges_in_row": 7,
+          "completed_rows": 4,
+          "components": 7,
+          "independent_merges_in_row": 7,
+          "rooted_debt": 6,
+          "row_u_bits_col0_first": ".UUUU.U.",
+          "row_u_mask": 94,
+          "u_cost": 18
+        },
+        {
+          "active_dual_edges_in_row": 7,
+          "completed_rows": 5,
+          "components": 7,
+          "independent_merges_in_row": 7,
+          "rooted_debt": 6,
+          "row_u_bits_col0_first": ".U.UUUU.",
+          "row_u_mask": 122,
+          "u_cost": 23
+        },
+        {
+          "active_dual_edges_in_row": 7,
+          "completed_rows": 6,
+          "components": 7,
+          "independent_merges_in_row": 7,
+          "rooted_debt": 6,
+          "row_u_bits_col0_first": ".UUU.UU.",
+          "row_u_mask": 110,
+          "u_cost": 28
+        },
+        {
+          "active_dual_edges_in_row": 11,
+          "completed_rows": 7,
+          "components": 3,
+          "independent_merges_in_row": 11,
+          "rooted_debt": 2,
+          "row_u_bits_col0_first": ".UUUUUUU",
+          "row_u_mask": 254,
+          "u_cost": 35
+        },
+        {
+          "active_dual_edges_in_row": 2,
+          "completed_rows": 8,
+          "components": 1,
+          "independent_merges_in_row": 2,
+          "rooted_debt": 0,
+          "row_u_bits_col0_first": ".U.....U",
+          "row_u_mask": 130,
+          "u_cost": 37
+        }
+      ],
+      "rows_sha256": "5cb1e290ee4e4db7d9311f504c9ae0a44032c0b645de9f27d13346255870f4d1",
+      "u_count": 37
+    }
+  },
+  "limitations": [
+    "The committed 178-U step-287 dump stores states and minimum costs, but no predecessor identities, backpointers, or prefix patterns.",
+    "Therefore no row-boundary prefix history can be assigned to any of the 20 terminal survivors from committed data; only their exact remaining two-cell suffixes are reconstructible.",
+    "The 179-U replay stores row boundaries and the final four steps, while its committed explicit pattern makes its complete cell and row history exactly replayable."
+  ],
+  "provenance": {
+    "frontier_n17_u178_step287.json": "917cc5605f4fa7e2d2172d1bd90200ad158a6b811d50c0cfc29a1d19c9936018",
+    "frontier_n17_u179_replay.json": "d33f6ca716c81dc2ecdf50c5773ca2fdb475c47348b2f5874a203bbc7882620d",
+    "residue_two_affine_17_witness.txt": "f035d4b71f3253d7010616fb3b6c3688d066c67782863eac581b223baaf698dc"
+  },
+  "schema": "grid-graphs.residue-two-attachment-history.v1",
+  "terminal_178": {
+    "capacity_counts": {
+      "0": 2,
+      "1": 18
+    },
+    "completed_steps": 287,
+    "state_count": 20,
+    "states": [
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 0,
+        "cost": 177,
+        "packed_state": "0x820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".................",
+        "row_u": 0,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 0,
+        "cost": 177,
+        "packed_state": "0x4000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U...............",
+        "row_u": 2,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10000000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": "...............U.",
+        "row_u": 32768,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10002000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": "U..............U.",
+        "row_u": 32769,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10004000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U.............U.",
+        "row_u": 32770,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10006000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": "UU.............U.",
+        "row_u": 32771,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x1000c000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".UU............U.",
+        "row_u": 32774,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10010000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": "...U...........U.",
+        "row_u": 32776,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10014000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U.U...........U.",
+        "row_u": 32778,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10020000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": "....U..........U.",
+        "row_u": 32784,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10024000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U..U..........U.",
+        "row_u": 32786,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10080000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": "......U........U.",
+        "row_u": 32832,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10100000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".......U.......U.",
+        "row_u": 32896,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10104000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U.....U.......U.",
+        "row_u": 32898,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10400000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".........U.....U.",
+        "row_u": 33280,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10404000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U.......U.....U.",
+        "row_u": 33282,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10800000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": "..........U....U.",
+        "row_u": 33792,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x10804000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U........U....U.",
+        "row_u": 33794,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x14000000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".............U.U.",
+        "row_u": 40960,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      },
+      {
+        "accepted_suffix_count": 0,
+        "budgeted_merge_capacity": 1,
+        "cost": 177,
+        "packed_state": "0x14004000000000000000000820",
+        "remaining_u_budget": 1,
+        "rooted_debt": 2,
+        "row_bits_col0_first": ".U...........U.U.",
+        "row_u": 40962,
+        "suffix_outcomes": [
+          {
+            "accepted": false,
+            "choices": [
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              0
+            ],
+            "merges": 0
+          },
+          {
+            "accepted": false,
+            "choices": [
+              true,
+              false
+            ],
+            "failure": "retired_component",
+            "matched_neighbor_masks": [
+              2,
+              0
+            ],
+            "merges": 1
+          }
+        ]
+      }
+    ]
+  },
+  "witness_179_suffix": {
+    "accepted_suffix_count": 1,
+    "budgeted_merge_capacity": 1,
+    "completed_steps": 287,
+    "packed_state": "0x10004000000000000000000400",
+    "remaining_u_budget": 1,
+    "rooted_debt": 1,
+    "suffix_outcomes": [
+      {
+        "accepted": false,
+        "choices": [
+          false,
+          false
+        ],
+        "failure": "retired_component",
+        "matched_neighbor_masks": [
+          0,
+          0
+        ],
+        "merges": 0
+      },
+      {
+        "accepted": false,
+        "choices": [
+          false,
+          true
+        ],
+        "failure": "retired_component",
+        "matched_neighbor_masks": [
+          0,
+          0
+        ],
+        "merges": 0
+      },
+      {
+        "accepted": true,
+        "choices": [
+          true,
+          false
+        ],
+        "final_debt": 0,
+        "matched_neighbor_masks": [
+          2,
+          0
+        ],
+        "merges": 1
+      }
+    ]
+  }
+}

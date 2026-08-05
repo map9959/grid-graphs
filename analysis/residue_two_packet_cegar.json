@@ -1,0 +1,265 @@
+{
+  "corridors": {
+    "5": {
+      "minimum_path_count": "242",
+      "packets": 1,
+      "states": 117,
+      "transitions": 220
+    },
+    "8": {
+      "minimum_path_count": "704",
+      "packets": 2,
+      "states": 208,
+      "transitions": 368
+    }
+  },
+  "definitions": {
+    "cap_state": "top, bottom, or terminal boundary mode",
+    "carry_signature": "rooted canonical restriction to the left-cap/packet, packet/packet, and final-packet windows; cap U bits are separate signature fields",
+    "global_carry_word": "lossless rooted component labels for the left face and each ordered three-face packet; variable-length and not bounded finite control",
+    "hierarchy": [
+      "packet_words",
+      "packet_local",
+      "packet_carry",
+      "packet_global_carry",
+      "packet_carry_positioned",
+      "rooted_packet_control"
+    ],
+    "packet_layout": "for n=3k+2, ordered 3-bit words cover columns 1..n-2; columns 0 and n-1 are caps",
+    "packet_local_restriction": "rooted canonical partition restriction to the three frontier-face slots assigned to the packet after the left cap face",
+    "packet_word_bit_order": "least-significant bit is the leftmost packet column",
+    "state_behavior": "complete outgoing normalized equality-edge labels and complete accepting-suffix label words",
+    "width_dependent_fields_by_level": {
+      "packet_carry": [
+        "ordered_packet_sequence_length"
+      ],
+      "packet_carry_positioned": [
+        "ordered_packet_sequence_length",
+        "absolute_row",
+        "rows_to_bottom"
+      ],
+      "packet_global_carry": [
+        "ordered_packet_sequence_length",
+        "unbounded_rooted_component_labels"
+      ],
+      "packet_local": [
+        "ordered_packet_sequence_length"
+      ],
+      "packet_words": [
+        "ordered_packet_sequence_length"
+      ],
+      "rooted_packet_control": [
+        "width",
+        "absolute_row",
+        "full_previous_u_mask",
+        "full_rooted_partition"
+      ]
+    }
+  },
+  "first_lossless_packet_level": "packet_global_carry",
+  "hierarchy": {
+    "packet_carry": {
+      "collision_groups": 0,
+      "collision_groups_by_kind": {
+        "cross_width_bulk": 0,
+        "cross_width_cap": 0,
+        "within_width_bulk": 0,
+        "within_width_cap": 0
+      },
+      "first_witness_by_kind": {
+        "cross_width_bulk": null,
+        "cross_width_cap": null,
+        "within_width_bulk": null,
+        "within_width_cap": null
+      },
+      "keys": 325,
+      "merged_groups": 0
+    },
+    "packet_carry_positioned": {
+      "collision_groups": 0,
+      "collision_groups_by_kind": {
+        "cross_width_bulk": 0,
+        "cross_width_cap": 0,
+        "within_width_bulk": 0,
+        "within_width_cap": 0
+      },
+      "first_witness_by_kind": {
+        "cross_width_bulk": null,
+        "cross_width_cap": null,
+        "within_width_bulk": null,
+        "within_width_cap": null
+      },
+      "keys": 325,
+      "merged_groups": 0
+    },
+    "packet_global_carry": {
+      "collision_groups": 0,
+      "collision_groups_by_kind": {
+        "cross_width_bulk": 0,
+        "cross_width_cap": 0,
+        "within_width_bulk": 0,
+        "within_width_cap": 0
+      },
+      "first_witness_by_kind": {
+        "cross_width_bulk": null,
+        "cross_width_cap": null,
+        "within_width_bulk": null,
+        "within_width_cap": null
+      },
+      "keys": 325,
+      "merged_groups": 0
+    },
+    "packet_local": {
+      "collision_groups": 14,
+      "collision_groups_by_kind": {
+        "cross_width_bulk": 0,
+        "cross_width_cap": 0,
+        "within_width_bulk": 12,
+        "within_width_cap": 2
+      },
+      "first_witness_by_kind": {
+        "cross_width_bulk": null,
+        "cross_width_cap": null,
+        "within_width_bulk": {
+          "accepting_suffixes_differ": true,
+          "behavior_digests": [
+            "f3b3cc79fe4e82e1",
+            "1b1101ceb7131c2f"
+          ],
+          "boundary_modes": [
+            "bulk",
+            "bulk"
+          ],
+          "outgoing_labels_differ": true,
+          "state_ids": [
+            "n5:r2:m1f:p0.0.1.2.3",
+            "n5:r2:m1f:p0.1.1.2.3"
+          ],
+          "widths": [
+            5,
+            5
+          ]
+        },
+        "within_width_cap": {
+          "accepting_suffixes_differ": true,
+          "behavior_digests": [
+            "2ad9cbbafd4dd3bf",
+            "e1a00c652ef017ed"
+          ],
+          "boundary_modes": [
+            "bottom",
+            "bottom"
+          ],
+          "outgoing_labels_differ": true,
+          "state_ids": [
+            "n5:r4:m1f:p0.0.1.1.1",
+            "n5:r4:m1f:p0.1.1.1.1"
+          ],
+          "widths": [
+            5,
+            5
+          ]
+        }
+      },
+      "keys": 306,
+      "merged_groups": 16
+    },
+    "packet_words": {
+      "collision_groups": 53,
+      "collision_groups_by_kind": {
+        "cross_width_bulk": 0,
+        "cross_width_cap": 0,
+        "within_width_bulk": 45,
+        "within_width_cap": 8
+      },
+      "first_witness_by_kind": {
+        "cross_width_bulk": null,
+        "cross_width_cap": null,
+        "within_width_bulk": {
+          "accepting_suffixes_differ": true,
+          "behavior_digests": [
+            "fedddaf7543b2deb",
+            "f3b3cc79fe4e82e1"
+          ],
+          "boundary_modes": [
+            "bulk",
+            "bulk"
+          ],
+          "outgoing_labels_differ": true,
+          "state_ids": [
+            "n5:r2:m1e:p0.1.0.0.2",
+            "n5:r2:m1e:p0.1.0.2.3"
+          ],
+          "widths": [
+            5,
+            5
+          ]
+        },
+        "within_width_cap": {
+          "accepting_suffixes_differ": true,
+          "behavior_digests": [
+            "dca7b7e15ecb140d",
+            "17647bd61be263f4"
+          ],
+          "boundary_modes": [
+            "bottom",
+            "bottom"
+          ],
+          "outgoing_labels_differ": true,
+          "state_ids": [
+            "n5:r4:m1e:p0.1.0.0.0",
+            "n5:r4:m1e:p0.1.2.2.0"
+          ],
+          "widths": [
+            5,
+            5
+          ]
+        }
+      },
+      "keys": 168,
+      "merged_groups": 55
+    },
+    "rooted_packet_control": {
+      "collision_groups": 0,
+      "collision_groups_by_kind": {
+        "cross_width_bulk": 0,
+        "cross_width_cap": 0,
+        "within_width_bulk": 0,
+        "within_width_cap": 0
+      },
+      "first_witness_by_kind": {
+        "cross_width_bulk": null,
+        "cross_width_cap": null,
+        "within_width_bulk": null,
+        "within_width_cap": null
+      },
+      "keys": 325,
+      "merged_groups": 0
+    }
+  },
+  "observations": {
+    "outgoing_equality_transitions": 588,
+    "states": 325
+  },
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_packet_cegar.py",
+      "--output",
+      "analysis/residue_two_packet_cegar.json"
+    ],
+    "producer": "analysis/residue_two_packet_cegar.py"
+  },
+  "schema": "grid-graphs.residue-two-packet-cegar.v1",
+  "scope": {
+    "coverage_beyond_enumerated_widths_claimed": false,
+    "semantics": "finite-width-complete-equality-corridor-diagnostic-only",
+    "theorem_or_certificate": false,
+    "widths": [
+      5,
+      8
+    ]
+  },
+  "smallest_tested_zero_within_width_bulk": "packet_carry"
+}

@@ -4,6 +4,7 @@ import json
 import random
 import tempfile
 import unittest
+from fractions import Fraction
 from pathlib import Path
 
 from certify_residue_two_relaxation import WITNESS
@@ -11,14 +12,21 @@ from proof_oriented_identities import (
     CertificateError,
     DEMO_CERTIFICATE,
     InfeasiblePotentialError,
+    PathTelescope,
+    TileRowDeltas,
+    build_pooled_frontier_feature_experiment,
     build_complete_tile_certificate,
     check_n17_178_identity,
     check_pattern_identities,
+    check_residue_two_terminal_algebra,
     export_complete_tile_row_source,
     reverify_complete_tile_certificate,
     synthesize_difference_potentials,
+    tile_grammar_row_deltas,
     tile_grammar_transition_record,
+    transition_slack,
     verify_frontier_certificate,
+    verify_path_telescope,
 )
 from tile_grammar import advance_row, initial_state
 
@@ -89,6 +97,116 @@ class FrontierCertificateTests(unittest.TestCase):
         )
         self.assertEqual((first["dU"], first["dRank"], first["metadata"]["dCycles"]), (2, 1, 0))
         self.assertEqual((second["dU"], second["dRank"], second["metadata"]["dCycles"]), (2, 0, 3))
+        bottom = tile_grammar_row_deltas(top, 0b11, finished)
+        self.assertEqual(
+            bottom,
+            TileRowDeltas(
+                u_count=2,
+                horizontal_runs=1,
+                vertical_edges=2,
+                cycle_delta=3,
+                edge_delta=3,
+                rank_delta=0,
+            ),
+        )
+
+    def test_row_curvature_identity_on_complete_sources(self) -> None:
+        accepted = 0
+        saw_top = saw_bottom = saw_empty = saw_cycle = False
+        for n in range(2, 7):
+            representatives = {(0, 0, (0,)): initial_state(n)}
+            for _ in range(n):
+                children = {}
+                for state in representatives.values():
+                    for mask in range(1 << n):
+                        outgoing = advance_row(state, mask)
+                        if outgoing is None:
+                            continue
+                        deltas = tile_grammar_row_deltas(state, mask, outgoing)
+                        self.assertEqual(
+                            3 * deltas.u_count - 2 * deltas.rank_delta,
+                            deltas.u_count
+                            + 2 * deltas.horizontal_runs
+                            - 2 * deltas.vertical_edges
+                            + 2 * deltas.cycle_delta,
+                        )
+                        accepted += 1
+                        saw_top |= outgoing.row_index == 1
+                        saw_bottom |= outgoing.row_index == n
+                        saw_empty |= mask == 0
+                        saw_cycle |= deltas.cycle_delta > 0
+                        key = (
+                            outgoing.row_index,
+                            outgoing.previous_u_mask,
+                            outgoing.partition,
+                        )
+                        children.setdefault(key, outgoing)
+                representatives = children
+        self.assertEqual(accepted, 19_948)
+        self.assertTrue(all((saw_top, saw_bottom, saw_empty, saw_cycle)))
+
+
+class TransitionTelescopeTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.potentials = {
+            "a": Fraction(1, 3),
+            "b": Fraction(4, 3),
+            "c": Fraction(5, 3),
+        }
+        self.tight = {
+            "id": "ab",
+            "in": "a",
+            "out": "b",
+            "dU": 1,
+            "dRank": 1,
+            "charge": 0,
+        }
+        self.positive = {
+            "id": "bc",
+            "in": "b",
+            "out": "c",
+            "dU": 1,
+            "dRank": 0,
+            "charge": 1,
+        }
+
+    def test_exact_transition_slack_is_tight(self) -> None:
+        self.assertEqual(transition_slack(self.tight, self.potentials), Fraction(0))
+
+    def test_positive_slack_path_telescopes(self) -> None:
+        result = verify_path_telescope([self.tight, self.positive], self.potentials)
+        self.assertEqual(
+            result,
+            PathTelescope(
+                initial_state="a",
+                terminal_state="c",
+                initial_potential=Fraction(1, 3),
+                terminal_potential=Fraction(5, 3),
+                total_u=2,
+                total_rank=1,
+                total_charge=1,
+                total_slack=Fraction(5, 3),
+            ),
+        )
+        self.assertEqual(result.transition_total, Fraction(4))
+        self.assertEqual(result.telescoped_total, Fraction(4))
+
+    def test_malformed_path_and_unknown_state_are_rejected(self) -> None:
+        disconnected = {**self.positive, "in": "a"}
+        with self.assertRaisesRegex(CertificateError, "not contiguous"):
+            verify_path_telescope([self.tight, disconnected], self.potentials)
+        unknown = {**self.tight, "out": "missing"}
+        with self.assertRaisesRegex(CertificateError, "unknown state"):
+            transition_slack(unknown, self.potentials)
+
+    def test_residue_two_terminal_algebra(self) -> None:
+        self.assertEqual(check_residue_two_terminal_algebra(2), 3)
+        self.assertEqual(check_residue_two_terminal_algebra(5), 14)
+        self.assertEqual(check_residue_two_terminal_algebra(17, Fraction(5)), 178)
+        with self.assertRaisesRegex(ValueError, r"3k\+2"):
+            check_residue_two_terminal_algebra(6)
+        with self.assertRaisesRegex(ValueError, "constant 5"):
+            check_residue_two_terminal_algebra(17, Fraction(4))
 
 
 class CompleteSmallSourceTests(unittest.TestCase):
@@ -167,6 +285,42 @@ class CompleteSmallSourceTests(unittest.TestCase):
         ]
         with self.assertRaisesRegex(InfeasiblePotentialError, "negative cycle"):
             synthesize_difference_potentials(["a", "b"], transitions, "a")
+
+    def test_coarse_pooled_features_are_feasible_but_lose_residue_two(self) -> None:
+        result = build_pooled_frontier_feature_experiment(level="coarse")
+        self.assertEqual(
+            result["census"],
+            {
+                "concrete_states": 1770,
+                "feature_states": 920,
+                "concrete_transitions": 19935,
+                "pooled_transitions": 11751,
+                "tight_concrete_transitions": 3214,
+            },
+        )
+        self.assertEqual(
+            result["analysis"]["exact_width_terminal_constants"],
+            {"3": 4, "4": 2, "5": 5, "6": 4},
+        )
+        self.assertEqual(
+            result["analysis"]["pooled_phase_terminal_constants"],
+            {"0": [4, 1], "1": [2, 1], "2": [2, 1]},
+        )
+
+    def test_row_runs_recover_all_three_small_residue_constants(self) -> None:
+        result = build_pooled_frontier_feature_experiment(level="runs")
+        self.assertEqual(result["census"]["feature_states"], 1065)
+        self.assertEqual(
+            result["analysis"]["pooled_phase_terminal_constants"],
+            {"0": [4, 1], "1": [2, 1], "2": [5, 1]},
+        )
+        self.assertEqual(
+            result["analysis"]["pooled_width_terminal_constants"],
+            {"3": [4, 1], "4": [2, 1], "5": [5, 1], "6": [4, 1]},
+        )
+        for witness in result["analysis"]["exact_minimum_witness_tightness"].values():
+            self.assertEqual(witness["tight_rows"], witness["rows"])
+            self.assertEqual(witness["total_slack"], [0, 1])
 
 
 if __name__ == "__main__":

@@ -66,6 +66,43 @@ class PatternIdentities:
     identity_constant: int
 
 
+@dataclass(frozen=True)
+class TileRowDeltas:
+    u_count: int
+    horizontal_runs: int
+    vertical_edges: int
+    cycle_delta: int
+    edge_delta: int
+    rank_delta: int
+
+
+@dataclass(frozen=True)
+class PathTelescope:
+    """Exact totals obtained by summing transition inequalities along a path."""
+
+    initial_state: str
+    terminal_state: str
+    initial_potential: Fraction
+    terminal_potential: Fraction
+    total_u: int
+    total_rank: int
+    total_charge: int
+    total_slack: Fraction
+
+    @property
+    def transition_total(self) -> Fraction:
+        return Fraction(3 * self.total_u - 2 * self.total_rank)
+
+    @property
+    def telescoped_total(self) -> Fraction:
+        return (
+            self.terminal_potential
+            - self.initial_potential
+            + self.total_charge
+            + self.total_slack
+        )
+
+
 def _validate_pattern(pattern: list[str]) -> tuple[int, int]:
     if not pattern or not pattern[0]:
         raise ValueError("pattern must be a nonempty rectangle")
@@ -189,6 +226,116 @@ def _rational(value: Any, context: str) -> Fraction:
     return Fraction(numerator, denominator)
 
 
+def _exact_fraction(value: Any, context: str) -> Fraction:
+    if isinstance(value, Fraction):
+        return value
+    if type(value) is int:
+        return Fraction(value)
+    raise CertificateError(f"{context} must be an integer or Fraction")
+
+
+def transition_slack(
+    transition: dict[str, Any], potentials: dict[str, Fraction]
+) -> Fraction:
+    """Return the exact slack in one certificate-like transition inequality."""
+    if not isinstance(transition, dict):
+        raise CertificateError("transition must be an object")
+    if not isinstance(potentials, dict):
+        raise CertificateError("potentials must be a state-to-potential map")
+    transition_id = transition.get("id", "?")
+    incoming = transition.get("in")
+    outgoing = transition.get("out")
+    if not isinstance(incoming, str) or not isinstance(outgoing, str):
+        raise CertificateError(f"transition {transition_id!r} needs string in/out states")
+    if incoming not in potentials or outgoing not in potentials:
+        raise CertificateError(f"transition {transition_id!r} references an unknown state")
+    integer_fields = ("dU", "dRank", "charge")
+    if any(type(transition.get(field)) is not int for field in integer_fields):
+        raise CertificateError(f"transition {transition_id!r} deltas and charge must be integers")
+    if transition["dU"] < 0 or transition["dRank"] < 0:
+        raise CertificateError(f"transition {transition_id!r} has a negative monotone delta")
+    incoming_potential = _exact_fraction(
+        potentials[incoming], f"state {incoming!r} potential"
+    )
+    outgoing_potential = _exact_fraction(
+        potentials[outgoing], f"state {outgoing!r} potential"
+    )
+    return (
+        Fraction(3 * transition["dU"] - 2 * transition["dRank"])
+        - outgoing_potential
+        + incoming_potential
+        - transition["charge"]
+    )
+
+
+def verify_path_telescope(
+    transitions: Iterable[dict[str, Any]], potentials: dict[str, Fraction]
+) -> PathTelescope:
+    """Verify a nonempty contiguous path and exactly telescope its inequalities."""
+    path = tuple(transitions)
+    if not path:
+        raise CertificateError("transition path must be nonempty")
+    if not isinstance(potentials, dict):
+        raise CertificateError("potentials must be a state-to-potential map")
+
+    initial_state = path[0].get("in") if isinstance(path[0], dict) else None
+    previous_outgoing: str | None = None
+    total_u = total_rank = total_charge = 0
+    total_slack = Fraction(0)
+    for index, transition in enumerate(path):
+        if not isinstance(transition, dict):
+            raise CertificateError(f"path transition {index} must be an object")
+        if previous_outgoing is not None and transition.get("in") != previous_outgoing:
+            raise CertificateError(f"transition path is not contiguous at index {index}")
+        slack = transition_slack(transition, potentials)
+        if slack < 0:
+            raise CertificateError(
+                f"transition {transition.get('id', '?')!r} has negative slack {slack}"
+            )
+        total_u += transition["dU"]
+        total_rank += transition["dRank"]
+        total_charge += transition["charge"]
+        total_slack += slack
+        previous_outgoing = transition["out"]
+
+    if not isinstance(initial_state, str) or previous_outgoing is None:
+        raise AssertionError("validated path has invalid endpoints")
+    result = PathTelescope(
+        initial_state=initial_state,
+        terminal_state=previous_outgoing,
+        initial_potential=_exact_fraction(
+            potentials[initial_state], f"state {initial_state!r} potential"
+        ),
+        terminal_potential=_exact_fraction(
+            potentials[previous_outgoing], f"state {previous_outgoing!r} potential"
+        ),
+        total_u=total_u,
+        total_rank=total_rank,
+        total_charge=total_charge,
+        total_slack=total_slack,
+    )
+    if result.transition_total != result.telescoped_total:
+        raise AssertionError("transition totals did not telescope")
+    return result
+
+
+def check_residue_two_terminal_algebra(
+    n: int, terminal_constant: Fraction = Fraction(5)
+) -> int:
+    """Check `(2(n-1)^2+n+5)/3 = 6k^2+5k+3` for `n=3k+2`."""
+    if type(n) is not int or n < 2 or n % 3 != 2:
+        raise ValueError("n must have the form 3k+2 with k >= 0")
+    constant = _exact_fraction(terminal_constant, "terminal constant")
+    if constant != 5:
+        raise ValueError("residue-two equality algebra requires terminal constant 5")
+    k = (n - 2) // 3
+    exact_bound = (2 * (n - 1) ** 2 + n + constant) / 3
+    expected = Fraction(6 * k * k + 5 * k + 3)
+    if exact_bound != expected:
+        raise AssertionError("residue-two terminal algebra failed")
+    return expected.numerator
+
+
 def verify_frontier_certificate(certificate: Any) -> dict[str, int]:
     """Exactly verify all explicitly enumerated transition inequalities.
 
@@ -294,6 +441,45 @@ def tile_grammar_transition_record(
     }
 
 
+def tile_grammar_row_deltas(
+    incoming_state: Any, current_u_mask: int, outgoing_state: Any
+) -> TileRowDeltas:
+    """Compute the exact curvature terms for one accepted row transition."""
+    n = incoming_state.n
+    if (
+        outgoing_state.n != n
+        or outgoing_state.row_index != incoming_state.row_index + 1
+        or type(current_u_mask) is not int
+        or not 0 <= current_u_mask < 1 << n
+    ):
+        raise ValueError("states and mask do not describe one row transition")
+    if outgoing_state.previous_u_mask != current_u_mask:
+        raise ValueError("outgoing previous_u_mask disagrees with the row mask")
+
+    u_count = current_u_mask.bit_count()
+    horizontal_runs = (current_u_mask & ~(current_u_mask << 1)).bit_count()
+    vertical_edges = (incoming_state.previous_u_mask & current_u_mask).bit_count()
+    cycle_delta = outgoing_state.cycle_excess - incoming_state.cycle_excess
+    edge_delta = u_count - horizontal_runs + vertical_edges
+    rank_delta = edge_delta - cycle_delta
+    if outgoing_state.u_cost - incoming_state.u_cost != u_count:
+        raise ValueError("outgoing U cost disagrees with the row mask")
+    if cycle_delta < 0 or not 0 <= rank_delta <= edge_delta:
+        raise ValueError("cycle excess does not define a valid graphic-rank increment")
+    if 3 * u_count - 2 * rank_delta != (
+        u_count + 2 * horizontal_runs - 2 * vertical_edges + 2 * cycle_delta
+    ):
+        raise AssertionError("row curvature identity failed")
+    return TileRowDeltas(
+        u_count=u_count,
+        horizontal_runs=horizontal_runs,
+        vertical_edges=vertical_edges,
+        cycle_delta=cycle_delta,
+        edge_delta=edge_delta,
+        rank_delta=rank_delta,
+    )
+
+
 def _frontier_key(state: Any) -> tuple[int, int, tuple[int, ...]]:
     return state.row_index, state.previous_u_mask, state.partition
 
@@ -375,6 +561,245 @@ def export_complete_tile_row_source(n: int = 3, charge: int = 0) -> dict[str, An
         "accepted": len(transitions),
         "rejected": attempted - len(transitions),
         "reachable_states_by_row": layer_counts,
+    }
+
+
+def _mask_run_count(mask: int) -> int:
+    return (mask & ~(mask << 1)).bit_count()
+
+
+def _interval_count(labels: Sequence[int], target: int) -> int:
+    return sum(
+        label == target and (index == 0 or labels[index - 1] != target)
+        for index, label in enumerate(labels)
+    )
+
+
+def frontier_feature_signature(n: int, metadata: dict[str, Any], level: str) -> tuple:
+    """Project an exact frontier onto an exploratory OUT-aware feature state."""
+    if level not in ("coarse", "runs", "out", "profiles", "partition", "exact"):
+        raise ValueError("unknown feature level")
+    row = metadata["row_index"]
+    mask = metadata["previous_u_mask"]
+    partition = tuple(metadata["partition"])
+    if not 0 <= row <= n or not partition:
+        raise ValueError("invalid frontier metadata")
+
+    if row == 0:
+        boundary_mode = "top"
+    elif row == n:
+        boundary_mode = "terminal"
+    elif row + 1 == n:
+        boundary_mode = "bottom"
+    else:
+        boundary_mode = "bulk"
+
+    out_label = partition[0]
+    faces = partition[1:]
+    non_out_labels = sorted(set(faces) - {out_label})
+    base = (
+        row % 3,
+        boundary_mode,
+        mask.bit_count(),
+        bool(mask & 1),
+        bool(mask & (1 << (n - 1))),
+        sum(label == out_label for label in faces),
+        len(non_out_labels),
+        bool(faces and faces[0] == out_label),
+        bool(faces and faces[-1] == out_label),
+    )
+    if level == "coarse":
+        return base
+    if level == "runs":
+        return (*base, _mask_run_count(mask))
+    if level == "out":
+        return (*base, _mask_run_count(mask), _interval_count(faces, out_label))
+    if level == "partition":
+        return (*base, _mask_run_count(mask), partition)
+    if level == "exact":
+        return (row % 3, boundary_mode, mask, partition)
+
+    profiles = []
+    for label in non_out_labels:
+        slots = [index for index, observed in enumerate(faces) if observed == label]
+        profiles.append(
+            (
+                len(slots),
+                _interval_count(faces, label),
+                bool(slots and slots[0] == 0),
+                bool(slots and slots[-1] + 1 == len(faces)),
+            )
+        )
+    return (
+        *base,
+        _mask_run_count(mask),
+        _interval_count(faces, out_label),
+        tuple(sorted(profiles)),
+    )
+
+
+def _feature_id(feature: tuple) -> str:
+    return json.dumps(feature, separators=(",", ":"), ensure_ascii=True)
+
+
+def build_pooled_frontier_feature_experiment(
+    widths: Sequence[int] = tuple(range(3, 7)), level: str = "coarse", charge: int = 1
+) -> dict[str, Any]:
+    """Test one feature potential against every transition in small exact sources.
+
+    This is a CEGAR experiment over enumerated widths, not a uniform proof. For
+    parallel projected edges only the smallest weight is needed: satisfying it
+    implies every weaker concrete constraint with the same endpoints.
+    """
+    normalized_widths = tuple(sorted(set(widths)))
+    if not normalized_widths or any(n not in range(2, 7) for n in normalized_widths):
+        raise ValueError("pooled experiment widths must be a nonempty subset of 2..6")
+    if type(charge) is not int:
+        raise TypeError("charge must be an integer")
+    from tile_grammar import advance_row, initial_state, row_mask
+
+    sources = {n: export_complete_tile_row_source(n, charge) for n in normalized_widths}
+    state_features: dict[tuple[int, str], tuple] = {}
+    all_features: set[tuple] = set()
+    for n, source in sources.items():
+        for state in source["states"]:
+            feature = frontier_feature_signature(n, state["metadata"], level)
+            state_features[(n, state["id"])] = feature
+            all_features.add(feature)
+
+    pooled_by_pair: dict[tuple[str, str], dict[str, Any]] = {}
+    concrete_records = []
+    for n, source in sources.items():
+        for transition in source["transitions"]:
+            incoming = _feature_id(state_features[(n, transition["in"])])
+            outgoing = _feature_id(state_features[(n, transition["out"])])
+            projected = {
+                "id": f"n{n}:{transition['id']}",
+                "in": incoming,
+                "out": outgoing,
+                "dU": transition["dU"],
+                "dRank": transition["dRank"],
+                "charge": transition["charge"],
+                "metadata": {"width": n, "source_transition": transition["id"]},
+            }
+            concrete_records.append(projected)
+            pair = (incoming, outgoing)
+            retained = pooled_by_pair.get(pair)
+            if retained is None or _constraint_weight(projected) < _constraint_weight(retained):
+                pooled_by_pair[pair] = projected
+
+    state_ids = sorted(_feature_id(feature) for feature in all_features)
+    transitions = sorted(pooled_by_pair.values(), key=lambda item: (item["in"], item["out"]))
+    anchor_features = {
+        state_features[(n, sources[n]["initial_id"])] for n in normalized_widths
+    }
+    if len(anchor_features) != 1:
+        raise AssertionError("initial frontiers did not share one feature state")
+    anchor = _feature_id(anchor_features.pop())
+    potentials = synthesize_difference_potentials(state_ids, transitions, anchor)
+
+    tight_concrete = 0
+    for transition in concrete_records:
+        left = Fraction(3 * transition["dU"] - 2 * transition["dRank"])
+        right = (
+            potentials[transition["out"]]
+            - potentials[transition["in"]]
+            + transition["charge"]
+        )
+        if left < right:
+            raise AssertionError("pooled potential failed a concrete transition")
+        tight_concrete += left == right
+
+    exact_constants = {}
+    pooled_constants = {}
+    witness_tightness = {}
+    terminal_features_by_phase: dict[int, set[str]] = defaultdict(set)
+    for n, source in sources.items():
+        exact = build_complete_tile_certificate(n, charge)
+        exact_constants[str(n)] = exact["analysis"]["minimum_terminal_potential"][0]
+        terminal_ids = [
+            state["id"]
+            for state in source["states"]
+            if state["metadata"]["row_index"] == n
+        ]
+        projected_terminals = {
+            _feature_id(state_features[(n, state_id)]) for state_id in terminal_ids
+        }
+        pooled_constants[str(n)] = min(potentials[state_id] for state_id in projected_terminals)
+        terminal_features_by_phase[n % 3].update(projected_terminals)
+
+        state = initial_state(n)
+        tight_rows = 0
+        total_slack = Fraction(0)
+        for row in exact["analysis"]["tight_witness_rows"]:
+            mask = row_mask(row)
+            outgoing = advance_row(state, mask)
+            if outgoing is None:
+                raise AssertionError("exact tight witness failed pooled replay")
+            deltas = tile_grammar_row_deltas(state, mask, outgoing)
+            incoming_feature = frontier_feature_signature(
+                n,
+                {
+                    "row_index": state.row_index,
+                    "previous_u_mask": state.previous_u_mask,
+                    "partition": state.partition,
+                },
+                level,
+            )
+            outgoing_feature = frontier_feature_signature(
+                n,
+                {
+                    "row_index": outgoing.row_index,
+                    "previous_u_mask": outgoing.previous_u_mask,
+                    "partition": outgoing.partition,
+                },
+                level,
+            )
+            slack = (
+                Fraction(3 * deltas.u_count - 2 * deltas.rank_delta - charge)
+                - potentials[_feature_id(outgoing_feature)]
+                + potentials[_feature_id(incoming_feature)]
+            )
+            if slack < 0:
+                raise AssertionError("pooled potential failed a tight witness row")
+            tight_rows += slack == 0
+            total_slack += slack
+            state = outgoing
+        witness_tightness[str(n)] = {
+            "rows": n,
+            "tight_rows": tight_rows,
+            "total_slack": _fraction_json(total_slack),
+        }
+    phase_constants = {
+        str(phase): min(potentials[state_id] for state_id in terminal_ids)
+        for phase, terminal_ids in sorted(terminal_features_by_phase.items())
+    }
+
+    return {
+        "scope": {
+            "semantics": "enumerated-width-feature-projection-only",
+            "widths": list(normalized_widths),
+            "feature_level": level,
+            "uniform_row_charge": charge,
+        },
+        "census": {
+            "concrete_states": sum(len(source["states"]) for source in sources.values()),
+            "feature_states": len(state_ids),
+            "concrete_transitions": len(concrete_records),
+            "pooled_transitions": len(transitions),
+            "tight_concrete_transitions": tight_concrete,
+        },
+        "analysis": {
+            "exact_width_terminal_constants": exact_constants,
+            "pooled_width_terminal_constants": {
+                n: _fraction_json(value) for n, value in pooled_constants.items()
+            },
+            "pooled_phase_terminal_constants": {
+                phase: _fraction_json(value) for phase, value in phase_constants.items()
+            },
+            "desired_phase_constants": {"0": 4, "1": 2, "2": 5} if charge == 1 else None,
+            "exact_minimum_witness_tightness": witness_tightness,
+        },
     }
 
 
@@ -600,6 +1025,17 @@ def main() -> None:
     export_parser.add_argument("--n", type=int, choices=range(2, 7), default=3)
     export_parser.add_argument("--charge", type=int, default=0)
     export_parser.add_argument("--output", type=Path, required=True)
+    pooled_parser = subparsers.add_parser(
+        "pool-features", help="run the small-width OUT-aware feature experiment"
+    )
+    pooled_parser.add_argument(
+        "--level",
+        choices=("coarse", "runs", "out", "profiles", "partition", "exact"),
+        default="coarse",
+    )
+    pooled_parser.add_argument("--min-n", type=int, choices=range(2, 7), default=3)
+    pooled_parser.add_argument("--max-n", type=int, choices=range(2, 7), default=6)
+    pooled_parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
     if args.command == "pattern":
@@ -610,12 +1046,22 @@ def main() -> None:
         path = DEMO_CERTIFICATE if args.command == "demo" else args.path
         result = verify_frontier_certificate(json.loads(path.read_text()))
         print(json.dumps(result, indent=2))
-    else:
+    elif args.command == "export-small":
         certificate = build_complete_tile_certificate(args.n, args.charge)
         args.output.write_text(json.dumps(certificate, indent=2) + "\n")
         loaded = json.loads(args.output.read_text())
         verification = reverify_complete_tile_certificate(loaded)
         print(json.dumps({**verification, **loaded["analysis"]}, indent=2))
+    else:
+        if args.min_n > args.max_n:
+            parser.error("--min-n must not exceed --max-n")
+        result = build_pooled_frontier_feature_experiment(
+            tuple(range(args.min_n, args.max_n + 1)), args.level
+        )
+        rendered = json.dumps(result, indent=2) + "\n"
+        if args.output is not None:
+            args.output.write_text(rendered)
+        print(rendered, end="")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,426 @@
+{
+  "definitions": {
+    "carrier_rule": "at each cut between adjacent groups at most one non-OUT component occupies groups on both sides",
+    "equality_only": "recognition reads only n and the rooted connectivity partition",
+    "fixed_width_reduced_slack": "minimum prefix distance + row weight + minimum suffix distance - width minimum; reported only when a suffix exists",
+    "groups": "group 0 is frontier face slot 0; group i=1..k is slots 3i-2 through 3i",
+    "record": "canonical component/group events retain exact frontier slots; cut carrier events are checked on expansion",
+    "support_rule": "every non-OUT component occupies a contiguous set of groups"
+  },
+  "limitations": [
+    "This is finite evidence, not a zero-slack coverage proof.",
+    "Only n=5 and n=8 use complete equality corridors and complete operational reachable layers.",
+    "The n=11 and n=14 equality data and n=17 179-U control are single fixed traces.",
+    "Reduced slack is a fixed-width diagnostic and is omitted for transitions with no accepting suffix."
+  ],
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_carrier_grammar.py",
+      "--output",
+      "analysis/residue_two_carrier_grammar.json"
+    ],
+    "producer": "analysis/residue_two_carrier_grammar.py"
+  },
+  "row_transitions": {
+    "5": {
+      "completable_transitions_with_sound_slack": 2966,
+      "dead_end_transitions_without_slack": 0,
+      "exact_equality_corridor_edges": 220,
+      "fixed_width_reduced_slack_histogram": {
+        "0": 220,
+        "12": 201,
+        "15": 20,
+        "3": 801,
+        "6": 1047,
+        "9": 677
+      },
+      "frontier_accepted_transitions": 2966,
+      "grammar_incoming_states": 337,
+      "leaving_grammar": 0,
+      "masks_attempted": 10784,
+      "staying_in_grammar": 2966,
+      "total_equality_corridor_edges": 220
+    },
+    "8": {
+      "completable_transitions_with_sound_slack": 461145,
+      "dead_end_transitions_without_slack": 0,
+      "exact_equality_corridor_edges": 368,
+      "fixed_width_reduced_slack_histogram": {
+        "0": 368,
+        "12": 148043,
+        "15": 74554,
+        "18": 19106,
+        "21": 2725,
+        "24": 194,
+        "27": 2,
+        "3": 11460,
+        "6": 62716,
+        "9": 141977
+      },
+      "frontier_accepted_transitions": 461145,
+      "grammar_incoming_states": 14209,
+      "leaving_grammar": 442,
+      "masks_attempted": 3637504,
+      "staying_in_grammar": 460703,
+      "total_equality_corridor_edges": 368
+    }
+  },
+  "schema": "grid-graphs.residue-two-carrier-grammar.v1",
+  "scope": {
+    "complete_equality_corridors": [
+      5,
+      8
+    ],
+    "complete_structurally_reachable_layers": [
+      5,
+      8
+    ],
+    "fixed_equality_traces": [
+      11,
+      14
+    ],
+    "near_equality_control": {
+      "u_count": 179,
+      "width": 17
+    },
+    "semantics": "finite-equality-only-structural-grammar-evidence",
+    "zero_slack_coverage_proof": false
+  },
+  "sources": {
+    "n11-fixed-equality-trace": {
+      "accepted": 12,
+      "excluded": 0,
+      "lossless_round_trips": 12,
+      "metric_histograms": {
+        "carrier_events": {
+          "0": 7,
+          "1": 5
+        },
+        "maximum_concurrent_carriers": {
+          "0": 7,
+          "1": 5
+        },
+        "maximum_group_span": {
+          "0": 2,
+          "1": 5,
+          "2": 5
+        },
+        "non_out_components": {
+          "0": 2,
+          "1": 1,
+          "10": 2,
+          "6": 2,
+          "8": 1,
+          "9": 4
+        },
+        "occupied_group_events": {
+          "0": 2,
+          "1": 1,
+          "10": 4,
+          "7": 2,
+          "9": 3
+        },
+        "support_holes": {
+          "0": 12
+        }
+      },
+      "reason_combinations": {
+        "accepted": 12
+      },
+      "states": 12,
+      "states_with_concurrent_carriers": 0,
+      "states_with_support_holes": 0
+    },
+    "n14-fixed-equality-trace": {
+      "accepted": 15,
+      "excluded": 0,
+      "lossless_round_trips": 15,
+      "metric_histograms": {
+        "carrier_events": {
+          "0": 13,
+          "2": 2
+        },
+        "maximum_concurrent_carriers": {
+          "0": 13,
+          "1": 2
+        },
+        "maximum_group_span": {
+          "0": 2,
+          "1": 11,
+          "2": 1,
+          "3": 1
+        },
+        "non_out_components": {
+          "0": 2,
+          "10": 3,
+          "13": 2,
+          "2": 1,
+          "8": 1,
+          "9": 6
+        },
+        "occupied_group_events": {
+          "0": 2,
+          "10": 3,
+          "11": 2,
+          "13": 2,
+          "2": 1,
+          "8": 1,
+          "9": 4
+        },
+        "support_holes": {
+          "0": 15
+        }
+      },
+      "reason_combinations": {
+        "accepted": 15
+      },
+      "states": 15,
+      "states_with_concurrent_carriers": 0,
+      "states_with_support_holes": 0
+    },
+    "n17-fixed-near-equality-179-U-trace": {
+      "accepted": 18,
+      "excluded": 0,
+      "lossless_round_trips": 18,
+      "metric_histograms": {
+        "carrier_events": {
+          "0": 8,
+          "2": 6,
+          "3": 4
+        },
+        "maximum_concurrent_carriers": {
+          "0": 8,
+          "1": 10
+        },
+        "maximum_group_span": {
+          "0": 2,
+          "1": 6,
+          "2": 1,
+          "3": 5,
+          "4": 4
+        },
+        "non_out_components": {
+          "0": 2,
+          "11": 4,
+          "12": 8,
+          "13": 1,
+          "16": 2,
+          "2": 1
+        },
+        "occupied_group_events": {
+          "0": 2,
+          "11": 2,
+          "13": 1,
+          "14": 8,
+          "15": 2,
+          "16": 2,
+          "2": 1
+        },
+        "support_holes": {
+          "0": 18
+        }
+      },
+      "reason_combinations": {
+        "accepted": 18
+      },
+      "states": 18,
+      "states_with_concurrent_carriers": 0,
+      "states_with_support_holes": 0
+    },
+    "n5-complete-equality-corridor": {
+      "accepted": 117,
+      "excluded": 0,
+      "lossless_round_trips": 117,
+      "metric_histograms": {
+        "carrier_events": {
+          "0": 108,
+          "1": 9
+        },
+        "maximum_concurrent_carriers": {
+          "0": 108,
+          "1": 9
+        },
+        "maximum_group_span": {
+          "0": 21,
+          "1": 87,
+          "2": 9
+        },
+        "non_out_components": {
+          "0": 21,
+          "1": 9,
+          "2": 15,
+          "3": 40,
+          "4": 32
+        },
+        "occupied_group_events": {
+          "0": 21,
+          "1": 7,
+          "2": 15,
+          "3": 37,
+          "4": 37
+        },
+        "support_holes": {
+          "0": 117
+        }
+      },
+      "reason_combinations": {
+        "accepted": 117
+      },
+      "states": 117,
+      "states_with_concurrent_carriers": 0,
+      "states_with_support_holes": 0
+    },
+    "n5-full-structurally-reachable-layers": {
+      "accepted": 369,
+      "excluded": 0,
+      "lossless_round_trips": 369,
+      "metric_histograms": {
+        "carrier_events": {
+          "0": 340,
+          "1": 29
+        },
+        "maximum_concurrent_carriers": {
+          "0": 340,
+          "1": 29
+        },
+        "maximum_group_span": {
+          "0": 37,
+          "1": 303,
+          "2": 29
+        },
+        "non_out_components": {
+          "0": 37,
+          "1": 33,
+          "2": 82,
+          "3": 120,
+          "4": 97
+        },
+        "occupied_group_events": {
+          "0": 37,
+          "1": 27,
+          "2": 76,
+          "3": 121,
+          "4": 108
+        },
+        "support_holes": {
+          "0": 369
+        }
+      },
+      "reason_combinations": {
+        "accepted": 369
+      },
+      "states": 369,
+      "states_with_concurrent_carriers": 0,
+      "states_with_support_holes": 0
+    },
+    "n8-complete-equality-corridor": {
+      "accepted": 208,
+      "excluded": 0,
+      "lossless_round_trips": 208,
+      "metric_histograms": {
+        "carrier_events": {
+          "0": 159,
+          "1": 41,
+          "2": 8
+        },
+        "maximum_concurrent_carriers": {
+          "0": 159,
+          "1": 49
+        },
+        "maximum_group_span": {
+          "0": 22,
+          "1": 137,
+          "2": 42,
+          "3": 7
+        },
+        "non_out_components": {
+          "0": 22,
+          "1": 3,
+          "2": 3,
+          "3": 15,
+          "4": 26,
+          "5": 53,
+          "6": 64,
+          "7": 22
+        },
+        "occupied_group_events": {
+          "0": 22,
+          "1": 2,
+          "2": 1,
+          "3": 7,
+          "4": 27,
+          "5": 45,
+          "6": 68,
+          "7": 36
+        },
+        "support_holes": {
+          "0": 208
+        }
+      },
+      "reason_combinations": {
+        "accepted": 208
+      },
+      "states": 208,
+      "states_with_concurrent_carriers": 0,
+      "states_with_support_holes": 0
+    },
+    "n8-full-structurally-reachable-layers": {
+      "accepted": 14465,
+      "excluded": 117,
+      "lossless_round_trips": 14582,
+      "metric_histograms": {
+        "carrier_events": {
+          "0": 10567,
+          "1": 3467,
+          "2": 545,
+          "3": 3
+        },
+        "maximum_concurrent_carriers": {
+          "0": 10567,
+          "1": 3999,
+          "2": 16
+        },
+        "maximum_group_span": {
+          "0": 264,
+          "1": 10303,
+          "2": 3673,
+          "3": 342
+        },
+        "non_out_components": {
+          "0": 264,
+          "1": 162,
+          "2": 646,
+          "3": 1684,
+          "4": 3113,
+          "5": 4002,
+          "6": 3314,
+          "7": 1397
+        },
+        "occupied_group_events": {
+          "0": 264,
+          "1": 88,
+          "2": 419,
+          "3": 1219,
+          "4": 2595,
+          "5": 3949,
+          "6": 3948,
+          "7": 2100
+        },
+        "support_holes": {
+          "0": 14481,
+          "1": 101
+        }
+      },
+      "reason_combinations": {
+        "accepted": 14465,
+        "concurrent_carriers": 16,
+        "support_hole": 101
+      },
+      "states": 14582,
+      "states_with_concurrent_carriers": 16,
+      "states_with_support_holes": 101
+    }
+  }
+}

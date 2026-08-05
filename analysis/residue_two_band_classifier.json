@@ -1,0 +1,222 @@
+{
+  "census": {
+    "any_complete_normalized_class_recurs": true,
+    "normalized_classes": 463,
+    "recurring_complete_normalized_classes": 3,
+    "sliding_window_observations": 4986
+  },
+  "definitions": {
+    "aligned_window": "a sliding window whose zero-based start row is divisible by three",
+    "attachment_debt": "number of live frontier components not containing OUT",
+    "boundary_role": "top at row 0, bottom at row n-3, interior otherwise",
+    "complete_normalized_class": "boundary role, weight, debt delta, per-row OUT-merge counts, cycle delta, rank offset, and all packet offsets",
+    "out_merges": "exact incoming non-OUT partition labels joined to OUT, retained per primitive row",
+    "packet_offsets": "per-row dU and vertical-edge count minus 2*floor(n/3)",
+    "rank_offset": "three-row rank delta minus 9*floor(n/3), the value compatible with the six-U packet baseline and fixed band weight",
+    "sliding_window": "every start row 0 through n-3"
+  },
+  "observed_graph": {
+    "edges": 470,
+    "nontrivial_strong_components": 14,
+    "provenance": "one edge per replayed sliding macro endpoint, deduplicated after pooling only the listed sources",
+    "self_loops": 13,
+    "strong_components": 186,
+    "vertex_definition": [
+      "boundary mode",
+      "row phase modulo 3",
+      "previous-row U count minus 2*floor(n/3)",
+      "rooted attachment debt",
+      "cumulative cycle excess"
+    ],
+    "vertices": 187,
+    "vertices_in_nontrivial_strong_components": 15,
+    "warning": "pooled observed edges need not compose as paths; SCCs are not a global recurrence claim"
+  },
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_band_classifier.py",
+      "--output",
+      "analysis/residue_two_band_classifier.json"
+    ],
+    "producer": "analysis/residue_two_band_classifier.py"
+  },
+  "recurring_complete_normalized_classes": [
+    {
+      "class": {
+        "attachment_debt_delta": 1,
+        "boundary_role": "interior",
+        "cycle_delta": 0,
+        "out_merge_counts": [
+          2,
+          0,
+          0
+        ],
+        "rank_offset": 2,
+        "u_offsets": [
+          0,
+          1,
+          1
+        ],
+        "vertical_edge_offsets": [
+          0,
+          0,
+          1
+        ],
+        "weight": -1
+      },
+      "class_id": "Bd352aae5a16a9dcd",
+      "widths": [
+        5,
+        8
+      ]
+    },
+    {
+      "class": {
+        "attachment_debt_delta": -1,
+        "boundary_role": "interior",
+        "cycle_delta": 0,
+        "out_merge_counts": [
+          2,
+          2,
+          2
+        ],
+        "rank_offset": 4,
+        "u_offsets": [
+          1,
+          1,
+          1
+        ],
+        "vertical_edge_offsets": [
+          0,
+          1,
+          0
+        ],
+        "weight": -2
+      },
+      "class_id": "B18cd453bda372c4a",
+      "widths": [
+        8,
+        17
+      ]
+    },
+    {
+      "class": {
+        "attachment_debt_delta": -4,
+        "boundary_role": "interior",
+        "cycle_delta": 1,
+        "out_merge_counts": [
+          2,
+          1,
+          3
+        ],
+        "rank_offset": 7,
+        "u_offsets": [
+          2,
+          2,
+          1
+        ],
+        "vertical_edge_offsets": [
+          2,
+          0,
+          0
+        ],
+        "weight": -2
+      },
+      "class_id": "Bf995953a33b3f8d6",
+      "widths": [
+        14,
+        17
+      ]
+    }
+  ],
+  "schema": "grid-graphs.residue-two-band-classifier.v1",
+  "scope": {
+    "complete_optimum_path_widths": [
+      5,
+      8
+    ],
+    "coverage_beyond_listed_paths_claimed": false,
+    "fixed_witness_widths": [
+      11,
+      14,
+      17
+    ],
+    "semantics": "observed-three-row-macro-replay-diagnostic-only",
+    "widths": [
+      5,
+      8,
+      11,
+      14,
+      17
+    ]
+  },
+  "sources": {
+    "n11-fixed-witness": {
+      "aligned_windows": 3,
+      "boundary_role_histogram": {
+        "bottom": 1,
+        "interior": 7,
+        "top": 1
+      },
+      "normalized_classes": 9,
+      "paths": 1,
+      "selection": "one-fixed-witness",
+      "sliding_windows": 9,
+      "width": 11
+    },
+    "n14-fixed-witness": {
+      "aligned_windows": 4,
+      "boundary_role_histogram": {
+        "bottom": 1,
+        "interior": 10,
+        "top": 1
+      },
+      "normalized_classes": 12,
+      "paths": 1,
+      "selection": "one-fixed-witness",
+      "sliding_windows": 12,
+      "width": 14
+    },
+    "n17-fixed-witness": {
+      "aligned_windows": 5,
+      "boundary_role_histogram": {
+        "bottom": 1,
+        "interior": 13,
+        "top": 1
+      },
+      "normalized_classes": 14,
+      "paths": 1,
+      "selection": "one-fixed-witness",
+      "sliding_windows": 15,
+      "width": 17
+    },
+    "n5-exact-corridor": {
+      "aligned_windows": 242,
+      "boundary_role_histogram": {
+        "bottom": 242,
+        "interior": 242,
+        "top": 242
+      },
+      "normalized_classes": 182,
+      "paths": 242,
+      "selection": "all-optimum-paths",
+      "sliding_windows": 726,
+      "width": 5
+    },
+    "n8-exact-corridor": {
+      "aligned_windows": 1408,
+      "boundary_role_histogram": {
+        "bottom": 704,
+        "interior": 2816,
+        "top": 704
+      },
+      "normalized_classes": 249,
+      "paths": 704,
+      "selection": "all-optimum-paths",
+      "sliding_windows": 4224,
+      "width": 8
+    }
+  }
+}

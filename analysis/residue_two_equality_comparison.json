@@ -1,0 +1,442 @@
+{
+  "schema": "grid-graphs.residue-two-equality-comparison.v1",
+  "scope": {
+    "baseline_widths": [
+      5,
+      8
+    ],
+    "trace_widths": [
+      14,
+      17
+    ],
+    "semantics": "normalized-profile-diagnostic-only"
+  },
+  "corridors": {
+    "5": {
+      "minimum_weight": 5,
+      "minimum_u": 14,
+      "minimum_path_count": "242",
+      "corridor_states_by_row": [
+        1,
+        19,
+        26,
+        28,
+        24,
+        19
+      ],
+      "corridor_transitions_by_row": [
+        19,
+        26,
+        60,
+        78,
+        37
+      ],
+      "normalized_profiles": {
+        "packet": {
+          "states": 56,
+          "transitions": 31
+        },
+        "overlap": {
+          "states": 56,
+          "transitions": 49
+        },
+        "local": {
+          "states": 56,
+          "transitions": 65
+        },
+        "transport": {
+          "states": 56,
+          "transitions": 163
+        },
+        "attachment": {
+          "states": 103,
+          "transitions": 211
+        },
+        "full": {
+          "states": 103,
+          "transitions": 211
+        }
+      }
+    },
+    "8": {
+      "minimum_weight": 5,
+      "minimum_u": 37,
+      "minimum_path_count": "704",
+      "corridor_states_by_row": [
+        1,
+        20,
+        20,
+        22,
+        37,
+        24,
+        38,
+        26,
+        20
+      ],
+      "corridor_transitions_by_row": [
+        20,
+        20,
+        67,
+        47,
+        40,
+        48,
+        92,
+        34
+      ],
+      "normalized_profiles": {
+        "packet": {
+          "states": 61,
+          "transitions": 38
+        },
+        "overlap": {
+          "states": 61,
+          "transitions": 60
+        },
+        "local": {
+          "states": 61,
+          "transitions": 79
+        },
+        "transport": {
+          "states": 61,
+          "transitions": 176
+        },
+        "attachment": {
+          "states": 126,
+          "transitions": 243
+        },
+        "full": {
+          "states": 126,
+          "transitions": 243
+        }
+      }
+    }
+  },
+  "normalized_overlap": {
+    "packet": {
+      "state_profiles": 4,
+      "transition_profiles": 11
+    },
+    "overlap": {
+      "state_profiles": 4,
+      "transition_profiles": 19
+    },
+    "local": {
+      "state_profiles": 4,
+      "transition_profiles": 0
+    },
+    "transport": {
+      "state_profiles": 4,
+      "transition_profiles": 0
+    },
+    "attachment": {
+      "state_profiles": 0,
+      "transition_profiles": 0
+    },
+    "full": {
+      "state_profiles": 0,
+      "transition_profiles": 0
+    }
+  },
+  "traces": {
+    "14": {
+      "packet": {
+        "matched_baseline_rows": [
+          12
+        ],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13
+        ]
+      },
+      "overlap": {
+        "matched_baseline_rows": [
+          12
+        ],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13
+        ]
+      },
+      "local": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      },
+      "transport": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      },
+      "attachment": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      },
+      "full": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      },
+      "row_weights": [
+        2,
+        12,
+        -3,
+        1,
+        0,
+        -2,
+        1,
+        0,
+        -2,
+        0,
+        0,
+        0,
+        -5,
+        1
+      ],
+      "total_weight": 5
+    },
+    "17": {
+      "packet": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      "overlap": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      "local": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      "transport": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      "attachment": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      "full": {
+        "matched_baseline_rows": [],
+        "unmatched_baseline_rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      "row_weights": [
+        2,
+        15,
+        -3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -2,
+        0,
+        0,
+        0,
+        -6,
+        1
+      ],
+      "total_weight": 8
+    }
+  },
+  "provenance": {
+    "producer": "analysis/equality_corridor.py",
+    "command": [
+      "python3",
+      "-B",
+      "analysis/equality_corridor.py",
+      "--compare-residue-two",
+      "--output",
+      "analysis/residue_two_equality_comparison.json"
+    ]
+  }
+}
