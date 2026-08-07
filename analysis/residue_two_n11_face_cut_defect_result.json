@@ -1,0 +1,50 @@
+{
+  "schema": "grid-graphs.residue-two-n11-face-cut-defect-result.v1",
+  "scope": {
+    "width": 11,
+    "semantics": "exact two-channel frontier optimization",
+    "grammar_violation_kind": "face-cut occurrence-hull width greater than one",
+    "symmetry_reduction": false,
+    "beam_pruning": false
+  },
+  "curvature_five_query": {
+    "u_limit": 72,
+    "minimum_codec_valid_u": 72,
+    "minimum_codec_defective_u": null,
+    "peak_states": 196131,
+    "transitions": 19970435,
+    "command": [
+      "target/release/search_n17_frontier_pruned",
+      "--n", "11",
+      "--u-count", "72",
+      "--grammar-violation-query",
+      "--grammar-violation-kind", "face-cut"
+    ]
+  },
+  "first_defect_query": {
+    "u_limit": 73,
+    "minimum_codec_valid_u": 72,
+    "minimum_codec_defective_u": 73,
+    "minimum_codec_valid_curvature": 5,
+    "minimum_codec_defective_curvature": 8,
+    "defect_gap": 3,
+    "peak_states": 199757,
+    "transitions": 22022977,
+    "witness": "analysis/residue_two_n11_face_cut_defect_witness.txt",
+    "first_defect_row": 7,
+    "maximum_face_cut_width": 2,
+    "command": [
+      "target/release/search_n17_frontier_pruned",
+      "--n", "11",
+      "--u-count", "73",
+      "--grammar-violation-query",
+      "--grammar-violation-kind", "face-cut",
+      "--grammar-witness-out", "analysis/residue_two_n11_face_cut_defect_witness.txt"
+    ]
+  },
+  "conclusion": "Every curvature-five n=11 path is in the one-hull codec; the first codec-defective complete path has curvature eight.",
+  "limitations": [
+    "This is an exact fixed-width result, not an arbitrary-width coverage theorem.",
+    "The positive witness is independently replayable; reproducing the negative channel requires rerunning the exact Rust command."
+  ]
+}

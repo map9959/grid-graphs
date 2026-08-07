@@ -10,7 +10,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 from census_moving_seam_alignment import find_alignment, replay_alignment
-from construction_lab import dual_connectivity_check, forest_completion_check, q_formula
+from construction_lab import dual_connectivity_check, forest_completion_check, q_old_formula
 from diagonal_patterns import residue_two_affine_pattern
 from search_residue_two_phase_front import _central_width, _packet_names
 
@@ -42,8 +42,8 @@ def metrics(rows: tuple[str, ...]) -> dict:
     return {
         "n": n,
         "u_count": u_count,
-        "old_q": q_formula(n),
-        "surplus": u_count - q_formula(n),
+        "old_q": q_old_formula(n),
+        "surplus": u_count - q_old_formula(n),
         "dual_edges": edges,
         "dual_vertices": 1 + (n - 1) ** 2,
         "dual_connected": dual_ok,

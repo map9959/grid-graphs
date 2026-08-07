@@ -1,0 +1,421 @@
+{
+  "claim": {
+    "pairs": [
+      {
+        "candidates_tested": 330752,
+        "exact_charge_candidate_count": 3322,
+        "exact_compatible": [],
+        "exact_compatible_count": 0,
+        "id": "A17-to-B20",
+        "kind": "cross",
+        "minimum_mismatch": {
+          "charge": 25,
+          "closed": 0,
+          "cycle": 0,
+          "mask": 0,
+          "partition": 0
+        },
+        "minimum_mismatch_samples": [
+          {
+            "mismatch": {
+              "charge": 25,
+              "closed": 0,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 1,
+            "source": "A17",
+            "source_depth": 16,
+            "source_orientation": "rotate_270",
+            "target": "B20",
+            "target_depth": 19,
+            "target_orientation": "rotate_270"
+          },
+          {
+            "mismatch": {
+              "charge": 25,
+              "closed": 0,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 16,
+            "source": "A17",
+            "source_depth": 16,
+            "source_orientation": "rotate_270",
+            "target": "B20",
+            "target_depth": 19,
+            "target_orientation": "rotate_270_reflect_lr"
+          },
+          {
+            "mismatch": {
+              "charge": 25,
+              "closed": 0,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 1,
+            "source": "A17",
+            "source_depth": 16,
+            "source_orientation": "rotate_270_reflect_lr",
+            "target": "B20",
+            "target_depth": 19,
+            "target_orientation": "rotate_270"
+          },
+          {
+            "mismatch": {
+              "charge": 25,
+              "closed": 0,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 16,
+            "source": "A17",
+            "source_depth": 16,
+            "source_orientation": "rotate_270_reflect_lr",
+            "target": "B20",
+            "target_depth": 19,
+            "target_orientation": "rotate_270_reflect_lr"
+          }
+        ],
+        "minimum_topology_mismatch_at_exact_charge": {
+          "closed": 1,
+          "cycle": 0,
+          "mask": 0,
+          "partition": 0
+        },
+        "minimum_topology_mismatch_at_exact_charge_samples": [
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 0,
+            "source": "A17",
+            "source_depth": 2,
+            "source_orientation": "rotate_90",
+            "target": "B20",
+            "target_depth": 2,
+            "target_orientation": "rotate_270"
+          },
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 2,
+            "source": "A17",
+            "source_depth": 4,
+            "source_orientation": "rotate_180",
+            "target": "B20",
+            "target_depth": 4,
+            "target_orientation": "rotate_180_reflect_lr"
+          },
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 15,
+            "source": "A17",
+            "source_depth": 2,
+            "source_orientation": "rotate_0_reflect_lr",
+            "target": "B20",
+            "target_depth": 2,
+            "target_orientation": "rotate_270_reflect_lr"
+          },
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 0,
+            "source": "A17",
+            "source_depth": 2,
+            "source_orientation": "rotate_90_reflect_lr",
+            "target": "B20",
+            "target_depth": 2,
+            "target_orientation": "rotate_270"
+          },
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 15,
+            "source": "A17",
+            "source_depth": 4,
+            "source_orientation": "rotate_180_reflect_lr",
+            "target": "B20",
+            "target_depth": 4,
+            "target_orientation": "rotate_180"
+          }
+        ],
+        "orientation_counts": [
+          8,
+          8
+        ],
+        "per_channel_zero_counts": {
+          "charge": 3322,
+          "closed": 45312,
+          "cycle": 167552,
+          "mask": 11056,
+          "partition": 7604
+        },
+        "searched": true,
+        "source_n": 17,
+        "source_sha256": "5ce058e7a921bb1c0d2daadcbccde8acea1375be85a196acfdaec88bb019392f",
+        "target_n": 20,
+        "target_sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11"
+      },
+      {
+        "candidates_tested": 535040,
+        "exact_charge_candidate_count": 3516,
+        "exact_compatible": [],
+        "exact_compatible_count": 0,
+        "id": "B20-to-A23",
+        "kind": "cross",
+        "minimum_mismatch": {
+          "charge": 29,
+          "closed": 0,
+          "cycle": 4,
+          "mask": 0,
+          "partition": 0
+        },
+        "minimum_mismatch_samples": [
+          {
+            "mismatch": {
+              "charge": 29,
+              "closed": 0,
+              "cycle": 4,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 1,
+            "source": "B20",
+            "source_depth": 19,
+            "source_orientation": "rotate_270",
+            "target": "A23",
+            "target_depth": 22,
+            "target_orientation": "rotate_270"
+          },
+          {
+            "mismatch": {
+              "charge": 29,
+              "closed": 0,
+              "cycle": 4,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 19,
+            "source": "B20",
+            "source_depth": 19,
+            "source_orientation": "rotate_270",
+            "target": "A23",
+            "target_depth": 22,
+            "target_orientation": "rotate_270_reflect_lr"
+          },
+          {
+            "mismatch": {
+              "charge": 29,
+              "closed": 0,
+              "cycle": 4,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 1,
+            "source": "B20",
+            "source_depth": 19,
+            "source_orientation": "rotate_270_reflect_lr",
+            "target": "A23",
+            "target_depth": 22,
+            "target_orientation": "rotate_270"
+          },
+          {
+            "mismatch": {
+              "charge": 29,
+              "closed": 0,
+              "cycle": 4,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 19,
+            "source": "B20",
+            "source_depth": 19,
+            "source_orientation": "rotate_270_reflect_lr",
+            "target": "A23",
+            "target_depth": 22,
+            "target_orientation": "rotate_270_reflect_lr"
+          }
+        ],
+        "minimum_topology_mismatch_at_exact_charge": {
+          "closed": 1,
+          "cycle": 0,
+          "mask": 0,
+          "partition": 0
+        },
+        "minimum_topology_mismatch_at_exact_charge_samples": [
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 0,
+            "source": "B20",
+            "source_depth": 2,
+            "source_orientation": "rotate_90",
+            "target": "A23",
+            "target_depth": 2,
+            "target_orientation": "rotate_270"
+          },
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 18,
+            "source": "B20",
+            "source_depth": 2,
+            "source_orientation": "rotate_0_reflect_lr",
+            "target": "A23",
+            "target_depth": 2,
+            "target_orientation": "rotate_270_reflect_lr"
+          },
+          {
+            "mismatch": {
+              "charge": 0,
+              "closed": 1,
+              "cycle": 0,
+              "mask": 0,
+              "partition": 0
+            },
+            "slab_start": 0,
+            "source": "B20",
+            "source_depth": 2,
+            "source_orientation": "rotate_90_reflect_lr",
+            "target": "A23",
+            "target_depth": 2,
+            "target_orientation": "rotate_270"
+          }
+        ],
+        "orientation_counts": [
+          8,
+          8
+        ],
+        "per_channel_zero_counts": {
+          "charge": 3516,
+          "closed": 79040,
+          "cycle": 101760,
+          "mask": 17956,
+          "partition": 11396
+        },
+        "searched": true,
+        "source_n": 20,
+        "source_sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11",
+        "target_n": 23,
+        "target_sha256": "c8e49712aa353cd61057b83aeb532c23d3380542b46785dfee1f26d462871cb1"
+      },
+      {
+        "id": "A17-to-A23",
+        "kind": "two-step-control",
+        "reason": "width difference is not one three-cell slab",
+        "searched": false
+      },
+      {
+        "actual_increment": 72,
+        "id": "A17-to-affine20",
+        "kind": "self-family",
+        "minimum_charge_mismatch": 1,
+        "reason": "globally non-exact charge; known attachment-compatible affine control",
+        "required_increment": 71,
+        "searched": false,
+        "source_n": 17,
+        "target_n": 20
+      }
+    ],
+    "patterns": {
+      "A17": {
+        "n": 17,
+        "sha256": "5ce058e7a921bb1c0d2daadcbccde8acea1375be85a196acfdaec88bb019392f",
+        "u_count": 179
+      },
+      "A23": {
+        "n": 23,
+        "sha256": "c8e49712aa353cd61057b83aeb532c23d3380542b46785dfee1f26d462871cb1",
+        "u_count": 335
+      },
+      "B20": {
+        "n": 20,
+        "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11",
+        "u_count": 250
+      }
+    },
+    "scope": {
+      "bounded": true,
+      "channels": [
+        "mask",
+        "partition",
+        "closed",
+        "charge",
+        "cycle"
+      ],
+      "compatibility": "zero mask Hamming distance, canonical rooted partition distance, forgotten-only component count, normalized U-cost distance, and dual cycle-excess distance",
+      "depths": "every nonempty nonfinal top-down frontier",
+      "negative_claim": "only the explicitly enumerated A17/B20/affine-A23 straight-cut family",
+      "orientations": "all distinct D4 images independently on source and target",
+      "shifts": "every legal consecutive three-column face-port interval",
+      "slab_width": 3
+    }
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "canonicalization": "canonical-json-v1",
+    "claim_sha256": "ab037682874780502bf317eb726c540a483f5bcb273362209dd9a4a00d8f93a2"
+  },
+  "provenance": {
+    "dependencies": [
+      {
+        "path": "analysis/residue_two_phase_front_witness.txt",
+        "sha256": "ce062ad957140d6d46d6cf601407e595f145db573dc5032d1e1ac695612fce11"
+      },
+      {
+        "path": "analysis/residue_two_frontier_signatures.py",
+        "sha256": "91c1fec95d2234bb48aee3e5735f32c3b06a94cf216e127bc1883338eb50d1f3"
+      },
+      {
+        "path": "analysis/open_slab_signature.py",
+        "sha256": "295510447684eae7eea51f3ce3f05ea6401321d6ace2377052db3ca3214b8194"
+      },
+      {
+        "path": "analysis/diagonal_patterns.py",
+        "sha256": "34a6ac614a4b80088c726c4125f96f4ff6326a9c3aeb7883811400edda946c00"
+      }
+    ],
+    "producer": "analysis/residue_two_open_slab_census.py"
+  },
+  "schema": "grid-graphs.residue-two-open-slab-census.v1"
+}

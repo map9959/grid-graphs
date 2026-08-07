@@ -16,7 +16,7 @@
       },
       "base_pattern_source": {
         "path": "search_residue_two_middle.py",
-        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+        "sha256": "8d17e85ccca8cc93fdf32c4607ee533b954f87382393ad413f2dbf46cead8ba4"
       },
       "frontier_kernel": {
         "path": "tile_grammar.py",

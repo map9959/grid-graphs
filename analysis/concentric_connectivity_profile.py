@@ -408,6 +408,8 @@ def build_artifact() -> dict:
     ]
     rank_census_path = Path(__file__).with_name("concentric_layer_rank_census.json")
     rank_census = json.loads(rank_census_path.read_text())
+    equality_census_path = Path(__file__).with_name("concentric_equality_census.json")
+    equality_census = json.loads(equality_census_path.read_text())
     scalar_controls = {}
     for name, item in rank_census["cases"].items():
         scalar_controls[name] = {
@@ -447,10 +449,20 @@ def build_artifact() -> dict:
             "scope": "known feasible witnesses n=5,8,11,14,17,20 only",
         },
         "scalar_optimum_controls": scalar_controls,
+        "complete_small_equality_controls": {
+            name: {
+                "minimum_u": item["minimum_u"],
+                "distinct_patterns": item["distinct_patterns"],
+                "maxima": item["maxima"],
+                "violating_patterns": item["violating_patterns"],
+            }
+            for name, item in equality_census["cases"].items()
+        },
         "n5_scalar_maximum_census": n5_scalar_maximum_census(),
         "conclusion": (
             "The n=5 and n=8 scalar optima are unrealizable by exact census. On "
-            "known feasible witnesses, ordered port partitions compress to at most "
+            "all 946 exact n=5,8 optima and the known larger feasible witnesses, "
+            "ordered port partitions compress to at most "
             "four repeated components, three cyclic runs per component, and nine "
             "compressed runs; proving these bounds for all extremal patterns is the "
             "remaining annulus-state coverage problem."

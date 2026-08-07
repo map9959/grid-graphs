@@ -14,6 +14,9 @@ use std::process;
 use std::time::{Duration, Instant};
 
 use fxhash::FxHasher;
+use grid_graphs::exact_centered_square::{
+    CenteredSquareMonitor, StreamingSquare, StreamingSquareState,
+};
 use hashbrown::HashMap;
 
 const MAX_N: usize = 17;
@@ -196,6 +199,152 @@ struct GrammarQueryStats {
     generated_transitions: u64,
     elapsed: Duration,
     bad_witness_rows: Option<Vec<u32>>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+enum CenteredProduct {
+    Streaming(u32),
+    Profile(u8),
+}
+
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+struct CenteredProductState {
+    frontier: State,
+    u_count: u16,
+    centered: CenteredProduct,
+}
+
+#[derive(Clone, Copy)]
+struct CenteredProductTrace {
+    row_parent: u32,
+}
+
+#[derive(Clone, Copy)]
+struct CenteredThresholds {
+    repeated_components: usize,
+    maximum_cyclic_runs: usize,
+    compressed_runs: usize,
+}
+
+struct ThresholdAutomaton {
+    initial: u32,
+    transitions: Vec<Vec<[u32; 2]>>,
+    outputs: Vec<u8>,
+    exact_layer_counts: Vec<usize>,
+    quotient_layer_counts: Vec<usize>,
+}
+
+impl ThresholdAutomaton {
+    fn build(side: usize, thresholds: CenteredThresholds, progress: bool) -> Result<Self, String> {
+        let stream = StreamingSquare::new(side)?;
+        let mut states = vec![(stream.initial_state(), 0u16)];
+        let mut exact_transitions = Vec::with_capacity(side * side);
+        let mut exact_layer_counts = vec![1];
+
+        for position in 0..side * side {
+            let col = position % side;
+            let mut next_states = Vec::new();
+            let mut next_ids: FastMap<(StreamingSquareState, u16), u32> =
+                FastMap::with_hasher(BuildHasherDefault::default());
+            let mut layer = Vec::with_capacity(states.len());
+            for &(state, row_u) in &states {
+                let mut successors = [0; 2];
+                for (chosen_index, chosen) in [false, true].into_iter().enumerate() {
+                    let next_state = stream.advance(state, position, chosen, row_u)?;
+                    let mut next_row_u = row_u;
+                    if chosen {
+                        next_row_u |= 1 << col;
+                    } else {
+                        next_row_u &= !(1 << col);
+                    }
+                    let next_id = *next_ids.entry((next_state, next_row_u)).or_insert_with(|| {
+                        let id = next_states.len() as u32;
+                        next_states.push((next_state, next_row_u));
+                        id
+                    });
+                    successors[chosen_index] = next_id;
+                }
+                layer.push(successors);
+            }
+            exact_transitions.push(layer);
+            states = next_states;
+            exact_layer_counts.push(states.len());
+            if progress {
+                eprintln!(
+                    "threshold_automaton phase=forward position={}/{} exact_states={}",
+                    position + 1,
+                    side * side,
+                    states.len()
+                );
+            }
+        }
+
+        let mut output_to_class = [u32::MAX; 8];
+        let mut outputs = Vec::new();
+        let mut next_classes = Vec::with_capacity(states.len());
+        for (state, _) in &states {
+            let flags = centered_summary_violation_flags(&stream.summary(state), thresholds);
+            let class = if output_to_class[flags as usize] == u32::MAX {
+                let class = outputs.len() as u32;
+                output_to_class[flags as usize] = class;
+                outputs.push(flags);
+                class
+            } else {
+                output_to_class[flags as usize]
+            };
+            next_classes.push(class);
+        }
+
+        let mut transitions = vec![Vec::new(); side * side];
+        let mut quotient_layer_counts = vec![0; side * side + 1];
+        quotient_layer_counts[side * side] = outputs.len();
+        for position in (0..side * side).rev() {
+            let mut signature_ids: FastMap<[u32; 2], u32> =
+                FastMap::with_hasher(BuildHasherDefault::default());
+            let mut classes = Vec::with_capacity(exact_transitions[position].len());
+            let mut class_transitions = Vec::new();
+            for successors in &exact_transitions[position] {
+                let signature = [
+                    next_classes[successors[0] as usize],
+                    next_classes[successors[1] as usize],
+                ];
+                let class = *signature_ids.entry(signature).or_insert_with(|| {
+                    let id = class_transitions.len() as u32;
+                    class_transitions.push(signature);
+                    id
+                });
+                classes.push(class);
+            }
+            quotient_layer_counts[position] = class_transitions.len();
+            transitions[position] = class_transitions;
+            next_classes = classes;
+            if progress {
+                eprintln!(
+                    "threshold_automaton phase=backward position={position} quotient_states={}",
+                    quotient_layer_counts[position]
+                );
+            }
+        }
+        Ok(Self {
+            initial: next_classes[0],
+            transitions,
+            outputs,
+            exact_layer_counts,
+            quotient_layer_counts,
+        })
+    }
+}
+
+#[derive(Debug)]
+struct CenteredProductStats {
+    connected: bool,
+    violation_flags: u8,
+    peak_states: usize,
+    generated_transitions: u64,
+    equivalent_merges: u64,
+    state_counts: Vec<usize>,
+    elapsed: Duration,
+    witness_rows: Option<Vec<u32>>,
 }
 
 #[derive(Default)]
@@ -1194,6 +1343,311 @@ fn write_grammar_witness(path: &Path, n: usize, rows: &[u32]) -> Result<(), Stri
     })
 }
 
+fn centered_violation_flags(
+    side: usize,
+    square_bits: u128,
+    thresholds: CenteredThresholds,
+) -> Result<u8, String> {
+    let row_mask = (1u128 << side) - 1;
+    let rows = (0..side).map(|row| (square_bits >> (row * side)) & row_mask);
+    let summary = CenteredSquareMonitor::from_row_masks(side, rows)?
+        .profile(side)?
+        .port_word;
+    Ok(
+        u8::from(summary.repeated_components > thresholds.repeated_components)
+            | (u8::from(
+                summary.maximum_cyclic_runs_per_component > thresholds.maximum_cyclic_runs,
+            ) << 1)
+            | (u8::from(summary.compressed_linear_run_count > thresholds.compressed_runs) << 2),
+    )
+}
+
+fn centered_summary_violation_flags(
+    summary: &grid_graphs::exact_centered_square::PortWordSummary,
+    thresholds: CenteredThresholds,
+) -> u8 {
+    u8::from(summary.repeated_components > thresholds.repeated_components)
+        | (u8::from(summary.maximum_cyclic_runs_per_component > thresholds.maximum_cyclic_runs)
+            << 1)
+        | (u8::from(summary.compressed_linear_run_count > thresholds.compressed_runs) << 2)
+}
+
+fn backtrack_centered_witness(
+    n: usize,
+    row_parents: &[FastMap<CenteredProductState, (CenteredProductState, u32)>],
+    mut target: CenteredProductState,
+    initial: CenteredProductState,
+) -> Result<Vec<u32>, String> {
+    if row_parents.len() != n {
+        return Err("centered witness recovery requires every row-boundary layer".into());
+    }
+    let mut rows = Vec::with_capacity(n);
+    for row in (0..n).rev() {
+        let (parent, row_mask) = row_parents[row]
+            .get(&target)
+            .copied()
+            .ok_or_else(|| format!("no centered witness predecessor at row {row}"))?;
+        rows.push(row_mask);
+        target = parent;
+    }
+    if target != initial {
+        return Err("centered witness did not backtrack to the initial state".into());
+    }
+    rows.reverse();
+    Ok(rows)
+}
+
+fn centered_product_search(
+    n: usize,
+    target: usize,
+    side: usize,
+    thresholds: CenteredThresholds,
+    progress: bool,
+    recover_witness: bool,
+) -> Result<CenteredProductStats, String> {
+    if n == 0 || n > MAX_N {
+        return Err(format!("n must be in 1..={MAX_N}"));
+    }
+    if target > n * n {
+        return Err(format!("U count cannot exceed {}", n * n));
+    }
+    if side < 2 || side > n || side % 2 != n % 2 {
+        return Err(format!(
+            "--side must be in 2..={n} and have the same parity as n"
+        ));
+    }
+    let started = Instant::now();
+    let schedule = steps(n)?;
+    let threshold_automaton = ThresholdAutomaton::build(side, thresholds, progress)?;
+    if progress {
+        eprintln!(
+            "threshold_automaton exact_peak={} quotient_peak={} terminal_classes={}",
+            threshold_automaton
+                .exact_layer_counts
+                .iter()
+                .copied()
+                .max()
+                .unwrap_or(0),
+            threshold_automaton
+                .quotient_layer_counts
+                .iter()
+                .copied()
+                .max()
+                .unwrap_or(0),
+            threshold_automaton.outputs.len()
+        );
+    }
+    let dual_nodes = (n - 1) * (n - 1) + 1;
+    let offset = (n - side) / 2;
+    let closing_step = (offset + side - 1) * n + offset + side - 1;
+    let initial = CenteredProductState {
+        frontier: State::new(0, 0),
+        u_count: 0,
+        centered: CenteredProduct::Streaming(threshold_automaton.initial),
+    };
+    let mut states: FastMap<CenteredProductState, CenteredProductTrace> =
+        FastMap::with_hasher(BuildHasherDefault::default());
+    states.insert(initial, CenteredProductTrace { row_parent: 0 });
+    let mut row_start_states = vec![initial];
+    let mut row_parents: Option<Vec<FastMap<CenteredProductState, (CenteredProductState, u32)>>> =
+        recover_witness.then(Vec::new);
+    let mut peak_states = 1;
+    let mut generated_transitions = 0u64;
+    let mut equivalent_merges = 0u64;
+    let mut state_counts = vec![1];
+
+    for (index, step) in schedule.iter().enumerate() {
+        let step_started = Instant::now();
+        let remaining = schedule.len() - index - 1;
+        let mut transition_cache: FastMap<(State, bool), Option<State>> =
+            FastMap::with_hasher(BuildHasherDefault::default());
+        let expected_next = if index == closing_step {
+            states.len().div_ceil(64).max(1024)
+        } else {
+            states.len().saturating_mul(5).div_ceil(4)
+        };
+        let mut next: FastMap<CenteredProductState, CenteredProductTrace> =
+            FastMap::with_capacity_and_hasher(expected_next, BuildHasherDefault::default());
+        let is_local = (offset..offset + side).contains(&step.row)
+            && (offset..offset + side).contains(&step.col);
+        let local_position = is_local.then(|| (step.row - offset) * side + step.col - offset);
+        for (history, trace) in states {
+            for chosen in [false, true] {
+                let next_count = history.u_count + u16::from(chosen);
+                if next_count as usize > target || next_count as usize + remaining < target {
+                    continue;
+                }
+                generated_transitions += 1;
+                let frontier = *transition_cache
+                    .entry((history.frontier, chosen))
+                    .or_insert_with(|| advance(history.frontier, step, chosen));
+                let Some(frontier) = frontier else {
+                    continue;
+                };
+                let components = component_count(frontier.labels(), step.after_indices.len());
+                let current_rank = step.introduced_nodes - components;
+                let rank_deficit = (dual_nodes - 1) - current_rank;
+                if next_count as usize + rank_deficit.div_ceil(2) > target {
+                    continue;
+                }
+                let centered = match history.centered {
+                    CenteredProduct::Profile(flags) => CenteredProduct::Profile(flags),
+                    CenteredProduct::Streaming(local_id) => {
+                        let next_id = if let Some(local_position) = local_position {
+                            threshold_automaton.transitions[local_position][local_id as usize]
+                                [usize::from(chosen)]
+                        } else {
+                            local_id
+                        };
+                        if index == closing_step {
+                            CenteredProduct::Profile(threshold_automaton.outputs[next_id as usize])
+                        } else {
+                            CenteredProduct::Streaming(next_id)
+                        }
+                    }
+                };
+                let candidate = CenteredProductState {
+                    frontier,
+                    u_count: next_count,
+                    centered,
+                };
+                if next
+                    .insert(
+                        candidate,
+                        CenteredProductTrace {
+                            row_parent: trace.row_parent,
+                        },
+                    )
+                    .is_some()
+                {
+                    equivalent_merges += 1;
+                }
+            }
+        }
+        states = next;
+        let completed = index + 1;
+        if completed % n == 0 {
+            if let Some(layers) = &mut row_parents {
+                layers.push(
+                    states
+                        .iter()
+                        .map(|(&state, trace)| {
+                            (
+                                state,
+                                (
+                                    row_start_states[trace.row_parent as usize],
+                                    state.frontier.row_u(),
+                                ),
+                            )
+                        })
+                        .collect(),
+                );
+            }
+            row_start_states = Vec::with_capacity(states.len());
+            for (index, (state, trace)) in states.iter_mut().enumerate() {
+                row_start_states.push(*state);
+                trace.row_parent = index as u32;
+            }
+        }
+        peak_states = peak_states.max(states.len());
+        state_counts.push(states.len());
+        if progress {
+            eprintln!(
+                "centered_product step={completed}/{} row={} col={} phase={} states={} capacity={} local_states={} frontier_transition_classes={} key_bytes={} trace_bytes={} generated={} merges={} step_seconds={:.3} elapsed_seconds={:.3} rss_kib={} peak_rss_kib={}",
+                schedule.len(), step.row, step.col,
+                if index < closing_step { "prefix" } else { "profile" },
+                states.len(), states.capacity(),
+                local_position.map_or(0, |position| threshold_automaton.quotient_layer_counts[position + 1]),
+                transition_cache.len(),
+                std::mem::size_of::<CenteredProductState>(),
+                std::mem::size_of::<CenteredProductTrace>(),
+                generated_transitions, equivalent_merges,
+                step_started.elapsed().as_secs_f64(), started.elapsed().as_secs_f64(),
+                process_memory_kib("VmRSS:").map_or("unknown".into(), |value| value.to_string()),
+                process_memory_kib("VmHWM:").map_or("unknown".into(), |value| value.to_string()),
+            );
+        }
+    }
+
+    let connected = !states.is_empty();
+    let violation_flags = states
+        .keys()
+        .filter_map(|state| match state.centered {
+            CenteredProduct::Profile(flags) => Some(flags),
+            CenteredProduct::Streaming(_) => None,
+        })
+        .fold(0, |all, flags| all | flags);
+    let witness_rows = if violation_flags == 0 {
+        None
+    } else if let Some(parents) = row_parents {
+        let terminal = states
+            .keys()
+            .filter(|state| matches!(state.centered, CenteredProduct::Profile(flags) if flags != 0))
+            .min_by_key(|state| {
+                let CenteredProduct::Profile(flags) = state.centered else {
+                    unreachable!()
+                };
+                (state.frontier.0, flags)
+            })
+            .copied()
+            .expect("nonzero violation flags require a terminal state");
+        Some(backtrack_centered_witness(n, &parents, terminal, initial)?)
+    } else {
+        None
+    };
+    Ok(CenteredProductStats {
+        connected,
+        violation_flags,
+        peak_states,
+        generated_transitions,
+        equivalent_merges,
+        state_counts,
+        elapsed: started.elapsed(),
+        witness_rows,
+    })
+}
+
+fn write_centered_witness(path: &Path, n: usize, rows: &[u32]) -> Result<(), String> {
+    write_grammar_witness(path, n, rows)
+}
+
+fn verify_centered_witness(
+    n: usize,
+    target: usize,
+    side: usize,
+    thresholds: CenteredThresholds,
+    rows: &[u32],
+) -> Result<(), String> {
+    if rows.len() != n
+        || rows
+            .iter()
+            .map(|row| row.count_ones() as usize)
+            .sum::<usize>()
+            != target
+    {
+        return Err("recovered centered witness has the wrong dimensions or U count".into());
+    }
+    let mut frontier = State::new(0, 0);
+    for step in steps(n)? {
+        let chosen = rows[step.row] & (1 << step.col) != 0;
+        frontier = advance(frontier, &step, chosen)
+            .ok_or("recovered centered witness fails global connectivity")?;
+    }
+    let offset = (n - side) / 2;
+    let mut square_bits = 0u128;
+    for row in 0..side {
+        for col in 0..side {
+            if rows[offset + row] & (1 << (offset + col)) != 0 {
+                square_bits |= 1 << (row * side + col);
+            }
+        }
+    }
+    if centered_violation_flags(side, square_bits, thresholds)? == 0 {
+        return Err("recovered centered witness does not violate a threshold".into());
+    }
+    Ok(())
+}
+
 fn apply_row_pruning(
     mut states: FastMap<State, u16>,
     mode: PruningMode,
@@ -2154,6 +2608,92 @@ fn main() {
     }
 }
 
+pub fn centered_product_entry() -> Result<(), String> {
+    let args: Vec<String> = env::args().skip(1).collect();
+    let mut n = 11usize;
+    let mut target = 72usize;
+    let mut side = None;
+    let mut progress = false;
+    let mut per_step = false;
+    let mut witness_out = None;
+    let mut at = 0;
+    while at < args.len() {
+        match args[at].as_str() {
+            "--progress" => {
+                progress = true;
+                at += 1;
+            }
+            "--per-step" => {
+                per_step = true;
+                at += 1;
+            }
+            "--n" | "--u-count" | "--side" | "--witness-out" => {
+                let flag = args[at].as_str();
+                let value = args
+                    .get(at + 1)
+                    .ok_or_else(|| format!("missing value for {flag}"))?;
+                match flag {
+                    "--n" => n = value.parse().map_err(|_| "invalid --n")?,
+                    "--u-count" => target = value.parse().map_err(|_| "invalid --u-count")?,
+                    "--side" => side = Some(value.parse().map_err(|_| "invalid --side")?),
+                    "--witness-out" => witness_out = Some(PathBuf::from(value)),
+                    _ => unreachable!(),
+                }
+                at += 2;
+            }
+            "--help" | "-h" => {
+                println!(
+                    "Usage: search_n11_centered_product --side S [options]\n\
+                     Exact finite scope: one centered square in one n x n pattern, exact U count,\n\
+                     and global dual connectivity. Defaults: --n 11 --u-count 72.\n\
+                     Options: --n N --u-count K --progress --per-step --witness-out PATH"
+                );
+                return Ok(());
+            }
+            option => return Err(format!("unknown option {option:?}")),
+        }
+    }
+    let side = side.ok_or("--side is required; this search covers exactly one selected side")?;
+    let thresholds = CenteredThresholds {
+        repeated_components: 4,
+        maximum_cyclic_runs: 3,
+        compressed_runs: 9,
+    };
+    let mut stats = centered_product_search(n, target, side, thresholds, progress, false)?;
+    if stats.violation_flags != 0 {
+        if progress {
+            eprintln!("centered_product witness_recovery=second_exact_pass");
+        }
+        let witness_pass = centered_product_search(n, target, side, thresholds, progress, true)?;
+        stats.witness_rows = witness_pass.witness_rows;
+    }
+    if let Some(rows) = &stats.witness_rows {
+        verify_centered_witness(n, target, side, thresholds, rows)?;
+    }
+    if let (Some(path), Some(rows)) = (&witness_out, &stats.witness_rows) {
+        write_centered_witness(path, n, rows)?;
+    }
+    println!(
+        "CENTERED_PRODUCT n={n} u_count={target} side={side} connected={} any_violation={} repeated_components_gt_4={} maximum_cyclic_runs_gt_3={} compressed_runs_gt_9={} peak_states={} transitions={} equivalent_merges={} elapsed_seconds={:.3} witness={}",
+        stats.connected,
+        stats.violation_flags != 0,
+        stats.violation_flags & 1 != 0,
+        stats.violation_flags & 2 != 0,
+        stats.violation_flags & 4 != 0,
+        stats.peak_states,
+        stats.generated_transitions,
+        stats.equivalent_merges,
+        stats.elapsed.as_secs_f64(),
+        stats.witness_rows.is_some(),
+    );
+    if per_step {
+        for (step, count) in stats.state_counts.iter().enumerate() {
+            println!("step={step} states={count}");
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2239,6 +2779,106 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn centered_product_agrees_with_complete_n3_brute_force() {
+        let thresholds = CenteredThresholds {
+            repeated_components: 0,
+            maximum_cyclic_runs: 0,
+            compressed_runs: 0,
+        };
+        for target in 0..=9 {
+            let mut expected_connected = false;
+            let mut expected_flags = 0;
+            for mask in 0usize..1 << 9 {
+                if mask.count_ones() as usize != target || !brute_accepts_mask(3, mask) {
+                    continue;
+                }
+                expected_connected = true;
+                expected_flags |= centered_violation_flags(3, mask as u128, thresholds).unwrap();
+            }
+            let actual = centered_product_search(3, target, 3, thresholds, false, false).unwrap();
+            assert_eq!(actual.connected, expected_connected, "target={target}");
+            assert_eq!(actual.violation_flags, expected_flags, "target={target}");
+        }
+    }
+
+    #[test]
+    fn centered_product_uses_compact_exact_trace_payload() {
+        assert_eq!(std::mem::size_of::<CenteredProductState>(), 32);
+        assert_eq!(std::mem::size_of::<CenteredProductTrace>(), 4);
+    }
+
+    fn assert_threshold_automaton_exhaustive(side: usize) {
+        let thresholds = CenteredThresholds {
+            repeated_components: 1,
+            maximum_cyclic_runs: 1,
+            compressed_runs: 2,
+        };
+        let automaton = ThresholdAutomaton::build(side, thresholds, false).unwrap();
+        for mask in 0u32..1u32 << (side * side) {
+            let mut class = automaton.initial;
+            for position in 0..side * side {
+                class = automaton.transitions[position][class as usize]
+                    [((mask >> position) & 1) as usize];
+            }
+            assert_eq!(
+                automaton.outputs[class as usize],
+                centered_violation_flags(side, mask as u128, thresholds).unwrap(),
+                "side={side} mask=0x{mask:x}"
+            );
+        }
+    }
+
+    #[test]
+    fn threshold_automaton_agrees_with_terminal_monitor_through_side_four() {
+        for side in 2..=4 {
+            assert_threshold_automaton_exhaustive(side);
+        }
+    }
+
+    #[test]
+    #[ignore = "33,554,432-pattern exhaustive threshold-language control"]
+    fn threshold_automaton_agrees_with_terminal_monitor_at_side_five() {
+        assert_threshold_automaton_exhaustive(5);
+    }
+
+    #[test]
+    fn centered_product_complete_n5_and_n8_controls() {
+        let thresholds = CenteredThresholds {
+            repeated_components: 4,
+            maximum_cyclic_runs: 3,
+            compressed_runs: 9,
+        };
+        let n5 = centered_product_search(5, 14, 3, thresholds, false, false).unwrap();
+        assert!(n5.connected);
+        assert_eq!(n5.violation_flags, 0);
+
+        let n8 = centered_product_search(8, 37, 2, thresholds, false, false).unwrap();
+        assert!(n8.connected);
+        assert_eq!(n8.violation_flags, 0);
+    }
+
+    #[test]
+    fn centered_product_recovers_a_checked_witness() {
+        let result = centered_product_search(
+            3,
+            9,
+            3,
+            CenteredThresholds {
+                repeated_components: 0,
+                maximum_cyclic_runs: 0,
+                compressed_runs: 0,
+            },
+            false,
+            true,
+        )
+        .unwrap();
+        let rows = result.witness_rows.unwrap();
+        assert_eq!(rows, [0b111; 3]);
+        assert!(frontier_accepts_mask(3, 0x1ff));
+        assert_eq!(rows.iter().map(|row| row.count_ones()).sum::<u32>(), 9);
     }
 
     #[test]

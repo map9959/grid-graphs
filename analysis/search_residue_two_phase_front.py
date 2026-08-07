@@ -22,7 +22,11 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
 
-from construction_lab import dual_connectivity_check, forest_completion_check, q_formula
+from construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    q_old_formula as q_formula,
+)
 from diagonal_patterns import residue_two_affine_pattern
 from search_residue_two_middle import KNOWN_249_NEAR, KNOWN_250
 from tile_grammar import (

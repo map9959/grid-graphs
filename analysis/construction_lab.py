@@ -7,8 +7,8 @@ Given a candidate generator function `n -> rows`, it checks:
   1. |U| matches conjectured q(n).
   2. The dual graph of U-U primal edges connects every cell-face to OUT.
   3. The forced graph (G - E(G[U])) is a forest.
-  4. The forced forest can be greedily completed to a spanning tree by U-U
-     edges (Lemma C condition).
+  4. The forced forest can be greedily completed to a spanning tree. Since all
+     non-U-U grid edges are forced already, every added edge is U-U.
 
 This module imports nothing from `diagonal_patterns` to avoid circular
 dependency: candidate generators live here during exploration, then the
@@ -21,15 +21,7 @@ import argparse
 from collections import defaultdict, deque
 from typing import Callable, Iterable
 
-
-def q_formula(n: int) -> int:
-    k, r = divmod(n, 3)
-    if r == 0:
-        return 6 * k * k - 3 * k + 2
-    if r == 1:
-        return 6 * k * k + k + 1
-    return 6 * k * k + 5 * k + 3
-
+from diagonal_patterns import q_formula, q_old_formula
 
 class DSU:
     def __init__(self, items: Iterable):
@@ -142,8 +134,15 @@ def forest_completion_check(rows: list[str]) -> tuple[bool, str]:
     return True, "ok"
 
 
-def run_check(n: int, rows: list[str], verbose: bool = False) -> dict:
-    expected_u = q_formula(n)
+def run_check(
+    n: int,
+    rows: list[str],
+    verbose: bool = False,
+    *,
+    expected_u: int | None = None,
+) -> dict:
+    if expected_u is None:
+        expected_u = q_formula(n)
     actual_u = sum(row.count("U") for row in rows)
     info = {
         "n": n,

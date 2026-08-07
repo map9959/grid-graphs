@@ -19,7 +19,7 @@ from typing import Callable
 from construction_lab import (
     dual_connectivity_check,
     forest_completion_check,
-    q_formula,
+    q_old_formula as q_formula,
     run_check,
 )
 from search_residue_two_middle import BASIC_ALPHABET, KNOWN_250

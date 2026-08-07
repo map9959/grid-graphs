@@ -1,0 +1,40 @@
+{
+  "negative_self_loops": [
+    {
+      "cut_state_self_loop": true,
+      "dominant_packet_increment": -1,
+      "row_weight": "-1*L+-1",
+      "rule": 0
+    },
+    {
+      "cut_state_self_loop": true,
+      "dominant_packet_increment": -1,
+      "row_weight": "-1*L+6",
+      "rule": 5
+    }
+  ],
+  "proof": {
+    "conclusion": "No scalar potential on this or any finite refinement of the repeated packet state can certify every packet separately.",
+    "contradiction": "-1>=0",
+    "inequality": "packet_weight + psi(out)-psi(in) >= 0",
+    "required_extension": "A frontier-word potential must emit structural weight on atom-parser transitions and prove row inequalities after horizontal telescoping.",
+    "self_loop_specialization": "-1 + psi(q)-psi(q) >= 0"
+  },
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_cut_potential_obstruction.py",
+      "--output",
+      "analysis/residue_two_cut_potential_obstruction.json"
+    ],
+    "producer": "analysis/residue_two_cut_potential_obstruction.py"
+  },
+  "schema": "grid-graphs.residue-two-cut-potential-obstruction.v1",
+  "scope": {
+    "obstruction_class": "scalar potential depending only on bounded packet-cut state",
+    "packet_lengths": "all integers L>=7",
+    "stable_rules": 19,
+    "weighted_word_potential_ruled_out": false
+  }
+}

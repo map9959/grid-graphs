@@ -13,14 +13,7 @@ import argparse
 from functools import lru_cache
 from math import inf
 
-
-def q_formula(n: int) -> int:
-    k, r = divmod(n, 3)
-    if r == 0:
-        return 6 * k * k - 3 * k + 2
-    if r == 1:
-        return 6 * k * k + k + 1
-    return 6 * k * k + 5 * k + 3
+from diagonal_patterns import q_formula
 
 
 @lru_cache(maxsize=None)

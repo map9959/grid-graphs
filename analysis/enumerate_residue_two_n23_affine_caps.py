@@ -14,7 +14,8 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from construction_lab import q_formula
+from construction_lab import q_old_formula
+from diagonal_patterns import q_formula
 from diagonal_patterns import residue_two_affine_pattern
 from search_residue_two_phase_front import PHASE_ALPHABET, row_words
 from tile_grammar import (
@@ -31,7 +32,7 @@ N = 23
 PACKET_COUNT = 7
 ROW_BASELINE = 2 * PACKET_COUNT
 DEPTHS = tuple(range(2, 7))
-TARGETS = (q_formula(N), q_formula(N) + 1)
+TARGETS = (q_old_formula(N), q_formula(N))
 SCHEMA = "grid-graphs.residue-two-n23-affine-cap-census.v1"
 DEFAULT_RESULT = Path(__file__).with_name("residue_two_n23_affine_caps_result.json")
 

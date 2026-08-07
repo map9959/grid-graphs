@@ -15,17 +15,9 @@ import argparse
 import sys
 from collections import Counter, defaultdict, deque
 
+from diagonal_patterns import q_formula
 
 Face = tuple[int, int] | str
-
-
-def q_formula(n: int) -> int:
-    k, r = divmod(n, 3)
-    if r == 0:
-        return 6 * k * k - 3 * k + 2
-    if r == 1:
-        return 6 * k * k + k + 1
-    return 6 * k * k + 5 * k + 3
 
 
 def parse_pattern(text: str) -> list[str]:

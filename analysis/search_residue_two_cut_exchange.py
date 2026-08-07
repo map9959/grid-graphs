@@ -21,7 +21,7 @@ from math import comb
 from pathlib import Path
 from typing import Iterable
 
-from construction_lab import forest_completion_check, q_formula, run_check
+from construction_lab import forest_completion_check, q_old_formula as q_formula, run_check
 
 
 N = 20

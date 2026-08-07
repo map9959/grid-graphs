@@ -1,0 +1,156 @@
+{
+  "definitions": {
+    "charged_curvature": "3|U|-2(n-1)^2-n",
+    "defect_free_terminal": "minimum connected complete path that remains codec-valid",
+    "state_codec_defect": "first frontier with face-cut occurrence-hull width greater than one",
+    "transition_closure_defect": "codec-valid exact edge rejected by the selected transition relation"
+  },
+  "limitations": [
+    "Complete path monitoring is proved only at widths 5 and 8.",
+    "The monitor enumerates exact edges with advance_row, but each retained codec-valid edge is independently certified by the bounded streaming product.",
+    "No theorem yet enumerates every admissible arbitrary-width source/action word or proves that its successor remains in the codec.",
+    "The n11 control is one path and does not establish complete n11 coverage.",
+    "The fixed-width terminal minima do not imply an arbitrary-width terminal bound."
+  ],
+  "n11_silent_control": {
+    "all_bounded_symbolic_transitions_valid": true,
+    "all_frontiers_codec_valid": true,
+    "selection": "one fixed equality witness, not complete n11 coverage",
+    "silent_rows": [
+      8
+    ]
+  },
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_first_defect_certificate.py",
+      "--output",
+      "analysis/residue_two_first_defect_certificate.json"
+    ],
+    "producer": "analysis/residue_two_first_defect_certificate.py"
+  },
+  "schema": "grid-graphs.residue-two-first-defect-certificate.v1",
+  "scope": {
+    "arbitrary_width_coverage_claimed": false,
+    "arbitrary_word_transition_closure_claimed": false,
+    "bounded_symbolic_transition_soundness_proved_for_monitored_edges": true,
+    "semantics": "exact-fixed-width-first-defect-complete-path-monitor",
+    "transition_relation": "bounded-streaming-topology-and-local-counters",
+    "universal_terminal_bound_claimed": false,
+    "widths": [
+      5,
+      8
+    ]
+  },
+  "widths": {
+    "5": {
+      "defect_free_terminal": {
+        "meets_terminal_constant_five": true,
+        "minimum_complete_path_curvature": 5,
+        "witness": {
+          "curvature": 5,
+          "first_defect_row": null,
+          "row_masks": [
+            ".....",
+            "UUUUU",
+            "UUUU.",
+            "UUUUU",
+            "....."
+          ],
+          "u_count": 14
+        }
+      },
+      "first_state_codec_defect": {
+        "status": "absent"
+      },
+      "minimum_unrestricted_curvature": 5,
+      "minimum_unrestricted_u": 14,
+      "transition_closure_defect": {
+        "checked_codec_valid_completable_edges": 2966,
+        "interpretation": "bounded streaming topology and local counter certificate",
+        "status": "absent"
+      }
+    },
+    "8": {
+      "defect_free_terminal": {
+        "meets_terminal_constant_five": true,
+        "minimum_complete_path_curvature": 5,
+        "witness": {
+          "curvature": 5,
+          "first_defect_row": null,
+          "row_masks": [
+            "........",
+            "UUUUUUUU",
+            ".UUUU.UU",
+            ".UU.UUU.",
+            ".UU.UUU.",
+            ".UU.UUU.",
+            "UUUUUUUU",
+            "........"
+          ],
+          "u_count": 37
+        }
+      },
+      "first_state_codec_defect": {
+        "first_row": 7,
+        "gap_above_width_minimum": 3,
+        "incoming_structural_key": [
+          6,
+          107,
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            1,
+            6
+          ]
+        ],
+        "maximum_face_cut_width": 2,
+        "minimum_complete_path_curvature": 8,
+        "minimum_suffix_weight": 0,
+        "outgoing_structural_key": [
+          7,
+          126,
+          [
+            0,
+            1,
+            2,
+            3,
+            3,
+            2,
+            2,
+            4
+          ]
+        ],
+        "prefix_weight_through_defect_edge": 8,
+        "status": "present",
+        "witness": {
+          "curvature": 8,
+          "first_defect_row": 7,
+          "row_masks": [
+            "........",
+            "UUUUUUUU",
+            ".UU.UUU.",
+            ".UUUU.U.",
+            ".UUUUUU.",
+            "UU.U.UU.",
+            ".UUUUUU.",
+            ".UU...U."
+          ],
+          "u_count": 38
+        }
+      },
+      "minimum_unrestricted_curvature": 5,
+      "minimum_unrestricted_u": 37,
+      "transition_closure_defect": {
+        "checked_codec_valid_completable_edges": 461624,
+        "interpretation": "bounded streaming topology and local counter certificate",
+        "status": "absent"
+      }
+    }
+  }
+}

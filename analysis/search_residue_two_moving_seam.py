@@ -25,7 +25,7 @@ from census_moving_seam_alignment import find_alignment, replay_alignment
 from construction_lab import (
     dual_connectivity_check,
     forest_completion_check,
-    q_formula,
+    q_old_formula as q_formula,
     run_check,
 )
 from diagonal_patterns import residue_two_affine_pattern, residue_two_pattern

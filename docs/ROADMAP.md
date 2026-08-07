@@ -48,7 +48,7 @@ mathlib bound expressions) machinery are in this repo. See
 | 4 | Matching upper bounds via Karp's max-mean cycle | **Done for m ≤ 6 rigorously, m ≤ 10 empirically** | `analysis/proofs_upper.md`, `src/transfer.rs`, `src/motif.rs` |
 | 5 | Conjecture A as a theorem (`α_m = (m+2)/3 ⇔ m ≡ 1 mod 3`) | Pending — **recommended next** | — |
 | 6 | Per-m closed forms for `m ≡ 0, 2 (mod 3)` | Pending | — |
-| 7 | Diagonal `P(n, n)`: prove Conjecture C | **In progress**; exact data through n=15, constructive families complete for residues 0 and 1 | `analysis/proofs_diagonal.md`, `analysis/PHASE_PATTERN.md` |
+| 7 | Diagonal `P(n, n)`: prove the revised piecewise formula | **In progress**; residues 0 and 1 have constructions, residue 2 is exact at n=17 and open from n=20 upward | `analysis/proofs_diagonal.md`, `analysis/PROOF_ORIENTED_PROTOTYPE.md` |
 | 8 | Lean formalization of `P(m, n) ≤ basicUB m n` | **Done** | `lean/GridGraphs/Spanning.lean` (`preserved_le_basicUB`) |
 | 9 | Lean formalization of per-`m` constructions and Conjecture A | Pending (multi-month) | — |
 
@@ -85,15 +85,18 @@ revision:
    regularity we have, and proving it would yield the first **theorem of
    the form `α_m as a function of m`**, valid for an infinite family.
 
-2. **The diagonal `P(n, n)` admits a clean closed form** (Conjecture C in
-   `analysis/conjectures.md`):
+2. **The original diagonal formula is false in residue two.** The original
+   Conjecture C in `analysis/conjectures.md` was:
    ```
    P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
    ```
-    verified exactly at every `n = 4..15`. Explicit matching constructions are
-    now available for every `n ≡ 1 (mod 3)` and every `n ≡ 0 (mod 3)`; the
-    latter uses the phase-boundary family extracted from the n=21 witness. The
-    asymptotic density is
+    It is verified exactly at every `n = 4..15`, but an exact frontier
+    computation proves `P(17,17)=110`, one below its prediction. The revised
+    residue-two candidate is `P(3k+2,3k+2)=3k^2+7k` for `k>=5`, with the old
+    value `3k^2+7k+1` retained only for `1<=k<=4`. Explicit matching
+    constructions are available for every `n ≡ 1 (mod 3)`, every
+    `n ≡ 0 (mod 3)`, and residue-two `n=17,20`; no target-count `n=23`
+    construction is known. The asymptotic density is still expected to be
    `lim P(n,n)/n² = 1/3` — i.e. the basic UB **is** asymptotically tight
    on the diagonal, contradicting the previous "α-on-the-diagonal ≈ 0.42"
     reading. Residue two and the universal induced-edge decycling lower bound
@@ -233,17 +236,36 @@ For m ≡ 2 (mod 3), q_m = 1, 3, 7 for m = 2, 5, 8 (no simple pattern).
 uniform formula, in which case Phase 6 succeeds on m ≡ 0 and partially
 on m ≡ 2.
 
-## Phase 7 — Diagonal `P(n, n)`: verify and prove Conjecture C
+## Phase 7 — Diagonal `P(n, n)`: prove the revised formula
 
-`analysis/conjectures.md`'s original **Conjecture C** is:
+The original Conjecture C is disproved at `n=17`. The authoritative
+residue-two candidate is now
+
+```text
+P(3k+2,3k+2) = 3k²+7k+1,  1 <= k <= 4,
+P(3k+2,3k+2) = 3k²+7k,    k >= 5.
 ```
-P(n, n) = ⌊n²/3⌋ + n + C(n mod 3),  n ≥ 4,
+
+For `k>=5`, this is equivalent to a minimum non-full set
+
+```text
+q_plus(k) = |U| = 6k²+5k+4.
 ```
-where `C(1) = -1, C(0) = C(2) = -2`. Verified exactly at every
-n = 4..15. The n = 13, 14, and 15 values were certified by the
-forced-edge upper-bound DP plus completed spanning-tree witnesses. The
-next unresolved exact case is n = 16, although the residue-one construction
-already supplies the conjectured matching lower-bound witness there.
+
+The old target `q_old(k)=6k²+5k+3` remains useful only as an intermediate
+universal bound whose equality must be excluded.
+
+| n | k | revised target `|U|` | status |
+|---:|---:|---:|---|
+| 17 | 5 | 179 | globally exact; two exact searches exclude 178 |
+| 20 | 6 | 250 | valid construction; 249 not globally excluded |
+| 23 | 7 | 333 | no construction and no matching upper bound |
+| 26+ | 8+ | `6k²+5k+4` | both directions open |
+
+The proof has two independent infinite-family obligations. The construction
+track must produce target-count connected duals for every `k>=5`. The universal
+track must prove every admissible `U` has at least `q_plus(k)` vertices. Neither
+track can be replaced by larger exact square searches on laptop hardware.
 
 ### Sub-phases
 
@@ -323,65 +345,31 @@ Current constructive status:
    `|U|=6k²-3k+2`. The U-U dual has the predicted unicyclic edge count.
    Connectivity reduces to a finite `B_7` frontier certificate and six local
    extension transitions; see `analysis/PHASE_PATTERN.md`.
-4. **7b.4 — residue two formula disproved at n=17.** Cached exact witnesses
-   cover n=5,8,11,14. Their previously conjectured count architecture was
-   `q(3k+2)=2n+(3k-2)(2k+1)+1`. An exact mirror-quotiented frontier search
-    globally rules out 178 U at n=17, while the affine construction supplies a
-    validated connected 179-U pattern. A subsequent unmirrored exact run also
-    returns UNSAT after 30,053,510,406 transitions, removing dependence on the
-    reflection quotient. Thus `P(17,17)=110`, one below the old formula.
-    Earlier frontier searches rule out an unchanged
-   residue-zero phase bulk with a fixed cap and rule out representing the
-   final `+1` by one promoted row. The next target is a stateful boundary
-   defect that absorbs one or two bulk rows and evolves under `k→k+1`.
-   Current searches reach reproducible exact-count n=17 patterns with one
-   isolated dual face, and a valid crossed-crop family through tested n=41
-   whose n=23 member is four U above target. Exhaustive local repair and
-   contracted edge-count certificates close the current patch languages; the
-   next step is a new defect control state rather than a wider fixed cap.
-   A new affine pump now supplies a valid infinite near-family from n=17 with
-   surplus `k-4`, improving the prior skeleton surplus `k` by four vertices.
-   Its fixed recurrence is documented in `analysis/AFFINE_RESIDUE2.md` and
-   checked through n=119. Whether later residue-two values return to the old
-   count or inherit a changed correction is open.
-    The first A→B search proves that the saving cannot live solely in the
-    inserted cross, a seven-column halo, or the final three-row cap; all are
-    exact negative certificates. The next B-state language must couple the
-    early cycle-bearing prelude to the bottom OUT attachment.
-    Terminal-state replay now makes that requirement exact at n=17: every
-    178-U survivor is one prior OUT attachment short, whereas the 179-U witness
-    makes that attachment before its final face-to-face merge. The 179-U and
-    250-U witnesses share a bounded, surplus-one unicyclic `X/H` phase carrier,
-    but affine-calibrated exact tests of its first strict radius-three pump
-    schedule are negative at 333 U while positive at the 335-U control. A
-    compiled search extends this result from the basic `X/H` carrier to the
-    complete bounded `X/H/S` phase carrier, checking 1,677,381 top and
-    7,280,367 bottom states. Thus another schedule, different caps, or a sharper
-    connectivity state remains necessary. See
-    `analysis/RESIDUE2_TERMINAL_B_STATE.md`.
-    Exact ranked traces now show that the selected adjacent-width alignments are
-    not state-preserving: only one of 58 comparable cuts matches all visible
-    channels, and hidden slab-only components are pervasive. An asynchronous
-    landmark census recovers 40 two-sided lanes for the affine positive control
-    but none from phase-B20 to affine23. A B20-derived cap-to-cap manifest then
-    combines six self-renewing slab lanes with all middle schedules. Its exact
-    product is computationally infeasible, growing from 21,365 to 1,701,918
-    states in one row. Calibrated beams through 20,000 states find 14,086
-    connected joins at 335 U but none at 333 U, whose best joins retain three
-    components. This is heuristic rather than UNSAT and redirects work toward
-    an attachment potential or schedule decomposition; see
-    `analysis/RESIDUE2_STATE_TRANSFER.md`.
-    A proposed equality-only grammar with contiguous packet-group component
-    support has also been falsified exactly: a recovered optimal 72-U `n=11`
-    path has one transient support hole at row 8. It retains the learned local
-    motif alphabet and face-cut width one. The replacement candidate is a hull
-    carrier that may pass silently through an unoccupied packet; see
-    `analysis/residue_two_n11_grammar_counterexample.json`.
+4. **7b.4 — residue-two target construction.** Exact searches and a connected
+   179-U witness prove `P(17,17)=110`. A separate connected 250-U unicyclic
+   witness gives `P(20,20)>=150`. The affine pump is symbolically certified but
+   has `|U|=6k²+6k-1`, one additional surplus per pump, so it is not the target
+   family. The construction obligations are:
+   - register canonical `n=17` and `n=20` bases with independent replay;
+   - find a 333-U `n=23` witness or a direct symbolic target-cost transition;
+   - determine the finite control graph linking the A17, B20, and later states;
+   - prove every transition adds exactly `12k+11` U vertices and preserves the
+     rooted dual topology;
+   - prove cap closure and hence generate every `k>=5`.
+
+   Visible frontier masks and partitions are insufficient because hidden
+   slab-only components are common. A viable construction state must retain
+   ordered ports, hidden attachments, OUT rooting, rank/cycle data, affine cost,
+   and cap phase. Larger undifferentiated products are not the next step: the
+   B20 exact product already grows from 21,365 to 1,701,918 states in one row.
+   Detailed negative scopes and heuristic evidence remain in
+   `analysis/AFFINE_RESIDUE2.md`, `analysis/RESIDUE2_TERMINAL_B_STATE.md`, and
+   `analysis/RESIDUE2_STATE_TRANSFER.md`.
 
 Exact frontier optimization now covers n=16 and n=17. Checks at larger widths
 remain explicit candidate construction and verification.
 
-#### 7c — Matching upper bound for diagonal
+#### 7c — Matching upper bound for the diagonal
 
 The upper-bound problem is now a standalone induced-edge decycling theorem.
 For `U` = non-full vertices, `G(n,n) - E(G[U])` must be a forest. Equivalently
@@ -389,18 +377,155 @@ in planar-dual language, the dual edges corresponding to `U-U` primal edges
 must connect all grid cells to the exterior face. The desired upper bound is a
 minimum-size theorem for such `U`.
 
-Subtasks:
-1. **7c.1** Formalize the grid planar-dual implication: connectivity of the
-   dual graph formed by `U-U` edges implies that
-   `G - E(G[U])` is a forest. This is the main missing construction-side Lean
-   theorem.
-2. **7c.2** Complete the residue-zero frontier-connectivity proof from
-   `analysis/PHASE_PATTERN.md`. The exact count and dual edge formulas are
-   already algebraic; the remaining certificate is finite and local.
-3. **7c.3** Prove a strip-counting lower bound for any `U` whose dual edges
-   connect all faces. This is the core remaining combinatorial theorem.
-4. **7c.4** Move the stable theorem into Lean after the informal proof is
-   settled.
+Residue two requires the following dependency-ordered obligations:
+
+1. **7c.1 — normalize the reduction. Complete.** Lean theorem
+   `gridDualCycleSeparation` proves that connectivity of the dual graph formed
+   by `U-U` edges implies `G-E(G[U])` is a forest. The preserving-tree endpoint
+   is `exists_isTree_preserving_compl_of_uuDual_connected_grid`.
+2. **7c.2 — prove the old baseline.** Establish
+   `|U|>=q_old(k)=6k²+5k+3` with a width-independent inequality, potential, or
+   finite transition certificate covering every legal pattern.
+3. **7c.3 — exclude equality.** Show that every hypothetical old-target path
+   for `k>=5` accumulates an OUT attachment debt greater than its terminal merge
+   capacity. Equivalently, derive a sharpened potential proving
+   `|U|>=q_old(k)+1` directly.
+4. **7c.4 — prove coverage.** The old contiguous packet-carrier claim is false:
+   an exact optimal `n=11` path has a transient silent support gap. The primary
+   replacement is an ordered annulus state. Known feasible witnesses through
+   `n=20` have at most four repeated port components, three cyclic runs per
+   component, and nine compressed runs. These constants are observations, not
+   a theorem. Prove comparable uniform bounds, closure, and right-congruence.
+5. **7c.5 — fallback coverage route.** If ordered annulus complexity is
+   unbounded, use a hull-carrier grammar that permits silent packets and retains
+   long-range rooted attachment identity. Do not develop both abstractions
+   indefinitely; falsify annulus boundedness first.
+6. **7c.6 — finite certificate.** Enumerate or symbolically prove every state
+   transition, record cost/rank/cycle/debt deltas, solve the sharp min-plus
+   potential, and emit an independently checkable certificate with initial and
+   terminal conditions.
+7. **7c.7 — finite bases.** Determine the control period before computing new
+   exact bases. The exact `n=17` result may suffice for a one-state induction;
+   `n=20`, `n=23`, or later bases are required only if the proved control graph
+   has additional initial phases.
+8. **7c.8 — theorem assembly and Lean.** State the revised piecewise theorem,
+   separate global results from scoped and heuristic evidence, and formalize the
+    stable argument only after the informal construction and upper bound close.
+
+The old-baseline reduction now has two additional exact forms. For a dual
+spanning tree, if `N_j` counts primal vertices incident with exactly `j` chosen
+cotree edges, then `Q+S=2N_1+N_2`; the universal first step is
+`2N_1+N_2>=n+2`. In the choice-free forced-forest form, with `F=V\U`,
+`H=G-E(G[U])`, and component counts `c_F,c_H`,
+
+```text
+K(U)=Q_U+c_F+c_H-n-2.
+```
+
+Thus 7c.2 is exactly `Q_U+c_F+c_H>=n+7` in residue two. These identities are
+proved and regression-checked in
+`analysis/residue_two_obligation5_components.py`; the geometric component
+inequality remains open. This is the preferred proof target before resuming a
+larger annulus computation.
+
+The row-language route has also been audited. The four-term expression
+`-3U+row+2faces-2debt` is the exact negative accumulated curvature, not a
+coercive potential: every transition has zero slack and a connected terminal
+has value `-K`. It cannot prove terminal constant five without a separate
+minimum-accepting-weight theorem. The new exact first-defect monitor finds no
+one-hull codec defect at `n=5`; at `n=8`, first face-cut width two costs
+curvature eight, three above the minimum. All codec-valid completable edges pass
+a bounded streaming topology and local-counter certificate independent of
+`advance_row`. Symbolic soundness is complete for admitted words;
+arbitrary-word closure and arbitrary-width coverage remain open.
+
+The first held-out width is exact as well: a two-channel `n=11` product finds
+no face-cut defect at the 72-U curvature-five optimum, and finds the first
+defect at 73 U, curvature eight. The three-unit first-defect gap therefore holds
+completely at `n=8,11`, but remains unproved at arbitrary width.
+
+The symbolic transition product now has a true width-independent component
+bound: at most seven actual and seven expected components survive a packet cut.
+Malformed row shapes and irreversible target-partition fan-out are rejected.
+This closes the former unbounded-state bug, but arbitrary-word completeness is
+not yet formalized.
+
+Potential synthesis also has a sharper boundary. Repeatable negative packet
+self-loops rule out scalar cut-state potentials. Exact `n=5,8` algebra rules out
+atom sums, adjacent-bigram word weights, and the finite-parser state-only model;
+the latter has an exact `-1>=0` Farkas certificate. The next proof must add
+justified transition context or prove the component inequality directly, not
+fit another cumulative accounting term.
+
+The proposed post-defect merge-capacity proof is also closed negatively. Exact
+`n=8,11` defect witnesses discharge every unit of current debt, so a second
+carrier does not force a lost future merge. Any universal first-defect theorem
+must charge prefix/creation curvature plus cap weight. Large incoming-history
+products are paused after a memory-limit failure; finite-parser regeneration
+now requires explicit `--allow-large-lp` opt-in.
+
+The immediate upper-bound experiment is the annulus coverage lemma, not another
+scalar strip inequality. Exact `n=5,8` scalar-optimum censuses already show why:
+edge-maximizing states waste rank in cycles and sealed components, while
+rank-maximizing states remain disconnected. Ordered attachment topology is the
+missing channel; see `analysis/concentric_connectivity_profile.json` and
+`analysis/concentric_layer_rank_census.json`.
+
+Current coverage progress is exact but finite. Complete equality censuses cover
+all 242 optimum `n=5` patterns and all 704 optimum `n=8` patterns with no
+`4/3/9` port-signature violation. An exact product-frontier query also covers
+the centered side-3 prefix of every connected 72-U `n=11` pattern and finds no
+violation after 78,285,124 transitions.
+
+The streaming monitor and exact backward threshold minimization now complete
+centered side 5 as well, with no violation, 96,819,952 transitions, and about
+274 MiB peak RSS. Side 7 still exceeds the 6 GiB gate while constructing its
+exact local language; `annulus_side7_threshold_automaton_shards.json` specifies
+a collision-safe 256-way external repartition, but no side-7 result is claimed.
+The affine A23 surplus control falsifies `4/3/9` as a general topological bound,
+so the theorem target is now bounded reduced branch cost under curvature-five
+extremality, not bounded raw port-word size.
+
+The finite potential has also sharpened. A six-feature cap/merge state gives an
+exact terminal-constant-five certificate on all 588 complete n5/n8 equality
+transitions and is consistent with fixed n11/n14 and affine n17 paths. It does
+not provide width coverage or the extra unit. At n17 the missing discriminator
+is positive terminal unpayable debt for every 178-U survivor versus zero for the
+179-U control. The next upper-bound obligation is to propagate that debt flag
+through a covered low-curvature hull language.
+
+Construction-side, all net-minus-two exchanges around the fixed connected
+335-U n23 control are now exactly negative through order three: the order-three
+census checks all 1,198,144 addition triples and all 15,057 admissible
+five-removal tuples. A target witness must therefore change phase globally, not
+be a low-order repair of that control. The exact packet charge algebra still
+permits the desired `12k+11` recurrence: widen every mutable row by one
+zero-charge packet and insert three rows of total charge three. Finding the
+rooted-attachment schedule is the remaining construction problem.
+
+The first focused realizations of that schedule have now been exhausted. Both
+`A^5 H^3 A^15` and `A^8 H^3 A^12`, with independent radius-one moving seams and
+all 65 bounded basic charge-one HOLD rows, remain two-component joins in both
+consistent diagonal phases. Direct width-six P2/P5 compositions from A17 are
+also exact negatives. The next construction language must add nonbasic phase
+packets, radius-two rewrites at the missing attachment cut, mixed cap phases, or
+a different control rather than another basic schedule product.
+
+The first localized nonbasic enlargement is also exact negative. Full binary
+three-cell packets and radius-two rewrites on the two missing-attachment rows,
+with main, anti, and mixed bottom-cap phases, still leave all eight named
+families at best profile `[2,1]`. Further construction work must move the
+nonbasic phase across additional rows or change the cap/control itself.
+
+The Lean planar bridge is complete. `gridCycleRowRayParity` proves odd-face
+existence and parity preservation across every non-cycle edge using finite
+row-ray counts. It yields unconditional `gridDualCycleSeparation`, induced-edge
+decycling, and a preserving spanning tree from any connected U-U dual.
+
+The side-7 external computation is resumable but incomplete. Exact phases 0
+through 41 are committed only as ignored local workspace; phase 41 contains
+134,474,412 records. No side-7 theorem or certificate is claimed until phases
+42 through 49, backward minimization, and the global product all complete.
 
 The generic completion step is no longer open. Lean theorem
 `SimpleGraph.isAcyclic_extends_to_isTree` extends any forced forest inside a
@@ -408,9 +533,11 @@ finite connected graph, and
 `exists_isTree_preserving_of_forcedEdgeGraph_isAcyclic` packages this as a
 tree preserving every forced vertex.
 
-**Effort**: 7a is done for now. Residue-zero construction is found; the main
-remaining work is its finite connectivity proof, the residue-two stateful
-defect, and the universal counting upper bound.
+**Execution order**: normalize the revised target and bases; discover the
+target-cost residue-two construction control;
+prove the old universal baseline; establish ordered-annulus coverage; prove the
+extra attachment-debt unit; certify exactly the finite bases required by the
+resulting control graph; then assemble and formalize the theorem.
 
 ## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` ✅ **DONE**
 

@@ -11,7 +11,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from construction_lab import dual_connectivity_check, forest_completion_check, q_formula
+from construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    q_old_formula as q_formula,
+)
 from diagonal_patterns import residue_two_affine_pattern
 from tile_grammar import (
     ROW_PACKET_ALPHABET,

@@ -185,7 +185,7 @@ def assert_family_formulas(metric: Metrics) -> None:
 
 def recurrence_result(n: int) -> str:
     difference = q_formula(n + 3) - q_formula(n)
-    expected = 4 * n + 3
+    expected = 4 * n + 3 + int(n == 14)
     if difference != expected:
         raise AssertionError(f"q recurrence failed at n={n}: {difference} != {expected}")
     return f"q({n + 3})-q({n})={difference}=4n+3"

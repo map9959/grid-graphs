@@ -76,6 +76,25 @@ formulas in `docs/DERIVATION.md`.
 | **`forcedEdgeGraph_isAcyclic_of_preserves`** | **forced-edge graph of preserved set in acyclic `T` is acyclic** | `Forced.lean:58` |
 | `grid_forcedEdgeGraph_isAcyclic_of_preserves` | grid specialisation | `Forced.lean:73` |
 
+### Incidence-waste and forest-component accounting
+
+| Lemma | Statement |
+|-------|-----------|
+| `incidenceWaste_add_twice_card_edges` | `W + 2|E| = 3|support|` under maximum degree three |
+| `incidenceWaste_exchange_balance` | exact arbitrary equal-edge support exchange balance |
+| `incidenceWaste_int_delta` | signed formula `Delta W = 3(new-lost)` |
+| `IsAcyclic.card_edgeFinset_add_card_connectedComponent` | finite forest ledger `|E|+c=|V|` |
+| `grid_cotree_incidenceWaste_identity` | `W + D + 3*numPreserved = 3mn` for a grid spanning tree |
+| `diagonal_cotree_incidenceWaste_ge_iff_preserved_bound` | `W>=n+2` iff the additive diagonal full-degree bound holds |
+| `grid_component_reduction` | exact full-set forced-forest component identity |
+| `square_grid_component_reduction_compl` | exact square `U`-form of `Q_U+c_F+c_H` accounting |
+| `square_grid_tree_component_bridge` | exact identity `Q_U+c_F+c_H = W+2` for a square-grid spanning tree cotree |
+
+All statements are subtraction-free over `Nat` where possible. Component
+counts for the induced full-vertex graph use the subtype vertex set, so the
+empty-set case contributes zero components rather than ambient isolated
+vertices.
+
 ### `GridGraphs/Diagonal.lean` — induced-edge decycling and cell hitting
 
 | Lemma | Statement | Location |
@@ -90,6 +109,48 @@ formulas in `docs/DERIVATION.md`.
 | `grid_cell_has_unforced_corner` | every cell contains at least one corner outside `F` | `Diagonal.lean:180` |
 | `preserved_set_cell_corner` | spanning-subgraph form of the cell-hitting condition | `Diagonal.lean:195` |
 | `connected_graph_has_spanning_tree` | wrapper around mathlib's `Connected.exists_isTree_le` | `Diagonal.lean:214` |
+
+### `GridGraphs/GridDual.lean` — explicit rectangular dual
+
+| Lemma | Statement | Location |
+|-------|-----------|----------|
+| `horizontalPrimalEndpoints_adj` | every horizontal coordinate edge is a grid edge | `GridDual.lean` |
+| `verticalPrimalEndpoints_adj` | every vertical coordinate edge is a grid edge | `GridDual.lean` |
+| `gridGraph_adj_exists_coordinate_edge` | every grid adjacency has a horizontal/vertical coordinate witness | `GridDual.lean` |
+| `uuDualGraph_adj_iff` | exact U-U dual adjacency characterization | `GridDual.lean` |
+| `hasDualEndpoints_iff` | same-side predicates are invariant under unordered endpoint orientation | `GridDual.lean` |
+| `cycleComplementDualGraph` / `cycleInteriorFaces` | face graph avoiding cycle edges, and faces unreachable from `out` | `GridDual.lean` |
+| `rowRayCrossingEdges` / `FaceRowRayOdd` | finite vertical crossings of a cell's leftward row ray and their parity | `GridDual.lean` |
+| `even_walkCutCrossings_iff` | walk cut crossings are even iff endpoint sides agree | `GridDual.lean` |
+| `even_walkCutCrossings_of_isClosed` | every closed walk crosses every Boolean cut evenly | `GridDual.lean` |
+| `even_gridRowPrefix_crossings` / `even_gridColumnPrefix_crossings` | row/column prefix cut parity for closed grid walks | `GridDual.lean` |
+| `gridCycle_even_incident_edges` | every cycle vertex has even edge-list incidence count | `GridDual.lean` |
+| `out_not_mem_cycleInteriorFaces` | the unbounded face is not in the unreachable-face set | `GridDual.lean` |
+| `horizontal_mem_cycleInteriorFaces_iff_of_not_mem_edges` and vertical counterpart | an unused primal edge has both incident faces on the same reachability side | `GridDual.lean` |
+| `horizontal_not_mem_forcedCycle_edges` and vertical counterpart | no U-U edge is traversed by a forced-`Uᶜ` walk | `GridDual.lean` |
+| `reachable_mem_iff_of_respectsCut` | every reachable pair lies on the same side of a respected cut | `GridDual.lean` |
+| `not_connected_of_respectsCut` | a graph respecting a nontrivial cut is disconnected | `GridDual.lean` |
+| `cycleComplementDualGraph_respects_faceRowRayOdd` | row-ray parity is invariant along complement-dual walks | `GridDual.lean` |
+| `gridCycleEnclosesBoundedFace_of_rowRayParity` | an odd face is unreachable from parity-zero `out` | `GridDual.lean` |
+| `uuDualGraph_respectsCut` | grid-edge same-side conditions imply that the U-U dual respects the face cut | `GridDual.lean` |
+| `gridPrimalCycleFaceCut_of_cycleEnclosesBoundedFace` | unreachable faces supply every clause of the finite primal face cut | `GridDual.lean` |
+| `gridPrimalCycleFaceCut_of_rowRayParity` | row-ray parity supplies the finite primal face cut | `GridDual.lean` |
+| `countP_edgeCrossesRowRay_eq_card` | a trail's filtered crossing count equals `rowRayCrossingEdges.card` | `GridDual.lean` |
+| `gridCycleRowRayParity` | every simple forced grid cycle has an odd face and unused edges preserve row-ray parity | `GridDual.lean` |
+| `gridDualCycleSeparation_of_primalCycleFaceCut` | finite cycle-face-cut separation implies `GridDualCycleSeparation` | `GridDual.lean` |
+| `gridDualCycleSeparation_of_cycleEnclosesBoundedFace` | bounded-face enclosure directly implies `GridDualCycleSeparation` | `GridDual.lean` |
+| `gridDualCycleSeparation_of_rowRayParity` | row-ray parity directly implies `GridDualCycleSeparation` | `GridDual.lean` |
+| `gridDualCycleSeparation` | unconditional rectangular-grid primal/dual cycle separation | `GridDual.lean` |
+| `isInducedEdgeDecyclingSet_of_uuDual_connected` | cycle separation plus dual connectivity gives decycling | `GridDual.lean` |
+| `exists_isTree_preserving_compl_of_uuDual_connected` | conditional preserving-tree construction endpoint | `GridDual.lean` |
+| `exists_isTree_preserving_compl_of_uuDual_connected_grid` | unconditional preserving-tree endpoint | `GridDual.lean` |
+
+The row-ray chain is complete. The proof identifies filtered counts on the
+cycle trail with `rowRayCrossingEdges.card`, proves horizontal parity using a
+finite segment cut, handles vertical prefixes including both boundaries, and
+obtains an odd incident face from an arbitrary cycle edge. The resulting face
+cut proves unconditional `GridDualCycleSeparation` and the preserving-tree
+endpoint above.
 
 ### `GridGraphs/ResidueOne.lean` — residue-1 diagonal `U` cardinality
 
@@ -111,6 +172,19 @@ is proven exactly.
 | **`uResidueOne_card`** | **`|uResidueOne k| = 6 * k^2 + k + 1`** for `k ≥ 1` | `ResidueOne.lean:416` |
 | `q` (def) | the conjectured diagonal closed form from `analysis/proofs_diagonal.md` | `ResidueOne.lean:497` |
 | `uResidueOne_card_eq_q` | `|uResidueOne k| = q (3k + 1)` | `ResidueOne.lean:509` |
+
+### Operational diagonal theorem API
+
+| Lemma | Statement |
+|-------|-----------|
+| `maxPreserved` | finite maximum over all grid spanning subtrees |
+| `exists_spanningSubtree_numPreserved_eq_maxPreserved` | the maximum is attained on every nonempty grid |
+| `uuDualGraph_uResidueOne_connected` | residue-one U-U dual connectivity for every `k>=1` |
+| `residueOne_le_maxPreserved` | unconditional lower bound `3k^2+5k` |
+| `uResidueZero_card` | residue-zero phase family has size `6k^2-3k+2` for `k>=7` |
+| `phaseRows_adjacent_valid` | every recursive residue-zero row transition is one of six symbolic classes |
+| `residueZero_le_maxPreserved_of_interior` | target residue-zero lower bound from the isolated interior-frontier certificate |
+| `maxPreserved_eq_diagonalFormulaP` | the four named open hypotheses imply the proposed formula for all `n>=3` |
 
 ### `GridGraphs/Spanning.lean` (refined) — `preserved_le_refinedUB`
 

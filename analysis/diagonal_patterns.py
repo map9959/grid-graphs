@@ -18,9 +18,9 @@ Status by residue (n mod 3):
       scaffold for analysis.
 
   residue 2 (n = 3k+2, k >= 1):
-      `residue_two_pattern(n)` returns cached exact witnesses through n=14,
-      then the affine pump family for n>=17. Checked members are valid through
-      the documented range, with surplus k-4 over the conjectured U count.
+      `residue_two_pattern(n)` returns only canonical target-count witnesses:
+      cached exact witnesses through n=14 and revised bases at n=17,20.
+      `residue_two_affine_pattern(n)` remains the separate surplus family.
 
 The residue-2 skeleton remains off by an `O(k)` correction. For residue zero,
 the phase-boundary family absorbs the correction with `k-2` seam rows.
@@ -29,15 +29,23 @@ the phase-boundary family absorbs the correction with `k-2` seam rows.
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 
 
-def q_formula(n: int) -> int:
+def q_old_formula(n: int) -> int:
+    """Original diagonal U-count, retained for residue-two equality analysis."""
     k, r = divmod(n, 3)
     if r == 0:
         return 6 * k * k - 3 * k + 2
     if r == 1:
         return 6 * k * k + k + 1
     return 6 * k * k + 5 * k + 3
+
+
+def q_formula(n: int) -> int:
+    """Current candidate minimum U-count, including the n=17 residue-two break."""
+    k, r = divmod(n, 3)
+    return q_old_formula(n) + int(r == 2 and k >= 5)
 
 
 # -----------------------------------------------------------------------------
@@ -140,16 +148,19 @@ def residue_two_skeleton_pattern(n: int) -> list[str]:
 
 
 def residue_two_pattern(n: int) -> list[str]:
-    """Best available residue-2 pattern.
+    """Return a canonical target-count residue-two construction.
 
-    Cached exact witnesses cover n=5,8,11,14. For n>=17, the affine pump has
-    surplus k-4 and has passed dual/forest checks through the documented range.
+    Cached exact witnesses cover n=5,8,11,14. Revised target-count bases are
+    known at n=17,20. Unsupported larger widths deliberately do not fall back
+    to the surplus affine family.
     """
     if n in _RESIDUE_TWO_EXPLICIT:
         return list(_RESIDUE_TWO_EXPLICIT[n])
-    if n >= 17:
-        return residue_two_affine_pattern(n)
-    return residue_two_skeleton_pattern(n)
+    if n in (17, 20):
+        return residue_two_revised_pattern(n)
+    if n % 3 != 2 or n < 5:
+        raise ValueError("residue_two_pattern requires n >= 5, n ≡ 2 mod 3")
+    raise KeyError(f"no target-count residue-two construction known for n={n}")
 
 
 _RESIDUE_TWO_AFFINE_17 = [
@@ -171,6 +182,19 @@ _RESIDUE_TWO_AFFINE_17 = [
     ".UUUUUUUUUUUUUUU.",
     ".U.............U.",
 ]
+
+
+def residue_two_revised_pattern(n: int) -> list[str]:
+    """Return a canonical revised target-count base at n=17 or n=20."""
+    if n == 17:
+        return list(_RESIDUE_TWO_AFFINE_17)
+    if n == 20:
+        path = Path(__file__).with_name("residue_two_phase_front_witness.txt")
+        rows = [line.strip() for line in path.read_text().splitlines() if line.strip()]
+        if len(rows) != n or any(len(row) != n for row in rows):
+            raise ValueError(f"invalid canonical residue-two witness at {path}")
+        return rows
+    raise KeyError(f"no revised residue-two base cached for n={n}")
 
 
 def residue_two_affine_pattern(n: int) -> list[str]:
@@ -473,7 +497,14 @@ def residue_two_explicit_pattern(n: int) -> list[str]:
 
 # Explicit-cache registries. Parametric families are checked separately.
 STATUS_RESIDUE_ONE: dict[int, str] = {n: "verified" for n in range(4, 41) if n % 3 == 1}
-STATUS_RESIDUE_TWO: dict[int, str] = {n: "explicit" for n in (5, 8, 11, 14)}
+STATUS_RESIDUE_TWO: dict[int, str] = {
+    5: "old-formula-exact",
+    8: "old-formula-exact",
+    11: "old-formula-exact",
+    14: "old-formula-exact",
+    17: "revised-globally-exact",
+    20: "revised-construction",
+}
 STATUS_RESIDUE_ZERO: dict[int, str] = {
     n: "explicit" for n in (6, 9, 12, 15, 18, 21)
 }

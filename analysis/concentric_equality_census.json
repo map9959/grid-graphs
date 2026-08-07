@@ -1,0 +1,168 @@
+{
+  "cases": {
+    "n5-complete-equality": {
+      "distinct_patterns": 242,
+      "first_violation": null,
+      "maxima": {
+        "compressed_port_run_count": 5,
+        "maximum_cyclic_port_runs": 1,
+        "repeated_port_components": 4
+      },
+      "minimum_path_count": 242,
+      "minimum_u": 14,
+      "n": 5,
+      "profiles_by_side": {
+        "3": [
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 220,
+            "repeated_port_components": 1
+          },
+          {
+            "compressed_port_run_count": 4,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 4,
+            "repeated_port_components": 2
+          },
+          {
+            "compressed_port_run_count": 5,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 18,
+            "repeated_port_components": 4
+          }
+        ],
+        "5": [
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 212,
+            "repeated_port_components": 0
+          },
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 16,
+            "repeated_port_components": 1
+          },
+          {
+            "compressed_port_run_count": 2,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 12,
+            "repeated_port_components": 1
+          },
+          {
+            "compressed_port_run_count": 2,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 2,
+            "repeated_port_components": 2
+          }
+        ]
+      },
+      "violating_patterns": 0
+    },
+    "n8-complete-equality": {
+      "distinct_patterns": 704,
+      "first_violation": null,
+      "maxima": {
+        "compressed_port_run_count": 6,
+        "maximum_cyclic_port_runs": 2,
+        "repeated_port_components": 4
+      },
+      "minimum_path_count": 704,
+      "minimum_u": 37,
+      "n": 8,
+      "profiles_by_side": {
+        "2": [
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 192,
+            "repeated_port_components": 0
+          },
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 512,
+            "repeated_port_components": 1
+          }
+        ],
+        "4": [
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 320,
+            "repeated_port_components": 1
+          },
+          {
+            "compressed_port_run_count": 2,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 48,
+            "repeated_port_components": 1
+          },
+          {
+            "compressed_port_run_count": 3,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 144,
+            "repeated_port_components": 1
+          },
+          {
+            "compressed_port_run_count": 3,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 64,
+            "repeated_port_components": 2
+          },
+          {
+            "compressed_port_run_count": 4,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 128,
+            "repeated_port_components": 2
+          }
+        ],
+        "6": [
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 320,
+            "repeated_port_components": 1
+          },
+          {
+            "compressed_port_run_count": 3,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 256,
+            "repeated_port_components": 2
+          },
+          {
+            "compressed_port_run_count": 6,
+            "maximum_cyclic_port_runs": 2,
+            "patterns": 64,
+            "repeated_port_components": 3
+          },
+          {
+            "compressed_port_run_count": 6,
+            "maximum_cyclic_port_runs": 2,
+            "patterns": 64,
+            "repeated_port_components": 4
+          }
+        ],
+        "8": [
+          {
+            "compressed_port_run_count": 1,
+            "maximum_cyclic_port_runs": 1,
+            "patterns": 704,
+            "repeated_port_components": 0
+          }
+        ]
+      },
+      "violating_patterns": 0
+    }
+  },
+  "conclusion": "The declared port-signature bounds are tested over the complete n=5,8 equality classes. This is a finite-width census, not arbitrary-width coverage.",
+  "declared_bounds": {
+    "compressed_port_run_count": 9,
+    "maximum_cyclic_port_runs": 3,
+    "repeated_port_components": 4
+  },
+  "schema": "grid-graphs.concentric-equality-census.v1",
+  "scope": "all distinct globally minimum connected frontier paths at n=5,8"
+}

@@ -1,0 +1,439 @@
+{
+  "baseline_evaluation": {
+    "baseline_u": "6k^2+5k+3",
+    "exact_reduction_at_baseline": -5,
+    "extra_u_effect": "each additional U lowers the terminal potential by 3",
+    "logical_status": "substitution at K=5; not an independently proved terminal bound",
+    "terminal_potential": "-3U+2(n-1)^2+n",
+    "width": "n=3k+2"
+  },
+  "cegar": [
+    {
+      "conflicts": [
+        22,
+        26,
+        27,
+        28,
+        31,
+        32,
+        33,
+        34
+      ],
+      "counterexample_states": [
+        {
+          "layer": 2,
+          "rank": 4,
+          "state": "(2, 8, (0, 1, 2, 3, 4))",
+          "u": 5,
+          "width": 5
+        },
+        {
+          "layer": 2,
+          "rank": 4,
+          "state": "(2, 30, (0, 1, 2, 3, 4))",
+          "u": 5,
+          "width": 5
+        }
+      ],
+      "equations": 458,
+      "feasible": false,
+      "rank": 9,
+      "stage": "basic",
+      "terms": [
+        "bias",
+        "counter_u",
+        "counter_cycles",
+        "counter_row",
+        "counter_faces",
+        "row_u",
+        "row_runs",
+        "out_faces",
+        "hull_carrier"
+      ]
+    },
+    {
+      "conflicts": [
+        52,
+        72,
+        85,
+        90,
+        91,
+        99,
+        105,
+        106
+      ],
+      "counterexample_states": [
+        {
+          "layer": 3,
+          "rank": 10,
+          "state": "(3, 15, (0, 1, 1, 1, 2))",
+          "u": 9,
+          "width": 5
+        },
+        {
+          "layer": 3,
+          "rank": 10,
+          "state": "(3, 30, (0, 1, 2, 2, 2))",
+          "u": 9,
+          "width": 5
+        }
+      ],
+      "equations": 458,
+      "feasible": false,
+      "rank": 15,
+      "stage": "cap_phase",
+      "terms": [
+        "bias",
+        "counter_u",
+        "counter_cycles",
+        "counter_row",
+        "counter_faces",
+        "row_u",
+        "row_runs",
+        "out_faces",
+        "hull_carrier",
+        "phase:top",
+        "phase:bulk-0",
+        "phase:bulk-1",
+        "phase:bulk-2",
+        "phase:bottom-2",
+        "phase:bottom-1",
+        "phase:terminal"
+      ]
+    },
+    {
+      "conflicts": [],
+      "equations": 458,
+      "feasible": true,
+      "rank": 16,
+      "stage": "out_rooted_debt",
+      "terms": [
+        "bias",
+        "counter_u",
+        "counter_cycles",
+        "counter_row",
+        "counter_faces",
+        "row_u",
+        "row_runs",
+        "out_faces",
+        "hull_carrier",
+        "phase:top",
+        "phase:bulk-0",
+        "phase:bulk-1",
+        "phase:bulk-2",
+        "phase:bottom-2",
+        "phase:bottom-1",
+        "phase:terminal",
+        "debt"
+      ]
+    }
+  ],
+  "exact_training_verification": {
+    "all_state_potentials_reproduced": true,
+    "arithmetic": "fractions.Fraction Gaussian elimination; no floating point or external solver",
+    "states": 458
+  },
+  "interpretation": {
+    "affine_counters": [
+      "cumulative U",
+      "cycle excess",
+      "completed rows",
+      "active face count"
+    ],
+    "cap_phase": [
+      "top",
+      "bulk-0",
+      "bulk-1",
+      "bulk-2",
+      "bottom-2",
+      "bottom-1",
+      "terminal"
+    ],
+    "carrier": "maximum occurrence-hull crossing width; silent slots are permitted",
+    "rooting": "OUT-rooted face count and non-OUT attachment debt",
+    "row": [
+      "previous-row U count",
+      "previous-row U runs"
+    ]
+  },
+  "limitations": [
+    "The formula is universally tight accounting and supplies no positive lower bound.",
+    "Evaluating Phi=-5 at the old baseline is equivalent to substituting K=5.",
+    "The symbolic rule theorem applies to the 19 established stable affine-family rules.",
+    "It does not prove that every obligation-5 frontier is represented by those rules.",
+    "Finite n=5,n=8 completeness supplies exact anchors, not arbitrary-width language coverage."
+  ],
+  "potential": {
+    "coefficients": {
+      "counter_faces": [
+        2,
+        1
+      ],
+      "counter_row": [
+        1,
+        1
+      ],
+      "counter_u": [
+        -3,
+        1
+      ],
+      "debt": [
+        -2,
+        1
+      ]
+    },
+    "formula": "-3*counter_u + 1*counter_row + 2*counter_faces + -2*debt",
+    "kind": "exact accounting antiderivative, not a coercive potential",
+    "path_identity": "Phi = -3U+row+2*graphic_rank = - accumulated charged curvature",
+    "silent_carrier_policy": "hull crossings may pass through unoccupied packets; contiguous occupied support is not a feature",
+    "transition_identity": "weight + Phi(out) - Phi(in) = 0"
+  },
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_obligation5_potential.py",
+      "--output",
+      "analysis/residue_two_obligation5_potential.json"
+    ],
+    "producer": "analysis/residue_two_obligation5_potential.py"
+  },
+  "schema": "grid-graphs.residue-two-obligation5-accounting.v2",
+  "scope": {
+    "arbitrary_packet_length_certificate": true,
+    "complete_training_widths": [
+      5,
+      8
+    ],
+    "low_curvature_language_coverage_claimed": false,
+    "lower_bound_claimed": false,
+    "symbolic_stable_packet_lengths": "all integers >= 7"
+  },
+  "symbolic_rule_verification": {
+    "all_rules_are_zero_slack_identities": true,
+    "coefficientwise_verified": true,
+    "minimum_packet_length": 7,
+    "minimum_slack_at_length_7": [
+      0,
+      1
+    ],
+    "negative_slope_rules": 0,
+    "rule_ledger": [
+      {
+        "rule": 0,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 1,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 2,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 3,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 4,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 5,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 6,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 7,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 8,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 9,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 10,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 11,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 12,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 13,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 14,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 15,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 16,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 17,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      },
+      {
+        "rule": 18,
+        "slack_at_minimum_length": [
+          0,
+          1
+        ],
+        "slack_slope": [
+          0,
+          1
+        ]
+      }
+    ],
+    "rules": 19
+  },
+  "terminal_accounting_identity": {
+    "connected_terminal_value": "Phi=-K(U)",
+    "lower_bound_consequence": "none without an independent terminal-control theorem",
+    "telescoped_consequence": "K(U)+Phi_terminal=0"
+  }
+}

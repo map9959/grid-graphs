@@ -22,11 +22,11 @@
       },
       "phase_front_kernel": {
         "path": "search_residue_two_phase_front.py",
-        "sha256": "cdfe67924cadb8d72b7942240cd87578b3dd6b201a4ec4493888fe24e9dd24f2"
+        "sha256": "938d0dc415d7c9359b7db65fe43b6a0a1a96e584ab55bb51d8bae21f332d6ff2"
       },
       "corridor_kernel": {
         "path": "search_residue_two_suffix_corridor.py",
-        "sha256": "11aa1607a2970a0208d701af40d687c790ccf0a6217772bbb27726f842dc7dbc"
+        "sha256": "dc796741ed3451a72f9b66694e0e2c64e3d29433bcf18d8b53f2ae3d14004238"
       },
       "frontier_kernel": {
         "path": "tile_grammar.py",
@@ -38,7 +38,7 @@
       },
       "known_near_source": {
         "path": "search_residue_two_middle.py",
-        "sha256": "31cb21ac52f2dad6b6ddd16ca4b0dcc687cfb6b8bee1889617a8777bd5a41b23"
+        "sha256": "8d17e85ccca8cc93fdf32c4607ee533b954f87382393ad413f2dbf46cead8ba4"
       }
     }
   },

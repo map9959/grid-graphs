@@ -1,0 +1,222 @@
+{
+  "complete_history_census": {
+    "n5-complete": {
+      "histories": 151,
+      "history_features": 76,
+      "spent_merge_range": [
+        0,
+        7
+      ],
+      "terminal_histories": 33
+    },
+    "n8-complete": {
+      "histories": 352,
+      "history_features": 158,
+      "spent_merge_range": [
+        0,
+        12
+      ],
+      "terminal_histories": 57
+    }
+  },
+  "fixed_controls": {
+    "n11-fixed": {
+      "maximum_unpayable_debt": 0,
+      "states": 12,
+      "states_known_to_training": 2,
+      "total_weight": 5
+    },
+    "n11-silent": {
+      "maximum_unpayable_debt": 0,
+      "states": 12,
+      "states_known_to_training": 3,
+      "total_weight": 5
+    },
+    "n14-fixed": {
+      "maximum_unpayable_debt": 0,
+      "states": 15,
+      "states_known_to_training": 2,
+      "total_weight": 5
+    }
+  },
+  "fixed_extension": {
+    "concrete_transitions": 819,
+    "distinct_constraints": 383,
+    "features": 257,
+    "potential_range": [
+      -11,
+      1
+    ],
+    "slack_by_source": {
+      "n11-fixed": {
+        "0": 10,
+        "6": 1
+      },
+      "n11-silent": {
+        "0": 11
+      },
+      "n14-fixed": {
+        "0": 12,
+        "1": 1,
+        "5": 1
+      },
+      "n5-complete": {
+        "0": 252
+      },
+      "n8-complete": {
+        "0": 531
+      }
+    },
+    "slack_histogram": {
+      "0": 816,
+      "1": 1,
+      "5": 1,
+      "6": 1
+    }
+  },
+  "history_channel": {
+    "fields": [
+      "u_spent",
+      "rank_spent",
+      "spent_merges",
+      "created_debt",
+      "maximum_unpayable_debt"
+    ],
+    "persistence": "maximum_unpayable_debt is monotone and can never be erased by a later silent-carrier repair",
+    "silent_hull_support": "the state stores face-cut hull width, occurrence branch cost, and silent hull slots; it does not require contiguous packet support"
+  },
+  "limitations": [
+    "Remaining U budget is a history coordinate tied to the old baseline target.",
+    "The generic 2U edge bound is safe but weak away from the terminal cap.",
+    "Fixed n11,n14 and n17 controls are single paths or terminal dumps.",
+    "No theorem currently forces an arbitrary-width low-curvature path into this finite language."
+  ],
+  "local_capacity_theorem": {
+    "formula": "capacity <= min(current debt, remaining graphic rank, 2*remaining U; exact active-edge maximum replaces the last term in the terminal cap)",
+    "safety": [
+      "one independent merge reduces at most one live debt component",
+      "one independent merge consumes one unit of graphic rank",
+      "a future U vertex exposes at most its left and upper processed edges",
+      "the final-row dynamic program exhausts all choices under the U budget without using suffix acceptance"
+    ],
+    "suffix_enumeration_used": false
+  },
+  "low_curvature_hull_language": {
+    "coverage_conjecture": "Every K<=5 path at n=3k+2 is represented by the same bounded hull state and local-capacity transition language, and for k>=5 its persistent unpayable-debt channel becomes positive.",
+    "coverage_status": "open; no arbitrary-width transition census or proof",
+    "finite_theorem": "Within the explicitly enumerated history languages, silent hull carriers are allowed, constant five holds, and every represented n17 u178 terminal state is rejected by positive unpayable debt."
+  },
+  "min_plus_certificate": {
+    "concrete_transitions": 783,
+    "distinct_constraints": 350,
+    "features": 225,
+    "finite_language_theorem": "Every accepting path in the complete augmented n=5,8 equality languages has charged weight at least five.",
+    "potential_range": [
+      -9,
+      1
+    ],
+    "slack_by_source": {
+      "n5-complete": {
+        "0": 252
+      },
+      "n8-complete": {
+        "0": 531
+      }
+    },
+    "slack_histogram": {
+      "0": 783
+    },
+    "terminal_constant": 5
+  },
+  "n17_positive_extension": {
+    "concrete_transitions": 836,
+    "distinct_constraints": 399,
+    "features": 272,
+    "maximum_unpayable_debt": 0,
+    "path_weight": 8,
+    "potential_range": [
+      -11,
+      1
+    ],
+    "slack_by_source": {
+      "n11-fixed": {
+        "0": 10,
+        "6": 1
+      },
+      "n11-silent": {
+        "0": 11
+      },
+      "n14-fixed": {
+        "0": 12,
+        "1": 1,
+        "5": 1
+      },
+      "n17-affine-179": {
+        "0": 15,
+        "1": 1,
+        "8": 1
+      },
+      "n5-complete": {
+        "0": 252
+      },
+      "n8-complete": {
+        "0": 531
+      }
+    },
+    "slack_histogram": {
+      "0": 831,
+      "1": 2,
+      "5": 1,
+      "6": 1,
+      "8": 1
+    }
+  },
+  "n17_terminal_separation": {
+    "local_bound": "min(debt, exact active-edge maximum in remaining final-row cells)",
+    "reconstruction": {
+      "u178": "terminal states reconstructed from the committed dump; prefix histories cannot be reconstructed because the dump has no predecessor IDs",
+      "u179": "complete explicit pattern replay plus committed step-287 record"
+    },
+    "u178_states_checked": 20,
+    "u178_unpayable_debt_histogram": {
+      "1": 18,
+      "2": 2
+    },
+    "u179_control": {
+      "debt": 1,
+      "local_capacity": 1,
+      "unpayable_debt": 0
+    }
+  },
+  "next_obligation": "Prove a symbolic transition lemma that updates the local capacity and persistent deficit for every K<=5 silent-hull packet, or regenerate n17 u178 survivors with predecessor summaries carrying this history channel.",
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_persistent_debt_certificate.py",
+      "--output",
+      "analysis/residue_two_persistent_debt_certificate.json"
+    ],
+    "producer": "analysis/residue_two_persistent_debt_certificate.py"
+  },
+  "result": {
+    "baseline_five": "exact finite-language certificate at n=5,8",
+    "global_k_ge_5": "conjectural pending low-curvature hull-language coverage",
+    "heldout": "fixed n11,n14 paths extend feasibly but are not covered",
+    "n17_extra": "terminal rejection recovered without suffix enumeration, but no u178 backpointers exist to telescope the persistent channel from the top"
+  },
+  "schema": "grid-graphs.residue-two-persistent-debt.v1",
+  "scope": {
+    "complete_history_languages": [
+      5,
+      8
+    ],
+    "fixed_path_controls": [
+      11,
+      14,
+      17
+    ],
+    "global_low_curvature_coverage_claimed": false,
+    "n17_terminal_states": 20
+  }
+}

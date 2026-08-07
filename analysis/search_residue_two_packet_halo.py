@@ -16,7 +16,7 @@ from itertools import combinations
 from math import comb
 from pathlib import Path
 
-from construction_lab import forest_completion_check, q_formula, run_check
+from construction_lab import forest_completion_check, q_old_formula as q_formula, run_check
 from search_residue_two_middle import KNOWN_249_NEAR
 
 

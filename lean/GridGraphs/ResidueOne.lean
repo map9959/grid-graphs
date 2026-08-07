@@ -27,8 +27,9 @@ which equals `q(3k + 1)` (the diagonal-program closed form). Validated
 empirically by `analysis/check_diagonal_patterns.py` for every
 `n = 3k + 1` in `[4, 40]`.
 
-The acyclicity / forest-extension half of Proposition L1 is **not** proved
-here; see `analysis/proofs_diagonal.md` for the open mathematical work.
+The generic dual-connectivity-to-forest and forest-extension bridge is proved
+in `GridGraphs.GridDual`. This file does not yet prove dual connectivity of the
+specific residue-one construction.
 -/
 
 namespace GridGraphs
@@ -502,7 +503,7 @@ theorem uResidueOne_card (k : Nat) (hk : 1 ≤ k) :
   match n % 3 with
   | 0 => 6 * k ^ 2 - 3 * k + 2  -- residue 0 (informal closed form)
   | 1 => 6 * k ^ 2 + k + 1      -- residue 1
-  | _ => 6 * k ^ 2 + 5 * k + 3  -- residue 2
+  | _ => if 5 ≤ k then 6 * k ^ 2 + 5 * k + 4 else 6 * k ^ 2 + 5 * k + 3
 
 /-- For `n = 3k + 1`, the proven cardinality of `uResidueOne k`
 matches the conjectured `q(n)`. -/

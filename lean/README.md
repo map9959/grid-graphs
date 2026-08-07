@@ -40,6 +40,9 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 - `GridGraphs/Diagonal.lean`: Induced-edge decycling sets, complement-of-
   preserved is decycling, every grid 4-cycle has an unforced boundary edge,
   cell-adjacency lemmas, and the cell-hitting corner condition.
+- `GridGraphs/GridDual.lean`: Explicit grid faces, primal/dual edge endpoint
+  maps, executable U-U dual graph, and the conditional theorem chain reducing
+  dual-certified constructions to the remaining cycle-separation proposition.
 - `GridGraphs/ResidueOne.lean`: Residue-1 diagonal `U` construction
   (`uResidueOne k`) with proven cardinality `6 * k^2 + k + 1` (Proposition L1
   cardinality from `analysis/proofs_diagonal.md`).
@@ -49,6 +52,26 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
   `preserved_le_basicUB` and `preserved_le_refinedUB`.
 - `GridGraphs/ForestExtension.lean`: the standalone, generic forest
   extension lemma `isAcyclic_extends_to_isTree`.
+- `GridGraphs/IncidenceWaste.lean`: support incidence waste and exact arbitrary
+  equal-edge exchange accounting.
+- `GridGraphs/ForestLedger.lean`: generic finite-forest edge/component ledger.
+- `GridGraphs/CotreeWaste.lean`: identifies grid cotree support with
+  non-preserved vertices and proves the exact cotree waste identity.
+- `GridGraphs/ForcedForestLedger.lean` and
+  `GridGraphs/ComponentReduction.lean`: exact forced-forest and induced-forest
+  component reductions.
+- `GridGraphs/TreeComponentBridge.lean`: exact equality between square cotree
+  incidence waste and the forced-forest component charge.
+- `GridGraphs/MaxPreserved.lean`: finite operational definition of `P(m,n)` and
+  maximum/witness/universal-bound APIs.
+- `GridGraphs/ResidueOneDual.lean` and `ResidueOneMax.lean`: complete
+  residue-one dual connectivity, preserving construction, and lower bound.
+- `GridGraphs/ResidueZero*.lean`: recursive phase construction, exact
+  cardinality, symbolic transition/cap/frontier lemmas, and the isolated
+  remaining global frontier certificate.
+- `GridGraphs/DiagonalUpper.lean` and `DiagonalFormula.lean`: residue-wise
+  conditional upper bounds and assembly of the proposed exact formula from
+  four named structural/construction hypotheses.
 - `GridGraphs/DoubleComb.lean`: the L-bend forced subgraph and the
   simpler `topSpineColumns` spanning-tree candidate, with connectedness
   and top-row preservation. The IsTree proof and headline lower-bound
@@ -97,19 +120,31 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 - **`SimpleGraph.isAcyclic_extends_to_isTree`**: any acyclic subgraph of
   a finite connected graph extends to a spanning tree. Standalone,
   generic, mathlib-style.
+- **`incidenceWaste_exchange_balance`**: exact support accounting for every
+  equal-edge graph exchange, including multi-edge exchanges.
+- **`grid_cotree_incidenceWaste_identity`**:
+  `W + D + 3*numPreserved = 3mn` for every grid spanning subtree.
+- **`square_grid_component_reduction_compl`**: exact subtraction-free square
+  component identity corresponding to `Q_U+c_F+c_H`.
+- **`square_grid_tree_component_bridge`**: the tree-cotree accounting languages
+  agree exactly, with component charge equal to incidence waste plus two.
+- **`uuDualGraph_uResidueOne_connected`** and
+  **`residueOne_le_maxPreserved`**: unconditional infinite residue-one
+  construction theorem.
+- **`maxPreserved_eq_diagonalFormulaP`**: exact formula assembly for all
+  `n>=3` from the remaining named hypotheses.
 
 See `STATUS.md` for the full list and `EVIDENCE.md` for line-numbered
 references plus empirical evidence.
 
 ## Deferred (not yet proven in Lean)
 
-The connection of `basicUB` / `refinedUB` / `lowerB` to the operational
-maximum `P(m,n)` (the maximum number of full-degree vertices over all
-spanning trees of `G(m, n)`) is
-**not** in this branch. It requires defining `IsSpanningTree` and a tree-side
-degree function on `gridGraph m n`. Empirically, ground-truth `P(m,n)` from
-the Rust DP satisfies the bound chain for all `1 ≤ m, n ≤ 9` (verified by
-`cargo test --release`).
+The operational maximum and basic/refined upper bounds are proved. The exact
+diagonal formula remains conditional on the universal waste theorem, equality
+classification, residue-two tail exclusion, and missing construction cases.
+Residue one is complete; residue zero is reduced to
+`ResidueZeroInteriorReachability`; the arbitrary-width revised residue-two
+construction remains unknown.
 
 ## Build Instructions
 

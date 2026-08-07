@@ -1,0 +1,341 @@
+{
+  "feature": {
+    "fields": [
+      "cap_phase",
+      "active_faces_minus_attachment_debt",
+      "remaining_merge_capacity_minus_attachment_debt",
+      "previous_row_u_count",
+      "out_face_count",
+      "branch_cost"
+    ],
+    "finite_width_warning": "remaining merge capacity is computed from each declared suffix language, not by a width-independent local formula",
+    "remaining_merge_capacity": "maximum cumulative positive attachment-debt reduction over a retained equality suffix; fixed paths use their unique displayed suffix",
+    "silent_carrier_policy": "no contiguous-support bit is present; branch cost retains separated occurrence runs across silent gaps"
+  },
+  "feature_ablation": {
+    "without_branch_cost": {
+      "feature_states": 131,
+      "incompatible_groups": 0,
+      "maximum_values_in_group": 1
+    },
+    "without_cap_phase": {
+      "feature_states": 96,
+      "incompatible_groups": 4,
+      "maximum_values_in_group": 2
+    },
+    "without_component_deficit": {
+      "feature_states": 120,
+      "incompatible_groups": 10,
+      "maximum_values_in_group": 3
+    },
+    "without_merge_capacity_surplus": {
+      "feature_states": 110,
+      "incompatible_groups": 2,
+      "maximum_values_in_group": 2
+    },
+    "without_out_face_count": {
+      "feature_states": 116,
+      "incompatible_groups": 2,
+      "maximum_values_in_group": 2
+    },
+    "without_row_u_count": {
+      "feature_states": 82,
+      "incompatible_groups": 16,
+      "maximum_values_in_group": 3
+    }
+  },
+  "fixed_path_extension_certificate": {
+    "concrete_transitions": 613,
+    "distinct_constraints": 293,
+    "features": 156,
+    "interpretation": "The fixed paths extend the exact system consistently. They are not covered by the n=5,8 table because most projected states are new.",
+    "potential_range": [
+      -14,
+      1
+    ],
+    "slack_by_source": {
+      "n11-fixed": {
+        "0": 11
+      },
+      "n14-fixed": {
+        "0": 14
+      },
+      "n5-complete": {
+        "0": 220
+      },
+      "n8-complete": {
+        "0": 368
+      }
+    },
+    "slack_histogram": {
+      "0": 613
+    }
+  },
+  "heldout_fixed_paths": {
+    "n11-fixed": {
+      "direct_heldout_certificate": false,
+      "edges_fully_known_to_training": 0,
+      "states": 12,
+      "states_known_to_training": 2,
+      "total_weight": 5
+    },
+    "n14-fixed": {
+      "direct_heldout_certificate": false,
+      "edges_fully_known_to_training": 0,
+      "states": 15,
+      "states_known_to_training": 2,
+      "total_weight": 5
+    }
+  },
+  "inequality": "weight + Phi(out) - Phi(in) >= 0",
+  "limitations": [
+    "This is an exact projected certificate only for enumerated transitions.",
+    "The n=11,n=14 extensions are one fixed path each, not complete corridors.",
+    "Feasible extension to the 179-U n17 path does not cover any 178-U prefix history.",
+    "The committed n17 survivor dump has no backpointers, so terminal unpayable debt cannot be telescoped to the top cap."
+  ],
+  "n17_baseline_extension": {
+    "baseline_terminal_constant": 5,
+    "concrete_transitions": 630,
+    "distinct_constraints": 310,
+    "features": 170,
+    "path_total_weight": 8,
+    "potential_range": [
+      -14,
+      1
+    ],
+    "slack_by_source": {
+      "n11-fixed": {
+        "0": 11
+      },
+      "n14-fixed": {
+        "0": 14
+      },
+      "n17-affine-179": {
+        "0": 16,
+        "3": 1
+      },
+      "n5-complete": {
+        "0": 220
+      },
+      "n8-complete": {
+        "0": 368
+      }
+    },
+    "slack_histogram": {
+      "0": 629,
+      "3": 1
+    },
+    "total_available_slack": 3
+  },
+  "n17_terminal_debt": {
+    "definition": "unpayable_debt=max(rooted_debt-remaining_independent_merge_capacity,0)",
+    "scope": "exact final-two-cell n17 artifacts only",
+    "u178_all_positive": true,
+    "u178_survivor_deficit_histogram": {
+      "1": 18,
+      "2": 2
+    },
+    "u179_positive_control_deficit": 0
+  },
+  "next_obligation": "Replace suffix-enumerated merge capacity by a covered local upper bound and carry a persistent unpayable-debt or spent-merge flag to the terminal; then recheck all low-curvature symbolic transitions.",
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_cap_merge_potential.py",
+      "--output",
+      "analysis/residue_two_cap_merge_potential.json"
+    ],
+    "producer": "analysis/residue_two_cap_merge_potential.py"
+  },
+  "result": {
+    "n17_extra_unit": "not supported by this conservative feature potential: the accepted n17 terminal feature already has potential -5, so forcing -8 conflicts with the training anchor. Unpayable debt separates the failed u178 terminal states only in the final-two-cell artifact.",
+    "terminal_constant_five": "supported exactly on all complete n=5,8 equality transitions and consistent with fixed n=11,n=14 and affine n=17 path extensions"
+  },
+  "schema": "grid-graphs.residue-two-cap-merge-potential.v1",
+  "scope": {
+    "arbitrary_width_coverage_claimed": false,
+    "complete_transition_sources": [
+      5,
+      8
+    ],
+    "fixed_path_extension_controls": [
+      11,
+      14
+    ],
+    "n17_failed_terminal_control": "20 committed u178 states at step 287",
+    "surplus_path_extension_control": {
+      "n": 17,
+      "u_count": 179
+    }
+  },
+  "training_certificate": {
+    "complete_source_census": {
+      "n5-complete": {
+        "feature_states": 54,
+        "terminal_features": 5,
+        "transitions": 220
+      },
+      "n8-complete": {
+        "feature_states": 90,
+        "terminal_features": 5,
+        "transitions": 368
+      }
+    },
+    "concrete_transitions": 588,
+    "distinct_constraints": 268,
+    "features": 133,
+    "potential_range": [
+      -9,
+      1
+    ],
+    "potential_table": {
+      "[\"bottom-1\",0,0,1,0,0]": -2,
+      "[\"bottom-1\",0,0,2,0,0]": -5,
+      "[\"bottom-1\",0,0,3,0,0]": -5,
+      "[\"bottom-1\",1,0,3,0,0]": -3,
+      "[\"bottom-1\",1,0,4,0,0]": -6,
+      "[\"bottom-1\",1,0,4,1,0]": -6,
+      "[\"bottom-1\",2,0,3,2,0]": -4,
+      "[\"bottom-1\",2,0,4,0,0]": -4,
+      "[\"bottom-1\",2,0,4,1,0]": -4,
+      "[\"bottom-1\",2,0,5,0,1]": -4,
+      "[\"bottom-1\",3,0,4,3,0]": -5,
+      "[\"bottom-1\",3,0,5,0,0]": -5,
+      "[\"bottom-1\",3,0,5,1,0]": -5,
+      "[\"bottom-1\",3,0,6,0,0]": -5,
+      "[\"bottom-1\",3,0,6,0,1]": -5,
+      "[\"bottom-1\",3,0,6,2,0]": -5,
+      "[\"bottom-1\",3,0,6,3,0]": -5,
+      "[\"bottom-1\",4,0,5,4,0]": -6,
+      "[\"bottom-1\",4,0,6,0,0]": -3,
+      "[\"bottom-1\",4,0,7,0,0]": -6,
+      "[\"bottom-1\",4,0,7,2,0]": -6,
+      "[\"bottom-1\",4,0,7,3,0]": -6,
+      "[\"bottom-1\",4,0,7,4,0]": -6,
+      "[\"bottom-1\",5,0,6,5,0]": -4,
+      "[\"bottom-1\",5,0,7,0,0]": -4,
+      "[\"bottom-1\",6,0,7,6,0]": -5,
+      "[\"bottom-1\",6,0,8,0,0]": -5,
+      "[\"bottom-1\",7,0,8,7,0]": -6,
+      "[\"bottom-2\",0,0,2,0,0]": -5,
+      "[\"bottom-2\",0,0,3,0,0]": -5,
+      "[\"bottom-2\",0,0,4,0,0]": -8,
+      "[\"bottom-2\",0,0,5,0,0]": -8,
+      "[\"bottom-2\",1,0,3,1,0]": -6,
+      "[\"bottom-2\",1,0,4,0,0]": -6,
+      "[\"bottom-2\",1,0,4,1,0]": -6,
+      "[\"bottom-2\",1,0,5,0,0]": -6,
+      "[\"bottom-2\",1,0,5,0,1]": -6,
+      "[\"bottom-2\",1,0,6,0,1]": -9,
+      "[\"bottom-2\",1,1,3,0,0]": -3,
+      "[\"bottom-2\",2,0,4,0,0]": -4,
+      "[\"bottom-2\",2,0,4,2,0]": -4,
+      "[\"bottom-2\",2,0,5,0,0]": -4,
+      "[\"bottom-2\",2,0,5,2,0]": -7,
+      "[\"bottom-2\",2,0,6,0,1]": -7,
+      "[\"bottom-2\",2,0,6,2,0]": -7,
+      "[\"bottom-2\",2,2,3,2,0]": -4,
+      "[\"bottom-2\",2,2,4,2,0]": -4,
+      "[\"bottom-2\",3,0,5,3,0]": -5,
+      "[\"bottom-2\",3,0,6,0,1]": -5,
+      "[\"bottom-2\",3,3,4,3,0]": -2,
+      "[\"bulk-0\",0,0,4,0,0]": -8,
+      "[\"bulk-0\",1,2,4,0,0]": -6,
+      "[\"bulk-0\",1,3,5,0,0]": -6,
+      "[\"bulk-0\",2,0,5,1,0]": -7,
+      "[\"bulk-0\",2,0,5,2,0]": -7,
+      "[\"bulk-0\",2,3,5,2,0]": -7,
+      "[\"bulk-0\",2,3,6,2,0]": -7,
+      "[\"bulk-0\",3,1,6,2,0]": -5,
+      "[\"bulk-0\",3,1,6,3,0]": -5,
+      "[\"bulk-0\",3,3,5,3,0]": -5,
+      "[\"bulk-0\",3,3,6,1,0]": -5,
+      "[\"bulk-0\",4,5,6,0,0]": -3,
+      "[\"bulk-1\",0,0,1,0,0]": -2,
+      "[\"bulk-1\",0,0,2,0,0]": -5,
+      "[\"bulk-1\",0,0,5,0,0]": -8,
+      "[\"bulk-1\",0,1,2,0,0]": -5,
+      "[\"bulk-1\",0,1,3,0,0]": -5,
+      "[\"bulk-1\",0,2,1,0,0]": -2,
+      "[\"bulk-1\",0,2,2,0,0]": -5,
+      "[\"bulk-1\",0,3,0,0,0]": 1,
+      "[\"bulk-1\",0,3,1,0,0]": -2,
+      "[\"bulk-1\",0,5,0,0,0]": 1,
+      "[\"bulk-1\",0,5,1,0,0]": -2,
+      "[\"bulk-1\",0,5,2,0,0]": -5,
+      "[\"bulk-1\",1,0,2,1,0]": -3,
+      "[\"bulk-1\",1,0,3,1,0]": -6,
+      "[\"bulk-1\",1,0,4,1,0]": -9,
+      "[\"bulk-1\",1,0,5,0,0]": -6,
+      "[\"bulk-1\",1,1,4,1,0]": -6,
+      "[\"bulk-1\",1,1,5,0,0]": -6,
+      "[\"bulk-1\",1,2,2,1,0]": -3,
+      "[\"bulk-1\",1,2,3,1,0]": -6,
+      "[\"bulk-1\",1,3,2,1,0]": -3,
+      "[\"bulk-1\",1,3,3,1,0]": -6,
+      "[\"bulk-1\",2,0,4,1,0]": -4,
+      "[\"bulk-1\",2,0,5,1,0]": -7,
+      "[\"bulk-1\",2,0,5,2,0]": -7,
+      "[\"bulk-1\",2,1,6,0,0]": -7,
+      "[\"bulk-1\",2,2,3,2,0]": -4,
+      "[\"bulk-1\",2,2,5,1,1]": -7,
+      "[\"bulk-1\",2,2,5,2,0]": -7,
+      "[\"bulk-1\",2,2,6,0,0]": -7,
+      "[\"bulk-1\",3,3,4,3,0]": -5,
+      "[\"bulk-1\",3,3,6,0,0]": -5,
+      "[\"bulk-1\",4,3,6,1,0]": -6,
+      "[\"bulk-1\",4,3,6,2,0]": -6,
+      "[\"bulk-1\",4,3,6,4,0]": -6,
+      "[\"bulk-2\",0,0,1,0,0]": -5,
+      "[\"bulk-2\",0,0,2,0,0]": -5,
+      "[\"bulk-2\",0,1,3,0,0]": -5,
+      "[\"bulk-2\",0,3,4,0,0]": -5,
+      "[\"bulk-2\",0,3,5,0,0]": -5,
+      "[\"bulk-2\",0,5,6,0,0]": -8,
+      "[\"bulk-2\",0,5,7,0,0]": -8,
+      "[\"bulk-2\",0,5,8,0,0]": -8,
+      "[\"bulk-2\",1,0,3,1,0]": -6,
+      "[\"bulk-2\",1,0,4,0,0]": -6,
+      "[\"bulk-2\",1,0,5,0,0]": -6,
+      "[\"bulk-2\",1,0,5,1,0]": -9,
+      "[\"bulk-2\",1,0,6,1,0]": -9,
+      "[\"bulk-2\",1,0,7,1,0]": -9,
+      "[\"bulk-2\",1,0,8,1,0]": -9,
+      "[\"bulk-2\",1,1,4,0,0]": -6,
+      "[\"bulk-2\",1,1,5,0,0]": -6,
+      "[\"bulk-2\",1,1,6,0,0]": -6,
+      "[\"bulk-2\",1,2,3,1,0]": -6,
+      "[\"bulk-2\",1,2,4,1,0]": -6,
+      "[\"bulk-2\",1,2,5,1,0]": -6,
+      "[\"bulk-2\",2,0,5,2,0]": -7,
+      "[\"bulk-2\",2,0,6,2,0]": -7,
+      "[\"bulk-2\",2,2,3,2,0]": -4,
+      "[\"bulk-2\",2,2,4,2,0]": -4,
+      "[\"bulk-2\",2,3,6,2,0]": -7,
+      "[\"bulk-2\",2,3,7,2,0]": -7,
+      "[\"bulk-2\",3,1,6,3,0]": -5,
+      "[\"bulk-2\",3,2,5,3,0]": -5,
+      "[\"terminal\",0,0,0,0,0]": -5,
+      "[\"terminal\",0,0,1,0,0]": -5,
+      "[\"terminal\",0,0,2,0,0]": -5,
+      "[\"terminal\",0,0,3,0,0]": -5,
+      "[\"terminal\",0,0,4,0,0]": -5,
+      "[\"top\",0,12,0,0,0]": 0,
+      "[\"top\",0,7,0,0,0]": 0
+    },
+    "slack_by_source": {
+      "n5-complete": {
+        "0": 220
+      },
+      "n8-complete": {
+        "0": 368
+      }
+    },
+    "slack_histogram": {
+      "0": 588
+    },
+    "terminal_constant": 5
+  }
+}

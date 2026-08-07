@@ -1,0 +1,52 @@
+{
+  "schema": "grid_graphs.annulus_threshold_automaton_shards.v1",
+  "status": "manifest only; shards not yet executed and no side-7 result claimed",
+  "scope": {
+    "side": 7,
+    "local_input_cells": 49,
+    "threshold_flags": [
+      "repeated_port_components_gt_4",
+      "maximum_cyclic_port_runs_gt_3",
+      "compressed_linear_port_runs_gt_9"
+    ]
+  },
+  "checkpoint": {
+    "completed_local_positions": 34,
+    "exact_states": 14614444,
+    "observed_peak_rss_kib": 3796104,
+    "rejected_next_allocation_bytes": 2717909008
+  },
+  "partition": {
+    "shards": 256,
+    "record_key": "three little-endian u128 canonical streaming-state words followed by little-endian u16 local row bits",
+    "routing": "FNV-1a-64(record_key) & 255",
+    "equality": "full record-key equality only; routing hashes never merge records",
+    "ordering": "ascending full record key within each destination shard"
+  },
+  "per_phase_algorithm": [
+    "For every unique source record, emit both chosen=false and chosen=true exact successors.",
+    "Route each successor to its destination shard by the declared FNV-1a routing function.",
+    "Externally sort each destination by its full record key and remove only byte-identical records.",
+    "Record both destination record IDs for every source transition; repeat through position 49.",
+    "At position 49 assign the exact three-bit terminal threshold output.",
+    "Process transition files backward; two source records share a class exactly when their false and true successor class IDs are equal.",
+    "Use the resulting phase automaton in the global product and OR terminal flags over all connected U=72 states."
+  ],
+  "aggregate_criterion": "Side 7 has no violation iff the completed global product using the assembled automaton has connected=true and the bitwise OR of all terminal threshold outputs is zero. Every shard and both outgoing transitions of every source record are required.",
+  "resource_estimates_at_checkpoint": {
+    "mean_states_per_shard": 57088,
+    "maximum_balanced_states_per_shard_target": 65000,
+    "mean_raw_state_payload_mib": 3.49,
+    "mean_two_successor_payload_mib": 6.97,
+    "mean_share_of_rejected_hash_allocation_mib": 10.13,
+    "aggregate_two_successor_payload_gib": 1.74,
+    "recommended_per_worker_memory_mib": 256,
+    "recommended_concurrent_workers_under_6_gib": 16
+  },
+  "safety": {
+    "beam": false,
+    "heuristic_pruning": false,
+    "hash_collision_merging": false,
+    "missing_shards_allowed": false
+  }
+}

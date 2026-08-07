@@ -1,0 +1,191 @@
+{
+  "schema": "grid-graphs.n23-target-construction-search.v1",
+  "status": "UNSAT_IN_DECLARED_FINITE_NEIGHBORHOODS",
+  "exact_in_declared_scope": true,
+  "scope": {
+    "n": 23,
+    "target_u": 333,
+    "coordinates": "zero-based; bounds inclusive",
+    "affine_global_search": "all unordered pairs of source U cells",
+    "affine_seam": {
+      "duplicated_rows": [
+        9,
+        11
+      ],
+      "duplicated_columns": [
+        4,
+        6
+      ]
+    },
+    "affine_window": {
+      "rows": [
+        7,
+        13
+      ],
+      "columns": [
+        2,
+        8
+      ],
+      "cells": 49
+    },
+    "symbolic_seam": {
+      "inserted_rows": [
+        8,
+        10
+      ],
+      "appended_columns": [
+        20,
+        22
+      ]
+    },
+    "symbolic_window": {
+      "definition": "rows 6..12 union columns 18..22",
+      "cells": 241
+    },
+    "negative_claim": "Only the listed sources, windows, and exchange orders are excluded."
+  },
+  "method": {
+    "canonical_checks": "construction_lab.dual_connectivity_check and forest_completion_check",
+    "affine_local_prune": "A connected final graph after deleting S implies the augmented graph after deleting each singleton in S is connected; non-individually-removable U cells are exact prunes.",
+    "symbolic_prune": "Deleting U cells only removes dual edges, so a disconnected graph after all additions cannot become connected after removals."
+  },
+  "affine_source": {
+    "sha256": "c8e49712aa353cd61057b83aeb532c23d3380542b46785dfee1f26d462871cb1",
+    "u_count": 335,
+    "dual_connected": true,
+    "dual_reached": 485,
+    "dual_total": 485,
+    "forest_completable": true,
+    "forest_reason": "ok",
+    "rows": [
+      ".U.....................",
+      ".UUUUUUUUUUUUUUUUUUUUUU",
+      ".UUUU.UU.UU.UU.UU.UU.UU",
+      ".UU.UUUUUUUUUU.UU.UUUU.",
+      ".UU.UU.UU.UU.UUUU.U.UU.",
+      ".UU.UU.UU.UU.UU.UUU.UU.",
+      ".UU.UU.UU.UU.UU.U.UUUU.",
+      ".UU.UU.UU.UU.UUUU.UU.U.",
+      ".UU.UU.UU.UU.U.UU.UUUU.",
+      ".UU.UU.UU.UU.UUUU.U.UU.",
+      ".UU.UU.UU.UU.UU.UUU.UU.",
+      ".UU.UU.UU.UU.UU.UUU.UU.",
+      ".UU.UU.UU.UU.UUUU.U.UU.",
+      ".UU.UU.UU.UU.UU.UUU.UU.",
+      ".UU.UU.UU.UU.UU.UUU.UU.",
+      ".UU.UU.UU.UU.UUUU.U.UU.",
+      ".UU.UU.UU.UU.UU.UUU.UU.",
+      ".UU.UU.UU.UU.UU.UUU.UU.",
+      ".UU.UU.UU.UU.UU.U.UUUU.",
+      ".UU.UU.UU.UU.UU.UUUU.U.",
+      ".UU.UU.UU.UU.UU.UU.UUU.",
+      ".UUUUUUUUUUUUUUUUUUUUU.",
+      ".U...................U."
+    ]
+  },
+  "affine_searches": [
+    {
+      "operation": "remove2/add0",
+      "eligible_removals": 335,
+      "generated": 55945,
+      "canonical_dual_checks": 55945,
+      "dual_connected": 0,
+      "forest_completable": 0,
+      "witnesses": []
+    },
+    {
+      "operation": "remove3/add1",
+      "eligible_additions": 14,
+      "eligible_removals": 35,
+      "addition_sets": 14,
+      "unpruned_exchange_tuples": 91630,
+      "individual_removal_histogram": {
+        "0": 14
+      },
+      "candidate_removal_tuples_tested": 0,
+      "monotonic_pruned": 91630,
+      "dual_connected": 0,
+      "forest_completable": 0,
+      "witnesses": []
+    },
+    {
+      "operation": "remove4/add2",
+      "eligible_additions": 14,
+      "eligible_removals": 35,
+      "addition_sets": 91,
+      "unpruned_exchange_tuples": 4764760,
+      "individual_removal_histogram": {
+        "0": 91
+      },
+      "candidate_removal_tuples_tested": 0,
+      "monotonic_pruned": 4764760,
+      "dual_connected": 0,
+      "forest_completable": 0,
+      "witnesses": []
+    }
+  ],
+  "symbolic_source": {
+    "sha256": "1f6fd619cba3c993bd9e61f59b39c137b23350ce3e318e2bd226c1903246bdff",
+    "u_count": 333,
+    "dual_connected": false,
+    "dual_reached": 64,
+    "dual_total": 485,
+    "forest_completable": false,
+    "forest_reason": "forced edges contain a cycle",
+    "rows": [
+      ".U.....................",
+      ".UUUUUUUUUUUUUUUUUUUUUU",
+      ".UUUU.UU.UU.UU.UU.UU.UU",
+      ".UU.U.UU.UU.UU.UUUU.UU.",
+      ".UU.UUUU.UU.UUUU.UU.UU.",
+      ".UU.UU.U.UUUU.UU.UU.UU.",
+      ".UU.UU.UUU.UU.UU.UU.UU.",
+      ".UU.UU.UUU.UU.UU.UU.UU.",
+      ".UUU.UU.UU.UU.UU.UU.UU.",
+      ".UUU.UU.UU.UU.UU.UU.UU.",
+      ".UUU.UU.UU.UU.UU.UU.UU.",
+      ".UU.UUUU.U.UU.UU.UU.UU.",
+      ".UU.U.UUUU.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.UU.",
+      ".UU.U.U.UU.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.UU.",
+      ".UUUU.UUUU.UU.UU.UU.UU.",
+      ".U.UU.UU.U.UU.UU.UU.UU.",
+      ".UUUU.UUUU.UU.UU.UU.UU.",
+      ".UU.UUU.UU.UU.UU.UU.UU.",
+      ".UUUUUUUUUUUUUUUUUUUUU.",
+      ".U...................U."
+    ]
+  },
+  "symbolic_searches": [
+    {
+      "operation": "remove1/add1",
+      "eligible_additions": 89,
+      "eligible_removals": 152,
+      "addition_sets": 89,
+      "connected_after_additions": 0,
+      "unpruned_exchange_tuples": 13528,
+      "candidate_removal_tuples_tested": 0,
+      "connectivity_monotonic_pruned": 13528,
+      "dual_connected": 0,
+      "forest_completable": 0,
+      "witnesses": []
+    },
+    {
+      "operation": "remove2/add2",
+      "eligible_additions": 89,
+      "eligible_removals": 152,
+      "addition_sets": 3916,
+      "connected_after_additions": 0,
+      "unpruned_exchange_tuples": 44940016,
+      "candidate_removal_tuples_tested": 0,
+      "connectivity_monotonic_pruned": 44940016,
+      "dual_connected": 0,
+      "forest_completable": 0,
+      "witnesses": []
+    }
+  ],
+  "witnesses": [],
+  "n26_open_slab_investigation": "not_run_no_n23_witness"
+}

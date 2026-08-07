@@ -13,7 +13,7 @@ inserting three rows before row 6, inserting three columns before column 7 or
 8, and placing 61 U vertices in the inserted cross. Thus
 
 ```text
-179 = 119 - 1 + 61 = q(17) + 1.
+179 = 119 - 1 + 61 = q_old(17) + 1 = q_plus(17).
 ```
 
 Its dual has 257 vertices and 257 edges, is connected and unicyclic, and the
@@ -38,18 +38,18 @@ For `n=3k+2`, `k>=5`, the construction has
 
 ```text
 |U_k| = 6k^2 + 6k - 1
-      = q(3k+2) + k - 4.
+      = q_plus(3k+2) + k - 5.
 ```
 
 The pump increment is
 
 ```text
 |U_(k+1)| - |U_k| = 12k + 12,
-q_(k+1) - q_k       = 12k + 11.
+q_plus(k+1) - q_plus(k) = 12k + 11.
 ```
 
 Therefore each pump increases the surplus by one. The resulting spanning tree
-has at least `3k^2+6k+5` full-degree vertices, `k-4` below the conjectured
+has at least `3k^2+6k+5` full-degree vertices, `k-5` below the revised candidate
 residue-two value.
 
 ## Dual Edges
@@ -77,6 +77,35 @@ columns: (0..3) (4,5,6)^(k-4) (7..16),
 
 and checks the displayed U-count, induced-edge count, and cycle-excess formulas.
 Its optional topology checks remain finite computation rather than induction.
+
+## Target-charge recurrence algebra
+
+The revised target admits a clean packet-count recurrence even though its
+topology is still missing. Keep the five cap rows shared by the known A17 and
+B20 controls. At `n=3k+2` they cost `8k+6` U vertices. The `3k-3` mutable rows
+are packet words of length `k`; with `H` charge `+1`, `S` charge `-1`, and
+`L/X/R` charge zero, a mutable row costs `2k+charge`. Exact target count is
+equivalent to
+
+```text
+sum of mutable-row charges = 3k-2.
+```
+
+Both A17 and B20 satisfy this identity. A target-cost `k -> k+1` production can
+be obtained algebraically by widening every old mutable row by one zero-charge
+packet and inserting three new rows of total charge three. Including the cap
+change, the increment is
+
+```text
+8 + 2(3k-3) + 3*2(k+1) + 3 = 12k+11.
+```
+
+Thus the missing recurrence is purely topological: transport the rooted
+attachments through a moving `L/R` phase while placing three charge-one rows.
+Uniform right widening leaves three components at n=23, so the phase cannot be
+fixed. Interior HOLD placements and a period-two width-six control are the next
+focused families; bottom-only HOLD and literal row/column duplication are
+already negative in their declared scopes.
 
 ## Exact-Count Status
 
@@ -106,11 +135,11 @@ certificates, but are superseded for `n=17` by the global exact frontier result.
 
 The next constructive goal is a second pump control state whose transition
 saves one U relative to the affine pump while changing the frontier attachment
-state. A one-off trim at n=17 would not by itself remove the growing surplus.
+state. A one-off trim does not remove the growing surplus.
 
-At n=20, the affine member has 251 U. Complete global checks rule out every
-single deletion, one-addition/two-removal trim, and two-addition/three-removal
-trim to 250 U. A separate 250-U affine-lift candidate reaches `361/362` dual
+At n=20, the affine member has 251 U. Complete checks around that member rule
+out every single deletion, one-addition/two-removal trim, and
+two-addition/three-removal trim to the revised target 250 U. A separate 250-U affine-lift candidate reaches `361/362` dual
 faces but is globally negative under bridge-containing two-for-two and
 three-for-three exchange. It was the first concrete target for the missing
 second control state.
@@ -151,19 +180,19 @@ L=UU.  X=U.U  R=.UU  H=UUU.
 ```
 
 The five fixed rows cost 54 U, every packet costs two U, and an exact quota of
-16 H packets gives `54 + 180 + 16 = 250` U. This is the constant-surplus-one
-target; the conjectured exact target at `n=20` is 249 U. Exact frontier
+16 H packets gives `54 + 180 + 16 = 250` U. This is the revised target and is
+one above the old equality baseline 249. Exact frontier
 partitions are retained inside a topology- and quota-diverse beam. The search
 now expands from both fixed caps, streams each row packet-by-packet, and joins
 the exact retained frontier partitions. A beam of 100 found a valid 250-U state
 with connected dual cycle excess two. Its count differs from the 179-U `n=17`
-base by 71, exactly `q(20)-q(17)`, so the two states have the same surplus one;
+base by 71, exactly `q_plus(20)-q_plus(17)`, so both meet the revised target;
 an explicit recurrence mapping between them is not yet known.
 No single deletion is valid, and every global one-addition/two-removal trim is
 negative. At 249 U, beam 100 reached a two-component join but no witness.
 
 The grammar is generalized to larger `n`. At `n=23`, beam 20 reached six
-components for the 333-U constant-surplus target and eight for the exact 332-U
+components for the revised 333-U target and eight for the 332-U old-equality
 target. All failed beams remain non-exhaustive.
 
 The `phase` alphabet adds the residue-zero center seam `S=.U.`; `balanced` adds
@@ -193,6 +222,35 @@ depth three admits no legal bounded phase row, while depth four admits 212 and
 the reflected bottom sandwich admits 63. An exact affine/D4 cap census records
 841 one-step-live, charge-feasible full-state pairs for each of targets 332 and
 333. No middle search has yet connected those cap seeds.
+
+The connected 335-U basic phase witness has now been exhausted under every
+net-minus-two exchange with at most three additions. The exact census covers
+zero through three additions and respectively two through five removals. At
+order three it checks all 1,198,144 addition triples, retains 6,902 triples with
+at least five individually removable source vertices, and independently rejects
+all 15,057 resulting five-removal tuples. This is not global n=23 UNSAT; it
+proves that a 333-U control is not a low-order repair of this particular 335-U
+witness. See `residue_two_n23_target_control_result.json`.
+
+The first focused topological realizations of the target-charge recurrence are
+also exact negatives. `search_residue_two_target_recurrence.py` exhausts the
+interior-HOLD schedules `A^5 H^3 A^15` and `A^8 H^3 A^12` in both consistent
+main- and anti-diagonal phases. ADVANCE rows permit every exact-charge
+radius-one basic-packet rewrite around an independently moving seam; HOLD rows
+permit all 65 bounded charge-one `L*(X|H)+R*` words. The best joins still have
+two components. Direct width-six A17-to-n23 compositions of the P2/P5 controls
+are likewise negative in both phases. This excludes the named basic-packet
+families, not radius-two rewrites, nonbasic phase packets, mixed D4 caps, or
+other HOLD placements. See `residue_two_n23_target_recurrence_result.json`.
+
+A strict attachment-cut enlargement is negative as well. On the two identified
+attachment rows it permits the full binary three-cell packet alphabet and
+radius-two rewrites, while preserving exact charge, the fixed caps, and the
+complete bidirectional join. Main, anti, and both mixed bottom-cap phases are
+all tested for both named schedules. All eight families still stop at best
+profile `[2,1]`. This remains scoped: nonbasic rewrites on additional rows and
+different caps are not excluded. See
+`residue_two_n23_target_recurrence_attachment_result.json`.
 
 ## Affine Deletion Neighborhoods
 

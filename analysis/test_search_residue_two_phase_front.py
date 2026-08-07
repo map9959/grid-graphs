@@ -6,7 +6,11 @@ import unittest
 from dataclasses import replace
 from pathlib import Path
 
-from construction_lab import dual_connectivity_check, forest_completion_check, q_formula
+from construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    q_old_formula as q_formula,
+)
 from search_residue_two_phase_front import (
     DEFAULT_RESULT,
     DEFAULT_WITNESS,

@@ -17,7 +17,7 @@ from census_moving_seam_alignment import (
     load_square_pattern,
     replay_alignment,
 )
-from construction_lab import q_formula
+from construction_lab import q_old_formula as q_formula
 from diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
 from open_slab_signature import extract_open_slab_signature
 from tile_grammar import FrontierState, advance_row, initial_state, render_mask, row_mask

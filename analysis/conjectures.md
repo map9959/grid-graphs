@@ -276,6 +276,20 @@ The exact frontier computation proves that no pattern with at most 178 U
 vertices has connected dual, while a validated 179-U pattern exists. Hence
 `P(17,17)=289-179=110` and `r(17)=-3`.
 
+### Revised residue-two candidate
+
+Current exact and constructive evidence supports
+
+```text
+P(3k+2,3k+2) = 3k²+7k+1  for 1 <= k <= 4,
+P(3k+2,3k+2) = 3k²+7k    for k >= 5.
+```
+
+The second line is globally exact only at `k=5` (`n=17`). A valid 250-U
+construction gives its lower-bound direction at `k=6` (`n=20`), while 249 U
+has not been globally excluded. No target-count 333-U construction is known at
+`k=7` (`n=23`).
+
 ### Open diagonal proof questions
 
 The current picture is:
@@ -284,16 +298,16 @@ The current picture is:
    of the original Conjecture C remains intact — every additional row
    of data still shrinks the density toward 1/3.
 
-2. **Linear coefficient may be exactly `1` or may eventually drift**:
-   the original `+n+C(n mod 3)` formula holds through n = 16 but fails at 17,
-   so the true asymptotic linear coefficient still depends on exact
-   verification beyond n = 17.
+2. **The revised residue-two correction must be proved or refuted**: the exact
+   `n=17` drop and matching `n=20` construction suggest a persistent one-unit
+   correction, but no arbitrary-width construction or upper bound is known.
 
 3. **The residual sequence is not exactly 3-periodic**: `r(17)=-3` is the
    first exception to the cycle observed from n=4 through n=16.
 
-A revised closed form for `P(n,n)` is therefore an **open problem**. The next
-unresolved diagonal value is n=18.
+A complete revised closed form for `P(n,n)` is therefore an **open problem**.
+The residue-two proof program is tracked in `docs/ROADMAP.md`; exact optimization
+at larger squares is not the preferred next step.
 
 ### Why the original Conjecture C looked plausible
 

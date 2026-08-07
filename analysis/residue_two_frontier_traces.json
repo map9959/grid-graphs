@@ -36466,11 +36466,11 @@
     "dependencies": [
       {
         "path": "analysis/residue_two_frontier_signatures.py",
-        "sha256": "3a5806d430018da2eb0e7df9410f255a5e65a18ba73b90af7c00362b484d24dd"
+        "sha256": "91c1fec95d2234bb48aee3e5735f32c3b06a94cf216e127bc1883338eb50d1f3"
       },
       {
         "path": "analysis/analyze_residue_constructions.py",
-        "sha256": "44d63aba5201a6872dd67fa34492835119a07862d9abfbba9358779f8c0ed086"
+        "sha256": "88270f4176cfa38a76b517354b4e81fcd701dcd55fa3c8e1c3e832942a745426"
       },
       {
         "path": "analysis/census_moving_seam_alignment.py",
@@ -36478,11 +36478,11 @@
       },
       {
         "path": "analysis/construction_lab.py",
-        "sha256": "4d38c7e3b51ed841a2d150abfac46cacbb8090203c6673171ad8c3341135f365"
+        "sha256": "4d7a5f0dd92aa9b56743a52f4f4a6e65b1d5edb1f36a7d5ad68d366b46c9e8f1"
       },
       {
         "path": "analysis/diagonal_patterns.py",
-        "sha256": "d91c43ead1228cbec751943050c58989a0bf2dd55eea6962340432f1e9ef1a06"
+        "sha256": "34a6ac614a4b80088c726c4125f96f4ff6326a9c3aeb7883811400edda946c00"
       },
       {
         "path": "analysis/open_slab_signature.py",

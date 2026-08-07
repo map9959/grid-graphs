@@ -70,6 +70,13 @@ class ConcentricConnectivityProfileTests(unittest.TestCase):
         self.assertEqual(edge["centered_prefixes"][-1]["sealed_components"], 7)
         self.assertEqual(rank["centered_prefixes"][-1]["sealed_components"], 4)
 
+    def test_complete_small_equality_controls_are_included(self) -> None:
+        controls = self.artifact["complete_small_equality_controls"]
+        self.assertEqual(controls["n5-complete-equality"]["distinct_patterns"], 242)
+        self.assertEqual(controls["n8-complete-equality"]["distinct_patterns"], 704)
+        self.assertEqual(controls["n5-complete-equality"]["violating_patterns"], 0)
+        self.assertEqual(controls["n8-complete-equality"]["violating_patterns"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()

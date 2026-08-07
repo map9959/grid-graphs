@@ -1,5 +1,27 @@
 {
-  "conclusion": "The n=5 and n=8 scalar optima are unrealizable by exact census. On known feasible witnesses, ordered port partitions compress to at most four repeated components, three cyclic runs per component, and nine compressed runs; proving these bounds for all extremal patterns is the remaining annulus-state coverage problem.",
+  "complete_small_equality_controls": {
+    "n5-complete-equality": {
+      "distinct_patterns": 242,
+      "maxima": {
+        "compressed_port_run_count": 5,
+        "maximum_cyclic_port_runs": 1,
+        "repeated_port_components": 4
+      },
+      "minimum_u": 14,
+      "violating_patterns": 0
+    },
+    "n8-complete-equality": {
+      "distinct_patterns": 704,
+      "maxima": {
+        "compressed_port_run_count": 6,
+        "maximum_cyclic_port_runs": 2,
+        "repeated_port_components": 4
+      },
+      "minimum_u": 37,
+      "violating_patterns": 0
+    }
+  },
+  "conclusion": "The n=5 and n=8 scalar optima are unrealizable by exact census. On all 946 exact n=5,8 optima and the known larger feasible witnesses, ordered port partitions compress to at most four repeated components, three cyclic runs per component, and nine compressed runs; proving these bounds for all extremal patterns is the remaining annulus-state coverage problem.",
   "identity": {
     "formula": "M_s-(s-1)^2=(q_s-d_s)+beta_s",
     "terms": {

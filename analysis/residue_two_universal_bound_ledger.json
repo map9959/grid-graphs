@@ -1,0 +1,426 @@
+{
+  "attachment_skeleton": {
+    "A23_old_signature": {
+      "maximum_compressed_runs": 12,
+      "maximum_cyclic_runs_per_component": 3,
+      "maximum_repeated_components": 5
+    },
+    "affine_branch_growth": {
+      "A17": {
+        "charged_curvature": 8,
+        "maximum_branch_cost": 2
+      },
+      "A20": {
+        "charged_curvature": 11,
+        "maximum_branch_cost": 3
+      },
+      "A23": {
+        "charged_curvature": 14,
+        "maximum_branch_cost": 4
+      },
+      "A26": {
+        "charged_curvature": 17,
+        "maximum_branch_cost": 5
+      },
+      "A29": {
+        "charged_curvature": 20,
+        "maximum_branch_cost": 6
+      },
+      "A32": {
+        "charged_curvature": 23,
+        "maximum_branch_cost": 7
+      },
+      "A35": {
+        "charged_curvature": 26,
+        "maximum_branch_cost": 8
+      },
+      "A38": {
+        "charged_curvature": 29,
+        "maximum_branch_cost": 9
+      },
+      "A41": {
+        "charged_curvature": 32,
+        "maximum_branch_cost": 10
+      }
+    },
+    "annulus_identity_link": "For an unsealed centered prefix, perimeter_ports-ported_components is q_s-d_s, the attachment term in M_s-(s-1)^2=(q_s-d_s)+beta_s.",
+    "complete_equality": {
+      "5": {
+        "branch_histogram": {
+          "0": 242
+        },
+        "maximum_branch_cost": 0,
+        "patterns": 242
+      },
+      "8": {
+        "branch_histogram": {
+          "0": 576,
+          "1": 128
+        },
+        "maximum_branch_cost": 1,
+        "patterns": 704
+      }
+    },
+    "fixed_equality_maximum_branch_cost": {
+      "n11-fixed": 1,
+      "n11-silent": 1,
+      "n14-fixed": 1,
+      "n5-fixed": 0,
+      "n8-fixed": 0
+    },
+    "n11_silent_row8": {
+      "attachment_debt": 8,
+      "branch_cost": 1,
+      "branching_components": 1,
+      "completed_rows": 8,
+      "maximum_occurrence_hull_span": 6,
+      "silent_face_slots": 4
+    },
+    "old_4_3_9_status": "not-topological-and-false-on-affine-A23",
+    "simple_row_local_potentials": "falsified on complete n=5,8 equality transitions",
+    "theorem_boundary": {
+      "conjectured": "curvature-five controls have maximum centered branch cost at most one",
+      "not_implied": "the unconditional skeleton inequalities do not imply K(U)>=5",
+      "proved": "noncrossing and branch_cost<=attachment_surplus for every represented annulus"
+    },
+    "unconditional_theorems": [
+      "branch_cost = occurrence_runs - ported_components",
+      "branching_components <= branch_cost",
+      "on an unsealed annulus, branch_cost <= perimeter_ports - ported_components = attachment_surplus",
+      "disjoint planar components have no cyclic A,B,A,B boundary alternation"
+    ]
+  },
+  "cap_merge_potential": {
+    "conclusion": {
+      "n17_extra_unit": "not supported by this conservative feature potential: the accepted n17 terminal feature already has potential -5, so forcing -8 conflicts with the training anchor. Unpayable debt separates the failed u178 terminal states only in the final-two-cell artifact.",
+      "terminal_constant_five": "supported exactly on all complete n=5,8 equality transitions and consistent with fixed n=11,n=14 and affine n=17 path extensions"
+    },
+    "coverage_warning": "remaining merge capacity is computed from each declared suffix language, not by a width-independent local formula",
+    "feature_fields": [
+      "cap_phase",
+      "active_faces_minus_attachment_debt",
+      "remaining_merge_capacity_minus_attachment_debt",
+      "previous_row_u_count",
+      "out_face_count",
+      "branch_cost"
+    ],
+    "heldout_fixed_paths": {
+      "n11-fixed": {
+        "direct_heldout_certificate": false,
+        "edges_fully_known_to_training": 0,
+        "states": 12,
+        "states_known_to_training": 2,
+        "total_weight": 5
+      },
+      "n14-fixed": {
+        "direct_heldout_certificate": false,
+        "edges_fully_known_to_training": 0,
+        "states": 15,
+        "states_known_to_training": 2,
+        "total_weight": 5
+      }
+    },
+    "n17_baseline": {
+      "available_slack": 3,
+      "path_total_weight": 8,
+      "slack_by_source": {
+        "0": 16,
+        "3": 1
+      }
+    },
+    "n17_terminal_unpayable_debt": {
+      "definition": "unpayable_debt=max(rooted_debt-remaining_independent_merge_capacity,0)",
+      "scope": "exact final-two-cell n17 artifacts only",
+      "u178_all_positive": true,
+      "u178_survivor_deficit_histogram": {
+        "1": 18,
+        "2": 2
+      },
+      "u179_positive_control_deficit": 0
+    },
+    "training": {
+      "complete_widths": [
+        5,
+        8
+      ],
+      "concrete_transitions": 588,
+      "distinct_constraints": 268,
+      "feature_states": 133,
+      "slack_histogram": {
+        "0": 588
+      },
+      "terminal_constant": 5
+    }
+  },
+  "complete_finite_certificates": {
+    "5": {
+      "completable_transitions": 2966,
+      "equality_edges": 220,
+      "equality_states": 117,
+      "implied_u_lower_bound": 14,
+      "minimum_charged_curvature": 5,
+      "reachable_states": 369
+    },
+    "8": {
+      "completable_transitions": 463002,
+      "equality_edges": 368,
+      "equality_states": 208,
+      "implied_u_lower_bound": 37,
+      "minimum_charged_curvature": 5,
+      "reachable_states": 14582
+    }
+  },
+  "exact_reduction": {
+    "baseline_equivalence": "K(U)>=5 iff |U|>=6k^2+5k+3 for n=3k+2",
+    "charged_curvature": "K(U)=3|U|-2*rho-n=2R+2beta-|U|-n",
+    "connected_rank": "rho=(n-1)^2",
+    "samples_are_regression_not_coverage": [
+      {
+        "identity": "3*q_old = 2*(n-1)^2+n+5",
+        "k": 1,
+        "n": 5,
+        "q_old": 14
+      },
+      {
+        "identity": "3*q_old = 2*(n-1)^2+n+5",
+        "k": 5,
+        "n": 17,
+        "q_old": 178
+      },
+      {
+        "identity": "3*q_old = 2*(n-1)^2+n+5",
+        "k": 39,
+        "n": 119,
+        "q_old": 9324
+      }
+    ]
+  },
+  "fixed_pattern_identities": {
+    "11": {
+      "charged_curvature": 5,
+      "cycle_rank": 1,
+      "n": 11,
+      "old_baseline": 72,
+      "rank": 100,
+      "run_sum": 43,
+      "selection": "fixed equality witness",
+      "u_count": 72
+    },
+    "14": {
+      "charged_curvature": 5,
+      "cycle_rank": 1,
+      "n": 14,
+      "old_baseline": 119,
+      "rank": 169,
+      "run_sum": 68,
+      "selection": "fixed equality witness",
+      "u_count": 119
+    },
+    "17": {
+      "charged_curvature": 8,
+      "cycle_rank": 1,
+      "n": 17,
+      "old_baseline": 178,
+      "rank": 256,
+      "run_sum": 101,
+      "selection": "fixed near-equality witness",
+      "u_count": 179
+    },
+    "5": {
+      "charged_curvature": 5,
+      "cycle_rank": 0,
+      "n": 5,
+      "old_baseline": 14,
+      "rank": 16,
+      "run_sum": 12,
+      "selection": "fixed equality witness",
+      "u_count": 14
+    },
+    "8": {
+      "charged_curvature": 5,
+      "cycle_rank": 0,
+      "n": 8,
+      "old_baseline": 37,
+      "rank": 49,
+      "run_sum": 25,
+      "selection": "fixed equality witness",
+      "u_count": 37
+    }
+  },
+  "limitations": [
+    "The algebra samples do not constitute finite-width fitting or coverage.",
+    "Only widths 5 and 8 import complete reachable/completable transition censuses.",
+    "The n=11 and n=14 patterns are witnesses, not complete searches in this ledger.",
+    "The n=17 UNSAT claim is backed by committed exhaustive-search artifacts; this Python ledger does not rerun that search.",
+    "The stable affine 19-rule certificates are intentionally excluded from universal coverage because they certify one generated family only.",
+    "The old 4/3/9 port-signature bound is false on affine A23 and is not used as a topological premise.",
+    "The observed equality branch-cost bound one is conjectural outside complete n=5,8 and fixed n=11,14 controls.",
+    "The cap/merge potential uses suffix-enumerated capacity and covers only its declared finite transitions.",
+    "The persistent replacement removes suffix enumeration but its generic 2U capacity bound is weak before the terminal cap."
+  ],
+  "n11_silent_carrier_falsifier": {
+    "charged_curvature": 5,
+    "contiguous_support_failure_rows": [
+      8
+    ],
+    "falsifies": [
+      "every low-curvature carrier has contiguous packet support",
+      "a carrier must occupy every packet crossed by its occurrence hull"
+    ],
+    "hull_carrier_failure_rows": [],
+    "maximum_face_cut_open_width": 1,
+    "occupied_groups": [
+      1,
+      3
+    ],
+    "repaired_by_next_row": true,
+    "silent_packet": [
+      2
+    ],
+    "width": 11
+  },
+  "n17_attachment_debt": {
+    "extra_over_old_baseline": 1,
+    "full_search_final_states": 0,
+    "full_search_status": "UNSAT",
+    "minimum_u": 179,
+    "positive_control": {
+      "accepted_suffixes": 1,
+      "hinge_debt": 1,
+      "merge_capacity": 1,
+      "remaining_u_budget": 1,
+      "u_count": 179
+    },
+    "scope": "artifact-backed exact n=17 terminal obstruction only",
+    "survivor_attachment_debt": 2,
+    "survivor_merge_capacity_histogram": {
+      "0": 2,
+      "1": 18
+    },
+    "survivors_two_cells_before_terminal": 20,
+    "survivors_with_accepted_suffix": 0,
+    "u_limit": 178
+  },
+  "next_attachment_obligation": "After baseline coverage, prove that for k>=5 every K=5 accepting-language candidate reaches attachment debt strictly larger than remaining merge capacity. The current terminal-debt certificate proves this only at n=17.",
+  "persistent_debt": {
+    "complete_history_census": {
+      "n5-complete": {
+        "histories": 151,
+        "history_features": 76,
+        "spent_merge_range": [
+          0,
+          7
+        ],
+        "terminal_histories": 33
+      },
+      "n8-complete": {
+        "histories": 352,
+        "history_features": 158,
+        "spent_merge_range": [
+          0,
+          12
+        ],
+        "terminal_histories": 57
+      }
+    },
+    "finite_language": {
+      "coverage_conjecture": "Every K<=5 path at n=3k+2 is represented by the same bounded hull state and local-capacity transition language, and for k>=5 its persistent unpayable-debt channel becomes positive.",
+      "coverage_status": "open; no arbitrary-width transition census or proof",
+      "finite_theorem": "Within the explicitly enumerated history languages, silent hull carriers are allowed, constant five holds, and every represented n17 u178 terminal state is rejected by positive unpayable debt."
+    },
+    "history_fields": [
+      "u_spent",
+      "rank_spent",
+      "spent_merges",
+      "created_debt",
+      "maximum_unpayable_debt"
+    ],
+    "local_capacity": {
+      "formula": "capacity <= min(current debt, remaining graphic rank, 2*remaining U; exact active-edge maximum replaces the last term in the terminal cap)",
+      "safety": [
+        "one independent merge reduces at most one live debt component",
+        "one independent merge consumes one unit of graphic rank",
+        "a future U vertex exposes at most its left and upper processed edges",
+        "the final-row dynamic program exhausts all choices under the U budget without using suffix acceptance"
+      ],
+      "suffix_enumeration_used": false
+    },
+    "min_plus": {
+      "concrete_transitions": 783,
+      "distinct_constraints": 350,
+      "features": 225,
+      "slack_histogram": {
+        "0": 783
+      },
+      "terminal_constant": 5
+    },
+    "n17_terminal": {
+      "local_bound": "min(debt, exact active-edge maximum in remaining final-row cells)",
+      "reconstruction": {
+        "u178": "terminal states reconstructed from the committed dump; prefix histories cannot be reconstructed because the dump has no predecessor IDs",
+        "u179": "complete explicit pattern replay plus committed step-287 record"
+      },
+      "u178_states_checked": 20,
+      "u178_unpayable_debt_histogram": {
+        "1": 18,
+        "2": 2
+      },
+      "u179_control": {
+        "debt": 1,
+        "local_capacity": 1,
+        "unpayable_debt": 0
+      }
+    },
+    "result": {
+      "baseline_five": "exact finite-language certificate at n=5,8",
+      "global_k_ge_5": "conjectural pending low-curvature hull-language coverage",
+      "heldout": "fixed n11,n14 paths extend feasibly but are not covered",
+      "n17_extra": "terminal rejection recovered without suffix enumeration, but no u178 backpointers exist to telescope the persistent channel from the top"
+    }
+  },
+  "provenance": {
+    "command": [
+      "python3",
+      "-B",
+      "analysis/residue_two_universal_bound_ledger.py",
+      "--output",
+      "analysis/residue_two_universal_bound_ledger.json"
+    ],
+    "producer": "analysis/residue_two_universal_bound_ledger.py"
+  },
+  "schema": "grid-graphs.residue-two-universal-bound-ledger.v1",
+  "scope": {
+    "arbitrary_width_baseline_proved": false,
+    "arbitrary_width_extra_unit_proved": false,
+    "complete_attachment_skeleton_widths": [
+      5,
+      8
+    ],
+    "complete_operational_widths": [
+      5,
+      8
+    ],
+    "fixed_witness_widths": [
+      11,
+      14,
+      17
+    ],
+    "terminal_debt_widths": [
+      17
+    ],
+    "width_independent_result": "exact algebraic reduction only"
+  },
+  "smallest_missing_coverage_lemma": {
+    "certificate_needed": [
+      "a width-independent finite hull-carrier state including silent passage",
+      "exhaustive symbolic transition coverage for all K<=5 prefixes with accepting suffixes",
+      "an exact min-plus potential with initial-to-terminal value at least 5",
+      "cap phase or remaining merge capacity beyond scalar debt and branch cost",
+      "a persistent unpayable-debt flag capable of distinguishing the n17 terminal",
+      "an arbitrary-width silent-hull transition proof preserving the local capacity bound"
+    ],
+    "name": "low-curvature hull-carrier coverage",
+    "statement": "For every n=3k+2 and every dual-connected U with K(U)<=5, every row frontier and centered annulus admits an OUT-rooted hull attachment skeleton whose live components may cross unoccupied packets silently, and whose packet/cap transitions belong to a finite symbolic language with minimum accepting min-plus weight 5.",
+    "why_this_scope_is_minimal": "States with K(U)>5 already satisfy the baseline. Contiguous support cannot replace hull support because the exact n=11 equality witness has one silent packet at row 8."
+  }
+}

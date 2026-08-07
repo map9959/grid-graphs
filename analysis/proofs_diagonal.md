@@ -35,10 +35,8 @@ grid covering/decycling theorem.
 
 ### Main open proof tasks
 
-1. Prove the planar-dual equivalence between primal forced-edge acyclicity and
-   dual connectivity of `U-U` edges.
-2. Find clean parametric `U` constructions for `n ≡ 0, 2 (mod 3)`.
-3. Prove the induced-edge decycling lower bound for all `U` with connected dual
+1. Find clean parametric `U` constructions for `n ≡ 0, 2 (mod 3)`.
+2. Prove the induced-edge decycling lower bound for all `U` with connected dual
    face graph.
 
 ### Cached witness data
@@ -62,7 +60,7 @@ python3 analysis/dual_decycling.py < data/diagonal_u_14.txt
 
 ## Target theorem
 
-For `n >= 4`, conjecturally
+The original formula
 
 ```text
 P(n,n) = floor(n^2 / 3) + n + C(n mod 3),
@@ -72,16 +70,18 @@ where
 
 ```text
 C(1) = -1,
-C(0) = C(2) = -2.
+C(0) = C(2) = -2
 ```
 
-Equivalently, if `U` denotes the non-full-degree vertices in an optimal tree,
-then the conjectured minimum size of `U` is:
+is false at `n=17`. The revised candidate retains its residue-zero and
+residue-one branches and changes residue two from `k=5` onward. If `U` denotes
+the non-full-degree vertices in an optimal tree, the candidate minimum is:
 
 ```text
 n = 3k:     |U| = 6k^2 - 3k + 2
 n = 3k + 1: |U| = 6k^2 + k + 1
-n = 3k + 2: |U| = 6k^2 + 5k + 3
+n = 3k + 2, 1 <= k <= 4: |U| = 6k^2 + 5k + 3
+n = 3k + 2, k >= 5:      |U| = 6k^2 + 5k + 4
 ```
 
 This is exact for `n = 4..15`.
@@ -730,40 +730,32 @@ To prove the lower bound generally, we need a parametric `F_n` or `U_n`
 pattern whose forced graph is visibly a forest and whose components can be
 connected by `U-U` edges.
 
-### Lemma C: forest completion by non-forced edges
+### Lemma C: forest completion by non-forced edges (proved)
 
 This generic lemma is the bridge from a valid `U` pattern to a spanning-tree
 construction.
 
 **Lemma.** Let `G` be a connected graph, `F` a vertex set, and `U = V \ F`.
 Let `H` be the forced-edge graph containing every `G`-edge incident to `F`.
-Assume:
-
-1. `H` is a forest.
-2. Contracting each connected component of `H`, the graph whose edges are the
-   remaining `U-U` edges is connected on the contracted components.
-
-Then `H` can be extended to a spanning tree of `G` by adding only `U-U` edges.
+Assume `H` is a forest. Then `H` can be extended to a spanning tree of `G` by
+adding only `U-U` edges.
 Consequently every vertex in `F` is full-degree in the completed tree.
 
-**Proof.** Contract the components of `H`. Since `H` is a forest, adding an
-edge between two distinct components preserves acyclicity. By assumption, the
-available `U-U` edges connect the contracted component graph, so choose any
-spanning tree of that component graph and add the corresponding `U-U` edges to
-`H`. The result is connected and acyclic, hence a spanning tree. No added edge
-touches `F`, so every vertex of `F` remains incident to exactly all of its grid
-edges and is full-degree.
+**Proof.** Every forest contained in a finite connected graph extends to a
+spanning tree of that graph. Apply this to `H <= G`. Every edge of `G` touching
+`F` already belongs to `H`, so every newly added edge has both endpoints in
+`U`. The extension therefore preserves every forced edge and every vertex of
+`F` remains full-degree.
 
 In the planar-dual construction checks, dual connectivity of `E(G[U])` implies
-`H` is a forest. The greedy completion check verifies condition 2 explicitly.
-For a paper proof, it is cleaner to define connector `U-U` edges explicitly and
-show they connect the forced-forest components.
-
-Lean note: `GridGraphs.Diagonal.connected_graph_has_spanning_tree` now records
-the mathlib fact that any finite connected graph has a spanning tree subgraph.
-This is weaker than Lemma C because it does not guarantee the spanning tree
-contains a specified forced forest. The formal forest-extension lemma remains
-open.
+`H` is a forest. The greedy completion remains a useful executable witness but
+is no longer a separate mathematical hypothesis. Lean theorem
+`SimpleGraph.isAcyclic_extends_to_isTree` proves the generic extension, and
+`exists_isTree_preserving_of_forcedEdgeGraph_isAcyclic` packages the preserving
+tree consequence. `GridGraphs.GridDual` now defines the executable U-U dual and
+proves `gridDualCycleSeparation`: dual connectivity implies forced-graph
+acyclicity. `exists_isTree_preserving_compl_of_uuDual_connected_grid` then
+packages the preserving spanning-tree construction.
 
 ### Proposition L1: residue 1 lower-bound construction (`n = 3k + 1`)
 

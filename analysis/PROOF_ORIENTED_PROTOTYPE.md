@@ -856,3 +856,81 @@ component, and at most nine compressed runs. These are observed bounds, not a
 coverage theorem. The next proof obligation is to derive them, or comparable
 constants, for every extremal residue-two pattern; that would turn the annulus
 profile into a finite-state transfer argument.
+
+`concentric_equality_census.py` strengthens the small-width scope from selected
+witnesses to complete equality classes. It enumerates all 242 globally minimum
+`n=5` paths and all 704 globally minimum `n=8` paths. None violates the declared
+`4/3/9` bounds. The exact maxima are respectively `4/1/5` and `4/2/6` for
+repeated components, cyclic runs per component, and compressed runs. This
+remains finite-width evidence; the next exact falsification target is a product
+frontier monitor over all 72-U `n=11` patterns.
+
+That product monitor now exists in `search_n11_centered_product`. It augments
+the exact global frontier with every selected-square bit until the centered
+profile closes, then retains the exact threshold-violation flags. With no beam,
+symmetry quotient, or heuristic pruning, the side-3 query completes:
+
+```text
+cargo run --release --bin search_n11_centered_product -- --side 3
+connected=true  any_violation=false
+peak_states=1,358,652  transitions=78,285,124
+```
+
+Thus every connected 72-U `n=11` pattern satisfies the `4/3/9` bounds at its
+centered side-3 prefix. The independent Rust terminal monitor in
+`src/exact_centered_square.rs` agrees with the Python profile on all known
+`n=5,8,11,14,17,20` witnesses.
+
+The side-5 query is now exact as well. A canonical streaming component monitor
+was minimized backward by threshold-language equivalence: two local states are
+merged only when both successors have the same class for every remaining input
+suffix. This reduces the side-5 local automaton from 369,032 states to 78 and
+the exact global product to 1,291,749 peak states, 96,819,952 transitions, and
+about 274 MiB RSS. No `4/3/9` violation exists at side 5.
+
+Side 7 remains open. Exact local-language generation reaches 14,614,444 states
+after 34 of 49 cells and crosses the 6 GiB allocation gate. A deterministic
+256-shard external repartition specification is committed in
+`annulus_side7_threshold_automaton_shards.json`; no side-7 result is claimed
+until every shard and both successors of every source state are processed.
+
+The `4/3/9` constants are not a topological theorem and must not be the final
+coverage abstraction. The valid but surplus affine A23 pattern has signature
+`5/3/12`. The replacement reduced metric is
+
+```text
+branch_cost = sum over ported components (cyclic occurrence runs - 1).
+```
+
+Unconditionally, branching components are at most `branch_cost`, and on an
+unsealed annulus `branch_cost` is at most attachment surplus. Complete n5
+equality has branch cost zero; complete n8 equality and fixed n11/n14 equality
+controls have maximum one. Affine A17,A20,...,A41 grow as `2,3,...,10`.
+Therefore any constant-state theorem must derive bounded branch cost from
+curvature-five extremality, not from planarity alone.
+
+`residue_two_cap_merge_potential.py` gives the strongest current finite
+potential. Cap phase, component deficit, suffix merge-capacity surplus,
+previous-row U count, OUT-face count, and branch cost produce 268 exact
+difference constraints on 133 states. All 588 complete n5/n8 equality
+transitions are tight with terminal constant five; fixed n11/n14 and affine n17
+paths extend consistently but are not covered. The n17 extra unit is instead
+separated at the terminal by
+
+```text
+unpayable_debt = max(rooted debt - remaining independent merge capacity, 0).
+```
+
+Every 178-U survivor has positive unpayable debt (`1` for 18 states, `2` for
+two), while the 179-U control has zero. The next potential must propagate a
+persistent spent-merge/unpayable-debt flag and replace suffix-enumerated merge
+capacity by a covered local upper bound.
+
+`residue_two_persistent_debt_certificate.py` implements that history channel on
+the complete n5/n8 equality languages. Its safe local capacity bound uses
+remaining rank and U budget, with an exact terminal-row edge DP. All 783
+complete history transitions are tight with terminal constant five; fixed
+n11/n14 controls remain feasible and the n17 terminal separation is recovered
+without suffix acceptance. Global propagation is still blocked because the
+committed 178-U terminal dump has no predecessor summaries and arbitrary-width
+low-curvature hull coverage remains unproved.

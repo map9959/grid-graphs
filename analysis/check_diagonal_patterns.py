@@ -23,8 +23,8 @@ from diagonal_patterns import (
     STATUS_RESIDUE_ZERO,
     q_formula,
     residue_one_pattern,
-    residue_two_explicit_pattern,
     residue_two_affine_pattern,
+    residue_two_pattern,
     residue_zero_explicit_pattern,
     residue_zero_improved_pattern,
     residue_zero_phase_pattern,
@@ -118,7 +118,8 @@ def main() -> None:
     for n in range(17, args.nmax + 1, 3):
         affine = residue_two_affine_pattern(n)
         nonfull, _, _ = verify_pattern(affine)
-        expected = q_formula(n) + (n - 14) // 3
+        k = (n - 2) // 3
+        expected = 6 * k * k + 6 * k - 1
         dual_ok, _, _ = dual_connectivity_check(affine)
         if nonfull != expected or not dual_ok:
             raise AssertionError(
@@ -138,7 +139,7 @@ def main() -> None:
         if n % 3 == 1:
             rows = residue_one_pattern(n)
         elif n in STATUS_RESIDUE_TWO:
-            rows = residue_two_explicit_pattern(n)
+            rows = residue_two_pattern(n)
         elif n in STATUS_RESIDUE_ZERO:
             rows = residue_zero_explicit_pattern(n)
         elif n % 3 == 0 and n >= 21:

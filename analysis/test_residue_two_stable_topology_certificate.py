@@ -10,12 +10,20 @@ from residue_two_affine_motif_grammar import (
     expand_compact_boundary_defect_frontier,
 )
 from residue_two_compact_transition import ActionKey, ControlKey
+from residue_two_n11_grammar_counterexample import ROWS
+from residue_two_silent_hull_language import encode_silent_hull_frontier
+from residue_two_silent_hull_language import (
+    HullRole,
+    SilentHullAtom,
+    SilentHullFrontier,
+)
 from residue_two_stable_topology_certificate import (
     TopologyCertificateError,
+    certify_silent_hull_symbolic_transition,
     certify_topology,
     stable_topology_certificates,
 )
-from tile_grammar import advance_row
+from tile_grammar import advance_row, initial_state, row_mask
 
 
 def _endpoint_values(dominant, exceptions, length):
@@ -130,6 +138,78 @@ class ResidueTwoStableTopologyCertificateTests(unittest.TestCase):
         damaged = replace(certificate.source, dominant=atom)
         with self.assertRaises(TopologyCertificateError):
             certify_topology(damaged, certificate.action, certificate.target)
+
+    def test_n11_silent_word_uses_bounded_symbolic_certifier(self) -> None:
+        state = initial_state(11)
+        silent_rows = []
+        for row_number, rendered in enumerate(ROWS, 1):
+            outgoing = advance_row(state, row_mask(rendered))
+            self.assertIsNotNone(outgoing)
+            assert outgoing is not None
+            source = encode_silent_hull_frontier(state)
+            target = encode_silent_hull_frontier(outgoing)
+            mask = row_mask(rendered)
+            caps = (mask & 1, (mask >> 10) & 1)
+            packets = tuple((mask >> (1 + 3 * packet)) & 7 for packet in range(3))
+            counters = certify_silent_hull_symbolic_transition(
+                source, caps, packets, target
+            )
+            self.assertEqual(counters.u, rendered.count("U"))
+            if any(atom.silent_carry for atom in target.atoms):
+                silent_rows.append(row_number)
+            state = outgoing
+        self.assertEqual(silent_rows, [8])
+
+    def test_nonterminal_absent_target_is_rejected(self) -> None:
+        source = SilentHullFrontier(
+            1,
+            (0, 0),
+            "out",
+            (SilentHullAtom(0, (0, 0, 0), ()),),
+            0,
+            0,
+        )
+        target = SilentHullFrontier(
+            2,
+            (1, 1),
+            "absent",
+            (SilentHullAtom(7, (), ()),),
+            5,
+            0,
+        )
+        with self.assertRaisesRegex(TopologyCertificateError, "target face presence"):
+            certify_silent_hull_symbolic_transition(source, (1, 1), (7,), target)
+
+    def test_irreversible_actual_to_target_fanout_is_rejected(self) -> None:
+        source = SilentHullFrontier(
+            1,
+            (0, 0),
+            "out",
+            (SilentHullAtom(0, (0, 0, 0), ()),) * 2,
+            0,
+            0,
+        )
+        singleton_atom = SilentHullAtom(
+            7,
+            (1, 2, 3),
+            (
+                HullRole(1, False, False),
+                HullRole(2, False, False),
+                HullRole(3, False, False),
+            ),
+        )
+        target = SilentHullFrontier(
+            2,
+            (1, 1),
+            "single",
+            (singleton_atom,) * 2,
+            8,
+            0,
+        )
+        with self.assertRaisesRegex(TopologyCertificateError, "merges expected"):
+            certify_silent_hull_symbolic_transition(
+                source, (1, 1), (7, 7), target
+            )
 
 
 if __name__ == "__main__":

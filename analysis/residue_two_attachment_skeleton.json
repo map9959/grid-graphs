@@ -1,0 +1,539 @@
+{
+  "affine_surplus_controls": {
+    "A17": {
+      "charged_curvature": 8,
+      "maximum_branch_cost": 2,
+      "maximum_branching_components": 1,
+      "maximum_reduced_tokens": 6,
+      "maximum_runs_per_component": 3,
+      "n": 17,
+      "u_count": 179
+    },
+    "A20": {
+      "charged_curvature": 11,
+      "maximum_branch_cost": 3,
+      "maximum_branching_components": 2,
+      "maximum_reduced_tokens": 8,
+      "maximum_runs_per_component": 3,
+      "n": 20,
+      "u_count": 251
+    },
+    "A23": {
+      "charged_curvature": 14,
+      "maximum_branch_cost": 4,
+      "maximum_branching_components": 3,
+      "maximum_reduced_tokens": 10,
+      "maximum_runs_per_component": 3,
+      "n": 23,
+      "u_count": 335
+    },
+    "A26": {
+      "charged_curvature": 17,
+      "maximum_branch_cost": 5,
+      "maximum_branching_components": 4,
+      "maximum_reduced_tokens": 12,
+      "maximum_runs_per_component": 3,
+      "n": 26,
+      "u_count": 431
+    },
+    "A29": {
+      "charged_curvature": 20,
+      "maximum_branch_cost": 6,
+      "maximum_branching_components": 5,
+      "maximum_reduced_tokens": 14,
+      "maximum_runs_per_component": 3,
+      "n": 29,
+      "u_count": 539
+    },
+    "A32": {
+      "charged_curvature": 23,
+      "maximum_branch_cost": 7,
+      "maximum_branching_components": 6,
+      "maximum_reduced_tokens": 16,
+      "maximum_runs_per_component": 3,
+      "n": 32,
+      "u_count": 659
+    },
+    "A35": {
+      "charged_curvature": 26,
+      "maximum_branch_cost": 8,
+      "maximum_branching_components": 7,
+      "maximum_reduced_tokens": 18,
+      "maximum_runs_per_component": 3,
+      "n": 35,
+      "u_count": 791
+    },
+    "A38": {
+      "charged_curvature": 29,
+      "maximum_branch_cost": 9,
+      "maximum_branching_components": 8,
+      "maximum_reduced_tokens": 20,
+      "maximum_runs_per_component": 3,
+      "n": 38,
+      "u_count": 935
+    },
+    "A41": {
+      "charged_curvature": 32,
+      "maximum_branch_cost": 10,
+      "maximum_branching_components": 9,
+      "maximum_reduced_tokens": 22,
+      "maximum_runs_per_component": 3,
+      "n": 41,
+      "u_count": 1091
+    }
+  },
+  "complete_small_equality": {
+    "5": {
+      "local_candidate_inequalities": {
+        "row_weight_ge_branch_delta": {
+          "counterexample": {
+            "incoming": {
+              "attachment_debt": 4,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 1,
+              "silent_face_slots": 0
+            },
+            "outgoing": {
+              "attachment_debt": 1,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 1,
+              "silent_face_slots": 0
+            },
+            "row": 2,
+            "row_weight": -3
+          },
+          "minimum_slack": -3
+        },
+        "row_weight_ge_debt_delta": {
+          "counterexample": {
+            "incoming": {
+              "attachment_debt": 0,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 0,
+              "silent_face_slots": 0
+            },
+            "outgoing": {
+              "attachment_debt": 4,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 1,
+              "silent_face_slots": 0
+            },
+            "row": 0,
+            "row_weight": -1
+          },
+          "minimum_slack": -5
+        },
+        "row_weight_ge_debt_plus_branch_delta": {
+          "counterexample": {
+            "incoming": {
+              "attachment_debt": 0,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 0,
+              "silent_face_slots": 0
+            },
+            "outgoing": {
+              "attachment_debt": 4,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 1,
+              "silent_face_slots": 0
+            },
+            "row": 0,
+            "row_weight": -1
+          },
+          "minimum_slack": -5
+        }
+      },
+      "maximum_branch_cost": 0,
+      "maximum_branch_cost_histogram": {
+        "0": 242
+      },
+      "minimum_charged_curvature": 5,
+      "n": 5,
+      "patterns": 242
+    },
+    "8": {
+      "local_candidate_inequalities": {
+        "row_weight_ge_branch_delta": {
+          "counterexample": {
+            "incoming": {
+              "attachment_debt": 7,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 1,
+              "silent_face_slots": 0
+            },
+            "outgoing": {
+              "attachment_debt": 3,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 5,
+              "silent_face_slots": 0
+            },
+            "row": 2,
+            "row_weight": -5
+          },
+          "minimum_slack": -5
+        },
+        "row_weight_ge_debt_delta": {
+          "counterexample": {
+            "incoming": {
+              "attachment_debt": 0,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 0,
+              "silent_face_slots": 0
+            },
+            "outgoing": {
+              "attachment_debt": 7,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 1,
+              "silent_face_slots": 0
+            },
+            "row": 0,
+            "row_weight": -1
+          },
+          "minimum_slack": -8
+        },
+        "row_weight_ge_debt_plus_branch_delta": {
+          "counterexample": {
+            "incoming": {
+              "attachment_debt": 0,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 0,
+              "silent_face_slots": 0
+            },
+            "outgoing": {
+              "attachment_debt": 7,
+              "branch_cost": 0,
+              "branching_components": 0,
+              "maximum_occurrence_hull_span": 1,
+              "silent_face_slots": 0
+            },
+            "row": 0,
+            "row_weight": -1
+          },
+          "minimum_slack": -8
+        }
+      },
+      "maximum_branch_cost": 1,
+      "maximum_branch_cost_histogram": {
+        "0": 576,
+        "1": 128
+      },
+      "minimum_charged_curvature": 5,
+      "n": 8,
+      "patterns": 704
+    }
+  },
+  "definitions": {
+    "attachment_debt": "ported_components-1, floored at zero",
+    "branch_cost": "sum over ported components of occurrence_runs(component)-1",
+    "occurrence_run": "a maximal cyclic interval of perimeter ports belonging to one internal component",
+    "reduced_tokens": "cyclic run word with one canonical R token per branching component and all one-run components mapped to S",
+    "silent_gap_behavior": "separated occurrences remain separate runs even when intervening packets contain no port of the component"
+  },
+  "fixed_equality_controls": {
+    "n11-fixed": {
+      "charged_curvature": 5,
+      "maximum_branch_cost": 1,
+      "maximum_branching_components": 1,
+      "maximum_reduced_tokens": 4,
+      "maximum_runs_per_component": 2,
+      "n": 11,
+      "u_count": 72
+    },
+    "n11-silent": {
+      "charged_curvature": 5,
+      "maximum_branch_cost": 1,
+      "maximum_branching_components": 1,
+      "maximum_reduced_tokens": 4,
+      "maximum_runs_per_component": 2,
+      "n": 11,
+      "u_count": 72
+    },
+    "n14-fixed": {
+      "charged_curvature": 5,
+      "maximum_branch_cost": 1,
+      "maximum_branching_components": 1,
+      "maximum_reduced_tokens": 4,
+      "maximum_runs_per_component": 2,
+      "n": 14,
+      "u_count": 119
+    },
+    "n5-fixed": {
+      "charged_curvature": 5,
+      "maximum_branch_cost": 0,
+      "maximum_branching_components": 0,
+      "maximum_reduced_tokens": 1,
+      "maximum_runs_per_component": 1,
+      "n": 5,
+      "u_count": 14
+    },
+    "n8-fixed": {
+      "charged_curvature": 5,
+      "maximum_branch_cost": 0,
+      "maximum_branching_components": 0,
+      "maximum_reduced_tokens": 1,
+      "maximum_runs_per_component": 1,
+      "n": 8,
+      "u_count": 37
+    }
+  },
+  "limitations": [
+    "The constant branch bound one is a finite census and fixed-witness observation, not a theorem.",
+    "The affine growth formula is symbolically unproved and sampled only at A17 through A41.",
+    "Noncrossing and the attachment-surplus bound do not by themselves imply curvature five."
+  ],
+  "local_invariant_result": {
+    "falsified": "None of row_weight>=Delta(debt), row_weight>=Delta(branch_cost), or row_weight>=Delta(debt+branch_cost) holds on all complete n=5,8 equality-corridor transitions; exact counterexamples are recorded.",
+    "next_candidate": "A proof potential must include cap phase or remaining merge capacity; branch cost alone is not a row-local curvature potential.",
+    "proved": "The branch-cost/attachment-surplus inequality is local to every centered annulus and survives silent occurrence gaps."
+  },
+  "n11_silent_frontier_history": [
+    {
+      "attachment_debt": 0,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 0,
+      "maximum_occurrence_hull_span": 0,
+      "silent_face_slots": 0
+    },
+    {
+      "attachment_debt": 10,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 1,
+      "maximum_occurrence_hull_span": 1,
+      "silent_face_slots": 0
+    },
+    {
+      "attachment_debt": 10,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 2,
+      "maximum_occurrence_hull_span": 1,
+      "silent_face_slots": 0
+    },
+    {
+      "attachment_debt": 9,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 3,
+      "maximum_occurrence_hull_span": 2,
+      "silent_face_slots": 0
+    },
+    {
+      "attachment_debt": 9,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 4,
+      "maximum_occurrence_hull_span": 2,
+      "silent_face_slots": 0
+    },
+    {
+      "attachment_debt": 9,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 5,
+      "maximum_occurrence_hull_span": 2,
+      "silent_face_slots": 0
+    },
+    {
+      "attachment_debt": 9,
+      "branch_cost": 1,
+      "branching_components": 1,
+      "completed_rows": 6,
+      "maximum_occurrence_hull_span": 4,
+      "silent_face_slots": 2
+    },
+    {
+      "attachment_debt": 8,
+      "branch_cost": 1,
+      "branching_components": 1,
+      "completed_rows": 7,
+      "maximum_occurrence_hull_span": 5,
+      "silent_face_slots": 2
+    },
+    {
+      "attachment_debt": 8,
+      "branch_cost": 1,
+      "branching_components": 1,
+      "completed_rows": 8,
+      "maximum_occurrence_hull_span": 6,
+      "silent_face_slots": 4
+    },
+    {
+      "attachment_debt": 7,
+      "branch_cost": 2,
+      "branching_components": 1,
+      "completed_rows": 9,
+      "maximum_occurrence_hull_span": 9,
+      "silent_face_slots": 5
+    },
+    {
+      "attachment_debt": 0,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 10,
+      "maximum_occurrence_hull_span": 0,
+      "silent_face_slots": 0
+    },
+    {
+      "attachment_debt": 0,
+      "branch_cost": 0,
+      "branching_components": 0,
+      "completed_rows": 11,
+      "maximum_occurrence_hull_span": 0,
+      "silent_face_slots": 0
+    }
+  ],
+  "observed_conjectures": {
+    "affine_growth": "For sampled affine A_n, maximum branch cost grows by one per width-three extension and equals (charged_curvature-2)/3.",
+    "equality_branch_bound": "Every enumerated curvature-five pattern at n=5,8 and both fixed n=11 controls and n=14 has maximum centered branch cost at most 1.",
+    "theorem_status": false
+  },
+  "old_4_3_9_falsification": {
+    "A23_observed": {
+      "maximum_compressed_runs": 12,
+      "maximum_cyclic_runs_per_component": 3,
+      "maximum_repeated_components": 5
+    },
+    "nested_noncrossing_family": {
+      "12": {
+        "alternating_component_pair": null,
+        "attachment_debt": 11,
+        "branch_cost": 10,
+        "branching_components": 10,
+        "maximum_runs_per_component": 2,
+        "occurrence_runs": 22,
+        "port_occurrences": 24,
+        "ported_components": 12,
+        "reduced_tokens": [
+          "S",
+          "R0",
+          "R1",
+          "R2",
+          "R3",
+          "R4",
+          "R5",
+          "R6",
+          "R7",
+          "R8",
+          "R9",
+          "S",
+          "R9",
+          "R8",
+          "R7",
+          "R6",
+          "R5",
+          "R4",
+          "R3",
+          "R2",
+          "R1",
+          "R0"
+        ]
+      },
+      "4": {
+        "alternating_component_pair": null,
+        "attachment_debt": 3,
+        "branch_cost": 2,
+        "branching_components": 2,
+        "maximum_runs_per_component": 2,
+        "occurrence_runs": 6,
+        "port_occurrences": 8,
+        "ported_components": 4,
+        "reduced_tokens": [
+          "S",
+          "R0",
+          "R1",
+          "S",
+          "R1",
+          "R0"
+        ]
+      },
+      "6": {
+        "alternating_component_pair": null,
+        "attachment_debt": 5,
+        "branch_cost": 4,
+        "branching_components": 4,
+        "maximum_runs_per_component": 2,
+        "occurrence_runs": 10,
+        "port_occurrences": 12,
+        "ported_components": 6,
+        "reduced_tokens": [
+          "S",
+          "R0",
+          "R1",
+          "R2",
+          "R3",
+          "S",
+          "R3",
+          "R2",
+          "R1",
+          "R0"
+        ]
+      }
+    },
+    "old_bounds": {
+      "maximum_compressed_runs": 9,
+      "maximum_cyclic_runs_per_component": 3,
+      "maximum_repeated_components": 4
+    },
+    "status": "not-topological-and-false-on-affine-A23"
+  },
+  "provenance": {
+    "complete_regeneration_command": [
+      "GRID_GRAPHS_REGENERATE=1",
+      "python3",
+      "-B",
+      "analysis/residue_two_attachment_skeleton.py",
+      "--output",
+      "analysis/residue_two_attachment_skeleton.json"
+    ],
+    "producer": "analysis/residue_two_attachment_skeleton.py"
+  },
+  "schema": "grid-graphs.residue-two-attachment-skeleton.v1",
+  "scope": {
+    "affine_controls": [
+      17,
+      20,
+      23,
+      26,
+      29,
+      32,
+      35,
+      38,
+      41
+    ],
+    "arbitrary_width_constant_bound_claimed": false,
+    "complete_equality_widths": [
+      5,
+      8
+    ],
+    "fixed_equality_controls": [
+      5,
+      8,
+      11,
+      14
+    ],
+    "unconditional_results": [
+      "branch_cost = occurrence_runs - ported_components",
+      "branching_components <= branch_cost",
+      "on an unsealed annulus, branch_cost <= perimeter_ports - ported_components = attachment_surplus",
+      "disjoint planar components have no cyclic A,B,A,B boundary alternation"
+    ]
+  },
+  "theorems": {
+    "annulus_link": "For an unsealed centered prefix, perimeter_ports-ported_components is q_s-d_s, the attachment term in M_s-(s-1)^2=(q_s-d_s)+beta_s.",
+    "noncrossing": "Two disjoint connected subgraphs in a disk cannot have alternating A,B,A,B boundary occurrences; otherwise their connecting arcs cross.",
+    "occurrence_bound": "Every component uses at least one port, so contracting adjacent equal ports gives occurrence_runs<=perimeter_ports and hence branch_cost<=perimeter_ports-ported_components."
+  }
+}

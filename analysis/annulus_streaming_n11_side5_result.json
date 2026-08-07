@@ -1,0 +1,77 @@
+{
+  "schema": "grid_graphs.annulus_streaming_exact_result.v1",
+  "scope": {
+    "global_side": 11,
+    "u_count": 72,
+    "centered_side": 5,
+    "global_condition": "all dual faces and the exterior are connected",
+    "monitor": "exact canonical active local components, perimeter-port component incidences, and completed port masks",
+    "thresholds": {
+      "repeated_port_components": 4,
+      "maximum_cyclic_port_runs": 3,
+      "compressed_linear_port_runs": 9
+    },
+    "pruning": "none; no beam, symmetry quotient, heuristic pruning, or unsafe state deletion"
+  },
+  "result": {
+    "connected": true,
+    "any_violation": false,
+    "repeated_components_gt_4": false,
+    "maximum_cyclic_runs_gt_3": false,
+    "compressed_runs_gt_9": false,
+    "peak_states": 1291749,
+    "transitions": 96819952,
+    "equivalent_exact_merges": 21948870,
+    "search_elapsed_seconds": 32.337,
+    "maximum_resident_set_kib": 280544,
+    "product_key_bytes": 32,
+    "trace_payload_bytes": 4,
+    "previous_maximum_resident_set_kib": 17086056,
+    "rss_reduction_fraction": 0.983581,
+    "threshold_automaton": {
+      "exact_local_peak": 369032,
+      "quotient_local_peak": 78,
+      "terminal_classes": 2,
+      "equivalence": "same terminal threshold flags for every possible remaining local input suffix"
+    }
+  },
+  "larger_sides": {
+    "attempted": [7],
+    "not_attempted": [9, 11],
+    "memory_gate_kib": 6291456,
+    "side_7_partial": {
+      "stage": "threshold automaton construction",
+      "last_completed_local_position": 34,
+      "local_cells_total": 49,
+      "exact_local_states": 14614444,
+      "peak_rss_kib": 3796104,
+      "next_allocation_rejected_bytes": 2717909008,
+      "status": "stopped exactly at the enforced 6 GiB address-space gate; no result"
+    },
+    "reason": "Backward threshold minimization makes the global product small, but the exact forward local-language construction must be externally partitioned. See annulus_side7_threshold_automaton_shards.json. Sides 9 and 11 were not started."
+  },
+  "operational_exactness": {
+    "rust_stream_vs_rust_terminal": {
+      "scope": "all 2^(5*5) square U-patterns",
+      "patterns_checked": 33554432,
+      "elapsed_seconds": 171.03,
+      "result": "agree"
+    },
+    "threshold_automaton_vs_rust_terminal": {
+      "scope": "all 2^(5*5) square U-patterns",
+      "patterns_checked": 33554432,
+      "elapsed_seconds": 26.79,
+      "result": "agree"
+    },
+    "global_product_brute_controls": "All exact target counts at n=3 agree with brute global connectivity and the raw terminal monitor; committed n=5 and n=8 controls pass.",
+    "counterexamples": "none found"
+  },
+  "commands": {
+    "search": "prlimit --as=6442450944 /usr/bin/time -v timeout --signal=TERM 600s cargo run --release --bin search_n11_centered_product -- --side 5 --progress",
+    "side_7_gated_telemetry": "prlimit --as=6442450944 /usr/bin/time -v timeout --signal=TERM 180s cargo run --release --bin search_n11_centered_product -- --side 7 --progress",
+    "exhaustive_side5": "cargo test --release --lib streaming_state_agrees_with_terminal_monitor_exhaustively_at_side_five -- --ignored --nocapture",
+    "exhaustive_threshold_automaton_side5": "cargo test --release --bin search_n11_centered_product threshold_automaton_agrees_with_terminal_monitor_at_side_five -- --ignored --nocapture",
+    "rust_tests": "cargo test --lib && cargo test --bin search_n11_centered_product",
+    "python_terminal_monitor_tests": "python3 -m unittest test_concentric_connectivity_profile.py"
+  }
+}

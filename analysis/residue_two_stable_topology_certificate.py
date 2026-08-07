@@ -20,6 +20,12 @@ from itertools import permutations
 
 from residue_two_affine_motif_grammar import BoundaryDefectAtom
 from residue_two_compact_transition import ActionKey, ControlKey
+from residue_two_silent_hull_language import (
+    AffineRowCounters,
+    SilentHullAtom,
+    SilentHullFrontier,
+    decode_silent_hull_frontier,
+)
 from residue_two_stable_counter_certificate import (
     boundary_values,
     stable_rule_certificates,
@@ -28,6 +34,10 @@ from residue_two_stable_counter_certificate import (
 
 class TopologyCertificateError(ValueError):
     """Raised when a proposed finite topology certificate does not close."""
+
+
+MAX_LIVE_ACTUAL_COMPONENTS = 7
+MAX_LIVE_EXPECTED_COMPONENTS = 7
 
 
 @dataclass(frozen=True, slots=True)
@@ -165,16 +175,20 @@ class _StreamingProduct:
         self._left_faces()
 
     def _materialize_atom(
-        self, atom: BoundaryDefectAtom, *, source_side: bool
+        self, atom: BoundaryDefectAtom | SilentHullAtom, *, source_side: bool
     ) -> tuple[int, int, int]:
         if len(atom.rooted_restriction) != 3:
             raise TopologyCertificateError("an open packet must contain three faces")
         dsu = self.actual if source_side else self.expected
         out = self.actual_out if source_side else self.expected_out
         active = self.source_carrier if source_side else self.target_carrier
-        roles = {role.local_label: role for role in atom.carrier_roles}
+        atom_roles = atom.roles if isinstance(atom, SilentHullAtom) else atom.carrier_roles
+        roles = {role.local_label: role for role in atom_roles}
+        silent = isinstance(atom, SilentHullAtom) and atom.silent_carry
+        if silent and active is None:
+            raise TopologyCertificateError("silent packet has no incoming carrier")
         local: dict[int, int] = {0: out}
-        outgoing: int | None = None
+        outgoing: int | None = active if silent else None
         nodes: list[int] = []
         for label in atom.rooted_restriction:
             if label not in local:
@@ -192,7 +206,7 @@ class _StreamingProduct:
                         raise TopologyCertificateError("packet has concurrent carriers")
                     outgoing = node
             nodes.append(local[label])
-        if active is not None and not any(role.carries_in for role in roles.values()):
+        if active is not None and not silent and not any(role.carries_in for role in roles.values()):
             raise TopologyCertificateError("incoming carrier disappears between packets")
         if source_side:
             self.source_carrier = outgoing
@@ -201,7 +215,10 @@ class _StreamingProduct:
         return tuple(nodes)  # type: ignore[return-value]
 
     def packet(
-        self, source_atom: BoundaryDefectAtom, action_packet: int, target_atom: BoundaryDefectAtom
+        self,
+        source_atom: BoundaryDefectAtom | SilentHullAtom,
+        action_packet: int,
+        target_atom: BoundaryDefectAtom | SilentHullAtom,
     ) -> None:
         if source_atom.previous_word < 0 or source_atom.previous_word >= 8:
             raise TopologyCertificateError("invalid source packet")
@@ -269,9 +286,34 @@ class _StreamingProduct:
         relation = {
             (self.actual.find(a), self.expected.find(e)) for a, e in self.face_pairs
         }
-        old_roots = {self.actual.find(node) for node in self.actual_old_nodes}
         neighbors_a = {a: {e for aa, e in relation if aa == a} for a in a_roots}
         neighbors_e = {e: {a for a, ee in relation if ee == e} for e in e_roots}
+
+        # Actual output components can merge but never split.  Once one actual
+        # component contains faces claimed for two distinct target blocks, no
+        # suffix can repair the mismatch.  Conversely, several actual blocks
+        # may still merge into one expected block only while every block reaches
+        # a physical cut port.
+        if any(len(expected) > 1 for expected in neighbors_a.values()):
+            raise TopologyCertificateError("actual output merges expected components")
+        if any(
+            len(actual) > 1 and not actual <= live_a
+            for actual in neighbors_e.values()
+        ):
+            raise TopologyCertificateError("closed actual components cannot merge later")
+
+        # A block remains live when either its actual row component or its
+        # claimed output component reaches the packet cut.  Closing only one
+        # side would discard the incidence needed to compare a later merge.
+        while True:
+            next_a = live_a | {a for a, e in relation if e in live_e}
+            next_e = live_e | {e for a, e in relation if a in live_a}
+            if next_a == live_a and next_e == live_e:
+                break
+            live_a, live_e = next_a, next_e
+        if len(live_a) > MAX_LIVE_ACTUAL_COMPONENTS or len(live_e) > MAX_LIVE_EXPECTED_COMPONENTS:
+            raise AssertionError("normalized packet-cut state exceeded its fixed component bound")
+        old_roots = {self.actual.find(node) for node in self.actual_old_nodes}
 
         for root in a_roots - live_a:
             neighbors = neighbors_a[root]
@@ -414,10 +456,96 @@ def stable_topology_certificates() -> tuple[StableTopologyCertificate, ...]:
     return certificates
 
 
+def _valid_final_state(final: CutState, action_right_bit: int) -> bool:
+    return (
+        final.previous_action_bit == action_right_bit
+        and len(final.actual_components) == 1
+        and final.actual_components[0][0] == ("OUT",)
+        and final.expected_components == (("OUT",),)
+        and final.incidence == ((0, 0),)
+    )
+
+
+def certify_silent_hull_symbolic_transition(
+    source: SilentHullFrontier,
+    action_cap_bits: tuple[int, int],
+    action_packets: tuple[int, ...],
+    target: SilentHullFrontier,
+) -> AffineRowCounters:
+    """Certify a one-hull row transition with a bounded streaming product.
+
+    Unlike ``certify_silent_hull_transition``, this function does not call
+    ``advance_row``.  Topology is checked packet by packet, while all counters
+    are derived from local bits and the source/target component counts.
+    """
+    if source.packet_length != target.packet_length or len(action_packets) != source.packet_length:
+        raise TopologyCertificateError("source, action, and target packet lengths differ")
+    if source.row_index >= source.width:
+        raise TopologyCertificateError("source frontier is already terminal")
+    if target.row_index != source.row_index + 1:
+        raise TopologyCertificateError("target row is not the successor row")
+    if (source.left_face_role == "absent") != (source.row_index == 0):
+        raise TopologyCertificateError("source face presence disagrees with its row")
+    if (target.left_face_role == "absent") != (target.row_index == target.width):
+        raise TopologyCertificateError("target face presence disagrees with its row")
+    if len(action_cap_bits) != 2 or any(type(bit) is not int or bit not in (0, 1) for bit in action_cap_bits):
+        raise TopologyCertificateError("action cap bits must be bits")
+    if any(type(packet) is not int or not 0 <= packet < 8 for packet in action_packets):
+        raise TopologyCertificateError("action packet is not a three-bit word")
+    if target.previous_cap_bits != action_cap_bits or tuple(
+        atom.previous_word for atom in target.atoms
+    ) != action_packets:
+        raise TopologyCertificateError("target previous-row word differs from the action")
+
+    product = _StreamingProduct(source, target)  # type: ignore[arg-type]
+    product.start(action_cap_bits)
+    for source_atom, action_packet, target_atom in zip(
+        source.atoms, action_packets, target.atoms
+    ):
+        product.packet(source_atom, action_packet, target_atom)
+        product.checkpoint()
+    final = product.finish(source.previous_cap_bits[1], action_cap_bits[1])
+    if not _valid_final_state(final, action_cap_bits[1]):
+        raise TopologyCertificateError("silent-hull word does not close to the claimed target")
+
+    incoming = decode_silent_hull_frontier(source)
+    outgoing = decode_silent_hull_frontier(target)
+    bits = (
+        action_cap_bits[0],
+        *(bit for packet in action_packets for bit in (
+            packet & 1, (packet >> 1) & 1, (packet >> 2) & 1
+        )),
+        action_cap_bits[1],
+    )
+    previous_bits = tuple(
+        (incoming.previous_u_mask >> index) & 1 for index in range(incoming.n)
+    )
+    u = sum(bits)
+    horizontal = sum(left * right for left, right in zip(bits, bits[1:]))
+    vertical = sum(left * right for left, right in zip(previous_bits, bits))
+    source_components = len(set(incoming.partition)) - 1
+    target_components = len(set(outgoing.partition)) - 1
+    new_faces = 0 if outgoing.row_index == outgoing.n else outgoing.n - 1
+    rank = new_faces + source_components - target_components
+    cycles = horizontal + vertical - rank
+    counters = AffineRowCounters(
+        len(action_packets), u, horizontal, vertical, source_components,
+        target_components, rank, cycles, 3 * u - 2 * rank - 1,
+    )
+    if target.u_cost != source.u_cost + u:
+        raise TopologyCertificateError("target U counter differs from the local action count")
+    if target.cycle_excess != source.cycle_excess + cycles:
+        raise TopologyCertificateError("target cycle counter differs from local topology")
+    return counters
+
+
 __all__ = [
     "CutState",
+    "MAX_LIVE_ACTUAL_COMPONENTS",
+    "MAX_LIVE_EXPECTED_COMPONENTS",
     "StableTopologyCertificate",
     "TopologyCertificateError",
     "certify_topology",
+    "certify_silent_hull_symbolic_transition",
     "stable_topology_certificates",
 ]

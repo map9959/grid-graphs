@@ -1,6 +1,8 @@
 import GridGraphs.Defs
 import GridGraphs.Bounds
 import GridGraphs.ResidueOne
+import GridGraphs.GridDual
+import GridGraphs.CotreeWaste
 
 /-!
 # Decidable sanity tests linking Lean definitions to Rust DP ground truth
@@ -16,6 +18,28 @@ these `example`s and therefore break `lake build`.
 -/
 
 namespace GridGraphs
+
+/-! ## Planar-dual coordinate spot checks -/
+
+example : horizontalDualEndpoints (m := 3) (n := 3) ⟨0, 0⟩ =
+    (GridFace.out, GridFace.cell 0 0) := by
+  decide
+
+example : verticalDualEndpoints (m := 3) (n := 3) ⟨1, 2⟩ =
+    (GridFace.cell 1 1, GridFace.out) := by
+  decide
+
+example : (uuDualGraph ({(0, 0), (0, 1)} : Finset (GridVertex 2 2))).Adj
+    GridFace.out (GridFace.cell 0 0) := by
+  decide
+
+/-! ## Incidence-waste accounting spot checks -/
+
+example : incidenceWaste (⊥ : SimpleGraph (Fin 3)) = 0 := by
+  decide
+
+example : (supportFinset (⊥ : SimpleGraph (Fin 3))).card = 0 := by
+  decide
 
 /-! ## Vertex-class partition spot checks (matching `verts_partition`) -/
 
@@ -85,5 +109,7 @@ example : q 4 = 8 := by decide
 example : q 7 = 27 := by decide
 example : q 10 = 58 := by decide
 example : q 13 = 101 := by decide
+example : q 14 = 119 := by decide
+example : q 17 = 179 := by decide
 
 end GridGraphs
