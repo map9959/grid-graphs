@@ -311,18 +311,35 @@ formalising Phase 8 of `docs/ROADMAP.md`.
 - `ResidueZeroTransitions`, `ResidueZeroWord`, `ResidueZeroFrontier`, and
   `ResidueZeroCaps` prove the six symbolic transition classes and their local
   frontier/cap attachment lemmas.
-- `ResidueZeroConnected` isolates `ResidueZeroInteriorReachability`; from this
-  one remaining global frontier certificate it proves dual connectivity,
-  forest extension, and the target lower bound.
-- `ResidueZeroWidening` proves the recursive word and restricted old-edge/
-  reachability embeddings. The remaining widening issue is that the old OUT
-  edge becomes an interior slab edge, requiring an anchor-aware certificate.
+- `ResidueZeroBase`, `ResidueZeroPersistent`, and the slab/bridge/local-geometry
+  modules prove the explicit `B_7` base, persistent successor step, dual
+  connectivity, and the unconditional target lower bound for every `k>=7`.
+- `ConstructionCertificate.lean` supplies the reusable ranked-parent
+  connectivity certificate and its generic `maxPreserved` consequence.
+- `FiniteDiagonalConstructions.lean` and the width-specific finite modules
+  prove target lower bounds at `n=3,5,6,8,9,11,12,14,15,17,18,20`, using
+  explicit row masks, parent/rank tables, and symbolic U-U dual edges.
 - `GridGraphs/DiagonalUpper.lean` proves all four residue-wise operational upper
   bounds from the named waste/equality exclusions.
+- `PerimeterWaste.lean` proves unconditionally that cotree incidence waste is
+  at least three in residue one and at least four in residues zero and two,
+  together with the resulting improved `maxPreserved` upper bounds.
+- `LinearWaste.lean` proves the exact four-side decomposition of boundary
+  deficiency and reduces `W>=n` to `n+2 <= fourSideComponentRank`; this final
+  growing component-rank inequality remains open.
+- `DiagonalUpperResidue.lean` replaces the global upper assumptions by minimal
+  residue-local requirements. In residues one and two, a linear `W>=n` theorem
+  automatically upgrades to `W>=n+2` by the exact cotree congruence.
+- `ResidueTwoAffine.lean` proves the symbolic affine family has cardinality
+  `6k^2+6k-1` and increment `12k+12`. `ResidueTwoAffineStep.lean` proves its
+  `n=17` base connectivity and reduces arbitrary-width connectivity to four
+  explicit local step obligations. The resulting lower bound remains
+  conditional on those local geometry obligations.
 - `GridGraphs/DiagonalFormula.lean` defines `diagonalFormulaP` and proves
   `maxPreserved_eq_diagonalFormulaP` for every `n>=3` from four explicit
-  hypotheses: universal waste, equality classification, residue-two
-  near-equality exclusion, and matching constructions.
+  hypotheses. Its strengthened `maxPreserved_eq_diagonalFormulaP_of_remaining`
+  uses all completed constructions and assumes only the residue-two
+  construction tail `n=3k+2`, `k>=7`.
 
 ## Not proved (deferred — see notes)
 
@@ -335,11 +352,7 @@ the hypotheses of `maxPreserved_eq_diagonalFormulaP`:
   L-bend forced subgraph is defined and shown to be a subgraph of the
   grid graph in `DoubleComb.lean`; its acyclicity proof and the
   forest-extension application remain.
-- Diagonal counting theorem: any induced-edge decycling set `U` in the square
-  grid has at least the conjectured residue-class cardinality.
-- Residue-zero `ResidueZeroInteriorReachability` and the finite widths below
-  `k=7`.
-- Arbitrary-width target-count residue-two construction.
+- Arbitrary-width target-count residue-two construction from `n=23` onward.
 - Universal incidence-waste bound, its equality classification, and exclusion
   of the residue-two `W=n+5` class for `k>=5`.
 - `lower_bound_construction`: an explicit "double-comb" spanning tree achieving
@@ -367,15 +380,11 @@ have `P = refinedUB` (refined bound is tight); the average gap
 
 ## Next Steps
 
-1. Complete the double-comb lower bound: prove `topSpineColumns m n` has
-   exactly `mn − 1` edges (via degree-sum), then conclude `IsTree` via
-   `isTree_iff_connected_and_card`. Then state the headline existence
-   theorem: `∃ T, IsSpanningSubtree (gridGraph m n) T ∧ n ≤ numPreserved`.
-   This gives a partial lower bound (matching the `LB_simple = max(m, n)`
-   column of the empirical CSV).
-2. Stronger lower bound `m + n − 2` via the L-bend forced subgraph plus
-   `isAcyclic_extends_to_isTree`. Requires proving the L-bend is acyclic.
-3. Acyclicity of the residue-1 forced-edge graph (the hard half of
-   Proposition L1 in `analysis/proofs_diagonal.md`). Combined with
-   `isAcyclic_extends_to_isTree` and `uResidueOne_card`, this would yield
-   the formal diagonal residue-1 lower bound.
+1. Construct and prove an exact-cost rooted residue-two transfer for every
+   `n=3k+2`, `k>=7`; all finite construction cases are now formalized.
+2. Prove `n+2 <= fourSideComponentRank`, giving the intermediate `W>=n`;
+   residue one would then be exact.
+3. Strengthen the component-resolved boundary inequality by two units to give
+   universal cotree incidence waste `W>=n+2`.
+4. Classify equality and defect-three attachment phases to prove equality only
+   in residue one and exclude `W=n+5` in the stable residue-two range.

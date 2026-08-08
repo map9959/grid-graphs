@@ -13,19 +13,28 @@ import GridGraphs.CotreeWaste
 import GridGraphs.ForcedForestLedger
 import GridGraphs.ComponentReduction
 import GridGraphs.TreeComponentBridge
+import GridGraphs.UniversalWaste
+import GridGraphs.LinearWaste
 import GridGraphs.MaxPreserved
+import GridGraphs.PerimeterWaste
 import GridGraphs.ResidueOneDual
 import GridGraphs.ResidueOneMax
+import GridGraphs.ConstructionCertificate
 import GridGraphs.ResidueZero
 import GridGraphs.ResidueZeroDual
+import GridGraphs.FiniteDiagonalConstructions
+import GridGraphs.ResidueTwoAffineMax
 import GridGraphs.ResidueZeroTransitions
 import GridGraphs.ResidueZeroCaps
 import GridGraphs.ResidueZeroWord
 import GridGraphs.ResidueZeroFrontier
 import GridGraphs.ResidueZeroConnected
 import GridGraphs.ResidueZeroWidening
+import GridGraphs.ResidueZeroAnchored
+import GridGraphs.ResidueZeroLocalGeometry
 import GridGraphs.DiagonalUpper
 import GridGraphs.DiagonalFormula
+import GridGraphs.DiagonalUpperResidue
 import GridGraphs.Tests
 
 -- Root entry point aggregating grid graph proofs.

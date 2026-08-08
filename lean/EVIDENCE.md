@@ -184,7 +184,24 @@ is proven exactly.
 | `uResidueZero_card` | residue-zero phase family has size `6k^2-3k+2` for `k>=7` |
 | `phaseRows_adjacent_valid` | every recursive residue-zero row transition is one of six symbolic classes |
 | `residueZero_le_maxPreserved_of_interior` | target residue-zero lower bound from the isolated interior-frontier certificate |
+| `ResidueZeroAnchorCertificate` | widening-stable bounded-anchor formulation and conditional lower-bound chain |
 | `maxPreserved_eq_diagonalFormulaP` | the four named open hypotheses imply the proposed formula for all `n>=3` |
+
+The residue-zero chain is now unconditional for every `k>=7`. Explicit
+ranked-parent U-U dual certificates also prove the target construction lower
+bounds at `n=3,5,6,8,9,11,12,14,15,17,18,20`. Consequently the strengthened
+final assembly theorem assumes only the arbitrary-width residue-two
+construction tail beginning at `n=23`; the three upper-bound structural
+hypotheses remain separate.
+
+The elementary perimeter theorem now gives unconditional cotree-waste floors
+`W>=3` in residue one and `W>=4` in residues zero and two, improving the
+generic diagonal maximum bounds without any solver. The intermediate linear
+target is formally equivalent to `n+2 <= fourSideComponentRank`, where the
+rank is the sum of four boundary-support cardinalities and the two exact forest
+component counts. The affine residue-two family is also encoded symbolically
+with exact cardinality and recurrence; its arbitrary-width dual connectivity
+is reduced to four local width-three step obligations rather than asserted.
 
 ### `GridGraphs/Spanning.lean` (refined) — `preserved_le_refinedUB`
 
@@ -274,7 +291,10 @@ formalising the empirical bound `P(m, n) ≤ basicUB m n` that
 ### What is **not** formally proven (deferred)
 
 Phase 8 (basic + refined upper bounds, total deficiency, forest extension)
-is now **complete**. The remaining gaps are on the construction side.
+is now **complete**. For the exact diagonal formula, the construction side is
+complete through `n=20`, complete for every residue-zero and residue-one width,
+and open only for the residue-two tail `n>=23`. The universal waste bound and
+its equality refinements remain the independent upper-bound gaps.
 
 - Headline existence theorem `lowerB m n ≤ maxPreserved m n` (i.e. there
   exists a spanning tree achieving `numPreserved ≥ m + n − 2`). The
@@ -283,13 +303,9 @@ is now **complete**. The remaining gaps are on the construction side.
   connected and shown to preserve all top-row vertices. The remaining
   step is to prove `IsTree` (via edge count) and combine with the
   preservation lemma.
-- Diagonal residue-1 lower bound `maxPreserved (3k+1) (3k+1) ≥
-  (3k+1)² − (6k² + k + 1)`. With `isAcyclic_extends_to_isTree` and
-  `uResidueOne_card` already in place, the remaining ingredient is
-  acyclicity of the forced-edge graph of `(uResidueOne k)ᶜ`. This is
-  currently empirical only — verified by
-  `analysis/check_diagonal_patterns.py` for every `n = 3k + 1` in
-  `[4, 40]`.
+- An exact-cost rooted open-slab transfer for `n=3k+2`, `k>=7`. Explicit Lean
+  certificates cover the residue-two bases `n=5,8,11,14,17,20`, but no
+  arbitrary-width target-count recurrence is known from `n=23` onward.
 
 What we **do** have is the algebraic infrastructure (`D_expand`,
 `refinedUB_le_basicUB`, `lowerB_le_basicUB`, the 4×n closed forms) that is a

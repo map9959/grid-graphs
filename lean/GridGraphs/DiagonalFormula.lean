@@ -1,6 +1,7 @@
 import GridGraphs.DiagonalUpper
 import GridGraphs.ResidueOneMax
-import GridGraphs.ResidueZeroConnected
+import GridGraphs.ResidueZeroLocalGeometry
+import GridGraphs.FiniteDiagonalConstructions
 
 /-!
 # The conditional diagonal formula
@@ -106,6 +107,89 @@ theorem matchingDiagonalConstructions_residueOne (k : Nat) (hk : 1 ≤ k) :
   rw [diagonalFormulaP_three_mul_add_one]
   exact residueOne_le_maxPreserved k hk
 
+/-- The stable residue-zero component of the construction hypothesis is
+unconditional. -/
+theorem matchingDiagonalConstructions_residueZero (k : Nat) (hk : 7 ≤ k) :
+    diagonalFormulaP (3 * k) ≤ maxPreserved (3 * k) (3 * k) := by
+  rw [diagonalFormulaP_three_mul k (by omega)]
+  exact residueZero_le_maxPreserved k hk
+
+/-- The `3 x 3` residue-zero construction is unconditional. -/
+theorem matchingDiagonalConstructions_three :
+    diagonalFormulaP 3 ≤ maxPreserved 3 3 := by
+  rw [show 3 = 3 * 1 by omega, diagonalFormulaP_three_mul 1 (by omega)]
+  simpa using four_le_maxPreserved_three_three
+
+/-- The six finite residue-zero constructions are unconditional. -/
+theorem matchingDiagonalConstructions_residueZeroFinite
+    (k : Nat) (hk1 : 1 ≤ k) (hk7 : k < 7) :
+    diagonalFormulaP (3 * k) ≤ maxPreserved (3 * k) (3 * k) := by
+  interval_cases k
+  · simpa [diagonalFormulaP_three_mul 1 (by omega)] using
+      four_le_maxPreserved_three_three
+  · simpa [diagonalFormulaP_three_mul 2 (by omega)] using
+      sixteen_le_maxPreserved_six_six
+  · simpa [diagonalFormulaP_three_mul 3 (by omega)] using
+      thirtyFour_le_maxPreserved_nine_nine
+  · simpa [diagonalFormulaP_three_mul 4 (by omega)] using
+      fiftyEight_le_maxPreserved_twelve_twelve
+  · simpa [diagonalFormulaP_three_mul 5 (by omega)] using
+      eightyEight_le_maxPreserved_fifteen_fifteen
+  · simpa [diagonalFormulaP_three_mul 6 (by omega)] using
+      oneHundredTwentyFour_le_maxPreserved_eighteen_eighteen
+
+/-- The residue-two constructions through side length twenty are
+unconditional. -/
+theorem matchingDiagonalConstructions_residueTwoThroughTwenty
+    (k : Nat) (hk1 : 1 ≤ k) (hk7 : k < 7) :
+    diagonalFormulaP (3 * k + 2) ≤
+      maxPreserved (3 * k + 2) (3 * k + 2) := by
+  interval_cases k
+  · simpa [diagonalFormulaP_three_mul_add_two_lt_five 1 (by omega)] using
+      eleven_le_maxPreserved_five_five
+  · simpa [diagonalFormulaP_three_mul_add_two_lt_five 2 (by omega)] using
+      twentySeven_le_maxPreserved_eight_eight
+  · simpa [diagonalFormulaP_three_mul_add_two_lt_five 3 (by omega)] using
+      fortyNine_le_maxPreserved_eleven_eleven
+  · simpa [diagonalFormulaP_three_mul_add_two_lt_five 4 (by omega)] using
+      seventySeven_le_maxPreserved_fourteen_fourteen
+  · simpa [diagonalFormulaP_three_mul_add_two_ge_five 5 (by omega)] using
+      oneHundredTen_le_maxPreserved_seventeen_seventeen
+  · simpa [diagonalFormulaP_three_mul_add_two_ge_five 6 (by omega)] using
+      oneHundredFifty_le_maxPreserved_twenty_twenty
+
+/-- The only remaining construction obligation is the stable residue-two tail
+starting at side length twenty-three. -/
+structure RemainingMatchingDiagonalConstructions : Prop where
+  residueTwoTail :
+    ∀ (k : Nat), 7 ≤ k →
+      diagonalFormulaP (3 * k + 2) ≤
+        maxPreserved (3 * k + 2) (3 * k + 2)
+
+/-- The remaining finite and residue-two obligations combine with the completed
+families to give all matching diagonal constructions. -/
+theorem matchingDiagonalConstructions_of_remaining
+    (h : RemainingMatchingDiagonalConstructions) :
+    MatchingDiagonalConstructions := by
+  intro n hn
+  let k := n / 3
+  have hn_decomp : n = 3 * k + n % 3 := by
+    dsimp [k]
+    omega
+  have hmod : n % 3 < 3 := Nat.mod_lt _ (by omega)
+  interval_cases hr : n % 3
+  · rw [hn_decomp]
+    simp only [Nat.add_zero]
+    by_cases hk7 : k < 7
+    · exact matchingDiagonalConstructions_residueZeroFinite k (by omega) hk7
+    · exact matchingDiagonalConstructions_residueZero k (by omega)
+  · rw [hn_decomp]
+    exact matchingDiagonalConstructions_residueOne k (by omega)
+  · rw [hn_decomp]
+    by_cases hk7 : k < 7
+    · exact matchingDiagonalConstructions_residueTwoThroughTwenty k (by omega) hk7
+    · exact h.residueTwoTail k (by omega)
+
 private theorem diagonalFormula_residue_zero
     (hbound : UniversalDiagonalWasteBound)
     (hconstructions : MatchingDiagonalConstructions)
@@ -191,5 +275,17 @@ theorem maxPreserved_eq_diagonalFormulaP
         hbound hequality hconstructions k hk1 hk
     · exact diagonalFormula_residue_two_ge_five
         hbound hequality hnear hconstructions k (by omega)
+
+/-- With all finite constructions and the residue-zero/residue-one families
+discharged, only the stable residue-two construction tail is needed by the
+final formula theorem. -/
+theorem maxPreserved_eq_diagonalFormulaP_of_remaining
+    (hbound : UniversalDiagonalWasteBound)
+    (hequality : WasteEqualityOnlyResidueOne)
+    (hnear : ResidueTwoNearEqualityExcluded)
+    (hconstructions : RemainingMatchingDiagonalConstructions) :
+    ∀ n : Nat, 3 ≤ n → maxPreserved n n = diagonalFormulaP n :=
+  maxPreserved_eq_diagonalFormulaP hbound hequality hnear
+    (matchingDiagonalConstructions_of_remaining hconstructions)
 
 end GridGraphs
