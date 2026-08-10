@@ -919,9 +919,8 @@ theorem List.countP_add_one_eq_of_eq_except {α : Type*} [DecidableEq α]
 /-- Horizontal non-cycle edges preserve row-ray parity.  The relevant Boolean
 cut is the finite horizontal segment ending at the edge's left endpoint. -/
 theorem faceRowRayOdd_horizontal_iff_of_not_mem_edges {m n : Nat}
-    (U : Finset (GridVertex m n)) {v : GridVertex m n}
-    (c : (forcedEdgeGraph (gridGraph m n)
-      (↑U : Set (GridVertex m n))ᶜ).Walk v v)
+    {G : SimpleGraph (GridVertex m n)} {v : GridVertex m n}
+    (hG : G ≤ gridGraph m n) (c : G.Walk v v)
     (hc : c.IsCycle) (e : HorizontalGridEdge m n)
     (he : s((horizontalPrimalEndpoints e).1,
       (horizontalPrimalEndpoints e).2) ∉ c.edges) :
@@ -939,7 +938,7 @@ theorem faceRowRayOdd_horizontal_iff_of_not_mem_edges {m n : Nat}
     intro edge hedge
     induction edge using Sym2.inductionOn with
     | _ x y =>
-        have hadj : (gridGraph m n).Adj x y := (c.adj_of_mem_edges hedge).1
+        have hadj : (gridGraph m n).Adj x y := hG (c.adj_of_mem_edges hedge)
         rcases gridGraph_adj_exists_coordinate_edge hadj with h | h
         · obtain ⟨a, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
           · apply horizontalDual_rowRay_xor_on_horizontal_edge
@@ -962,9 +961,8 @@ theorem faceRowRayOdd_horizontal_iff_of_not_mem_edges {m n : Nat}
 
 /-- The two incident face parities differ across a horizontal cycle edge. -/
 theorem faceRowRayOdd_horizontal_or_of_mem_edges {m n : Nat}
-    (U : Finset (GridVertex m n)) {v : GridVertex m n}
-    (c : (forcedEdgeGraph (gridGraph m n)
-      (↑U : Set (GridVertex m n))ᶜ).Walk v v)
+    {G : SimpleGraph (GridVertex m n)} {v : GridVertex m n}
+    (hG : G ≤ gridGraph m n) (c : G.Walk v v)
     (hc : c.IsCycle) (e : HorizontalGridEdge m n)
     (he : s((horizontalPrimalEndpoints e).1,
       (horizontalPrimalEndpoints e).2) ∈ c.edges) :
@@ -992,7 +990,7 @@ theorem faceRowRayOdd_horizontal_or_of_mem_edges {m n : Nat}
     intro edge hedge hne
     induction edge using Sym2.inductionOn with
     | _ x y =>
-        have hadj := (c.adj_of_mem_edges hedge).1
+        have hadj := hG (c.adj_of_mem_edges hedge)
         rcases gridGraph_adj_exists_coordinate_edge hadj with h | h
         · obtain ⟨a, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
           · simpa [p, q, target] using
@@ -1114,9 +1112,8 @@ def rowCrossingEdges {m n : Nat}
   simp [rowCrossingEdges]
 
 theorem even_rowCrossingEdges_card {m n : Nat}
-    (U : Finset (GridVertex m n)) {v : GridVertex m n}
-    (c : (forcedEdgeGraph (gridGraph m n)
-      (↑U : Set (GridVertex m n))ᶜ).Walk v v)
+    {G : SimpleGraph (GridVertex m n)} {v : GridVertex m n}
+    (hG : G ≤ gridGraph m n) (c : G.Walk v v)
     (hc : c.IsTrail) (row : Fin (m - 1)) :
     Even (rowCrossingEdges c row).card := by
   let edgeOf : VerticalGridEdge m n → Sym2 (GridVertex m n) := fun a =>
@@ -1133,7 +1130,7 @@ theorem even_rowCrossingEdges_card {m n : Nat}
     · rintro ⟨hedge, hcross⟩
       induction edge using Sym2.inductionOn with
       | _ x y =>
-          have hadj := (c.adj_of_mem_edges hedge).1
+          have hadj := hG (c.adj_of_mem_edges hedge)
           rcases gridGraph_adj_exists_coordinate_edge hadj with h | h
           · obtain ⟨a, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
             · have hfalse := horizontal_edge_not_crosses_gridRowPrefixSide row a
@@ -1252,9 +1249,8 @@ theorem rowCrossingEdges_eq_rightPrefix_of_right_boundary_not_mem {m n : Nat}
     exact ⟨ha, har⟩
 
 theorem faceRowRayOdd_vertical_right_iff_of_not_mem_edges {m n : Nat}
-    (U : Finset (GridVertex m n)) {v : GridVertex m n}
-    (c : (forcedEdgeGraph (gridGraph m n)
-      (↑U : Set (GridVertex m n))ᶜ).Walk v v)
+    {G : SimpleGraph (GridVertex m n)} {v : GridVertex m n}
+    (hG : G ≤ gridGraph m n) (c : G.Walk v v)
     (hc : c.IsTrail) (e : VerticalGridEdge m n)
     (hleft : e.col.val ≠ 0) (hright : e.col.val + 1 = n)
     (he : s((verticalPrimalEndpoints e).1,
@@ -1269,14 +1265,13 @@ theorem faceRowRayOdd_vertical_right_iff_of_not_mem_edges {m n : Nat}
   simp only [FaceRowRayOdd, iff_false, Nat.not_odd_iff_even]
   rw [← rowCrossingEdges_eq_rightPrefix_of_right_boundary_not_mem
     c e hleft hright he]
-  exact even_rowCrossingEdges_card U c hc e.row
+  exact even_rowCrossingEdges_card hG c hc e.row
 
 /-- At least one face incident to a vertical cycle edge has odd row-ray
 parity. -/
 theorem faceRowRayOdd_vertical_or_of_mem_edges {m n : Nat}
-    (U : Finset (GridVertex m n)) {v : GridVertex m n}
-    (c : (forcedEdgeGraph (gridGraph m n)
-      (↑U : Set (GridVertex m n))ᶜ).Walk v v)
+    {G : SimpleGraph (GridVertex m n)} {v : GridVertex m n}
+    (hG : G ≤ gridGraph m n) (c : G.Walk v v)
     (hc : c.IsCycle) (e : VerticalGridEdge m n)
     (he : s((verticalPrimalEndpoints e).1,
       (verticalPrimalEndpoints e).2) ∈ c.edges) :
@@ -1284,7 +1279,7 @@ theorem faceRowRayOdd_vertical_or_of_mem_edges {m n : Nat}
       FaceRowRayOdd c (verticalDualEndpoints e).2 := by
   by_cases hleft : e.col.val = 0
   · by_cases hright : e.col.val + 1 = n
-    · have hfull := even_rowCrossingEdges_card U c hc.isTrail e.row
+    · have hfull := even_rowCrossingEdges_card hG c hc.isTrail e.row
       have hsingleton : rowCrossingEdges c e.row = {e} := by
         ext a
         simp only [mem_rowCrossingEdges_iff, Finset.mem_singleton]
@@ -1311,7 +1306,7 @@ theorem faceRowRayOdd_vertical_or_of_mem_edges {m n : Nat}
           GridFace.cell e.row ⟨e.col.val - 1, by omega⟩ by
         simp [verticalDualEndpoints, hleft]]
       simp only [FaceRowRayOdd]
-      have hfull := even_rowCrossingEdges_card U c hc.isTrail e.row
+      have hfull := even_rowCrossingEdges_card hG c hc.isTrail e.row
       rw [rowCrossingEdges_eq_insert_rightPrefix_of_right_boundary c e hleft hright he,
         Finset.card_insert_of_notMem] at hfull
       · exact Nat.not_even_iff_odd.mp (Nat.even_add_one.mp hfull)
@@ -1379,30 +1374,35 @@ theorem gridCycleRowRayParity : GridCycleRowRayParity := by
             have hadj := (c.adj_of_mem_edges hedge).1
             rcases gridGraph_adj_exists_coordinate_edge hadj with h | h
             · obtain ⟨e, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
-              · rcases faceRowRayOdd_horizontal_or_of_mem_edges U c hc e hedge with h | h
+              · rcases faceRowRayOdd_horizontal_or_of_mem_edges
+                  (forcedEdgeGraph_le _ _) c hc e hedge with h | h
                 · exact ⟨(horizontalDualEndpoints e).1, h⟩
                 · exact ⟨(horizontalDualEndpoints e).2, h⟩
               · rw [Sym2.eq_swap] at hedge
-                rcases faceRowRayOdd_horizontal_or_of_mem_edges U c hc e hedge with h | h
+                rcases faceRowRayOdd_horizontal_or_of_mem_edges
+                  (forcedEdgeGraph_le _ _) c hc e hedge with h | h
                 · exact ⟨(horizontalDualEndpoints e).1, h⟩
                 · exact ⟨(horizontalDualEndpoints e).2, h⟩
             · obtain ⟨e, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
-              · rcases faceRowRayOdd_vertical_or_of_mem_edges U c hc e hedge with h | h
+              · rcases faceRowRayOdd_vertical_or_of_mem_edges
+                  (forcedEdgeGraph_le _ _) c hc e hedge with h | h
                 · exact ⟨(verticalDualEndpoints e).1, h⟩
                 · exact ⟨(verticalDualEndpoints e).2, h⟩
               · rw [Sym2.eq_swap] at hedge
-                rcases faceRowRayOdd_vertical_or_of_mem_edges U c hc e hedge with h | h
+                rcases faceRowRayOdd_vertical_or_of_mem_edges
+                  (forcedEdgeGraph_le _ _) c hc e hedge with h | h
                 · exact ⟨(verticalDualEndpoints e).1, h⟩
                 · exact ⟨(verticalDualEndpoints e).2, h⟩
   refine ⟨hodd, ?_, ?_⟩
   · intro e he
-    exact faceRowRayOdd_horizontal_iff_of_not_mem_edges U c hc e he
+    exact faceRowRayOdd_horizontal_iff_of_not_mem_edges
+      (forcedEdgeGraph_le _ _) c hc e he
   · intro e he
     by_cases hleft : e.col.val = 0
     · exact faceRowRayOdd_vertical_left_iff_of_not_mem_edges c e hleft he
     · by_cases hright : e.col.val + 1 = n
       · exact faceRowRayOdd_vertical_right_iff_of_not_mem_edges
-          U c hc.isTrail e hleft hright he
+          (forcedEdgeGraph_le _ _) c hc.isTrail e hleft hright he
       · exact faceRowRayOdd_vertical_internal_iff_of_not_mem_edges
           c e hleft hright he
 

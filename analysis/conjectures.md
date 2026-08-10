@@ -44,11 +44,10 @@ upper bound (proving `P(3, n) ≤ ⌊(4n + 2)/3⌋`) is still empirical.
 For `n ≥ 3`, `P(4, n) = 2n`. With `P(4, 1) = 4`, `P(4, 2) = 4`.
 Asymptotic: `α₄ = 2`.
 
-**Status: lower bound `P(4, n) ≥ 2n` proved by explicit construction**
-(Phase 3, see `proofs_m345.md`). Combined with the Lean theorem
-`refinedUB_4n: refinedUB(4, n) = 2n + 1`, this pins `P(4, n) ∈ {2n, 2n + 1}`
-rigorously; the closed form `P(4, n) = 2n` is empirically verified for
-`n ≤ 20` and matches the constructive lower bound exactly.
+**Status: formally proved in Lean for every `n ≥ 2`.**
+`maxPreserved_widthFour_eq_two_mul` gives `P(4,n)=2n`. The lower proof uses two
+acyclic forced combs; the upper proof uses checkerboard-split cotree waste and
+an omitted perimeter edge.
 
 This is the only width in `m ≤ 8` where the *constant* term is also zero
 (`α₄ · n + 0`); it is the cleanest case and the one where the basic UB α

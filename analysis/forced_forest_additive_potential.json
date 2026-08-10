@@ -1,0 +1,370 @@
+{
+  "basis": {
+    "additive_terms": [
+      "forced_count",
+      "forced_runs",
+      "left_forced",
+      "right_forced",
+      "components",
+      "active_size_sum",
+      "interval_sum",
+      "forced_contact_sum",
+      "left_component_contacts",
+      "right_component_contacts",
+      "passive_components",
+      "vertical_components",
+      "horizontal_components",
+      "mixed_components"
+    ],
+    "attempted_formula": "Phi(s) = C[phase,boundary,reserve] + sum_i a_i statistic_i(s); required locally: Phi(out)-Phi(in) <= n+3-3|F_row|, with Phi(initial)=0 and terminal Phi>=2 (>=4 in residue zero)",
+    "hinges": [
+      "repeated_interval_excess",
+      "repeated_forced_contact_excess",
+      "passive_span_excess",
+      "component_surplus_over_two",
+      "component_surplus_and_repeated_interval",
+      "component_surplus_and_passive_interval",
+      "component_surplus_and_vertical_interval",
+      "component_surplus_and_horizontal_interval",
+      "component_surplus_and_mixed_interval"
+    ],
+    "piecewise_constants": "one constant per (phase, boundary mode, saturated reserve)"
+  },
+  "conclusion": "the interaction basis does not reproduce the canonical lookup; direct transition-inequality feasibility remains unresolved",
+  "direct_transition_system": {
+    "basis_terms": 33,
+    "deduplicated_halfspaces": 56576,
+    "diagnostic_limit": "the failed rational proposal and floating dual behavior are not evidence of mathematical infeasibility",
+    "exact_fraction_replay": {
+      "constraints": 56576,
+      "feasible": false,
+      "first_violation": {
+        "index": 2745,
+        "left": [
+          26186333,
+          24322853
+        ],
+        "right": [
+          1,
+          1
+        ]
+      },
+      "minimum_slack": [
+        -466104251191811976908293930456668686386,
+        35035712137917888794987294305314136995
+      ],
+      "tight": 0
+    },
+    "floating_method": "200 cyclic orthogonal-projection passes",
+    "rationalization_denominator_limit": 10000,
+    "status": "unresolved-no-exact-candidate-and-no-exact-infeasibility-certificate"
+  },
+  "experiments": {
+    "additive": {
+      "lookup_difference_constraints": {
+        "concrete_transitions": 570905,
+        "exact_potentials_sha256": "65b811d8b31835fa191cb6590ee9094c6481868290077c2e89757dd742e4bc03",
+        "feasible": true,
+        "feature_states": 5134,
+        "pooled_constraints": 111159,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -13,
+          15
+        ],
+        "strongest_constraints_sha256": "c4bca1aa86d520bb004bff1f3ffc33df4eecb61bca0bb64100b68aa20e3cddce",
+        "target_mode": "residue-zero",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 7,
+          "6": 6,
+          "7": 4,
+          "8": 2
+        }
+      },
+      "symbolic_compression": {
+        "basis_terms": 24,
+        "equations_processed": 16,
+        "exact_conflict": {
+          "equations": [
+            {
+              "feature": [
+                0,
+                "interior",
+                3,
+                0,
+                0,
+                0,
+                0,
+                1,
+                4,
+                1,
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                0
+              ],
+              "lookup_potential": [
+                9,
+                1
+              ],
+              "multiplier": [
+                1,
+                1
+              ]
+            },
+            {
+              "feature": [
+                0,
+                "interior",
+                3,
+                0,
+                0,
+                0,
+                0,
+                2,
+                4,
+                2,
+                0,
+                1,
+                1,
+                2,
+                0,
+                0,
+                0
+              ],
+              "lookup_potential": [
+                12,
+                1
+              ],
+              "multiplier": [
+                -2,
+                1
+              ]
+            },
+            {
+              "feature": [
+                0,
+                "interior",
+                3,
+                0,
+                0,
+                0,
+                0,
+                3,
+                4,
+                3,
+                0,
+                1,
+                1,
+                3,
+                0,
+                0,
+                0
+              ],
+              "lookup_potential": [
+                12,
+                1
+              ],
+              "multiplier": [
+                1,
+                1
+              ]
+            }
+          ],
+          "nonzero_right_hand_side": [
+            -3,
+            1
+          ],
+          "zero_left_hand_side": true
+        },
+        "fits": false,
+        "rank": 4
+      }
+    },
+    "additive+hinges": {
+      "lookup_difference_constraints": {
+        "concrete_transitions": 570905,
+        "exact_potentials_sha256": "ad67661025ca224df64614f5f2f3b95a0a55988499f04364a53f0654b4ddc7a8",
+        "feasible": true,
+        "feature_states": 5171,
+        "pooled_constraints": 111894,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -13,
+          15
+        ],
+        "strongest_constraints_sha256": "891f39a1186e1dcd3aa714ca6091e23d84eb17826ad69864117dc0c38df5bf63",
+        "target_mode": "residue-zero",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 7,
+          "6": 6,
+          "7": 4,
+          "8": 2
+        }
+      },
+      "symbolic_compression": {
+        "basis_terms": 33,
+        "equations_processed": 30,
+        "exact_conflict": {
+          "equations": [
+            {
+              "feature": [
+                0,
+                "interior",
+                3,
+                0,
+                0,
+                0,
+                0,
+                2,
+                4,
+                2,
+                0,
+                1,
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "lookup_potential": [
+                12,
+                1
+              ],
+              "multiplier": [
+                1,
+                1
+              ]
+            },
+            {
+              "feature": [
+                0,
+                "interior",
+                3,
+                0,
+                0,
+                0,
+                0,
+                3,
+                4,
+                3,
+                0,
+                1,
+                1,
+                3,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "lookup_potential": [
+                12,
+                1
+              ],
+              "multiplier": [
+                -2,
+                1
+              ]
+            },
+            {
+              "feature": [
+                0,
+                "interior",
+                3,
+                0,
+                0,
+                0,
+                0,
+                4,
+                4,
+                4,
+                0,
+                1,
+                1,
+                4,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "lookup_potential": [
+                9,
+                1
+              ],
+              "multiplier": [
+                1,
+                1
+              ]
+            }
+          ],
+          "nonzero_right_hand_side": [
+            -3,
+            1
+          ],
+          "zero_left_hand_side": true
+        },
+        "fits": false,
+        "rank": 6
+      }
+    }
+  },
+  "scope": {
+    "arithmetic": "Fraction only after integer difference-potential synthesis",
+    "claim_limit": "an exact conflict blocks linear representation of the canonical shortest lookup potential, not every possible feasible potential",
+    "discovery_widths": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "held_out_widths": [
+      7,
+      8
+    ],
+    "transitions": "complete reachable source at every listed width",
+    "widths": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  }
+}

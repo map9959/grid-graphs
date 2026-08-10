@@ -1,0 +1,2038 @@
+{
+  "candidate": {
+    "history_coordinate": "reserve = terminal at the bottom boundary; otherwise min(rows_processed, 6), represented by seven active values",
+    "important_limit": "the history coordinate is bounded and width-independent, but the unordered component-profile multiset can have width-dependent size; no raw mask, partition word, rows-remaining value, or width is stored",
+    "residue_zero_result": {
+      "concrete_transitions": 570905,
+      "exact_potentials_sha256": "0584d142574bd52ca5127f4234c7490b5b784c3567ee138d926086b2d27d7a77",
+      "feasible": true,
+      "feature_states": 12233,
+      "pooled_constraints": 279130,
+      "potential_denominators": [
+        1
+      ],
+      "potential_range": [
+        -13,
+        15
+      ],
+      "strongest_constraints_sha256": "58b064aa981e8381064d009d1b168334ddc1e5c5310266ee4d877568d16aaab8",
+      "target_mode": "residue-zero",
+      "terminal_minima": {
+        "3": 6,
+        "4": 4,
+        "5": 7,
+        "6": 6,
+        "7": 4,
+        "8": 2
+      }
+    },
+    "semantics": "finite-width-candidate-not-a-uniform-proof",
+    "structural_feature": "row phase mod 3; top/interior/terminal mode; forced count, runs and endpoint contacts; component count and boundary connection; sorted canonical component profiles (active size, interval count, forced contacts, boundary contacts, straight orientation); orientation multiplicities",
+    "survives_all_enumerated_complete_sources": true,
+    "universal_result": {
+      "concrete_transitions": 570905,
+      "exact_potentials_sha256": "0584d142574bd52ca5127f4234c7490b5b784c3567ee138d926086b2d27d7a77",
+      "feasible": true,
+      "feature_states": 12233,
+      "pooled_constraints": 279130,
+      "potential_denominators": [
+        1
+      ],
+      "potential_range": [
+        -13,
+        15
+      ],
+      "strongest_constraints_sha256": "28f7b84a0bbfba37372fd58e4f683d8a903505a79d5058b8ae0861b083e4f360",
+      "target_mode": "universal",
+      "terminal_minima": {
+        "3": 6,
+        "4": 4,
+        "5": 7,
+        "6": 6,
+        "7": 4,
+        "8": 2
+      }
+    }
+  },
+  "census": {
+    "3": {
+      "complete_transitions_by_row": [
+        8,
+        24,
+        52
+      ],
+      "corridor_transitions": {
+        "0": 40,
+        "3": 69,
+        "6": 83
+      },
+      "maximum_forced": 4,
+      "optimum_charge": 6,
+      "states_by_layer": [
+        1,
+        8,
+        14,
+        14
+      ],
+      "target_met": true
+    },
+    "4": {
+      "complete_transitions_by_row": [
+        16,
+        62,
+        202,
+        224
+      ],
+      "corridor_transitions": {
+        "0": 27,
+        "3": 127,
+        "6": 309
+      },
+      "maximum_forced": 8,
+      "optimum_charge": 4,
+      "states_by_layer": [
+        1,
+        16,
+        34,
+        39,
+        40
+      ],
+      "target_met": true
+    },
+    "5": {
+      "complete_transitions_by_row": [
+        32,
+        161,
+        790,
+        930,
+        1053
+      ],
+      "corridor_transitions": {
+        "0": 220,
+        "3": 1021,
+        "6": 2068
+      },
+      "maximum_forced": 11,
+      "optimum_charge": 7,
+      "states_by_layer": [
+        1,
+        32,
+        85,
+        105,
+        114,
+        114
+      ],
+      "target_met": true
+    },
+    "6": {
+      "complete_transitions_by_row": [
+        64,
+        417,
+        2914,
+        3710,
+        4632,
+        4644
+      ],
+      "corridor_transitions": {
+        "0": 94,
+        "3": 1476,
+        "6": 5750
+      },
+      "maximum_forced": 16,
+      "optimum_charge": 6,
+      "states_by_layer": [
+        1,
+        64,
+        205,
+        279,
+        325,
+        326,
+        326
+      ],
+      "target_met": true
+    },
+    "7": {
+      "complete_transitions_by_row": [
+        128,
+        1081,
+        10772,
+        14800,
+        20253,
+        20467,
+        20467
+      ],
+      "corridor_transitions": {
+        "0": 41,
+        "3": 942,
+        "6": 7281
+      },
+      "maximum_forced": 22,
+      "optimum_charge": 4,
+      "states_by_layer": [
+        1,
+        128,
+        497,
+        743,
+        930,
+        940,
+        940,
+        940
+      ],
+      "target_met": true
+    },
+    "8": {
+      "complete_transitions_by_row": [
+        256,
+        2802,
+        39736,
+        58819,
+        88535,
+        90803,
+        90974,
+        91077
+      ],
+      "corridor_transitions": {
+        "0": 368,
+        "3": 11887,
+        "6": 75033
+      },
+      "maximum_forced": 27,
+      "optimum_charge": 7,
+      "states_by_layer": [
+        1,
+        256,
+        1202,
+        1975,
+        2671,
+        2734,
+        2741,
+        2746,
+        2750
+      ],
+      "target_met": true
+    }
+  },
+  "conclusion": "bounded saturated-reserve history survives all complete enumerated widths",
+  "experiments": {
+    "one-block-top-debt:equality": {
+      "discovery_3_through_6": {
+        "concrete_transitions": 381,
+        "exact_potentials_sha256": "35a54bb24ecea207f5910b06d149754ceefd5b3f1d36be9dae1cc3d0c3400f12",
+        "feasible": true,
+        "feature_states": 574,
+        "pooled_constraints": 784,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -9,
+          11
+        ],
+        "strongest_constraints_sha256": "0e9fff81bf900fa223d414311c3a3cd97d03f3662fc55dc1ad44aeab6246b448",
+        "target_mode": "universal",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 4,
+          "6": 2
+        }
+      },
+      "with_held_out_7": {
+        "concrete_transitions": 422,
+        "counterexample_cycle": [
+          {
+            "concrete": {
+              "incoming_feature": [
+                0,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                6,
+                false,
+                [
+                  1
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1,
+                    true,
+                    false,
+                    "horizontal"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    true,
+                    "passive"
+                  ]
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                3
+              ],
+              "incoming_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "mask": 125,
+              "outgoing_feature": [
+                1,
+                "terminal",
+                6,
+                2,
+                true,
+                true,
+                1,
+                true,
+                [
+                  1,
+                  5
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    6,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                "terminal"
+              ],
+              "outgoing_state": {
+                "mask": 125,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "row": 6,
+              "weight": -8,
+              "width": 7
+            },
+            "from": [
+              0,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              6,
+              false,
+              [
+                1
+              ],
+              [
+                [
+                  2,
+                  1,
+                  1,
+                  true,
+                  false,
+                  "horizontal"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  true,
+                  "passive"
+                ]
+              ],
+              [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              3
+            ],
+            "to": [
+              1,
+              "terminal",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              "terminal"
+            ],
+            "weight": -8
+          },
+          {
+            "concrete": null,
+            "from": [
+              1,
+              "terminal",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              "terminal"
+            ],
+            "to": [
+              "zero"
+            ],
+            "weight": -2
+          },
+          {
+            "concrete": null,
+            "from": [
+              "zero"
+            ],
+            "to": [
+              "initial"
+            ],
+            "weight": 0
+          },
+          {
+            "concrete": {
+              "incoming_feature": [
+                "initial"
+              ],
+              "incoming_state": null,
+              "mask": 125,
+              "outgoing_feature": [
+                1,
+                "top",
+                6,
+                2,
+                true,
+                true,
+                1,
+                true,
+                [
+                  1,
+                  5
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    6,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                1
+              ],
+              "outgoing_state": {
+                "mask": 125,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "row": 0,
+              "weight": -8,
+              "width": 7
+            },
+            "from": [
+              "initial"
+            ],
+            "to": [
+              1,
+              "top",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              1
+            ],
+            "weight": -8
+          },
+          {
+            "concrete": {
+              "incoming_feature": [
+                1,
+                "top",
+                6,
+                2,
+                true,
+                true,
+                1,
+                true,
+                [
+                  1,
+                  5
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    6,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                1
+              ],
+              "incoming_state": {
+                "mask": 125,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "mask": 1,
+              "outgoing_feature": [
+                2,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                1,
+                true,
+                [
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                2
+              ],
+              "outgoing_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "row": 1,
+              "weight": 7,
+              "width": 7
+            },
+            "from": [
+              1,
+              "top",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              1
+            ],
+            "to": [
+              2,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              1,
+              true,
+              [
+                1
+              ],
+              [
+                [
+                  7,
+                  1,
+                  1,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              2
+            ],
+            "weight": 7
+          },
+          {
+            "concrete": {
+              "incoming_feature": [
+                2,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                1,
+                true,
+                [
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                2
+              ],
+              "incoming_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "mask": 1,
+              "outgoing_feature": [
+                0,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                6,
+                false,
+                [
+                  1
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1,
+                    true,
+                    false,
+                    "horizontal"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    true,
+                    "passive"
+                  ]
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                3
+              ],
+              "outgoing_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "row": 2,
+              "weight": 7,
+              "width": 7
+            },
+            "from": [
+              2,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              1,
+              true,
+              [
+                1
+              ],
+              [
+                [
+                  7,
+                  1,
+                  1,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              2
+            ],
+            "to": [
+              0,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              6,
+              false,
+              [
+                1
+              ],
+              [
+                [
+                  2,
+                  1,
+                  1,
+                  true,
+                  false,
+                  "horizontal"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  true,
+                  "passive"
+                ]
+              ],
+              [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              3
+            ],
+            "weight": 7
+          }
+        ],
+        "feasible": false,
+        "feature_states": 1256,
+        "negative_cycle_weight": -4,
+        "pooled_constraints": 1483,
+        "target_mode": "universal"
+      },
+      "with_held_out_8": {
+        "concrete_transitions": 790,
+        "counterexample_cycle": [
+          {
+            "concrete": {
+              "incoming_feature": [
+                0,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                6,
+                false,
+                [
+                  1
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1,
+                    true,
+                    false,
+                    "horizontal"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    true,
+                    "passive"
+                  ]
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                3
+              ],
+              "incoming_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "mask": 125,
+              "outgoing_feature": [
+                1,
+                "terminal",
+                6,
+                2,
+                true,
+                true,
+                1,
+                true,
+                [
+                  1,
+                  5
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    6,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                "terminal"
+              ],
+              "outgoing_state": {
+                "mask": 125,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "row": 6,
+              "weight": -8,
+              "width": 7
+            },
+            "from": [
+              0,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              6,
+              false,
+              [
+                1
+              ],
+              [
+                [
+                  2,
+                  1,
+                  1,
+                  true,
+                  false,
+                  "horizontal"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  true,
+                  "passive"
+                ]
+              ],
+              [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              3
+            ],
+            "to": [
+              1,
+              "terminal",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              "terminal"
+            ],
+            "weight": -8
+          },
+          {
+            "concrete": null,
+            "from": [
+              1,
+              "terminal",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              "terminal"
+            ],
+            "to": [
+              "zero"
+            ],
+            "weight": -2
+          },
+          {
+            "concrete": null,
+            "from": [
+              "zero"
+            ],
+            "to": [
+              "initial"
+            ],
+            "weight": 0
+          },
+          {
+            "concrete": {
+              "incoming_feature": [
+                "initial"
+              ],
+              "incoming_state": null,
+              "mask": 125,
+              "outgoing_feature": [
+                1,
+                "top",
+                6,
+                2,
+                true,
+                true,
+                1,
+                true,
+                [
+                  1,
+                  5
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    6,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                1
+              ],
+              "outgoing_state": {
+                "mask": 125,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "row": 0,
+              "weight": -8,
+              "width": 7
+            },
+            "from": [
+              "initial"
+            ],
+            "to": [
+              1,
+              "top",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              1
+            ],
+            "weight": -8
+          },
+          {
+            "concrete": {
+              "incoming_feature": [
+                1,
+                "top",
+                6,
+                2,
+                true,
+                true,
+                1,
+                true,
+                [
+                  1,
+                  5
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    6,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                1
+              ],
+              "incoming_state": {
+                "mask": 125,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "mask": 1,
+              "outgoing_feature": [
+                2,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                1,
+                true,
+                [
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                2
+              ],
+              "outgoing_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "row": 1,
+              "weight": 7,
+              "width": 7
+            },
+            "from": [
+              1,
+              "top",
+              6,
+              2,
+              true,
+              true,
+              1,
+              true,
+              [
+                1,
+                5
+              ],
+              [
+                [
+                  7,
+                  1,
+                  6,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              1
+            ],
+            "to": [
+              2,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              1,
+              true,
+              [
+                1
+              ],
+              [
+                [
+                  7,
+                  1,
+                  1,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              2
+            ],
+            "weight": 7
+          },
+          {
+            "concrete": {
+              "incoming_feature": [
+                2,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                1,
+                true,
+                [
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1,
+                    true,
+                    true,
+                    "horizontal"
+                  ]
+                ],
+                [
+                  0
+                ],
+                2
+              ],
+              "incoming_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "mask": 1,
+              "outgoing_feature": [
+                0,
+                "interior",
+                1,
+                1,
+                true,
+                false,
+                6,
+                false,
+                [
+                  1
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1,
+                    true,
+                    false,
+                    "horizontal"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    false,
+                    "passive"
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    false,
+                    true,
+                    "passive"
+                  ]
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                3
+              ],
+              "outgoing_state": {
+                "mask": 1,
+                "partition": [
+                  0,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "row": 2,
+              "weight": 7,
+              "width": 7
+            },
+            "from": [
+              2,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              1,
+              true,
+              [
+                1
+              ],
+              [
+                [
+                  7,
+                  1,
+                  1,
+                  true,
+                  true,
+                  "horizontal"
+                ]
+              ],
+              [
+                0
+              ],
+              2
+            ],
+            "to": [
+              0,
+              "interior",
+              1,
+              1,
+              true,
+              false,
+              6,
+              false,
+              [
+                1
+              ],
+              [
+                [
+                  2,
+                  1,
+                  1,
+                  true,
+                  false,
+                  "horizontal"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  false,
+                  "passive"
+                ],
+                [
+                  1,
+                  1,
+                  0,
+                  false,
+                  true,
+                  "passive"
+                ]
+              ],
+              [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              3
+            ],
+            "weight": 7
+          }
+        ],
+        "feasible": false,
+        "feature_states": 3167,
+        "negative_cycle_weight": -4,
+        "pooled_constraints": 3558,
+        "target_mode": "universal"
+      }
+    },
+    "saturated-reserve:complete:residue-zero": {
+      "discovery_3_through_6": {
+        "concrete_transitions": 19935,
+        "exact_potentials_sha256": "d9740c795b2a37af4bc6b77f772eb98334faefa55ff919a45311afc2f4c37075",
+        "feasible": true,
+        "feature_states": 1573,
+        "pooled_constraints": 15349,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -9,
+          13
+        ],
+        "strongest_constraints_sha256": "97271789f8b675b603bafc5ae1dc89318323fd6f14d244997ab0f1a1437a2d99",
+        "target_mode": "residue-zero",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 6,
+          "6": 4
+        }
+      },
+      "with_held_out_7": {
+        "concrete_transitions": 107903,
+        "exact_potentials_sha256": "f00cacaab301b1a24a62fd637e8d8ec7eee49b427bf91fb7a0d598dfcf5aa6ed",
+        "feasible": true,
+        "feature_states": 4467,
+        "pooled_constraints": 66958,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -11,
+          13
+        ],
+        "strongest_constraints_sha256": "e5f6858cdd8fd22f46c2090636c403ba778344e3aca47f10599a8ba3dc3abbfe",
+        "target_mode": "residue-zero",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 6,
+          "6": 4,
+          "7": 2
+        }
+      },
+      "with_held_out_8": {
+        "concrete_transitions": 570905,
+        "exact_potentials_sha256": "0584d142574bd52ca5127f4234c7490b5b784c3567ee138d926086b2d27d7a77",
+        "feasible": true,
+        "feature_states": 12233,
+        "pooled_constraints": 279130,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -13,
+          15
+        ],
+        "strongest_constraints_sha256": "58b064aa981e8381064d009d1b168334ddc1e5c5310266ee4d877568d16aaab8",
+        "target_mode": "residue-zero",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 7,
+          "6": 6,
+          "7": 4,
+          "8": 2
+        }
+      }
+    },
+    "saturated-reserve:complete:universal": {
+      "discovery_3_through_6": {
+        "concrete_transitions": 19935,
+        "exact_potentials_sha256": "7048acb67220425b3a25fda54a6f0c43b80d4c206f26dccddbfa229a8cd3f2bb",
+        "feasible": true,
+        "feature_states": 1573,
+        "pooled_constraints": 15349,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -9,
+          11
+        ],
+        "strongest_constraints_sha256": "cdc16cbd16e9c025eb9604af810f0220b8bf919ab7434f0c999762043017ccab",
+        "target_mode": "universal",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 4,
+          "6": 2
+        }
+      },
+      "with_held_out_7": {
+        "concrete_transitions": 107903,
+        "exact_potentials_sha256": "f00cacaab301b1a24a62fd637e8d8ec7eee49b427bf91fb7a0d598dfcf5aa6ed",
+        "feasible": true,
+        "feature_states": 4467,
+        "pooled_constraints": 66958,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -11,
+          13
+        ],
+        "strongest_constraints_sha256": "0e34b48f7bbbd315a26c9c8db10aae8d442f9cef8339378c37fe675931617760",
+        "target_mode": "universal",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 6,
+          "6": 4,
+          "7": 2
+        }
+      },
+      "with_held_out_8": {
+        "concrete_transitions": 570905,
+        "exact_potentials_sha256": "0584d142574bd52ca5127f4234c7490b5b784c3567ee138d926086b2d27d7a77",
+        "feasible": true,
+        "feature_states": 12233,
+        "pooled_constraints": 279130,
+        "potential_denominators": [
+          1
+        ],
+        "potential_range": [
+          -13,
+          15
+        ],
+        "strongest_constraints_sha256": "28f7b84a0bbfba37372fd58e4f683d8a903505a79d5058b8ae0861b083e4f360",
+        "target_mode": "universal",
+        "terminal_minima": {
+          "3": 6,
+          "4": 4,
+          "5": 7,
+          "6": 6,
+          "7": 4,
+          "8": 2
+        }
+      }
+    }
+  },
+  "failed_refinement": {
+    "behavior_collision": {
+      "exact_frontier": {
+        "mask": 1,
+        "partition": [
+          0,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "incoming_three_mask_history": [
+        125,
+        1,
+        1
+      ],
+      "one_block_top_debt": 3,
+      "rows_processed": [
+        3,
+        6
+      ]
+    },
+    "concrete_steps": [
+      {
+        "incoming_state": {
+          "mask": 1,
+          "partition": [
+            0,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "mask": 125,
+        "outgoing_state": {
+          "mask": 125,
+          "partition": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "row": 6,
+        "weight": -8
+      },
+      {
+        "incoming_state": null,
+        "mask": 125,
+        "outgoing_state": {
+          "mask": 125,
+          "partition": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "row": 0,
+        "weight": -8
+      },
+      {
+        "incoming_state": {
+          "mask": 125,
+          "partition": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "mask": 1,
+        "outgoing_state": {
+          "mask": 1,
+          "partition": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "row": 1,
+        "weight": 7
+      },
+      {
+        "incoming_state": {
+          "mask": 1,
+          "partition": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "mask": 1,
+        "outgoing_state": {
+          "mask": 1,
+          "partition": [
+            0,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "row": 2,
+        "weight": 7
+      }
+    ],
+    "corridor": "exact optimum",
+    "interpretation": "Capping startup debt after one three-row block still identifies the exact frontier (mask=1, partition=(0,0,1,2,3,4,5)) after rows 3 and 6. The intervening straight production has charge 6; splicing it out gives a projected cycle of weight -4.",
+    "kind": "same-exact-frontier-second-three-row-stitch",
+    "negative_cycle_weight": -4,
+    "next_minimal_refinement": "bank one completed positive three-row production in a saturated reserve bit; equivalently retain min(rows processed, 6)",
+    "width": 7
+  },
+  "scope": {
+    "discovery_widths": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "enumerated_widths": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "held_out_widths": [
+      7,
+      8
+    ],
+    "residue_zero_terminal_target": 4,
+    "semantics": "finite-width-exact-CEGAR-not-a-uniform-proof",
+    "universal_terminal_target": 2
+  }
+}

@@ -13,6 +13,33 @@ namespace GridGraphs
 
 open Finset
 
+/-- Rows of the twenty-by-twenty exact base. -/
+def residueTwoExactBaseRow : Nat → Finset Nat
+  | 0 => [1].toFinset
+  | 1 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19].toFinset
+  | 2 => [1, 2, 3, 4, 6, 7, 9, 10, 12, 13, 15, 16, 18, 19].toFinset
+  | 3 => [1, 2, 4, 6, 7, 9, 10, 12, 13, 15, 16, 17, 18].toFinset
+  | 4 => [1, 2, 4, 5, 6, 7, 9, 10, 12, 13, 14, 15, 17, 18].toFinset
+  | 5 => [1, 2, 4, 5, 7, 9, 10, 11, 12, 14, 15, 17, 18].toFinset
+  | 6 | 7 => [1, 2, 4, 5, 7, 8, 9, 11, 12, 14, 15, 17, 18].toFinset
+  | 8 => [1, 2, 4, 5, 6, 7, 9, 11, 12, 14, 15, 17, 18].toFinset
+  | 9 => [1, 2, 4, 6, 7, 8, 9, 11, 12, 14, 15, 17, 18].toFinset
+  | 10 | 11 | 13 | 17 => [1, 2, 4, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18].toFinset
+  | 12 => [1, 2, 4, 6, 8, 9, 11, 12, 14, 15, 17, 18].toFinset
+  | 14 | 16 => [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 14, 15, 17, 18].toFinset
+  | 15 => [1, 3, 4, 6, 7, 9, 11, 12, 14, 15, 17, 18].toFinset
+  | 18 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].toFinset
+  | 19 => [1, 18].toFinset
+  | _ => ∅
+
+/-- Membership in the explicit exact base. -/
+def IsResidueTwoExactBase (r c : Fin 20) : Prop :=
+  c.val ∈ residueTwoExactBaseRow r.val
+
+instance (r c : Fin 20) : Decidable (IsResidueTwoExactBase r c) := by
+  unfold IsResidueTwoExactBase
+  infer_instance
+
 /-- Multiplicity of a coordinate in the exact twenty-based pump. -/
 def residueTwoExactMultiplicity (cut t : Nat) (i : Fin 20) : Nat :=
   if cut ≤ i.val ∧ i.val < cut + 3 then t + 1 else 1
@@ -63,58 +90,67 @@ theorem residueTwoExactExpandIndex_injective (cut t : Nat)
     Function.Injective (residueTwoExactExpandIndex cut t hcut) := by
   rintro ⟨xb, xc⟩ ⟨yb, yc⟩ h
   have hv := congrArg Fin.val h
-  by_cases xp : cut ≤ xb.val ∧ xb.val < cut + 3
-  · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨xb, xc⟩ xp] at hv
-    by_cases yp : cut ≤ yb.val ∧ yb.val < cut + 3
-    · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨yb, yc⟩ yp] at hv
+  by_cases xpump : cut ≤ xb.val ∧ xb.val < cut + 3
+  · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨xb, xc⟩ xpump] at hv
+    by_cases ypump : cut ≤ yb.val ∧ yb.val < cut + 3
+    · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨yb, yc⟩ ypump] at hv
+      change xb.val + 3 * xc.val = yb.val + 3 * yc.val at hv
       have hxc := xc.isLt
       have hyc := yc.isLt
-      simp only [residueTwoExactMultiplicity, if_pos xp] at hxc
-      simp only [residueTwoExactMultiplicity, if_pos yp] at hyc
+      simp only [residueTwoExactMultiplicity, if_pos xpump] at hxc
+      simp only [residueTwoExactMultiplicity, if_pos ypump] at hyc
       have hb : xb = yb := Fin.ext (by omega)
       subst yb
       have hc : xc = yc := Fin.ext (by omega)
       subst yc
       rfl
-    · by_cases ya : cut + 3 ≤ yb.val
-      · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨yb, yc⟩ yp ya] at hv
+    · by_cases yabove : cut + 3 ≤ yb.val
+      · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨yb, yc⟩ ypump yabove] at hv
+        change xb.val + 3 * xc.val = yb.val + 3 * t at hv
         have hxc := xc.isLt
-        simp only [residueTwoExactMultiplicity, if_pos xp] at hxc
+        simp only [residueTwoExactMultiplicity, if_pos xpump] at hxc
         omega
-      · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨yb, yc⟩ yp ya] at hv
+      · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨yb, yc⟩ ypump yabove] at hv
+        change xb.val + 3 * xc.val = yb.val at hv
         omega
-  · by_cases xa : cut + 3 ≤ xb.val
-    · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨xb, xc⟩ xp xa] at hv
-      by_cases yp : cut ≤ yb.val ∧ yb.val < cut + 3
-      · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨yb, yc⟩ yp] at hv
+  · by_cases xabove : cut + 3 ≤ xb.val
+    · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨xb, xc⟩ xpump xabove] at hv
+      by_cases ypump : cut ≤ yb.val ∧ yb.val < cut + 3
+      · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨yb, yc⟩ ypump] at hv
+        change xb.val + 3 * t = yb.val + 3 * yc.val at hv
         have hyc := yc.isLt
-        simp only [residueTwoExactMultiplicity, if_pos yp] at hyc
+        simp only [residueTwoExactMultiplicity, if_pos ypump] at hyc
         omega
-      · by_cases ya : cut + 3 ≤ yb.val
-        · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨yb, yc⟩ yp ya] at hv
+      · by_cases yabove : cut + 3 ≤ yb.val
+        · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨yb, yc⟩ ypump yabove] at hv
+          change xb.val + 3 * t = yb.val + 3 * t at hv
           have hb : xb = yb := Fin.ext (by omega)
           subst yb
           have hxc := xc.isLt
           have hyc := yc.isLt
-          simp only [residueTwoExactMultiplicity, if_neg xp] at hxc hyc
+          simp only [residueTwoExactMultiplicity, if_neg xpump] at hxc hyc
           have hc : xc = yc := Fin.ext (by omega)
           subst yc
           rfl
-        · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨yb, yc⟩ yp ya] at hv
+        · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨yb, yc⟩ ypump yabove] at hv
+          change xb.val + 3 * t = yb.val at hv
           omega
-    · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨xb, xc⟩ xp xa] at hv
-      by_cases yp : cut ≤ yb.val ∧ yb.val < cut + 3
-      · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨yb, yc⟩ yp] at hv
+    · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨xb, xc⟩ xpump xabove] at hv
+      by_cases ypump : cut ≤ yb.val ∧ yb.val < cut + 3
+      · rw [residueTwoExactExpandIndex_of_pump cut t hcut ⟨yb, yc⟩ ypump] at hv
+        change xb.val = yb.val + 3 * yc.val at hv
         omega
-      · by_cases ya : cut + 3 ≤ yb.val
-        · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨yb, yc⟩ yp ya] at hv
+      · by_cases yabove : cut + 3 ≤ yb.val
+        · rw [residueTwoExactExpandIndex_of_above cut t hcut ⟨yb, yc⟩ ypump yabove] at hv
+          change xb.val = yb.val + 3 * t at hv
           omega
-        · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨yb, yc⟩ yp ya] at hv
+        · rw [residueTwoExactExpandIndex_of_below cut t hcut ⟨yb, yc⟩ ypump yabove] at hv
+          change xb.val = yb.val at hv
           have hb : xb = yb := Fin.ext (by omega)
           subst yb
           have hxc := xc.isLt
           have hyc := yc.isLt
-          simp only [residueTwoExactMultiplicity, if_neg xp] at hxc hyc
+          simp only [residueTwoExactMultiplicity, if_neg xpump] at hxc hyc
           have hc : xc = yc := Fin.ext (by omega)
           subst yc
           rfl
@@ -123,7 +159,7 @@ theorem residueTwoExactExpandIndex_injective (cut t : Nat)
 abbrev ResidueTwoExactOccurrence (t : Nat) :=
   Σ r : Fin 20, Σ c : Fin 20,
     {_copies : Fin (residueTwoExactMultiplicity 5 t r) ×
-      Fin (residueTwoExactMultiplicity 11 t c) // (r, c) ∈ finiteU20}
+      Fin (residueTwoExactMultiplicity 11 t c) // IsResidueTwoExactBase r c}
 
 def residueTwoExactOccurrences (t : Nat) : Finset (ResidueTwoExactOccurrence t) :=
   Finset.univ
@@ -173,21 +209,82 @@ def uResidueTwoExact (k : Nat) :
       (fun x => castVertex (residueTwoExactVertex (k - 6) x))
   else ∅
 
-set_option maxHeartbeats 3000000 in
+/-- The exact base predicate as a finset. -/
+private def residueTwoExactBase : Finset (GridVertex 20 20) :=
+  Finset.univ.filter fun v => IsResidueTwoExactBase v.1 v.2
+
+private theorem uResidueTwoExact_six_eq_base :
+    uResidueTwoExact 6 = residueTwoExactBase := by
+  classical
+  ext v
+  simp only [uResidueTwoExact, dif_pos (by omega : 6 ≤ 6), Finset.mem_image,
+    residueTwoExactOccurrences, Finset.mem_univ, true_and]
+  constructor
+  · rintro ⟨x, hx⟩
+    have hr : x.1 = v.1 := Fin.ext (by
+      have h := congrArg (fun z => z.1.val) hx
+      have hcopy : x.2.2.val.1.val = 0 := by
+        have hlt := x.2.2.val.1.isLt
+        by_cases hp : 5 ≤ x.1.val ∧ x.1.val < 5 + 3
+        · simp only [Nat.sub_self, residueTwoExactMultiplicity, if_pos hp] at hlt
+          omega
+        · simp only [Nat.sub_self, residueTwoExactMultiplicity, if_neg hp] at hlt
+          omega
+      simpa [residueTwoExactVertex, residueTwoExactExpandIndex,
+        residueTwoExactMultiplicity, hcopy] using h)
+    have hc : x.2.1 = v.2 := Fin.ext (by
+      have h := congrArg (fun z => z.2.val) hx
+      have hcopy : x.2.2.val.2.val = 0 := by
+        have hlt := x.2.2.val.2.isLt
+        by_cases hp : 11 ≤ x.2.1.val ∧ x.2.1.val < 11 + 3
+        · simp only [Nat.sub_self, residueTwoExactMultiplicity, if_pos hp] at hlt
+          omega
+        · simp only [Nat.sub_self, residueTwoExactMultiplicity, if_neg hp] at hlt
+          omega
+      simpa [residueTwoExactVertex, residueTwoExactExpandIndex,
+        residueTwoExactMultiplicity, hcopy] using h)
+    have hvbase : v = (x.1, x.2.1) := Prod.ext hr.symm hc.symm
+    rw [hvbase]
+    simpa [residueTwoExactBase] using x.2.2.property
+  · intro hv
+    have hbase : IsResidueTwoExactBase v.1 v.2 := by
+      simpa [residueTwoExactBase] using hv
+    let copies :
+        {p : Fin (residueTwoExactMultiplicity 5 0 v.1) ×
+          Fin (residueTwoExactMultiplicity 11 0 v.2) //
+          IsResidueTwoExactBase v.1 v.2} :=
+      ⟨(⟨0, by simp [residueTwoExactMultiplicity]⟩,
+        ⟨0, by simp [residueTwoExactMultiplicity]⟩), hbase⟩
+    let x : ResidueTwoExactOccurrence 0 := ⟨v.1, v.2, copies⟩
+    refine ⟨x, ?_⟩
+    apply Prod.ext <;> apply Fin.ext <;>
+      simp [x, copies, residueTwoExactVertex, residueTwoExactExpandIndex]
+
+set_option maxRecDepth 100000 in
+private theorem residueTwoExactBase_eq_finiteU20 :
+    residueTwoExactBase = finiteU20 := by rfl
+
+/-- At zero pumping, the exact symbolic pattern is the explicit twenty by
+twenty construction. -/
+theorem uResidueTwoExact_six : uResidueTwoExact 6 = finiteU20 :=
+  uResidueTwoExact_six_eq_base.trans residueTwoExactBase_eq_finiteU20
+
+set_option maxHeartbeats 1000000 in
 /-- The twenty-base decomposes into 6 doubly carried, 65 singly carried,
 and 179 fixed U vertices. -/
 theorem residueTwoExact_weighted_base (t : Nat) :
     ∑ r : Fin 20, ∑ c : Fin 20,
-      (if (r, c) ∈ finiteU20 then
+      (if IsResidueTwoExactBase r c then
         residueTwoExactMultiplicity 5 t r * residueTwoExactMultiplicity 11 t c
       else 0) = 6 * (t + 1) ^ 2 + 65 * (t + 1) + 179 := by
-  simp [finiteU20, residueTwoExactMultiplicity, Fin.sum_univ_succ]
+  simp [IsResidueTwoExactBase, residueTwoExactBaseRow,
+    residueTwoExactMultiplicity, Fin.sum_univ_succ]
   ring_nf
 
 theorem residueTwoExactOccurrences_card (t : Nat) :
     (residueTwoExactOccurrences t).card =
       ∑ r : Fin 20, ∑ c : Fin 20,
-        (if (r, c) ∈ finiteU20 then
+        (if IsResidueTwoExactBase r c then
           residueTwoExactMultiplicity 5 t r * residueTwoExactMultiplicity 11 t c
         else 0) := by
   classical
@@ -196,7 +293,7 @@ theorem residueTwoExactOccurrences_card (t : Nat) :
   intro r _
   apply Finset.sum_congr rfl
   intro c _
-  by_cases h : (r, c) ∈ finiteU20 <;> simp [h]
+  by_cases h : IsResidueTwoExactBase r c <;> simp [h]
 
 /-- Exact U count needed by the residue-two tail. -/
 theorem uResidueTwoExact_card (k : Nat) (hk : 6 ≤ k) :
@@ -227,5 +324,27 @@ theorem uResidueTwoExact_card_two_step (k : Nat) (hk : 6 ≤ k) :
       (uResidueTwoExact k).card + (24 * k + 34) := by
   rw [uResidueTwoExact_card (k + 2) (by omega), uResidueTwoExact_card k hk]
   ring
+
+/-- Exact complement count of the new family. -/
+theorem uResidueTwoExact_compl_card (k : Nat) (hk : 6 ≤ k) :
+    ((Finset.univ : Finset (GridVertex (3 * k + 2) (3 * k + 2))) \
+      uResidueTwoExact k).card = 3 * k ^ 2 + 7 * k := by
+  rw [Finset.card_sdiff, Finset.inter_univ, uResidueTwoExact_card k hk]
+  have htotal :
+      Fintype.card (GridVertex (3 * k + 2) (3 * k + 2)) =
+        (3 * k + 2) * (3 * k + 2) := by
+    unfold GridVertex
+    simp
+  rw [Finset.card_univ, htotal]
+  obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_le hk
+  ring_nf
+  omega
+
+/-- The existing twenty-by-twenty ranked certificate realizes the exact-cost
+base value, independently of the symbolic representation above. -/
+theorem residueTwoExact_base_le_maxPreserved :
+    3 * 6 ^ 2 + 7 * 6 ≤ maxPreserved (3 * 6 + 2) (3 * 6 + 2) := by
+  norm_num
+  exact oneHundredFifty_le_maxPreserved_twenty_twenty
 
 end GridGraphs

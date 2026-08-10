@@ -300,6 +300,15 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   it; and a maximizing tree exists for nonempty grids.
 - `maxPreserved_le_basicUB` and `maxPreserved_le_refinedUB` connect the existing
   operational upper bounds to the maximum.
+- `ForcedMaximum.lean` defines `maxForcedAcyclic`, the maximum cardinality of a
+  vertex set whose complete incident-edge graph is acyclic, and proves
+  `maxPreserved = maxForcedAcyclic` on every nonempty grid. Thus constructions
+  and upper bounds may work directly with forced forests without choosing a
+  spanning tree.
+- `WidthFourLower.lean` proves that the two outer rows of a `4 x n` grid force
+  two disjoint acyclic combs and therefore give `2n` preserved vertices.
+  `WidthFourExact.lean` proves the matching checkerboard-waste upper bound and
+  the unconditional exact theorem `maxPreserved 4 n = 2n` for every `n>=2`.
 - `GridGraphs/ResidueOneDual.lean` proves
   `uuDualGraph_uResidueOne_connected`, forced-complement acyclicity, and a
   preserving spanning-tree witness for every `k>=1`.
@@ -335,6 +344,60 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   `n=17` base connectivity and reduces arbitrary-width connectivity to four
   explicit local step obligations. The resulting lower bound remains
   conditional on those local geometry obligations.
+- `ResidueTwoExact.lean` defines a twenty-based pump with the exact target
+  cardinality `6k^2+5k+4`, exact increment `12k+11`, and exact two-step
+  increment `24k+34`. `ResidueTwoExactStep.lean` identifies the base with the
+  proved `n=20` certificate. `ResidueTwoExactStep.lean` proves its first pumped
+  member has an isolated checkerboard face, so this exact-count family is
+  disconnected and cannot supply the tail.
+- `ResidueTwoExactRepair.lean` formalizes a balanced seam add/delete repair with
+  the same exact count. `RepairDisconnected.lean` proves every positive pump
+  depth has a closed two-face dual component, so this repair is also invalid.
+- `UniversalWasteBoundReduction.lean` proves `W>=n+2` is exactly equivalent to
+  `n+4 <= fourSideComponentRank` on cotree supports.
+- The residue-two equality and near-waste modules prove all cardinality,
+  component-rank, row, and forced-acyclicity consequences of `W=n+2` and
+  `W=n+5`. Their remaining obligations are respectively nonexistence of the
+  tight attachment profile and a stable persistent-attachment-debt theorem.
+- `ComponentAttachmentLedger.lean` proves the common exact attachment ledger
+  and shows that cardinality plus acyclicity already fixes the two hypothetical
+  residue-two ranks; excluding them requires additional geometry.
+- `UniversalComponentRankPhase.lean` proves rank at least five universally and
+  at least six outside residue one. `ResidueTwoStableDebtPorts.lean` proves
+  every full component has a distinct crossing-edge witness and derives the
+  corresponding component/port bounds; these do not yet force the extra stable
+  debt unit.
+- `CheckerboardComponent.lean` proves that the grid's two color classes give
+  two acyclic center-star forests and establishes their exact ambient component
+  ledger. Their component sum is the original two-component charge plus one
+  isolated-component credit for every cotree-support vertex.
+- `CheckerboardWaste.lean` proves that `W>=n+2` is exactly the subtraction-free
+  checkerboard boundary inequality. `CheckerboardEquality.lean` further proves
+  that checkerboard slack `q` is exactly waste `n+2+q`; in particular the two
+  residue-two obstruction levels are checkerboard slack zero and three.
+- `GridEdge.lean`, `GridDirection.lean`, and `TreeContour.lean` formalize the
+  edge-labelled plane-grid tree contour. The clockwise contour successor is a
+  finite permutation; bridge-shore cut balance proves each edge orientation is
+  in the orbit of its reverse, and tree connectivity proves the permutation is
+  one cycle.
+- `ContourWaste.lean` proves the exact local/global split of waste into supported
+  exterior sectors and supported tree returns. `ContourMarks.lean` realizes
+  those terms as a finite type of cardinality exactly `incidenceWaste` and
+  reduces `W>=n` to an explicit embedding `Fin n ↪ CotreeContourMark T`.
+- `GridCotreePorts.lean` proves that every fundamental shore cut consists
+  exactly of its attachment tree edge and distinct edge-labelled cotree ports.
+  `GeometricContourMarks.lean` realizes return marks as actual contour darts,
+  and `ShoreRouting.lean` gives the exact marks-or-ports lane-routing criterion.
+  Cotree-port membership is convex along nested shores, and any injective
+  discharge of a shore's ports to distinct outside marks now composes with its
+  local routing to produce a genuine mark injection.
+- `StraightForcedComponents.lean` proves the local three-corners obstruction:
+  an acyclic forced graph cannot force three corners of one unit cell. This is
+  the local mechanism preventing full-vertex components from making turns.
+- `PrimalContourLedger.lean` eliminates the abstract return sum entirely:
+  `W+1` is boundary deficiency on cotree support, plus tree edges internal to
+  that support, plus the number of full-vertex components. Thus `W>=n` is
+  exactly an `n+1` lower bound on this concrete three-term charge.
 - `GridGraphs/DiagonalFormula.lean` defines `diagonalFormulaP` and proves
   `maxPreserved_eq_diagonalFormulaP` for every `n>=3` from four explicit
   hypotheses. Its strengthened `maxPreserved_eq_diagonalFormulaP_of_remaining`
@@ -380,11 +443,18 @@ have `P = refinedUB` (refined bound is tight); the average gap
 
 ## Next Steps
 
-1. Construct and prove an exact-cost rooted residue-two transfer for every
-   `n=3k+2`, `k>=7`; all finite construction cases are now formalized.
-2. Prove `n+2 <= fourSideComponentRank`, giving the intermediate `W>=n`;
-   residue one would then be exact.
-3. Strengthen the component-resolved boundary inequality by two units to give
-   universal cotree incidence waste `W>=n+2`.
-4. Classify equality and defect-three attachment phases to prove equality only
-   in residue one and exclude `W=n+5` in the stable residue-two range.
+1. Use the forced-forest maximum as the primary optimization model and seek
+   another infinite family where a compact structural certificate closes the
+   current rigorous interval.
+2. Compose the proved fundamental-shore marks-or-ports routings through the
+   nested contour intervals, discharging exported ports without reuse.
+3. Construct `Fin n ↪ GeometricCotreeContourMark T` from that composition,
+   proving the first linear bound `W>=n`.
+4. Use the four extreme contour sectors to strengthen the marking by two and
+   prove universal cotree waste `W>=n+2`.
+5. Classify checkerboard/contour slack zero to exclude `W=n+2` outside residue
+   one.
+6. Classify slack three to exclude `W=n+5` in the stable
+   residue-two range.
+7. Recompute the rigorous lower/upper interval after each exclusion and pursue
+   only symbolic lower or upper theorems until the endpoints agree.

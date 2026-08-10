@@ -66,6 +66,22 @@ formulas in `docs/DERIVATION.md`.
 | **`lowerB_le_basicUB`** | **`m + n − 1 ≤ basicUB m n`** (m, n ≥ 1) | `Bounds.lean:186` |
 | **`refinedUB_le_basicUB`** | **`refinedUB m n ≤ basicUB m n`** (m, n ≥ 1) | `Bounds.lean:205` |
 
+### Exact `4 x n` family
+
+`ForcedMaximum.lean` proves that `maxPreserved` is exactly the maximum size of
+an acyclic forced vertex set. `WidthFourLower.lean` realizes `2n` vertices by
+the top and bottom forced combs. `WidthFourExact.lean` splits cotree incidence
+waste by checkerboard color: each color waste is a positive multiple of three,
+so each color contains at least `n` non-preserved vertices.
+
+| Lemma | Statement |
+|-------|-----------|
+| `maxPreserved_eq_maxForcedAcyclic` | spanning-tree and forced-forest maxima agree on nonempty grids |
+| `two_mul_le_maxPreserved_widthFour` | `2*n ≤ maxPreserved 4 n` for `n≥2` |
+| `maxPreserved_widthFour_le_two_mul` | `maxPreserved 4 n ≤ 2*n` for `n≥2` |
+| **`maxPreserved_widthFour_eq_two_mul`** | **`maxPreserved 4 n = 2*n` for `n≥2`** |
+| `maxForcedAcyclic_widthFour_eq_two_mul` | exact forced-forest form of the same theorem |
+
 ### `GridGraphs/Forced.lean` — forced edges
 
 | Lemma | Statement | Location |
@@ -202,6 +218,50 @@ rank is the sum of four boundary-support cardinalities and the two exact forest
 component counts. The affine residue-two family is also encoded symbolically
 with exact cardinality and recurrence; its arbitrary-width dual connectivity
 is reduced to four local width-three step obligations rather than asserted.
+
+An exact-count twenty-based residue-two pump is now also formalized: its U count
+is `6k^2+5k+4`, with increments `12k+11` and `24k+34`, and its base is exactly
+the proved `n=20` certificate. The arbitrary-width theorem is not claimed:
+three symbolic old-edge/path and new-face attachment fields remain. On the
+upper side, hypothetical `W=n+2` and `W=n+5` profiles now have fully proved
+support sizes and component ranks; the missing facts are geometric
+nonexistence/debt theorems, not accounting identities.
+
+The exact pump and its first balanced seam repair have now both been ruled out
+symbolically in Lean. The original pump isolates a checkerboard face at its
+first repeated-column seam. Adding that missing seam vertex and deleting a
+carried vertex preserves the exact count, but the deletion creates a closed
+two-face dual component at every positive pump depth. Thus there remains no
+proved target construction at `n=23`; these cardinality-correct families are
+explicit negative controls rather than construction hypotheses.
+
+The upper-bound program now also has a checkerboard formulation. The black and
+white full-center star graphs are proved acyclic, and their ambient component
+sum is exactly the old component charge plus the cotree-support cardinality.
+Consequently the subtraction-free checkerboard boundary inequality is proved
+equivalent to `W>=n+2`. Its exact slack is formalized as well: slack zero is
+`W=n+2`, and slack three is `W=n+5`. These are reductions, not assertions of
+the still-open disk-coupled boundary inequality or its equality exclusions.
+
+The plane tree contour is now formal rather than heuristic. Coordinate grid
+edges are equivalent to abstract grid edges without collapsing parallel dual
+boundary incidences. Clockwise rotation of directed tree edges defines a finite
+permutation. A generic finite-permutation cut lemma, bridge shores, local
+rotation, and tree connectivity prove that this permutation is one cycle.
+Supported boundary sectors and supported repeated tree visits form a finite
+`CotreeContourMark` type whose cardinality is proved equal to incidence waste.
+Return marks are additionally realized as actual outgoing contour darts.
+Every fundamental shore is proved to be one contour interval with a unique
+entry and exit, and its ambient cut is exactly its attachment edge plus
+edge-labelled cotree ports. Lane routing into the disjoint sum of internal
+marks and outgoing ports now has an exact cardinal criterion. Occurrences of
+one labelled port are proved convex along nested shores, and a local routing
+with an injective outside-port discharge is proved to yield a mark injection.
+Independently,
+the primal contour ledger proves
+`W+1 = boundary(U) + internalTreeEdges(U) + components(grid[F])`.
+No global injection is asserted yet: the remaining step is to compose the
+local routings through nested shores while discharging ports without reuse.
 
 ### `GridGraphs/Spanning.lean` (refined) — `preserved_le_refinedUB`
 

@@ -1,0 +1,206 @@
+{
+  "schema": "grid-graphs.residue-two-b23-cut-repairs.v1",
+  "status": "UNSAT_IN_DECLARED_CUT_REPAIR_NEIGHBORHOOD",
+  "exact_in_declared_scope": true,
+  "scope": {
+    "sources": "the three best exact 333-U examples in residue_two_b20_to_b23_basic_result.json",
+    "orders": [
+      1,
+      2,
+      3
+    ],
+    "addition_rule": "An order-k addition is a k-cell union of at most three complete endpoint-deficit sets of dual edges crossing an original component cut.",
+    "removal_rule": "Any k original U cells on the 23x23 board; added cells are not removed.",
+    "negative_claim": "Only these cut-directed equal-count exchanges around the three listed sources are excluded. This is not a global n=23 impossibility result."
+  },
+  "method": {
+    "augmentation_connectivity": "construction_lab.dual_connectivity_check",
+    "exact_removal_prune": "If deleting a set preserves connectivity, deleting each member alone preserves connectivity. ConnectivitySensitivity computes those singleton conditions exactly.",
+    "final_replay": "Every unpruned equal-count tuple is independently materialized and checked with dual_connectivity_check and forest_completion_check."
+  },
+  "examples": [
+    {
+      "source_sha256": "9493b47b35b1c4dd6eb0aac4be618553ab06f4b17fbee6fdf536fdf4fdd565d5",
+      "source_component_count": 3,
+      "distinct_cut_deficits": 79,
+      "deficit_size_histogram": {
+        "1": 15,
+        "2": 64
+      },
+      "orders": [
+        {
+          "order": 1,
+          "addition_sets": 15,
+          "connected_augmentations": 2,
+          "individually_removable_histogram": {
+            "0": 2
+          },
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        },
+        {
+          "order": 2,
+          "addition_sets": 169,
+          "connected_augmentations": 27,
+          "individually_removable_histogram": {
+            "0": 27
+          },
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        },
+        {
+          "order": 3,
+          "addition_sets": 1449,
+          "connected_augmentations": 297,
+          "individually_removable_histogram": {
+            "0": 256,
+            "1": 38,
+            "2": 3
+          },
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        }
+      ]
+    },
+    {
+      "source_sha256": "cc23cf2e0ae2656501ff92b28a101356fc00cb4eabf42320175d9a7767a5e79a",
+      "source_component_count": 3,
+      "distinct_cut_deficits": 92,
+      "deficit_size_histogram": {
+        "1": 20,
+        "2": 72
+      },
+      "orders": [
+        {
+          "order": 1,
+          "addition_sets": 20,
+          "connected_augmentations": 0,
+          "individually_removable_histogram": {},
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        },
+        {
+          "order": 2,
+          "addition_sets": 262,
+          "connected_augmentations": 84,
+          "individually_removable_histogram": {
+            "0": 84
+          },
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        },
+        {
+          "order": 3,
+          "addition_sets": 2612,
+          "connected_augmentations": 1236,
+          "individually_removable_histogram": {
+            "0": 1117,
+            "1": 105,
+            "2": 13,
+            "3": 1
+          },
+          "final_removal_tuples": 1,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": [
+            {
+              "additions": [
+                [
+                  9,
+                  14
+                ],
+                [
+                  12,
+                  14
+                ],
+                [
+                  16,
+                  17
+                ]
+              ],
+              "removals": [
+                [
+                  10,
+                  14
+                ],
+                [
+                  11,
+                  14
+                ],
+                [
+                  15,
+                  16
+                ]
+              ],
+              "sha256": "8a6522fad15b36fcf84077157fdfca33684d44bd197ef300bc279d69c4fe4313",
+              "dual_connected": false,
+              "dual_reached": 465,
+              "dual_total": 485,
+              "forest_ok": false,
+              "forest_reason": "not checked"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source_sha256": "0b318445b4d5300a9853165b8e17d59f981d729a4fa0cfedf91d6dd6e6aa335d",
+      "source_component_count": 3,
+      "distinct_cut_deficits": 93,
+      "deficit_size_histogram": {
+        "1": 19,
+        "2": 74
+      },
+      "orders": [
+        {
+          "order": 1,
+          "addition_sets": 19,
+          "connected_augmentations": 0,
+          "individually_removable_histogram": {},
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        },
+        {
+          "order": 2,
+          "addition_sets": 245,
+          "connected_augmentations": 78,
+          "individually_removable_histogram": {
+            "0": 77,
+            "1": 1
+          },
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        },
+        {
+          "order": 3,
+          "addition_sets": 2409,
+          "connected_augmentations": 1149,
+          "individually_removable_histogram": {
+            "0": 940,
+            "1": 183,
+            "2": 26
+          },
+          "final_removal_tuples": 0,
+          "dual_connected_final": 0,
+          "forest_completable_final": 0,
+          "final_replays": []
+        }
+      ]
+    }
+  ],
+  "witness_count": 0
+}

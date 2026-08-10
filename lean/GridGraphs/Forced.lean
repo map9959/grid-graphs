@@ -50,6 +50,34 @@ theorem forcedEdgeGraph_le (G : SimpleGraph V) (F : Set V) :
   intro v w h
   exact h.1
 
+/-- Enlarging the forced vertex set can only add forced edges. -/
+theorem forcedEdgeGraph_mono (G : SimpleGraph V) {F₁ F₂ : Set V}
+    (hF : F₁ ⊆ F₂) :
+    forcedEdgeGraph G F₁ ≤ forcedEdgeGraph G F₂ := by
+  intro v w hvw
+  refine ⟨hvw.1, ?_⟩
+  exact hvw.2.elim (fun hv => Or.inl (hF hv)) (fun hw => Or.inr (hF hw))
+
+/-- De-forcing vertices only removes edges from the forced-edge graph. -/
+theorem forcedEdgeGraph_diff_le (G : SimpleGraph V) (F D : Set V) :
+    forcedEdgeGraph G (F \ D) ≤ forcedEdgeGraph G F :=
+  forcedEdgeGraph_mono G Set.diff_subset
+
+/-- De-forcing vertices preserves acyclicity of the forced-edge graph. -/
+theorem forcedEdgeGraph_diff_isAcyclic (G : SimpleGraph V) {F : Set V}
+    (hF : (forcedEdgeGraph G F).IsAcyclic) (D : Set V) :
+    (forcedEdgeGraph G (F \ D)).IsAcyclic :=
+  hF.anti (forcedEdgeGraph_diff_le G F D)
+
+/-- An edge between an already unforced vertex and a deleted forced vertex is
+absent after the deletion. -/
+theorem not_forcedEdgeGraph_diff_adj_of_not_mem_of_mem
+    (G : SimpleGraph V) {F D : Set V} {x y : V}
+    (hx : x ∉ F) (hy : y ∈ D) :
+    ¬(forcedEdgeGraph G (F \ D)).Adj x y := by
+  rintro ⟨_, hxy⟩
+  exact hxy.elim (fun hxF => hx hxF.1) (fun hyF => hyF.2 hy)
+
 /-- Containing the forced-edge graph preserves every ambient edge incident to
 a vertex in `F`. -/
 theorem preservesIncidentEdges_of_forcedEdgeGraph_le {G T : SimpleGraph V}
@@ -57,6 +85,33 @@ theorem preservesIncidentEdges_of_forcedEdgeGraph_le {G T : SimpleGraph V}
     ∀ ⦃v : V⦄, v ∈ F → preservesIncidentEdges G T v := by
   intro v hv w hvw
   exact h ⟨hvw, Or.inl hv⟩
+
+/-- A subgraph containing every ambient edge incident to `v` has the same
+degree as the ambient graph at `v`. -/
+theorem degree_eq_of_le_of_preservesIncidentEdges [Fintype V]
+    (G T : SimpleGraph V) [DecidableRel G.Adj] [DecidableRel T.Adj]
+    (hTG : T ≤ G) (v : V) (hv : preservesIncidentEdges G T v) :
+    T.degree v = G.degree v := by
+  apply congrArg Finset.card
+  ext w
+  simp only [SimpleGraph.mem_neighborFinset]
+  exact ⟨fun h => hTG h, fun h => hv h⟩
+
+/-- In a finite graph, equality of degrees in a subgraph forces containment of
+every ambient edge incident to that vertex. -/
+theorem preservesIncidentEdges_of_le_of_degree_eq [Fintype V]
+    (G T : SimpleGraph V) [DecidableRel G.Adj] [DecidableRel T.Adj]
+    (hTG : T ≤ G) (v : V) (hdegree : T.degree v = G.degree v) :
+    preservesIncidentEdges G T v := by
+  intro w hGw
+  have hsub : T.neighborFinset v ⊆ G.neighborFinset v := by
+    intro x hx
+    simp only [SimpleGraph.mem_neighborFinset] at hx ⊢
+    exact hTG hx
+  have hfin : T.neighborFinset v = G.neighborFinset v :=
+    Finset.eq_of_subset_of_card_le hsub
+      (by simpa only [SimpleGraph.degree] using hdegree.symm.le)
+  simpa only [← SimpleGraph.mem_neighborFinset, ← hfin] using hGw
 
 /-- If every vertex of `F` preserves all incident `G`-edges in `T`, then the
 forced-edge graph of `F` is a subgraph of `T`. -/

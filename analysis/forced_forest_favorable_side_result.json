@@ -1,0 +1,37 @@
+{
+  "claim": "some side S has |F intersect S| <= c_F+c_H-2",
+  "corners": "counted on both incident sides",
+  "counterexample": {
+    "c_F": 0,
+    "c_H": 1,
+    "independent_verification": "full-grid DSU plus |V|-|E| component counts",
+    "n": 1,
+    "rows": [
+      "0"
+    ],
+    "side_counts": [
+      0,
+      false,
+      0,
+      false
+    ],
+    "side_order": [
+      "top",
+      "right",
+      "bottom",
+      "left"
+    ],
+    "threshold": -1
+  },
+  "method": "complete exact product row grammar with exact component retirement",
+  "results": [
+    {
+      "counterexample": true,
+      "n": 1,
+      "peak_states": 2,
+      "terminal_states": 2,
+      "transitions_tested": 2
+    }
+  ],
+  "scope_limit": "finite tested widths only; no width-independent conclusion"
+}

@@ -471,4 +471,26 @@ theorem residueZero_le_maxPreserved (k : Nat) (hk : 7 ≤ k) :
   residueZero_le_maxPreserved_of_betterGeometry
     betterPersistentResidueZeroStepGeometry k hk
 
+/-- The explicit residue-zero construction score advances by the boundary
+gain.  This applies the construction at the successor width; it is not a
+recurrence claim about the previous maximum. -/
+theorem residueZero_constructionScore_lower_step (k : Nat) (hk : 7 ≤ k) :
+    3 * k ^ 2 + 3 * k - 2 + 2 * (3 * (k + 1)) ≤
+      maxPreserved (3 * (k + 1)) (3 * (k + 1)) := by
+  have htwo_le_k : 2 ≤ k :=
+    (Nat.succ_le_succ (Nat.succ_le_succ (Nat.zero_le 5))).trans hk
+  have hk_le_three_k : k ≤ 3 * k :=
+    Nat.le_mul_of_pos_left k (Nat.zero_lt_succ 2)
+  have hbase : 2 ≤ 3 * k ^ 2 + 3 * k :=
+    htwo_le_k.trans (hk_le_three_k.trans (by
+      simpa [Nat.add_comm] using Nat.le_add_right (3 * k) (3 * k ^ 2)))
+  have hscore :
+      3 * k ^ 2 + 3 * k - 2 + 2 * (3 * (k + 1)) =
+        3 * (k + 1) ^ 2 + 3 * (k + 1) - 2 := by
+    rw [← Nat.sub_add_comm hbase]
+    apply congrArg (fun n : Nat => n - 2)
+    ring
+  rw [hscore]
+  exact residueZero_le_maxPreserved (k + 1) (hk.trans (Nat.le_succ k))
+
 end GridGraphs

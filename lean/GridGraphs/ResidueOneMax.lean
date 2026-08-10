@@ -14,19 +14,6 @@ namespace GridGraphs
 
 open Finset SimpleGraph
 
-variable {V : Type*} [Fintype V]
-
-/-- A subgraph which contains every ambient edge incident to `v` has the same
-degree as the ambient graph at `v`. -/
-theorem degree_eq_of_le_of_preservesIncidentEdges (G T : SimpleGraph V)
-    [DecidableRel G.Adj] [DecidableRel T.Adj] (hTG : T ≤ G) (v : V)
-    (hv : preservesIncidentEdges G T v) :
-    T.degree v = G.degree v := by
-  apply congrArg Finset.card
-  ext w
-  simp only [SimpleGraph.mem_neighborFinset]
-  exact ⟨fun h => hTG h, fun h => hv h⟩
-
 /-- The residue-one construction preserves at least `3k² + 5k` vertices. -/
 theorem residueOne_le_maxPreserved (k : Nat) (hk : 1 ≤ k) :
     3 * k ^ 2 + 5 * k ≤ maxPreserved (3 * k + 1) (3 * k + 1) := by
