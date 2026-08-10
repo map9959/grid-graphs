@@ -47,6 +47,127 @@ def HasStrictSupershore {root : GridVertex m n}
     (a b : RootedTreeDart (T := T) root) : Prop :=
   a.1.targetShoreVertices ⊂ b.1.targetShoreVertices
 
+/-- An immediate supershore is the least strict rooted supershore. -/
+def IsImmediateSupershore {root : GridVertex m n}
+    (a b : RootedTreeDart (T := T) root) : Prop :=
+  HasStrictSupershore a b ∧ ∀ c, HasStrictSupershore a c →
+    b.1.targetShoreVertices ⊆ c.1.targetShoreVertices
+
+/-- An away-root tree dart is determined by its target shore. -/
+theorem RootedTreeDart.eq_of_targetShoreVertices_eq
+    (htree : T.IsTree) (root : GridVertex m n)
+    {a b : RootedTreeDart (T := T) root}
+    (hshore : a.1.targetShoreVertices = b.1.targetShoreVertices) :
+    a = b := by
+  apply Subtype.ext
+  apply eq_of_edgeSym2_eq_of_awayFromRoot htree root a.2 b.2
+  have hbtarget : b.1.target ∈ a.1.targetShoreVertices := by
+    rw [hshore]
+    exact target_mem_targetShoreVertices b.1
+  have hbsource : b.1.source ∉ a.1.targetShoreVertices := by
+    rw [hshore]
+    exact source_notMem_targetShoreVertices htree.IsAcyclic b.1
+  have hedge := edgeSym2_eq_of_source_mem_target_notMem a.1 b.1.reverse
+    (by simpa [reverse] using hbtarget)
+    (by simpa [reverse] using hbsource)
+  simpa only [edgeSym2, reverse, Sym2.eq_swap] using hedge.symm
+
+/-- Every nonmaximal rooted shore has a unique immediate strict supershore. -/
+theorem exists_unique_immediateSupershore
+    (htree : T.IsTree) {root : GridVertex m n}
+    (a : RootedTreeDart (T := T) root)
+    (h : ∃ b, HasStrictSupershore a b) :
+    ∃! b, IsImmediateSupershore a b := by
+  classical
+  let shores : Set (Finset (GridVertex m n)) :=
+    {S | ∃ b : RootedTreeDart (T := T) root,
+      HasStrictSupershore a b ∧ b.1.targetShoreVertices = S}
+  obtain ⟨b₀, hb₀⟩ := h
+  have hb₀mem : b₀.1.targetShoreVertices ∈ shores :=
+    ⟨b₀, hb₀, rfl⟩
+  have hfinite : shores.Finite := Set.toFinite shores
+  obtain ⟨D, _hDsub, hDmin⟩ := hfinite.exists_le_minimal hb₀mem
+  obtain ⟨b, hb, hD⟩ := hDmin.prop
+  have himmediate : IsImmediateSupershore a b := by
+    refine ⟨hb, ?_⟩
+    intro c hc
+    rcases targetShoreVertices_laminar htree root b.2 c.2 with
+      hbc | hcb | hdisjoint
+    · exact hbc
+    · have hcmem : c.1.targetShoreVertices ∈ shores := ⟨c, hc, rfl⟩
+      have hcD : c.1.targetShoreVertices ≤ D := by simpa [← hD] using hcb
+      have hDc := hDmin.2 hcmem hcD
+      simpa [← hD] using hDc
+    · have haTarget : a.1.target ∈ a.1.targetShoreVertices :=
+        target_mem_targetShoreVertices a.1
+      exact (Finset.disjoint_left.mp hdisjoint
+        (hb.1 haTarget) (hc.1 haTarget)).elim
+  refine ⟨b, himmediate, ?_⟩
+  intro c hc
+  apply RootedTreeDart.eq_of_targetShoreVertices_eq htree root
+  ext x
+  constructor
+  · intro hx
+    exact hc.2 b himmediate.1 hx
+  · intro hx
+    exact himmediate.2 c hc.1 hx
+
+/-- Canonical immediate continuation in the rooted-shore hierarchy. -/
+noncomputable def immediateRootedShoreParent
+    (htree : T.IsTree) {root : GridVertex m n}
+    (a : RootedTreeDart (T := T) root) :
+    Option (RootedTreeDart (T := T) root) := by
+  classical
+  exact if h : ∃ b, HasStrictSupershore a b then
+    some (Classical.choose (exists_unique_immediateSupershore htree a h))
+  else none
+
+theorem immediateRootedShoreParent_eq_some_iff
+    (htree : T.IsTree) {root : GridVertex m n}
+    (a b : RootedTreeDart (T := T) root) :
+    immediateRootedShoreParent htree a = some b ↔
+      IsImmediateSupershore a b := by
+  classical
+  unfold immediateRootedShoreParent
+  split
+  · rename_i h
+    constructor
+    · intro hab
+      have hchoose : Classical.choose
+          (exists_unique_immediateSupershore htree a h) = b :=
+        Option.some.inj hab
+      simpa [← hchoose] using
+        (Classical.choose_spec (exists_unique_immediateSupershore htree a h)).1
+    · intro hb
+      congr 1
+      exact ((Classical.choose_spec
+        (exists_unique_immediateSupershore htree a h)).2 b hb).symm
+  · rename_i h
+    constructor
+    · intro hab
+      cases hab
+    · intro hb
+      exact (h ⟨b, hb.1⟩).elim
+
+/-- The parent forest using genuine immediate shore continuation. -/
+noncomputable def immediateRootedShoreParentForest
+    (htree : T.IsTree) (root : GridVertex m n) :
+    ParentForest (RootedTreeDart (T := T) root) where
+  parent := immediateRootedShoreParent htree
+  rank := fun d => Fintype.card (GridVertex m n) -
+    d.1.targetShoreVertices.card
+  rank_parent := by
+    intro a b hparent
+    have hstrict :=
+      (immediateRootedShoreParent_eq_some_iff htree a b).1 hparent |>.1
+    have hcard : a.1.targetShoreVertices.card <
+        b.1.targetShoreVertices.card := Finset.card_lt_card hstrict
+    have hbcard : b.1.targetShoreVertices.card ≤
+        Fintype.card (GridVertex m n) := by
+      rw [← Finset.card_univ]
+      exact Finset.card_le_card (Finset.subset_univ _)
+    exact Nat.sub_lt_sub_left (hcard.trans_le hbcard) hcard
+
 private noncomputable def rootedShoreParent {root : GridVertex m n}
     (a : RootedTreeDart (T := T) root) :
     Option (RootedTreeDart (T := T) root) := by

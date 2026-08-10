@@ -54,6 +54,11 @@ instance (axis : ShoreSweepAxis) (n : Nat) : Fintype (CanonicalShoreDemand axis 
   unfold CanonicalShoreDemand
   infer_instance
 
+instance (axis : ShoreSweepAxis) (n : Nat) :
+    DecidableEq (CanonicalShoreDemand axis n) := by
+  unfold CanonicalShoreDemand
+  infer_instance
+
 theorem card (axis : ShoreSweepAxis) (n : Nat) :
     Fintype.card (CanonicalShoreDemand axis n) = n + 3 := by
   simp [CanonicalShoreDemand]

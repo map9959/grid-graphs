@@ -1,4 +1,5 @@
 import GridGraphs.ResidueTwoAffine
+import GridGraphs.ConnectivityTransport
 import GridGraphs.FiniteDiagonalSeventeen
 
 /-!
@@ -149,31 +150,15 @@ theorem reachable_of_adj {k : Nat} (S : ResidueTwoAffineStepGeometry k)
 theorem reachable_of_reachable {k : Nat} (S : ResidueTwoAffineStepGeometry k)
     {x y : GridFace (3 * k + 2) (3 * k + 2)}
     (hxy : (uuDualGraph (uResidueTwoAffine k)).Reachable x y) :
-    (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable (S.embed x) (S.embed y) := by
-  refine hxy.elim ?_
-  intro p
-  induction p with
-  | nil => exact Reachable.refl _
-  | cons hadj p ih => exact (S.reachable_of_adj hadj).trans (ih p.reachable)
+    (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable (S.embed x) (S.embed y) :=
+  reachable_map_of_adj_reachable S.embed S.reachable_of_adj hxy
 
 /-- One completed local geometry transports dual connectivity through a
 width-three affine step and attaches all newly created faces. -/
 theorem connected {k : Nat} (S : ResidueTwoAffineStepGeometry k)
     (hold : (uuDualGraph (uResidueTwoAffine k)).Connected) :
-    (uuDualGraph (uResidueTwoAffine (k + 1))).Connected := by
-  rw [SimpleGraph.connected_iff]
-  constructor
-  · intro x z
-    obtain ⟨y, hxy⟩ := S.attaches x
-    obtain ⟨w, hzw⟩ := S.attaches z
-    have hyout := S.reachable_of_reachable (hold y (.out))
-    have houtw := S.reachable_of_reachable (hold (.out) w)
-    have houtside : S.embed (.out) = .out := by
-      rw [S.embed_eq]
-      rfl
-    rw [houtside] at hyout houtw
-    exact hxy.trans (hyout.trans (houtw.trans hzw.symm))
-  · exact ⟨.out⟩
+    (uuDualGraph (uResidueTwoAffine (k + 1))).Connected :=
+  connected_of_reachable_map_of_attaches S.embed hold S.reachable_of_adj S.attaches
 
 end ResidueTwoAffineStepGeometry
 

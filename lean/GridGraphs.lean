@@ -21,6 +21,7 @@ import GridGraphs.SixteenCropUpper
 import GridGraphs.SixteenCropIncidence
 import GridGraphs.CropMaximalityEscape
 import GridGraphs.PlaneChannelForest
+import GridGraphs.ParentForestPhysicalSlots
 import GridGraphs.ChannelContourRouting
 import GridGraphs.GridCotreeSplitOuter
 import GridGraphs.GridShoreChannelForest
@@ -49,6 +50,12 @@ import GridGraphs.NeighboringCropAntiCongestion
 import GridGraphs.NoncrossingShoreChannels
 import GridGraphs.ChannelCarrierRoots
 import GridGraphs.ChannelMergerResources
+import GridGraphs.TreeEdgeMergerResources
+import GridGraphs.GridChannelContourRealization
+import GridGraphs.CanonicalShoreGerms
+import GridGraphs.CanonicalShoreContinuation
+import GridGraphs.CanonicalShoreForest
+import GridGraphs.CanonicalChannelRealization
 import GridGraphs.IncidenceWaste
 import GridGraphs.ForestLedger
 import GridGraphs.CotreeWaste
@@ -57,6 +64,7 @@ import GridGraphs.ForcedForestLedger
 import GridGraphs.ComponentReduction
 import GridGraphs.CheckerboardComponent
 import GridGraphs.TreeComponentBridge
+import GridGraphs.ConnectivityTransport
 import GridGraphs.UniversalWaste
 import GridGraphs.LinearWaste
 import GridGraphs.UniversalWasteBoundReduction

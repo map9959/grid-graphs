@@ -1,5 +1,6 @@
 import GridGraphs.ResidueTwoExact
 import GridGraphs.DiagonalFormula
+import GridGraphs.ConnectivityTransport
 
 /-!
 # One-step geometry for the exact residue-two family
@@ -72,23 +73,15 @@ theorem reachable_of_reachable {k : Nat} (S : ResidueTwoExactStepGeometry k)
     (hxy : (uuDualGraph (uResidueTwoExact k)).Reachable x y) :
     (uuDualGraph (uResidueTwoExact (k + 1))).Reachable
       (residueTwoExactStepFace k x) (residueTwoExactStepFace k y) := by
-  refine hxy.elim ?_
-  intro p
-  induction p with
-  | nil => exact Reachable.refl _
-  | cons hadj p ih => exact (S.reachable_of_adj hadj).trans (ih p.reachable)
+  exact reachable_map_of_adj_reachable (residueTwoExactStepFace k)
+    S.reachable_of_adj hxy
 
 /-- Path replacement and attachment transport connectivity through a step. -/
 theorem connected {k : Nat} (S : ResidueTwoExactStepGeometry k)
     (hold : (uuDualGraph (uResidueTwoExact k)).Connected) :
-    (uuDualGraph (uResidueTwoExact (k + 1))).Connected := by
-  rw [SimpleGraph.connected_iff]
-  constructor
-  · intro x z
-    obtain ⟨y, hxy⟩ := S.attaches x
-    obtain ⟨w, hzw⟩ := S.attaches z
-    exact hxy.trans ((S.reachable_of_reachable (hold y w)).trans hzw.symm)
-  · exact ⟨.out⟩
+    (uuDualGraph (uResidueTwoExact (k + 1))).Connected :=
+  connected_of_reachable_map_of_attaches (residueTwoExactStepFace k) hold
+    S.reachable_of_adj S.attaches
 
 end ResidueTwoExactStepGeometry
 

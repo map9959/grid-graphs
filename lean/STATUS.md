@@ -339,6 +339,35 @@ formalising Phase 8 of `docs/ROADMAP.md`.
 - `DiagonalUpperResidue.lean` replaces the global upper assumptions by minimal
   residue-local requirements. In residues one and two, a linear `W>=n` theorem
   automatically upgrades to `W>=n+2` by the exact cotree congruence.
+- `ChannelContourRouting.lean` routes exits separately and merger slots plus
+  roots jointly into the exact contour ledger. `ChannelMergerResources.lean`
+  now composes its internal-edge/preserved-component factorization directly
+  with this routing theorem. `GridChannelContourRealization.lean` packages the
+  complete realization interface and proves that any realization gives
+  `W>=n+2`. Direct boundary exits are separated from continuing demands, so an
+  empty continuing forest is allowed when cotree support covers every vertex.
+- `CanonicalShoreGerms.lean` constructs the `n+3` distinct side-labelled
+  boundary germs, classifies support-based direct exits, and embeds them into
+  actual split outer ports. `GridShoreChannelForest.lean` now constructs the
+  unique immediate-supershore parent forest. `CanonicalShoreContinuation.lean`
+  constructs retained inward tree edges and launched shores.
+- `CanonicalShoreForest.lean` constructs the launched ancestor closure with
+  private demand leaves, proves every merger-excess slot has a distinct
+  physical child, and jointly embeds merger-child and maximal-root attachment
+  edges into the spanning tree.
+- `CanonicalChannelRealization.lean` packages all canonical realization data
+  except one exact global resource condition, `CanonicalTerminalResources`,
+  and proves that condition yields `W>=n+2`. The condition is equivalent to the
+  cardinal bound from `MergerSlot + roots` into internal support-support tree
+  edges plus preserved components.
+- Edgewise noninternal-terminal injectivity is not a valid remaining target:
+  distinct selected tree edges may meet the same support-free component. The
+  remaining channel theorem must instead globally contract support-free
+  components and charge excess terminal multiplicity to distinct internal
+  support-support tree edges.
+- `ConnectivityTransport.lean` proves that path-valued adjacency maps preserve
+  connectivity when every target vertex attaches to the source image. The
+  exact and affine residue-two step modules use this common abstraction.
 - `ResidueTwoAffine.lean` proves the symbolic affine family has cardinality
   `6k^2+6k-1` and increment `12k+12`. `ResidueTwoAffineStep.lean` proves its
   `n=17` base connectivity and reduces arbitrary-width connectivity to four

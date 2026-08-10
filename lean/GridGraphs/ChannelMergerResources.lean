@@ -1,6 +1,7 @@
 import GridGraphs.PlaneChannelForest
 import GridGraphs.GridShoreChannelForest
 import GridGraphs.ChannelCarrierRoots
+import GridGraphs.ChannelContourRouting
 
 /-!
 # Channel-merger resource factorization
@@ -150,6 +151,35 @@ noncomputable def mergerSlotSumRootsResourceEmbedding
       · simp [mergerSlotResourceEmbedding, U, hb] at hab
         exact (hdisjoint ⟨b, hb⟩ a hab.symm).elim
     · exact congrArg Sum.inr (rootComponentEmbedding.injective (Sum.inr.inj hab))
+
+/-- The merger factorization hypotheses feed directly into the joint
+channel-to-contour routing bound. -/
+theorem incidenceWaste_ge_of_channelMergerResources
+    {n : Nat} (hn : 2 ≤ n) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis n ↪ ↥C.demand)
+    (exitEmbedding : ↥C.exits ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (root : GridVertex n n)
+    (separator : C.forest.MergerSlot → RootedChannelMerger (T := T) root)
+    (hseparator : Function.Injective fun s => (separator s).1.edgeSym2)
+    (hterminal : Function.Injective
+      (noninternalMergerComponent hT C.forest root separator))
+    (rootComponentEmbedding : ↥C.forest.roots ↪
+      ((gridGraph n n).induce
+        (↑((Finset.univ : Finset (GridVertex n n)) \
+          supportFinset (gridGraph n n \ T)) :
+            Set (GridVertex n n))).ConnectedComponent)
+    (hdisjoint : ∀ s, ∀ r,
+      noninternalMergerComponent hT C.forest root separator s ≠
+        rootComponentEmbedding r) :
+    n + 2 ≤ incidenceWaste (gridGraph n n \ T) := by
+  apply PlaneChannelForest.incidenceWaste_ge_of_combinedChannelContourRouting
+    hn axis hT C demandEmbedding exitEmbedding
+  exact mergerSlotSumRootsResourceEmbedding hT C.forest root separator
+    hseparator hterminal rootComponentEmbedding hdisjoint
 
 end GridDirectionalDart
 

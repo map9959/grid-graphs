@@ -105,6 +105,15 @@ so each color contains at least `n` non-preserved vertices.
 | `grid_component_reduction` | exact full-set forced-forest component identity |
 | `square_grid_component_reduction_compl` | exact square `U`-form of `Q_U+c_F+c_H` accounting |
 | `square_grid_tree_component_bridge` | exact identity `Q_U+c_F+c_H = W+2` for a square-grid spanning tree cotree |
+| `incidenceWaste_ge_of_combinedChannelContourRouting` | joint exit and merger/root resource routing implies `W>=n+2` |
+| `incidenceWaste_ge_of_channelMergerResources` | concrete merger factorization hypotheses discharge the joint routing premise |
+| `GridChannelContourRealization.incidenceWaste_ge` | every complete geometric realization gives the universal `W>=n+2` bound |
+| `CanonicalShoreDemand.boundaryIncidence_injective` | the `n+3` canonical demands have distinct side-labelled boundary germs |
+| `CanonicalShoreDemand.directExitEmbedding` | support-based direct germs inject into actual split outer ports |
+| `canonicalShoreDemandEmbedding` | every continuing canonical demand is a private leaf in the launched-shore forest |
+| `canonicalShoreTerminalTreeEdgeEmbedding` | merger-child and maximal-root attachment edges are jointly distinct tree edges |
+| `canonicalTerminalResources_iff_card_le` | the remaining canonical terminal-resource condition is exactly the global internal-edge/component cardinal inequality |
+| `square_grid_tree_universalWaste_of_canonicalTerminalResources` | the global canonical terminal-resource theorem implies `W>=n+2` |
 
 All statements are subtraction-free over `Nat` where possible. Component
 counts for the induced full-vertex graph use the subtype vertex set, so the
@@ -167,6 +176,11 @@ finite segment cut, handles vertical prefixes including both boundaries, and
 obtains an odd incident face from an arbitrary cycle edge. The resulting face
 cut proves unconditional `GridDualCycleSeparation` and the preserving-tree
 endpoint above.
+
+`ConnectivityTransport.lean` also packages the generic construction-side
+principle used by both residue-two step interfaces: source adjacencies may map
+to target paths, and target vertices need only attach to the source image for
+connectivity to transport.
 
 ### `GridGraphs/ResidueOne.lean` — residue-1 diagonal `U` cardinality
 

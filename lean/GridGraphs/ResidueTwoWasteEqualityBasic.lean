@@ -83,4 +83,97 @@ theorem fourSideComponentRank_eq_residueTwoAttachmentCharge {n : Nat}
   simpa only [residueTwoAttachmentCharge] using
     fourSideComponentRank_eq_component_charge hn U
 
+/-- For a residue-two spanning tree, tight waste is exactly the corresponding
+cotree-support cardinality profile. -/
+theorem residueTwo_support_card_eq_tight_iff_waste_eq
+    (k : Nat)
+    (T : SimpleGraph (GridVertex (3 * k + 2) (3 * k + 2)))
+    [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph (3 * k + 2) (3 * k + 2)) T) :
+    (residueTwoCotreeSupport T).card = 6 * k ^ 2 + 5 * k + 2 ↔
+      incidenceWaste (gridGraph (3 * k + 2) (3 * k + 2) \ T) =
+        (3 * k + 2) + 2 := by
+  have hledger := incidenceWaste_add_degreeSum
+    (gridGraph (3 * k + 2) (3 * k + 2) \ T)
+    (grid_cotree_degree_le_three (by omega) (by omega) hT)
+  rw [sum_grid_cotree_degrees_support hT] at hledger
+  have hD := D_expand (m := 3 * k + 2) (n := 3 * k + 2)
+    (by omega) (by omega)
+  have hsquare : (3 * k + 2) * (3 * k + 2) =
+      9 * k ^ 2 + 12 * k + 4 := by ring
+  rw [hsquare] at hD
+  change incidenceWaste (gridGraph (3 * k + 2) (3 * k + 2) \ T) +
+      D (3 * k + 2) (3 * k + 2) =
+        3 * (residueTwoCotreeSupport T).card at hledger
+  constructor
+  · intro h
+    rw [h] at hledger
+    omega
+  · intro h
+    rw [h] at hledger
+    omega
+
+/-- Near-tight stable waste is exactly the old-baseline support cardinality. -/
+theorem residueTwo_support_card_eq_near_iff_waste_eq
+    (k : Nat)
+    (T : SimpleGraph (GridVertex (3 * k + 2) (3 * k + 2)))
+    [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph (3 * k + 2) (3 * k + 2)) T) :
+    (residueTwoCotreeSupport T).card = 6 * k ^ 2 + 5 * k + 3 ↔
+      incidenceWaste (gridGraph (3 * k + 2) (3 * k + 2) \ T) =
+        (3 * k + 2) + 5 := by
+  have hledger := incidenceWaste_add_degreeSum
+    (gridGraph (3 * k + 2) (3 * k + 2) \ T)
+    (grid_cotree_degree_le_three (by omega) (by omega) hT)
+  rw [sum_grid_cotree_degrees_support hT] at hledger
+  have hD := D_expand (m := 3 * k + 2) (n := 3 * k + 2)
+    (by omega) (by omega)
+  have hsquare : (3 * k + 2) * (3 * k + 2) =
+      9 * k ^ 2 + 12 * k + 4 := by ring
+  rw [hsquare] at hD
+  change incidenceWaste (gridGraph (3 * k + 2) (3 * k + 2) \ T) +
+      D (3 * k + 2) (3 * k + 2) =
+        3 * (residueTwoCotreeSupport T).card at hledger
+  constructor
+  · intro h
+    rw [h] at hledger
+    omega
+  · intro h
+    rw [h] at hledger
+    omega
+
+/-- The tight exclusion is exactly nonexistence of its spanning-tree support
+profile. -/
+theorem residueTwoExactWasteExcluded_iff_no_tight_support_profile :
+    ResidueTwoExactWasteExcluded ↔
+      ∀ (k : Nat), 1 ≤ k →
+        ∀ (T : SimpleGraph (GridVertex (3 * k + 2) (3 * k + 2)))
+          [DecidableRel T.Adj],
+          IsSpanningSubtree (gridGraph (3 * k + 2) (3 * k + 2)) T →
+          (residueTwoCotreeSupport T).card ≠ 6 * k ^ 2 + 5 * k + 2 := by
+  constructor
+  · intro hexcluded k hk T _ hT hcard
+    exact hexcluded k hk T hT
+      ((residueTwo_support_card_eq_tight_iff_waste_eq k T hT).mp hcard)
+  · intro hprofile k hk T _ hT hwaste
+    exact hprofile k hk T hT
+      ((residueTwo_support_card_eq_tight_iff_waste_eq k T hT).mpr hwaste)
+
+/-- The stable near-tight exclusion is exactly nonexistence of its
+spanning-tree support profile. -/
+theorem stableResidueTwoNearWasteExcluded_iff_no_near_support_profile :
+    StableResidueTwoNearWasteExcluded ↔
+      ∀ (k : Nat), 5 ≤ k →
+        ∀ (T : SimpleGraph (GridVertex (3 * k + 2) (3 * k + 2)))
+          [DecidableRel T.Adj],
+          IsSpanningSubtree (gridGraph (3 * k + 2) (3 * k + 2)) T →
+          (residueTwoCotreeSupport T).card ≠ 6 * k ^ 2 + 5 * k + 3 := by
+  constructor
+  · intro hexcluded k hk T _ hT hcard
+    exact hexcluded k hk T hT
+      ((residueTwo_support_card_eq_near_iff_waste_eq k T hT).mp hcard)
+  · intro hprofile k hk T _ hT hwaste
+    exact hprofile k hk T hT
+      ((residueTwo_support_card_eq_near_iff_waste_eq k T hT).mpr hwaste)
+
 end GridGraphs
