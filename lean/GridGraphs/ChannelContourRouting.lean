@@ -130,6 +130,107 @@ def contourResourceEmbeddingWithDirectExits {D : Type*} {n : Nat}
           · congr 2
             exact mergerRootEmbedding.injective (Sum.inr.inj h)
 
+/-- Resource type for a forest pruned at later exits.  An exit root consumes a
+boundary sector instead of also consuming an internal-edge/component terminal. -/
+def PrunedRootResource (C : PlaneChannelForest V) :=
+  ↥C.exits ⊕
+    (C.forest.MergerSlot ⊕ ↥(C.forest.roots \ C.exits))
+
+noncomputable instance prunedRootResourceFintype
+    (C : PlaneChannelForest V) : Fintype C.PrunedRootResource := by
+  unfold PrunedRootResource
+  infer_instance
+
+noncomputable def prunedRootDemandEmbedding
+    (C : PlaneChannelForest V)
+    (hdemand : C.demand ⊆ C.forest.leaves)
+    (hexits : C.exits ⊆ C.forest.roots) :
+    ↥C.demand ↪ C.PrunedRootResource := by
+  classical
+  apply Classical.choice
+  apply Function.Embedding.nonempty_of_card_le
+  simp only [PrunedRootResource, Fintype.card_sum, Fintype.card_coe,
+    ParentForest.card_mergerSlot]
+  have hdemandCard : C.demand.card ≤ C.forest.leaves.card :=
+    Finset.card_le_card hdemand
+  have hrootPartition :
+      C.exits.card + (C.forest.roots \ C.exits).card = C.forest.roots.card := by
+    simpa only [Nat.add_comm] using
+      (Finset.card_sdiff_add_card_eq_card hexits)
+  rw [C.forest.card_leaves_eq_card_roots_add_branchExcess] at hdemandCard
+  omega
+
+noncomputable def canonicalShoreDemandPrunedRootEmbeddingWithDirectExits
+    {n : Nat} (axis : ShoreSweepAxis) (C : PlaneChannelForest V)
+    (directExits : Finset (CanonicalShoreDemand axis n))
+    (continuingEmbedding :
+      ↥((Finset.univ : Finset (CanonicalShoreDemand axis n)) \ directExits) ↪
+        ↥C.demand)
+    (hdemand : C.demand ⊆ C.forest.leaves)
+    (hexits : C.exits ⊆ C.forest.roots) :
+    CanonicalShoreDemand axis n ↪ (↥directExits ⊕ C.PrunedRootResource) where
+  toFun q := if hq : q ∈ directExits then
+      Sum.inl ⟨q, hq⟩
+    else
+      Sum.inr (C.prunedRootDemandEmbedding hdemand hexits (continuingEmbedding
+        ⟨q, Finset.mem_sdiff.mpr ⟨Finset.mem_univ q, hq⟩⟩))
+  inj' := by
+    classical
+    intro a b hab
+    by_cases ha : a ∈ directExits <;> by_cases hb : b ∈ directExits
+    · simp only [ha, hb, dite_true] at hab
+      exact congrArg Subtype.val (Sum.inl.inj hab)
+    · simp only [ha, hb, dite_true, dite_false] at hab
+      exact (Sum.inl_ne_inr hab).elim
+    · simp only [ha, hb, dite_true, dite_false] at hab
+      exact (Sum.inr_ne_inl hab).elim
+    · simp only [ha, hb, dite_false] at hab
+      have hd := (C.prunedRootDemandEmbedding hdemand hexits).injective
+        (Sum.inr.inj hab)
+      exact congrArg Subtype.val (continuingEmbedding.injective hd)
+
+def contourPrunedRootResourceEmbeddingWithDirectExits {D : Type*} {n : Nat}
+    (C : PlaneChannelForest V)
+    (directExits : Finset D)
+    (T : SimpleGraph (GridVertex n n)) [DecidableRel T.Adj]
+    (U : Finset (GridVertex n n))
+    (exitEmbedding : (↥directExits ⊕ ↥C.exits) ↪ BoundarySector U)
+    (terminalEmbedding :
+      (C.forest.MergerSlot ⊕ ↥(C.forest.roots \ C.exits)) ↪
+        (↥(internalEdgeFinset T U) ⊕
+          ((gridGraph n n).induce
+            (↑((Finset.univ : Finset (GridVertex n n)) \ U) :
+              Set (GridVertex n n))).ConnectedComponent)) :
+    (↥directExits ⊕ C.PrunedRootResource) ↪ PrimalContourResource T U where
+  toFun
+    | .inl direct => .inl (exitEmbedding (.inl direct))
+    | .inr (.inl exit) => .inl (exitEmbedding (.inr exit))
+    | .inr (.inr terminal) => .inr (terminalEmbedding terminal)
+  inj' := by
+    intro a b h
+    rcases a with direct | exitOrTerminal
+    · rcases b with direct' | exitOrTerminal'
+      · congr 1
+        exact Sum.inl.inj (exitEmbedding.injective (Sum.inl.inj h))
+      · rcases exitOrTerminal' with exit' | terminal'
+        · have hf := exitEmbedding.injective (Sum.inl.inj h)
+          exact (Sum.inl_ne_inr hf).elim
+        · simp at h
+    · rcases b with direct' | exitOrTerminal'
+      · rcases exitOrTerminal with exit | terminal
+        · have hf := exitEmbedding.injective (Sum.inl.inj h)
+          exact (Sum.inr_ne_inl hf).elim
+        · simp at h
+      · rcases exitOrTerminal with exit | terminal
+        · rcases exitOrTerminal' with exit' | terminal'
+          · congr 2
+            exact Sum.inr.inj (exitEmbedding.injective (Sum.inl.inj h))
+          · simp at h
+        · rcases exitOrTerminal' with exit' | terminal'
+          · simp at h
+          · congr 2
+            exact terminalEmbedding.injective (Sum.inr.inj h)
+
 /-- Split canonical demands into immediate exits and demands entering the
 continuing channel forest. -/
 noncomputable def canonicalShoreDemandResourceEmbeddingWithDirectExits
@@ -269,6 +370,47 @@ theorem incidenceWaste_ge_of_channelContourRoutingWithDirectExits
       continuingEmbedding).trans
       (C.contourResourceEmbeddingWithDirectExits directExits T U exitEmbedding
         mergerRootEmbedding)
+  have hcard : n + 3 ≤ Fintype.card (PrimalContourResource T U) := by
+    rw [← CanonicalShoreDemand.card axis n]
+    exact Fintype.card_le_of_injective routed.toFun routed.injective
+  have hledger :=
+    cotree_incidenceWaste_add_one_eq_card_primalContourResource hn hT
+  change incidenceWaste (gridGraph n n \ T) + 1 =
+    Fintype.card (PrimalContourResource T U) at hledger
+  rw [← hledger] at hcard
+  change (n + 2) + 1 ≤ incidenceWaste (gridGraph n n \ T) + 1 at hcard
+  exact Nat.le_of_add_le_add_right hcard
+
+/-- Corrected pruning bound when later exits are roots of the truncated forest.
+Such a root uses its boundary exit and is removed from the separate terminal
+resource rather than being counted twice. -/
+theorem incidenceWaste_ge_of_prunedRootChannelRoutingWithDirectExits
+    {n : Nat} (hn : 2 ≤ n) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (C : PlaneChannelForest V)
+    (directExits : Finset (CanonicalShoreDemand axis n))
+    (continuingEmbedding :
+      ↥((Finset.univ : Finset (CanonicalShoreDemand axis n)) \ directExits) ↪
+        ↥C.demand)
+    (hdemand : C.demand ⊆ C.forest.leaves)
+    (hexits : C.exits ⊆ C.forest.roots)
+    (exitEmbedding : (↥directExits ⊕ ↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (terminalEmbedding :
+      (C.forest.MergerSlot ⊕ ↥(C.forest.roots \ C.exits)) ↪
+        (↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))) ⊕
+          ((gridGraph n n).induce
+            (↑((Finset.univ : Finset (GridVertex n n)) \
+              supportFinset (gridGraph n n \ T)) :
+                Set (GridVertex n n))).ConnectedComponent)) :
+    n + 2 ≤ incidenceWaste (gridGraph n n \ T) := by
+  let U := supportFinset (gridGraph n n \ T)
+  let routed : CanonicalShoreDemand axis n ↪ PrimalContourResource T U :=
+    (canonicalShoreDemandPrunedRootEmbeddingWithDirectExits axis C directExits
+      continuingEmbedding hdemand hexits).trans
+      (C.contourPrunedRootResourceEmbeddingWithDirectExits directExits T U
+        exitEmbedding terminalEmbedding)
   have hcard : n + 3 ≤ Fintype.card (PrimalContourResource T U) := by
     rw [← CanonicalShoreDemand.card axis n]
     exact Fintype.card_le_of_injective routed.toFun routed.injective

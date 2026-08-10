@@ -106,14 +106,28 @@ so each color contains at least `n` non-preserved vertices.
 | `square_grid_component_reduction_compl` | exact square `U`-form of `Q_U+c_F+c_H` accounting |
 | `square_grid_tree_component_bridge` | exact identity `Q_U+c_F+c_H = W+2` for a square-grid spanning tree cotree |
 | `incidenceWaste_ge_of_combinedChannelContourRouting` | joint exit and merger/root resource routing implies `W>=n+2` |
+| `incidenceWaste_ge_of_prunedRootChannelRoutingWithDirectExits` | direct and later exits imply `W>=n+2` when exit roots replace, rather than duplicate, carrier terminals |
 | `incidenceWaste_ge_of_channelMergerResources` | concrete merger factorization hypotheses discharge the joint routing premise |
 | `GridChannelContourRealization.incidenceWaste_ge` | every complete geometric realization gives the universal `W>=n+2` bound |
 | `CanonicalShoreDemand.boundaryIncidence_injective` | the `n+3` canonical demands have distinct side-labelled boundary germs |
 | `CanonicalShoreDemand.directExitEmbedding` | support-based direct germs inject into actual split outer ports |
 | `canonicalShoreDemandEmbedding` | every continuing canonical demand is a private leaf in the launched-shore forest |
 | `canonicalShoreTerminalTreeEdgeEmbedding` | merger-child and maximal-root attachment edges are jointly distinct tree edges |
-| `canonicalTerminalResources_iff_card_le` | the remaining canonical terminal-resource condition is exactly the global internal-edge/component cardinal inequality |
-| `square_grid_tree_universalWaste_of_canonicalTerminalResources` | the global canonical terminal-resource theorem implies `W>=n+2` |
+| `canonicalTerminalResources_iff_card_le` | the exit-free prototype's terminal-resource condition is exactly the global internal-edge/component cardinal inequality |
+| `square_grid_tree_universalWaste_of_canonicalTerminalResources` | that conditional prototype resource theorem implies `W>=n+2`; universality is not asserted |
+| `uResidueTwoAffine_dual_connected` | the affine residue-two U-U dual is connected for every `k>=5` by symbolic width-three edge transport and face attachment |
+| `residueTwoAffine_uniform_le_maxPreserved` | unconditional near-target lower bound `3k^2+6k+5 <= P(3k+2)` for every `k>=5` |
+| `SimpleGraph.IsAcyclic.sup_of_support_inter_subsingleton` | two forests glued along at most one active vertex have acyclic union |
+| `IntervalStarGluingOrder.forcedEdgeGraph_isAcyclic` | a leaf-elimination order with unique physical attachments proves acyclicity of the complete forced interval-star union |
+| `card_carrierQuotient_add_card_collision` | raw terminal occurrences split exactly into distinct carrier classes and labelled duplicate contacts |
+| `PhysicalTreeTokenQuotientRouting.resourceEmbedding` | canonical internal-edge and component reservations plus residual collision routing reconstruct the full terminal embedding |
+| `nonempty_physicalTreeTokenQuotientRouting_iff_card_le` | residual collision routing exists exactly when unreserved internal-edge/component capacity covers all labelled collisions |
+| `square_grid_tree_universalWaste_of_canonicalCollisionRouting` | universal waste follows if every canonical forest admits the exact residual collision routing |
+| `GridExpandedContour.equiv_isCycle_of_spanningSquareTree` | the contour refined to all vertex/compass slots is one cycle for every nontrivial spanning square-grid tree |
+| `MarkedCycleFirstStop.leaves_eq_demands` | demand-reachable first-stop restriction shares suffixes while private starts remain exactly all leaves |
+| `CanonicalExpandedContourForest.exitEmbedding` | reached first-stop roots use distinct geometric split outer ports |
+| `CanonicalExpandedContourForest.mergerSlotTreeEdgeEmbedding` | expanded-contour merger slots use distinct unsupported canonical inward tree edges |
+| `canonicalExpandedJointCollisionRouting_iff_incidenceWaste_ge` | port-aware residual collision capacity is exactly equivalent to the universal waste target |
 
 All statements are subtraction-free over `Nat` where possible. Component
 counts for the induced full-vertex graph use the subtype vertex set, so the

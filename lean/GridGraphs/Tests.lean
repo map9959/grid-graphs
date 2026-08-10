@@ -3,6 +3,7 @@ import GridGraphs.Bounds
 import GridGraphs.ResidueOne
 import GridGraphs.GridDual
 import GridGraphs.CotreeWaste
+import GridGraphs.MarkedCycleFirstStop
 
 /-!
 # Decidable sanity tests linking Lean definitions to Rust DP ground truth
@@ -18,6 +19,53 @@ these `example`s and therefore break `lake build`.
 -/
 
 namespace GridGraphs
+
+/-! ## Marked-cycle merger accounting with a shared suffix -/
+
+noncomputable section
+
+attribute [local instance] Classical.propDecidable Classical.decEq
+
+private noncomputable def sharedSuffixFirstStop :
+    MarkedCycleFirstStop (Fin 4) where
+  f := finRotate 4
+  stop := {3}
+  starts := {0, 1}
+  stop_nonempty := by simp
+  eventually_stop := by
+    intro x
+    fin_cases x
+    · exact ⟨3, by decide⟩
+    · exact ⟨2, by decide⟩
+    · exact ⟨1, by decide⟩
+    · exact ⟨0, by decide⟩
+
+-- The two starts overlap from state 1 onward rather than tracing disjoint paths.
+example :
+    ((sharedSuffixFirstStop.f : Fin 4 → Fin 4)^[1]) 0 = 1 ∧
+      ((sharedSuffixFirstStop.f : Fin 4 → Fin 4)^[2]) 0 =
+        ((sharedSuffixFirstStop.f : Fin 4 → Fin 4)^[1]) 1 := by
+  decide
+
+example : sharedSuffixFirstStop.forest.leaves = sharedSuffixFirstStop.demands :=
+  sharedSuffixFirstStop.leaves_eq_demands
+
+example :
+    Fintype.card sharedSuffixFirstStop.forest.MergerSlot =
+      sharedSuffixFirstStop.starts.card - sharedSuffixFirstStop.exits.card :=
+  sharedSuffixFirstStop.card_mergerSlot_eq_card_starts_sub_card_exits
+
+example :
+    Fintype.card sharedSuffixFirstStop.forest.MergerSlot ≤
+      (sharedSuffixFirstStop.starts \ sharedSuffixFirstStop.stop).card :=
+  sharedSuffixFirstStop.card_mergerSlot_le_card_starts_sdiff_stop
+
+noncomputable example :
+    sharedSuffixFirstStop.forest.MergerSlot ↪
+      ↥(sharedSuffixFirstStop.starts \ sharedSuffixFirstStop.stop) :=
+  sharedSuffixFirstStop.mergerSlotUnmarkedStartEmbedding
+
+end
 
 /-! ## Planar-dual coordinate spot checks -/
 

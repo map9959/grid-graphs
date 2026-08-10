@@ -30,9 +30,12 @@ structure GridChannelContourRealization {n : Nat}
   continuingEmbedding :
     ↥((Finset.univ : Finset (CanonicalShoreDemand axis n)) \ directExits) ↪
       ↥channels.demand
+  demand_subset_leaves : channels.demand ⊆ channels.forest.leaves
+  exits_subset_roots : channels.exits ⊆ channels.forest.roots
   exitEmbedding : (↥directExits ⊕ ↥channels.exits) ↪ GridCotreeOuterPort T
   terminalResourceEmbedding :
-    (channels.forest.MergerSlot ⊕ ↥channels.forest.roots) ↪
+    (channels.forest.MergerSlot ⊕
+      ↥(channels.forest.roots \ channels.exits)) ↪
       (↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))) ⊕
         ((gridGraph n n).induce
           (↑((Finset.univ : Finset (GridVertex n n)) \
@@ -51,8 +54,9 @@ theorem incidenceWaste_ge (R : GridChannelContourRealization hT)
     n + 2 ≤ incidenceWaste (gridGraph n n \ T) := by
   letI := R.carrierFintype
   letI := R.carrierDecidableEq
-  apply PlaneChannelForest.incidenceWaste_ge_of_channelContourRoutingWithDirectExits
+  apply PlaneChannelForest.incidenceWaste_ge_of_prunedRootChannelRoutingWithDirectExits
     hn R.axis hT R.channels R.directExits R.continuingEmbedding
+    R.demand_subset_leaves R.exits_subset_roots
     (R.exitEmbedding.trans
       (gridCotreeOuterPortEquivBoundarySector hn hn hT).toEmbedding)
   exact R.terminalResourceEmbedding

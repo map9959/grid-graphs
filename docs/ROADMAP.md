@@ -338,8 +338,9 @@ CanonicalChannelRealization.lean
 
 ### Missing Planar Theorem
 
-The canonical channel forest and all boundary maps are now constructed. The
-primary upper-bound blocker is its global terminal-resource inequality.
+The launched canonical channel forest and its initial boundary maps are
+constructed. The current prototype sets its later exit set to empty, so it is
+not yet a universal realization.
 
 The desired interface has the following shape:
 
@@ -366,7 +367,7 @@ grid vertex, leaving no preserved component in which a mandatory nonempty
 forest could terminate. Only demands that do not exit directly enter the
 continuing forest.
 
-`CanonicalChannelRealization.lean` reduces the theorem that matters to:
+`CanonicalChannelRealization.lean` records the conditional prototype:
 
 ```lean
 CanonicalTerminalResources axis hn2 hn3 hT
@@ -374,15 +375,65 @@ CanonicalTerminalResources axis hn2 hn3 hT
 
 This is exactly the existence of an embedding of `MergerSlot + roots` into the
 sum of internal support-support tree edges and preserved components. It is
-equivalent to the corresponding finite cardinal inequality.
+equivalent to the corresponding finite cardinal inequality, but it is false
+for some spanning trees when the canonical forest has no later exits.
 
-The stronger edgewise strategy is invalid: distinct selected noninternal tree
-edges can meet the same support-free component, for example at a support-free
-root or merger. The next theorem must therefore be a global contraction or
-charging argument. After contracting every support-free component in the
-launched-shore subtree, terminal multiplicity beyond one must be charged to
-distinct internal support-support tree edges. Proving this cardinal inequality
-constructs the complete realization and yields universal waste immediately.
+Two corrections are required. First, distinct selected noninternal tree edges
+can meet the same support-free component, so edgewise component injectivity is
+invalid. Second, internal edges and preserved components alone do not have
+enough capacity: supported boundary sectors encountered after launch must be
+retained as `channels.exits` rather than discarded by `exits := ∅`.
+
+The next geometric theorem must classify the first terminal event along each
+immediate-shore continuation as a later split-outer exit, an internal
+support-support tree edge, or a preserved component. It must prove global
+nonreuse across all three resource types. Only that corrected theorem can
+construct an unconditional realization and yield universal waste.
+
+The corresponding collision claim is false for the current exit-free maximal-
+shore forest. A concrete `3 x 3` spanning tree has two distinct canonical roots
+contacting the same preserved component, no internal support-support tree edge,
+and no later exits because the prototype sets `exits := empty`. Thus the next
+step must first define a port-valued split-outer continuation and truncate the
+forest at first boundary contact; it cannot repair the existing maximal roots
+afterward. See `analysis/CANONICAL_CARRIER_COLLISION.md`.
+
+The abstract accounting for that theorem is now formalized by
+`incidenceWaste_ge_of_prunedRootChannelRoutingWithDirectExits`. It requires
+later exits to be roots of the truncated forest and routes only
+`MergerSlot + (roots \ exits)` to internal-edge/component resources. Thus an
+exit root replaces its carrier terminal instead of being counted twice.
+
+`TerminalCarrierQuotientRouting.lean` now gives the exact valid factorization
+of the remaining terminal condition. Physical internal tokens reserve their
+own internal edges, one representative of each noninternal carrier class
+reserves that preserved component, and only the labelled duplicate contacts
+remain as collision debt. It constructs the original terminal embedding from
+an embedding of those collisions into the unreserved resources and proves that
+existence is exactly the corresponding finite capacity inequality. This removes
+the false raw component-injectivity premise but does not assert collision
+capacity or create resources by quotienting.
+
+The port-valued truncation problem is now solved at the modeling level by a
+different canonical forest. `GridExpandedContour.lean` refines the tree contour
+to all vertex/compass slots and proves that this refinement is one cycle; split
+outer ports are literal distinct missing slots, including both corner
+incidences. `MarkedCycleFirstStop.lean` cuts that cycle at all supported outer
+ports and shares demand-reachable suffixes. `CanonicalExpandedContourForest.lean`
+embeds all `n+3` canonical demands, proves that reached ports are exactly the
+roots, and gives an injective root-to-port map. Direct and later arrivals at one
+port now merge before consuming the port, rather than competing for it.
+
+Merger slots inject into distinct unsupported canonical inward tree edges, and
+the port-aware quotient permits duplicate component contacts to use any
+unreserved port, internal edge, or component. However, this residual condition
+is exactly equivalent to universal waste, as proved by
+`canonicalExpandedJointCollisionRouting_iff_incidenceWaste_ge`. It is therefore
+an exact normal form, not a proof. The remaining theorem must be a localized
+Hall/decongestion result with a geometric candidate relation. Straight
+free-component branches do not suffice: bare supported leaf branches own no
+port, internal edge, or additional component. See
+`analysis/EXPANDED_CONTOUR_DECONGESTION.md`.
 
 ### Residue-Two Upper Exclusions
 
@@ -435,6 +486,14 @@ Before formalizing another candidate, verify these conditions symbolically:
 9. No nonempty proper symbolic face set has empty dual boundary.
 10. A uniform acyclicity or dual-connectivity proof exists before Lean coding.
 
+The existing affine family is now proved symbolically at arbitrary width. Old
+occurrences embed through a step either by moving the final pumped block or by
+keeping its copy at the insertion. Explicit seam paths transport every old dual
+edge, and symbolic row/column corridors attach every inserted face. This gives
+the unconditional near-target bound `3k^2+6k+5 <= P(3k+2)` for `k>=5`, without
+a finite-state search. The exact family must improve this by `k-5` preserved
+vertices while retaining a similarly closed-form interface.
+
 A useful next abstraction is a comb-gluing theorem:
 
 > A union of straight interval-star trees is acyclic when every physical
@@ -444,6 +503,30 @@ A useful next abstraction is a comb-gluing theorem:
 This would turn the stable residue-two construction problem into designing a
 periodic interval family of exact cardinality `3k^2+7k` with a tree-shaped
 incidence graph.
+
+That abstraction is now formalized in `IntervalStarGluing.lean`. It proves
+binary forest gluing along at most one active vertex, lifts this to indexed
+leaf-elimination orders, and specializes the result to unions of forced
+interval-stars.
+
+The simplest promoted-affine application is impossible. In every repeated
+`3 x 3` pump block the affine pattern is `UU.` in each row. Promoting either U
+vertex completes a forced unit-cell cycle against the neighboring preserved
+column. More generally, the first nontrivial affine member at `k=6` admits no
+valid single-vertex promotion, so adding one independent preserved vertex per
+pump block cannot produce the exact family. The next candidate must change the
+seam by a coordinated add/delete exchange or use a different closed-form
+interval family; do not launch a state search for promotions.
+
+The smallest endpoint exchange is impossible as well. Shortening one preserved
+vertical spine by one vertex and filling the adjacent two-vertex `UU` gap has
+the correct net cardinality, but the second insertion completes a forced unit
+square with the surviving spine endpoint. At `n=20`, existing complete local
+checks exclude every net-one affine repair through three additions and four
+deletions. The first affine-neighborhood size not already excluded is therefore
+four additions and five deletions, and existing slab negatives require such a
+change to coordinate the middle with the closing cap. No width-independent
+coordinates or rooted-interface proof are currently known for that exchange.
 
 ## Two-Sided Surgery Infrastructure
 
@@ -493,6 +576,8 @@ construction.
 | Two persistent boundary caps plus horizontal combs | The component-incidence graph contains `K_(2,k+1)` cycles |
 | Scalar component/boundary potentials | Exact ledgers show they only re-express cardinality |
 | Seam components as injective resources | Distinct physical demands may share one seam component |
+| One affine-U promotion per pump block | Every repeated-block candidate closes a forced cell cycle; the `k=6` affine member has no valid single promotion |
+| Shorten one affine spine and fill its adjacent `UU` gap | The second inserted center completes a forced unit-square cycle through the surviving spine endpoint |
 
 Negative results are part of the proof state. Preserve them so future work does
 not return to refuted local models.

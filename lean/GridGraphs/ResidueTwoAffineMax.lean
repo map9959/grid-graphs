@@ -2,12 +2,11 @@ import GridGraphs.ResidueTwoAffineStep
 import GridGraphs.ConstructionCertificate
 
 /-!
-# Connectivity obligation and consequences for the affine residue-two family
+# Lower bound from the affine residue-two family
 
-The exact remaining topological statement is exposed as a ranked, rooted
-certificate.  Everything after that statement, including dual connectivity
-and the lower bound on `maxPreserved`, is proved unconditionally from such a
-certificate.
+The symbolic width-three geometry proves dual connectivity at every width, so
+the exact complement cardinality gives an unconditional near-target lower
+bound.
 -/
 
 namespace GridGraphs
@@ -70,7 +69,7 @@ theorem residueTwoAffine_uniform_le_maxPreserved_of_dual_connected
   exact residueTwoAffine_le_maxPreserved_of_dual_connected k hk (h k hk)
 
 /-- A family of ranked certificates yields the uniform residue-two bound. -/
-theorem residueTwoAffine_uniform_le_maxPreserved
+theorem residueTwoAffine_uniform_le_maxPreserved_of_ranked
     (h : ∀ k, 5 ≤ k → ResidueTwoAffineRankedConnectivity k) :
     ∀ k, 5 ≤ k → 3 * k ^ 2 + 6 * k + 5 ≤
       maxPreserved (3 * k + 2) (3 * k + 2) := by
@@ -85,5 +84,13 @@ theorem residueTwoAffine_uniform_le_maxPreserved_of_stepGeometry
       maxPreserved (3 * k + 2) (3 * k + 2) :=
   residueTwoAffine_uniform_le_maxPreserved_of_dual_connected
     (uResidueTwoAffine_dual_connected_of_stepGeometry steps)
+
+/-- Unconditional arbitrary-width lower bound supplied by the symbolic affine
+step geometry. -/
+theorem residueTwoAffine_uniform_le_maxPreserved :
+    ∀ k, 5 ≤ k → 3 * k ^ 2 + 6 * k + 5 ≤
+      maxPreserved (3 * k + 2) (3 * k + 2) :=
+  residueTwoAffine_uniform_le_maxPreserved_of_dual_connected
+    uResidueTwoAffine_dual_connected
 
 end GridGraphs

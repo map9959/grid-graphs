@@ -355,24 +355,96 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   private demand leaves, proves every merger-excess slot has a distinct
   physical child, and jointly embeds merger-child and maximal-root attachment
   edges into the spanning tree.
-- `CanonicalChannelRealization.lean` packages all canonical realization data
-  except one exact global resource condition, `CanonicalTerminalResources`,
-  and proves that condition yields `W>=n+2`. The condition is equivalent to the
-  cardinal bound from `MergerSlot + roots` into internal support-support tree
-  edges plus preserved components.
+- `CanonicalChannelRealization.lean` packages a conditional exit-free
+  prototype and proves `CanonicalTerminalResources` would yield `W>=n+2`. The
+  condition is equivalent to the cardinal bound from `MergerSlot + roots` into
+  internal support-support tree edges plus preserved components, but it is not
+  universal because the prototype discards supported boundary exits met after
+  launch.
 - Edgewise noninternal-terminal injectivity is not a valid remaining target:
   distinct selected tree edges may meet the same support-free component. The
-  remaining channel theorem must instead globally contract support-free
-  components and charge excess terminal multiplicity to distinct internal
-  support-support tree edges.
+  remaining channel theorem must retain later split-outer exits and globally
+  route first terminal events into unused boundary sectors, internal
+  support-support tree edges, and preserved components without reuse.
+- The stronger claim that every collision of current canonical roots can be
+  discharged afterward is also false. An explicit `3 x 3` tree has two
+  maximal-shore roots at distinct tree edges entering the same support-free
+  component, no internal support-support tree edge, and no later exit in the
+  exit-free prototype. A valid construction must assign actual split-outer
+  ports and truncate before those maximal roots are formed.
+- `TerminalCarrierQuotientRouting.lean` formalizes the exact collision ledger.
+  For an injectively labelled family of physical terminal tree edges, internal
+  tokens reserve their physical internal edges and one representative per
+  noninternal carrier class reserves its component. Only labelled duplicate
+  carrier contacts remain. `PhysicalTreeTokenQuotientRouting.resourceEmbedding`
+  reconstructs the complete terminal resource embedding from a complementary
+  embedding of those collisions, and
+  `nonempty_physicalTreeTokenQuotientRouting_iff_card_le` gives its exact finite
+  capacity criterion. The canonical forest is specialized by
+  `CanonicalTerminalCollisionRouting`; no universal existence is claimed.
+- `GridOuterPortContour.lean` refines every split outer port to the unique local
+  clockwise tree-contour turn crossing its outward stub. The refined occurrence
+  retains the crossed direction, so two corner incidences remain distinct.
+- `GridExpandedContour.lean` expands the contour to every vertex/compass slot,
+  proves explicit successor/predecessor inverses, proves first-return
+  compression to the old dart contour, and proves the expanded permutation is
+  one cycle for every nontrivial spanning square-grid tree.
+- `ParentForestFirstStop.lean` and `MarkedCycleFirstStop.lean` formalize shared
+  first-stop restriction. The latter proves that private starts are exactly all
+  leaves, reached marks are exactly all roots, and merger slots inject into
+  unmarked starts even when start paths share suffixes.
+- `CanonicalExpandedContourForest.lean` launches all canonical demands on the
+  expanded cycle. Direct demands start at their supported outward slot and
+  continuing demands at their retained inward slot. Starts are injective,
+  every orbit reaches a marked outer port, and reached exits embed injectively
+  into actual split outer ports.
+- `CanonicalExpandedCollisionRouting.lean` maps expanded merger slots to
+  distinct unsupported canonical inward tree edges and packages both strict and
+  port-aware quotient routings. The audit theorem
+  `canonicalExpandedJointCollisionRouting_iff_incidenceWaste_ge` proves that
+  the preferred residual routing is exactly equivalent to `W>=n+2`; it is not
+  an independent geometric hypothesis. Row/column axis choice cannot change
+  this deficit. A proof now requires a localized Hall relation that handles
+  bare component-attachment branches nonlocally.
+- `ChannelContourRouting.lean` now proves the corrected abstract pruning
+  theorem `incidenceWaste_ge_of_prunedRootChannelRoutingWithDirectExits`.
+  Later exits must be roots, demand vertices must be leaves, and only
+  `MergerSlot + (roots \ exits)` consumes internal-edge/component resources.
+  `GridChannelContourRealization.lean` uses this non-double-counting interface.
 - `ConnectivityTransport.lean` proves that path-valued adjacency maps preserve
   connectivity when every target vertex attaches to the source image. The
   exact and affine residue-two step modules use this common abstraction.
 - `ResidueTwoAffine.lean` proves the symbolic affine family has cardinality
   `6k^2+6k-1` and increment `12k+12`. `ResidueTwoAffineStep.lean` proves its
-  `n=17` base connectivity and reduces arbitrary-width connectivity to four
-  explicit local step obligations. The resulting lower bound remains
-  conditional on those local geometry obligations.
+  `n=17` base connectivity and now discharges all old-edge transport and
+  successor-face attachment obligations symbolically.
+- The affine successor API now includes two symbolic occurrence embeddings:
+  one moves the final old pumped block past the insertion and one keeps an old
+  copy in the newly inserted position. `residueTwoAffineStepVertex_mem` proves
+  every old `U` vertex survives under the moved-block embedding.
+- `ResidueTwoAffineStep.lean` now proves old-face preimages and transports every
+  interior or boundary old dual edge, including the genuine row/column seam
+  paths, and attaches every face in the inserted slabs. Consequently
+  `uResidueTwoAffine_dual_connected` holds for every `k>=5` without generated-
+  board enumeration. `ResidueTwoAffineMax.lean` packages the unconditional
+  lower bound `3k^2+6k+5 <= P(3k+2)`.
+- `IntervalStarGluing.lean` proves that two forests sharing at most one active
+  support vertex have acyclic union, lifts this to indexed leaf-elimination
+  orders, and identifies the resulting graph with the forced graph of the union
+  of all listed interval centers.
+- Analytic calibration rules out the naive exact repair of the affine family.
+  Every U vertex in a repeated `UU.` pump block closes a forced unit-cell cycle
+  when promoted, and the `k=6` affine member has no valid single promotion.
+  Any exact stable family must use a coordinated add/delete seam change or a
+  different interval incidence tree, not independent affine promotions.
+- The natural net-one endpoint exchange is locally impossible too: deleting one
+  preserved spine endpoint and preserving the two adjacent `UU` vertices makes
+  the second insertion close a forced unit square through the surviving spine
+  endpoint. Existing complete `n=20` checks exclude all net-one affine repairs
+  through three additions/four deletions. A further affine-based attempt must
+  therefore coordinate at least four additions/five deletions across the
+  middle and cap, but no symbolic rooted-interface schedule for that operation
+  is known.
 - `ResidueTwoExact.lean` defines a twenty-based pump with the exact target
   cardinality `6k^2+5k+4`, exact increment `12k+11`, and exact two-step
   increment `24k+34`. `ResidueTwoExactStep.lean` identifies the base with the
