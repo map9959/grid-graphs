@@ -48,11 +48,268 @@ mathlib bound expressions) machinery are in this repo. See
 | 4 | Matching upper bounds via Karp's max-mean cycle | **Done for m ≤ 6 rigorously, m ≤ 10 empirically** | `analysis/proofs_upper.md`, `src/transfer.rs`, `src/motif.rs` |
 | 5 | Conjecture A as a theorem (`α_m = (m+2)/3 ⇔ m ≡ 1 mod 3`) | Pending — **recommended next** | — |
 | 6 | Per-m closed forms for `m ≡ 0, 2 (mod 3)` | Pending | — |
-| 7 | Diagonal `P(n, n)`: prove the revised piecewise formula | **In progress**; residues 0 and 1 have constructions, residue 2 is exact at n=17 and open from n=20 upward | `analysis/proofs_diagonal.md`, `analysis/PROOF_ORIENTED_PROTOTYPE.md` |
+| 7 | Diagonal `P(n, n)`: prove the revised piecewise formula | **In progress**; exact bases and substantial upper-bound infrastructure are formalized, while the global planar realization and stable residue-two lower family remain open | `analysis/proofs_diagonal.md`, `lean/STATUS.md`, current roadmap below |
 | 8 | Lean formalization of `P(m, n) ≤ basicUB m n` | **Done** | `lean/GridGraphs/Spanning.lean` (`preserved_le_basicUB`) |
 | 9 | Lean formalization of per-`m` constructions and Conjecture A | Pending (multi-month) | — |
 
-### What Phase 3 actually delivered
+## Current diagonal critical path (authoritative)
+
+This section supersedes the older recurrence-first execution order later in
+Phase 7. The current strategy is to prove matching **absolute upper and lower
+bounds** first, derive the exact diagonal formula directly, and only then
+derive `DiagonalRecurrence` as a corollary.
+
+```text
+planar upper bounds + explicit lower constructions
+  -> exact diagonal formula
+  -> DiagonalRecurrence
+```
+
+This avoids making the unfinished crop-equality phase classification and
+arbitrary-maximizer reverse frames prerequisites for the formula.
+
+### Execution plan
+
+| Step | Work | Deliverable | Completion gate |
+|---:|---|---|---|
+| 1 | Consolidate the planar realization interface | A `GridChannelContourRealization` combining a pruned channel forest, canonical demands, split-outer exits, merger slots, and carrier roots | The structure carries geometric data rather than assuming an embedding into the final combined resource |
+| 2 | Construct canonical pruned channels | Realize the `n+3` row/column and corner germs as leaves or exits of an actual pruned channel forest | The demand map is injective and the parent relation follows genuine immediate channel continuation |
+| 3 | Prove joint merger/root accounting | Embed `MergerSlot ⊕ roots` into `internalEdgeFinset T U ⊕ components(grid[F])` | All `k-1` merger multiplicities are retained and component terminals are globally unique |
+| 4 | Prove the universal planar waste bound | `square_grid_tree_universalWaste : n + 2 ≤ incidenceWaste (...)` | The theorem holds for every square-grid spanning tree with no realization hypothesis |
+| 5 | Exclude tight residue-two waste | Prove `ResidueTwoExactWasteExcluded`, equivalently nonexistence of the tight acyclic support profile | For `n=3k+2`, `W ≠ n+2` |
+| 6 | Exclude stable near-tight waste | Prove `StableResidueTwoNearWasteExcluded`, equivalently nonexistence of the stable near profile | For `k≥5`, `W ≠ n+5` |
+| 7 | Derive the complete absolute upper formula | `maxPreserved n n ≤ diagonalFormulaP n` by residue classes | Includes `P(17)≤110` without a separate crop-equality classification |
+| 8 | Package existing lower constructions | One theorem covering residue zero, residue one, and finite residue-two widths through `n=20` | Only stable residue-two widths `n≥23` remain |
+| 9 | Build a new stable residue-two family | Explicit family of score `3k²+7k` for every `k≥7`, with symbolic forced acyclicity or connected U-U dual | The candidate passes all local-cell, separator, and global incidence-forest gates before Lean implementation |
+| 10 | Prove the complete absolute lower formula | `diagonalFormulaP n ≤ maxPreserved n n` | Covers every `n≥3` |
+| 11 | Prove the unconditional formula directly | `maxPreserved_eq_diagonalFormulaP_unconditional` | Combine Steps 7 and 10 by antisymmetry |
+| 12 | Derive the recurrence afterward | `diagonalRecurrence_proved : DiagonalRecurrence` from the exact formula and formula arithmetic | No crop equality phases or arbitrary-maximizer reverse frames are required |
+| 13 | Final verification | Full Lean build, `git diff --check`, and prohibited-token scan | No assumptions, solvers, exhaustive scripts, or computational proof shortcuts |
+
+### Current completion table
+
+The previous two-sided surgery plan delivered useful infrastructure, but it is
+not itself the current critical path to the formula.
+
+| Area | Status | Formal result or remaining gate |
+|---|---|---|
+| Public tooth-cut certificate | Mostly complete | Defect-sized owner-labelled terminals, physical tooth endpoints, exact endpoint coverage, forced endpoints, bounded deletion, and insertion validity are public; root paths remain private |
+| Grid specialization | Complete | Rectangular grids are triangle-free; a genuine owner can be inserted after at most three non-neighbor deletions |
+| Sequential delete/add surgery | Complete | Dependent traces preserve acyclicity and have exact telescoping cardinality |
+| Trace normalization and crop ledger | Complete | Final state is normalized to `(C \ D) ∪ R`; exact delete/add frame-loss wrappers are proved |
+| Shared deletion accounting | Complete as an identity | Endpoint-fiber excess is exactly the deletion saving; no theorem yet forces enough cross-owner endpoint collisions |
+| Sixteen crops | Partial | All sixteen crops, exact survival/frame-loss incidence sums, selection, and conditional recurrence interfaces exist; full adjacent-offset transfer geometry is absent |
+| Crop discharge and aggregate surplus | Open | No proof of `Σ_Q (|R_Q|-|D_Q|) ≥ Σ_Q (ℓ_Q-2n)_+` |
+| Exact bases | Complete | `P(3)=4`, `P(4)=8`, and `P(5)=11` are unconditional Lean theorems |
+| Planar pruning and resource adapters | Partial | Abstract channel-forest count, split outer ports, carrier roots, merger factorization, and conditional contour routing exist; the grid realization is missing |
+| Universal waste | Open | Requires Steps 1-4 above |
+| Residue-two upper exclusions | Open | Tight and stable near-profile nonexistence are reduced but not proved |
+| Stable residue-two lower construction | Open | Exact constructions exist through `n=20`; no valid exact family from `n=23` onward is known |
+| Exact formula and recurrence | Open | Arithmetic assembly is ready once upper and lower bounds close |
+
+### Upper-bound track
+
+The following modules already provide most of the target types and generic
+accounting:
+
+- `PlaneChannelForest.lean`
+- `ChannelContourRouting.lean`
+- `GridCotreeSplitOuter.lean`
+- `GridShoreChannelForest.lean`
+- `ChannelCarrierRoots.lean`
+- `ChannelMergerResources.lean`
+- `NoncrossingShoreChannels.lean`
+
+The missing realization should package data of the following shape:
+
+```lean
+structure GridChannelContourRealization ... where
+  Carrier : Type
+  carrierFintype : Fintype Carrier
+  carrierDecidableEq : DecidableEq Carrier
+
+  channels : PlaneChannelForest Carrier
+
+  demandEmbedding :
+    CanonicalShoreDemand axis n ↪ channels.demand
+
+  exitEmbedding :
+    channels.exits ↪ GridCotreeOuterPort T
+
+  separator :
+    channels.forest.MergerSlot →
+      GridDirectionalDart.RootedChannelMerger root
+
+  separatorInjective : ...
+
+  rootContact : channels.forest.roots → CotreeFreeSet T
+  carrierPruned : channels.forest.CarrierPruned rootContact
+
+  terminalDisjointness : ...
+```
+
+The important endpoint is an unconditional existence theorem:
+
+```lean
+theorem exists_gridChannelContourRealization
+    (hn : 3 ≤ n)
+    (hT : IsSpanningSubtree (gridGraph n n) T) :
+    Nonempty (GridChannelContourRealization hT)
+```
+
+#### Demand construction
+
+Use tagged external germs:
+
+- one left-side germ for each row, or top-side germ for each column;
+- three distinct clockwise corner germs;
+- actual channel states following cotree/contour continuation;
+- private source germs removed only after their first geometric event is
+  classified.
+
+The construction must prove:
+
+- sources are distinct;
+- every source is a leaf or an immediate split-outer exit;
+- common suffixes merge rather than being duplicated;
+- unary continuation states are pruned;
+- no parent is selected by arbitrary strict-supershore choice.
+
+#### Merger and terminal accounting
+
+At every `k`-way merger, retain exactly `k-1` slots. Each slot must receive a
+distinct rooted separator dart and then either an internal `U-U` tree edge or a
+preserved-component terminal. Roots and noninternal merger terminals must be
+charged jointly so that one preserved component is never used twice.
+
+Once this is realized, `ChannelContourRouting` already supplies
+
+```text
+n + 3 ≤ W + 1,
+W ≥ n + 2.
+```
+
+#### Residue-two exclusions
+
+The reductions are already formalized:
+
+- `ResidueTwoTightAttachmentContradiction` is equivalent to nonexistence of an
+  acyclic support of cardinality `6k²+5k+2`.
+- `StableResidueTwoPersistentAttachmentDebt` is equivalent to nonexistence of
+  the stable near profile of cardinality `6k²+5k+3`.
+
+The preferred proof is a phase-refined channel realization. Tight residue-two
+channels must not use exactly `n+3` resources, and stable channels must not use
+exactly `n+6`. Component identity and checkerboard phase must survive pruning
+so that the extra phase debt becomes a genuine extra merger, exit, or carrier
+resource.
+
+Do not resume scalar component or boundary potentials: the exact component
+ledgers show that these only re-express cardinality.
+
+### Lower-bound track
+
+| Residue | Current lower coverage |
+|---|---|
+| `n=3k` | Finite bases plus the uniform symbolic residue-zero construction for large `k` |
+| `n=3k+1` | Uniform symbolic residue-one construction |
+| `n=3k+2`, `k≤6` | Explicit constructions through `n=20` |
+| `n=3k+2`, `k≥7` | Missing |
+
+Therefore the only missing lower family is stable residue two from `n=23`
+onward.
+
+Before another candidate is formalized, it must pass these proof gates:
+
+1. No cell contains three forced vertices.
+2. No cell contains diagonally opposite forced vertices.
+3. Every induced forced component is a straight interval.
+4. Every interval-star is a tree.
+5. The global incidence graph of interval-stars is a forest.
+6. Every successor adds exactly `6k+10` forced vertices.
+7. The successor interface is stable under `k → k+1`.
+8. No bounded dual face is isolated.
+9. No nontrivial symbolic face set has empty dual boundary.
+10. A uniform acyclicity or dual-connectivity proof exists before Lean coding.
+
+A useful next abstraction is a comb-gluing theorem: a union of straight
+interval-star trees is acyclic when their physical intersections are uniquely
+owned and their incidence multigraph is a forest. The construction problem can
+then be posed as finding a periodic interval family of cardinality
+`3k²+7k` with a tree-shaped incidence graph.
+
+### Formula-first assembly
+
+Once the two absolute bounds are proved:
+
+```lean
+theorem maxPreserved_eq_diagonalFormulaP_unconditional
+    (n : Nat) (hn : 3 ≤ n) :
+    maxPreserved n n = diagonalFormulaP n :=
+  Nat.le_antisymm
+    (maxPreserved_le_diagonalFormulaP n hn)
+    (diagonalFormulaP_le_maxPreserved n hn)
+```
+
+Then expose the currently private formula recurrence and derive:
+
+```lean
+theorem diagonalRecurrence_proved : DiagonalRecurrence where
+  three := maxPreserved_three_three
+  four := maxPreserved_four_four
+  five := maxPreserved_five_five
+  step := by
+    intro n hn
+    rw [maxPreserved_eq_diagonalFormulaP_unconditional n (by omega)]
+    rw [maxPreserved_eq_diagonalFormulaP_unconditional (n - 3) (by omega)]
+    exact diagonalFormulaP_recurrence n hn
+```
+
+### Proven state to preserve
+
+- `maxPreserved_eq_maxForcedAcyclic`
+- Exact crop signatures and labelled quotient admissibility
+- Public tooth-cut certificates and bounded grid deletions
+- Sequential tooth surgery and final-state normalization
+- Exact endpoint-fiber sharing accounting
+- Sixteen-crop indexing and incidence sums
+- Conditional sixteen-crop upper interface
+- Abstract channel-forest pruning
+- Split outer ports and boundary-sector equivalence
+- Merger/internal-or-component factorization
+- Carrier-pruned root embeddings
+- Exact bases `P(3)=4`, `P(4)=8`, `P(5)=11`
+- Residue-one reverse-frame and construction bounds
+- Finite residue-two construction scores through `n=20`
+- Full Lean build currently passes without `sorry`
+
+### Disproved routes: do not repeat
+
+| Candidate | Exact failure |
+|---|---|
+| Monotone Four-Crop unit-resource charging | One owner may have three independent cycle defects |
+| Abstract branch slots as deletion capacity | De-forcing an interior forced branch vertex need not remove forced-forced edges |
+| Raw exact residue-two pump | The `n=23` successor has an isolated dual face |
+| Existing seam-balanced repair | It creates a persistent two-face cut |
+| Cap-balanced repair | It creates two isolated top faces for every positive pump depth |
+| Full-row stripe bridges | The first bridge creates an immediate forced unit-cell cycle |
+| Residue-zero `(N-1)²` crop | Every corner crop loses far too many forced vertices |
+| Monotone residue-one one-frame extension | Its sharp maximum gain is `k+2`, below the required `2k` |
+| Two persistent boundary caps plus row combs | The interval-star incidence graph contains `K_{2,k+1}` cycles |
+
+### Priority after context compaction
+
+1. Define `GridChannelContourRealization`.
+2. Prove its unconditional existence.
+3. Derive the universal waste bound.
+4. Prove the two residue-two profile exclusions.
+5. Finish the absolute upper formula.
+6. Design and prove a new stable residue-two interval/incidence-tree family.
+7. Finish the absolute lower formula.
+8. Prove the exact formula directly.
+9. Derive `DiagonalRecurrence` as a corollary.
+
+## What Phase 3 actually delivered
 
 In the **n ≥ m** asymptotic regime, with constructions verified by an
 independent checker (numbers in *italics* updated by Phase 4):
@@ -237,6 +494,11 @@ uniform formula, in which case Phase 6 succeeds on m ≡ 0 and partially
 on m ≡ 2.
 
 ## Phase 7 — Diagonal `P(n, n)`: prove the revised formula
+
+> **Historical detail.** This section records the evolution of Phase 7 and
+> remains useful for references and negative results. Its older execution
+> orders are superseded by **Current diagonal critical path (authoritative)**
+> near the top of this document.
 
 The original Conjecture C is disproved at `n=17`. The authoritative
 residue-two candidate is now
@@ -533,11 +795,12 @@ finite connected graph, and
 `exists_isTree_preserving_of_forcedEdgeGraph_isAcyclic` packages this as a
 tree preserving every forced vertex.
 
-**Execution order**: normalize the revised target and bases; discover the
-target-cost residue-two construction control;
-prove the old universal baseline; establish ordered-annulus coverage; prove the
-extra attachment-debt unit; certify exactly the finite bases required by the
-resulting control graph; then assemble and formalize the theorem.
+**Historical execution order**: normalize the revised target and bases;
+discover the target-cost residue-two construction control; prove the old
+universal baseline; establish ordered-annulus coverage; prove the extra
+attachment-debt unit; certify exactly the finite bases required by the
+resulting control graph; then assemble and formalize the theorem. The current
+formula-first order is given in the authoritative section above.
 
 ## Phase 8 — Lean formalization of `P(m, n) ≤ basicUB m n` ✅ **DONE**
 
@@ -626,19 +889,21 @@ project should know about all of these:
    true at m ∈ {1, 4, 7, 10}. **Phase 5**.
 5. **α_m for m ≡ 0, 2 (mod 3)**: We have data points but no formula.
    Phase 6.
-6. **Conjecture C** (diagonal closed form): `P(n, n) = ⌊n²/3⌋ + n + C(n%3)`
-   for n ≥ 4. Verified exactly at n=4..15. Constructive families now cover
-   all residues 0 and 1; residue 2 and the matching universal upper bound
-   remain open. **Phase 7**.
+6. **Revised diagonal closed form**: the original Conjecture C fails at
+   `n=17`; the authoritative piecewise formula is stated in Phase 7. The exact
+   bases `P(3)=4`, `P(4)=8`, and `P(5)=11` are formalized. Constructive
+   families cover residues 0 and 1 and residue two through `n=20`; stable
+   residue two and the matching universal upper bound remain open. **Phase 7**.
 7. **m = 6 at n ≢ 0 (mod 4)**: not yet encoded; Phase 4 found the
    period-4 interior motif but residue-specific boundaries remain.
    Subset of Phase 6.
 8. **m = 8 generalization**: only `n ∈ {20, 34, 48}` implemented.
    Subset of Phase 6.
-9. **Diagonal planar dual in Lean**: forced-edge necessity, forest extension,
-   and preserving-tree completion are formalized. The missing bridge is the
-   grid-specialized theorem from connected U-U dual edges to forced-graph
-   acyclicity. **Phase 7c**.
+9. **Diagonal planar counting in Lean**: forced-edge necessity, forest
+   extension, preserving-tree completion, and the connected-U-U-dual to
+   forced-acyclic bridge are formalized. The missing theorem is now the
+   grid-specific pruned-channel realization needed to prove the universal
+   `W≥n+2` resource inequality. **Phase 7c**.
 
 ## Verification quickstart
 

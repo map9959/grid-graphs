@@ -225,6 +225,180 @@ theorem residueTwoStableStepVertex_cap (t : Nat) (j : Fin t) :
     simp [residueTwoStableStepVertex, residueTwoStableCapVertex,
       show ¬11 + 3 * t ≤ 13 + 3 * j.val by omega]
 
+/-- An old symbolic occurrence remains a raw occurrence after insertion. -/
+theorem residueTwoExactOccurrenceImage_step_subset (t : Nat) :
+    (residueTwoExactOccurrenceImage t).image (residueTwoStableStepVertex t) ⊆
+      residueTwoExactOccurrenceImage (t + 1) := by
+  classical
+  intro z hz
+  obtain ⟨v, hv, hz⟩ := Finset.mem_image.mp hz
+  subst z
+  obtain ⟨x, -, rfl⟩ := Finset.mem_image.mp hv
+  let ri : Fin (residueTwoExactMultiplicity 5 (t + 1) x.1) :=
+    ⟨if 5 ≤ x.1.val ∧ x.1.val < 8 ∧ x.2.2.val.1.val = t then
+        x.2.2.val.1.val + 1 else x.2.2.val.1.val, by
+      have hc := x.2.2.val.1.isLt
+      by_cases hp : 5 ≤ x.1.val ∧ x.1.val < 8
+      · simp [residueTwoExactMultiplicity, hp] at hc ⊢
+        by_cases heq : x.2.2.val.1.val = t
+        · simp [hp, heq]
+        · simp [hp, heq]
+          omega
+      · have hn : ¬(5 ≤ x.1.val ∧ x.1.val < 8 ∧ x.2.2.val.1.val = t) :=
+          fun h => hp ⟨h.1, h.2.1⟩
+        simp only [residueTwoExactMultiplicity, if_neg hp] at hc ⊢
+        rw [if_neg hn]
+        exact hc⟩
+  let ci : Fin (residueTwoExactMultiplicity 11 (t + 1) x.2.1) :=
+    ⟨if 11 ≤ x.2.1.val ∧ x.2.1.val < 14 ∧ x.2.2.val.2.val = t then
+        x.2.2.val.2.val + 1 else x.2.2.val.2.val, by
+      have hc := x.2.2.val.2.isLt
+      by_cases hp : 11 ≤ x.2.1.val ∧ x.2.1.val < 14
+      · simp [residueTwoExactMultiplicity, hp] at hc ⊢
+        by_cases heq : x.2.2.val.2.val = t
+        · simp [hp, heq]
+        · simp [hp, heq]
+          omega
+      · have hn : ¬(11 ≤ x.2.1.val ∧ x.2.1.val < 14 ∧ x.2.2.val.2.val = t) :=
+          fun h => hp ⟨h.1, h.2.1⟩
+        simp only [residueTwoExactMultiplicity, if_neg hp] at hc ⊢
+        rw [if_neg hn]
+        exact hc⟩
+  let copies :
+      {p : Fin (residueTwoExactMultiplicity 5 (t + 1) x.1) ×
+          Fin (residueTwoExactMultiplicity 11 (t + 1) x.2.1) //
+        IsResidueTwoExactBase x.1 x.2.1} :=
+    ⟨(ri, ci), x.2.2.property⟩
+  let y : ResidueTwoExactOccurrence (t + 1) := ⟨x.1, x.2.1, copies⟩
+  refine Finset.mem_image.mpr ⟨y, Finset.mem_univ _, ?_⟩
+  apply Prod.ext <;> apply Fin.ext
+  · symm
+    simp only [y, copies, residueTwoStableStepVertex, residueTwoExactVertex]
+    change (if 5 + 3 * t ≤
+        (residueTwoExactExpandIndex 5 t (by omega) _).val then
+          (residueTwoExactExpandIndex 5 t (by omega) _).val + 3 else
+          (residueTwoExactExpandIndex 5 t (by omega) _).val) = _
+    by_cases hp : 5 ≤ x.1.val ∧ x.1.val < 8
+    · rw [residueTwoExactExpandIndex_of_pump 5 t (by omega) _ hp,
+        residueTwoExactExpandIndex_of_pump 5 (t + 1) (by omega) _ hp]
+      have hc := x.2.2.val.1.isLt
+      simp [residueTwoExactMultiplicity, hp] at hc
+      simp only [ri]
+      split_ifs with h <;> omega
+    · by_cases ha : 8 ≤ x.1.val
+      · rw [residueTwoExactExpandIndex_of_above 5 t (by omega) _ hp ha,
+          residueTwoExactExpandIndex_of_above 5 (t + 1) (by omega) _ hp ha]
+        change (if 5 + 3 * t ≤ x.1.val + 3 * t then
+          x.1.val + 3 * t + 3 else x.1.val + 3 * t) =
+            x.1.val + 3 * (t + 1)
+        split <;> omega
+      · rw [residueTwoExactExpandIndex_of_below 5 t (by omega) _ hp ha,
+          residueTwoExactExpandIndex_of_below 5 (t + 1) (by omega) _ hp ha]
+        change (if 5 + 3 * t ≤ x.1.val then x.1.val + 3 else x.1.val) =
+          x.1.val
+        split <;> omega
+  · symm
+    simp only [y, copies, residueTwoStableStepVertex, residueTwoExactVertex]
+    change (if 11 + 3 * t ≤
+        (residueTwoExactExpandIndex 11 t (by omega) _).val then
+          (residueTwoExactExpandIndex 11 t (by omega) _).val + 3 else
+          (residueTwoExactExpandIndex 11 t (by omega) _).val) = _
+    by_cases hp : 11 ≤ x.2.1.val ∧ x.2.1.val < 14
+    · rw [residueTwoExactExpandIndex_of_pump 11 t (by omega) _ hp,
+        residueTwoExactExpandIndex_of_pump 11 (t + 1) (by omega) _ hp]
+      have hc := x.2.2.val.2.isLt
+      simp [residueTwoExactMultiplicity, hp] at hc
+      simp only [ci]
+      split_ifs with h <;> omega
+    · by_cases ha : 14 ≤ x.2.1.val
+      · rw [residueTwoExactExpandIndex_of_above 11 t (by omega) _ hp ha,
+          residueTwoExactExpandIndex_of_above 11 (t + 1) (by omega) _ hp ha]
+        change (if 11 + 3 * t ≤ x.2.1.val + 3 * t then
+          x.2.1.val + 3 * t + 3 else x.2.1.val + 3 * t) =
+            x.2.1.val + 3 * (t + 1)
+        split <;> omega
+      · rw [residueTwoExactExpandIndex_of_below 11 t (by omega) _ hp ha,
+          residueTwoExactExpandIndex_of_below 11 (t + 1) (by omega) _ hp ha]
+        change (if 11 + 3 * t ≤ x.2.1.val then x.2.1.val + 3 else x.2.1.val) =
+          x.2.1.val
+        split <;> omega
+
+/-- A successor expanded index lying in the old-coordinate image has an old
+symbolic copy with the same base coordinate. -/
+private theorem residueTwoStableExpandIndex_preimage
+    (cut t : Nat) (hcut : cut + 3 ≤ 20)
+    (x : ResidueTwoExactIndex cut (t + 1)) (a : Fin (20 + 3 * t))
+    (h : (if cut + 3 * t ≤ a.val then a.val + 3 else a.val) =
+      (residueTwoExactExpandIndex cut (t + 1) hcut x).val) :
+    ∃ copy : Fin (residueTwoExactMultiplicity cut t x.base),
+      residueTwoExactExpandIndex cut t hcut ⟨x.base, copy⟩ = a := by
+  by_cases hp : cut ≤ x.base.val ∧ x.base.val < cut + 3
+  · rw [residueTwoExactExpandIndex_of_pump cut (t + 1) hcut x hp] at h
+    have hc := x.copy.isLt
+    simp only [residueTwoExactMultiplicity, if_pos hp] at hc
+    by_cases hlo : x.copy.val < t
+    · let copy : Fin (residueTwoExactMultiplicity cut t x.base) :=
+        ⟨x.copy.val, by simp [residueTwoExactMultiplicity, hp]; omega⟩
+      refine ⟨copy, Fin.ext ?_⟩
+      rw [residueTwoExactExpandIndex_of_pump cut t hcut _ hp]
+      simp only [copy]
+      split at h <;> omega
+    · have hne : x.copy.val ≠ t := by
+        intro heq
+        split at h <;> omega
+      let copy : Fin (residueTwoExactMultiplicity cut t x.base) :=
+        ⟨t, by simp [residueTwoExactMultiplicity, hp]⟩
+      refine ⟨copy, Fin.ext ?_⟩
+      rw [residueTwoExactExpandIndex_of_pump cut t hcut _ hp]
+      simp only [copy]
+      split at h <;> omega
+  · by_cases ha : cut + 3 ≤ x.base.val
+    · rw [residueTwoExactExpandIndex_of_above cut (t + 1) hcut x hp ha] at h
+      let copy : Fin (residueTwoExactMultiplicity cut t x.base) :=
+        ⟨0, by simp [residueTwoExactMultiplicity, hp]⟩
+      refine ⟨copy, Fin.ext ?_⟩
+      rw [residueTwoExactExpandIndex_of_above cut t hcut _ hp ha]
+      change x.base.val + 3 * t = a.val
+      split at h <;> omega
+    · rw [residueTwoExactExpandIndex_of_below cut (t + 1) hcut x hp ha] at h
+      let copy : Fin (residueTwoExactMultiplicity cut t x.base) :=
+        ⟨0, by simp [residueTwoExactMultiplicity, hp]⟩
+      refine ⟨copy, Fin.ext ?_⟩
+      rw [residueTwoExactExpandIndex_of_below cut t hcut _ hp ha]
+      change x.base.val = a.val
+      split at h <;> omega
+
+/-- Raw occurrence membership is reflected as well as preserved by the stable
+step embedding. -/
+theorem residueTwoExactOccurrenceImage_step_mem_iff (t : Nat)
+    (v : GridVertex (20 + 3 * t) (20 + 3 * t)) :
+    residueTwoStableStepVertex t v ∈ residueTwoExactOccurrenceImage (t + 1) ↔
+      v ∈ residueTwoExactOccurrenceImage t := by
+  classical
+  constructor
+  · intro hv
+    obtain ⟨x, -, hx⟩ := Finset.mem_image.mp hv
+    have hr := congrArg (fun z => z.1.val) hx
+    have hc := congrArg (fun z => z.2.val) hx
+    simp only [residueTwoStableStepVertex, residueTwoExactVertex] at hr hc
+    obtain ⟨ri, hri⟩ := residueTwoStableExpandIndex_preimage 5 t (by omega)
+      ⟨x.1, x.2.2.val.1⟩ v.1 hr.symm
+    obtain ⟨ci, hci⟩ := residueTwoStableExpandIndex_preimage 11 t (by omega)
+      ⟨x.2.1, x.2.2.val.2⟩ v.2 hc.symm
+    let copies :
+        {p : Fin (residueTwoExactMultiplicity 5 t x.1) ×
+            Fin (residueTwoExactMultiplicity 11 t x.2.1) //
+          IsResidueTwoExactBase x.1 x.2.1} :=
+      ⟨(ri, ci), x.2.2.property⟩
+    let y : ResidueTwoExactOccurrence t := ⟨x.1, x.2.1, copies⟩
+    refine Finset.mem_image.mpr ⟨y, Finset.mem_univ _, ?_⟩
+    apply Prod.ext
+    · simpa [y, copies, residueTwoExactVertex] using hri
+    · simpa [y, copies, residueTwoExactVertex] using hci
+  · intro hv
+    exact residueTwoExactOccurrenceImage_step_subset t
+      (Finset.mem_image.mpr ⟨v, hv, rfl⟩)
+
 theorem residueTwoStableBridges_step_subset (t : Nat) :
     (residueTwoStableBridges t).image (residueTwoStableStepVertex t) ⊆
       residueTwoStableBridges (t + 1) := by
@@ -242,6 +416,82 @@ theorem residueTwoStableCapDeletions_step_subset (t : Nat) :
   obtain ⟨j, -, rfl⟩ := Finset.mem_image.mp hu
   rw [residueTwoStableStepVertex_cap]
   exact Finset.mem_image.mpr ⟨⟨j.val, by omega⟩, Finset.mem_univ _, rfl⟩
+
+theorem residueTwoStableBridges_step_mem_iff (t : Nat)
+    (v : GridVertex (20 + 3 * t) (20 + 3 * t)) :
+    residueTwoStableStepVertex t v ∈ residueTwoStableBridges (t + 1) ↔
+      v ∈ residueTwoStableBridges t := by
+  classical
+  constructor
+  · intro hv
+    obtain ⟨j, -, hj⟩ := Finset.mem_image.mp hv
+    have hc := congrArg (fun z => z.2.val) hj
+    change 13 + 3 * j.val =
+      (if 11 + 3 * t ≤ v.2.val then v.2.val + 3 else v.2.val) at hc
+    have hjlt : j.val < t := by
+      have := j.isLt
+      split at hc <;> omega
+    let i : Fin t := ⟨j.val, hjlt⟩
+    let i' : Fin (t + 1) := ⟨i.val, by omega⟩
+    have hij : residueTwoStableBridgeVertex (t + 1) i' =
+        residueTwoStableBridgeVertex (t + 1) j := by
+      apply Prod.ext <;> apply Fin.ext <;>
+        simp [residueTwoStableBridgeVertex, i', i]
+    have heq : residueTwoStableStepVertex t
+        (residueTwoStableBridgeVertex t i) = residueTwoStableStepVertex t v :=
+      (residueTwoStableStepVertex_bridge t i).trans (by simpa [i'] using hij.trans hj)
+    exact Finset.mem_image.mpr ⟨i, Finset.mem_univ _,
+      (residueTwoStableStepVertex t).injective heq⟩
+  · intro hv
+    exact residueTwoStableBridges_step_subset t
+      (Finset.mem_image.mpr ⟨v, hv, rfl⟩)
+
+theorem residueTwoStableCapDeletions_step_mem_iff (t : Nat)
+    (v : GridVertex (20 + 3 * t) (20 + 3 * t)) :
+    residueTwoStableStepVertex t v ∈ residueTwoStableCapDeletions (t + 1) ↔
+      v ∈ residueTwoStableCapDeletions t := by
+  classical
+  constructor
+  · intro hv
+    obtain ⟨j, -, hj⟩ := Finset.mem_image.mp hv
+    have hc := congrArg (fun z => z.2.val) hj
+    change 13 + 3 * j.val =
+      (if 11 + 3 * t ≤ v.2.val then v.2.val + 3 else v.2.val) at hc
+    have hjlt : j.val < t := by
+      have := j.isLt
+      split at hc <;> omega
+    let i : Fin t := ⟨j.val, hjlt⟩
+    let i' : Fin (t + 1) := ⟨i.val, by omega⟩
+    have hij : residueTwoStableCapVertex (t + 1) i' =
+        residueTwoStableCapVertex (t + 1) j := by
+      apply Prod.ext <;> apply Fin.ext <;>
+        simp [residueTwoStableCapVertex, i', i]
+    have heq : residueTwoStableStepVertex t
+        (residueTwoStableCapVertex t i) = residueTwoStableStepVertex t v :=
+      (residueTwoStableStepVertex_cap t i).trans (by simpa [i'] using hij.trans hj)
+    exact Finset.mem_image.mpr ⟨i, Finset.mem_univ _,
+      (residueTwoStableStepVertex t).injective heq⟩
+  · intro hv
+    exact residueTwoStableCapDeletions_step_subset t
+      (Finset.mem_image.mpr ⟨v, hv, rfl⟩)
+
+/-- Stable-cap U membership is exactly preserved on old coordinates. -/
+theorem residueTwoStableCapAt_step_mem_iff (t : Nat)
+    (v : GridVertex (20 + 3 * t) (20 + 3 * t)) :
+    residueTwoStableStepVertex t v ∈ residueTwoStableCapAt (t + 1) ↔
+      v ∈ residueTwoStableCapAt t := by
+  simp only [residueTwoStableCapAt, Finset.mem_sdiff, Finset.mem_union]
+  rw [residueTwoExactOccurrenceImage_step_mem_iff,
+    residueTwoStableBridges_step_mem_iff,
+    residueTwoStableCapDeletions_step_mem_iff]
+
+theorem residueTwoStableCapAt_step_subset (t : Nat) :
+    (residueTwoStableCapAt t).image (residueTwoStableStepVertex t) ⊆
+      residueTwoStableCapAt (t + 1) := by
+  intro z hz
+  obtain ⟨v, hv, hz⟩ := Finset.mem_image.mp hz
+  subst z
+  exact (residueTwoStableCapAt_step_mem_iff t v).2 hv
 
 /-- Exactly one new bridge coordinate appears in a successor insertion. -/
 theorem residueTwoStableBridges_step_difference_card (t : Nat) :
@@ -283,9 +533,51 @@ theorem forcedResidueTwoStableCapAt_card (t : Nat) :
   ring_nf
   omega
 
-/-- Once forced-coordinate persistence is supplied, finite cardinal algebra
-gives a frame gain of twice the successor side length. -/
-theorem residueTwoStableForcedFrame_card (t : Nat)
+/-- Forced-complement membership is exactly preserved on old coordinates. -/
+theorem forcedResidueTwoStableCapAt_step_mem_iff (t : Nat)
+    (v : GridVertex (20 + 3 * t) (20 + 3 * t)) :
+    residueTwoStableStepVertex t v ∈ forcedResidueTwoStableCapAt (t + 1) ↔
+      v ∈ forcedResidueTwoStableCapAt t := by
+  simp [forcedResidueTwoStableCapAt, residueTwoStableCapAt_step_mem_iff]
+
+theorem forcedResidueTwoStableCapAt_step_subset (t : Nat) :
+    (forcedResidueTwoStableCapAt t).image (residueTwoStableStepVertex t) ⊆
+      forcedResidueTwoStableCapAt (t + 1) := by
+  intro z hz
+  obtain ⟨v, hv, hz⟩ := Finset.mem_image.mp hz
+  subst z
+  exact (forcedResidueTwoStableCapAt_step_mem_iff t v).2 hv
+
+/-- The successor forced set is exactly the old forced image plus its frame. -/
+theorem residueTwoStableForcedFrame_coverage (t : Nat) :
+    (forcedResidueTwoStableCapAt t).image (residueTwoStableStepVertex t) ∪
+        residueTwoStableForcedFrame t =
+      forcedResidueTwoStableCapAt (t + 1) := by
+  ext v
+  simp only [Finset.mem_union, residueTwoStableForcedFrame, Finset.mem_sdiff]
+  constructor
+  · rintro (h | ⟨h, -⟩)
+    · exact forcedResidueTwoStableCapAt_step_subset t h
+    · exact h
+  · intro h
+    by_cases hold : v ∈ (forcedResidueTwoStableCapAt t).image
+        (residueTwoStableStepVertex t)
+    · exact Or.inl hold
+    · exact Or.inr ⟨h, hold⟩
+
+/-- The carried forced coordinates and the new frame are disjoint. -/
+theorem residueTwoStableForcedFrame_disjoint (t : Nat) :
+    Disjoint
+      ((forcedResidueTwoStableCapAt t).image (residueTwoStableStepVertex t))
+      (residueTwoStableForcedFrame t) := by
+  rw [Finset.disjoint_left]
+  intro v hold hframe
+  simp only [residueTwoStableForcedFrame, Finset.mem_sdiff] at hframe
+  exact hframe.2 hold
+
+/-- Compatibility form of the frame cardinal theorem for callers that already
+have a persistence proof. -/
+theorem residueTwoStableForcedFrame_card_of_persistence (t : Nat)
     (hpersist : (forcedResidueTwoStableCapAt t).image
         (residueTwoStableStepVertex t) ⊆ forcedResidueTwoStableCapAt (t + 1)) :
     (residueTwoStableForcedFrame t).card = 2 * (20 + 3 * (t + 1)) := by
@@ -295,5 +587,11 @@ theorem residueTwoStableForcedFrame_card (t : Nat)
     forcedResidueTwoStableCapAt_card, forcedResidueTwoStableCapAt_card]
   ring_nf
   omega
+
+/-- The stable forced frame gains twice the successor side length. -/
+theorem residueTwoStableForcedFrame_card (t : Nat) :
+    (residueTwoStableForcedFrame t).card = 2 * (20 + 3 * (t + 1)) :=
+  residueTwoStableForcedFrame_card_of_persistence t
+    (forcedResidueTwoStableCapAt_step_subset t)
 
 end GridGraphs
