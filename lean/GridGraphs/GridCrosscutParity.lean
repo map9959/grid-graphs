@@ -121,10 +121,14 @@ theorem CyclicallyAlternating.pairwise_ne {k : Nat} {hk : 0 < k}
   · obtain ⟨had, hab, hac, hdb, hdc, hbc⟩ := h.pairwise_ne
     exact ⟨hab, hac, had, hbc, hdb.symm, hdc.symm⟩
 
-/-- One of the two open boundary sectors cut out by `c` and `d`. -/
-def OpenCyclicSector {k : Nat} (hk : 0 < k) (c d x : Fin k) : Prop :=
-  0 < cyclicForwardDistance hk c x ∧
-    cyclicForwardDistance hk c x < cyclicForwardDistance hk c d
+set_option maxHeartbeats 1000000 in
+/-- Alternation is symmetric in the two endpoint pairs. -/
+theorem cyclicallyAlternating_swap_pairs {k : Nat} (hk : 0 < k)
+    (a b c d : Fin k) :
+    CyclicallyAlternating hk a b c d ↔ CyclicallyAlternating hk c d a b := by
+  simp only [CyclicallyAlternating, cyclicOrder4_iff_forwardDistance]
+  unfold cyclicForwardDistance
+  split_ifs <;> simp_all <;> omega
 
 set_option maxHeartbeats 1000000 in
 /-- Away from the two cut positions, alternating pairs are exactly pairs in
@@ -319,6 +323,74 @@ theorem gridCycleSide_dualEndpoints_iff_of_not_mem_edges {m n : Nat}
         · exact faceRowRayOdd_vertical_internal_iff_of_not_mem_edges
             c e hleft hright he
 
+/-- The bounded face incident to an outer-frame edge is on the odd side of a
+simple cycle exactly when that boundary edge belongs to the cycle. -/
+theorem gridCycleSide_outerEdgeInnerFace_iff_mem_edges {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n)
+    {G : SimpleGraph (GridVertex (m + 2) (n + 2))}
+    {v : GridVertex (m + 2) (n + 2)} (c : G.Walk v v)
+    (hG : G ≤ gridGraph (m + 2) (n + 2)) (hc : c.IsCycle)
+    (i : GridBoundaryPosition m n) :
+    GridCycleSide c (outerEdgeInnerFace hm hn i) ↔
+      (outerEdgeAtPosition hm hn i).primalSym2 ∈ c.edges := by
+  let e := outerEdgeAtPosition hm hn i
+  have hends : HasDualEndpoints e.dualEndpoints GridFace.out
+      (outerEdgeInnerFace hm hn i) :=
+    outerEdgeAtPosition_hasDualEndpoints_out_innerFace hm hn i
+  by_cases he : e.primalSym2 ∈ c.edges
+  · have htoggle := gridCycleSide_dualEndpoints_iff_not_of_mem_edges hG c hc e he
+    rcases hends with ⟨hout, hin⟩ | ⟨hout, hin⟩
+    · rw [← hout, ← hin] at htoggle
+      simp only [gridCycleSide_out, false_iff, not_not] at htoggle
+      exact ⟨fun _ => he, fun _ => htoggle⟩
+    · rw [← hout, ← hin] at htoggle
+      simp only [gridCycleSide_out, not_false_eq_true, iff_true] at htoggle
+      exact ⟨fun _ => he, fun _ => htoggle⟩
+  · have hsame := gridCycleSide_dualEndpoints_iff_of_not_mem_edges hG c hc e he
+    rcases hends with ⟨hout, hin⟩ | ⟨hout, hin⟩
+    · rw [← hout, ← hin] at hsame
+      simp only [gridCycleSide_out, false_iff] at hsame
+      exact ⟨fun h => (hsame h).elim, fun h => (he h).elim⟩
+    · rw [← hout, ← hin] at hsame
+      simp only [gridCycleSide_out, iff_false] at hsame
+      exact ⟨fun h => (hsame h).elim, fun h => (he h).elim⟩
+
+/-- A non-endpoint outer edge belongs to the clockwise canonical closure
+exactly when its original boundary position lies in the open clockwise sector
+between the crosscut endpoints. -/
+theorem outerEdgeAtPosition_mem_canonicalClosedWalk_clockwise_iff_openCyclicSector
+    {m n : Nat} (P : GridCrosscut m n) (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n)
+    (his : i ≠ P.startPosition hm hn)
+    (hif : i ≠ P.finishPosition hm hn) :
+    (outerEdgeAtPosition hm hn i).primalSym2 ∈
+        (P.canonicalClosedWalk .clockwise hm hn).edges ↔
+      OpenCyclicSector (gridBoundaryLength_pos hm hn)
+        (P.startPosition hm hn) (P.finishPosition hm hn) i := by
+  rw [P.outerEdgeAtPosition_mem_canonicalClosedWalk_clockwise_iff_outerArc hm hn i]
+  exact outerEdgeAtPosition_mem_clockwiseOuterArc_iff_openCyclicSector hm hn
+    (P.startPosition hm hn) (P.finishPosition hm hn) i
+    (fun h => P.start_ne_finish (by
+      rw [← P.boundaryVertex_startPosition hm hn,
+        ← P.boundaryVertex_finishPosition hm hn, h])) his hif
+
+/-- The bounded face beside a non-endpoint outer edge is on the canonical
+clockwise cycle side exactly on the corresponding open boundary sector. -/
+theorem gridCycleSide_outerEdgeInnerFace_clockwise_iff_openCyclicSector
+    {m n : Nat} (P : GridCrosscut m n) (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n)
+    (his : i ≠ P.startPosition hm hn)
+    (hif : i ≠ P.finishPosition hm hn) :
+    GridCycleSide (P.canonicalClosedWalk .clockwise hm hn)
+        (outerEdgeInnerFace hm hn i) ↔
+      OpenCyclicSector (gridBoundaryLength_pos hm hn)
+        (P.startPosition hm hn) (P.finishPosition hm hn) i := by
+  rw [gridCycleSide_outerEdgeInnerFace_iff_mem_edges hm hn
+    (P.canonicalClosedWalk .clockwise hm hn) (fun _ _ h => h)
+    (P.canonicalClosedWalk_isCycle .clockwise hm hn) i]
+  exact outerEdgeAtPosition_mem_canonicalClosedWalk_clockwise_iff_openCyclicSector
+    P hm hn i his hif
+
 /-- Every path in the dual complement of a simple grid cycle preserves
 row-ray side. -/
 theorem gridCycleSide_reachable_iff {m n : Nat}
@@ -358,6 +430,196 @@ theorem not_cycleComplementDualGraph_reachable_of_opposite_side {m n : Nat}
 def gridCollarFace {m n : Nat} (x : GridVertex m n) :
     GridFace (m + 2) (n + 2) :=
   .cell ⟨x.1.val, by omega⟩ ⟨x.2.val, by omega⟩
+
+set_option maxHeartbeats 2000000 in
+set_option maxRecDepth 4000 in
+/-- For a non-endpoint boundary position, the bounded face beside its outgoing
+outer edge is connected through the collar to the northwest anchor face of the
+original boundary vertex.  The path has zero, one, or two dual edges according
+to the boundary side. -/
+theorem outerEdgeInnerFace_reachable_gridCollarFace_clockwise
+    {m n : Nat} (P : GridCrosscut m n) (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n)
+    (his : i ≠ P.startPosition hm hn)
+    (hif : i ≠ P.finishPosition hm hn) :
+    (cycleComplementDualGraph (P.canonicalClosedWalk .clockwise hm hn)).Reachable
+      (outerEdgeInnerFace hm hn i)
+      (gridCollarFace (gridBoundaryVertex hm hn i)) := by
+  let c := P.canonicalClosedWalk .clockwise hm hn
+  let x := gridBoundaryVertex hm hn i
+  have hx : gridCollarEmbedding m n x ∉ c.support := by
+    rw [P.mem_canonicalClosedWalk_of_original_boundary_iff .clockwise hm hn x
+      (gridBoundaryVertex_isBoundary hm hn i)]
+    push_neg
+    constructor
+    · intro h
+      apply his
+      apply gridBoundaryVertex_injective hm hn
+      simpa [x, P.boundaryVertex_startPosition hm hn] using h
+    · intro h
+      apply hif
+      apply gridBoundaryVertex_injective hm hn
+      simpa [x, P.boundaryVertex_finishPosition hm hn] using h
+  have hi := i.isLt
+  unfold gridBoundaryLength at hi
+  have hnsub : n - 1 + 1 = n := Nat.sub_add_cancel (by omega)
+  have hmsub : m - 1 + 1 = m := Nat.sub_add_cancel (by omega)
+  have hrightStart : n + m - 2 = (n - 1) + (m - 1) := by omega
+  have hbottomStart : m + 2 * n - 3 = (n + m - 2) + (n - 1) := by omega
+  have hboundaryLength : gridBoundaryLength m n =
+      (m + 2 * n - 3) + (m - 1) := by
+    unfold gridBoundaryLength
+    omega
+  by_cases htop : i.val < n - 1
+  · let e : VerticalGridEdge (m + 2) (n + 2) :=
+      ⟨⟨0, by omega⟩, ⟨i.val + 1, by omega⟩⟩
+    have hibound : i.val < m + 2 * n - 3 := by
+      rw [hbottomStart, hrightStart]
+      omega
+    have hxcoord : gridBoundaryVertex hm hn i =
+        (⟨0, by omega⟩, ⟨i.val, by omega⟩) := by
+      exact gridBoundaryVertex_top hm hn i (by omega)
+    apply SimpleGraph.Adj.reachable
+    refine ⟨?_, Or.inr ⟨e, ?_, ?_⟩⟩
+    · intro h
+      have hc := congrArg (fun f => match f with
+        | GridFace.out => 0
+        | GridFace.cell _ col => col.val) h
+      rw [outerEdgeInnerFace_eq_top hm hn i htop] at hc
+      simp [gridCollarFace, x, hxcoord] at hc
+    · intro he
+      apply hx
+      have hs := c.snd_mem_support_of_mem_edges he
+      have hend : (verticalPrimalEndpoints e).2 = gridCollarEmbedding m n x := by
+        apply Prod.ext <;> apply Fin.ext <;>
+          simp [e, x, hxcoord, verticalPrimalEndpoints,
+            gridCollarEmbedding, gridOffsetEmbedding] <;> omega
+      exact hend ▸ hs
+    · right
+      rw [outerEdgeInnerFace_eq_top hm hn i htop]
+      simp [gridCollarFace, x, hxcoord, e, verticalDualEndpoints,
+        Fin.ext_iff] <;> omega
+  by_cases hright : i.val < n + m - 2
+  · let r := i.val + 1 - n
+    have hrcoord : i.val + 2 - n = r + 1 := by
+      dsimp [r]
+      omega
+    have hibound : i.val < m + 2 * n - 3 := by
+      rw [hbottomStart]
+      omega
+    have hxcoord : gridBoundaryVertex hm hn i =
+        (⟨r, by omega⟩, ⟨n - 1, by omega⟩) := by
+      dsimp [r]
+      unfold gridBoundaryVertex
+      split_ifs <;> apply Prod.ext <;> apply Fin.ext <;> simp_all <;> omega
+    let fmid : GridFace (m + 2) (n + 2) :=
+      .cell ⟨r, by omega⟩ ⟨n, by omega⟩
+    let e₁ : HorizontalGridEdge (m + 2) (n + 2) :=
+      ⟨⟨r + 1, by omega⟩, ⟨n, by omega⟩⟩
+    let e₂ : VerticalGridEdge (m + 2) (n + 2) :=
+      ⟨⟨r, by omega⟩, ⟨n, by omega⟩⟩
+    have h₁ : (cycleComplementDualGraph c).Adj
+        (outerEdgeInnerFace hm hn i) fmid := by
+      refine ⟨?_, Or.inl ⟨e₁, ?_, ?_⟩⟩
+      · rw [outerEdgeInnerFace_eq_right hm hn i htop hright]
+        simp [fmid, r, hrcoord, Fin.ext_iff] <;> omega
+      · intro he
+        apply hx
+        have hs := c.fst_mem_support_of_mem_edges he
+        have hend : (horizontalPrimalEndpoints e₁).1 =
+            gridCollarEmbedding m n x := by
+          apply Prod.ext <;> apply Fin.ext <;>
+            simp [e₁, r, x, hxcoord, horizontalPrimalEndpoints,
+              gridCollarEmbedding, gridOffsetEmbedding] <;> omega
+        exact hend ▸ hs
+      · right
+        rw [outerEdgeInnerFace_eq_right hm hn i htop hright]
+        simp [fmid, e₁, r, hrcoord, horizontalDualEndpoints, Fin.ext_iff] <;> omega
+    have h₂ : (cycleComplementDualGraph c).Adj fmid
+        (gridCollarFace x) := by
+      refine ⟨?_, Or.inr ⟨e₂, ?_, ?_⟩⟩
+      · simp [fmid, gridCollarFace, x, hxcoord,
+          r, Fin.ext_iff] <;> omega
+      · intro he
+        apply hx
+        have hs := c.snd_mem_support_of_mem_edges he
+        have hend : (verticalPrimalEndpoints e₂).2 =
+            gridCollarEmbedding m n x := by
+          apply Prod.ext <;> apply Fin.ext <;>
+            simp [e₂, r, x, hxcoord, verticalPrimalEndpoints,
+              gridCollarEmbedding, gridOffsetEmbedding] <;> omega
+        exact hend ▸ hs
+      · right
+        simp [fmid, gridCollarFace, x, hxcoord,
+          e₂, r, verticalDualEndpoints, Fin.ext_iff] <;> omega
+    exact h₁.reachable.trans h₂.reachable
+  by_cases hbottom : i.val < m + 2 * n - 3
+  · let q := m + 2 * n - 3 - i.val
+    have hibound : i.val < gridBoundaryLength m n := by
+      calc
+        i.val < m + 2 * n - 3 := hbottom
+        _ ≤ gridBoundaryLength m n := by
+          rw [hboundaryLength]
+          omega
+    have hxcoord : gridBoundaryVertex hm hn i =
+        (⟨m - 1, by omega⟩, ⟨q, by omega⟩) := by
+      dsimp [q]
+      unfold gridBoundaryVertex
+      split_ifs <;> apply Prod.ext <;> apply Fin.ext <;> simp_all <;> omega
+    let e : HorizontalGridEdge (m + 2) (n + 2) :=
+      ⟨⟨m, by omega⟩, ⟨q, by omega⟩⟩
+    apply SimpleGraph.Adj.reachable
+    refine ⟨?_, Or.inl ⟨e, ?_, ?_⟩⟩
+    · intro h
+      have hr := congrArg (fun f => match f with
+        | GridFace.out => 0
+        | GridFace.cell row _ => row.val) h
+      rw [outerEdgeInnerFace_eq_bottom hm hn i hright hbottom] at hr
+      simp [gridCollarFace, x, hxcoord, q] at hr
+      omega
+    · intro he
+      apply hx
+      have hs := c.snd_mem_support_of_mem_edges he
+      have hend : (horizontalPrimalEndpoints e).2 = gridCollarEmbedding m n x := by
+        apply Prod.ext <;> apply Fin.ext <;>
+          simp [e, q, x, hxcoord, horizontalPrimalEndpoints,
+            gridCollarEmbedding, gridOffsetEmbedding] <;>
+            omega
+      exact hend ▸ hs
+    · right
+      rw [outerEdgeInnerFace_eq_bottom hm hn i hright hbottom]
+      simp [gridCollarFace, x, hxcoord, e, q, horizontalDualEndpoints,
+        Fin.ext_iff] <;> omega
+  · have hxcoord : gridBoundaryVertex hm hn i =
+        (⟨gridBoundaryLength m n - i.val, by
+          unfold gridBoundaryLength
+          omega⟩, ⟨0, by omega⟩) := by
+      unfold gridBoundaryVertex
+      split_ifs <;> apply Prod.ext <;> apply Fin.ext <;>
+        simp_all [gridBoundaryLength] <;> omega
+    have heq : outerEdgeInnerFace hm hn i = gridCollarFace x := by
+      rw [outerEdgeInnerFace_eq_left hm hn i hbottom]
+      simp [gridCollarFace, x, hxcoord, Fin.ext_iff]
+    rw [heq]
+
+/-- The northwest anchor face at a non-endpoint boundary vertex has canonical
+clockwise side precisely on the open clockwise endpoint sector. -/
+theorem gridCycleSide_gridCollarFace_clockwise_iff_openCyclicSector
+    {m n : Nat} (P : GridCrosscut m n) (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n)
+    (his : i ≠ P.startPosition hm hn)
+    (hif : i ≠ P.finishPosition hm hn) :
+    GridCycleSide (P.canonicalClosedWalk .clockwise hm hn)
+        (gridCollarFace (gridBoundaryVertex hm hn i)) ↔
+      OpenCyclicSector (gridBoundaryLength_pos hm hn)
+        (P.startPosition hm hn) (P.finishPosition hm hn) i := by
+  rw [← gridCycleSide_outerEdgeInnerFace_clockwise_iff_openCyclicSector
+    P hm hn i his hif]
+  exact (gridCycleSide_reachable_iff (fun _ _ h => h)
+    (P.canonicalClosedWalk .clockwise hm hn)
+    (P.canonicalClosedWalk_isCycle .clockwise hm hn)
+    (outerEdgeInnerFace_reachable_gridCollarFace_clockwise
+      P hm hn i his hif)).symm
 
 /-- Adjacent central vertices have adjacent anchor faces in the dual complement
 of any cycle avoiding the translated vertices. -/
@@ -683,5 +945,41 @@ theorem exists_gridCrosscut_subpath_with_side_preservation
   apply P.gridCycleSide_iff_of_walk_disjoint choice hm hn q
   rintro ⟨x, hxP, hxq⟩
   exact hdisjoint ⟨x, hsub hxP, hxq⟩
+
+/-- Simple grid paths joining cyclically alternating boundary pairs share a
+vertex. -/
+theorem grid_paths_intersect_of_cyclicallyAlternating
+    {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    {a b c d : GridBoundaryPosition m n}
+    (p : (gridGraph m n).Walk (gridBoundaryVertex hm hn a)
+      (gridBoundaryVertex hm hn b)) (hp : p.IsPath)
+    (q : (gridGraph m n).Walk (gridBoundaryVertex hm hn c)
+      (gridBoundaryVertex hm hn d))
+    (halt : CyclicallyAlternating (gridBoundaryLength_pos hm hn) a b c d) :
+    ∃ x, x ∈ p.support ∧ x ∈ q.support := by
+  by_contra hdisjoint
+  obtain ⟨P, _, hPalt, hsame⟩ :=
+    exists_gridCrosscut_subpath_with_side_preservation hm hn p hp halt q
+      hdisjoint
+  have hne := hPalt.pairwise_ne
+  have hopposite :
+      OpenCyclicSector (gridBoundaryLength_pos hm hn)
+          (P.startPosition hm hn) (P.finishPosition hm hn) c ↔
+        ¬OpenCyclicSector (gridBoundaryLength_pos hm hn)
+          (P.startPosition hm hn) (P.finishPosition hm hn) d :=
+    (cyclicallyAlternating_iff_openCyclicSector
+      (gridBoundaryLength_pos hm hn) (P.startPosition hm hn)
+      (P.finishPosition hm hn) c d hne.2.1.symm hne.2.2.2.1.symm
+        hne.2.2.1.symm hne.2.2.2.2.1.symm).mp
+      ((cyclicallyAlternating_swap_pairs (gridBoundaryLength_pos hm hn)
+        _ _ _ _).mp hPalt)
+  have hcside :=
+    gridCycleSide_gridCollarFace_clockwise_iff_openCyclicSector P hm hn c
+      hne.2.1.symm hne.2.2.2.1.symm
+  have hdside :=
+    gridCycleSide_gridCollarFace_clockwise_iff_openCyclicSector P hm hn d
+      hne.2.2.1.symm hne.2.2.2.2.1.symm
+  have hpreserved := hsame GridCollarArc.CanonicalChoice.clockwise
+  tauto
 
 end GridGraphs

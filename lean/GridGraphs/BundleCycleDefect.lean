@@ -254,6 +254,34 @@ theorem bundleCycleDefect_eq_zero_iff_forcedInsertionCondition [Fintype V]
     rw [hnoncentral, hI]
     exact Nat.sub_self _
 
+/-- Every vertex omitted from a one-vertex-maximal forced-acyclic set has
+positive bundle-cycle defect. -/
+theorem bundleCycleDefect_pos_of_maximalForcedAcyclic [Fintype V]
+    [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+    (F : Set V) (hmax : MaximalForcedAcyclic G F) {u : V} (hu : u ∉ F) :
+    1 ≤ bundleCycleDefect G F u := by
+  by_contra hpos
+  have hzero : bundleCycleDefect G F u = 0 := by omega
+  have hinsertion : ForcedInsertionCondition G F u :=
+    (bundleCycleDefect_eq_zero_iff_forcedInsertionCondition G F u).mp hzero
+  have hacyclic : (forcedEdgeGraph G (insert u F)).IsAcyclic :=
+    (forcedEdgeGraph_insert_isAcyclic_iff hu hmax.1).mpr hinsertion
+  exact hmax.2 u hu hacyclic
+
+/-- Summing the preceding pointwise obstruction over the omitted vertices. -/
+theorem card_compl_le_sum_bundleCycleDefect_of_maximalForcedAcyclic
+    [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
+    (F : Finset V)
+    (hmax : MaximalForcedAcyclic G (↑F : Set V)) :
+    (Finset.univ \ F).card ≤
+      ∑ u ∈ Finset.univ \ F,
+        bundleCycleDefect G (↑F : Set V) u := by
+  rw [Finset.card_eq_sum_ones]
+  apply Finset.sum_le_sum
+  intro u hu
+  exact bundleCycleDefect_pos_of_maximalForcedAcyclic G (↑F : Set V) hmax
+    (by simpa using (Finset.mem_sdiff.mp hu).2)
+
 /-- If neither the owner nor any of its neighbors is forced, the owner is
 isolated in the current forced graph, so no star edge contracts to a loop. -/
 theorem forcedComponentLabel_ne_of_no_forced_neighbor [Fintype V]

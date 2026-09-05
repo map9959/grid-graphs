@@ -1,0 +1,235 @@
+{
+  "best_singleton_path": {
+    "endpoint": [
+      "top",
+      2,
+      2
+    ],
+    "formulas": {
+      "branch": "k",
+      "bulk_correction": "-6k + 7",
+      "cap": "8k + 3",
+      "total": "3k^2 + 2k + 10"
+    },
+    "path": {
+      "branch_offset": 3,
+      "branch_row": 1,
+      "column_phase": 2,
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    "records": [
+      {
+        "articulation": {
+          "intersection_size": 1,
+          "singleton": true,
+          "vertex": [
+            3,
+            8
+          ]
+        },
+        "branch_count": 7,
+        "bulk_correction": -35,
+        "cap_maximum": 59,
+        "core_count": 112,
+        "forced_forest": true,
+        "incidence": {
+          "component_count": 23,
+          "connected": false,
+          "link_count": 8,
+          "maximum_star_intersection": 1,
+          "parent": null,
+          "tree": false
+        },
+        "interface": {
+          "cap_state_count_maximum": 14,
+          "connector": [
+            3,
+            7
+          ],
+          "endpoint_state": [
+            "top",
+            2,
+            2
+          ]
+        },
+        "k": 7,
+        "target": 196,
+        "total": 171
+      },
+      {
+        "articulation": {
+          "intersection_size": 1,
+          "singleton": true,
+          "vertex": [
+            3,
+            8
+          ]
+        },
+        "branch_count": 8,
+        "bulk_correction": -41,
+        "cap_maximum": 67,
+        "core_count": 151,
+        "forced_forest": true,
+        "incidence": {
+          "component_count": 26,
+          "connected": false,
+          "link_count": 8,
+          "maximum_star_intersection": 1,
+          "parent": null,
+          "tree": false
+        },
+        "interface": {
+          "cap_state_count_maximum": 14,
+          "connector": [
+            3,
+            7
+          ],
+          "endpoint_state": [
+            "top",
+            2,
+            2
+          ]
+        },
+        "k": 8,
+        "target": 248,
+        "total": 218
+      },
+      {
+        "articulation": {
+          "intersection_size": 1,
+          "singleton": true,
+          "vertex": [
+            3,
+            8
+          ]
+        },
+        "branch_count": 9,
+        "bulk_correction": -47,
+        "cap_maximum": 75,
+        "core_count": 196,
+        "forced_forest": true,
+        "incidence": {
+          "component_count": 29,
+          "connected": false,
+          "link_count": 8,
+          "maximum_star_intersection": 1,
+          "parent": null,
+          "tree": false
+        },
+        "interface": {
+          "cap_state_count_maximum": 14,
+          "connector": [
+            3,
+            7
+          ],
+          "endpoint_state": [
+            "top",
+            2,
+            2
+          ]
+        },
+        "k": 9,
+        "target": 306,
+        "total": 271
+      }
+    ]
+  },
+  "checks": {
+    "all_stable_articulations_singleton": true,
+    "all_stable_caps_forced_forests": true,
+    "all_star_intersections_singleton": true,
+    "best_interface_stable": true,
+    "finite_endpoint_states": true,
+    "no_parent_tree_state": true,
+    "stable_records_are_k_7_8_9": true,
+    "target_absent": true,
+    "ten_wall_packets": true
+  },
+  "classification": {
+    "k7_support_intersection_histogram": {
+      "0": 96,
+      "1": 60,
+      "10": 493,
+      "11": 696,
+      "12": 1303,
+      "13": 769,
+      "14": 753,
+      "15": 126,
+      "16": 97,
+      "17": 54,
+      "18": 72,
+      "19": 40,
+      "2": 49,
+      "20": 18,
+      "21": 5,
+      "4": 78,
+      "5": 506,
+      "6": 1119,
+      "7": 868,
+      "8": 471,
+      "9": 105
+    },
+    "rejections": {
+      "forced_cycle": 494,
+      "invalid_connector": 9189,
+      "not_singleton_articulation": 7718,
+      "unit_cell": 6308
+    },
+    "stable_parent_tree_paths": 0,
+    "stable_singleton_paths": 60,
+    "target_paths": 0
+  },
+  "grammar": {
+    "branch": "one center at one of nine (packet row, buffer offset) phases per packet",
+    "endpoint": "none, or one of 18 top/bottom packet connector states",
+    "endpoint_states": 19,
+    "local_paths": 1251,
+    "outer_walls": "fixed separation three; shared advances in {0,1,2,3}; net advance three per packet",
+    "state": "(row mod 3, wall phase, shared advance, exterior phases, branch row/offset, endpoint state)",
+    "wall_packets": 10,
+    "width_cap": 3
+  },
+  "lower_gate": {
+    "classes": [
+      "affine interval families",
+      "neighboring-residue extensions",
+      "periodic density-one-third bulks",
+      "one-wall staircase seams",
+      "width-one/two elbow islands",
+      "width-three buffered endpoint branches"
+    ],
+    "declared_finite_grammars_exhausted": true,
+    "new_input_needed": "an unbounded or non-affine structural idea: branching incidence surgery with packet-dependent memory, a global dual-tree construction, or a theorem converting nonlocal connectivity into a uniform coordinate family"
+  },
+  "obstruction": {
+    "best_successor_gains": [
+      47,
+      53
+    ],
+    "best_total": "3k^2 + 2k + 10",
+    "complete_for": "fixed width-three blank buffer, one-site packet branch, and one finite endpoint connector",
+    "stable_gain_required": "6k+10",
+    "target": "3k^2+7k"
+  },
+  "schema": "grid-graphs.residue-two-buffered-branch.v1",
+  "stable_interface": {
+    "articulation_vertex": [
+      3,
+      8
+    ],
+    "best_path_stable": true,
+    "cap_state_count": 14,
+    "endpoint_state": [
+      "top",
+      2,
+      2
+    ]
+  },
+  "status": "buffered_branch_obstructed"
+}

@@ -1,0 +1,143 @@
+{
+  "census": {
+    "3": {
+      "states_by_layer": [
+        1,
+        8,
+        14,
+        14
+      ],
+      "transitions_by_row": [
+        8,
+        24,
+        52
+      ]
+    },
+    "4": {
+      "states_by_layer": [
+        1,
+        16,
+        34,
+        39,
+        40
+      ],
+      "transitions_by_row": [
+        16,
+        62,
+        202,
+        224
+      ]
+    },
+    "5": {
+      "states_by_layer": [
+        1,
+        32,
+        85,
+        105,
+        114,
+        114
+      ],
+      "transitions_by_row": [
+        32,
+        161,
+        790,
+        930,
+        1053
+      ]
+    },
+    "6": {
+      "states_by_layer": [
+        1,
+        64,
+        205,
+        279,
+        325,
+        326,
+        326
+      ],
+      "transitions_by_row": [
+        64,
+        417,
+        2914,
+        3710,
+        4632,
+        4644
+      ]
+    },
+    "7": {
+      "states_by_layer": [
+        1,
+        128,
+        497,
+        743,
+        930,
+        940,
+        940,
+        940
+      ],
+      "transitions_by_row": [
+        128,
+        1081,
+        10772,
+        14800,
+        20253,
+        20467,
+        20467
+      ]
+    },
+    "8": {
+      "states_by_layer": [
+        1,
+        256,
+        1202,
+        1975,
+        2671,
+        2734,
+        2741,
+        2746,
+        2750
+      ],
+      "transitions_by_row": [
+        256,
+        2802,
+        39736,
+        58819,
+        88535,
+        90803,
+        90974,
+        91077
+      ]
+    }
+  },
+  "result": {
+    "constraints": 96102,
+    "feasible": true,
+    "feature_states": 4314,
+    "potential_range": [
+      -13,
+      17
+    ],
+    "potential_sha256": "9c41f52d86a2a5615bdd745ebace02ceb5e685e533f00d2054913d951b5ea3fa",
+    "terminal_minima": {
+      "3": 6,
+      "4": 4,
+      "5": 4,
+      "6": 6,
+      "7": 4,
+      "8": 4
+    }
+  },
+  "scope": {
+    "feature_level": "extrema",
+    "semantics": "finite-width exact falsification gate, not a uniform proof",
+    "terminal_target": 4,
+    "widths": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  }
+}

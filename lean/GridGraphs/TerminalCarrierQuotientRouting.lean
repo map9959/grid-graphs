@@ -1,6 +1,7 @@
 import GridGraphs.ChannelCarrierRoots
 import GridGraphs.ChannelContourRouting
 import GridGraphs.TreeEdgeMergerResources
+import GridGraphs.LocalizedHallRouting
 
 /-!
 # Terminal carrier quotient accounting
@@ -45,6 +46,10 @@ def carrierQuotientEmbedding (carrier : A -> K) : CarrierQuotient carrier ↪ K 
     refine Quotient.inductionOn₂ q r ?_
     intro a b hab
     exact Quotient.sound hab
+
+@[simp] theorem carrierQuotientEmbedding_mk (carrier : A → K) (a : A) :
+    carrierQuotientEmbedding carrier (carrierQuotientMk carrier a) = carrier a :=
+  rfl
 
 /-- A fixed representative occurrence for each carrier class. -/
 noncomputable def carrierRepresentative (carrier : A -> K)
@@ -107,6 +112,322 @@ theorem card_carrierQuotient_add_card_collision [Fintype A] (carrier : A -> K) :
       Fintype.card (CarrierQuotient carrier) + Fintype.card (CarrierCollision carrier) := by
   classical
   rw [Fintype.card_congr (carrierQuotientCollisionEquiv carrier), Fintype.card_sum]
+
+section RootPortMultiplicity
+
+variable {V P : Type*} [Fintype V] [DecidableEq V] [DecidableEq P]
+  (F : ParentForest V) (rootPort : ↥F.roots → P)
+
+/-- The carrier quotient of roots by port is exactly the finite set of used
+ports.  This identifies the representative convention used by quotient
+reservations with the representative-per-used-port convention in the forest
+ledger. -/
+noncomputable def rootPortCarrierQuotientEquivUsedRootPorts :
+    CarrierQuotient rootPort ≃ ↥(F.usedRootPorts rootPort) := by
+  classical
+  let rootOf : ↥(F.usedRootPorts rootPort) → ↥F.roots := fun port =>
+    Classical.choose (Finset.mem_image.mp port.2)
+  have rootOf_spec : ∀ port, rootPort (rootOf port) = port.1 := fun port =>
+    (Classical.choose_spec (Finset.mem_image.mp port.2)).2
+  refine
+    { toFun := fun q => ⟨carrierQuotientEmbedding rootPort q, ?_⟩
+      invFun := fun port => carrierQuotientMk rootPort (rootOf port)
+      left_inv := ?_
+      right_inv := ?_ }
+  · obtain ⟨root, rfl⟩ := q.exists_rep
+    exact Finset.mem_image.mpr ⟨root, Finset.mem_univ _, rfl⟩
+  · intro q
+    apply (carrierQuotientEmbedding rootPort).injective
+    change rootPort (rootOf _) = carrierQuotientEmbedding rootPort q
+    exact rootOf_spec _
+  · intro port
+    apply Subtype.ext
+    change rootPort (rootOf port) = port.1
+    exact rootOf_spec port
+
+/-- Duplicate-root debt slots are merely another labelling of the
+nonrepresentative roots selected by the carrier quotient. -/
+noncomputable def rootPortDebtSlotEquivCarrierCollision :
+    F.RootPortDebtSlot rootPort ≃ CarrierCollision rootPort := by
+  apply Fintype.equivOfCardEq
+  have hroots := F.card_usedRootPorts_add_rootPortDebt rootPort
+  have hcarrier := card_carrierQuotient_add_card_collision rootPort
+  have hused : Fintype.card (CarrierQuotient rootPort) =
+      (F.usedRootPorts rootPort).card := by
+    rw [Fintype.card_congr
+      (rootPortCarrierQuotientEquivUsedRootPorts F rootPort), Fintype.card_coe]
+  rw [F.card_rootPortDebtSlot]
+  apply Nat.add_left_cancel (n := (F.usedRootPorts rootPort).card)
+  calc
+    (F.usedRootPorts rootPort).card + F.rootPortDebt rootPort = F.roots.card :=
+      hroots
+    _ = Fintype.card (CarrierQuotient rootPort) +
+        Fintype.card (CarrierCollision rootPort) := by
+          rw [← Fintype.card_coe]
+          exact hcarrier
+    _ = (F.usedRootPorts rootPort).card +
+        Fintype.card (CarrierCollision rootPort) := by rw [hused]
+
+/-- If surviving roots have distinct component labels, every duplicate port
+slot uses the component of its nonrepresentative root.  Distinct slots remain
+distinct, and no image is the component selected for the quotient
+representative of any used port. -/
+noncomputable def rootPortDebtSlotComponentEmbedding
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (hcomponent : Function.Injective rootComponent) :
+    F.RootPortDebtSlot rootPort ↪
+      {k : K // k ∉ Set.range (fun q : CarrierQuotient rootPort =>
+        rootComponent (carrierRepresentative rootPort q))} :=
+  (rootPortDebtSlotEquivCarrierCollision F rootPort).toEmbedding.trans
+    { toFun := fun duplicate => ⟨rootComponent duplicate.1, by
+        rintro ⟨q, hq⟩
+        have hroot : duplicate.1 = carrierRepresentative rootPort q :=
+          hcomponent hq.symm
+        apply duplicate.2
+        have hclass : carrierQuotientMk rootPort duplicate.1 = q := by
+          rw [hroot, carrierQuotientMk_representative]
+        rw [hclass]
+        exact hroot⟩
+      inj' := fun a b hab => by
+        apply Subtype.ext
+        exact hcomponent (congrArg Subtype.val hab) }
+
+/-! ### Representative-per-port root quotients
+
+The arbitrary representative used by `CarrierCollision` need not be the root
+whose component has already been reserved elsewhere.  The following API makes
+that choice explicit. -/
+
+/-- One specified occurrence root to remove over each used physical port. -/
+structure RootPortRepresentativeChoice where
+  representative : CarrierQuotient rootPort → ↥F.roots
+  representative_class : ∀ q,
+    carrierQuotientMk rootPort (representative q) = q
+
+/-- Roots left after removing the specified representative over each port. -/
+def RootPortResidualRoot (choice : RootPortRepresentativeChoice F rootPort) :=
+  {r : ↥F.roots // r ≠ choice.representative (carrierQuotientMk rootPort r)}
+
+noncomputable instance rootPortResidualRootFintype
+    (choice : RootPortRepresentativeChoice F rootPort) :
+    Fintype (RootPortResidualRoot F rootPort choice) :=
+  Fintype.ofInjective Subtype.val Subtype.val_injective
+
+/-- The roots split into one prescribed representative per port and all
+remaining occurrence-labelled roots. -/
+noncomputable def rootPortRepresentativeResidualEquiv
+    (choice : RootPortRepresentativeChoice F rootPort) :
+    ↥F.roots ≃ CarrierQuotient rootPort ⊕ RootPortResidualRoot F rootPort choice := by
+  classical
+  refine
+    { toFun := fun r =>
+        if h : r = choice.representative (carrierQuotientMk rootPort r)
+        then .inl (carrierQuotientMk rootPort r) else .inr ⟨r, h⟩
+      invFun := fun x => match x with
+        | .inl q => choice.representative q
+        | .inr r => r.1
+      left_inv := ?_
+      right_inv := ?_ }
+  · intro r
+    by_cases h : r = choice.representative (carrierQuotientMk rootPort r)
+    · dsimp
+      rw [dif_pos h]
+      exact h.symm
+    · dsimp
+      rw [dif_neg h]
+  · intro x
+    rcases x with q | r
+    · have hclass := choice.representative_class q
+      have hrep : choice.representative q =
+          choice.representative
+            (carrierQuotientMk rootPort (choice.representative q)) := by
+        rw [hclass]
+      dsimp
+      rw [dif_pos hrep]
+      exact congrArg Sum.inl hclass
+    · dsimp
+      rw [dif_neg r.2]
+      exact congrArg Sum.inr (Subtype.ext rfl)
+
+/-- Concrete debt slots are equivalent to the roots left by any choice of one
+representative over each used port. -/
+noncomputable def rootPortDebtSlotEquivResidualRoot
+    (choice : RootPortRepresentativeChoice F rootPort) :
+    F.RootPortDebtSlot rootPort ≃ RootPortResidualRoot F rootPort choice := by
+  apply Fintype.equivOfCardEq
+  have hroots := F.card_usedRootPorts_add_rootPortDebt rootPort
+  have hsplit := Fintype.card_congr
+    (rootPortRepresentativeResidualEquiv F rootPort choice)
+  have hused : Fintype.card (CarrierQuotient rootPort) =
+      (F.usedRootPorts rootPort).card := by
+    rw [Fintype.card_congr
+      (rootPortCarrierQuotientEquivUsedRootPorts F rootPort), Fintype.card_coe]
+  rw [Fintype.card_sum, Fintype.card_coe] at hsplit
+  rw [F.card_rootPortDebtSlot]
+  omega
+
+/-- The exact obstruction to choosing a prescribed reserved component over a
+port: no root in that port fiber has the prescribed component. -/
+def RootPortRepresentativeException {K : Type*}
+    (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K) :=
+  {q : CarrierQuotient rootPort // ∀ r : ↥F.roots,
+    carrierQuotientMk rootPort r = q →
+      rootComponent r ≠ reservedComponent q}
+
+noncomputable instance rootPortRepresentativeExceptionFintype
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K) :
+    Fintype (RootPortRepresentativeException F rootPort rootComponent
+      reservedComponent) :=
+  Fintype.ofInjective Subtype.val Subtype.val_injective
+
+/-- Fiberwise coverage is precisely absence of a representative exception. -/
+theorem rootPortRepresentativeException_isEmpty_iff
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K) :
+    IsEmpty (RootPortRepresentativeException F rootPort rootComponent
+      reservedComponent) ↔
+      ∀ q, ∃ r : ↥F.roots, carrierQuotientMk rootPort r = q ∧
+        rootComponent r = reservedComponent q := by
+  classical
+  constructor
+  · intro hempty q
+    by_contra h
+    push_neg at h
+    exact hempty.false ⟨q, h⟩
+  · intro h
+    refine ⟨fun exception => ?_⟩
+    obtain ⟨r, hrclass, hrcomponent⟩ := h exception.1
+    exact exception.2 r hrclass hrcomponent
+
+/-- Active-root occurrences over the exceptional port.  This fiber is always
+nonempty: the exception says that none of its members has the prescribed
+component, not that the used port has no active root. -/
+def RootPortRepresentativeProvenance
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (exception : RootPortRepresentativeException F rootPort rootComponent
+      reservedComponent) :=
+  {r : ↥F.roots // carrierQuotientMk rootPort r = exception.1}
+
+noncomputable def rootPortRepresentativeProvenanceCandidates
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (exception : RootPortRepresentativeException F rootPort rootComponent
+      reservedComponent) : Finset ↥F.roots :=
+  Finset.univ.filter fun r =>
+    rootPort r = carrierQuotientEmbedding rootPort exception.1
+
+@[simp] theorem mem_rootPortRepresentativeProvenanceCandidates
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (exception : RootPortRepresentativeException F rootPort rootComponent
+      reservedComponent) (r : ↥F.roots) :
+    r ∈ rootPortRepresentativeProvenanceCandidates F rootPort rootComponent
+        reservedComponent exception ↔
+      rootPort r = carrierQuotientEmbedding rootPort exception.1 := by
+  classical
+  simp [rootPortRepresentativeProvenanceCandidates]
+
+/-- Every representative exception has at least one active-root provenance
+candidate over its port. -/
+theorem rootPortRepresentativeProvenanceCandidates_nonempty
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (exception : RootPortRepresentativeException F rootPort rootComponent
+      reservedComponent) :
+    (rootPortRepresentativeProvenanceCandidates F rootPort rootComponent
+      reservedComponent exception).Nonempty := by
+  classical
+  refine ⟨carrierRepresentative rootPort exception.1, ?_⟩
+  rw [mem_rootPortRepresentativeProvenanceCandidates]
+  have h := congrArg (carrierQuotientEmbedding rootPort)
+    (carrierQuotientMk_representative rootPort exception.1)
+  simpa only [carrierQuotientEmbedding_mk] using h
+
+/-- Resources reachable from an exception through any active root over its
+port.  The union retains root provenance instead of pretending that the absent
+prescribed-component root exists. -/
+noncomputable def rootPortRepresentativeExceptionNeighborhood
+    {K R : Type*} [DecidableEq R]
+    (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (candidates : ↥F.roots → Finset R)
+    (exception : RootPortRepresentativeException F rootPort rootComponent
+      reservedComponent) : Finset R :=
+  (rootPortRepresentativeProvenanceCandidates F rootPort rootComponent
+    reservedComponent exception).biUnion candidates
+
+/-- Exact routing criterion for representative exceptions after expanding each
+exception to the candidate resources of its active-root provenance fiber. -/
+theorem rootPortRepresentativeExceptionHall_iff_nonempty_routing
+    {K R : Type*} [DecidableEq R]
+    (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (candidates : ↥F.roots → Finset R) :
+    LocalizedHall (rootPortRepresentativeExceptionNeighborhood F rootPort
+      rootComponent reservedComponent candidates) ↔
+      Nonempty (LocalizedRouting
+        (rootPortRepresentativeExceptionNeighborhood F rootPort
+          rootComponent reservedComponent candidates)) :=
+  localizedHall_iff_nonempty_routing _
+
+/-- Choose the root carrying the prescribed reserved component in each port
+fiber.  The coverage hypothesis is exactly the negation of the exception above. -/
+noncomputable def rootPortRepresentativeChoiceOfComponent
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (hcoverage : ∀ q, ∃ r : ↥F.roots,
+      carrierQuotientMk rootPort r = q ∧
+        rootComponent r = reservedComponent q) :
+    RootPortRepresentativeChoice F rootPort where
+  representative q := Classical.choose (hcoverage q)
+  representative_class q := (Classical.choose_spec (hcoverage q)).1
+
+@[simp] theorem rootPortRepresentativeChoiceOfComponent_component
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (hcoverage : ∀ q, ∃ r : ↥F.roots,
+      carrierQuotientMk rootPort r = q ∧
+        rootComponent r = reservedComponent q) (q) :
+    rootComponent ((rootPortRepresentativeChoiceOfComponent F rootPort
+      rootComponent reservedComponent hcoverage).representative q) =
+        reservedComponent q :=
+  (Classical.choose_spec (hcoverage q)).2
+
+/-- Once the representative carrying the prescribed reserved component is the
+one removed over every port, every duplicate root component is residual. -/
+noncomputable def rootPortDebtSlotResidualComponentEmbedding
+    {K : Type*} (rootComponent : ↥F.roots → K)
+    (hcomponent : Function.Injective rootComponent)
+    (reservedComponent : CarrierQuotient rootPort → K)
+    (hcoverage : ∀ q, ∃ r : ↥F.roots,
+      carrierQuotientMk rootPort r = q ∧
+        rootComponent r = reservedComponent q) :
+    F.RootPortDebtSlot rootPort ↪
+      {k : K // k ∉ Set.range reservedComponent} := by
+  let choice := rootPortRepresentativeChoiceOfComponent F rootPort
+    rootComponent reservedComponent hcoverage
+  exact (rootPortDebtSlotEquivResidualRoot F rootPort choice).toEmbedding.trans
+    { toFun := fun duplicate => ⟨rootComponent duplicate.1, by
+        rintro ⟨q, hq⟩
+        have hrepComponent : rootComponent (choice.representative q) =
+            reservedComponent q :=
+          rootPortRepresentativeChoiceOfComponent_component F rootPort
+            rootComponent reservedComponent hcoverage q
+        have hroot : duplicate.1 = choice.representative q :=
+          hcomponent (hq.symm.trans hrepComponent.symm)
+        apply duplicate.2
+        have hclass : carrierQuotientMk rootPort duplicate.1 = q := by
+          rw [hroot, choice.representative_class]
+        rw [hclass]
+        exact hroot⟩
+      inj' := fun a b hab => by
+        apply Subtype.ext
+        exact hcomponent (congrArg Subtype.val hab) }
+
+end RootPortMultiplicity
 
 variable {M : Type w} {I : Type*}
 

@@ -1,0 +1,24 @@
+{
+  "found": false,
+  "best": [
+    -1,
+    [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      1,
+      1,
+      1
+    ],
+    [
+      -1,
+      "terminal",
+      3,
+      "CoupledState(forced_mask=6, h_partition=(0, 0, 0), f_partition=(-1, 0, 0), retired_h=1, retired_f=1)"
+    ]
+  ]
+}

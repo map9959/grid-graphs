@@ -42,6 +42,31 @@ theorem uResidueTwoAffine_compl_card (k : Nat) (hk : 5 ≤ k) :
   ring_nf
   omega
 
+/-- The stable residue-two target exceeds the affine score by exactly `k-5`.
+This identifies the construction gap without hiding it in asymptotic notation. -/
+theorem residueTwoAffine_target_eq_compl_card_add_gap (k : Nat) (hk : 5 ≤ k) :
+    3 * k ^ 2 + 7 * k =
+      ((Finset.univ : Finset (GridVertex (3 * k + 2) (3 * k + 2))) \
+        uResidueTwoAffine k).card + (k - 5) := by
+  rw [uResidueTwoAffine_compl_card k hk]
+  omega
+
+/-- One affine width-three step gains `6k+9` preserved vertices, one fewer
+than the `6k+10` gain required by the exact stable target. -/
+theorem uResidueTwoAffine_compl_card_step (k : Nat) (hk : 5 ≤ k) :
+    ((Finset.univ : Finset (GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2))) \
+        uResidueTwoAffine (k + 1)).card =
+      ((Finset.univ : Finset (GridVertex (3 * k + 2) (3 * k + 2))) \
+        uResidueTwoAffine k).card + (6 * k + 9) := by
+  rw [uResidueTwoAffine_compl_card (k + 1) (by omega),
+    uResidueTwoAffine_compl_card k hk]
+  ring
+
+theorem residueTwoStableTarget_step (k : Nat) :
+    3 * (k + 1) ^ 2 + 7 * (k + 1) =
+      (3 * k ^ 2 + 7 * k) + (6 * k + 10) := by
+  ring
+
 /-- The affine construction gives the claimed lower bound from the exact dual
 connectivity proposition. -/
 theorem residueTwoAffine_le_maxPreserved_of_dual_connected

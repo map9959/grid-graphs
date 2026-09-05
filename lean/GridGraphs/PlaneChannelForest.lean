@@ -158,6 +158,124 @@ theorem card_leaves_eq_card_roots_add_branchExcess :
         ac_rfl
   exact Nat.add_right_cancel hcancel
 
+/-! ## Roots grouped by a physical port -/
+
+/-- Physical ports used by at least one root.  This is the finite quotient of
+the occurrence-labelled roots by equality of their physical port. -/
+def usedRootPorts {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) : Finset P :=
+  Finset.univ.image rootPort
+
+/-- Number of occurrence-labelled roots above one physical port. -/
+def rootPortMultiplicity {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) (port : P) : Nat :=
+  (Finset.univ.filter fun root => rootPort root = port).card
+
+/-- Repeated roots above a used physical port, after retaining one quotient
+root.  These units must be paid by branch, component, or internal resources;
+they are not fresh physical ports. -/
+def rootPortDebt {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) : Nat :=
+  ∑ port ∈ F.usedRootPorts rootPort, (F.rootPortMultiplicity rootPort port - 1)
+
+/-- Concrete copies of all duplicate-root debt units. -/
+def RootPortDebtSlot {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) :=
+  Σ port : ↥(F.usedRootPorts rootPort),
+    Fin (F.rootPortMultiplicity rootPort port.1 - 1)
+
+noncomputable instance rootPortDebtSlotFintype {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) : Fintype (F.RootPortDebtSlot rootPort) := by
+  unfold RootPortDebtSlot
+  infer_instance
+
+theorem card_rootPortDebtSlot {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) :
+    Fintype.card (F.RootPortDebtSlot rootPort) = F.rootPortDebt rootPort := by
+  unfold RootPortDebtSlot
+  rw [Fintype.card_sigma]
+  simp only [Fintype.card_fin, rootPortDebt]
+  exact Finset.sum_attach (F.usedRootPorts rootPort)
+    (fun port => F.rootPortMultiplicity rootPort port - 1)
+
+/-- Exact finite multiplicity formula: occurrence roots are one representative
+per used physical port plus all duplicate-root debt. -/
+theorem card_usedRootPorts_add_rootPortDebt {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) :
+    (F.usedRootPorts rootPort).card + F.rootPortDebt rootPort = F.roots.card := by
+  have hsum : F.roots.card =
+      ∑ port ∈ F.usedRootPorts rootPort, F.rootPortMultiplicity rootPort port := by
+    simpa only [usedRootPorts, rootPortMultiplicity, Finset.card_univ,
+      Fintype.card_coe] using
+      Finset.card_eq_sum_card_image rootPort (Finset.univ : Finset ↥F.roots)
+  have hpositive : ∀ port ∈ F.usedRootPorts rootPort,
+      1 ≤ F.rootPortMultiplicity rootPort port := by
+    intro port hport
+    obtain ⟨root, -, hroot⟩ := Finset.mem_image.mp hport
+    apply Nat.one_le_iff_ne_zero.mpr
+    intro hzero
+    rw [rootPortMultiplicity, Finset.card_eq_zero] at hzero
+    have : root ∈ (Finset.univ.filter fun r => rootPort r = port) :=
+      Finset.mem_filter.mpr ⟨Finset.mem_univ _, hroot⟩
+    rw [hzero] at this
+    simp at this
+  calc
+    (F.usedRootPorts rootPort).card + F.rootPortDebt rootPort =
+        ∑ port ∈ F.usedRootPorts rootPort,
+          (1 + (F.rootPortMultiplicity rootPort port - 1)) := by
+      rw [rootPortDebt, Finset.card_eq_sum_ones, ← Finset.sum_add_distrib]
+    _ = ∑ port ∈ F.usedRootPorts rootPort,
+          F.rootPortMultiplicity rootPort port := by
+      apply Finset.sum_congr rfl
+      intro port hport
+      exact Nat.add_sub_of_le (hpositive port hport)
+    _ = F.roots.card := hsum.symm
+
+/-- Pointwise root-port injectivity is exactly the exceptional zero-debt case. -/
+theorem rootPortDebt_eq_zero_iff_injective {P : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) :
+    F.rootPortDebt rootPort = 0 ↔ Function.Injective rootPort := by
+  constructor
+  · intro hzero
+    intro a b hab
+    apply (Finset.card_image_iff.mp ?_) (Finset.mem_univ a)
+      (Finset.mem_univ b) hab
+    have hcount := F.card_usedRootPorts_add_rootPortDebt rootPort
+    simpa [usedRootPorts, hzero] using hcount
+  · intro hinjective
+    have himage : (F.usedRootPorts rootPort).card = F.roots.card := by
+      rw [usedRootPorts, Finset.card_image_of_injective _ hinjective,
+        Finset.card_univ, Fintype.card_coe]
+    have hcount := F.card_usedRootPorts_add_rootPortDebt rootPort
+    omega
+
+/-- Euler accounting after quotienting roots by their physical port. -/
+theorem card_leaves_eq_usedRootPorts_add_debt_add_branchExcess
+    {P : Type*} [DecidableEq P] (rootPort : ↥F.roots → P) :
+    F.leaves.card = (F.usedRootPorts rootPort).card +
+      F.rootPortDebt rootPort + F.branchExcess := by
+  rw [F.card_leaves_eq_card_roots_add_branchExcess,
+    ← F.card_usedRootPorts_add_rootPortDebt rootPort]
+
+/-- A grouped root ledger asks for one resource per used physical port and one
+resource per duplicate or merger unit.  It never assumes a fresh physical port
+for every occurrence root. -/
+structure GroupedRootLedger {P R : Type*} [DecidableEq P]
+    (rootPort : ↥F.roots → P) where
+  resource : (↥(F.usedRootPorts rootPort) ⊕
+    (F.RootPortDebtSlot rootPort ⊕ F.MergerSlot)) ↪ R
+
+theorem GroupedRootLedger.card_leaves_le_resource
+    {P R : Type*} [DecidableEq P] [Fintype R]
+    (rootPort : ↥F.roots → P)
+    (ledger : F.GroupedRootLedger (R := R) rootPort) :
+    F.leaves.card ≤ Fintype.card R := by
+  have h := Fintype.card_le_of_injective ledger.resource ledger.resource.injective
+  rw [Fintype.card_sum, Fintype.card_sum, Fintype.card_coe,
+    F.card_rootPortDebtSlot, F.card_mergerSlot] at h
+  rw [F.card_leaves_eq_usedRootPorts_add_debt_add_branchExcess rootPort]
+  omega
+
 end ParentForest
 
 /-- Abstract data left after a planar channel pruning argument.  `demand` and

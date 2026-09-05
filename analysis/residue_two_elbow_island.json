@@ -1,0 +1,330 @@
+{
+  "checks": {
+    "all_caps_forced_forests": true,
+    "all_evaluated_cores_are_forced_forests": true,
+    "all_evaluated_unit_cells_valid": true,
+    "all_wall_cycles_nonempty": true,
+    "k_7_8_9_complete": true,
+    "singleton_obstruction": true,
+    "target_absent": true,
+    "three_cap_arcs_classified": true
+  },
+  "classification": {
+    "geometry_paths_at_k_7_8_9": 513,
+    "minimum_intersection_example": {
+      "intersection_size": 4,
+      "k": 7,
+      "path": {
+        "column_phase": 0,
+        "initial_width": 2,
+        "island_phase": 1,
+        "lower_packet": [
+          3,
+          0,
+          0
+        ],
+        "orientation": "H",
+        "row_phase": 2,
+        "start": 2,
+        "upper_packet": [
+          2,
+          1,
+          0
+        ],
+        "width_cycle": [
+          2,
+          1,
+          2
+        ]
+      },
+      "singleton": false,
+      "vertex": null
+    },
+    "minimum_island_exterior_support_intersection": 4,
+    "rejections": {
+      "empty_island": 414,
+      "forced_cycle": 117
+    },
+    "singleton_articulation_paths": 0,
+    "stable_three_cap_arc_paths": 56,
+    "target_paths": 0,
+    "three_arc_singleton_paths": 0,
+    "total_formula_classes": {
+      "3k^2 + 2k + 4": 8,
+      "3k^2 + 2k + 5": 11,
+      "3k^2 + 2k + 6": 14,
+      "3k^2 + 2k + 7": 1,
+      "3k^2 + 2k + 8": 7,
+      "3k^2 + 2k + 9": 3,
+      "3k^2 + 3k + 2": 11,
+      "3k^2 + 3k + 3": 63,
+      "3k^2 + 3k + 4": 61,
+      "3k^2 + 3k + 5": 34,
+      "3k^2 + 3k + 6": 6,
+      "3k^2 + 3k + 7": 17,
+      "3k^2 + 4k + 1": 6,
+      "3k^2 + 4k + 2": 66,
+      "3k^2 + 4k + 3": 63,
+      "3k^2 + 4k + 4": 44,
+      "3k^2 + 4k + 5": 16,
+      "3k^2 + 5k + 1": 9,
+      "3k^2 + 5k + 2": 52,
+      "3k^2 + 5k + 3": 7,
+      "3k^2 + 5k + 4": 5,
+      "3k^2 + 6k + 1": 2,
+      "3k^2 + 6k + 2": 7
+    }
+  },
+  "count_requirement": {
+    "one_wall_deficit": "k-2",
+    "one_wall_maximum": "3k^2+6k+2",
+    "required_island_packet_gain": 1,
+    "target": "3k^2+7k",
+    "target_stable_gain": "6k+10"
+  },
+  "grammar": {
+    "local_paths": 1044,
+    "minimality": "width one can change at most one center per packet; width two is the least cap permitting a nonparallel 1<->2 elbow",
+    "packet": "three transitions with net advance 3 for both walls",
+    "phase_rule": "the island uses one of the two phases unequal to its host rail domain",
+    "raw_nonintersection_wall_cycles": 56,
+    "state": "(row mod 3, lower-wall mod 3, width in {1,2}, exterior phases, island orientation and alternate phase)",
+    "transition": "independent lower/upper advances in {0,1,2,3}; preserve width 1..2; reject a bad seam unit cell",
+    "width_cap": 2
+  },
+  "lower_l2_assessment": {
+    "blocked_beyond_declared_finite_grammars": false,
+    "next_topology": "width at least three with an explicit blank buffer and endpoint-only attachment, or a branching three-wall junction",
+    "reason": "the certificate excludes the minimal one-island finite grammar, not wider islands, branching walls, multiple articulations, or nonmonotone domain walls"
+  },
+  "obstruction": {
+    "capacity": "even after dropping singleton articulation, the best total remains 3k^2+6k+2 and gains only 6k+9",
+    "complete_for": "two noncrossing net-three walls, width states 1..2, one alternate row/column island phase, and arbitrary forced-forest perimeter caps",
+    "incidence": "the required singleton articulation is absent, including among the stable three-cap-arc paths",
+    "local": "every nonempty island meeting the width/phase grammar has at least four island/exterior support vertices"
+  },
+  "schema": "grid-graphs.residue-two-elbow-island.v1",
+  "status": "minimal_elbow_island_obstructed",
+  "three_arc_best": {
+    "formulas": {
+      "cap": "5k + 2",
+      "island": "k - 1",
+      "seam": "0",
+      "total": "3k^2 + 5k + 2"
+    },
+    "path": {
+      "column_phase": 0,
+      "initial_width": 1,
+      "island_phase": 1,
+      "lower_packet": [
+        2,
+        1,
+        0
+      ],
+      "orientation": "H",
+      "row_phase": 2,
+      "start": 0,
+      "upper_packet": [
+        2,
+        1,
+        0
+      ],
+      "width_cycle": [
+        1,
+        1,
+        1
+      ]
+    },
+    "records": [
+      {
+        "articulation": {
+          "intersection_size": 17,
+          "singleton": false,
+          "vertex": null
+        },
+        "boundary_domain_arcs": {
+          "by_owner": {
+            "horizontal-domain": 1,
+            "island": 1,
+            "vertical-domain": 1
+          },
+          "count": 3,
+          "three_arcs": true
+        },
+        "cap_forced_forest": true,
+        "cap_maximum": 37,
+        "core_count": 147,
+        "core_forced_forest": true,
+        "island_count": 6,
+        "k": 7,
+        "seam_correction": 0,
+        "target": 196,
+        "total": 184,
+        "unit_cells_valid": true
+      },
+      {
+        "articulation": {
+          "intersection_size": 20,
+          "singleton": false,
+          "vertex": null
+        },
+        "boundary_domain_arcs": {
+          "by_owner": {
+            "horizontal-domain": 1,
+            "island": 1,
+            "vertical-domain": 1
+          },
+          "count": 3,
+          "three_arcs": true
+        },
+        "cap_forced_forest": true,
+        "cap_maximum": 42,
+        "core_count": 192,
+        "core_forced_forest": true,
+        "island_count": 7,
+        "k": 8,
+        "seam_correction": 0,
+        "target": 248,
+        "total": 234,
+        "unit_cells_valid": true
+      },
+      {
+        "articulation": {
+          "intersection_size": 23,
+          "singleton": false,
+          "vertex": null
+        },
+        "boundary_domain_arcs": {
+          "by_owner": {
+            "horizontal-domain": 1,
+            "island": 1,
+            "vertical-domain": 1
+          },
+          "count": 3,
+          "three_arcs": true
+        },
+        "cap_forced_forest": true,
+        "cap_maximum": 47,
+        "core_count": 243,
+        "core_forced_forest": true,
+        "island_count": 8,
+        "k": 9,
+        "seam_correction": 0,
+        "target": 306,
+        "total": 290,
+        "unit_cells_valid": true
+      }
+    ]
+  },
+  "unconstrained_best": {
+    "formulas": {
+      "cap": "8k + 1",
+      "island": "k",
+      "seam": "-2k + 1",
+      "total": "3k^2 + 6k + 2"
+    },
+    "path": {
+      "column_phase": 2,
+      "initial_width": 2,
+      "island_phase": 1,
+      "lower_packet": [
+        1,
+        1,
+        1
+      ],
+      "orientation": "H",
+      "row_phase": 2,
+      "start": 0,
+      "upper_packet": [
+        0,
+        1,
+        2
+      ],
+      "width_cycle": [
+        2,
+        1,
+        1
+      ]
+    },
+    "records": [
+      {
+        "articulation": {
+          "intersection_size": 20,
+          "singleton": false,
+          "vertex": null
+        },
+        "boundary_domain_arcs": {
+          "by_owner": {
+            "horizontal-domain": 1,
+            "island": 2,
+            "vertical-domain": 1
+          },
+          "count": 4,
+          "three_arcs": false
+        },
+        "cap_forced_forest": true,
+        "cap_maximum": 57,
+        "core_count": 134,
+        "core_forced_forest": true,
+        "island_count": 7,
+        "k": 7,
+        "seam_correction": -13,
+        "target": 196,
+        "total": 191,
+        "unit_cells_valid": true
+      },
+      {
+        "articulation": {
+          "intersection_size": 23,
+          "singleton": false,
+          "vertex": null
+        },
+        "boundary_domain_arcs": {
+          "by_owner": {
+            "horizontal-domain": 1,
+            "island": 2,
+            "vertical-domain": 1
+          },
+          "count": 4,
+          "three_arcs": false
+        },
+        "cap_forced_forest": true,
+        "cap_maximum": 65,
+        "core_count": 177,
+        "core_forced_forest": true,
+        "island_count": 8,
+        "k": 8,
+        "seam_correction": -15,
+        "target": 248,
+        "total": 242,
+        "unit_cells_valid": true
+      },
+      {
+        "articulation": {
+          "intersection_size": 26,
+          "singleton": false,
+          "vertex": null
+        },
+        "boundary_domain_arcs": {
+          "by_owner": {
+            "horizontal-domain": 1,
+            "island": 2,
+            "vertical-domain": 1
+          },
+          "count": 4,
+          "three_arcs": false
+        },
+        "cap_forced_forest": true,
+        "cap_maximum": 73,
+        "core_count": 226,
+        "core_forced_forest": true,
+        "island_count": 9,
+        "k": 9,
+        "seam_correction": -17,
+        "target": 306,
+        "total": 299,
+        "unit_cells_valid": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,7133 @@
+{
+  "abstract_status": "adding k-5 cells to one existing interval has exact target count and would add one to each affine transition",
+  "checker": "residue_two_affine_endpoint_extension_census",
+  "geometric_status": "no endpoint type survives even one complete k=7,8,9 family",
+  "grammar": {
+    "edits": "add exactly that ray; no deletions, translations, or other additions",
+    "extension": "the k-5 consecutive collinear cells immediately beyond the endpoint",
+    "source_types": "the 2 endpoints of each of the 4k audited affine intervals at k=7",
+    "transport": "the checked affine old-node owner maps, retaining start/end side",
+    "type_count": 56
+  },
+  "next_topology": {
+    "count": "carrier +1; blocker translation 0; total correction +1 per step",
+    "name": "two-interval endpoint-slide",
+    "reason": "all empty endpoint rays hit a unit-cell obstruction or, at k=7, merge affine components; a neighboring component must move",
+    "specification": "lengthen one carrier endpoint by one per step, translate one constant-size blocking leaf by a zero-net delete/add move, and reparent that leaf through one declared singleton attachment"
+  },
+  "schema": "grid-graphs.residue-two-affine-endpoint-extension-census.v1",
+  "status": "complete_endpoint_type_obstruction",
+  "surviving_chain_count": 0,
+  "transported_endpoint_chains": [
+    {
+      "source_type": {
+        "component": "V:c0:r0..22",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_out_of_grid",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c0:r0..22",
+        "V:c0:r0..25",
+        "V:c0:r0..28"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c0:r0..22",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_out_of_grid",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c0:r0..22",
+        "V:c0:r0..25",
+        "V:c0:r0..28"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r0:c2..22",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "H:r0:c2..22",
+        "H:r0:c2..25",
+        "H:r0:c2..28"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r0:c2..22",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_out_of_grid",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "H:r0:c2..22",
+        "H:r0:c2..25",
+        "H:r0:c2..28"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c5..5",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        false,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r2:c5..5",
+        "H:r2:c8..8",
+        "H:r2:c11..11"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c5..5",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "component_merge_or_split",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r2:c5..5",
+        "H:r2:c8..8",
+        "H:r2:c11..11"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c8..8",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "component_merge_or_split",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r2:c8..8",
+        "H:r2:c11..11",
+        "H:r2:c14..14"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c8..8",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "component_merge_or_split",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r2:c8..8",
+        "H:r2:c11..11",
+        "H:r2:c14..14"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c11..11",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "component_merge_or_split",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r2:c11..11",
+        "H:r2:c14..14",
+        "H:r2:c17..17"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c11..11",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r2:c11..11",
+        "H:r2:c14..14",
+        "H:r2:c17..17"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c14:r2..3",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c14:r2..3",
+        "V:c17:r2..3",
+        "V:c20:r2..3"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c14:r2..3",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "forbidden_unit_cell"
+      ],
+      "transported_components": [
+        "V:c14:r2..3",
+        "V:c17:r2..3",
+        "V:c20:r2..3"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c17:r2..4",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c17:r2..4",
+        "V:c20:r2..4",
+        "V:c23:r2..4"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c17:r2..4",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c17:r2..4",
+        "V:c20:r2..4",
+        "V:c23:r2..4"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c20..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r2:c20..20",
+        "H:r2:c23..23",
+        "H:r2:c26..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r2:c20..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "H:r2:c20..20",
+        "H:r2:c23..23",
+        "H:r2:c26..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c3:r3..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c3:r3..20",
+        "V:c3:r3..23",
+        "V:c3:r3..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c3:r3..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c3:r3..20",
+        "V:c3:r3..23",
+        "V:c3:r3..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c22:r3..22",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c22:r3..22",
+        "V:c25:r3..25",
+        "V:c28:r3..28"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c22:r3..22",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_out_of_grid",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c22:r3..22",
+        "V:c25:r3..25",
+        "V:c28:r3..28"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c6:r4..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c6:r4..20",
+        "V:c9:r4..23",
+        "V:c12:r4..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c6:r4..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c6:r4..20",
+        "V:c9:r4..23",
+        "V:c12:r4..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c9:r4..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c9:r4..20",
+        "V:c12:r4..23",
+        "V:c15:r4..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c9:r4..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c9:r4..20",
+        "V:c12:r4..23",
+        "V:c15:r4..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c12:r4..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c12:r4..20",
+        "V:c15:r4..23",
+        "V:c18:r4..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c12:r4..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c12:r4..20",
+        "V:c15:r4..23",
+        "V:c18:r4..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c19:r4..5",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c19:r4..5",
+        "V:c22:r4..5",
+        "V:c25:r4..5"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c19:r4..5",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c19:r4..5",
+        "V:c22:r4..5",
+        "V:c25:r4..5"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r5..6",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "forbidden_unit_cell"
+      ],
+      "transported_components": [
+        "V:c15:r5..6",
+        "V:c18:r5..6",
+        "V:c21:r5..6"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r5..6",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        false
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c15:r5..6",
+        "V:c18:r5..6",
+        "V:c21:r5..6"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c17:r6..9",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c17:r6..9",
+        "V:c20:r6..9",
+        "V:c23:r6..9"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c17:r6..9",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        false,
+        false
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "component_merge_or_split",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c17:r6..9",
+        "V:c20:r6..9",
+        "V:c23:r6..9"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r7:c20..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r7:c20..20",
+        "H:r7:c23..23",
+        "H:r7:c26..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r7:c20..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "H:r7:c20..20",
+        "H:r7:c23..23",
+        "H:r7:c26..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r8:c14..14",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r8:c14..14",
+        "H:r8:c17..17",
+        "H:r8:c20..20"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r8:c14..14",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r8:c14..14",
+        "H:r8:c17..17",
+        "H:r8:c20..20"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c19:r9..17",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c19:r9..17",
+        "V:c22:r9..20",
+        "V:c25:r9..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c19:r9..17",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "forbidden_unit_cell"
+      ],
+      "transported_components": [
+        "V:c19:r9..17",
+        "V:c22:r9..20",
+        "V:c25:r9..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r10..11",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        false,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c15:r10..11",
+        "V:c18:r13..14",
+        "V:c21:r16..17"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r10..11",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c15:r10..11",
+        "V:c18:r13..14",
+        "V:c21:r16..17"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r12:c17..17",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "forbidden_unit_cell"
+      ],
+      "transported_components": [
+        "H:r12:c17..17",
+        "H:r15:c20..20",
+        "H:r18:c23..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r12:c17..17",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r12:c17..17",
+        "H:r15:c20..20",
+        "H:r18:c23..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r13..14",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c15:r13..14",
+        "V:c18:r16..17",
+        "V:c21:r19..20"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r13..14",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c15:r13..14",
+        "V:c18:r16..17",
+        "V:c21:r19..20"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r15:c17..17",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "forbidden_unit_cell"
+      ],
+      "transported_components": [
+        "H:r15:c17..17",
+        "H:r18:c20..20",
+        "H:r21:c23..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r15:c17..17",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r15:c17..17",
+        "H:r18:c20..20",
+        "H:r21:c23..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r16..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "V:c15:r16..20",
+        "V:c18:r19..23",
+        "V:c21:r22..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "V:c15:r16..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "V:c15:r16..20",
+        "V:c18:r19..23",
+        "V:c21:r22..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r18:c17..17",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r18:c17..17",
+        "H:r21:c20..20",
+        "H:r24:c23..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r18:c17..17",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "forbidden_unit_cell"
+      ],
+      "transported_components": [
+        "H:r18:c17..17",
+        "H:r21:c20..20",
+        "H:r24:c23..23"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r19:c20..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "forbidden_unit_cell"
+      ],
+      "transported_components": [
+        "H:r19:c20..20",
+        "H:r22:c23..23",
+        "H:r25:c26..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r19:c20..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "H:r19:c20..20",
+        "H:r22:c23..23",
+        "H:r25:c26..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r20:c18..18",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r20:c18..18",
+        "H:r23:c21..21",
+        "H:r26:c24..24"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r20:c18..18",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "forbidden_unit_cell",
+        "forbidden_unit_cell",
+        "ray_contains_old_preserved_vertex"
+      ],
+      "transported_components": [
+        "H:r20:c18..18",
+        "H:r23:c21..21",
+        "H:r26:c24..24"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r22:c2..20",
+        "side": "start"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "H:r22:c2..20",
+        "H:r25:c2..23",
+        "H:r28:c2..26"
+      ]
+    },
+    {
+      "source_type": {
+        "component": "H:r22:c2..20",
+        "side": "end"
+      },
+      "standard_coordinate_images_nest": [
+        true,
+        true
+      ],
+      "status": "obstructed",
+      "statuses": [
+        "ray_contains_old_preserved_vertex",
+        "ray_out_of_grid",
+        "ray_out_of_grid"
+      ],
+      "transported_components": [
+        "H:r22:c2..20",
+        "H:r25:c2..23",
+        "H:r28:c2..26"
+      ]
+    }
+  ],
+  "width_records": [
+    {
+      "endpoint_type_count": 56,
+      "first_replay_by_terminal_status": {
+        "component_merge_or_split": {
+          "component": "H:r2:c5..5",
+          "expected": 28,
+          "extension_length": 2,
+          "k": 7,
+          "observed": 27,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "side": "end",
+          "status": "component_merge_or_split"
+        },
+        "forbidden_unit_cell": {
+          "component": "H:r2:c5..5",
+          "detail": {
+            "cell": [
+              2,
+              3
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        "ray_contains_old_preserved_vertex": {
+          "component": "H:r0:c2..22",
+          "extension_length": 2,
+          "first_occupied": [
+            0,
+            0
+          ],
+          "k": 7,
+          "ray": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        "ray_out_of_grid": {
+          "component": "V:c0:r0..22",
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              -2,
+              0
+            ],
+            [
+              -1,
+              0
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        }
+      },
+      "interval_count": 28,
+      "k": 7,
+      "n": 23,
+      "records": [
+        {
+          "component": "V:c0:r0..22",
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              -2,
+              0
+            ],
+            [
+              -1,
+              0
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c0:r0..22",
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              23,
+              0
+            ],
+            [
+              24,
+              0
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r0:c2..22",
+          "extension_length": 2,
+          "first_occupied": [
+            0,
+            0
+          ],
+          "k": 7,
+          "ray": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r0:c2..22",
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              0,
+              23
+            ],
+            [
+              0,
+              24
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r2:c5..5",
+          "detail": {
+            "cell": [
+              2,
+              3
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r2:c5..5",
+          "expected": 28,
+          "extension_length": 2,
+          "k": 7,
+          "observed": 27,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "side": "end",
+          "status": "component_merge_or_split"
+        },
+        {
+          "component": "H:r2:c8..8",
+          "expected": 28,
+          "extension_length": 2,
+          "k": 7,
+          "observed": 27,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "side": "start",
+          "status": "component_merge_or_split"
+        },
+        {
+          "component": "H:r2:c8..8",
+          "expected": 28,
+          "extension_length": 2,
+          "k": 7,
+          "observed": 27,
+          "ray": [
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "side": "end",
+          "status": "component_merge_or_split"
+        },
+        {
+          "component": "H:r2:c11..11",
+          "expected": 28,
+          "extension_length": 2,
+          "k": 7,
+          "observed": 27,
+          "ray": [
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "side": "start",
+          "status": "component_merge_or_split"
+        },
+        {
+          "component": "H:r2:c11..11",
+          "detail": {
+            "cell": [
+              2,
+              13
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c14:r2..3",
+          "extension_length": 2,
+          "first_occupied": [
+            0,
+            14
+          ],
+          "k": 7,
+          "ray": [
+            [
+              0,
+              14
+            ],
+            [
+              1,
+              14
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c14:r2..3",
+          "detail": {
+            "cell": [
+              5,
+              14
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              4,
+              14
+            ],
+            [
+              5,
+              14
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c17:r2..4",
+          "extension_length": 2,
+          "first_occupied": [
+            0,
+            17
+          ],
+          "k": 7,
+          "ray": [
+            [
+              0,
+              17
+            ],
+            [
+              1,
+              17
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c17:r2..4",
+          "extension_length": 2,
+          "first_occupied": [
+            6,
+            17
+          ],
+          "k": 7,
+          "ray": [
+            [
+              5,
+              17
+            ],
+            [
+              6,
+              17
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c20..20",
+          "detail": {
+            "cell": [
+              2,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              18
+            ],
+            [
+              2,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r2:c20..20",
+          "detail": {
+            "cell": [
+              2,
+              21
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              21
+            ],
+            [
+              2,
+              22
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c3:r3..20",
+          "detail": {
+            "cell": [
+              0,
+              3
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c3:r3..20",
+          "extension_length": 2,
+          "first_occupied": [
+            22,
+            3
+          ],
+          "k": 7,
+          "ray": [
+            [
+              21,
+              3
+            ],
+            [
+              22,
+              3
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c22:r3..22",
+          "detail": {
+            "cell": [
+              0,
+              21
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              1,
+              22
+            ],
+            [
+              2,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c22:r3..22",
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              23,
+              22
+            ],
+            [
+              24,
+              22
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c6:r4..20",
+          "detail": {
+            "cell": [
+              2,
+              5
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c6:r4..20",
+          "extension_length": 2,
+          "first_occupied": [
+            22,
+            6
+          ],
+          "k": 7,
+          "ray": [
+            [
+              21,
+              6
+            ],
+            [
+              22,
+              6
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c9:r4..20",
+          "detail": {
+            "cell": [
+              2,
+              8
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c9:r4..20",
+          "extension_length": 2,
+          "first_occupied": [
+            22,
+            9
+          ],
+          "k": 7,
+          "ray": [
+            [
+              21,
+              9
+            ],
+            [
+              22,
+              9
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c12:r4..20",
+          "detail": {
+            "cell": [
+              2,
+              11
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c12:r4..20",
+          "extension_length": 2,
+          "first_occupied": [
+            22,
+            12
+          ],
+          "k": 7,
+          "ray": [
+            [
+              21,
+              12
+            ],
+            [
+              22,
+              12
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c19:r4..5",
+          "detail": {
+            "cell": [
+              2,
+              19
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              2,
+              19
+            ],
+            [
+              3,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c19:r4..5",
+          "detail": {
+            "cell": [
+              6,
+              19
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              6,
+              19
+            ],
+            [
+              7,
+              19
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c15:r5..6",
+          "detail": {
+            "cell": [
+              2,
+              14
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              3,
+              15
+            ],
+            [
+              4,
+              15
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c15:r5..6",
+          "detail": {
+            "cell": [
+              7,
+              14
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              7,
+              15
+            ],
+            [
+              8,
+              15
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c17:r6..9",
+          "extension_length": 2,
+          "first_occupied": [
+            4,
+            17
+          ],
+          "k": 7,
+          "ray": [
+            [
+              4,
+              17
+            ],
+            [
+              5,
+              17
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c17:r6..9",
+          "expected": 28,
+          "extension_length": 2,
+          "k": 7,
+          "observed": 27,
+          "ray": [
+            [
+              10,
+              17
+            ],
+            [
+              11,
+              17
+            ]
+          ],
+          "side": "end",
+          "status": "component_merge_or_split"
+        },
+        {
+          "component": "H:r7:c20..20",
+          "detail": {
+            "cell": [
+              7,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              7,
+              18
+            ],
+            [
+              7,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r7:c20..20",
+          "extension_length": 2,
+          "first_occupied": [
+            7,
+            22
+          ],
+          "k": 7,
+          "ray": [
+            [
+              7,
+              21
+            ],
+            [
+              7,
+              22
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r8:c14..14",
+          "extension_length": 2,
+          "first_occupied": [
+            8,
+            12
+          ],
+          "k": 7,
+          "ray": [
+            [
+              8,
+              12
+            ],
+            [
+              8,
+              13
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r8:c14..14",
+          "detail": {
+            "cell": [
+              7,
+              16
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              8,
+              15
+            ],
+            [
+              8,
+              16
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c19:r9..17",
+          "detail": {
+            "cell": [
+              7,
+              19
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              7,
+              19
+            ],
+            [
+              8,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c19:r9..17",
+          "detail": {
+            "cell": [
+              18,
+              19
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              18,
+              19
+            ],
+            [
+              19,
+              19
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c15:r10..11",
+          "detail": {
+            "cell": [
+              8,
+              14
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              8,
+              15
+            ],
+            [
+              9,
+              15
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c15:r10..11",
+          "extension_length": 2,
+          "first_occupied": [
+            13,
+            15
+          ],
+          "k": 7,
+          "ray": [
+            [
+              12,
+              15
+            ],
+            [
+              13,
+              15
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r12:c17..17",
+          "detail": {
+            "cell": [
+              11,
+              15
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              12,
+              15
+            ],
+            [
+              12,
+              16
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r12:c17..17",
+          "extension_length": 2,
+          "first_occupied": [
+            12,
+            19
+          ],
+          "k": 7,
+          "ray": [
+            [
+              12,
+              18
+            ],
+            [
+              12,
+              19
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c15:r13..14",
+          "extension_length": 2,
+          "first_occupied": [
+            11,
+            15
+          ],
+          "k": 7,
+          "ray": [
+            [
+              11,
+              15
+            ],
+            [
+              12,
+              15
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c15:r13..14",
+          "extension_length": 2,
+          "first_occupied": [
+            16,
+            15
+          ],
+          "k": 7,
+          "ray": [
+            [
+              15,
+              15
+            ],
+            [
+              16,
+              15
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r15:c17..17",
+          "detail": {
+            "cell": [
+              14,
+              15
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              15,
+              15
+            ],
+            [
+              15,
+              16
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r15:c17..17",
+          "extension_length": 2,
+          "first_occupied": [
+            15,
+            19
+          ],
+          "k": 7,
+          "ray": [
+            [
+              15,
+              18
+            ],
+            [
+              15,
+              19
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c15:r16..20",
+          "extension_length": 2,
+          "first_occupied": [
+            14,
+            15
+          ],
+          "k": 7,
+          "ray": [
+            [
+              14,
+              15
+            ],
+            [
+              15,
+              15
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c15:r16..20",
+          "extension_length": 2,
+          "first_occupied": [
+            22,
+            15
+          ],
+          "k": 7,
+          "ray": [
+            [
+              21,
+              15
+            ],
+            [
+              22,
+              15
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r18:c17..17",
+          "extension_length": 2,
+          "first_occupied": [
+            18,
+            15
+          ],
+          "k": 7,
+          "ray": [
+            [
+              18,
+              15
+            ],
+            [
+              18,
+              16
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r18:c17..17",
+          "detail": {
+            "cell": [
+              18,
+              19
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "preserved_diagonal_pair"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              18,
+              18
+            ],
+            [
+              18,
+              19
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r19:c20..20",
+          "detail": {
+            "cell": [
+              18,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "preserved_diagonal_pair"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              19,
+              18
+            ],
+            [
+              19,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r19:c20..20",
+          "extension_length": 2,
+          "first_occupied": [
+            19,
+            22
+          ],
+          "k": 7,
+          "ray": [
+            [
+              19,
+              21
+            ],
+            [
+              19,
+              22
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r20:c18..18",
+          "detail": {
+            "cell": [
+              19,
+              15
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              20,
+              16
+            ],
+            [
+              20,
+              17
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r20:c18..18",
+          "detail": {
+            "cell": [
+              19,
+              19
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 2,
+          "k": 7,
+          "ray": [
+            [
+              20,
+              19
+            ],
+            [
+              20,
+              20
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r22:c2..20",
+          "extension_length": 2,
+          "first_occupied": [
+            22,
+            0
+          ],
+          "k": 7,
+          "ray": [
+            [
+              22,
+              0
+            ],
+            [
+              22,
+              1
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r22:c2..20",
+          "extension_length": 2,
+          "first_occupied": [
+            22,
+            22
+          ],
+          "k": 7,
+          "ray": [
+            [
+              22,
+              21
+            ],
+            [
+              22,
+              22
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        }
+      ],
+      "status": "all_endpoint_types_obstructed",
+      "terminal_histogram": {
+        "component_merge_or_split": 5,
+        "forbidden_unit_cell": 25,
+        "ray_contains_old_preserved_vertex": 22,
+        "ray_out_of_grid": 4
+      }
+    },
+    {
+      "endpoint_type_count": 64,
+      "first_replay_by_terminal_status": {
+        "forbidden_unit_cell": {
+          "component": "H:r2:c5..5",
+          "detail": {
+            "cell": [
+              2,
+              3
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        "ray_contains_old_preserved_vertex": {
+          "component": "H:r2:c5..5",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            8
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        "ray_out_of_grid": {
+          "component": "V:c0:r0..25",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              -3,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              -1,
+              0
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        }
+      },
+      "interval_count": 32,
+      "k": 8,
+      "n": 26,
+      "records": [
+        {
+          "component": "V:c0:r0..25",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              -3,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              -1,
+              0
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c0:r0..25",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              26,
+              0
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              28,
+              0
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r0:c2..25",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r0:c2..25",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              0,
+              26
+            ],
+            [
+              0,
+              27
+            ],
+            [
+              0,
+              28
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r2:c5..5",
+          "detail": {
+            "cell": [
+              2,
+              3
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r2:c5..5",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            8
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c8..8",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            5
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c8..8",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            11
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c11..11",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            8
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c11..11",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            14
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              2,
+              14
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c14..14",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            11
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              11
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c14..14",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            17
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              15
+            ],
+            [
+              2,
+              16
+            ],
+            [
+              2,
+              17
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c17:r2..3",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              -1,
+              17
+            ],
+            [
+              0,
+              17
+            ],
+            [
+              1,
+              17
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c17:r2..3",
+          "detail": {
+            "cell": [
+              5,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              4,
+              17
+            ],
+            [
+              5,
+              17
+            ],
+            [
+              6,
+              17
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c20:r2..4",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              -1,
+              20
+            ],
+            [
+              0,
+              20
+            ],
+            [
+              1,
+              20
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c20:r2..4",
+          "extension_length": 3,
+          "first_occupied": [
+            6,
+            20
+          ],
+          "k": 8,
+          "ray": [
+            [
+              5,
+              20
+            ],
+            [
+              6,
+              20
+            ],
+            [
+              7,
+              20
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c23..23",
+          "extension_length": 3,
+          "first_occupied": [
+            2,
+            20
+          ],
+          "k": 8,
+          "ray": [
+            [
+              2,
+              20
+            ],
+            [
+              2,
+              21
+            ],
+            [
+              2,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c23..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              2,
+              24
+            ],
+            [
+              2,
+              25
+            ],
+            [
+              2,
+              26
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c3:r3..23",
+          "extension_length": 3,
+          "first_occupied": [
+            0,
+            3
+          ],
+          "k": 8,
+          "ray": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c3:r3..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              24,
+              3
+            ],
+            [
+              25,
+              3
+            ],
+            [
+              26,
+              3
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c25:r3..25",
+          "extension_length": 3,
+          "first_occupied": [
+            0,
+            25
+          ],
+          "k": 8,
+          "ray": [
+            [
+              0,
+              25
+            ],
+            [
+              1,
+              25
+            ],
+            [
+              2,
+              25
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c25:r3..25",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              26,
+              25
+            ],
+            [
+              27,
+              25
+            ],
+            [
+              28,
+              25
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c6:r4..23",
+          "detail": {
+            "cell": [
+              1,
+              5
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c6:r4..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              24,
+              6
+            ],
+            [
+              25,
+              6
+            ],
+            [
+              26,
+              6
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c9:r4..23",
+          "detail": {
+            "cell": [
+              1,
+              8
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c9:r4..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              24,
+              9
+            ],
+            [
+              25,
+              9
+            ],
+            [
+              26,
+              9
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c12:r4..23",
+          "detail": {
+            "cell": [
+              1,
+              11
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c12:r4..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              24,
+              12
+            ],
+            [
+              25,
+              12
+            ],
+            [
+              26,
+              12
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c15:r4..23",
+          "detail": {
+            "cell": [
+              2,
+              14
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c15:r4..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              24,
+              15
+            ],
+            [
+              25,
+              15
+            ],
+            [
+              26,
+              15
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c22:r4..5",
+          "detail": {
+            "cell": [
+              0,
+              22
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              1,
+              22
+            ],
+            [
+              2,
+              22
+            ],
+            [
+              3,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c22:r4..5",
+          "detail": {
+            "cell": [
+              7,
+              22
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              6,
+              22
+            ],
+            [
+              7,
+              22
+            ],
+            [
+              8,
+              22
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c18:r5..6",
+          "detail": {
+            "cell": [
+              2,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              2,
+              18
+            ],
+            [
+              3,
+              18
+            ],
+            [
+              4,
+              18
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c18:r5..6",
+          "detail": {
+            "cell": [
+              7,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              7,
+              18
+            ],
+            [
+              8,
+              18
+            ],
+            [
+              9,
+              18
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c20:r6..9",
+          "extension_length": 3,
+          "first_occupied": [
+            3,
+            20
+          ],
+          "k": 8,
+          "ray": [
+            [
+              3,
+              20
+            ],
+            [
+              4,
+              20
+            ],
+            [
+              5,
+              20
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c20:r6..9",
+          "extension_length": 3,
+          "first_occupied": [
+            12,
+            20
+          ],
+          "k": 8,
+          "ray": [
+            [
+              10,
+              20
+            ],
+            [
+              11,
+              20
+            ],
+            [
+              12,
+              20
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r7:c23..23",
+          "extension_length": 3,
+          "first_occupied": [
+            7,
+            20
+          ],
+          "k": 8,
+          "ray": [
+            [
+              7,
+              20
+            ],
+            [
+              7,
+              21
+            ],
+            [
+              7,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r7:c23..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              7,
+              24
+            ],
+            [
+              7,
+              25
+            ],
+            [
+              7,
+              26
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r8:c17..17",
+          "extension_length": 3,
+          "first_occupied": [
+            8,
+            15
+          ],
+          "k": 8,
+          "ray": [
+            [
+              8,
+              14
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              8,
+              16
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r8:c17..17",
+          "extension_length": 3,
+          "first_occupied": [
+            8,
+            20
+          ],
+          "k": 8,
+          "ray": [
+            [
+              8,
+              18
+            ],
+            [
+              8,
+              19
+            ],
+            [
+              8,
+              20
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c22:r9..20",
+          "detail": {
+            "cell": [
+              7,
+              22
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              6,
+              22
+            ],
+            [
+              7,
+              22
+            ],
+            [
+              8,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c22:r9..20",
+          "detail": {
+            "cell": [
+              22,
+              21
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              21,
+              22
+            ],
+            [
+              22,
+              22
+            ],
+            [
+              23,
+              22
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c18:r10..11",
+          "detail": {
+            "cell": [
+              7,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              7,
+              18
+            ],
+            [
+              8,
+              18
+            ],
+            [
+              9,
+              18
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c18:r10..11",
+          "extension_length": 3,
+          "first_occupied": [
+            13,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              12,
+              18
+            ],
+            [
+              13,
+              18
+            ],
+            [
+              14,
+              18
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r12:c20..20",
+          "detail": {
+            "cell": [
+              12,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              12,
+              17
+            ],
+            [
+              12,
+              18
+            ],
+            [
+              12,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r12:c20..20",
+          "extension_length": 3,
+          "first_occupied": [
+            12,
+            22
+          ],
+          "k": 8,
+          "ray": [
+            [
+              12,
+              21
+            ],
+            [
+              12,
+              22
+            ],
+            [
+              12,
+              23
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c18:r13..14",
+          "extension_length": 3,
+          "first_occupied": [
+            10,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              10,
+              18
+            ],
+            [
+              11,
+              18
+            ],
+            [
+              12,
+              18
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c18:r13..14",
+          "extension_length": 3,
+          "first_occupied": [
+            16,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              15,
+              18
+            ],
+            [
+              16,
+              18
+            ],
+            [
+              17,
+              18
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r15:c20..20",
+          "detail": {
+            "cell": [
+              14,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              15,
+              17
+            ],
+            [
+              15,
+              18
+            ],
+            [
+              15,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r15:c20..20",
+          "extension_length": 3,
+          "first_occupied": [
+            15,
+            22
+          ],
+          "k": 8,
+          "ray": [
+            [
+              15,
+              21
+            ],
+            [
+              15,
+              22
+            ],
+            [
+              15,
+              23
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c18:r16..17",
+          "extension_length": 3,
+          "first_occupied": [
+            13,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              13,
+              18
+            ],
+            [
+              14,
+              18
+            ],
+            [
+              15,
+              18
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c18:r16..17",
+          "extension_length": 3,
+          "first_occupied": [
+            19,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              18,
+              18
+            ],
+            [
+              19,
+              18
+            ],
+            [
+              20,
+              18
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r18:c20..20",
+          "detail": {
+            "cell": [
+              17,
+              17
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              18,
+              17
+            ],
+            [
+              18,
+              18
+            ],
+            [
+              18,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r18:c20..20",
+          "extension_length": 3,
+          "first_occupied": [
+            18,
+            22
+          ],
+          "k": 8,
+          "ray": [
+            [
+              18,
+              21
+            ],
+            [
+              18,
+              22
+            ],
+            [
+              18,
+              23
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c18:r19..23",
+          "extension_length": 3,
+          "first_occupied": [
+            16,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              16,
+              18
+            ],
+            [
+              17,
+              18
+            ],
+            [
+              18,
+              18
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c18:r19..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              24,
+              18
+            ],
+            [
+              25,
+              18
+            ],
+            [
+              26,
+              18
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r21:c20..20",
+          "extension_length": 3,
+          "first_occupied": [
+            21,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              21,
+              17
+            ],
+            [
+              21,
+              18
+            ],
+            [
+              21,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r21:c20..20",
+          "detail": {
+            "cell": [
+              21,
+              22
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              21,
+              21
+            ],
+            [
+              21,
+              22
+            ],
+            [
+              21,
+              23
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r22:c23..23",
+          "detail": {
+            "cell": [
+              21,
+              20
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              22,
+              20
+            ],
+            [
+              22,
+              21
+            ],
+            [
+              22,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r22:c23..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              22,
+              24
+            ],
+            [
+              22,
+              25
+            ],
+            [
+              22,
+              26
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r23:c21..21",
+          "extension_length": 3,
+          "first_occupied": [
+            23,
+            18
+          ],
+          "k": 8,
+          "ray": [
+            [
+              23,
+              18
+            ],
+            [
+              23,
+              19
+            ],
+            [
+              23,
+              20
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r23:c21..21",
+          "detail": {
+            "cell": [
+              22,
+              24
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              23,
+              22
+            ],
+            [
+              23,
+              23
+            ],
+            [
+              23,
+              24
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r25:c2..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              25,
+              -1
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              25,
+              1
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r25:c2..23",
+          "extension_length": 3,
+          "k": 8,
+          "ray": [
+            [
+              25,
+              24
+            ],
+            [
+              25,
+              25
+            ],
+            [
+              25,
+              26
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        }
+      ],
+      "status": "all_endpoint_types_obstructed",
+      "terminal_histogram": {
+        "forbidden_unit_cell": 19,
+        "ray_contains_old_preserved_vertex": 27,
+        "ray_out_of_grid": 18
+      }
+    },
+    {
+      "endpoint_type_count": 72,
+      "first_replay_by_terminal_status": {
+        "forbidden_unit_cell": {
+          "component": "H:r2:c5..5",
+          "detail": {
+            "cell": [
+              2,
+              0
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        "ray_contains_old_preserved_vertex": {
+          "component": "H:r2:c5..5",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            8
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        "ray_out_of_grid": {
+          "component": "V:c0:r0..28",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              -4,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              -1,
+              0
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        }
+      },
+      "interval_count": 36,
+      "k": 9,
+      "n": 29,
+      "records": [
+        {
+          "component": "V:c0:r0..28",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              -4,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              -2,
+              0
+            ],
+            [
+              -1,
+              0
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c0:r0..28",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              29,
+              0
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              31,
+              0
+            ],
+            [
+              32,
+              0
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r0:c2..28",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              0,
+              -2
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r0:c2..28",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              0,
+              29
+            ],
+            [
+              0,
+              30
+            ],
+            [
+              0,
+              31
+            ],
+            [
+              0,
+              32
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r2:c5..5",
+          "detail": {
+            "cell": [
+              2,
+              0
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r2:c5..5",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            8
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c8..8",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            5
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c8..8",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            11
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              2,
+              12
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c11..11",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            8
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c11..11",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            14
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              2,
+              15
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c14..14",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            11
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c14..14",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            17
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              15
+            ],
+            [
+              2,
+              16
+            ],
+            [
+              2,
+              17
+            ],
+            [
+              2,
+              18
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c17..17",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            14
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              13
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              2,
+              16
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c17..17",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            20
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              18
+            ],
+            [
+              2,
+              19
+            ],
+            [
+              2,
+              20
+            ],
+            [
+              2,
+              21
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c20:r2..3",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              -2,
+              20
+            ],
+            [
+              -1,
+              20
+            ],
+            [
+              0,
+              20
+            ],
+            [
+              1,
+              20
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c20:r2..3",
+          "detail": {
+            "cell": [
+              6,
+              20
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              4,
+              20
+            ],
+            [
+              5,
+              20
+            ],
+            [
+              6,
+              20
+            ],
+            [
+              7,
+              20
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c23:r2..4",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              -2,
+              23
+            ],
+            [
+              -1,
+              23
+            ],
+            [
+              0,
+              23
+            ],
+            [
+              1,
+              23
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c23:r2..4",
+          "extension_length": 4,
+          "first_occupied": [
+            6,
+            23
+          ],
+          "k": 9,
+          "ray": [
+            [
+              5,
+              23
+            ],
+            [
+              6,
+              23
+            ],
+            [
+              7,
+              23
+            ],
+            [
+              8,
+              23
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c26..26",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            23
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              22
+            ],
+            [
+              2,
+              23
+            ],
+            [
+              2,
+              24
+            ],
+            [
+              2,
+              25
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r2:c26..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              2,
+              27
+            ],
+            [
+              2,
+              28
+            ],
+            [
+              2,
+              29
+            ],
+            [
+              2,
+              30
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c3:r3..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              -1,
+              3
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c3:r3..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              27,
+              3
+            ],
+            [
+              28,
+              3
+            ],
+            [
+              29,
+              3
+            ],
+            [
+              30,
+              3
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c28:r3..28",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              -1,
+              28
+            ],
+            [
+              0,
+              28
+            ],
+            [
+              1,
+              28
+            ],
+            [
+              2,
+              28
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c28:r3..28",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              29,
+              28
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              31,
+              28
+            ],
+            [
+              32,
+              28
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c6:r4..26",
+          "extension_length": 4,
+          "first_occupied": [
+            0,
+            6
+          ],
+          "k": 9,
+          "ray": [
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c6:r4..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              27,
+              6
+            ],
+            [
+              28,
+              6
+            ],
+            [
+              29,
+              6
+            ],
+            [
+              30,
+              6
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c9:r4..26",
+          "extension_length": 4,
+          "first_occupied": [
+            0,
+            9
+          ],
+          "k": 9,
+          "ray": [
+            [
+              0,
+              9
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c9:r4..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              27,
+              9
+            ],
+            [
+              28,
+              9
+            ],
+            [
+              29,
+              9
+            ],
+            [
+              30,
+              9
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c12:r4..26",
+          "extension_length": 4,
+          "first_occupied": [
+            0,
+            12
+          ],
+          "k": 9,
+          "ray": [
+            [
+              0,
+              12
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c12:r4..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              27,
+              12
+            ],
+            [
+              28,
+              12
+            ],
+            [
+              29,
+              12
+            ],
+            [
+              30,
+              12
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c15:r4..26",
+          "extension_length": 4,
+          "first_occupied": [
+            0,
+            15
+          ],
+          "k": 9,
+          "ray": [
+            [
+              0,
+              15
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c15:r4..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              27,
+              15
+            ],
+            [
+              28,
+              15
+            ],
+            [
+              29,
+              15
+            ],
+            [
+              30,
+              15
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c18:r4..26",
+          "extension_length": 4,
+          "first_occupied": [
+            0,
+            18
+          ],
+          "k": 9,
+          "ray": [
+            [
+              0,
+              18
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              2,
+              18
+            ],
+            [
+              3,
+              18
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c18:r4..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              27,
+              18
+            ],
+            [
+              28,
+              18
+            ],
+            [
+              29,
+              18
+            ],
+            [
+              30,
+              18
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "V:c25:r4..5",
+          "extension_length": 4,
+          "first_occupied": [
+            0,
+            25
+          ],
+          "k": 9,
+          "ray": [
+            [
+              0,
+              25
+            ],
+            [
+              1,
+              25
+            ],
+            [
+              2,
+              25
+            ],
+            [
+              3,
+              25
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c25:r4..5",
+          "extension_length": 4,
+          "first_occupied": [
+            9,
+            25
+          ],
+          "k": 9,
+          "ray": [
+            [
+              6,
+              25
+            ],
+            [
+              7,
+              25
+            ],
+            [
+              8,
+              25
+            ],
+            [
+              9,
+              25
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r5..6",
+          "detail": {
+            "cell": [
+              0,
+              20
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              1,
+              21
+            ],
+            [
+              2,
+              21
+            ],
+            [
+              3,
+              21
+            ],
+            [
+              4,
+              21
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c21:r5..6",
+          "extension_length": 4,
+          "first_occupied": [
+            10,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              7,
+              21
+            ],
+            [
+              8,
+              21
+            ],
+            [
+              9,
+              21
+            ],
+            [
+              10,
+              21
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c23:r6..9",
+          "extension_length": 4,
+          "first_occupied": [
+            2,
+            23
+          ],
+          "k": 9,
+          "ray": [
+            [
+              2,
+              23
+            ],
+            [
+              3,
+              23
+            ],
+            [
+              4,
+              23
+            ],
+            [
+              5,
+              23
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c23:r6..9",
+          "extension_length": 4,
+          "first_occupied": [
+            12,
+            23
+          ],
+          "k": 9,
+          "ray": [
+            [
+              10,
+              23
+            ],
+            [
+              11,
+              23
+            ],
+            [
+              12,
+              23
+            ],
+            [
+              13,
+              23
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r7:c26..26",
+          "extension_length": 4,
+          "first_occupied": [
+            7,
+            23
+          ],
+          "k": 9,
+          "ray": [
+            [
+              7,
+              22
+            ],
+            [
+              7,
+              23
+            ],
+            [
+              7,
+              24
+            ],
+            [
+              7,
+              25
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r7:c26..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              7,
+              27
+            ],
+            [
+              7,
+              28
+            ],
+            [
+              7,
+              29
+            ],
+            [
+              7,
+              30
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r8:c20..20",
+          "extension_length": 4,
+          "first_occupied": [
+            8,
+            18
+          ],
+          "k": 9,
+          "ray": [
+            [
+              8,
+              16
+            ],
+            [
+              8,
+              17
+            ],
+            [
+              8,
+              18
+            ],
+            [
+              8,
+              19
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r8:c20..20",
+          "extension_length": 4,
+          "first_occupied": [
+            8,
+            23
+          ],
+          "k": 9,
+          "ray": [
+            [
+              8,
+              21
+            ],
+            [
+              8,
+              22
+            ],
+            [
+              8,
+              23
+            ],
+            [
+              8,
+              24
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c25:r9..23",
+          "extension_length": 4,
+          "first_occupied": [
+            5,
+            25
+          ],
+          "k": 9,
+          "ray": [
+            [
+              5,
+              25
+            ],
+            [
+              6,
+              25
+            ],
+            [
+              7,
+              25
+            ],
+            [
+              8,
+              25
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c25:r9..23",
+          "detail": {
+            "cell": [
+              26,
+              24
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              24,
+              25
+            ],
+            [
+              25,
+              25
+            ],
+            [
+              26,
+              25
+            ],
+            [
+              27,
+              25
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "V:c21:r10..11",
+          "extension_length": 4,
+          "first_occupied": [
+            6,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              6,
+              21
+            ],
+            [
+              7,
+              21
+            ],
+            [
+              8,
+              21
+            ],
+            [
+              9,
+              21
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r10..11",
+          "extension_length": 4,
+          "first_occupied": [
+            13,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              12,
+              21
+            ],
+            [
+              13,
+              21
+            ],
+            [
+              14,
+              21
+            ],
+            [
+              15,
+              21
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r12:c23..23",
+          "detail": {
+            "cell": [
+              11,
+              20
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              12,
+              19
+            ],
+            [
+              12,
+              20
+            ],
+            [
+              12,
+              21
+            ],
+            [
+              12,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r12:c23..23",
+          "extension_length": 4,
+          "first_occupied": [
+            12,
+            25
+          ],
+          "k": 9,
+          "ray": [
+            [
+              12,
+              24
+            ],
+            [
+              12,
+              25
+            ],
+            [
+              12,
+              26
+            ],
+            [
+              12,
+              27
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r13..14",
+          "extension_length": 4,
+          "first_occupied": [
+            10,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              9,
+              21
+            ],
+            [
+              10,
+              21
+            ],
+            [
+              11,
+              21
+            ],
+            [
+              12,
+              21
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r13..14",
+          "extension_length": 4,
+          "first_occupied": [
+            16,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              15,
+              21
+            ],
+            [
+              16,
+              21
+            ],
+            [
+              17,
+              21
+            ],
+            [
+              18,
+              21
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r15:c23..23",
+          "detail": {
+            "cell": [
+              15,
+              21
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              15,
+              19
+            ],
+            [
+              15,
+              20
+            ],
+            [
+              15,
+              21
+            ],
+            [
+              15,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r15:c23..23",
+          "extension_length": 4,
+          "first_occupied": [
+            15,
+            25
+          ],
+          "k": 9,
+          "ray": [
+            [
+              15,
+              24
+            ],
+            [
+              15,
+              25
+            ],
+            [
+              15,
+              26
+            ],
+            [
+              15,
+              27
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r16..17",
+          "extension_length": 4,
+          "first_occupied": [
+            13,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              12,
+              21
+            ],
+            [
+              13,
+              21
+            ],
+            [
+              14,
+              21
+            ],
+            [
+              15,
+              21
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r16..17",
+          "extension_length": 4,
+          "first_occupied": [
+            19,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              18,
+              21
+            ],
+            [
+              19,
+              21
+            ],
+            [
+              20,
+              21
+            ],
+            [
+              21,
+              21
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r18:c23..23",
+          "detail": {
+            "cell": [
+              17,
+              20
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              18,
+              19
+            ],
+            [
+              18,
+              20
+            ],
+            [
+              18,
+              21
+            ],
+            [
+              18,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r18:c23..23",
+          "extension_length": 4,
+          "first_occupied": [
+            18,
+            25
+          ],
+          "k": 9,
+          "ray": [
+            [
+              18,
+              24
+            ],
+            [
+              18,
+              25
+            ],
+            [
+              18,
+              26
+            ],
+            [
+              18,
+              27
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r19..20",
+          "extension_length": 4,
+          "first_occupied": [
+            16,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              15,
+              21
+            ],
+            [
+              16,
+              21
+            ],
+            [
+              17,
+              21
+            ],
+            [
+              18,
+              21
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r19..20",
+          "extension_length": 4,
+          "first_occupied": [
+            22,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              21,
+              21
+            ],
+            [
+              22,
+              21
+            ],
+            [
+              23,
+              21
+            ],
+            [
+              24,
+              21
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r21:c23..23",
+          "detail": {
+            "cell": [
+              21,
+              20
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              21,
+              19
+            ],
+            [
+              21,
+              20
+            ],
+            [
+              21,
+              21
+            ],
+            [
+              21,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r21:c23..23",
+          "extension_length": 4,
+          "first_occupied": [
+            21,
+            25
+          ],
+          "k": 9,
+          "ray": [
+            [
+              21,
+              24
+            ],
+            [
+              21,
+              25
+            ],
+            [
+              21,
+              26
+            ],
+            [
+              21,
+              27
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r22..26",
+          "extension_length": 4,
+          "first_occupied": [
+            19,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              18,
+              21
+            ],
+            [
+              19,
+              21
+            ],
+            [
+              20,
+              21
+            ],
+            [
+              21,
+              21
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "V:c21:r22..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              27,
+              21
+            ],
+            [
+              28,
+              21
+            ],
+            [
+              29,
+              21
+            ],
+            [
+              30,
+              21
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r24:c23..23",
+          "extension_length": 4,
+          "first_occupied": [
+            24,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              24,
+              19
+            ],
+            [
+              24,
+              20
+            ],
+            [
+              24,
+              21
+            ],
+            [
+              24,
+              22
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r24:c23..23",
+          "detail": {
+            "cell": [
+              23,
+              27
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              24,
+              24
+            ],
+            [
+              24,
+              25
+            ],
+            [
+              24,
+              26
+            ],
+            [
+              24,
+              27
+            ]
+          ],
+          "side": "end",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r25:c26..26",
+          "detail": {
+            "cell": [
+              25,
+              23
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              25,
+              22
+            ],
+            [
+              25,
+              23
+            ],
+            [
+              25,
+              24
+            ],
+            [
+              25,
+              25
+            ]
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "component": "H:r25:c26..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              25,
+              27
+            ],
+            [
+              25,
+              28
+            ],
+            [
+              25,
+              29
+            ],
+            [
+              25,
+              30
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r26:c24..24",
+          "extension_length": 4,
+          "first_occupied": [
+            26,
+            21
+          ],
+          "k": 9,
+          "ray": [
+            [
+              26,
+              20
+            ],
+            [
+              26,
+              21
+            ],
+            [
+              26,
+              22
+            ],
+            [
+              26,
+              23
+            ]
+          ],
+          "side": "start",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r26:c24..24",
+          "extension_length": 4,
+          "first_occupied": [
+            26,
+            28
+          ],
+          "k": 9,
+          "ray": [
+            [
+              26,
+              25
+            ],
+            [
+              26,
+              26
+            ],
+            [
+              26,
+              27
+            ],
+            [
+              26,
+              28
+            ]
+          ],
+          "side": "end",
+          "status": "ray_contains_old_preserved_vertex"
+        },
+        {
+          "component": "H:r28:c2..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              28,
+              -2
+            ],
+            [
+              28,
+              -1
+            ],
+            [
+              28,
+              0
+            ],
+            [
+              28,
+              1
+            ]
+          ],
+          "side": "start",
+          "status": "ray_out_of_grid"
+        },
+        {
+          "component": "H:r28:c2..26",
+          "extension_length": 4,
+          "k": 9,
+          "ray": [
+            [
+              28,
+              27
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              28,
+              29
+            ],
+            [
+              28,
+              30
+            ]
+          ],
+          "side": "end",
+          "status": "ray_out_of_grid"
+        }
+      ],
+      "status": "all_endpoint_types_obstructed",
+      "terminal_histogram": {
+        "forbidden_unit_cell": 10,
+        "ray_contains_old_preserved_vertex": 41,
+        "ray_out_of_grid": 21
+      }
+    }
+  ]
+}

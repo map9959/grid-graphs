@@ -305,6 +305,86 @@ def cycleInteriorFaces {m n : Nat}
     (c : G.Walk v w) : GridFace.out ∉ cycleInteriorFaces c := by
   simp
 
+/-- Deleting a larger set of primal walk edges leaves a smaller dual
+complement graph.  This is the basic cut monotonicity behind nested face
+carriers. -/
+theorem cycleComplementDualGraph_le_of_edges_subset {m n : Nat}
+    {G H : SimpleGraph (GridVertex m n)}
+    {a b c d : GridVertex m n} (p : G.Walk a b) (q : H.Walk c d)
+    (hedges : ∀ e, e ∈ p.edges → e ∈ q.edges) :
+    cycleComplementDualGraph q ≤ cycleComplementDualGraph p := by
+  intro x y hxy
+  rcases hxy with ⟨hne, hhorizontal | hvertical⟩
+  · refine ⟨hne, Or.inl ?_⟩
+    rcases hhorizontal with ⟨e, he, hends⟩
+    exact ⟨e, fun hp => he (hedges _ hp), hends⟩
+  · refine ⟨hne, Or.inr ?_⟩
+    rcases hvertical with ⟨e, he, hends⟩
+    exact ⟨e, fun hp => he (hedges _ hp), hends⟩
+
+/-- Walk-edge inclusion induces inclusion of bounded dual-face carriers. -/
+theorem cycleInteriorFaces_mono_of_edges_subset {m n : Nat}
+    {G H : SimpleGraph (GridVertex m n)}
+    {a b c d : GridVertex m n} (p : G.Walk a b) (q : H.Walk c d)
+    (hedges : ∀ e, e ∈ p.edges → e ∈ q.edges) :
+    cycleInteriorFaces p ⊆ cycleInteriorFaces q := by
+  intro f hf
+  rw [mem_cycleInteriorFaces_iff] at hf ⊢
+  intro hreach
+  obtain ⟨w⟩ := hreach
+  exact hf ⟨w.map (.ofLE
+    (cycleComplementDualGraph_le_of_edges_subset p q hedges))⟩
+
+/-- `cycleInteriorFaces` depends only on the undirected edge membership of its
+walk, independently of base point, orientation, repetition order, or ambient
+subgraph proofs. -/
+theorem cycleInteriorFaces_eq_of_edges_membership_iff {m n : Nat}
+    {G H : SimpleGraph (GridVertex m n)}
+    {a b c d : GridVertex m n} (p : G.Walk a b) (q : H.Walk c d)
+    (hedges : ∀ e, e ∈ p.edges ↔ e ∈ q.edges) :
+    cycleInteriorFaces p = cycleInteriorFaces q := by
+  apply Finset.Subset.antisymm
+  · exact cycleInteriorFaces_mono_of_edges_subset p q
+      (fun e he => (hedges e).1 he)
+  · exact cycleInteriorFaces_mono_of_edges_subset q p
+      (fun e he => (hedges e).2 he)
+
+/-- Exact dual-reachability obligation for inclusion of two face carriers. -/
+theorem cycleInteriorFaces_subset_iff_reachable_transport {m n : Nat}
+    {G H : SimpleGraph (GridVertex m n)}
+    {a b c d : GridVertex m n} (p : G.Walk a b) (q : H.Walk c d) :
+    cycleInteriorFaces p ⊆ cycleInteriorFaces q ↔
+      ∀ f, (cycleComplementDualGraph q).Reachable GridFace.out f →
+        (cycleComplementDualGraph p).Reachable GridFace.out f := by
+  constructor
+  · intro hsubset f hq
+    by_contra hp
+    have hfp : f ∈ cycleInteriorFaces p :=
+      (mem_cycleInteriorFaces_iff p f).2 hp
+    have hfq := hsubset hfp
+    exact (mem_cycleInteriorFaces_iff q f).1 hfq hq
+  · intro htransport f hfp
+    rw [mem_cycleInteriorFaces_iff] at hfp ⊢
+    intro hq
+    exact hfp (htransport f hq)
+
+/-- Exact dual-reachability obligation for disjointness of two face carriers. -/
+theorem cycleInteriorFaces_disjoint_iff_reachable_exterior {m n : Nat}
+    {G H : SimpleGraph (GridVertex m n)}
+    {a b c d : GridVertex m n} (p : G.Walk a b) (q : H.Walk c d) :
+    Disjoint (cycleInteriorFaces p) (cycleInteriorFaces q) ↔
+      ∀ f, ¬(cycleComplementDualGraph p).Reachable GridFace.out f →
+        (cycleComplementDualGraph q).Reachable GridFace.out f := by
+  rw [Finset.disjoint_left]
+  constructor
+  · intro h f hp
+    by_contra hq
+    exact h ((mem_cycleInteriorFaces_iff p f).2 hp)
+      ((mem_cycleInteriorFaces_iff q f).2 hq)
+  · intro h f hfp hfq
+    exact (mem_cycleInteriorFaces_iff q f).1 hfq
+      (h f ((mem_cycleInteriorFaces_iff p f).1 hfp))
+
 /-- Adjoining one edge to the right endpoint does not change reachability from
 a fixed source. -/
 theorem reachable_right_iff_of_adj {V : Type*} {G : SimpleGraph V}
@@ -1428,6 +1508,53 @@ theorem not_connected_of_respectsCut {V : Type*} {G : SimpleGraph V}
   obtain ⟨x, hx⟩ := hin
   obtain ⟨y, hy⟩ := hout
   exact hy (reachable_mem_iff_of_respectsCut hcut (hconn x y) |>.mp hx)
+
+set_option maxHeartbeats 800000 in
+/-- A finite graph with an edge and even degree at every vertex contains a
+cycle.  This is the graph-theoretic endpoint used after finite cell-boundary
+cancellation. -/
+theorem not_isAcyclic_of_edgeFinset_nonempty_of_even_degree
+    {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V)
+    [DecidableRel G.Adj] (hedge : G.edgeFinset.Nonempty)
+    (heven : ∀ v, Even (G.degree v)) : ¬G.IsAcyclic := by
+  classical
+  intro hacyclic
+  obtain ⟨e, he⟩ := hedge
+  induction e using Sym2.inductionOn with
+  | _ x y =>
+      have hxy : G.Adj x y := by
+        simpa only [SimpleGraph.mem_edgeFinset, SimpleGraph.mem_edgeSet] using he
+      let C := G.connectedComponentMk x
+      have htree : C.toSimpleGraph.IsTree :=
+        hacyclic.isTree_connectedComponent C
+      letI : Fintype C := Fintype.ofFinite C
+      letI : DecidableRel C.toSimpleGraph.Adj := Classical.decRel _
+      have hnontrivial : Nontrivial C := by
+        refine ⟨⟨x, by exact SimpleGraph.ConnectedComponent.connectedComponentMk_mem⟩,
+          ⟨y, ?_⟩, ?_⟩
+        · exact C.mem_supp_of_adj_mem_supp
+            SimpleGraph.ConnectedComponent.connectedComponentMk_mem hxy
+        · intro h
+          exact hxy.ne (congrArg Subtype.val h)
+      letI : Nontrivial C := hnontrivial
+      obtain ⟨v, hv⟩ := htree.exists_vert_degree_one_of_nontrivial
+      have hsupp : G.neighborSet v.1 ⊆ C.supp := by
+        intro w hw
+        exact C.mem_supp_of_adj_mem_supp v.2 hw
+      have hdegree : C.toSimpleGraph.degree v = G.degree v.1 := by
+        rw [← SimpleGraph.card_neighborFinset_eq_degree,
+          ← SimpleGraph.card_neighborFinset_eq_degree]
+        apply Finset.card_bij (fun w _ => w.1)
+        · intro w hw
+          simpa [SimpleGraph.ConnectedComponent.toSimpleGraph] using hw
+        · intro a ha b hb hab
+          exact Subtype.ext hab
+        · intro w hw
+          exact ⟨⟨w, hsupp (by simpa using hw)⟩, by
+            simpa [SimpleGraph.ConnectedComponent.toSimpleGraph] using hw, rfl⟩
+      have := heven v.1
+      rw [← hdegree, hv] at this
+      exact Nat.not_even_one this
 
 /-- The local horizontal and vertical clauses of the row-ray lemma make parity
 an invariant of every walk in the cycle-complement dual graph. -/

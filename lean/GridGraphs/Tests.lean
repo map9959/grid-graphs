@@ -40,6 +40,59 @@ private noncomputable def sharedSuffixFirstStop :
     · exact ⟨1, by decide⟩
     · exact ⟨0, by decide⟩
 
+private noncomputable def markedDirectStartFirstStop :
+    MarkedCycleFirstStop (Fin 4) where
+  f := finRotate 4
+  stop := {3}
+  starts := {0, 3}
+  stop_nonempty := by simp
+  eventually_stop := by
+    intro x
+    fin_cases x
+    · exact ⟨3, by decide⟩
+    · exact ⟨2, by decide⟩
+    · exact ⟨1, by decide⟩
+    · exact ⟨0, by decide⟩
+
+private noncomputable def sharedSuffixMerger : sharedSuffixFirstStop.MergerState := by
+  let x := sharedSuffixFirstStop.stateOfStart ⟨1, by decide⟩
+  refine ⟨x, ⟨by decide, ?_⟩⟩
+  refine ⟨sharedSuffixFirstStop.stateOfStart ⟨0, by decide⟩, ?_⟩
+  simp only [MarkedCycleFirstStop.statePredecessors, Finset.mem_filter,
+    Finset.mem_univ, true_and]
+  unfold MarkedCycleFirstStop.stateParent
+  rw [dif_neg]
+  · congr 2
+  · decide
+
+private noncomputable def markedDirectStartPredecessor :
+    markedDirectStartFirstStop.State := by
+  refine ⟨2, 0, by decide, 2, ?_, by decide⟩
+  have hpos : 0 < markedDirectStartFirstStop.distance 0 :=
+    Nat.pos_of_ne_zero fun h => by
+      have := (markedDirectStartFirstStop.distance_eq_zero_iff 0).mp h
+      change (0 : Fin 4) ∈ ({3} : Finset (Fin 4)) at this
+      exact (by decide : (0 : Fin 4) ∉ ({3} : Finset (Fin 4))) this
+  have hneOne : markedDirectStartFirstStop.distance 0 ≠ 1 := by
+    intro h
+    have hstop := markedDirectStartFirstStop.distance_spec 0
+    rw [h] at hstop
+    change (1 : Fin 4) ∈ ({3} : Finset (Fin 4)) at hstop
+    exact (by decide : (1 : Fin 4) ∉ ({3} : Finset (Fin 4))) hstop
+  omega
+
+private noncomputable def markedDirectStartMerger :
+    markedDirectStartFirstStop.MergerState := by
+  let x := markedDirectStartFirstStop.stateOfStart ⟨3, by decide⟩
+  refine ⟨x, ⟨by decide, ?_⟩⟩
+  refine ⟨markedDirectStartPredecessor, ?_⟩
+  simp only [MarkedCycleFirstStop.statePredecessors, Finset.mem_filter,
+    Finset.mem_univ, true_and]
+  unfold MarkedCycleFirstStop.stateParent
+  rw [dif_neg]
+  · congr 2
+  · decide
+
 -- The two starts overlap from state 1 onward rather than tracing disjoint paths.
 example :
     ((sharedSuffixFirstStop.f : Fin 4 → Fin 4)^[1]) 0 = 1 ∧
@@ -49,6 +102,19 @@ example :
 
 example : sharedSuffixFirstStop.forest.leaves = sharedSuffixFirstStop.demands :=
   sharedSuffixFirstStop.leaves_eq_demands
+
+-- Entering the second start adds it to the provenance carried from the first.
+example :
+    sharedSuffixFirstStop.origins
+        (sharedSuffixFirstStop.stateOfStart ⟨1, by decide⟩) =
+      insert (⟨1, by decide⟩ : ↥sharedSuffixFirstStop.starts)
+        (sharedSuffixFirstStop.origins
+          (sharedSuffixFirstStop.stateOfStart ⟨0, by decide⟩)) := by
+  apply sharedSuffixFirstStop.origins_stateParent_eq_insert
+  · unfold MarkedCycleFirstStop.stateParent
+    rw [dif_neg]
+    · congr 2
+    · decide
 
 example :
     Fintype.card sharedSuffixFirstStop.forest.MergerSlot =
@@ -64,6 +130,37 @@ noncomputable example :
     sharedSuffixFirstStop.forest.MergerSlot ↪
       ↥(sharedSuffixFirstStop.starts \ sharedSuffixFirstStop.stop) :=
   sharedSuffixFirstStop.mergerSlotUnmarkedStartEmbedding
+
+-- Without a marked direct start, the unmarked merger owns its own start.
+example : (sharedSuffixFirstStop.mergerOwner sharedSuffixMerger).1 = 1 :=
+  sharedSuffixFirstStop.mergerOwner_eq_self_of_not_mem_stop
+    sharedSuffixMerger (by decide)
+
+-- With a marked direct start, the endpoint merger owns the earliest start in
+-- the predecessor interval rather than the marked start itself.
+example : (markedDirectStartFirstStop.mergerOwner markedDirectStartMerger).1 = 0 := by
+  rw [markedDirectStartFirstStop.mergerOwner_eq_earliest_of_mem_stop
+    markedDirectStartMerger (by decide)]
+  let e := markedDirectStartFirstStop.earliestOriginStart
+    (markedDirectStartFirstStop.mergerPredecessor markedDirectStartMerger)
+  have heStart : e.1 ∈ markedDirectStartFirstStop.starts := e.2
+  have heNot : e.1 ∉ markedDirectStartFirstStop.stop :=
+    markedDirectStartFirstStop.earliestOriginStart_not_mem_stop_of_parent_marked
+      (markedDirectStartFirstStop.stateParent_mergerPredecessor markedDirectStartMerger)
+      (by decide)
+  change e.1 = 0
+  rcases e with ⟨ev, hev⟩
+  fin_cases ev <;> simp_all [markedDirectStartFirstStop]
+
+noncomputable example :
+    sharedSuffixFirstStop.forest.MergerSlot ↪
+      ↥(sharedSuffixFirstStop.starts \ sharedSuffixFirstStop.stop) :=
+  sharedSuffixFirstStop.canonicalMergerSlotUnmarkedStartEmbedding
+
+noncomputable example :
+    markedDirectStartFirstStop.forest.MergerSlot ↪
+      ↥(markedDirectStartFirstStop.starts \ markedDirectStartFirstStop.stop) :=
+  markedDirectStartFirstStop.canonicalMergerSlotUnmarkedStartEmbedding
 
 end
 

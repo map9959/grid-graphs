@@ -1,0 +1,924 @@
+{
+  "chains": [
+    {
+      "coordinate_images_nest": [
+        true,
+        true
+      ],
+      "replacement_parent_transports": false,
+      "status": "obstructed",
+      "type": {
+        "blocker": "H:r2:c8..8",
+        "carrier": "V:c9:r4..20",
+        "failure_status": "nonblocker_parent_tree_changed",
+        "hinge": "H:r2:c11..11",
+        "hinge_derivation": "leaf endpoint of a changed non-blocker edge adjacent to the carrier",
+        "named_hinges": [
+          "H:r0:c2..22",
+          "H:r2:c11..11"
+        ],
+        "old_parent_edges": [
+          {
+            "attachments": [
+              [
+                1,
+                8
+              ],
+              [
+                1,
+                11
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..22",
+                "H:r2:c8..8"
+              ],
+              [
+                "H:r0:c2..22",
+                "H:r2:c11..11"
+              ]
+            ],
+            "k": 7
+          },
+          {
+            "attachments": [
+              [
+                1,
+                11
+              ],
+              [
+                1,
+                14
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..25",
+                "H:r2:c11..11"
+              ],
+              [
+                "H:r0:c2..25",
+                "H:r2:c14..14"
+              ]
+            ],
+            "k": 8
+          },
+          {
+            "attachments": [
+              [
+                1,
+                14
+              ],
+              [
+                1,
+                17
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..28",
+                "H:r2:c14..14"
+              ],
+              [
+                "H:r0:c2..28",
+                "H:r2:c17..17"
+              ]
+            ],
+            "k": 9
+          }
+        ],
+        "replacement_singleton_owner": "gamma_k(external parent, moved hinge pair)",
+        "rigid_translation": [
+          0,
+          -1
+        ],
+        "side": "start",
+        "source_chain_index": 29,
+        "transported_blockers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_carriers": [
+          "V:c9:r4..20",
+          "V:c12:r4..23",
+          "V:c15:r4..26"
+        ],
+        "transported_hinges": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ]
+      },
+      "width_evaluations": [
+        {
+          "blocker": "H:r2:c8..8",
+          "carrier": "V:c9:r4..20",
+          "carrier_ray": [
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ]
+          ],
+          "detail": {
+            "cell": [
+              2,
+              9
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "hinge": "H:r2:c11..11",
+          "k": 7,
+          "moved_blocker": [
+            [
+              2,
+              7
+            ]
+          ],
+          "moved_hinge": [
+            [
+              2,
+              10
+            ]
+          ],
+          "rigid_translation": [
+            0,
+            -1
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "blocker": "H:r2:c11..11",
+          "carrier": "V:c12:r4..23",
+          "carrier_ray": [
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ]
+          ],
+          "detail": {
+            "cell": [
+              1,
+              12
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "hinge": "H:r2:c14..14",
+          "k": 8,
+          "moved_blocker": [
+            [
+              2,
+              10
+            ]
+          ],
+          "moved_hinge": [
+            [
+              2,
+              13
+            ]
+          ],
+          "rigid_translation": [
+            0,
+            -1
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "blocker": "H:r2:c14..14",
+          "carrier": "V:c15:r4..26",
+          "carrier_ray": [
+            [
+              0,
+              15
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ]
+          ],
+          "expected": 306,
+          "hinge": "H:r2:c17..17",
+          "k": 9,
+          "moved_blocker": [
+            [
+              2,
+              13
+            ]
+          ],
+          "moved_hinge": [
+            [
+              2,
+              16
+            ]
+          ],
+          "observed": 305,
+          "rigid_translation": [
+            0,
+            -1
+          ],
+          "side": "start",
+          "status": "wrong_target_count_due_to_overlap"
+        }
+      ]
+    },
+    {
+      "coordinate_images_nest": [
+        true,
+        true
+      ],
+      "replacement_parent_transports": false,
+      "status": "obstructed",
+      "type": {
+        "blocker": "H:r2:c11..11",
+        "carrier": "V:c12:r4..20",
+        "failure_status": "multiple_star_intersection",
+        "hinge": "V:c14:r2..3",
+        "hinge_derivation": "non-carrier/non-blocker member of the multiple intersection",
+        "named_hinges": [
+          "V:c14:r2..3"
+        ],
+        "old_parent_edges": [
+          {
+            "attachments": [
+              [
+                1,
+                11
+              ],
+              [
+                1,
+                14
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..22",
+                "H:r2:c11..11"
+              ],
+              [
+                "H:r0:c2..22",
+                "V:c14:r2..3"
+              ]
+            ],
+            "k": 7
+          },
+          {
+            "attachments": [
+              [
+                1,
+                14
+              ],
+              [
+                1,
+                17
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..25",
+                "H:r2:c14..14"
+              ],
+              [
+                "H:r0:c2..25",
+                "V:c17:r2..3"
+              ]
+            ],
+            "k": 8
+          },
+          {
+            "attachments": [
+              [
+                1,
+                17
+              ],
+              [
+                1,
+                20
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..28",
+                "H:r2:c17..17"
+              ],
+              [
+                "H:r0:c2..28",
+                "V:c20:r2..3"
+              ]
+            ],
+            "k": 9
+          }
+        ],
+        "replacement_singleton_owner": "gamma_k(external parent, moved hinge pair)",
+        "rigid_translation": [
+          0,
+          -1
+        ],
+        "side": "start",
+        "source_chain_index": 33,
+        "transported_blockers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_carriers": [
+          "V:c12:r4..20",
+          "V:c15:r4..23",
+          "V:c18:r4..26"
+        ],
+        "transported_hinges": [
+          "V:c14:r2..3",
+          "V:c17:r2..3",
+          "V:c20:r2..3"
+        ]
+      },
+      "width_evaluations": [
+        {
+          "blocker": "H:r2:c11..11",
+          "carrier": "V:c12:r4..20",
+          "carrier_ray": [
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ]
+          ],
+          "detail": {
+            "cell": [
+              2,
+              12
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "hinge": "V:c14:r2..3",
+          "k": 7,
+          "moved_blocker": [
+            [
+              2,
+              10
+            ]
+          ],
+          "moved_hinge": [
+            [
+              2,
+              13
+            ],
+            [
+              3,
+              13
+            ]
+          ],
+          "rigid_translation": [
+            0,
+            -1
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "blocker": "H:r2:c14..14",
+          "carrier": "V:c15:r4..23",
+          "carrier_ray": [
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ]
+          ],
+          "detail": {
+            "cell": [
+              1,
+              15
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          },
+          "hinge": "V:c17:r2..3",
+          "k": 8,
+          "moved_blocker": [
+            [
+              2,
+              13
+            ]
+          ],
+          "moved_hinge": [
+            [
+              2,
+              16
+            ],
+            [
+              3,
+              16
+            ]
+          ],
+          "rigid_translation": [
+            0,
+            -1
+          ],
+          "side": "start",
+          "status": "forbidden_unit_cell"
+        },
+        {
+          "blocker": "H:r2:c17..17",
+          "carrier": "V:c18:r4..26",
+          "carrier_ray": [
+            [
+              0,
+              18
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              2,
+              18
+            ],
+            [
+              3,
+              18
+            ]
+          ],
+          "expected": 306,
+          "hinge": "V:c20:r2..3",
+          "k": 9,
+          "moved_blocker": [
+            [
+              2,
+              16
+            ]
+          ],
+          "moved_hinge": [
+            [
+              2,
+              19
+            ],
+            [
+              3,
+              19
+            ]
+          ],
+          "observed": 305,
+          "rigid_translation": [
+            0,
+            -1
+          ],
+          "side": "start",
+          "status": "wrong_target_count_due_to_overlap"
+        }
+      ]
+    }
+  ],
+  "checker": "residue_two_two_leaf_hinge_census",
+  "derivation": {
+    "derived_types": [
+      {
+        "blocker": "H:r2:c8..8",
+        "carrier": "V:c9:r4..20",
+        "failure_status": "nonblocker_parent_tree_changed",
+        "hinge": "H:r2:c11..11",
+        "hinge_derivation": "leaf endpoint of a changed non-blocker edge adjacent to the carrier",
+        "named_hinges": [
+          "H:r0:c2..22",
+          "H:r2:c11..11"
+        ],
+        "old_parent_edges": [
+          {
+            "attachments": [
+              [
+                1,
+                8
+              ],
+              [
+                1,
+                11
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..22",
+                "H:r2:c8..8"
+              ],
+              [
+                "H:r0:c2..22",
+                "H:r2:c11..11"
+              ]
+            ],
+            "k": 7
+          },
+          {
+            "attachments": [
+              [
+                1,
+                11
+              ],
+              [
+                1,
+                14
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..25",
+                "H:r2:c11..11"
+              ],
+              [
+                "H:r0:c2..25",
+                "H:r2:c14..14"
+              ]
+            ],
+            "k": 8
+          },
+          {
+            "attachments": [
+              [
+                1,
+                14
+              ],
+              [
+                1,
+                17
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..28",
+                "H:r2:c14..14"
+              ],
+              [
+                "H:r0:c2..28",
+                "H:r2:c17..17"
+              ]
+            ],
+            "k": 9
+          }
+        ],
+        "replacement_singleton_owner": "gamma_k(external parent, moved hinge pair)",
+        "rigid_translation": [
+          0,
+          -1
+        ],
+        "side": "start",
+        "source_chain_index": 29,
+        "transported_blockers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_carriers": [
+          "V:c9:r4..20",
+          "V:c12:r4..23",
+          "V:c15:r4..26"
+        ],
+        "transported_hinges": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ]
+      },
+      {
+        "blocker": "H:r2:c11..11",
+        "carrier": "V:c12:r4..20",
+        "failure_status": "multiple_star_intersection",
+        "hinge": "V:c14:r2..3",
+        "hinge_derivation": "non-carrier/non-blocker member of the multiple intersection",
+        "named_hinges": [
+          "V:c14:r2..3"
+        ],
+        "old_parent_edges": [
+          {
+            "attachments": [
+              [
+                1,
+                11
+              ],
+              [
+                1,
+                14
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..22",
+                "H:r2:c11..11"
+              ],
+              [
+                "H:r0:c2..22",
+                "V:c14:r2..3"
+              ]
+            ],
+            "k": 7
+          },
+          {
+            "attachments": [
+              [
+                1,
+                14
+              ],
+              [
+                1,
+                17
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..25",
+                "H:r2:c14..14"
+              ],
+              [
+                "H:r0:c2..25",
+                "V:c17:r2..3"
+              ]
+            ],
+            "k": 8
+          },
+          {
+            "attachments": [
+              [
+                1,
+                17
+              ],
+              [
+                1,
+                20
+              ]
+            ],
+            "edges": [
+              [
+                "H:r0:c2..28",
+                "H:r2:c17..17"
+              ],
+              [
+                "H:r0:c2..28",
+                "V:c20:r2..3"
+              ]
+            ],
+            "k": 9
+          }
+        ],
+        "replacement_singleton_owner": "gamma_k(external parent, moved hinge pair)",
+        "rigid_translation": [
+          0,
+          -1
+        ],
+        "side": "start",
+        "source_chain_index": 33,
+        "transported_blockers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_carriers": [
+          "V:c12:r4..20",
+          "V:c15:r4..23",
+          "V:c18:r4..26"
+        ],
+        "transported_hinges": [
+          "V:c14:r2..3",
+          "V:c17:r2..3",
+          "V:c20:r2..3"
+        ]
+      }
+    ],
+    "excluded_witnesses": [
+      {
+        "blocker": "H:r2:c8..8",
+        "carrier": "H:r2:c5..5",
+        "eligible": [],
+        "failure_status": "multiple_star_intersection",
+        "hinge_derivation": "non-carrier/non-blocker member of the multiple intersection",
+        "named_hinges": [
+          "H:r0:c2..22"
+        ],
+        "reason": "witness does not name exactly one transported constant-size leaf hinge",
+        "rejected": [
+          {
+            "hinge": "H:r0:c2..22",
+            "reason": "named hinge is not a leaf at every width"
+          }
+        ],
+        "rigid_translation": [
+          0,
+          1
+        ],
+        "side": "end",
+        "source_chain_index": 2
+      },
+      {
+        "blocker": "H:r2:c11..11",
+        "carrier": "H:r2:c8..8",
+        "eligible": [],
+        "failure_status": "multiple_star_intersection",
+        "hinge_derivation": "non-carrier/non-blocker member of the multiple intersection",
+        "named_hinges": [
+          "H:r0:c2..22"
+        ],
+        "reason": "witness does not name exactly one transported constant-size leaf hinge",
+        "rejected": [
+          {
+            "hinge": "H:r0:c2..22",
+            "reason": "named hinge is not a leaf at every width"
+          }
+        ],
+        "rigid_translation": [
+          0,
+          1
+        ],
+        "side": "end",
+        "source_chain_index": 10
+      },
+      {
+        "blocker": "H:r2:c8..8",
+        "carrier": "H:r2:c11..11",
+        "eligible": [],
+        "failure_status": "multiple_star_intersection",
+        "hinge_derivation": "non-carrier/non-blocker member of the multiple intersection",
+        "named_hinges": [
+          "H:r0:c2..22"
+        ],
+        "reason": "witness does not name exactly one transported constant-size leaf hinge",
+        "rejected": [
+          {
+            "hinge": "H:r0:c2..22",
+            "reason": "named hinge is not a leaf at every width"
+          }
+        ],
+        "rigid_translation": [
+          0,
+          -1
+        ],
+        "side": "start",
+        "source_chain_index": 13
+      },
+      {
+        "blocker": "V:c14:r2..3",
+        "carrier": "H:r2:c11..11",
+        "eligible": [],
+        "failure_status": "multiple_star_intersection",
+        "hinge_derivation": "non-carrier/non-blocker member of the multiple intersection",
+        "named_hinges": [
+          "H:r0:c2..22"
+        ],
+        "reason": "witness does not name exactly one transported constant-size leaf hinge",
+        "rejected": [
+          {
+            "hinge": "H:r0:c2..22",
+            "reason": "named hinge is not a leaf at every width"
+          }
+        ],
+        "rigid_translation": [
+          0,
+          1
+        ],
+        "side": "end",
+        "source_chain_index": 18
+      },
+      {
+        "blocker": "H:r12:c17..17",
+        "carrier": "V:c17:r6..9",
+        "eligible": [],
+        "failure_status": "multiple_star_intersection",
+        "hinge_derivation": "non-carrier/non-blocker member of the multiple intersection",
+        "named_hinges": [
+          "V:c19:r9..17"
+        ],
+        "reason": "witness does not name exactly one transported constant-size leaf hinge",
+        "rejected": [
+          {
+            "hinge": "V:c19:r9..17",
+            "reason": "named hinge is not a leaf at every width"
+          }
+        ],
+        "rigid_translation": [
+          1,
+          0
+        ],
+        "side": "end",
+        "source_chain_index": 55
+      }
+    ],
+    "source_witness_count": 7
+  },
+  "grammar": {
+    "chain_count": 2,
+    "derived_hinge_types": 2,
+    "other_edits": "none",
+    "replacement_topology": "delete both old leaf-parent edges; require blocker-hinge singleton and exactly one external singleton gamma_k",
+    "rigid_translations_per_type": 1,
+    "source_witnesses": 7
+  },
+  "next_topology": {
+    "count": "spine segment relocation 0; blocker translation 0; carrier +1 per step",
+    "name": "nonleaf-spine split bypass",
+    "specification": "split the named nonleaf spine at the carrier projection, relocate the removed segment as a perpendicular bypass of equal size, translate the blocker leaf, and reconnect the two spine pieces by declared singleton owners"
+  },
+  "schema": "grid-graphs.residue-two-two-leaf-hinge-census.v1",
+  "source_artifact": "residue_two_endpoint_slide_census.json",
+  "status": "complete_two_leaf_hinge_obstruction",
+  "survivors": [],
+  "terminal_histogram": {
+    "forbidden_unit_cell": 2
+  },
+  "width_terminal_histograms": {
+    "7": {
+      "forbidden_unit_cell": 2
+    },
+    "8": {
+      "forbidden_unit_cell": 2
+    },
+    "9": {
+      "wrong_target_count_due_to_overlap": 2
+    }
+  }
+}

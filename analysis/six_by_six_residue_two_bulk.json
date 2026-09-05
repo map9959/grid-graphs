@@ -1,0 +1,821 @@
+{
+  "boundary_grammar": {
+    "maximum_boundary_linear_term": "5k+2",
+    "maximum_total": "3k^2+5k+2",
+    "phase_formulas": {
+      "0": "2k + 0 + (3k+2) = 5k+2",
+      "1": "2k + (k+1) + (k+1) = 4k+2",
+      "2": "2k + (3k+2) + 0 = 5k+2"
+    },
+    "singleton_transitions": "occupied 0->2 with weight 1; empty s->max(0,s-1)",
+    "state": "row phase; cap distance 1,2,3; singleton gap counter 0,1,2; endpoint and corner ownership"
+  },
+  "bulk_classification": {
+    "derived_topology": {
+      "bulk_count_in_3k_by_3k_core": "3k^2",
+      "incidence": "two quotient components; each is a rank-one rail with one nonzero longitudinal voltage",
+      "phases": "three transverse translations in each of two orientations",
+      "primitive_periods": "3x1 horizontal rails or 1x3 vertical rails"
+    },
+    "local_weight_twelve_survivors": 110832,
+    "quotient_rejections_by_bad_component_ranks": {
+      "10": 3552,
+      "11": 936,
+      "13": 36,
+      "3": 108,
+      "4": 192,
+      "4,4": 12,
+      "5": 6498,
+      "6": 21888,
+      "7": 37140,
+      "8": 30744,
+      "9": 9720
+    },
+    "representative_row_masks": [
+      0,
+      0,
+      63,
+      0,
+      0,
+      63
+    ],
+    "survivors": [
+      {
+        "canonical_row_masks": [
+          0,
+          0,
+          63,
+          0,
+          0,
+          63
+        ],
+        "open_boxes_2_through_8": true,
+        "quotient": {
+          "components": [
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            },
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            }
+          ],
+          "edges": 36,
+          "lift_is_forest": true,
+          "vertices": 36
+        },
+        "row_masks": [
+          0,
+          0,
+          63,
+          0,
+          0,
+          63
+        ],
+        "rows": [
+          "000000",
+          "000000",
+          "111111",
+          "000000",
+          "000000",
+          "111111"
+        ],
+        "translation_stabilizer": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "canonical_row_masks": [
+          0,
+          0,
+          63,
+          0,
+          0,
+          63
+        ],
+        "open_boxes_2_through_8": true,
+        "quotient": {
+          "components": [
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            },
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            }
+          ],
+          "edges": 36,
+          "lift_is_forest": true,
+          "vertices": 36
+        },
+        "row_masks": [
+          0,
+          63,
+          0,
+          0,
+          63,
+          0
+        ],
+        "rows": [
+          "000000",
+          "111111",
+          "000000",
+          "000000",
+          "111111",
+          "000000"
+        ],
+        "translation_stabilizer": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "canonical_row_masks": [
+          0,
+          0,
+          63,
+          0,
+          0,
+          63
+        ],
+        "open_boxes_2_through_8": true,
+        "quotient": {
+          "components": [
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  1,
+                  0
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            },
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  1,
+                  0
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            }
+          ],
+          "edges": 36,
+          "lift_is_forest": true,
+          "vertices": 36
+        },
+        "row_masks": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9
+        ],
+        "rows": [
+          "100100",
+          "100100",
+          "100100",
+          "100100",
+          "100100",
+          "100100"
+        ],
+        "translation_stabilizer": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      {
+        "canonical_row_masks": [
+          0,
+          0,
+          63,
+          0,
+          0,
+          63
+        ],
+        "open_boxes_2_through_8": true,
+        "quotient": {
+          "components": [
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  1,
+                  0
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            },
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  1,
+                  0
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            }
+          ],
+          "edges": 36,
+          "lift_is_forest": true,
+          "vertices": 36
+        },
+        "row_masks": [
+          18,
+          18,
+          18,
+          18,
+          18,
+          18
+        ],
+        "rows": [
+          "010010",
+          "010010",
+          "010010",
+          "010010",
+          "010010",
+          "010010"
+        ],
+        "translation_stabilizer": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      {
+        "canonical_row_masks": [
+          0,
+          0,
+          63,
+          0,
+          0,
+          63
+        ],
+        "open_boxes_2_through_8": true,
+        "quotient": {
+          "components": [
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  1,
+                  0
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            },
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  1,
+                  0
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            }
+          ],
+          "edges": 36,
+          "lift_is_forest": true,
+          "vertices": 36
+        },
+        "row_masks": [
+          36,
+          36,
+          36,
+          36,
+          36,
+          36
+        ],
+        "rows": [
+          "001001",
+          "001001",
+          "001001",
+          "001001",
+          "001001",
+          "001001"
+        ],
+        "translation_stabilizer": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      {
+        "canonical_row_masks": [
+          0,
+          0,
+          63,
+          0,
+          0,
+          63
+        ],
+        "open_boxes_2_through_8": true,
+        "quotient": {
+          "components": [
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            },
+            {
+              "edges": 18,
+              "fundamental_cycle_voltages": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "fundamental_rank": 1,
+              "reason": "ok",
+              "vertices": 18
+            }
+          ],
+          "edges": 36,
+          "lift_is_forest": true,
+          "vertices": 36
+        },
+        "row_masks": [
+          63,
+          0,
+          0,
+          63,
+          0,
+          0
+        ],
+        "rows": [
+          "111111",
+          "000000",
+          "000000",
+          "111111",
+          "000000",
+          "000000"
+        ],
+        "translation_stabilizer": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      }
+    ],
+    "symbolic_forced_forest_survivors": 6,
+    "torus_dihedral_orbits": 1
+  },
+  "checks": {
+    "all_survivors_have_primitive_rail_topology": true,
+    "k_7_8_9_formulas_and_forests": true,
+    "one_torus_dihedral_orbit": true,
+    "row_walk_accounting": true,
+    "six_survivors": true
+  },
+  "row_automaton": {
+    "closed_weight_twelve_walks": 110832,
+    "directed_transitions": 324,
+    "states": 64,
+    "unit_cell_rule": "reject three or four centers, and reject either diagonal pair, in every cyclic 2x2 cell"
+  },
+  "schema": "grid-graphs.six-by-six-residue-two-bulk.v1",
+  "scope": {
+    "all_weight_twelve_masks": 1251677700,
+    "boundary_family": "width-one cap with straight intervals, singleton star intersections, and forest incidence",
+    "density": "12/36=1/3",
+    "enumeration_method": "closed length-six walks in the 64-state row automaton, pruned to total weight 12",
+    "not_enumerated": "the 2^36 masks and the C(36,12) fixed-weight masks",
+    "period": "6x6 torus"
+  },
+  "status": "complete_six_by_six_obstruction",
+  "symbolic_criterion": {
+    "nonabelian_obstruction": "rank at least two has a nontrivial free-group commutator in the kernel of every abelian voltage map",
+    "statement": "each quotient component must have free rank zero, or free rank one with nonzero Z^2 deck voltage",
+    "zero_voltage_obstruction": "a rank-one zero-voltage generator lifts to a finite cycle"
+  },
+  "target_decision": {
+    "attainable_for_all_k_at_least_7": false,
+    "construction_decision": "no target candidate survives; every survivor is the already-obstructed parallel-rail construction",
+    "deficit": "2k-2",
+    "periodic_scope_exhausted": "yes for density-one-third 6x6 bulks (and their lower primitive periods), not for arbitrary larger periods",
+    "target": "3k^2+7k",
+    "validated_deficits": {
+      "7": 12,
+      "8": 14,
+      "9": 16
+    }
+  },
+  "validation": [
+    {
+      "k": 7,
+      "n": 23,
+      "phases": [
+        {
+          "boundary_count": 37,
+          "boundary_grammar_maximum": 37,
+          "forced_forest": true,
+          "phase": 0,
+          "total": 184
+        },
+        {
+          "boundary_count": 30,
+          "boundary_grammar_maximum": 30,
+          "forced_forest": true,
+          "phase": 1,
+          "total": 177
+        },
+        {
+          "boundary_count": 37,
+          "boundary_grammar_maximum": 37,
+          "forced_forest": true,
+          "phase": 2,
+          "total": 184
+        }
+      ],
+      "target": 196
+    },
+    {
+      "k": 8,
+      "n": 26,
+      "phases": [
+        {
+          "boundary_count": 42,
+          "boundary_grammar_maximum": 42,
+          "forced_forest": true,
+          "phase": 0,
+          "total": 234
+        },
+        {
+          "boundary_count": 34,
+          "boundary_grammar_maximum": 34,
+          "forced_forest": true,
+          "phase": 1,
+          "total": 226
+        },
+        {
+          "boundary_count": 42,
+          "boundary_grammar_maximum": 42,
+          "forced_forest": true,
+          "phase": 2,
+          "total": 234
+        }
+      ],
+      "target": 248
+    },
+    {
+      "k": 9,
+      "n": 29,
+      "phases": [
+        {
+          "boundary_count": 47,
+          "boundary_grammar_maximum": 47,
+          "forced_forest": true,
+          "phase": 0,
+          "total": 290
+        },
+        {
+          "boundary_count": 38,
+          "boundary_grammar_maximum": 38,
+          "forced_forest": true,
+          "phase": 1,
+          "total": 281
+        },
+        {
+          "boundary_count": 47,
+          "boundary_grammar_maximum": 47,
+          "forced_forest": true,
+          "phase": 2,
+          "total": 290
+        }
+      ],
+      "target": 306
+    }
+  ]
+}

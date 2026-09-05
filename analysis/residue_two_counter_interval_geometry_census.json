@@ -1,0 +1,256 @@
+{
+  "abstract_status": "counter surgery parent/count identities remain verified",
+  "checker": "residue_two_counter_interval_geometry_census",
+  "geometric_status": "bounded natural corner grammar exhausted",
+  "next_surgery_constraint": "A next surgery must place the counter outside the 7x7 corner, let it replace old preserved centers, delete centers from components other than the root/branch, or obtain the +1 step from an existing interval endpoint. Merely adding up to three more root/branch edits cannot address a violating cell whose old preserved vertex belongs to another component.",
+  "records": [
+    {
+      "first_replay_by_terminal_status": {
+        "forbidden_unit_cell": {
+          "added": [
+            [
+              0,
+              1
+            ]
+          ],
+          "counter": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "deleted": [
+            [
+              0,
+              0
+            ]
+          ],
+          "detail": {
+            "cell": [
+              0,
+              1
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          }
+        }
+      },
+      "grammar": {
+        "compensating_additions": "same number as deletions, from other nonpreserved window vertices",
+        "counter": "every horizontal length-2 interval wholly in the window",
+        "counter_centers_must_all_be_new": true,
+        "deletion_must_include": "(0,0) or (0,2)",
+        "deletions": "1..3 old centers, only from the affine root or c=0 branch in the window",
+        "maximum_non_counter_edits": 6,
+        "maximum_total_symmetric_difference": 8,
+        "window": "rows 0..6, columns 0..6"
+      },
+      "k": 7,
+      "n": 23,
+      "realizations": [],
+      "rejection_histogram": {
+        "deletion_keeps_old_attachment": 2975,
+        "forbidden_unit_cell": 5098725,
+        "placement_uses_old_center": 25,
+        "placements": 42
+      },
+      "search_space": {
+        "admissible_new_center_placements": 17,
+        "fully_enumerated_edit_choices": 5098725,
+        "placements": 42
+      },
+      "status": "complete_negative_in_declared_grammar"
+    },
+    {
+      "first_replay_by_terminal_status": {
+        "forbidden_unit_cell": {
+          "added": [
+            [
+              0,
+              1
+            ]
+          ],
+          "counter": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ]
+          ],
+          "deleted": [
+            [
+              0,
+              0
+            ]
+          ],
+          "detail": {
+            "cell": [
+              0,
+              1
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          }
+        }
+      },
+      "grammar": {
+        "compensating_additions": "same number as deletions, from other nonpreserved window vertices",
+        "counter": "every horizontal length-3 interval wholly in the window",
+        "counter_centers_must_all_be_new": true,
+        "deletion_must_include": "(0,0) or (0,2)",
+        "deletions": "1..3 old centers, only from the affine root or c=0 branch in the window",
+        "maximum_non_counter_edits": 6,
+        "maximum_total_symmetric_difference": 9,
+        "window": "rows 0..6, columns 0..6"
+      },
+      "k": 8,
+      "n": 26,
+      "realizations": [],
+      "rejection_histogram": {
+        "deletion_keeps_old_attachment": 1225,
+        "forbidden_unit_cell": 1868139,
+        "placement_uses_old_center": 28,
+        "placements": 35
+      },
+      "search_space": {
+        "admissible_new_center_placements": 7,
+        "fully_enumerated_edit_choices": 1868139,
+        "placements": 35
+      },
+      "status": "complete_negative_in_declared_grammar"
+    },
+    {
+      "first_replay_by_terminal_status": {
+        "forbidden_unit_cell": {
+          "added": [
+            [
+              0,
+              1
+            ]
+          ],
+          "counter": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "deleted": [
+            [
+              0,
+              0
+            ]
+          ],
+          "detail": {
+            "cell": [
+              0,
+              1
+            ],
+            "preserved_offsets": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "type": "three_or_four_preserved_vertices"
+          }
+        }
+      },
+      "grammar": {
+        "compensating_additions": "same number as deletions, from other nonpreserved window vertices",
+        "counter": "every horizontal length-4 interval wholly in the window",
+        "counter_centers_must_all_be_new": true,
+        "deletion_must_include": "(0,0) or (0,2)",
+        "deletions": "1..3 old centers, only from the affine root or c=0 branch in the window",
+        "maximum_non_counter_edits": 6,
+        "maximum_total_symmetric_difference": 10,
+        "window": "rows 0..6, columns 0..6"
+      },
+      "k": 9,
+      "n": 29,
+      "realizations": [],
+      "rejection_histogram": {
+        "deletion_keeps_old_attachment": 700,
+        "forbidden_unit_cell": 945400,
+        "placement_uses_old_center": 24,
+        "placements": 28
+      },
+      "search_space": {
+        "admissible_new_center_placements": 4,
+        "fully_enumerated_edit_choices": 945400,
+        "placements": 28
+      },
+      "status": "complete_negative_in_declared_grammar"
+    }
+  ],
+  "schema": "grid-graphs.residue-two-counter-interval-geometry-census.v1",
+  "status": "complete_negative_in_declared_grammar"
+}

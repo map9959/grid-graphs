@@ -103,6 +103,7 @@ so each color contains at least `n` non-preserved vertices.
 | `grid_cotree_incidenceWaste_identity` | `W + D + 3*numPreserved = 3mn` for a grid spanning tree |
 | `diagonal_cotree_incidenceWaste_ge_iff_preserved_bound` | `W>=n+2` iff the additive diagonal full-degree bound holds |
 | `grid_component_reduction` | exact full-set forced-forest component identity |
+| `grid_prefix_component_ledger` | exact subtraction-free row-prefix charge identity |
 | `square_grid_component_reduction_compl` | exact square `U`-form of `Q_U+c_F+c_H` accounting |
 | `square_grid_tree_component_bridge` | exact identity `Q_U+c_F+c_H = W+2` for a square-grid spanning tree cotree |
 | `incidenceWaste_ge_of_combinedChannelContourRouting` | joint exit and merger/root resource routing implies `W>=n+2` |
@@ -128,6 +129,66 @@ so each color contains at least `n` non-preserved vertices.
 | `CanonicalExpandedContourForest.exitEmbedding` | reached first-stop roots use distinct geometric split outer ports |
 | `CanonicalExpandedContourForest.mergerSlotTreeEdgeEmbedding` | expanded-contour merger slots use distinct unsupported canonical inward tree edges |
 | `canonicalExpandedJointCollisionRouting_iff_incidenceWaste_ge` | port-aware residual collision capacity is exactly equivalent to the universal waste target |
+| `MarkedCycleFirstStop.canonicalMergerSlotUnmarkedStartEmbedding` | merger slots use injective orbit-local owners, including marked direct-start endpoints |
+| `rankedCarrierCollisionEquiv` | ordered carrier representatives split occurrences into first contacts and later collision labels |
+| `localizedHall_iff_exists_embedding` | localized Hall inequalities are exactly equivalent to injective neighborhood-respecting routing |
+| `HorizontalSouthBareComb.gapResourceEmbedding` | every gap in a bare comb uses a distinct internal edge or labelled cotree transition; symmetric APIs cover the other orientations |
+| `RankedTransitionSystem.exists_terminalState_same_origin` | every occurrence-indexed decreasing transition chain terminates without losing its debt provenance or quotienting reconverged labels |
+| `gridTreeCell_internal_or_labelledCotree` | every grid-tree cell supplies an internal supported edge or an exact labelled cotree transition on one side |
+| `orderedHullDepth_concentric` | for every `k`, a pairwise laminar family of `k` nested ordered hulls crosses one cut, disproving any laminarity-only fixed hull bound |
+| `ReconvergenceLens.rank_parent` / `parentWellFounded` | nearest later-merger lens parents strictly decrease first-stop distance and form a well-founded occurrence forest |
+| `ReconvergenceLens.reachedStop_eq_of_parent` | child and parent lenses continue to the same reached marked stop |
+| `CanonicalExpandedContourForest.collisionLensEmbedding` | every canonical expanded-contour merger occurrence embeds into its occurrence-level lens |
+| `CanonicalExpandedContourForest.lensTreeEdgeEmbedding` | every canonical lens retains a distinct physical unsupported inward tree-edge token |
+| `CanonicalExpandedContourForest.lensOuterPort_eq_of_parent` | parent-related canonical lenses reach the same split outer cotree port |
+| `ReconvergenceLens.originRegion_ssubset_of_parent` | parent passage strictly enlarges the finite set of originating start occurrences; this is not planar containment |
+| `CanonicalExpandedContourForest.lensMergerBranches_children_eq` | every canonical lens merger has exactly its private start and unique shared predecessor as children |
+| `CanonicalExpandedContourForest.lensMergerBranches_sharedPredecessor_eq_pred` | the shared branch enters from the explicit predecessor slot of the expanded contour |
+| `GridExpandedContour.edges_walk` / `darts_walk` | erasing in-place expanded-contour turns gives an honest retained-tree walk with exactly the collected ordered darts and edges |
+| `ReconvergenceLens.iterate_rank_mergerState_eq_reachedStop` | iterating a lens merger through its stop-distance rank reaches its common marked terminal |
+| `CanonicalExpandedContourForest.edges_lensSharedSuffixWalk` | the canonical merger-to-outer-port suffix is realized as an exact retained-tree walk |
+| `CanonicalExpandedContourForest.lensBranchGerm_darts_ne` | when both local branch germs traverse retained edges, their oriented darts are distinct |
+| `GridExpandedContour.slotPoint_injective` | distinct expanded slots map to distinct sector points in the fourfold collar grid |
+| `GridExpandedContour.segmentMidpoint_injective` | distinct expanded successor segments have distinct collar midpoints |
+| `GridExpandedContour.segmentMidpoint_ne_slotPoint` | no collar segment midpoint collides with any slot-sector point |
+| `GridExpandedContour.collarTrace_isPath_of_advance_injective` | every slot-injective expanded interval realizes as an actual path in the collar grid |
+| `GridExpandedContour.spanningTreeCollarCycle_isCycle` | the complete expanded contour orbit is a genuine cycle in the fourfold collar grid |
+| `CanonicalExpandedContourForest.inwardShoreCollarCycle_isCycle` | a retained inward dart, its reverse contour arc, and an explicit edge chord bound a genuine local cycle |
+| `CanonicalExpandedContourForest.canonicalUpperU1Default` | unconditional U1 certificate with concrete rooted shore regions, corrected planar parent forest, and outer boundary roots |
+| `CanonicalExpandedContourForest.CanonicalUpperU2ExposedOwnership` | exposed ports, internal edges, and selected free-component contacts have unique first owners and injective physical embeddings |
+| `parentForest_global_le_of_regional_telescope` | regional passed-transition terms cancel over a ranked parent forest |
+| `canonicalUpperU3_localInequality_implies_globalHall` | the one-region debt inequality implies global Hall for first-owned resources |
+| `planarLensLocalDebtEquivFin` | local occurrence debt is exactly the merger-excess index `Fin (q-1)` |
+| `planarLensLocalDebtInterfaceGapEmbedding` | the `q-1` debts born at a reconvergence use distinct immediate-child collar interface lanes |
+| `canonicalUpperU3_activeLocalInequality_globalHall` | corrected one-state-per-debt regional inequalities imply global Hall after selected passes telescope |
+| `canonicalPlanarLensDebtRouting` | every original merger-slot occurrence is routed along its unique planar parent chain with exact local/child flow conservation and preserved provenance |
+| `canonicalPlanarLensDebtRouting_carriesCanonicalLocalInterfacesAt` / `canonicalPlanarLensDebtRouting_passesIncomingAt` | canonical routing discharges all nonroot local-interface and inherited-pass obligations |
+| `planarLensOriginalDebtFirstStopMergerEmbedding` | every planar merger debt selects a distinct immediate-child first-stop merger token |
+| `planarLensOriginalDebtFullPrunedLaunchEmbedding` | selected tokens split injectively into one raw-component representative per carrier or an occurrence-labelled ranked collision |
+| `FullPrunedRegionalCertificate.planarLensOriginalDebtPhysicalEmbedding` | any certified ranked collision continuation enlarges the launch to an injective map into raw boundary ports, internal edges, and components |
+| `FullPrunedRegionalCertificate.rootActiveDebtFiberPhysicalEmbedding` | the enlarged physical map is injective on every planar root active fiber without asserting false root ownership |
+| `CheckerboardBoundaryRuns` definitions | generic boundary component labels, cyclic run counts, nonalternation, and a proved cancellation bridge from two color-run bounds to `CheckerboardBoundaryBound`; the candidate color bounds themselves are false |
+| `AxialCarrierGap` definitions | consecutive collinear non-singleton preserved components have finite, uniquely oriented complement gaps; parallel gaps are disjoint and perpendicular gaps intersect in at most one vertex |
+| `CanonicalInsertionCircuit` definitions | maximal omitted vertices retain canonical attachment pairs, unique forced-forest paths, and exact orthogonal turn counts; no aggregate turn bound is asserted |
+| `FiniteAlternatingExchange` | finite partial matchings, occurrence-labelled alternating reachability, certified augmentation, and Hall-deficient saturated closures |
+| `AutomaticOwnershipDisplacement` / `GridGroupedAlternatingMatching` | reserved raw resources have unique automatic owners and grouped sources retain exact displacement adjacency |
+| `AlternatingTreeExchange` / `RawFreeComponentContinuation` / `OrderedOuterBoundaryExchange` | occurrence-preserving internal-edge, component-contact, basis-exchange, and ordered outer-boundary continuation without duplicating physical resources |
+| `PhysicalSaturationTransitionSystem` | all sound continuation mechanisms are packaged into one finite source-indexed reachability system with deduplicated raw-resource neighborhoods |
+| `canonicalUpperU3_activeGlobalHall_of_canonicalRootHall` | for canonical routing, the corrected active global Hall theorem reduces solely to raw physical Hall at parentless roots |
+| `rootDebtCanUse_eq_outerPort` | the audited root escape can expose only supported outer ports, never internal edges or raw components |
+| `canonicalRootRawNeighborhood_card_le_one` | every canonical neighborhood in the former root-Hall endpoint is empty or a singleton |
+| `canonicalUpperU3RootHall_activeFiber_card_le_one` | the former root Hall endpoint would force at most one accumulated active debt per planar root |
+| `interfaceLane_eventTermination` | every occurrence-labelled interface/root-escape stream reaches a finite geometric event with provenance preserved |
+| `no_planarLensRegionalAssignment_of_unaryRoot_obstruction` | the rejected all-crossing ledger can demand capacity at a resource-empty unary root |
+| `canonicalFirstMarkedEvent_not_injective_of_reconvergence` | any first-mark assignment factoring through a reconverged state identifies distinct origins |
+| `card_primalContourResource_add_one_eq_fourSideComponentRank` | the primal routing resource count plus one is exactly four-side component rank |
+| `square_grid_tree_universalWaste_of_universalPrimalContourRouting` | an explicit canonical-demand routing into primal contour resources implies `W>=n+2` |
+| `outerEdgeAtPosition_mem_clockwiseOuterArc_iff_openCyclicSector` | a selected collar outer edge lies on the clockwise closure exactly for positions in the corresponding open boundary sector |
+| `residueTwoAffine_target_eq_compl_card_add_gap` | the stable residue-two target exceeds the affine preserved score by exactly `k-5` |
+| `uResidueTwoAffine_compl_card_step` / `residueTwoStableTarget_step` | affine pumping gains `6k+9` preserved vertices while the exact target recurrence requires `6k+10` |
+| `square_cotree_black_waste_ledger` / `square_cotree_white_waste_ledger` | exact checkerboard-color decomposition of cotree incidence waste |
+| `card_blackCotreeContourMark_eq_incidenceWasteOn` | black contour marks have exactly black incidence-waste cardinality, with a white analogue |
+| `CanonicalShoreDemand.card_phase_colors_even` / `card_phase_colors_odd` | exact six phase/color demand histograms in residue two |
 
 All statements are subtraction-free over `Nat` where possible. Component
 counts for the induced full-vertex graph use the subtype vertex set, so the
@@ -145,6 +206,7 @@ vertices.
 | `gridGraph_cell_adj_top` etc. | the four boundary edges of every cell are grid edges | `Diagonal.lean:130–145` |
 | `cell00_ne_cell11`, `cell01_ne_cell10` | diagonal disequalities | `Diagonal.lean:148,155` |
 | **`grid_cell_has_unforced_edge`** | **every grid 2×2 cell has at least one `U-U` boundary edge** | `Diagonal.lean:164` |
+| `grid_tree_cotree_support_row_or_column_coverage` | cotree support meets every row or every column | `UniversalWaste.lean` |
 | `grid_cell_has_unforced_corner` | every cell contains at least one corner outside `F` | `Diagonal.lean:180` |
 | `preserved_set_cell_corner` | spanning-subgraph form of the cell-hitting condition | `Diagonal.lean:195` |
 | `connected_graph_has_spanning_tree` | wrapper around mathlib's `Connected.exists_isTree_le` | `Diagonal.lean:214` |
@@ -539,6 +601,36 @@ Aggregate statistics over the 100 rows above:
 - Maximum gap `basicUB − P` is 4; mean gap is 2.38.
 - The 4×n family confirms the proven Lean closed forms: for every n ∈ {1..10},
   `basicUB(4,n) = 2n+2` and (for n ≥ 3) `refinedUB(4,n) = 2n+1`.
+
+### Bounded proof-oriented censuses
+
+- `check_residue_two_counter_interval_surgery.py` verifies the abstract
+  root-edge subdivision formulas at `k=7,8,9,12`: total length
+  `3k^2+7k`, one-parent tree structure, postorder elimination, and transition
+  gain `6k+10`. It does not assert a grid realization.
+- `census_residue_two_counter_interval_geometry.py` exhausts the explicitly
+  declared `7 x 7` corner grammar at `k=7,8,9`. All 7,912,264 candidates fail
+  the unit-cell obstruction; replay data is stored in
+  `residue_two_counter_interval_geometry_census.json`. This excludes only the
+  declared grammar and is not a proof dependency.
+- `census_residue_two_affine_endpoint_extensions.py` classifies all `56`
+  transported single-endpoint types from `k=7`; none survives through `k=9`.
+  The exact target-count arithmetic remains abstractly valid, but every type is
+  geometrically obstructed.
+- `census_residue_two_endpoint_slide.py` derives `20` constant-size blockers
+  from those obstructions and exhausts four unit translations for each. All
+  `80` chains fail, narrowing the next topology to a two-leaf hinge exchange.
+- `census_residue_two_two_leaf_hinge.py` derives exactly two legal leaf-hinge
+  chains from seven late-stage witnesses; both fail at every tested width.
+- `census_residue_two_nonleaf_spine_bypass.py` exhausts the five remaining
+  witness-derived minimal bypasses. Each necessarily overlaps its carrier ray,
+  giving a symbolic count obstruction for all `k>=7` within that grammar.
+- Subsequent deterministic classifiers exhaust the two-layer dogleg, residue-
+  zero cap/double-cap/sparse-rail splices, safe horizontal combs, all density-
+  one-third periodic bulks through `6x6`, staircase seams, elbow islands, and a
+  buffered three-wall branch. None supplies the target count together with a
+  singleton-owned incidence tree. These are bounded negative results, not proof
+  dependencies or a global nonexistence theorem.
 
 ### Diagonal `P(n, n)`
 

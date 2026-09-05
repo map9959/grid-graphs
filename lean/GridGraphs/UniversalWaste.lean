@@ -78,4 +78,67 @@ theorem two_le_grid_tree_cotree_support_card {m n : Nat}
   · exact pair_card_le
       ((gridGraph m n).ne_of_adj (gridGraph_cell_adj_left r c)) h.1 h.2
 
+/-- The cotree support cannot miss both a whole row and a whole column. Indeed,
+the unit cell incident with their intersection would have no supported boundary
+side, contradicting `grid_tree_cotree_support_hits_cell_edge`. -/
+theorem grid_tree_cotree_support_row_or_column_coverage
+    {n : Nat} (hn : 2 ≤ n)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T) :
+    let U := supportFinset (gridGraph n n \ T)
+    (∀ r : Fin n, ∃ c : Fin n, (r, c) ∈ U) ∨
+      ∀ c : Fin n, ∃ r : Fin n, (r, c) ∈ U := by
+  classical
+  let U := supportFinset (gridGraph n n \ T)
+  change (∀ r : Fin n, ∃ c : Fin n, (r, c) ∈ U) ∨
+    ∀ c : Fin n, ∃ r : Fin n, (r, c) ∈ U
+  by_contra hcoverage
+  push_neg at hcoverage
+  obtain ⟨⟨r, hrow⟩, ⟨c, hcolumn⟩⟩ := hcoverage
+  have hrow' {v : GridVertex n n} (hv : v ∈ U) (heq : v.1 = r) : False := by
+    apply hrow v.2
+    have hvertex : v = (r, v.2) := Prod.ext heq rfl
+    rwa [← hvertex]
+  have hcolumn' {v : GridVertex n n} (hv : v ∈ U) (heq : v.2 = c) : False := by
+    apply hcolumn v.1
+    have hvertex : v = (v.1, c) := Prod.ext rfl heq
+    rwa [← hvertex]
+  have hpred : n - 1 - 1 + 1 = n - 1 := by omega
+  by_cases hr : r.val < n - 1
+  · let rr : Fin (n - 1) := ⟨r.val, hr⟩
+    by_cases hc : c.val < n - 1
+    · let cc : Fin (n - 1) := ⟨c.val, hc⟩
+      rcases grid_tree_cotree_support_hits_cell_edge hT rr cc with
+        htop | hright | hbottom | hleft
+      · exact hrow' htop.1 (by ext; simp [rr, cell00])
+      · exact hrow' hright.1 (by ext; simp [rr, cell01])
+      · exact hcolumn' hbottom.2 (by ext; simp [cc, cell10])
+      · exact hcolumn' hleft.1 (by ext; simp [cc, cell10])
+    · have hcLast : c.val = n - 1 := by omega
+      let cc : Fin (n - 1) := ⟨c.val - 1, by omega⟩
+      rcases grid_tree_cotree_support_hits_cell_edge hT rr cc with
+        htop | hright | hbottom | hleft
+      · exact hrow' htop.1 (by ext; simp [rr, cell00])
+      · exact hcolumn' hright.2 (by ext; simp [cc, cell11, hcLast, hpred])
+      · exact hcolumn' hbottom.1 (by ext; simp [cc, cell11, hcLast, hpred])
+      · exact hrow' hleft.2 (by ext; simp [rr, cell00])
+  · have hrLast : r.val = n - 1 := by omega
+    let rr : Fin (n - 1) := ⟨r.val - 1, by omega⟩
+    by_cases hc : c.val < n - 1
+    · let cc : Fin (n - 1) := ⟨c.val, hc⟩
+      rcases grid_tree_cotree_support_hits_cell_edge hT rr cc with
+        htop | hright | hbottom | hleft
+      · exact hcolumn' htop.1 (by ext; simp [cc, cell00])
+      · exact hrow' hright.2 (by ext; simp [rr, cell11, hrLast, hpred])
+      · exact hrow' hbottom.1 (by ext; simp [rr, cell11, hrLast, hpred])
+      · exact hcolumn' hleft.2 (by ext; simp [cc, cell00])
+    · have hcLast : c.val = n - 1 := by omega
+      let cc : Fin (n - 1) := ⟨c.val - 1, by omega⟩
+      rcases grid_tree_cotree_support_hits_cell_edge hT rr cc with
+        htop | hright | hbottom | hleft
+      · exact hcolumn' htop.2 (by ext; simp [cc, cell01, hcLast, hpred])
+      · exact hcolumn' hright.2 (by ext; simp [cc, cell11, hcLast, hpred])
+      · exact hrow' hbottom.1 (by ext; simp [rr, cell11, hrLast, hpred])
+      · exact hrow' hleft.1 (by ext; simp [rr, cell10, hrLast, hpred])
+
 end GridGraphs

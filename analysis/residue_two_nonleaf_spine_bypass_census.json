@@ -1,0 +1,3234 @@
+{
+  "chains": [
+    {
+      "blocker_parent_transports": false,
+      "coordinate_images_nest": [
+        false,
+        false
+      ],
+      "status": "obstructed",
+      "type": {
+        "blocker": "H:r2:c8..8",
+        "blocker_translation": [
+          0,
+          1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c5..5",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              8
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "H:r2:c8..8"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              5
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c5..5",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              11
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "H:r2:c11..11"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              8
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c8..8",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "H:r2:c14..14"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 2,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_carriers": [
+          "H:r2:c5..5",
+          "H:r2:c8..8",
+          "H:r2:c11..11"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      "width_evaluations": [
+        {
+          "blocker": "H:r2:c8..8",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c5..5",
+          "carrier_ray": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "expected": 196,
+          "far_moving_coordinate": 7,
+          "k": 7,
+          "observed": 195,
+          "overlap": [
+            [
+              2,
+              7
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..22",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ],
+              [
+                0,
+                12
+              ],
+              [
+                0,
+                13
+              ],
+              [
+                0,
+                14
+              ],
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r2:c11..11",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c8..8",
+          "carrier_ray": [
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ]
+          ],
+          "expected": 248,
+          "far_moving_coordinate": 11,
+          "k": 8,
+          "observed": 247,
+          "overlap": [
+            [
+              2,
+              11
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              11
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ],
+            [
+              0,
+              11
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..25",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ]
+            ],
+            [
+              [
+                0,
+                12
+              ],
+              [
+                0,
+                13
+              ],
+              [
+                0,
+                14
+              ],
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r2:c14..14",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c11..11",
+          "carrier_ray": [
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              2,
+              15
+            ]
+          ],
+          "expected": 306,
+          "far_moving_coordinate": 15,
+          "k": 9,
+          "observed": 303,
+          "overlap": [
+            [
+              2,
+              15
+            ],
+            [
+              4,
+              15
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ],
+            [
+              4,
+              15
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              15
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..28",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ]
+            ],
+            [
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ],
+              [
+                0,
+                26
+              ],
+              [
+                0,
+                27
+              ],
+              [
+                0,
+                28
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        }
+      ]
+    },
+    {
+      "blocker_parent_transports": false,
+      "coordinate_images_nest": [
+        false,
+        false
+      ],
+      "status": "obstructed",
+      "type": {
+        "blocker": "H:r2:c11..11",
+        "blocker_translation": [
+          0,
+          1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c8..8",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              11
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "H:r2:c11..11"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              8
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c8..8",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "H:r2:c14..14"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              17
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "H:r2:c17..17"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              14
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c14..14",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 10,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_carriers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      "width_evaluations": [
+        {
+          "blocker": "H:r2:c11..11",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c8..8",
+          "carrier_ray": [
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "expected": 196,
+          "far_moving_coordinate": 10,
+          "k": 7,
+          "observed": 195,
+          "overlap": [
+            [
+              2,
+              10
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..22",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ]
+            ],
+            [
+              [
+                0,
+                11
+              ],
+              [
+                0,
+                12
+              ],
+              [
+                0,
+                13
+              ],
+              [
+                0,
+                14
+              ],
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r2:c14..14",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c11..11",
+          "carrier_ray": [
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              2,
+              14
+            ]
+          ],
+          "expected": 248,
+          "far_moving_coordinate": 14,
+          "k": 8,
+          "observed": 247,
+          "overlap": [
+            [
+              2,
+              14
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              14
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              14
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..25",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ]
+            ],
+            [
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r2:c17..17",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c14..14",
+          "carrier_ray": [
+            [
+              2,
+              15
+            ],
+            [
+              2,
+              16
+            ],
+            [
+              2,
+              17
+            ],
+            [
+              2,
+              18
+            ]
+          ],
+          "expected": 306,
+          "far_moving_coordinate": 18,
+          "k": 9,
+          "observed": 303,
+          "overlap": [
+            [
+              2,
+              18
+            ],
+            [
+              4,
+              18
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              18
+            ],
+            [
+              2,
+              18
+            ],
+            [
+              3,
+              18
+            ],
+            [
+              4,
+              18
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              15
+            ],
+            [
+              0,
+              16
+            ],
+            [
+              0,
+              17
+            ],
+            [
+              0,
+              18
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..28",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ],
+              [
+                0,
+                12
+              ],
+              [
+                0,
+                13
+              ],
+              [
+                0,
+                14
+              ]
+            ],
+            [
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ],
+              [
+                0,
+                26
+              ],
+              [
+                0,
+                27
+              ],
+              [
+                0,
+                28
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        }
+      ]
+    },
+    {
+      "blocker_parent_transports": false,
+      "coordinate_images_nest": [
+        false,
+        false
+      ],
+      "status": "obstructed",
+      "type": {
+        "blocker": "H:r2:c8..8",
+        "blocker_translation": [
+          0,
+          -1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c11..11",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              8
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "H:r2:c8..8"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              11
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "H:r2:c11..11"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              14
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c14..14",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "H:r2:c14..14"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              17
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c17..17",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "start",
+        "source_chain_index": 13,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_carriers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      "width_evaluations": [
+        {
+          "blocker": "H:r2:c8..8",
+          "blocker_translation": [
+            0,
+            -1
+          ],
+          "carrier": "H:r2:c11..11",
+          "carrier_ray": [
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "expected": 196,
+          "far_moving_coordinate": 9,
+          "k": 7,
+          "observed": 195,
+          "overlap": [
+            [
+              2,
+              9
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "side": "start",
+          "spine": "H:r0:c2..22",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ]
+            ],
+            [
+              [
+                0,
+                11
+              ],
+              [
+                0,
+                12
+              ],
+              [
+                0,
+                13
+              ],
+              [
+                0,
+                14
+              ],
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r2:c11..11",
+          "blocker_translation": [
+            0,
+            -1
+          ],
+          "carrier": "H:r2:c14..14",
+          "carrier_ray": [
+            [
+              2,
+              11
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ]
+          ],
+          "expected": 248,
+          "far_moving_coordinate": 11,
+          "k": 8,
+          "observed": 247,
+          "overlap": [
+            [
+              2,
+              11
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              11
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              11
+            ],
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ]
+          ],
+          "side": "start",
+          "spine": "H:r0:c2..25",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            [
+              [
+                0,
+                14
+              ],
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r2:c14..14",
+          "blocker_translation": [
+            0,
+            -1
+          ],
+          "carrier": "H:r2:c17..17",
+          "carrier_ray": [
+            [
+              2,
+              13
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              2,
+              16
+            ]
+          ],
+          "expected": 306,
+          "far_moving_coordinate": 13,
+          "k": 9,
+          "observed": 304,
+          "overlap": [
+            [
+              2,
+              13
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              13
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              4,
+              13
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              15
+            ],
+            [
+              0,
+              16
+            ]
+          ],
+          "side": "start",
+          "spine": "H:r0:c2..28",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ],
+              [
+                0,
+                12
+              ]
+            ],
+            [
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ],
+              [
+                0,
+                26
+              ],
+              [
+                0,
+                27
+              ],
+              [
+                0,
+                28
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        }
+      ]
+    },
+    {
+      "blocker_parent_transports": false,
+      "coordinate_images_nest": [
+        false,
+        false
+      ],
+      "status": "obstructed",
+      "type": {
+        "blocker": "V:c14:r2..3",
+        "blocker_translation": [
+          0,
+          1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c11..11",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "V:c14:r2..3"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              17
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "V:c17:r2..3"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              14
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c14..14",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              20
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "V:c20:r2..3"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              17
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c17..17",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 18,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "V:c14:r2..3",
+          "V:c17:r2..3",
+          "V:c20:r2..3"
+        ],
+        "transported_carriers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      "width_evaluations": [
+        {
+          "blocker": "V:c14:r2..3",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c11..11",
+          "carrier_ray": [
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ]
+          ],
+          "expected": 196,
+          "far_moving_coordinate": 13,
+          "k": 7,
+          "observed": 195,
+          "overlap": [
+            [
+              2,
+              13
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              13
+            ],
+            [
+              2,
+              13
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..22",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ]
+            ],
+            [
+              [
+                0,
+                14
+              ],
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ],
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "V:c17:r2..3",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c14..14",
+          "carrier_ray": [
+            [
+              2,
+              15
+            ],
+            [
+              2,
+              16
+            ],
+            [
+              2,
+              17
+            ]
+          ],
+          "expected": 248,
+          "far_moving_coordinate": 17,
+          "k": 8,
+          "observed": 247,
+          "overlap": [
+            [
+              2,
+              17
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              17
+            ],
+            [
+              2,
+              17
+            ],
+            [
+              3,
+              17
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              15
+            ],
+            [
+              0,
+              16
+            ],
+            [
+              0,
+              17
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..25",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ],
+              [
+                0,
+                12
+              ],
+              [
+                0,
+                13
+              ],
+              [
+                0,
+                14
+              ]
+            ],
+            [
+              [
+                0,
+                18
+              ],
+              [
+                0,
+                19
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                0,
+                21
+              ],
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "V:c20:r2..3",
+          "blocker_translation": [
+            0,
+            1
+          ],
+          "carrier": "H:r2:c17..17",
+          "carrier_ray": [
+            [
+              2,
+              18
+            ],
+            [
+              2,
+              19
+            ],
+            [
+              2,
+              20
+            ],
+            [
+              2,
+              21
+            ]
+          ],
+          "expected": 306,
+          "far_moving_coordinate": 21,
+          "k": 9,
+          "observed": 303,
+          "overlap": [
+            [
+              2,
+              21
+            ],
+            [
+              3,
+              21
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              1,
+              21
+            ],
+            [
+              2,
+              21
+            ],
+            [
+              3,
+              21
+            ],
+            [
+              4,
+              21
+            ]
+          ],
+          "perpendicular_direction": 1,
+          "removed_spine_segment": [
+            [
+              0,
+              18
+            ],
+            [
+              0,
+              19
+            ],
+            [
+              0,
+              20
+            ],
+            [
+              0,
+              21
+            ]
+          ],
+          "side": "end",
+          "spine": "H:r0:c2..28",
+          "spine_pieces": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                0,
+                10
+              ],
+              [
+                0,
+                11
+              ],
+              [
+                0,
+                12
+              ],
+              [
+                0,
+                13
+              ],
+              [
+                0,
+                14
+              ],
+              [
+                0,
+                15
+              ],
+              [
+                0,
+                16
+              ],
+              [
+                0,
+                17
+              ]
+            ],
+            [
+              [
+                0,
+                22
+              ],
+              [
+                0,
+                23
+              ],
+              [
+                0,
+                24
+              ],
+              [
+                0,
+                25
+              ],
+              [
+                0,
+                26
+              ],
+              [
+                0,
+                27
+              ],
+              [
+                0,
+                28
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        }
+      ]
+    },
+    {
+      "blocker_parent_transports": false,
+      "coordinate_images_nest": [
+        false,
+        false
+      ],
+      "status": "obstructed",
+      "type": {
+        "blocker": "H:r12:c17..17",
+        "blocker_translation": [
+          1,
+          0
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "V:c17:r6..9",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              12,
+              18
+            ],
+            "blocker_parent_edge": [
+              "V:c19:r9..17",
+              "H:r12:c17..17"
+            ],
+            "carrier_spine_attachment": [
+              9,
+              18
+            ],
+            "carrier_spine_edge": [
+              "V:c17:r6..9",
+              "V:c19:r9..17"
+            ],
+            "k": 7,
+            "spine_parent": "V:c17:r6..9"
+          },
+          {
+            "blocker_attachment": [
+              15,
+              21
+            ],
+            "blocker_parent_edge": [
+              "V:c22:r9..20",
+              "H:r15:c20..20"
+            ],
+            "carrier_spine_attachment": [
+              9,
+              21
+            ],
+            "carrier_spine_edge": [
+              "V:c20:r6..9",
+              "V:c22:r9..20"
+            ],
+            "k": 8,
+            "spine_parent": "V:c20:r6..9"
+          },
+          {
+            "blocker_attachment": [
+              18,
+              24
+            ],
+            "blocker_parent_edge": [
+              "V:c25:r9..23",
+              "H:r18:c23..23"
+            ],
+            "carrier_spine_attachment": [
+              9,
+              24
+            ],
+            "carrier_spine_edge": [
+              "V:c23:r6..9",
+              "V:c25:r9..23"
+            ],
+            "k": 9,
+            "spine_parent": "V:c23:r6..9"
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 55,
+        "spine": "V:c19:r9..17",
+        "transported_blockers": [
+          "H:r12:c17..17",
+          "H:r15:c20..20",
+          "H:r18:c23..23"
+        ],
+        "transported_carriers": [
+          "V:c17:r6..9",
+          "V:c20:r6..9",
+          "V:c23:r6..9"
+        ],
+        "transported_spines": [
+          "V:c19:r9..17",
+          "V:c22:r9..20",
+          "V:c25:r9..23"
+        ]
+      },
+      "width_evaluations": [
+        {
+          "blocker": "H:r12:c17..17",
+          "blocker_translation": [
+            1,
+            0
+          ],
+          "carrier": "V:c17:r6..9",
+          "carrier_ray": [
+            [
+              10,
+              17
+            ],
+            [
+              11,
+              17
+            ]
+          ],
+          "expected": 196,
+          "far_moving_coordinate": 11,
+          "k": 7,
+          "observed": 195,
+          "overlap": [
+            [
+              11,
+              17
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              11,
+              17
+            ],
+            [
+              11,
+              18
+            ]
+          ],
+          "perpendicular_direction": -1,
+          "removed_spine_segment": [
+            [
+              10,
+              19
+            ],
+            [
+              11,
+              19
+            ]
+          ],
+          "side": "end",
+          "spine": "V:c19:r9..17",
+          "spine_pieces": [
+            [
+              [
+                9,
+                19
+              ]
+            ],
+            [
+              [
+                12,
+                19
+              ],
+              [
+                13,
+                19
+              ],
+              [
+                14,
+                19
+              ],
+              [
+                15,
+                19
+              ],
+              [
+                16,
+                19
+              ],
+              [
+                17,
+                19
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r15:c20..20",
+          "blocker_translation": [
+            1,
+            0
+          ],
+          "carrier": "V:c20:r6..9",
+          "carrier_ray": [
+            [
+              10,
+              20
+            ],
+            [
+              11,
+              20
+            ],
+            [
+              12,
+              20
+            ]
+          ],
+          "expected": 248,
+          "far_moving_coordinate": 12,
+          "k": 8,
+          "observed": 246,
+          "overlap": [
+            [
+              12,
+              20
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              12,
+              19
+            ],
+            [
+              12,
+              20
+            ],
+            [
+              12,
+              21
+            ]
+          ],
+          "perpendicular_direction": -1,
+          "removed_spine_segment": [
+            [
+              10,
+              22
+            ],
+            [
+              11,
+              22
+            ],
+            [
+              12,
+              22
+            ]
+          ],
+          "side": "end",
+          "spine": "V:c22:r9..20",
+          "spine_pieces": [
+            [
+              [
+                9,
+                22
+              ]
+            ],
+            [
+              [
+                13,
+                22
+              ],
+              [
+                14,
+                22
+              ],
+              [
+                15,
+                22
+              ],
+              [
+                16,
+                22
+              ],
+              [
+                17,
+                22
+              ],
+              [
+                18,
+                22
+              ],
+              [
+                19,
+                22
+              ],
+              [
+                20,
+                22
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        },
+        {
+          "blocker": "H:r18:c23..23",
+          "blocker_translation": [
+            1,
+            0
+          ],
+          "carrier": "V:c23:r6..9",
+          "carrier_ray": [
+            [
+              10,
+              23
+            ],
+            [
+              11,
+              23
+            ],
+            [
+              12,
+              23
+            ],
+            [
+              13,
+              23
+            ]
+          ],
+          "expected": 306,
+          "far_moving_coordinate": 13,
+          "k": 9,
+          "observed": 303,
+          "overlap": [
+            [
+              12,
+              23
+            ],
+            [
+              13,
+              21
+            ],
+            [
+              13,
+              23
+            ]
+          ],
+          "perpendicular_bypass": [
+            [
+              13,
+              21
+            ],
+            [
+              13,
+              22
+            ],
+            [
+              13,
+              23
+            ],
+            [
+              13,
+              24
+            ]
+          ],
+          "perpendicular_direction": -1,
+          "removed_spine_segment": [
+            [
+              10,
+              25
+            ],
+            [
+              11,
+              25
+            ],
+            [
+              12,
+              25
+            ],
+            [
+              13,
+              25
+            ]
+          ],
+          "side": "end",
+          "spine": "V:c25:r9..23",
+          "spine_pieces": [
+            [
+              [
+                9,
+                25
+              ]
+            ],
+            [
+              [
+                14,
+                25
+              ],
+              [
+                15,
+                25
+              ],
+              [
+                16,
+                25
+              ],
+              [
+                17,
+                25
+              ],
+              [
+                18,
+                25
+              ],
+              [
+                19,
+                25
+              ],
+              [
+                20,
+                25
+              ],
+              [
+                21,
+                25
+              ],
+              [
+                22,
+                25
+              ],
+              [
+                23,
+                25
+              ]
+            ]
+          ],
+          "status": "wrong_target_count_due_to_overlap"
+        }
+      ]
+    }
+  ],
+  "checker": "residue_two_nonleaf_spine_bypass_census",
+  "grammar": {
+    "bypass": "equal length, far endpoint, perpendicular toward carrier",
+    "chain_count": 5,
+    "choices_per_witness": 1,
+    "other_edits": "none",
+    "source_nonleaf_witnesses": 5,
+    "split": "carrier-ray orthogonal projection on named spine"
+  },
+  "next_topology": {
+    "count": "spine relocation 0; blocker translation 0; two connector leaves must be paid by shortening the bypass by two; carrier remains +1 per step",
+    "name": "offset spine bypass",
+    "specification": "retain the same projected spine split, but place the equal-length bypass one additional lattice layer away so it meets carrier and far spine only through two short singleton connector leaves"
+  },
+  "schema": "grid-graphs.residue-two-nonleaf-spine-bypass-census.v1",
+  "source_artifact": "residue_two_two_leaf_hinge_census.json",
+  "status": "complete_nonleaf_spine_bypass_obstruction",
+  "survivors": [],
+  "terminal_histogram": {
+    "wrong_target_count_due_to_overlap": 5
+  },
+  "types": [
+    {
+      "blocker": "H:r2:c8..8",
+      "blocker_translation": [
+        0,
+        1
+      ],
+      "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+      "carrier": "H:r2:c5..5",
+      "declared_singleton_owners": [
+        "alpha_k(near spine, carrier): retained old owner",
+        "beta_k(carrier, bypass)",
+        "gamma_k(bypass, far spine)",
+        "delta_k(translated blocker, replacement parent)"
+      ],
+      "old_interfaces": [
+        {
+          "blocker_attachment": [
+            1,
+            8
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..22",
+            "H:r2:c8..8"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            5
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c5..5",
+            "H:r0:c2..22"
+          ],
+          "k": 7,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            11
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..25",
+            "H:r2:c11..11"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            8
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c8..8",
+            "H:r0:c2..25"
+          ],
+          "k": 8,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            14
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..28",
+            "H:r2:c14..14"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            11
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c11..11",
+            "H:r0:c2..28"
+          ],
+          "k": 9,
+          "spine_parent": null
+        }
+      ],
+      "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+      "side": "end",
+      "source_chain_index": 2,
+      "spine": "H:r0:c2..22",
+      "transported_blockers": [
+        "H:r2:c8..8",
+        "H:r2:c11..11",
+        "H:r2:c14..14"
+      ],
+      "transported_carriers": [
+        "H:r2:c5..5",
+        "H:r2:c8..8",
+        "H:r2:c11..11"
+      ],
+      "transported_spines": [
+        "H:r0:c2..22",
+        "H:r0:c2..25",
+        "H:r0:c2..28"
+      ]
+    },
+    {
+      "blocker": "H:r2:c11..11",
+      "blocker_translation": [
+        0,
+        1
+      ],
+      "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+      "carrier": "H:r2:c8..8",
+      "declared_singleton_owners": [
+        "alpha_k(near spine, carrier): retained old owner",
+        "beta_k(carrier, bypass)",
+        "gamma_k(bypass, far spine)",
+        "delta_k(translated blocker, replacement parent)"
+      ],
+      "old_interfaces": [
+        {
+          "blocker_attachment": [
+            1,
+            11
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..22",
+            "H:r2:c11..11"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            8
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c8..8",
+            "H:r0:c2..22"
+          ],
+          "k": 7,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            14
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..25",
+            "H:r2:c14..14"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            11
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c11..11",
+            "H:r0:c2..25"
+          ],
+          "k": 8,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            17
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..28",
+            "H:r2:c17..17"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            14
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c14..14",
+            "H:r0:c2..28"
+          ],
+          "k": 9,
+          "spine_parent": null
+        }
+      ],
+      "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+      "side": "end",
+      "source_chain_index": 10,
+      "spine": "H:r0:c2..22",
+      "transported_blockers": [
+        "H:r2:c11..11",
+        "H:r2:c14..14",
+        "H:r2:c17..17"
+      ],
+      "transported_carriers": [
+        "H:r2:c8..8",
+        "H:r2:c11..11",
+        "H:r2:c14..14"
+      ],
+      "transported_spines": [
+        "H:r0:c2..22",
+        "H:r0:c2..25",
+        "H:r0:c2..28"
+      ]
+    },
+    {
+      "blocker": "H:r2:c8..8",
+      "blocker_translation": [
+        0,
+        -1
+      ],
+      "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+      "carrier": "H:r2:c11..11",
+      "declared_singleton_owners": [
+        "alpha_k(near spine, carrier): retained old owner",
+        "beta_k(carrier, bypass)",
+        "gamma_k(bypass, far spine)",
+        "delta_k(translated blocker, replacement parent)"
+      ],
+      "old_interfaces": [
+        {
+          "blocker_attachment": [
+            1,
+            8
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..22",
+            "H:r2:c8..8"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            11
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c11..11",
+            "H:r0:c2..22"
+          ],
+          "k": 7,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            11
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..25",
+            "H:r2:c11..11"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            14
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c14..14",
+            "H:r0:c2..25"
+          ],
+          "k": 8,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            14
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..28",
+            "H:r2:c14..14"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            17
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c17..17",
+            "H:r0:c2..28"
+          ],
+          "k": 9,
+          "spine_parent": null
+        }
+      ],
+      "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+      "side": "start",
+      "source_chain_index": 13,
+      "spine": "H:r0:c2..22",
+      "transported_blockers": [
+        "H:r2:c8..8",
+        "H:r2:c11..11",
+        "H:r2:c14..14"
+      ],
+      "transported_carriers": [
+        "H:r2:c11..11",
+        "H:r2:c14..14",
+        "H:r2:c17..17"
+      ],
+      "transported_spines": [
+        "H:r0:c2..22",
+        "H:r0:c2..25",
+        "H:r0:c2..28"
+      ]
+    },
+    {
+      "blocker": "V:c14:r2..3",
+      "blocker_translation": [
+        0,
+        1
+      ],
+      "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+      "carrier": "H:r2:c11..11",
+      "declared_singleton_owners": [
+        "alpha_k(near spine, carrier): retained old owner",
+        "beta_k(carrier, bypass)",
+        "gamma_k(bypass, far spine)",
+        "delta_k(translated blocker, replacement parent)"
+      ],
+      "old_interfaces": [
+        {
+          "blocker_attachment": [
+            1,
+            14
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..22",
+            "V:c14:r2..3"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            11
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c11..11",
+            "H:r0:c2..22"
+          ],
+          "k": 7,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            17
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..25",
+            "V:c17:r2..3"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            14
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c14..14",
+            "H:r0:c2..25"
+          ],
+          "k": 8,
+          "spine_parent": null
+        },
+        {
+          "blocker_attachment": [
+            1,
+            20
+          ],
+          "blocker_parent_edge": [
+            "H:r0:c2..28",
+            "V:c20:r2..3"
+          ],
+          "carrier_spine_attachment": [
+            1,
+            17
+          ],
+          "carrier_spine_edge": [
+            "H:r2:c17..17",
+            "H:r0:c2..28"
+          ],
+          "k": 9,
+          "spine_parent": null
+        }
+      ],
+      "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+      "side": "end",
+      "source_chain_index": 18,
+      "spine": "H:r0:c2..22",
+      "transported_blockers": [
+        "V:c14:r2..3",
+        "V:c17:r2..3",
+        "V:c20:r2..3"
+      ],
+      "transported_carriers": [
+        "H:r2:c11..11",
+        "H:r2:c14..14",
+        "H:r2:c17..17"
+      ],
+      "transported_spines": [
+        "H:r0:c2..22",
+        "H:r0:c2..25",
+        "H:r0:c2..28"
+      ]
+    },
+    {
+      "blocker": "H:r12:c17..17",
+      "blocker_translation": [
+        1,
+        0
+      ],
+      "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+      "carrier": "V:c17:r6..9",
+      "declared_singleton_owners": [
+        "alpha_k(near spine, carrier): retained old owner",
+        "beta_k(carrier, bypass)",
+        "gamma_k(bypass, far spine)",
+        "delta_k(translated blocker, replacement parent)"
+      ],
+      "old_interfaces": [
+        {
+          "blocker_attachment": [
+            12,
+            18
+          ],
+          "blocker_parent_edge": [
+            "V:c19:r9..17",
+            "H:r12:c17..17"
+          ],
+          "carrier_spine_attachment": [
+            9,
+            18
+          ],
+          "carrier_spine_edge": [
+            "V:c17:r6..9",
+            "V:c19:r9..17"
+          ],
+          "k": 7,
+          "spine_parent": "V:c17:r6..9"
+        },
+        {
+          "blocker_attachment": [
+            15,
+            21
+          ],
+          "blocker_parent_edge": [
+            "V:c22:r9..20",
+            "H:r15:c20..20"
+          ],
+          "carrier_spine_attachment": [
+            9,
+            21
+          ],
+          "carrier_spine_edge": [
+            "V:c20:r6..9",
+            "V:c22:r9..20"
+          ],
+          "k": 8,
+          "spine_parent": "V:c20:r6..9"
+        },
+        {
+          "blocker_attachment": [
+            18,
+            24
+          ],
+          "blocker_parent_edge": [
+            "V:c25:r9..23",
+            "H:r18:c23..23"
+          ],
+          "carrier_spine_attachment": [
+            9,
+            24
+          ],
+          "carrier_spine_edge": [
+            "V:c23:r6..9",
+            "V:c25:r9..23"
+          ],
+          "k": 9,
+          "spine_parent": "V:c23:r6..9"
+        }
+      ],
+      "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+      "side": "end",
+      "source_chain_index": 55,
+      "spine": "V:c19:r9..17",
+      "transported_blockers": [
+        "H:r12:c17..17",
+        "H:r15:c20..20",
+        "H:r18:c23..23"
+      ],
+      "transported_carriers": [
+        "V:c17:r6..9",
+        "V:c20:r6..9",
+        "V:c23:r6..9"
+      ],
+      "transported_spines": [
+        "V:c19:r9..17",
+        "V:c22:r9..20",
+        "V:c25:r9..23"
+      ]
+    }
+  ],
+  "width_terminal_histograms": {
+    "7": {
+      "wrong_target_count_due_to_overlap": 5
+    },
+    "8": {
+      "wrong_target_count_due_to_overlap": 5
+    },
+    "9": {
+      "wrong_target_count_due_to_overlap": 5
+    }
+  }
+}

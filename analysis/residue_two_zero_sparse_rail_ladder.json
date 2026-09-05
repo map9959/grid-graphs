@@ -1,0 +1,235 @@
+{
+  "branch_decision": {
+    "continue_fixed_two_layer_zero_cap_splice": false,
+    "only_justified_relaxation": "a three-layer moving-seam exchange or deletion of another old interval, neither of which is a neighboring-residue two-frame cap splice",
+    "reason": "three successive exact grammars fail by linear-density parallel-star intersections; adding bounded leaves only moves the collision between two tracks"
+  },
+  "checker": "residue_two_zero_sparse_rail_ladder",
+  "grammar": {
+    "cap": "one of four sixteen-vertex caps",
+    "connector_masks": "select the phase-gap position on the new inner layer",
+    "hard_descriptor_bound": 576,
+    "old_layer_masks": "select the same complementary two positions",
+    "outer_masks": "omit phase gap; select complementary two positions",
+    "packet_capacity": 12,
+    "packet_count": "k-2",
+    "packet_gain": 10,
+    "phase_recurrence": "gap(t+1)=gap(t)+direction mod 3"
+  },
+  "k_values": [
+    7,
+    8,
+    9
+  ],
+  "records": [
+    {
+      "best_materialization": {
+        "checks": {
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_count_interface": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 40,
+        "descriptor": {
+          "bottom_direction": 1,
+          "bottom_phase": 2,
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_direction": 1,
+          "right_phase": 2
+        },
+        "forced_count": 196,
+        "forced_cycle_rank": 40,
+        "incidence_connected": false,
+        "incidence_links": 93,
+        "k": 7,
+        "maximum_star_intersection": 3,
+        "n": 23,
+        "replacement_count": 66,
+        "survives": false,
+        "target_count": 196,
+        "unit_cell_violation_count": 0
+      },
+      "checks": {
+        "all_components_straight": true,
+        "all_count_interfaces_stable": true,
+        "all_descriptors_enumerated": true,
+        "all_replacement_counts_exact": true,
+        "all_target_counts_exact": true,
+        "all_unit_cells_valid": true,
+        "hard_descriptor_bound": true,
+        "minimum_intersection_is_three": true,
+        "no_forced_forest_candidate": true,
+        "no_incidence_tree_candidate": true,
+        "no_singleton_intersection_candidate": true
+      },
+      "enumeration": {
+        "bottom_directions": 2,
+        "bottom_phases": 3,
+        "cap_masks": 4,
+        "hard_descriptor_bound": 576,
+        "materializations_checked": 576,
+        "orientations": 4,
+        "right_directions": 2,
+        "right_phases": 3
+      },
+      "k": 7,
+      "n": 23,
+      "obstruction": {
+        "minimum_forced_cycle_rank": 40,
+        "minimum_star_intersection": 3,
+        "survivors": 0,
+        "track_capacity": "three auxiliary vertices per arm occupy two inner tracks"
+      },
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_materialization": {
+        "checks": {
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_count_interface": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 49,
+        "descriptor": {
+          "bottom_direction": 1,
+          "bottom_phase": 1,
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_direction": 1,
+          "right_phase": 1
+        },
+        "forced_count": 248,
+        "forced_cycle_rank": 50,
+        "incidence_connected": false,
+        "incidence_links": 119,
+        "k": 8,
+        "maximum_star_intersection": 3,
+        "n": 26,
+        "replacement_count": 76,
+        "survives": false,
+        "target_count": 248,
+        "unit_cell_violation_count": 0
+      },
+      "checks": {
+        "all_components_straight": true,
+        "all_count_interfaces_stable": true,
+        "all_descriptors_enumerated": true,
+        "all_replacement_counts_exact": true,
+        "all_target_counts_exact": true,
+        "all_unit_cells_valid": true,
+        "hard_descriptor_bound": true,
+        "minimum_intersection_is_three": true,
+        "no_forced_forest_candidate": true,
+        "no_incidence_tree_candidate": true,
+        "no_singleton_intersection_candidate": true
+      },
+      "enumeration": {
+        "bottom_directions": 2,
+        "bottom_phases": 3,
+        "cap_masks": 4,
+        "hard_descriptor_bound": 576,
+        "materializations_checked": 576,
+        "orientations": 4,
+        "right_directions": 2,
+        "right_phases": 3
+      },
+      "k": 8,
+      "n": 26,
+      "obstruction": {
+        "minimum_forced_cycle_rank": 50,
+        "minimum_star_intersection": 3,
+        "survivors": 0,
+        "track_capacity": "three auxiliary vertices per arm occupy two inner tracks"
+      },
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_materialization": {
+        "checks": {
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_count_interface": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 56,
+        "descriptor": {
+          "bottom_direction": 1,
+          "bottom_phase": 0,
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_direction": 1,
+          "right_phase": 0
+        },
+        "forced_count": 306,
+        "forced_cycle_rank": 58,
+        "incidence_connected": false,
+        "incidence_links": 138,
+        "k": 9,
+        "maximum_star_intersection": 3,
+        "n": 29,
+        "replacement_count": 86,
+        "survives": false,
+        "target_count": 306,
+        "unit_cell_violation_count": 0
+      },
+      "checks": {
+        "all_components_straight": true,
+        "all_count_interfaces_stable": true,
+        "all_descriptors_enumerated": true,
+        "all_replacement_counts_exact": true,
+        "all_target_counts_exact": true,
+        "all_unit_cells_valid": true,
+        "hard_descriptor_bound": true,
+        "minimum_intersection_is_three": true,
+        "no_forced_forest_candidate": true,
+        "no_incidence_tree_candidate": true,
+        "no_singleton_intersection_candidate": true
+      },
+      "enumeration": {
+        "bottom_directions": 2,
+        "bottom_phases": 3,
+        "cap_masks": 4,
+        "hard_descriptor_bound": 576,
+        "materializations_checked": 576,
+        "orientations": 4,
+        "right_directions": 2,
+        "right_phases": 3
+      },
+      "k": 9,
+      "n": 29,
+      "obstruction": {
+        "minimum_forced_cycle_rank": 58,
+        "minimum_star_intersection": 3,
+        "survivors": 0,
+        "track_capacity": "three auxiliary vertices per arm occupy two inner tracks"
+      },
+      "status": "complete_grammar_obstruction"
+    }
+  ],
+  "schema": "grid-graphs.residue-two-zero-sparse-rail-ladder.v1",
+  "status": "complete_grammar_obstruction",
+  "symbolic_obstruction": {
+    "minimum_star_intersection": 3,
+    "reason": "the outer and old-layer complementary masks create parallel runs while the gap connector adds a third competing attachment",
+    "stable_count_gain": 10,
+    "stable_topology": false
+  }
+}

@@ -1,0 +1,7920 @@
+{
+  "best_path": {
+    "column_phase": 2,
+    "formulas": {
+      "cap": "8k + 1",
+      "seam": "-2k + 1",
+      "total": "3k^2 + 6k + 2"
+    },
+    "packet": [
+      2,
+      1,
+      0
+    ],
+    "records": [
+      {
+        "bulk_domain_baseline": 147,
+        "cap": {
+          "accepting_word": "1111111111111111111111100100100100100100100001001001001001001001001111111111111111111110",
+          "core_component_count": 41,
+          "forced_forest": true,
+          "maximum": 57,
+          "state_count_maximum": 31,
+          "witness": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ],
+            [
+              0,
+              11
+            ],
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              15
+            ],
+            [
+              0,
+              16
+            ],
+            [
+              0,
+              17
+            ],
+            [
+              0,
+              18
+            ],
+            [
+              0,
+              19
+            ],
+            [
+              0,
+              20
+            ],
+            [
+              0,
+              21
+            ],
+            [
+              0,
+              22
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              22
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              22
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              22
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              12,
+              22
+            ],
+            [
+              13,
+              0
+            ],
+            [
+              14,
+              0
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              15,
+              22
+            ],
+            [
+              16,
+              0
+            ],
+            [
+              17,
+              0
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              18,
+              22
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              21,
+              0
+            ],
+            [
+              22,
+              0
+            ],
+            [
+              22,
+              3
+            ],
+            [
+              22,
+              6
+            ],
+            [
+              22,
+              9
+            ],
+            [
+              22,
+              12
+            ],
+            [
+              22,
+              15
+            ],
+            [
+              22,
+              18
+            ],
+            [
+              22,
+              21
+            ]
+          ]
+        },
+        "core_count": 134,
+        "k": 7,
+        "n": 23,
+        "seam_count": -13,
+        "target": 196,
+        "total": 191
+      },
+      {
+        "bulk_domain_baseline": 192,
+        "cap": {
+          "accepting_word": "1111111111111111111111111100100100100100100100100001001001001001001001001001111111111111111111111110",
+          "core_component_count": 47,
+          "forced_forest": true,
+          "maximum": 65,
+          "state_count_maximum": 31,
+          "witness": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ],
+            [
+              0,
+              11
+            ],
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              15
+            ],
+            [
+              0,
+              16
+            ],
+            [
+              0,
+              17
+            ],
+            [
+              0,
+              18
+            ],
+            [
+              0,
+              19
+            ],
+            [
+              0,
+              20
+            ],
+            [
+              0,
+              21
+            ],
+            [
+              0,
+              22
+            ],
+            [
+              0,
+              23
+            ],
+            [
+              0,
+              24
+            ],
+            [
+              0,
+              25
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              25
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              25
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              25
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              12,
+              25
+            ],
+            [
+              13,
+              0
+            ],
+            [
+              14,
+              0
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              15,
+              25
+            ],
+            [
+              16,
+              0
+            ],
+            [
+              17,
+              0
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              18,
+              25
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              21,
+              0
+            ],
+            [
+              21,
+              25
+            ],
+            [
+              22,
+              0
+            ],
+            [
+              23,
+              0
+            ],
+            [
+              24,
+              0
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              25,
+              3
+            ],
+            [
+              25,
+              6
+            ],
+            [
+              25,
+              9
+            ],
+            [
+              25,
+              12
+            ],
+            [
+              25,
+              15
+            ],
+            [
+              25,
+              18
+            ],
+            [
+              25,
+              21
+            ],
+            [
+              25,
+              24
+            ]
+          ]
+        },
+        "core_count": 177,
+        "k": 8,
+        "n": 26,
+        "seam_count": -15,
+        "target": 248,
+        "total": 242
+      },
+      {
+        "bulk_domain_baseline": 243,
+        "cap": {
+          "accepting_word": "1111111111111111111111111111100100100100100100100100100001001001001001001001001001001111111111111111111111111110",
+          "core_component_count": 53,
+          "forced_forest": true,
+          "maximum": 73,
+          "state_count_maximum": 31,
+          "witness": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ],
+            [
+              0,
+              11
+            ],
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              15
+            ],
+            [
+              0,
+              16
+            ],
+            [
+              0,
+              17
+            ],
+            [
+              0,
+              18
+            ],
+            [
+              0,
+              19
+            ],
+            [
+              0,
+              20
+            ],
+            [
+              0,
+              21
+            ],
+            [
+              0,
+              22
+            ],
+            [
+              0,
+              23
+            ],
+            [
+              0,
+              24
+            ],
+            [
+              0,
+              25
+            ],
+            [
+              0,
+              26
+            ],
+            [
+              0,
+              27
+            ],
+            [
+              0,
+              28
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              28
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              28
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              28
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              12,
+              28
+            ],
+            [
+              13,
+              0
+            ],
+            [
+              14,
+              0
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              15,
+              28
+            ],
+            [
+              16,
+              0
+            ],
+            [
+              17,
+              0
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              18,
+              28
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              21,
+              0
+            ],
+            [
+              21,
+              28
+            ],
+            [
+              22,
+              0
+            ],
+            [
+              23,
+              0
+            ],
+            [
+              24,
+              0
+            ],
+            [
+              24,
+              28
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              26,
+              0
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              28,
+              0
+            ],
+            [
+              28,
+              3
+            ],
+            [
+              28,
+              6
+            ],
+            [
+              28,
+              9
+            ],
+            [
+              28,
+              12
+            ],
+            [
+              28,
+              15
+            ],
+            [
+              28,
+              18
+            ],
+            [
+              28,
+              21
+            ],
+            [
+              28,
+              24
+            ],
+            [
+              28,
+              27
+            ]
+          ]
+        },
+        "core_count": 226,
+        "k": 9,
+        "n": 29,
+        "seam_count": -17,
+        "target": 306,
+        "total": 299
+      }
+    ],
+    "row_phase": 2,
+    "start": 0
+  },
+  "cap_automaton": {
+    "edges": "perimeter edge iff either endpoint is preserved; inward edge iff its boundary or core endpoint is preserved",
+    "rejection": "a union within one partition block, including final perimeter closure",
+    "state": "core-component partition plus first/current perimeter vertices and previous occupancy",
+    "weight": "one per occupied boundary vertex"
+  },
+  "checks": {
+    "all_exported_caps_are_forced_forests": true,
+    "all_phase_pairs_have_eleven_local_packet_paths": true,
+    "k_7_8_9_classified": true,
+    "target_decision_complete_for_grammar": true
+  },
+  "classification": [
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 6k + 2"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 31
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 191
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 31
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 242
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 31
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 299
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 6k + 2"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 31
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 191
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 31
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 242
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 31
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 299
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 6k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 31
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 191
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 31
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 242
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 31
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 299
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 6k + 2"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 31
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 191
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 31
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 242
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 31
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 299
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-3k + 2",
+        "total": "3k^2 + 5k + 3"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 59,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 31
+          },
+          "core_count": 128,
+          "k": 7,
+          "n": 23,
+          "seam_count": -19,
+          "target": 196,
+          "total": 185
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 68,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 31
+          },
+          "core_count": 170,
+          "k": 8,
+          "n": 26,
+          "seam_count": -22,
+          "target": 248,
+          "total": 235
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 77,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 31
+          },
+          "core_count": 218,
+          "k": 9,
+          "n": 29,
+          "seam_count": -25,
+          "target": 306,
+          "total": 291
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-3k + 2",
+        "total": "3k^2 + 5k + 3"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 59,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 31
+          },
+          "core_count": 128,
+          "k": 7,
+          "n": 23,
+          "seam_count": -19,
+          "target": 196,
+          "total": 185
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 68,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 31
+          },
+          "core_count": 170,
+          "k": 8,
+          "n": 26,
+          "seam_count": -22,
+          "target": 248,
+          "total": 235
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 77,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 31
+          },
+          "core_count": 218,
+          "k": 9,
+          "n": 29,
+          "seam_count": -25,
+          "target": 306,
+          "total": 291
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-3k + 2",
+        "total": "3k^2 + 5k + 3"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 59,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 31
+          },
+          "core_count": 128,
+          "k": 7,
+          "n": 23,
+          "seam_count": -19,
+          "target": 196,
+          "total": 185
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 68,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 31
+          },
+          "core_count": 170,
+          "k": 8,
+          "n": 26,
+          "seam_count": -22,
+          "target": 248,
+          "total": 235
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 77,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 31
+          },
+          "core_count": 218,
+          "k": 9,
+          "n": 29,
+          "seam_count": -25,
+          "target": 306,
+          "total": 291
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 6
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 6
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 6
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 6
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 6
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 6
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 6
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 6
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 6
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 6
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 6
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 6
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-k",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 24
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 24
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 24
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-k",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 24
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 24
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 24
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 1",
+        "seam": "-k + 1",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 43,
+            "state_count_maximum": 12
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 12
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 55,
+            "state_count_maximum": 12
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 1",
+        "seam": "-k + 1",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 43,
+            "state_count_maximum": 12
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 12
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 55,
+            "state_count_maximum": 12
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 24
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 24
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 24
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 24
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 24
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 24
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 24
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 24
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 24
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "0",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 24
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 24
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 24
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-k",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 25
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 25
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 25
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-k",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 25
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 25
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 25
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-3k + 1",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 61,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 14
+          },
+          "core_count": 127,
+          "k": 7,
+          "n": 23,
+          "seam_count": -20,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 70,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 14
+          },
+          "core_count": 169,
+          "k": 8,
+          "n": 26,
+          "seam_count": -23,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 79,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 14
+          },
+          "core_count": 217,
+          "k": 9,
+          "n": 29,
+          "seam_count": -26,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-3k + 1",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 61,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 14
+          },
+          "core_count": 127,
+          "k": 7,
+          "n": 23,
+          "seam_count": -20,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 70,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 14
+          },
+          "core_count": 169,
+          "k": 8,
+          "n": 26,
+          "seam_count": -23,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 79,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 14
+          },
+          "core_count": 217,
+          "k": 9,
+          "n": 29,
+          "seam_count": -26,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-3k + 1",
+        "total": "3k^2 + 5k + 2"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 61,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 14
+          },
+          "core_count": 127,
+          "k": 7,
+          "n": 23,
+          "seam_count": -20,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 70,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 14
+          },
+          "core_count": 169,
+          "k": 8,
+          "n": 26,
+          "seam_count": -23,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 79,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 14
+          },
+          "core_count": 217,
+          "k": 9,
+          "n": 29,
+          "seam_count": -26,
+          "target": 306,
+          "total": 290
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k",
+        "seam": "-k + 1",
+        "total": "3k^2 + 5k + 1"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 24
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 183
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 48,
+            "state_count_maximum": 24
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 233
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 54,
+            "state_count_maximum": 24
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 289
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k",
+        "seam": "-k + 1",
+        "total": "3k^2 + 5k + 1"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 24
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 183
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 48,
+            "state_count_maximum": 24
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 233
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 54,
+            "state_count_maximum": 24
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 289
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-k + 1",
+        "total": "3k^2 + 4k + 5"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 49
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 180
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 49
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 229
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 49
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 284
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-k + 1",
+        "total": "3k^2 + 4k + 5"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 49
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 180
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 49
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 229
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 49
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 284
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-k + 1",
+        "total": "3k^2 + 4k + 5"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 49
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 180
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 49
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 229
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 49
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 284
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-k",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 6
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 6
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 6
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-k",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 6
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 6
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 6
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-k",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 6
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 6
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 6
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 4",
+        "seam": "-2k",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 42,
+            "forced_forest": true,
+            "maximum": 46,
+            "state_count_maximum": 16
+          },
+          "core_count": 133,
+          "k": 7,
+          "n": 23,
+          "seam_count": -14,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 48,
+            "forced_forest": true,
+            "maximum": 52,
+            "state_count_maximum": 16
+          },
+          "core_count": 176,
+          "k": 8,
+          "n": 26,
+          "seam_count": -16,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 54,
+            "forced_forest": true,
+            "maximum": 58,
+            "state_count_maximum": 16
+          },
+          "core_count": 225,
+          "k": 9,
+          "n": 29,
+          "seam_count": -18,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 3",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 45,
+            "state_count_maximum": 16
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 51,
+            "state_count_maximum": 16
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 16
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 4",
+        "seam": "-2k",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 42,
+            "forced_forest": true,
+            "maximum": 46,
+            "state_count_maximum": 16
+          },
+          "core_count": 133,
+          "k": 7,
+          "n": 23,
+          "seam_count": -14,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 48,
+            "forced_forest": true,
+            "maximum": 52,
+            "state_count_maximum": 16
+          },
+          "core_count": 176,
+          "k": 8,
+          "n": 26,
+          "seam_count": -16,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 54,
+            "forced_forest": true,
+            "maximum": 58,
+            "state_count_maximum": 16
+          },
+          "core_count": 225,
+          "k": 9,
+          "n": 29,
+          "seam_count": -18,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 3",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 45,
+            "state_count_maximum": 16
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 51,
+            "state_count_maximum": 16
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 16
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 3",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 45,
+            "state_count_maximum": 16
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 51,
+            "state_count_maximum": 16
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 16
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-2k + 2",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 20
+          },
+          "core_count": 135,
+          "k": 7,
+          "n": 23,
+          "seam_count": -12,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 20
+          },
+          "core_count": 178,
+          "k": 8,
+          "n": 26,
+          "seam_count": -14,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 20
+          },
+          "core_count": 227,
+          "k": 9,
+          "n": 29,
+          "seam_count": -16,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 4",
+        "seam": "-2k",
+        "total": "3k^2 + 4k + 4"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 42,
+            "forced_forest": true,
+            "maximum": 46,
+            "state_count_maximum": 28
+          },
+          "core_count": 133,
+          "k": 7,
+          "n": 23,
+          "seam_count": -14,
+          "target": 196,
+          "total": 179
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 48,
+            "forced_forest": true,
+            "maximum": 52,
+            "state_count_maximum": 28
+          },
+          "core_count": 176,
+          "k": 8,
+          "n": 26,
+          "seam_count": -16,
+          "target": 248,
+          "total": 228
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 54,
+            "forced_forest": true,
+            "maximum": 58,
+            "state_count_maximum": 28
+          },
+          "core_count": 225,
+          "k": 9,
+          "n": 29,
+          "seam_count": -18,
+          "target": 306,
+          "total": 283
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "-k + 1",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 21
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 21
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 21
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "-k + 1",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 21
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 21
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 21
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "-k + 1",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 21
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 21
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 21
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 39,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 28
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 45,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 28
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 51,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 28
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 39,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 28
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 45,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 28
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 51,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 28
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 2",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 39,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 28
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 45,
+            "forced_forest": true,
+            "maximum": 50,
+            "state_count_maximum": 28
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 51,
+            "forced_forest": true,
+            "maximum": 56,
+            "state_count_maximum": 28
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 1",
+        "seam": "-2k + 2",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 37,
+            "forced_forest": true,
+            "maximum": 43,
+            "state_count_maximum": 24
+          },
+          "core_count": 135,
+          "k": 7,
+          "n": 23,
+          "seam_count": -12,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 43,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 24
+          },
+          "core_count": 178,
+          "k": 8,
+          "n": 26,
+          "seam_count": -14,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 49,
+            "forced_forest": true,
+            "maximum": 55,
+            "state_count_maximum": 24
+          },
+          "core_count": 227,
+          "k": 9,
+          "n": 29,
+          "seam_count": -16,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 1",
+        "seam": "-2k + 2",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 37,
+            "forced_forest": true,
+            "maximum": 43,
+            "state_count_maximum": 24
+          },
+          "core_count": 135,
+          "k": 7,
+          "n": 23,
+          "seam_count": -12,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 43,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 24
+          },
+          "core_count": 178,
+          "k": 8,
+          "n": 26,
+          "seam_count": -14,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 49,
+            "forced_forest": true,
+            "maximum": 55,
+            "state_count_maximum": 24
+          },
+          "core_count": 227,
+          "k": 9,
+          "n": 29,
+          "seam_count": -16,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "8k + 1",
+        "seam": "-4k + 2",
+        "total": "3k^2 + 4k + 3"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 79,
+            "forced_forest": true,
+            "maximum": 57,
+            "state_count_maximum": 14
+          },
+          "core_count": 121,
+          "k": 7,
+          "n": 23,
+          "seam_count": -26,
+          "target": 196,
+          "total": 178
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 91,
+            "forced_forest": true,
+            "maximum": 65,
+            "state_count_maximum": 14
+          },
+          "core_count": 162,
+          "k": 8,
+          "n": 26,
+          "seam_count": -30,
+          "target": 248,
+          "total": 227
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 103,
+            "forced_forest": true,
+            "maximum": 73,
+            "state_count_maximum": 14
+          },
+          "core_count": 209,
+          "k": 9,
+          "n": 29,
+          "seam_count": -34,
+          "target": 306,
+          "total": 282
+        }
+      ],
+      "row_phase": 2,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 3",
+        "seam": "2k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 17,
+            "state_count_maximum": 12
+          },
+          "core_count": 160,
+          "k": 7,
+          "n": 23,
+          "seam_count": 13,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 12
+          },
+          "core_count": 207,
+          "k": 8,
+          "n": 26,
+          "seam_count": 15,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 12
+          },
+          "core_count": 260,
+          "k": 9,
+          "n": 29,
+          "seam_count": 17,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 3",
+        "seam": "2k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 17,
+            "state_count_maximum": 12
+          },
+          "core_count": 160,
+          "k": 7,
+          "n": 23,
+          "seam_count": 13,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 12
+          },
+          "core_count": 207,
+          "k": 8,
+          "n": 26,
+          "seam_count": 15,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 12
+          },
+          "core_count": 260,
+          "k": 9,
+          "n": 29,
+          "seam_count": 17,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 3",
+        "seam": "2k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 17,
+            "state_count_maximum": 12
+          },
+          "core_count": 160,
+          "k": 7,
+          "n": 23,
+          "seam_count": 13,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 12
+          },
+          "core_count": 207,
+          "k": 8,
+          "n": 26,
+          "seam_count": 15,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 12
+          },
+          "core_count": 260,
+          "k": 9,
+          "n": 29,
+          "seam_count": 17,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 3",
+        "seam": "2k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 17,
+            "state_count_maximum": 12
+          },
+          "core_count": 160,
+          "k": 7,
+          "n": 23,
+          "seam_count": 13,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 12
+          },
+          "core_count": 207,
+          "k": 8,
+          "n": 26,
+          "seam_count": 15,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 2,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 12
+          },
+          "core_count": 260,
+          "k": 9,
+          "n": 29,
+          "seam_count": 17,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 3",
+        "seam": "k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 24,
+            "state_count_maximum": 8
+          },
+          "core_count": 153,
+          "k": 7,
+          "n": 23,
+          "seam_count": 6,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 27,
+            "state_count_maximum": 8
+          },
+          "core_count": 199,
+          "k": 8,
+          "n": 26,
+          "seam_count": 7,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 251,
+          "k": 9,
+          "n": 29,
+          "seam_count": 8,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 3",
+        "seam": "k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 24,
+            "state_count_maximum": 8
+          },
+          "core_count": 153,
+          "k": 7,
+          "n": 23,
+          "seam_count": 6,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 27,
+            "state_count_maximum": 8
+          },
+          "core_count": 199,
+          "k": 8,
+          "n": 26,
+          "seam_count": 7,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 251,
+          "k": 9,
+          "n": 29,
+          "seam_count": 8,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 3",
+        "seam": "k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 24,
+            "state_count_maximum": 8
+          },
+          "core_count": 153,
+          "k": 7,
+          "n": 23,
+          "seam_count": 6,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 27,
+            "state_count_maximum": 8
+          },
+          "core_count": 199,
+          "k": 8,
+          "n": 26,
+          "seam_count": 7,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 251,
+          "k": 9,
+          "n": 29,
+          "seam_count": 8,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 3",
+        "seam": "k - 1",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        2,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 24,
+            "state_count_maximum": 8
+          },
+          "core_count": 153,
+          "k": 7,
+          "n": 23,
+          "seam_count": 6,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 27,
+            "state_count_maximum": 8
+          },
+          "core_count": 199,
+          "k": 8,
+          "n": 26,
+          "seam_count": 7,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 251,
+          "k": 9,
+          "n": 29,
+          "seam_count": 8,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "-k",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 8
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 8
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 8
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "-k",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 8
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 8
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 8
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 2",
+        "seam": "-k",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 8
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 42,
+            "state_count_maximum": 8
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 47,
+            "state_count_maximum": 8
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 2",
+        "seam": "k",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 8
+          },
+          "core_count": 154,
+          "k": 7,
+          "n": 23,
+          "seam_count": 7,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 8
+          },
+          "core_count": 200,
+          "k": 8,
+          "n": 26,
+          "seam_count": 8,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 8
+          },
+          "core_count": 252,
+          "k": 9,
+          "n": 29,
+          "seam_count": 9,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 2",
+        "seam": "k",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 8
+          },
+          "core_count": 154,
+          "k": 7,
+          "n": 23,
+          "seam_count": 7,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 8
+          },
+          "core_count": 200,
+          "k": 8,
+          "n": 26,
+          "seam_count": 8,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 8
+          },
+          "core_count": 252,
+          "k": 9,
+          "n": 29,
+          "seam_count": 9,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 2",
+        "seam": "k",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 8
+          },
+          "core_count": 154,
+          "k": 7,
+          "n": 23,
+          "seam_count": 7,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 8
+          },
+          "core_count": 200,
+          "k": 8,
+          "n": 26,
+          "seam_count": 8,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 8
+          },
+          "core_count": 252,
+          "k": 9,
+          "n": 29,
+          "seam_count": 9,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 2",
+        "seam": "k",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 8
+          },
+          "core_count": 154,
+          "k": 7,
+          "n": 23,
+          "seam_count": 7,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 8
+          },
+          "core_count": 200,
+          "k": 8,
+          "n": 26,
+          "seam_count": 8,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 8
+          },
+          "core_count": 252,
+          "k": 9,
+          "n": 29,
+          "seam_count": 9,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 2",
+        "seam": "0",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 34,
+            "state_count_maximum": 8
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 38,
+            "state_count_maximum": 8
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 2",
+        "seam": "0",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        1,
+        1,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 34,
+            "state_count_maximum": 8
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 38,
+            "state_count_maximum": 8
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 2",
+        "seam": "0",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 34,
+            "state_count_maximum": 8
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 38,
+            "state_count_maximum": 8
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 2",
+        "seam": "0",
+        "total": "3k^2 + 4k + 2"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 8
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 34,
+            "state_count_maximum": 8
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 1,
+            "forced_forest": true,
+            "maximum": 38,
+            "state_count_maximum": 8
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 281
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "6k + 4",
+        "seam": "-3k + 2",
+        "total": "3k^2 + 3k + 6"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 59,
+            "forced_forest": true,
+            "maximum": 46,
+            "state_count_maximum": 36
+          },
+          "core_count": 128,
+          "k": 7,
+          "n": 23,
+          "seam_count": -19,
+          "target": 196,
+          "total": 174
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 68,
+            "forced_forest": true,
+            "maximum": 52,
+            "state_count_maximum": 36
+          },
+          "core_count": 170,
+          "k": 8,
+          "n": 26,
+          "seam_count": -22,
+          "target": 248,
+          "total": 222
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 77,
+            "forced_forest": true,
+            "maximum": 58,
+            "state_count_maximum": 36
+          },
+          "core_count": 218,
+          "k": 9,
+          "n": 29,
+          "seam_count": -25,
+          "target": 306,
+          "total": 276
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-2k + 2",
+        "total": "3k^2 + 3k + 6"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 58,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 11
+          },
+          "core_count": 135,
+          "k": 7,
+          "n": 23,
+          "seam_count": -12,
+          "target": 196,
+          "total": 174
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 67,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 11
+          },
+          "core_count": 178,
+          "k": 8,
+          "n": 26,
+          "seam_count": -14,
+          "target": 248,
+          "total": 222
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 76,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 11
+          },
+          "core_count": 227,
+          "k": 9,
+          "n": 29,
+          "seam_count": -16,
+          "target": 306,
+          "total": 276
+        }
+      ],
+      "row_phase": 2,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 5",
+        "seam": "0",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 21
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 21
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 21
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 5",
+        "seam": "0",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 21
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 21
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 21
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 5",
+        "seam": "0",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 21
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 21
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 21
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 5",
+        "seam": "0",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 21
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 21
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 21
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 5",
+        "seam": "0",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 21
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 21
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 21
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 5",
+        "seam": "0",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 26,
+            "state_count_maximum": 21
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 29,
+            "state_count_maximum": 21
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 21
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 4",
+        "seam": "-k + 1",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 24
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 36,
+            "state_count_maximum": 24
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 40,
+            "state_count_maximum": 24
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "6k + 4",
+        "seam": "-3k + 1",
+        "total": "3k^2 + 3k + 5"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 60,
+            "forced_forest": true,
+            "maximum": 46,
+            "state_count_maximum": 14
+          },
+          "core_count": 127,
+          "k": 7,
+          "n": 23,
+          "seam_count": -20,
+          "target": 196,
+          "total": 173
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 69,
+            "forced_forest": true,
+            "maximum": 52,
+            "state_count_maximum": 14
+          },
+          "core_count": 169,
+          "k": 8,
+          "n": 26,
+          "seam_count": -23,
+          "target": 248,
+          "total": 221
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 78,
+            "forced_forest": true,
+            "maximum": 58,
+            "state_count_maximum": 14
+          },
+          "core_count": 217,
+          "k": 9,
+          "n": 29,
+          "seam_count": -26,
+          "target": 306,
+          "total": 275
+        }
+      ],
+      "row_phase": 2,
+      "start": 0
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 5",
+        "seam": "k - 1",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 14
+          },
+          "core_count": 153,
+          "k": 7,
+          "n": 23,
+          "seam_count": 6,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 14
+          },
+          "core_count": 199,
+          "k": 8,
+          "n": 26,
+          "seam_count": 7,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 14
+          },
+          "core_count": 251,
+          "k": 9,
+          "n": 29,
+          "seam_count": 8,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 5",
+        "seam": "k - 1",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 14
+          },
+          "core_count": 153,
+          "k": 7,
+          "n": 23,
+          "seam_count": 6,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 14
+          },
+          "core_count": 199,
+          "k": 8,
+          "n": 26,
+          "seam_count": 7,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 14
+          },
+          "core_count": 251,
+          "k": 9,
+          "n": 29,
+          "seam_count": 8,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 5",
+        "seam": "k - 1",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 14
+          },
+          "core_count": 153,
+          "k": 7,
+          "n": 23,
+          "seam_count": 6,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 14
+          },
+          "core_count": 199,
+          "k": 8,
+          "n": 26,
+          "seam_count": 7,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 28,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 14
+          },
+          "core_count": 251,
+          "k": 9,
+          "n": 29,
+          "seam_count": 8,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 4",
+        "seam": "0",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 25,
+            "state_count_maximum": 14
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 28,
+            "state_count_maximum": 14
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 31,
+            "state_count_maximum": 14
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 4",
+        "seam": "0",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 25,
+            "state_count_maximum": 14
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 28,
+            "state_count_maximum": 14
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 31,
+            "state_count_maximum": 14
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 4",
+        "seam": "0",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 25,
+            "state_count_maximum": 14
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 28,
+            "state_count_maximum": 14
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 31,
+            "state_count_maximum": 14
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    },
+    {
+      "column_phase": 2,
+      "formulas": {
+        "cap": "5k + 4",
+        "seam": "-2k",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 61,
+            "forced_forest": true,
+            "maximum": 39,
+            "state_count_maximum": 8
+          },
+          "core_count": 133,
+          "k": 7,
+          "n": 23,
+          "seam_count": -14,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 70,
+            "forced_forest": true,
+            "maximum": 44,
+            "state_count_maximum": 8
+          },
+          "core_count": 176,
+          "k": 8,
+          "n": 26,
+          "seam_count": -16,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 79,
+            "forced_forest": true,
+            "maximum": 49,
+            "state_count_maximum": 8
+          },
+          "core_count": 225,
+          "k": 9,
+          "n": 29,
+          "seam_count": -18,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 4",
+        "seam": "-k",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 16
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 36,
+            "state_count_maximum": 16
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 40,
+            "state_count_maximum": 16
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 4",
+        "seam": "-k",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 28
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 36,
+            "state_count_maximum": 28
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 40,
+            "state_count_maximum": 28
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 4",
+        "seam": "-k",
+        "total": "3k^2 + 3k + 4"
+      },
+      "packet": [
+        2,
+        1,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 21,
+            "forced_forest": true,
+            "maximum": 32,
+            "state_count_maximum": 28
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 172
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 24,
+            "forced_forest": true,
+            "maximum": 36,
+            "state_count_maximum": 28
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 220
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 27,
+            "forced_forest": true,
+            "maximum": 40,
+            "state_count_maximum": 28
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 274
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 3",
+        "seam": "k",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 20,
+            "forced_forest": true,
+            "maximum": 17,
+            "state_count_maximum": 12
+          },
+          "core_count": 154,
+          "k": 7,
+          "n": 23,
+          "seam_count": 7,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 23,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 12
+          },
+          "core_count": 200,
+          "k": 8,
+          "n": 26,
+          "seam_count": 8,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 26,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 12
+          },
+          "core_count": 252,
+          "k": 9,
+          "n": 29,
+          "seam_count": 9,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 3",
+        "seam": "k",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 20,
+            "forced_forest": true,
+            "maximum": 17,
+            "state_count_maximum": 12
+          },
+          "core_count": 154,
+          "k": 7,
+          "n": 23,
+          "seam_count": 7,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 23,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 12
+          },
+          "core_count": 200,
+          "k": 8,
+          "n": 26,
+          "seam_count": 8,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 26,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 12
+          },
+          "core_count": 252,
+          "k": 9,
+          "n": 29,
+          "seam_count": 9,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 3",
+        "seam": "k",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 20,
+            "forced_forest": true,
+            "maximum": 17,
+            "state_count_maximum": 12
+          },
+          "core_count": 154,
+          "k": 7,
+          "n": 23,
+          "seam_count": 7,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 23,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 12
+          },
+          "core_count": 200,
+          "k": 8,
+          "n": 26,
+          "seam_count": 8,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 26,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 12
+          },
+          "core_count": 252,
+          "k": 9,
+          "n": 29,
+          "seam_count": 9,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 0,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 3",
+        "seam": "0",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        0,
+        1,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 20,
+            "forced_forest": true,
+            "maximum": 24,
+            "state_count_maximum": 4
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 23,
+            "forced_forest": true,
+            "maximum": 27,
+            "state_count_maximum": 4
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 26,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 4
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 3",
+        "seam": "0",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        0,
+        2,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 20,
+            "forced_forest": true,
+            "maximum": 24,
+            "state_count_maximum": 4
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 23,
+            "forced_forest": true,
+            "maximum": 27,
+            "state_count_maximum": 4
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 26,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 4
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 3",
+        "seam": "0",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        0,
+        3,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 20,
+            "forced_forest": true,
+            "maximum": 24,
+            "state_count_maximum": 4
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 23,
+            "forced_forest": true,
+            "maximum": 27,
+            "state_count_maximum": 4
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 26,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 4
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 2",
+        "seam": "-k + 1",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        2,
+        0,
+        1
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 12
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 34,
+            "state_count_maximum": 12
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 38,
+            "state_count_maximum": 12
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 1,
+      "start": 1
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 2",
+        "seam": "-k + 1",
+        "total": "3k^2 + 3k + 3"
+      },
+      "packet": [
+        1,
+        0,
+        2
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 19,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 12
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 22,
+            "forced_forest": true,
+            "maximum": 34,
+            "state_count_maximum": 12
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 219
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 25,
+            "forced_forest": true,
+            "maximum": 38,
+            "state_count_maximum": 12
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 273
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "3k + 9",
+        "seam": "-k + 1",
+        "total": "3k^2 + 2k + 10"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 30,
+            "state_count_maximum": 28
+          },
+          "core_count": 141,
+          "k": 7,
+          "n": 23,
+          "seam_count": -6,
+          "target": 196,
+          "total": 171
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 33,
+            "state_count_maximum": 28
+          },
+          "core_count": 185,
+          "k": 8,
+          "n": 26,
+          "seam_count": -7,
+          "target": 248,
+          "total": 218
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 36,
+            "state_count_maximum": 28
+          },
+          "core_count": 235,
+          "k": 9,
+          "n": 29,
+          "seam_count": -8,
+          "target": 306,
+          "total": 271
+        }
+      ],
+      "row_phase": 1,
+      "start": 2
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "3k + 7",
+        "seam": "-k",
+        "total": "3k^2 + 2k + 7"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 41,
+            "forced_forest": true,
+            "maximum": 28,
+            "state_count_maximum": 4
+          },
+          "core_count": 140,
+          "k": 7,
+          "n": 23,
+          "seam_count": -7,
+          "target": 196,
+          "total": 168
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 47,
+            "forced_forest": true,
+            "maximum": 31,
+            "state_count_maximum": 4
+          },
+          "core_count": 184,
+          "k": 8,
+          "n": 26,
+          "seam_count": -8,
+          "target": 248,
+          "total": 215
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 53,
+            "forced_forest": true,
+            "maximum": 34,
+            "state_count_maximum": 4
+          },
+          "core_count": 234,
+          "k": 9,
+          "n": 29,
+          "seam_count": -9,
+          "target": 306,
+          "total": 268
+        }
+      ],
+      "row_phase": 0,
+      "start": 0
+    },
+    {
+      "column_phase": 1,
+      "formulas": {
+        "cap": "4k + 5",
+        "seam": "-2k + 1",
+        "total": "3k^2 + 2k + 6"
+      },
+      "packet": [
+        3,
+        0,
+        0
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 39,
+            "forced_forest": true,
+            "maximum": 33,
+            "state_count_maximum": 28
+          },
+          "core_count": 134,
+          "k": 7,
+          "n": 23,
+          "seam_count": -13,
+          "target": 196,
+          "total": 167
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 45,
+            "forced_forest": true,
+            "maximum": 37,
+            "state_count_maximum": 28
+          },
+          "core_count": 177,
+          "k": 8,
+          "n": 26,
+          "seam_count": -15,
+          "target": 248,
+          "total": 214
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 51,
+            "forced_forest": true,
+            "maximum": 41,
+            "state_count_maximum": 28
+          },
+          "core_count": 226,
+          "k": 9,
+          "n": 29,
+          "seam_count": -17,
+          "target": 306,
+          "total": 267
+        }
+      ],
+      "row_phase": 1,
+      "start": 0
+    },
+    {
+      "column_phase": 0,
+      "formulas": {
+        "cap": "2k + 5",
+        "seam": "0",
+        "total": "3k^2 + 2k + 5"
+      },
+      "packet": [
+        0,
+        0,
+        3
+      ],
+      "records": [
+        {
+          "bulk_domain_baseline": 147,
+          "cap": {
+            "core_component_count": 40,
+            "forced_forest": true,
+            "maximum": 19,
+            "state_count_maximum": 8
+          },
+          "core_count": 147,
+          "k": 7,
+          "n": 23,
+          "seam_count": 0,
+          "target": 196,
+          "total": 166
+        },
+        {
+          "bulk_domain_baseline": 192,
+          "cap": {
+            "core_component_count": 46,
+            "forced_forest": true,
+            "maximum": 21,
+            "state_count_maximum": 8
+          },
+          "core_count": 192,
+          "k": 8,
+          "n": 26,
+          "seam_count": 0,
+          "target": 248,
+          "total": 213
+        },
+        {
+          "bulk_domain_baseline": 243,
+          "cap": {
+            "core_component_count": 52,
+            "forced_forest": true,
+            "maximum": 23,
+            "state_count_maximum": 8
+          },
+          "core_count": 243,
+          "k": 9,
+          "n": 29,
+          "seam_count": 0,
+          "target": 306,
+          "total": 266
+        }
+      ],
+      "row_phase": 0,
+      "start": 2
+    }
+  ],
+  "cycle_classification": {
+    "capacity_certificate": {
+      "gain_deficit": "1",
+      "maximum_total": "3k^2+6k+2",
+      "observed_successor_gains_k7_and_k8": [
+        51,
+        57
+      ],
+      "proof_rule": "every accepting path is one of the finite packet cycles; its seam and cap weights are affine after the packet, and the listed maximum cycle has coefficient 6",
+      "stable_gain": "6k+9",
+      "target_deficit": "k-2"
+    },
+    "total_formula_classes": {
+      "3k^2 + 2k + 10": 1,
+      "3k^2 + 2k + 5": 1,
+      "3k^2 + 2k + 6": 1,
+      "3k^2 + 2k + 7": 1,
+      "3k^2 + 3k + 3": 8,
+      "3k^2 + 3k + 4": 10,
+      "3k^2 + 3k + 5": 8,
+      "3k^2 + 3k + 6": 2,
+      "3k^2 + 4k + 2": 19,
+      "3k^2 + 4k + 3": 9,
+      "3k^2 + 4k + 4": 10,
+      "3k^2 + 4k + 5": 3,
+      "3k^2 + 5k + 1": 2,
+      "3k^2 + 5k + 2": 17,
+      "3k^2 + 5k + 3": 3,
+      "3k^2 + 6k + 2": 4
+    },
+    "uniform_advance_111_paths": 9,
+    "uniform_best_total": "3k^2 + 6k + 2"
+  },
+  "model": {
+    "bulk_domain_count": "3k^2 before the seam exchange",
+    "core": "rows and columns 1..3k in the (3k+2)-square",
+    "domains": "column rails c=column_phase southwest of c<=threshold; row rails r=row_phase northeast of c>threshold",
+    "monotone_packet": "three advances d in {0,1,2,3} with sum 3, repeated k times"
+  },
+  "next_topology": {
+    "name": "two-wall elbow with an articulation island",
+    "reason": "a single monotone wall exposes only two perimeter arcs; the next topology must split one rail domain so a third cap arc attaches through one controlled articulation"
+  },
+  "schema": "grid-graphs.residue-two-staircase-seam.v1",
+  "seam_automaton": {
+    "forced_forest_paths": 99,
+    "local_packet_paths": 99,
+    "packet_acceptance": "three transitions, net advance 3, and forced core is a forest",
+    "phase_classes": [
+      {
+        "column_phase": 0,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 2
+          }
+        ],
+        "row_phase": 0
+      },
+      {
+        "column_phase": 1,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 2
+          }
+        ],
+        "row_phase": 0
+      },
+      {
+        "column_phase": 2,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 1
+          }
+        ],
+        "row_phase": 0
+      },
+      {
+        "column_phase": 0,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 2
+          }
+        ],
+        "row_phase": 1
+      },
+      {
+        "column_phase": 1,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 2
+          }
+        ],
+        "row_phase": 1
+      },
+      {
+        "column_phase": 2,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              1,
+              2
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              0,
+              3
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              0,
+              2
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 2
+          }
+        ],
+        "row_phase": 1
+      },
+      {
+        "column_phase": 0,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 2
+          }
+        ],
+        "row_phase": 2
+      },
+      {
+        "column_phase": 1,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 2
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 2
+          }
+        ],
+        "row_phase": 2
+      },
+      {
+        "column_phase": 2,
+        "packet_path_count": 11,
+        "paths": [
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 0
+          },
+          {
+            "advances": [
+              0,
+              2,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              0,
+              3,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              1,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              1,
+              2,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              2,
+              0,
+              1
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              2,
+              1,
+              0
+            ],
+            "start": 1
+          },
+          {
+            "advances": [
+              3,
+              0,
+              0
+            ],
+            "start": 1
+          }
+        ],
+        "row_phase": 2
+      }
+    ],
+    "states": "(row mod 3, threshold mod 3, row phase, column phase)",
+    "transition": "advance d in {0,1,2,3}; reject a three-center or diagonal-pair seam cell"
+  },
+  "status": "staircase_seam_obstructed",
+  "target": {
+    "attainable": false,
+    "count": "3k^2+7k",
+    "stable_gain": "6k+10",
+    "surviving_paths": 0
+  }
+}

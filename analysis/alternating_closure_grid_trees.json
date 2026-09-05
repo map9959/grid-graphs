@@ -1,0 +1,227 @@
+{
+  "censuses": [
+    {
+      "all_source_subsets_tested": true,
+      "alternating_closure_counterexample": null,
+      "axis_audits": 384,
+      "axis_audits_failing_for_at_least_one_gap_choice": 0,
+      "axis_audits_failing_for_every_gap_choice": 0,
+      "axis_audits_holding_for_all_gap_choices": 384,
+      "axis_audits_holding_for_some_gap_choices": 384,
+      "axis_failure_semantics": "an axis fails when Hall fails for every occurrence-to-spatial-gap bijection; adaptive success chooses an axis whose Hall audit holds for all such bijections",
+      "candidate_closed_region_counterexample": null,
+      "component_semantics": "a reached raw component remains one resource and continues, occurrence-labelled, through every distinct tree-edge contact with cotree support to both adjacent dual faces",
+      "direct_neighborhood_counterexample": {
+        "axis": "rows",
+        "failure": {
+          "displaced_owners": [],
+          "neighborhood": [],
+          "source_indices": [
+            0
+          ],
+          "sources": [
+            {
+              "index": 0,
+              "kind": "outer",
+              "label": {
+                "component": 6,
+                "demand": {
+                  "index": 2,
+                  "kind": "corner",
+                  "side": 2,
+                  "vertex": 6
+                },
+                "token_rank": 32
+              }
+            }
+          ]
+        },
+        "tree": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            7,
+            8
+          ]
+        ]
+      },
+      "exchange_semantics": "a reached internal tree edge or raw-component contact edge also continues through every cotree insertion whose fundamental cycle contains it",
+      "gap_choice_count": 393,
+      "hall_counterexample": null,
+      "hall_counterexamples": [],
+      "internal_edge_semantics": "a reached raw support-support tree edge remains one resource and continues, occurrence-labelled, to its opposite incident dual face without receiving a second unit of credit",
+      "launch_semantics": "all occurrence-to-spatial-gap bijections; exact ordinary/corner transitions",
+      "maximum_collision_sources": 2,
+      "n": 3,
+      "outer_boundary_semantics": "clockwise and counterclockwise occurrence walks displace reserved ports in order and stop at the first free port or contact-local cotree/component/internal continuation",
+      "reverse_root_semantics": "one grouped root occurrence also traverses inward along every unique active descendant chain belonging to its selected collision leaves, exposing face-incident raw resources without copying the root source",
+      "source_semantics": "one-copy shared-hull used roots plus branch excess and outer collisions",
+      "tree_count": 192,
+      "trees_with_adaptive_axis_holding_for_all_gap_choices": 192,
+      "trees_with_both_axes_failing_for_every_gap_choice": 0,
+      "trees_with_collisions": 54,
+      "trees_with_exactly_one_axis_failing_for_every_gap_choice": 0,
+      "trees_with_no_axis_failing_for_every_gap_choice": 192
+    },
+    {
+      "all_source_subsets_tested": true,
+      "alternating_closure_counterexample": null,
+      "axis_audits": 200704,
+      "axis_audits_failing_for_at_least_one_gap_choice": 0,
+      "axis_audits_failing_for_every_gap_choice": 0,
+      "axis_audits_holding_for_all_gap_choices": 200704,
+      "axis_audits_holding_for_some_gap_choices": 200704,
+      "axis_failure_semantics": "an axis fails when Hall fails for every occurrence-to-spatial-gap bijection; adaptive success chooses an axis whose Hall audit holds for all such bijections",
+      "candidate_closed_region_counterexample": null,
+      "component_semantics": "a reached raw component remains one resource and continues, occurrence-labelled, through every distinct tree-edge contact with cotree support to both adjacent dual faces",
+      "direct_neighborhood_counterexample": {
+        "axis": "columns",
+        "failure": {
+          "displaced_owners": [],
+          "neighborhood": [
+            [
+              "port",
+              [
+                14,
+                2
+              ]
+            ]
+          ],
+          "source_indices": [
+            0,
+            1
+          ],
+          "sources": [
+            {
+              "index": 0,
+              "kind": "branch",
+              "label": [
+                [
+                  "face",
+                  7
+                ],
+                0
+              ]
+            },
+            {
+              "index": 1,
+              "kind": "branch",
+              "label": [
+                [
+                  "face",
+                  7
+                ],
+                1
+              ]
+            }
+          ]
+        },
+        "tree": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            3,
+            7
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            6,
+            10
+          ],
+          [
+            7,
+            11
+          ],
+          [
+            8,
+            12
+          ],
+          [
+            11,
+            15
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            14,
+            15
+          ]
+        ]
+      },
+      "exchange_semantics": "a reached internal tree edge or raw-component contact edge also continues through every cotree insertion whose fundamental cycle contains it",
+      "gap_choice_count": 204179,
+      "hall_counterexample": null,
+      "hall_counterexamples": [],
+      "internal_edge_semantics": "a reached raw support-support tree edge remains one resource and continues, occurrence-labelled, to its opposite incident dual face without receiving a second unit of credit",
+      "launch_semantics": "all occurrence-to-spatial-gap bijections; exact ordinary/corner transitions",
+      "maximum_collision_sources": 3,
+      "n": 4,
+      "outer_boundary_semantics": "clockwise and counterclockwise occurrence walks displace reserved ports in order and stop at the first free port or contact-local cotree/component/internal continuation",
+      "reverse_root_semantics": "one grouped root occurrence also traverses inward along every unique active descendant chain belonging to its selected collision leaves, exposing face-incident raw resources without copying the root source",
+      "source_semantics": "one-copy shared-hull used roots plus branch excess and outer collisions",
+      "tree_count": 100352,
+      "trees_with_adaptive_axis_holding_for_all_gap_choices": 100352,
+      "trees_with_both_axes_failing_for_every_gap_choice": 0,
+      "trees_with_collisions": 27045,
+      "trees_with_exactly_one_axis_failing_for_every_gap_choice": 0,
+      "trees_with_no_axis_failing_for_every_gap_choice": 100352
+    }
+  ]
+}

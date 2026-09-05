@@ -61,6 +61,36 @@ def CheckerboardBoundaryBound (n : Nat)
   boundaryDeficiencySum n n F + U.card + 4 ≤
     3 * n + checkerboardComponentCount n U
 
+/-- After applying the two exact color ledgers, all boundary terms cancel: the
+checkerboard boundary bound is precisely the sharp forced-cardinality bound. -/
+theorem checkerboardBoundaryBound_iff_forced_card
+    {n : Nat} (U : Finset (GridVertex n n))
+    (hacyc : (forcedEdgeGraph (gridGraph n n)
+      (↑((Finset.univ : Finset (GridVertex n n)) \ U) :
+        Set (GridVertex n n))).IsAcyclic) :
+    CheckerboardBoundaryBound n U ↔
+      3 * ((Finset.univ : Finset (GridVertex n n)) \ U).card + 4 ≤
+        n * n + 3 * n := by
+  let F := (Finset.univ : Finset (GridVertex n n)) \ U
+  have hchecker := grid_checkerboard_ambient_component_reduction F hacyc
+  have hcard := card_compl_add_card_grid n n U
+  change 4 * F.card +
+      Fintype.card (forcedEdgeGraph (gridGraph n n)
+        (↑(blackCenters F) : Set (GridVertex n n))).ConnectedComponent +
+      Fintype.card (forcedEdgeGraph (gridGraph n n)
+        (↑(whiteCenters F) : Set (GridVertex n n))).ConnectedComponent =
+    2 * (n * n) + boundaryDeficiencySum n n F at hchecker
+  change F.card + U.card = n * n at hcard
+  unfold CheckerboardBoundaryBound checkerboardComponentCount
+  change boundaryDeficiencySum n n F + U.card + 4 ≤
+      3 * n +
+        (Fintype.card (forcedEdgeGraph (gridGraph n n)
+          (↑(blackCenters F) : Set (GridVertex n n))).ConnectedComponent +
+        Fintype.card (forcedEdgeGraph (gridGraph n n)
+          (↑(whiteCenters F) : Set (GridVertex n n))).ConnectedComponent) ↔
+      3 * F.card + 4 ≤ n * n + 3 * n
+  omega
+
 /-- The checkerboard boundary bound is exactly the missing linear four-side
 rank inequality. -/
 theorem checkerboardBoundaryBound_iff_fourSideComponentRank

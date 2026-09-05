@@ -1,0 +1,600 @@
+{
+  "basis": [
+    "constant",
+    "phase_is_0",
+    "phase_is_1",
+    "top_mode",
+    "terminal_mode",
+    "saturated_depth",
+    "width",
+    "forced_count",
+    "forced_runs",
+    "left_forced",
+    "right_forced",
+    "h_components",
+    "f_components",
+    "max_interval_00",
+    "max_interval_01",
+    "max_interval_10",
+    "max_interval_11"
+  ],
+  "candidates": [
+    {
+      "coefficients": {
+        "constant": [
+          -101,
+          8
+        ],
+        "f_components": [
+          1,
+          10
+        ],
+        "forced_count": [
+          -11,
+          5
+        ],
+        "forced_runs": [
+          1,
+          10
+        ],
+        "h_components": [
+          7,
+          3
+        ],
+        "left_forced": [
+          -2,
+          9
+        ],
+        "max_interval_00": [
+          -14,
+          9
+        ],
+        "max_interval_01": [
+          -1,
+          5
+        ],
+        "max_interval_10": [
+          -2,
+          5
+        ],
+        "max_interval_11": [
+          -1,
+          4
+        ],
+        "phase_is_1": [
+          -1,
+          8
+        ],
+        "right_forced": [
+          -7,
+          9
+        ],
+        "saturated_depth": [
+          1,
+          1
+        ],
+        "terminal_mode": [
+          39,
+          10
+        ],
+        "top_mode": [
+          -5,
+          6
+        ],
+        "width": [
+          13,
+          5
+        ]
+      },
+      "denominator_limit": 10,
+      "held_out_replay": {
+        "constraints": 49585,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            143,
+            30
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -263,
+          30
+        ],
+        "tight": 5
+      },
+      "replay": {
+        "constraints": 6196,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            121,
+            24
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -1229,
+          120
+        ],
+        "tight": 1
+      }
+    },
+    {
+      "coefficients": {
+        "constant": [
+          -1024,
+          81
+        ],
+        "f_components": [
+          5,
+          76
+        ],
+        "forced_count": [
+          -59,
+          27
+        ],
+        "forced_runs": [
+          5,
+          76
+        ],
+        "h_components": [
+          211,
+          91
+        ],
+        "left_forced": [
+          -3,
+          13
+        ],
+        "max_interval_00": [
+          -65,
+          42
+        ],
+        "max_interval_01": [
+          -17,
+          89
+        ],
+        "max_interval_10": [
+          -36,
+          91
+        ],
+        "max_interval_11": [
+          -24,
+          91
+        ],
+        "phase_is_0": [
+          1,
+          81
+        ],
+        "phase_is_1": [
+          -7,
+          58
+        ],
+        "right_forced": [
+          -41,
+          52
+        ],
+        "saturated_depth": [
+          55,
+          57
+        ],
+        "terminal_mode": [
+          327,
+          83
+        ],
+        "top_mode": [
+          -57,
+          68
+        ],
+        "width": [
+          148,
+          57
+        ]
+      },
+      "denominator_limit": 100,
+      "held_out_replay": {
+        "constraints": 49585,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            495427183,
+            103722444
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -910316959,
+          103722444
+        ],
+        "tight": 0
+      },
+      "replay": {
+        "constraints": 6196,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            6026323,
+            1192212
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -12266263,
+          1192212
+        ],
+        "tight": 0
+      }
+    },
+    {
+      "coefficients": {
+        "constant": [
+          -1871,
+          148
+        ],
+        "f_components": [
+          34,
+          517
+        ],
+        "forced_count": [
+          -614,
+          281
+        ],
+        "forced_runs": [
+          34,
+          517
+        ],
+        "h_components": [
+          1797,
+          775
+        ],
+        "left_forced": [
+          -151,
+          654
+        ],
+        "max_interval_00": [
+          -1433,
+          926
+        ],
+        "max_interval_01": [
+          -113,
+          592
+        ],
+        "max_interval_10": [
+          -197,
+          498
+        ],
+        "max_interval_11": [
+          -243,
+          922
+        ],
+        "phase_is_0": [
+          5,
+          403
+        ],
+        "phase_is_1": [
+          -89,
+          737
+        ],
+        "right_forced": [
+          -231,
+          293
+        ],
+        "saturated_depth": [
+          905,
+          938
+        ],
+        "terminal_mode": [
+          1501,
+          381
+        ],
+        "top_mode": [
+          -823,
+          982
+        ],
+        "width": [
+          2503,
+          964
+        ]
+      },
+      "denominator_limit": 1000,
+      "held_out_replay": {
+        "constraints": 49585,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            3603941616579760640985481,
+            754644045963638351329050
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -6622517800434314046301681,
+          754644045963638351329050
+        ],
+        "tight": 0
+      },
+      "replay": {
+        "constraints": 6196,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            1480030008352249949370443,
+            292846943209770106485900
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -1506433370150931920230009,
+          146423471604885053242950
+        ],
+        "tight": 0
+      }
+    },
+    {
+      "coefficients": {
+        "constant": [
+          -59695,
+          4722
+        ],
+        "f_components": [
+          452,
+          6873
+        ],
+        "forced_count": [
+          -12339,
+          5647
+        ],
+        "forced_runs": [
+          452,
+          6873
+        ],
+        "h_components": [
+          3383,
+          1459
+        ],
+        "left_forced": [
+          -1969,
+          8528
+        ],
+        "max_interval_00": [
+          -10992,
+          7103
+        ],
+        "max_interval_01": [
+          -1762,
+          9231
+        ],
+        "max_interval_10": [
+          -2239,
+          5660
+        ],
+        "max_interval_11": [
+          -1827,
+          6932
+        ],
+        "phase_is_0": [
+          5,
+          403
+        ],
+        "phase_is_1": [
+          -911,
+          7544
+        ],
+        "right_forced": [
+          -3424,
+          4343
+        ],
+        "saturated_depth": [
+          8063,
+          8357
+        ],
+        "terminal_mode": [
+          33349,
+          8465
+        ],
+        "top_mode": [
+          -2438,
+          2909
+        ],
+        "width": [
+          5154,
+          1985
+        ]
+      },
+      "denominator_limit": 10000,
+      "held_out_replay": {
+        "constraints": 49585,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            351956365443058768003507776911243,
+            73697675530512557134393591054480
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -646747067565108996541082141129163,
+          73697675530512557134393591054480
+        ],
+        "tight": 0
+      },
+      "replay": {
+        "constraints": 6196,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            7723314412792907360319633454673,
+            1528179225047417572686422289424
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -78610998487094459501192850135429,
+          7640896125237087863432111447120
+        ],
+        "tight": 0
+      }
+    },
+    {
+      "coefficients": {
+        "constant": [
+          -6677509,
+          528205
+        ],
+        "f_components": [
+          49240,
+          748731
+        ],
+        "forced_count": [
+          -36403,
+          16660
+        ],
+        "forced_runs": [
+          49240,
+          748731
+        ],
+        "h_components": [
+          1161693,
+          501008
+        ],
+        "left_forced": [
+          -151169,
+          654733
+        ],
+        "max_interval_00": [
+          -191098,
+          123487
+        ],
+        "max_interval_01": [
+          -117129,
+          613631
+        ],
+        "max_interval_10": [
+          -32761,
+          82817
+        ],
+        "max_interval_11": [
+          -123755,
+          469551
+        ],
+        "phase_is_0": [
+          9881,
+          796407
+        ],
+        "phase_is_1": [
+          -51959,
+          430273
+        ],
+        "right_forced": [
+          -486860,
+          617533
+        ],
+        "saturated_depth": [
+          910543,
+          943744
+        ],
+        "terminal_mode": [
+          2353683,
+          597437
+        ],
+        "top_mode": [
+          -600954,
+          717053
+        ],
+        "width": [
+          1240055,
+          477592
+        ]
+      },
+      "denominator_limit": 1000000,
+      "held_out_replay": {
+        "constraints": 49585,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            10562772857052119627820530605039460710421804310451,
+            2211785027370927277663918645134319444235150305840
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -19409912966535828738476205185576738487362405533811,
+          2211785027370927277663918645134319444235150305840
+        ],
+        "tight": 0
+      },
+      "replay": {
+        "constraints": 6196,
+        "feasible": false,
+        "first_violation": {
+          "index": 0,
+          "left": [
+            4200097195238530183662634895574922169432675634509753,
+            831055304175627590682578634151675919618176413517680
+          ],
+          "right": [
+            -4,
+            1
+          ]
+        },
+        "minimum_slack": [
+          -8550055578365328649434921685445987533675126287740591,
+          831055304175627590682578634151675919618176413517680
+        ],
+        "tight": 0
+      }
+    }
+  ],
+  "discovery_constraints": 6196,
+  "exact_infeasibility_certificate": null,
+  "held_out_constraints": 49585,
+  "scope": {
+    "discovery_widths": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "held_out_widths": [
+      7,
+      8
+    ],
+    "terminal_target": 4
+  }
+}

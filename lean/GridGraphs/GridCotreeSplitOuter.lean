@@ -45,6 +45,21 @@ noncomputable instance outerBoundaryPortFintype {m n : Nat}
 
 namespace OuterBoundaryPort
 
+/-- A supported boundary vertex with an incident side determines the
+corresponding split outer port. -/
+def ofSupportedVertexSide {m n : Nat} {U : Finset (GridVertex m n)}
+    (v : GridVertex m n) (hv : v ∈ U) (side : OuterBoundarySide)
+    (hside : match side with
+      | .top => v.1.val = 0
+      | .bottom => v.1.val + 1 = m
+      | .left => v.2.val = 0
+      | .right => v.2.val + 1 = n) : OuterBoundaryPort U := by
+  cases side with
+  | top => exact .inl ⟨v, Finset.mem_filter.mpr ⟨hv, hside⟩⟩
+  | bottom => exact .inr (.inl ⟨v, Finset.mem_filter.mpr ⟨hv, hside⟩⟩)
+  | left => exact .inr (.inr (.inl ⟨v, Finset.mem_filter.mpr ⟨hv, hside⟩⟩))
+  | right => exact .inr (.inr (.inr ⟨v, Finset.mem_filter.mpr ⟨hv, hside⟩⟩))
+
 /-- The supported boundary vertex carrying an outer port. -/
 def vertex {m n : Nat} {U : Finset (GridVertex m n)} :
     OuterBoundaryPort U → GridVertex m n
@@ -60,6 +75,36 @@ def side {m n : Nat} {U : Finset (GridVertex m n)} :
   | .inr (.inl _) => .bottom
   | .inr (.inr (.inl _)) => .left
   | .inr (.inr (.inr _)) => .right
+
+/-- A split outer port is determined by its supported vertex and side. -/
+theorem eq_of_vertex_eq_of_side_eq {m n : Nat} {U : Finset (GridVertex m n)}
+    {p q : OuterBoundaryPort U} (hv : p.vertex = q.vertex)
+    (hs : p.side = q.side) : p = q := by
+  rcases p with p | p | p | p <;>
+    rcases q with q | q | q | q <;> simp [side] at hs
+  all_goals congr; exact Subtype.ext hv
+
+@[simp] theorem vertex_ofSupportedVertexSide
+    {m n : Nat} {U : Finset (GridVertex m n)}
+    (v : GridVertex m n) (hv : v ∈ U) (side : OuterBoundarySide)
+    (hside : match side with
+      | .top => v.1.val = 0
+      | .bottom => v.1.val + 1 = m
+      | .left => v.2.val = 0
+      | .right => v.2.val + 1 = n) :
+    (ofSupportedVertexSide v hv side hside).vertex = v := by
+  cases side <;> rfl
+
+@[simp] theorem side_ofSupportedVertexSide
+    {m n : Nat} {U : Finset (GridVertex m n)}
+    (v : GridVertex m n) (hv : v ∈ U) (side : OuterBoundarySide)
+    (hside : match side with
+      | .top => v.1.val = 0
+      | .bottom => v.1.val + 1 = m
+      | .left => v.2.val = 0
+      | .right => v.2.val + 1 = n) :
+    (ofSupportedVertexSide v hv side hside).side = side := by
+  cases side <;> rfl
 
 /-- Every outer port is based in `U`. -/
 theorem vertex_mem {m n : Nat} {U : Finset (GridVertex m n)}

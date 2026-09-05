@@ -1,0 +1,218 @@
+{
+  "checker": "residue_two_zero_cap_exchange",
+  "declared_grammar": {
+    "attachment_rule": "each outer run has at most one attachment to the old rooted tree",
+    "replacement": "old bottom cap reinserted unchanged plus straight runs on the outer L",
+    "retained_core": "top-left residue-zero forced set with the old bottom cap deleted",
+    "scope": "all three-site masks; no inner frame vertices"
+  },
+  "k_values": [
+    7,
+    8,
+    9
+  ],
+  "records": [
+    {
+      "checks": {
+        "deleted_cap_count": true,
+        "grammar_capacity_formula": true,
+        "grammar_is_below_target": true,
+        "outer_capacity_formula": true,
+        "outer_path_formula": true,
+        "outer_touch_formula": true,
+        "replacement_required": true,
+        "retained_component_formula": true,
+        "retained_components_straight": true,
+        "retained_count": true,
+        "retained_link_formula": true,
+        "retained_star_intersections_singleton": true,
+        "source_component_formula": true,
+        "source_components_straight": true,
+        "source_count": true,
+        "source_forced_forest": true,
+        "source_incidence_tree": true,
+        "source_star_intersections_singleton": true,
+        "source_unit_cells_valid": true
+      },
+      "counts": {
+        "deficit": 4,
+        "deleted_bottom_cap": 20,
+        "fixed_hub_grammar_capacity": 46,
+        "outer_arm_capacity": 26,
+        "required_replacement": 50,
+        "retained_forced": 146,
+        "source_forced": 166,
+        "target_forced": 196
+      },
+      "k": 7,
+      "n": 23,
+      "outer_arm_grammar": {
+        "canonical_maximizing_word": "110101010101010101110111101010101010101010110",
+        "enumeration": "exact two-state dynamic program over the outer L path",
+        "packet_alphabet": "all eight binary masks on each consecutive three-site packet",
+        "path_length": 45,
+        "root_free_count": 7,
+        "root_touch_count": 38,
+        "root_touch_word": "101111111111111111001000111111111111111111101",
+        "rule": "every maximal selected run contains at most one root-touch site"
+      },
+      "retained_interval_forest": {
+        "components": 7,
+        "links": 12,
+        "maximum_star_intersection": 1,
+        "nodes": 19
+      },
+      "source_interval_skeleton": {
+        "links": 19,
+        "maximum_star_intersection": 1,
+        "nodes": 20,
+        "tree": true
+      },
+      "stable_interface": {
+        "grammar_capacity_step": 6,
+        "minimum_inner_layer_credit": 4,
+        "required_replacement_step": 7,
+        "step_deficit": 1
+      },
+      "status": "obstructed"
+    },
+    {
+      "checks": {
+        "deleted_cap_count": true,
+        "grammar_capacity_formula": true,
+        "grammar_is_below_target": true,
+        "outer_capacity_formula": true,
+        "outer_path_formula": true,
+        "outer_touch_formula": true,
+        "replacement_required": true,
+        "retained_component_formula": true,
+        "retained_components_straight": true,
+        "retained_count": true,
+        "retained_link_formula": true,
+        "retained_star_intersections_singleton": true,
+        "source_component_formula": true,
+        "source_components_straight": true,
+        "source_count": true,
+        "source_forced_forest": true,
+        "source_incidence_tree": true,
+        "source_star_intersections_singleton": true,
+        "source_unit_cells_valid": true
+      },
+      "counts": {
+        "deficit": 5,
+        "deleted_bottom_cap": 23,
+        "fixed_hub_grammar_capacity": 52,
+        "outer_arm_capacity": 29,
+        "required_replacement": 57,
+        "retained_forced": 191,
+        "source_forced": 214,
+        "target_forced": 248
+      },
+      "k": 8,
+      "n": 26,
+      "outer_arm_grammar": {
+        "canonical_maximizing_word": "110101010101010101010111111010101010101010101010110",
+        "enumeration": "exact two-state dynamic program over the outer L path",
+        "packet_alphabet": "all eight binary masks on each consecutive three-site packet",
+        "path_length": 51,
+        "root_free_count": 7,
+        "root_touch_count": 44,
+        "root_touch_word": "101111111111111111111001000111111111111111111111101",
+        "rule": "every maximal selected run contains at most one root-touch site"
+      },
+      "retained_interval_forest": {
+        "components": 8,
+        "links": 14,
+        "maximum_star_intersection": 1,
+        "nodes": 22
+      },
+      "source_interval_skeleton": {
+        "links": 22,
+        "maximum_star_intersection": 1,
+        "nodes": 23,
+        "tree": true
+      },
+      "stable_interface": {
+        "grammar_capacity_step": 6,
+        "minimum_inner_layer_credit": 5,
+        "required_replacement_step": 7,
+        "step_deficit": 1
+      },
+      "status": "obstructed"
+    },
+    {
+      "checks": {
+        "deleted_cap_count": true,
+        "grammar_capacity_formula": true,
+        "grammar_is_below_target": true,
+        "outer_capacity_formula": true,
+        "outer_path_formula": true,
+        "outer_touch_formula": true,
+        "replacement_required": true,
+        "retained_component_formula": true,
+        "retained_components_straight": true,
+        "retained_count": true,
+        "retained_link_formula": true,
+        "retained_star_intersections_singleton": true,
+        "source_component_formula": true,
+        "source_components_straight": true,
+        "source_count": true,
+        "source_forced_forest": true,
+        "source_incidence_tree": true,
+        "source_star_intersections_singleton": true,
+        "source_unit_cells_valid": true
+      },
+      "counts": {
+        "deficit": 6,
+        "deleted_bottom_cap": 26,
+        "fixed_hub_grammar_capacity": 58,
+        "outer_arm_capacity": 32,
+        "required_replacement": 64,
+        "retained_forced": 242,
+        "source_forced": 268,
+        "target_forced": 306
+      },
+      "k": 9,
+      "n": 29,
+      "outer_arm_grammar": {
+        "canonical_maximizing_word": "110101010101010101010101110111101010101010101010101010110",
+        "enumeration": "exact two-state dynamic program over the outer L path",
+        "packet_alphabet": "all eight binary masks on each consecutive three-site packet",
+        "path_length": 57,
+        "root_free_count": 7,
+        "root_touch_count": 50,
+        "root_touch_word": "101111111111111111111111001000111111111111111111111111101",
+        "rule": "every maximal selected run contains at most one root-touch site"
+      },
+      "retained_interval_forest": {
+        "components": 9,
+        "links": 16,
+        "maximum_star_intersection": 1,
+        "nodes": 25
+      },
+      "source_interval_skeleton": {
+        "links": 25,
+        "maximum_star_intersection": 1,
+        "nodes": 26,
+        "tree": true
+      },
+      "stable_interface": {
+        "grammar_capacity_step": 6,
+        "minimum_inner_layer_credit": 6,
+        "required_replacement_step": 7,
+        "step_deficit": 1
+      },
+      "status": "obstructed"
+    }
+  ],
+  "schema": "grid-graphs.residue-two-zero-cap-exchange.v1",
+  "status": "complete_grammar_obstruction",
+  "symbolic_obstruction": {
+    "deficit": "k-3",
+    "fixed_hub_grammar_capacity": "6k+4",
+    "outer_arm_capacity": "3k+5",
+    "required_replacement": "7k+1",
+    "successor_grammar_gain": 6,
+    "successor_required_gain": 7
+  }
+}

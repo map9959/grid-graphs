@@ -78,6 +78,278 @@ def gridBoundaryForwardWalk {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
         congr 1
         rw [gridBoundarySucc_eq_cyclicOffset, cyclicOffset_succ]
 
+/-- The boundary edge reached after `t` clockwise steps from `i`. -/
+def gridBoundaryOffsetEdge {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) (t : Nat) : Sym2 (GridVertex m n) :=
+  s(gridBoundaryVertex hm hn
+      (cyclicOffset (gridBoundaryLength_pos hm hn) i t),
+    gridBoundaryVertex hm hn
+      (cyclicOffset (gridBoundaryLength_pos hm hn) i (t + 1)))
+
+/-- Coordinate label of the clockwise edge leaving a boundary position. -/
+noncomputable def gridBoundaryCoordinateEdge {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) : GridEdge m n :=
+  (GridEdge.equivGridGraphEdgeSet m n).symm
+    ⟨gridBoundaryOffsetEdge hm hn i 0, by
+      unfold gridBoundaryOffsetEdge
+      rw [SimpleGraph.mem_edgeSet]
+      simpa [cyclicOffset, Nat.mod_eq_of_lt i.isLt,
+        cyclicOffset_one_eq_gridBoundarySucc] using
+        gridBoundaryVertex_succ_adj hm hn i⟩
+
+theorem gridBoundaryCoordinateEdge_primalSym2_eq_gridBoundaryOffsetEdge_zero
+    {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) :
+    (gridBoundaryCoordinateEdge hm hn i).primalSym2 =
+      gridBoundaryOffsetEdge hm hn i 0 := by
+  exact congrArg Subtype.val
+    ((GridEdge.equivGridGraphEdgeSet m n).apply_symm_apply _)
+
+/-- The bounded face incident to the clockwise edge leaving a boundary
+position. -/
+def gridBoundaryEdgeInnerFace {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (p : GridBoundaryPosition m n) : GridFace m n :=
+  if htop : p.val < n - 1 then
+    .cell ⟨0, by omega⟩ ⟨p.val, by omega⟩
+  else if hright : p.val < n + m - 2 then
+    .cell ⟨p.val + 1 - n, by omega⟩ ⟨n - 2, by omega⟩
+  else if hbottom : p.val < m + 2 * n - 3 then
+    .cell ⟨m - 2, by omega⟩ ⟨m + 2 * n - 4 - p.val, by omega⟩
+  else
+    .cell ⟨gridBoundaryLength m n - p.val - 1, by
+      unfold gridBoundaryLength at *
+      omega⟩ ⟨0, by omega⟩
+
+private theorem gridBoundaryCoordinateEdge_eq_top {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (p : GridBoundaryPosition m n)
+    (htop : p.val < n - 1) :
+    gridBoundaryCoordinateEdge hm hn p =
+      .horizontal ⟨⟨0, by omega⟩, ⟨p.val, by omega⟩⟩ := by
+  apply GridEdge.primalSym2_injective
+  rw [gridBoundaryCoordinateEdge_primalSym2_eq_gridBoundaryOffsetEdge_zero]
+  simp only [GridEdge.primalSym2_horizontal, horizontalPrimalEndpoints]
+  change gridBoundaryOffsetEdge hm hn p 0 =
+    s((⟨0, by omega⟩, ⟨p.val, by omega⟩),
+      (⟨0, by omega⟩, ⟨p.val + 1, by omega⟩))
+  unfold gridBoundaryOffsetEdge
+  have hpnext : p.val + 1 < gridBoundaryLength m n := by
+    unfold gridBoundaryLength
+    omega
+  have hnextval : (⟨p.val + 1, hpnext⟩ : GridBoundaryPosition m n).val =
+      p.val + 1 := rfl
+  simp only [cyclicOffset, Nat.add_zero, Nat.mod_eq_of_lt p.isLt,
+    Nat.mod_eq_of_lt hpnext]
+  change s(gridBoundaryVertex hm hn p,
+    gridBoundaryVertex hm hn ⟨p.val + 1, hpnext⟩) = _
+  rw [gridBoundaryVertex_top hm hn p (by omega),
+    gridBoundaryVertex_top hm hn ⟨p.val + 1, hpnext⟩ (by omega)]
+  simp [GridEdge.primalSym2, GridEdge.primalEndpoints,
+    horizontalPrimalEndpoints]
+
+private theorem gridBoundaryCoordinateEdge_eq_right {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (p : GridBoundaryPosition m n)
+    (htop : ¬p.val < n - 1) (hright : p.val < n + m - 2) :
+    gridBoundaryCoordinateEdge hm hn p =
+      .vertical ⟨⟨p.val + 1 - n, by omega⟩, ⟨n - 1, by omega⟩⟩ := by
+  apply GridEdge.primalSym2_injective
+  rw [gridBoundaryCoordinateEdge_primalSym2_eq_gridBoundaryOffsetEdge_zero]
+  simp only [GridEdge.primalSym2_vertical, verticalPrimalEndpoints]
+  change gridBoundaryOffsetEdge hm hn p 0 =
+    s((⟨p.val + 1 - n, by omega⟩, ⟨n - 1, by omega⟩),
+      (⟨p.val + 1 - n + 1, by omega⟩, ⟨n - 1, by omega⟩))
+  unfold gridBoundaryOffsetEdge
+  have hpnext : p.val + 1 < gridBoundaryLength m n := by
+    unfold gridBoundaryLength
+    omega
+  have hnextval : (⟨p.val + 1, hpnext⟩ : GridBoundaryPosition m n).val =
+      p.val + 1 := rfl
+  simp only [cyclicOffset, Nat.add_zero, Nat.mod_eq_of_lt p.isLt,
+    Nat.mod_eq_of_lt hpnext]
+  change s(gridBoundaryVertex hm hn p,
+    gridBoundaryVertex hm hn ⟨p.val + 1, hpnext⟩) = _
+  by_cases hcorner : p.val < n
+  · rw [gridBoundaryVertex_top hm hn p hcorner,
+      gridBoundaryVertex_right hm hn ⟨p.val + 1, hpnext⟩ (by omega) (by omega)]
+    rw [Sym2.eq_iff]
+    left
+    constructor <;> apply Prod.ext <;> apply Fin.ext <;> simp only [Fin.val_mk] <;> omega
+  · rw [gridBoundaryVertex_right hm hn p hcorner (by omega),
+      gridBoundaryVertex_right hm hn ⟨p.val + 1, hpnext⟩ (by omega) (by omega)]
+    rw [Sym2.eq_iff]
+    left
+    constructor <;> apply Prod.ext <;> apply Fin.ext <;> simp only [Fin.val_mk] <;> omega
+
+private theorem gridBoundaryCoordinateEdge_eq_bottom {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (p : GridBoundaryPosition m n)
+    (hright : ¬p.val < n + m - 2)
+    (hbottom : p.val < m + 2 * n - 3) :
+    gridBoundaryCoordinateEdge hm hn p =
+      .horizontal ⟨⟨m - 1, by omega⟩,
+        ⟨m + 2 * n - 4 - p.val, by omega⟩⟩ := by
+  apply GridEdge.primalSym2_injective
+  rw [gridBoundaryCoordinateEdge_primalSym2_eq_gridBoundaryOffsetEdge_zero]
+  simp only [GridEdge.primalSym2_horizontal, horizontalPrimalEndpoints]
+  change gridBoundaryOffsetEdge hm hn p 0 =
+    s((⟨m - 1, by omega⟩, ⟨m + 2 * n - 4 - p.val, by omega⟩),
+      (⟨m - 1, by omega⟩, ⟨m + 2 * n - 4 - p.val + 1, by omega⟩))
+  unfold gridBoundaryOffsetEdge
+  have hpnext : p.val + 1 < gridBoundaryLength m n := by
+    unfold gridBoundaryLength
+    omega
+  have hnextval : (⟨p.val + 1, hpnext⟩ : GridBoundaryPosition m n).val =
+      p.val + 1 := rfl
+  simp only [cyclicOffset, Nat.add_zero, Nat.mod_eq_of_lt p.isLt,
+    Nat.mod_eq_of_lt hpnext]
+  change s(gridBoundaryVertex hm hn p,
+    gridBoundaryVertex hm hn ⟨p.val + 1, hpnext⟩) = _
+  by_cases hcorner : p.val < n + m - 1
+  · rw [gridBoundaryVertex_right hm hn p (by omega) hcorner,
+      gridBoundaryVertex_bottom hm hn ⟨p.val + 1, hpnext⟩ (by omega) (by omega)]
+    rw [Sym2.eq_iff]
+    right
+    constructor <;> apply Prod.ext <;> apply Fin.ext <;> simp only [Fin.val_mk] <;> omega
+  · rw [gridBoundaryVertex_bottom hm hn p hcorner (by omega),
+      gridBoundaryVertex_bottom hm hn ⟨p.val + 1, hpnext⟩ (by omega) (by omega)]
+    rw [Sym2.eq_iff]
+    right
+    constructor <;> apply Prod.ext <;> apply Fin.ext <;> simp only [Fin.val_mk] <;> omega
+
+private theorem gridBoundaryCoordinateEdge_eq_left {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (p : GridBoundaryPosition m n)
+    (hbottom : ¬p.val < m + 2 * n - 3) :
+    gridBoundaryCoordinateEdge hm hn p =
+      .vertical ⟨⟨gridBoundaryLength m n - p.val - 1, by
+        unfold gridBoundaryLength at *
+        omega⟩, ⟨0, by omega⟩⟩ := by
+  apply GridEdge.primalSym2_injective
+  rw [gridBoundaryCoordinateEdge_primalSym2_eq_gridBoundaryOffsetEdge_zero]
+  simp only [GridEdge.primalSym2_vertical, verticalPrimalEndpoints]
+  change gridBoundaryOffsetEdge hm hn p 0 =
+    s((⟨gridBoundaryLength m n - p.val - 1, by
+          unfold gridBoundaryLength at *
+          omega⟩, ⟨0, by omega⟩),
+      (⟨gridBoundaryLength m n - p.val - 1 + 1, by
+          unfold gridBoundaryLength at *
+          omega⟩, ⟨0, by omega⟩))
+  unfold gridBoundaryOffsetEdge
+  have hpnext : p.val + 1 ≤ gridBoundaryLength m n := by omega
+  by_cases hlast : p.val + 1 < gridBoundaryLength m n
+  · simp only [cyclicOffset, Nat.add_zero, Nat.mod_eq_of_lt p.isLt,
+      Nat.mod_eq_of_lt hlast]
+    have hnextval : (⟨p.val + 1, hlast⟩ : GridBoundaryPosition m n).val =
+        p.val + 1 := rfl
+    change s(gridBoundaryVertex hm hn p,
+      gridBoundaryVertex hm hn ⟨p.val + 1, hlast⟩) = _
+    by_cases hcorner : p.val < m + 2 * n - 2
+    · rw [gridBoundaryVertex_bottom hm hn p (by omega) hcorner,
+        gridBoundaryVertex_left hm hn ⟨p.val + 1, hlast⟩ (by omega)]
+      rw [Sym2.eq_iff]
+      right
+      constructor <;> apply Prod.ext <;> apply Fin.ext <;>
+        simp only [Fin.val_mk] <;> unfold gridBoundaryLength at * <;> omega
+    · rw [gridBoundaryVertex_left hm hn p hcorner,
+        gridBoundaryVertex_left hm hn ⟨p.val + 1, hlast⟩ (by omega)]
+      rw [Sym2.eq_iff]
+      right
+      constructor <;> apply Prod.ext <;> apply Fin.ext <;> simp only [Fin.val_mk] <;> omega
+  · have hlast' : p.val + 1 = gridBoundaryLength m n := by omega
+    have hshape : gridBoundaryLength m n =
+        (m + 2 * n - 2) + (m - 2) := by
+      unfold gridBoundaryLength
+      omega
+    simp only [cyclicOffset, Nat.add_zero, Nat.mod_eq_of_lt p.isLt,
+      hlast', Nat.mod_self]
+    change s(gridBoundaryVertex hm hn p,
+      gridBoundaryVertex hm hn ⟨0, gridBoundaryLength_pos hm hn⟩) = _
+    by_cases hcorner : p.val < m + 2 * n - 2
+    · rw [gridBoundaryVertex_bottom hm hn p (by omega) hcorner,
+        gridBoundaryVertex_top hm hn ⟨0, gridBoundaryLength_pos hm hn⟩ (by
+          change 0 < n
+          omega)]
+      rw [Sym2.eq_iff]
+      right
+      constructor <;> apply Prod.ext <;> apply Fin.ext <;>
+        simp only [Fin.val_mk] <;> unfold gridBoundaryLength at * <;> omega
+    · rw [gridBoundaryVertex_left hm hn p hcorner,
+        gridBoundaryVertex_top hm hn ⟨0, gridBoundaryLength_pos hm hn⟩ (by
+          change 0 < n
+          omega)]
+      rw [Sym2.eq_iff]
+      right
+      constructor <;> apply Prod.ext <;> apply Fin.ext <;>
+        simp only [Fin.val_mk] <;> unfold gridBoundaryLength at * <;> omega
+
+/-- Every clockwise coordinate boundary edge is incident to `out` and its
+named bounded face. -/
+theorem gridBoundaryCoordinateEdge_hasDualEndpoints_out_innerFace {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (p : GridBoundaryPosition m n) :
+    HasDualEndpoints (gridBoundaryCoordinateEdge hm hn p).dualEndpoints
+      GridFace.out (gridBoundaryEdgeInnerFace hm hn p) := by
+  by_cases htop : p.val < n - 1
+  · rw [gridBoundaryCoordinateEdge_eq_top hm hn p htop]
+    simp [gridBoundaryEdgeInnerFace, htop, GridEdge.dualEndpoints,
+      horizontalDualEndpoints, HasDualEndpoints] <;> omega
+  by_cases hright : p.val < n + m - 2
+  · rw [gridBoundaryCoordinateEdge_eq_right hm hn p htop hright]
+    have hnshape : n - 1 + 1 = n := Nat.sub_add_cancel (by omega)
+    change HasDualEndpoints (verticalDualEndpoints _)
+      GridFace.out (gridBoundaryEdgeInnerFace hm hn p)
+    right
+    constructor
+    · exact (verticalDualEndpoints_snd_of_right _ hnshape).symm
+    · have hp_lt : p.val < gridBoundaryLength m n := p.isLt
+      have hnsub : n - 1 ≠ 0 := by omega
+      unfold gridBoundaryLength at hp_lt
+      simp [verticalDualEndpoints, gridBoundaryEdgeInnerFace, htop, hright,
+        hnshape, hnsub, Nat.sub_sub]
+  by_cases hbottom : p.val < m + 2 * n - 3
+  · rw [gridBoundaryCoordinateEdge_eq_bottom hm hn p hright hbottom]
+    have hmshape : m - 1 + 1 = m := Nat.sub_add_cancel (by omega)
+    change HasDualEndpoints (horizontalDualEndpoints _)
+      GridFace.out (gridBoundaryEdgeInnerFace hm hn p)
+    right
+    constructor
+    · exact (horizontalDualEndpoints_snd_of_bottom _ hmshape).symm
+    · have hp_lt : p.val < gridBoundaryLength m n := p.isLt
+      have hmsub : m - 1 ≠ 0 := by omega
+      unfold gridBoundaryLength at hp_lt
+      simp [horizontalDualEndpoints, gridBoundaryEdgeInnerFace, htop, hright,
+        hbottom, hmshape, hmsub, Nat.sub_sub]
+  · rw [gridBoundaryCoordinateEdge_eq_left hm hn p hbottom]
+    have hn_ne : 1 ≠ n := by omega
+    change HasDualEndpoints (verticalDualEndpoints _)
+      GridFace.out (gridBoundaryEdgeInnerFace hm hn p)
+    left
+    constructor
+    · exact (verticalDualEndpoints_fst_of_left _ rfl).symm
+    · simp [verticalDualEndpoints, gridBoundaryEdgeInnerFace, htop, hright,
+        hbottom, hn_ne]
+
+/-- Exact unordered edge list of a finite clockwise boundary walk. -/
+@[simp] theorem edges_gridBoundaryForwardWalk {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) (d : Nat) :
+    (gridBoundaryForwardWalk hm hn i d).edges =
+      (List.range d).map (gridBoundaryOffsetEdge hm hn i) := by
+  induction d generalizing i with
+  | zero => simp [gridBoundaryForwardWalk]
+  | succ d ih =>
+      simp only [gridBoundaryForwardWalk, Walk.edges_copy, Walk.edges_cons, ih]
+      rw [List.range_succ_eq_map]
+      simp only [List.map_cons, List.map_map]
+      congr 1
+      · simp [gridBoundaryOffsetEdge, gridBoundarySucc_eq_cyclicOffset,
+          cyclicOffset, Nat.mod_eq_of_lt i.isLt]
+      · apply List.map_congr_left
+        intro t ht
+        simp only [Function.comp_apply, gridBoundaryOffsetEdge]
+        rw [Sym2.eq_iff]
+        left
+        constructor
+        · congr 1
+          rw [gridBoundarySucc_eq_cyclicOffset, cyclicOffset_succ]
+        · congr 1
+          rw [gridBoundarySucc_eq_cyclicOffset, cyclicOffset_succ]
+
 private theorem cyclicOffset_injective_below {k : Nat} (hk : 0 < k) (i : Fin k)
     {s t : Nat} (hs : s < k) (ht : t < k)
     (h : cyclicOffset hk i s = cyclicOffset hk i t) : s = t := by
@@ -229,12 +501,30 @@ noncomputable def collarBoundaryPosition {m n : Nat}
   exact congrArg Subtype.val
     ((gridBoundaryEquiv (by omega) (by omega)).apply_symm_apply ⟨x, hx⟩)
 
+@[simp] theorem collarBoundaryPosition_val {m n : Nat}
+    (x : GridVertex (m + 2) (n + 2)) (hx : IsGridBoundary x) :
+    (collarBoundaryPosition x hx).val = gridBoundaryIndex x := by
+  rw [← gridBoundaryIndex_vertex (show 2 ≤ m + 2 by omega)
+      (show 2 ≤ n + 2 by omega) (collarBoundaryPosition x hx),
+    gridBoundaryVertex_collarBoundaryPosition]
+
 /-- Clockwise distance in a nonempty finite cyclic numbering. -/
 def cyclicForwardDistance {k : Nat} (_hk : 0 < k) (i j : Fin k) : Nat :=
   if i.val ≤ j.val then j.val - i.val else j.val + k - i.val
 
+/-- The open clockwise sector from `c` to `d`. -/
+def OpenCyclicSector {k : Nat} (hk : 0 < k) (c d x : Fin k) : Prop :=
+  0 < cyclicForwardDistance hk c x ∧
+    cyclicForwardDistance hk c x < cyclicForwardDistance hk c d
+
 theorem cyclicForwardDistance_lt {k : Nat} (hk : 0 < k) (i j : Fin k) :
     cyclicForwardDistance hk i j < k := by
+  unfold cyclicForwardDistance
+  split_ifs <;> omega
+
+theorem cyclicForwardDistance_pos_of_ne {k : Nat} (hk : 0 < k)
+    {i j : Fin k} (hij : i ≠ j) : 0 < cyclicForwardDistance hk i j := by
+  have hijv : i.val ≠ j.val := fun h => hij (Fin.ext h)
   unfold cyclicForwardDistance
   split_ifs <;> omega
 
@@ -249,6 +539,85 @@ theorem cyclicOffset_forwardDistance {k : Nat} (hk : 0 < k) (i j : Fin k) :
     rw [Nat.add_sub_of_le hij]
     simp [Nat.mod_eq_of_lt j.isLt]
 
+private theorem cyclicForwardDistance_offset_of_lt {k : Nat} (hk : 0 < k)
+    (a : Fin k) {t : Nat} (ht : t < k) :
+    cyclicForwardDistance hk a (cyclicOffset hk a t) = t := by
+  have hoff := cyclicOffset_forwardDistance hk a (cyclicOffset hk a t)
+  have hdlt := cyclicForwardDistance_lt hk a (cyclicOffset hk a t)
+  exact cyclicOffset_injective_below hk a hdlt ht hoff
+
+/-- Before one complete revolution, boundary offset edges are injectively
+numbered by their offsets. -/
+theorem gridBoundaryOffsetEdge_injective_below {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n)
+    {s t : Nat} (hs : s < gridBoundaryLength m n)
+    (ht : t < gridBoundaryLength m n)
+    (h : gridBoundaryOffsetEdge hm hn i s =
+      gridBoundaryOffsetEdge hm hn i t) : s = t := by
+  rw [gridBoundaryOffsetEdge, gridBoundaryOffsetEdge, Sym2.eq_iff] at h
+  rcases h with h | h
+  · exact cyclicOffset_injective_below (gridBoundaryLength_pos hm hn) i hs ht
+      (gridBoundaryVertex_injective hm hn h.1)
+  · let k := gridBoundaryLength m n
+    have hk : 4 ≤ k := by
+      dsimp [k]
+      unfold gridBoundaryLength
+      omega
+    have hs₁ : s = (t + 1) % k := by
+      have he := gridBoundaryVertex_injective hm hn h.1
+      have hd := congrArg
+        (cyclicForwardDistance (gridBoundaryLength_pos hm hn) i) he
+      rw [cyclicForwardDistance_offset_of_lt _ _ hs] at hd
+      have heq : cyclicOffset (gridBoundaryLength_pos hm hn) i (t + 1) =
+          cyclicOffset (gridBoundaryLength_pos hm hn) i ((t + 1) % k) := by
+        apply Fin.ext
+        simp [cyclicOffset, k]
+      rw [heq, cyclicForwardDistance_offset_of_lt _ _
+        (Nat.mod_lt _ (gridBoundaryLength_pos hm hn))] at hd
+      exact hd
+    have ht₁ : t = (s + 1) % k := by
+      have he := gridBoundaryVertex_injective hm hn h.2
+      have hd := congrArg
+        (cyclicForwardDistance (gridBoundaryLength_pos hm hn) i) he
+      have heq : cyclicOffset (gridBoundaryLength_pos hm hn) i (s + 1) =
+          cyclicOffset (gridBoundaryLength_pos hm hn) i ((s + 1) % k) := by
+        apply Fin.ext
+        simp [cyclicOffset, k]
+      rw [heq, cyclicForwardDistance_offset_of_lt _ _
+          (Nat.mod_lt _ (gridBoundaryLength_pos hm hn)),
+        cyclicForwardDistance_offset_of_lt _ _ ht] at hd
+      exact hd.symm
+    by_cases htlast : t + 1 < k
+    · rw [Nat.mod_eq_of_lt htlast] at hs₁
+      by_cases hslast : s + 1 < k
+      · rw [Nat.mod_eq_of_lt hslast] at ht₁
+        omega
+      · have : s + 1 = k := by omega
+        rw [this, Nat.mod_self] at ht₁
+        omega
+    · have htK : t + 1 = k := by omega
+      rw [htK, Nat.mod_self] at hs₁
+      subst s
+      rw [Nat.mod_eq_of_lt (by omega)] at ht₁
+      omega
+
+/-- A named boundary edge occurs in a sub-revolution forward walk exactly
+when its offset is smaller than the walk length. -/
+theorem mem_edges_gridBoundaryForwardWalk_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n)
+    {d t : Nat} (hd : d ≤ gridBoundaryLength m n)
+    (ht : t < gridBoundaryLength m n) :
+    gridBoundaryOffsetEdge hm hn i t ∈
+        (gridBoundaryForwardWalk hm hn i d).edges ↔ t < d := by
+  rw [edges_gridBoundaryForwardWalk, List.mem_map]
+  constructor
+  · rintro ⟨s, hs, hst⟩
+    rw [List.mem_range] at hs
+    have hsK : s < gridBoundaryLength m n := by omega
+    exact (gridBoundaryOffsetEdge_injective_below hm hn i hsK ht hst).symm ▸ hs
+  · intro htd
+    exact ⟨t, by simp [htd], rfl⟩
+
 noncomputable def clockwiseOutPortPosition {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (i : GridBoundaryPosition m n) : GridBoundaryPosition (m + 2) (n + 2) :=
   collarBoundaryPosition (clockwiseOutPort hm hn i) (clockwiseOutPort_boundary hm hn i)
@@ -256,6 +625,40 @@ noncomputable def clockwiseOutPortPosition {m n : Nat} (hm : 2 ≤ m) (hn : 2 �
 noncomputable def clockwiseInPortPosition {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (i : GridBoundaryPosition m n) : GridBoundaryPosition (m + 2) (n + 2) :=
   collarBoundaryPosition (clockwiseInPort hm hn i) (clockwiseInPort_boundary hm hn i)
+
+/-- Numerical collar index of the outgoing port.  Passing each original corner
+adds the two extra outer-frame vertices belonging to that corner. -/
+def clockwiseOutPortIndex {m n : Nat} (i : GridBoundaryPosition m n) : Nat :=
+  if i.val < n - 1 then i.val + 1
+  else if i.val < n + m - 2 then i.val + 3
+  else if i.val < m + 2 * n - 3 then i.val + 5
+  else i.val + 7
+
+/-- Numerical collar index of the incoming port. -/
+def clockwiseInPortIndex {m n : Nat} (i : GridBoundaryPosition m n) : Nat :=
+  if i.val = 0 then gridBoundaryLength m n + 7
+  else if i.val < n then i.val + 1
+  else if i.val < n + m - 1 then i.val + 3
+  else if i.val < m + 2 * n - 2 then i.val + 5
+  else i.val + 7
+
+/-- The coordinate outer-frame edge immediately clockwise of the outward spoke
+at an original boundary position. -/
+noncomputable def outerEdgeAtPosition {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) : GridEdge (m + 2) (n + 2) :=
+  (GridEdge.equivGridGraphEdgeSet (m + 2) (n + 2)).symm
+    ⟨gridBoundaryOffsetEdge (by omega) (by omega)
+      (clockwiseOutPortPosition hm hn i) 0, by
+        unfold gridBoundaryOffsetEdge
+        rw [SimpleGraph.mem_edgeSet]
+        have hadj := (gridBoundaryForwardWalk (by omega) (by omega)
+          (clockwiseOutPortPosition hm hn i) 1).adj_of_mem_edges
+            ((mem_edges_gridBoundaryForwardWalk_iff (by omega) (by omega)
+              (clockwiseOutPortPosition hm hn i) (d := 1) (t := 0)
+              (by unfold gridBoundaryLength; omega)
+              (by have := gridBoundaryLength_pos (show 2 ≤ m + 2 by omega)
+                    (show 2 ≤ n + 2 by omega); omega)).2 (by omega))
+        simpa [gridBoundaryOffsetEdge] using hadj⟩
 
 @[simp] theorem boundaryVertex_clockwiseOutPortPosition {m n : Nat}
     (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
@@ -268,6 +671,311 @@ noncomputable def clockwiseInPortPosition {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤
     gridBoundaryVertex (by omega) (by omega) (clockwiseInPortPosition hm hn i) =
       clockwiseInPort hm hn i := by
   apply gridBoundaryVertex_collarBoundaryPosition
+
+@[simp] theorem clockwiseOutPortPosition_val {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    (clockwiseOutPortPosition hm hn i).val = clockwiseOutPortIndex i := by
+  have hi := i.isLt
+  unfold gridBoundaryLength at hi
+  unfold clockwiseOutPortPosition
+  rw [collarBoundaryPosition_val]
+  by_cases htop : i.val < n - 1
+  · simp [clockwiseOutPort, clockwiseOutPortIndex, gridBoundaryIndex, htop] <;> omega
+  by_cases hright : i.val < n + m - 2
+  · simp [clockwiseOutPort, clockwiseOutPortIndex, gridBoundaryIndex, htop, hright] <;>
+      omega
+  by_cases hbottom : i.val < m + 2 * n - 3
+  · simp [clockwiseOutPort, clockwiseOutPortIndex, gridBoundaryIndex, htop, hright,
+      hbottom] <;> split_ifs <;> omega
+  · simp [clockwiseOutPort, clockwiseOutPortIndex, gridBoundaryIndex, htop, hright,
+      hbottom, gridBoundaryLength] <;> split_ifs <;> omega
+
+@[simp] theorem clockwiseInPortPosition_val {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    (clockwiseInPortPosition hm hn i).val = clockwiseInPortIndex i := by
+  have hi := i.isLt
+  unfold gridBoundaryLength at hi
+  unfold clockwiseInPortPosition
+  rw [collarBoundaryPosition_val]
+  by_cases hzero : i.val = 0
+  · simp [clockwiseInPort, clockwiseInPortIndex, gridBoundaryIndex, hzero,
+      gridBoundaryLength] <;> split_ifs <;> omega
+  by_cases htop : i.val < n
+  · simp [clockwiseInPort, clockwiseInPortIndex, gridBoundaryIndex, hzero, htop] <;>
+      omega
+  by_cases hright : i.val < n + m - 1
+  · simp [clockwiseInPort, clockwiseInPortIndex, gridBoundaryIndex, hzero, htop,
+      hright] <;> omega
+  by_cases hbottom : i.val < m + 2 * n - 2
+  · simp [clockwiseInPort, clockwiseInPortIndex, gridBoundaryIndex, hzero, htop,
+      hright, hbottom] <;> split_ifs <;> omega
+  · simp [clockwiseInPort, clockwiseInPortIndex, gridBoundaryIndex, hzero, htop,
+      hright, hbottom, gridBoundaryLength] <;> split_ifs <;> omega
+
+set_option maxHeartbeats 1000000 in
+/-- Outgoing collar indices preserve the linear order of original boundary
+positions. -/
+theorem clockwiseOutPortIndex_lt_iff {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (a b : GridBoundaryPosition m n) :
+    clockwiseOutPortIndex a < clockwiseOutPortIndex b ↔ a.val < b.val := by
+  have ha := a.isLt
+  have hb := b.isLt
+  unfold gridBoundaryLength at ha hb
+  unfold clockwiseOutPortIndex
+  split_ifs <;> omega
+
+set_option maxHeartbeats 1000000 in
+/-- Away from equality, an outgoing port precedes an incoming port exactly
+when its original position precedes the incoming position. -/
+theorem clockwiseOutPortIndex_lt_inPortIndex_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (a b : GridBoundaryPosition m n)
+    (hb0 : b.val ≠ 0) (hab : a ≠ b) :
+    clockwiseOutPortIndex a < clockwiseInPortIndex b ↔ a.val < b.val := by
+  have ha := a.isLt
+  have hb := b.isLt
+  have habv : a.val ≠ b.val := fun h => hab (Fin.ext h)
+  unfold gridBoundaryLength at ha hb
+  unfold clockwiseOutPortIndex clockwiseInPortIndex gridBoundaryLength
+  split_ifs <;> omega
+
+set_option maxHeartbeats 1000000 in
+/-- Reverse cross-order counterpart of
+`clockwiseOutPortIndex_lt_inPortIndex_iff`. -/
+theorem clockwiseInPortIndex_lt_outPortIndex_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (a b : GridBoundaryPosition m n)
+    (ha0 : a.val ≠ 0) (hab : a ≠ b) :
+    clockwiseInPortIndex a < clockwiseOutPortIndex b ↔ a.val < b.val := by
+  have ha := a.isLt
+  have hb := b.isLt
+  have habv : a.val ≠ b.val := fun h => hab (Fin.ext h)
+  unfold gridBoundaryLength at ha hb
+  unfold clockwiseInPortIndex clockwiseOutPortIndex gridBoundaryLength
+  split_ifs <;> omega
+
+theorem clockwiseOutPortPosition_lt_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (a b : GridBoundaryPosition m n) :
+    (clockwiseOutPortPosition hm hn a).val <
+        (clockwiseOutPortPosition hm hn b).val ↔ a.val < b.val := by
+  simp only [clockwiseOutPortPosition_val]
+  exact clockwiseOutPortIndex_lt_iff hm hn a b
+
+theorem clockwiseOutPortPosition_lt_inPortPosition_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (a b : GridBoundaryPosition m n)
+    (hb0 : b.val ≠ 0) (hab : a ≠ b) :
+    (clockwiseOutPortPosition hm hn a).val <
+        (clockwiseInPortPosition hm hn b).val ↔ a.val < b.val := by
+  simp only [clockwiseOutPortPosition_val, clockwiseInPortPosition_val]
+  exact clockwiseOutPortIndex_lt_inPortIndex_iff hm hn a b hb0 hab
+
+theorem clockwiseInPortPosition_lt_outPortPosition_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (a b : GridBoundaryPosition m n)
+    (ha0 : a.val ≠ 0) (hab : a ≠ b) :
+    (clockwiseInPortPosition hm hn a).val <
+        (clockwiseOutPortPosition hm hn b).val ↔ a.val < b.val := by
+  simp only [clockwiseOutPortPosition_val, clockwiseInPortPosition_val]
+  exact clockwiseInPortIndex_lt_outPortIndex_iff hm hn a b ha0 hab
+
+theorem clockwiseOutPortPosition_injective {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) :
+    Function.Injective (clockwiseOutPortPosition hm hn) := by
+  intro a b hab
+  apply Fin.ext
+  by_contra hval
+  rcases Nat.lt_or_gt_of_ne hval with hlt | hgt
+  · have := (clockwiseOutPortPosition_lt_iff hm hn a b).2 hlt
+    rw [hab] at this
+    exact (Nat.lt_irrefl _ this).elim
+  · have := (clockwiseOutPortPosition_lt_iff hm hn b a).2 hgt
+    rw [hab] at this
+    exact (Nat.lt_irrefl _ this).elim
+
+set_option maxHeartbeats 1000000 in
+theorem clockwiseOutPortPosition_lt_last {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    (clockwiseOutPortPosition hm hn i).val + 1 <
+      gridBoundaryLength (m + 2) (n + 2) := by
+  rw [clockwiseOutPortPosition_val]
+  have hi := i.isLt
+  unfold clockwiseOutPortIndex gridBoundaryLength at *
+  split_ifs <;> omega
+
+/-- Strict order of clockwise distances from a base point depends only on the
+cyclic order of the three distinct positions. -/
+theorem cyclicForwardDistance_lt_iff_three_point_order {k : Nat} (hk : 0 < k)
+    (s x y : Fin k) (hxs : x ≠ s) (hys : y ≠ s) :
+    cyclicForwardDistance hk s x < cyclicForwardDistance hk s y ↔
+      (s.val < x.val ∧ x.val < y.val) ∨
+      (x.val < y.val ∧ y.val < s.val) ∨
+      (y.val < s.val ∧ s.val < x.val) := by
+  have hxs' : x.val ≠ s.val := fun h => hxs (Fin.ext h)
+  have hys' : y.val ≠ s.val := fun h => hys (Fin.ext h)
+  unfold cyclicForwardDistance
+  split_ifs <;> omega
+
+/-- The coordinate definition of `outerEdgeAtPosition` is the offset-zero edge
+of its outgoing collar port. -/
+theorem outerEdgeAtPosition_primalSym2 {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    (outerEdgeAtPosition hm hn i).primalSym2 =
+      gridBoundaryOffsetEdge (by omega) (by omega)
+        (clockwiseOutPortPosition hm hn i) 0 := by
+  exact congrArg Subtype.val
+    ((GridEdge.equivGridGraphEdgeSet (m + 2) (n + 2)).apply_symm_apply _)
+
+theorem outerEdgeAtPosition_eq_gridBoundaryCoordinateEdge {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    outerEdgeAtPosition hm hn i =
+      gridBoundaryCoordinateEdge (by omega) (by omega)
+        (clockwiseOutPortPosition hm hn i) := by
+  apply GridEdge.primalSym2_injective
+  rw [outerEdgeAtPosition_primalSym2,
+    gridBoundaryCoordinateEdge_primalSym2_eq_gridBoundaryOffsetEdge_zero]
+
+/-- The bounded collar face incident to the outer-frame edge at an original
+boundary position. -/
+noncomputable def outerEdgeInnerFace {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) : GridFace (m + 2) (n + 2) :=
+  gridBoundaryEdgeInnerFace (by omega) (by omega)
+    (clockwiseOutPortPosition hm hn i)
+
+theorem outerEdgeInnerFace_eq_top {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) (htop : i.val < n - 1) :
+    outerEdgeInnerFace hm hn i =
+      .cell ⟨0, by omega⟩ ⟨i.val + 1, by omega⟩ := by
+  simp [outerEdgeInnerFace, gridBoundaryEdgeInnerFace,
+    clockwiseOutPortIndex, htop, gridBoundaryLength] <;>
+    split_ifs <;> simp_all <;> omega
+
+theorem outerEdgeInnerFace_eq_right {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) (htop : ¬i.val < n - 1)
+    (hright : i.val < n + m - 2) :
+    outerEdgeInnerFace hm hn i =
+      .cell ⟨i.val + 2 - n, by omega⟩ ⟨n, by omega⟩ := by
+  have hbottom : i.val < m + 2 * n - 3 := by omega
+  have hi := i.isLt
+  unfold gridBoundaryLength at hi
+  have hK : gridBoundaryLength m n = m + 2 * n - 3 + (m - 1) := by
+    unfold gridBoundaryLength
+    omega
+  have hp : (clockwiseOutPortPosition hm hn i).val = i.val + 3 := by
+    simp [clockwiseOutPortIndex, htop, hright]
+  unfold outerEdgeInnerFace gridBoundaryEdgeInnerFace
+  simp only [hp]
+  have hK' : gridBoundaryLength (m + 2) (n + 2) =
+      (m + 2 * n - 3) + (m - 1) + 8 := by
+    unfold gridBoundaryLength
+    omega
+  split_ifs <;> simp_all [gridBoundaryLength, hK, hK', Fin.ext_iff] <;> omega
+
+theorem outerEdgeInnerFace_eq_bottom {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) (hright : ¬i.val < n + m - 2)
+    (hbottom : i.val < m + 2 * n - 3) :
+    outerEdgeInnerFace hm hn i =
+      .cell ⟨m, by omega⟩ ⟨m + 2 * n - 3 - i.val, by omega⟩ := by
+  have htop : ¬i.val < n - 1 := by omega
+  simp [outerEdgeInnerFace, gridBoundaryEdgeInnerFace,
+    clockwiseOutPortIndex, htop, hright, hbottom, gridBoundaryLength] <;>
+    split_ifs <;> simp_all <;> omega
+
+theorem outerEdgeInnerFace_eq_left {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) (hbottom : ¬i.val < m + 2 * n - 3) :
+    outerEdgeInnerFace hm hn i =
+      .cell ⟨gridBoundaryLength m n - i.val, by
+        unfold gridBoundaryLength at *
+        omega⟩ ⟨0, by omega⟩ := by
+  have htop : ¬i.val < n - 1 := by omega
+  have hright : ¬i.val < n + m - 2 := by omega
+  simp [outerEdgeInnerFace, gridBoundaryEdgeInnerFace,
+    clockwiseOutPortIndex, htop, hright, hbottom, gridBoundaryLength] <;>
+    split_ifs <;> simp_all <;> omega
+
+/-- The outer-frame edge at a boundary position has `out` and its named collar
+face as dual endpoints. -/
+theorem outerEdgeAtPosition_hasDualEndpoints_out_innerFace {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    HasDualEndpoints (outerEdgeAtPosition hm hn i).dualEndpoints GridFace.out
+      (outerEdgeInnerFace hm hn i) := by
+  rw [outerEdgeAtPosition_eq_gridBoundaryCoordinateEdge]
+  exact gridBoundaryCoordinateEdge_hasDualEndpoints_out_innerFace
+    (by omega) (by omega) (clockwiseOutPortPosition hm hn i)
+
+/-- An outer-frame edge cannot be a spoke or any other edge incident to an
+embedded original-grid vertex. -/
+theorem outerEdgeAtPosition_ne_edge_incident_collarEmbedding {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n)
+    (x : GridVertex m n) (y : GridVertex (m + 2) (n + 2)) :
+    (outerEdgeAtPosition hm hn i).primalSym2 ≠
+      s(gridCollarEmbedding m n x, y) := by
+  intro h
+  rw [outerEdgeAtPosition_primalSym2, gridBoundaryOffsetEdge, Sym2.eq_iff] at h
+  rcases h with h | h
+  · exact gridCollarEmbedding_not_boundary x
+      (h.1 ▸ gridBoundaryVertex_isBoundary (by omega) (by omega)
+        (cyclicOffset (gridBoundaryLength_pos (by omega) (by omega))
+          (clockwiseOutPortPosition hm hn i) 0))
+  · exact gridCollarEmbedding_not_boundary x
+      (h.2 ▸ gridBoundaryVertex_isBoundary (by omega) (by omega)
+        (cyclicOffset (gridBoundaryLength_pos (by omega) (by omega))
+          (clockwiseOutPortPosition hm hn i) 1))
+
+/-- Strict forward-distance order is preserved when original positions are
+sent to outgoing collar ports and the upper endpoint is sent to its incoming
+port. -/
+theorem clockwisePort_forwardDistance_lt_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (start finish i : GridBoundaryPosition m n)
+    (hsf : start ≠ finish) (his : i ≠ start) (hif : i ≠ finish) :
+    cyclicForwardDistance (gridBoundaryLength_pos (by omega) (by omega))
+        (clockwiseOutPortPosition hm hn start)
+        (clockwiseOutPortPosition hm hn i) <
+      cyclicForwardDistance (gridBoundaryLength_pos (by omega) (by omega))
+        (clockwiseOutPortPosition hm hn start)
+        (clockwiseInPortPosition hm hn finish) ↔
+      cyclicForwardDistance (gridBoundaryLength_pos hm hn) start i <
+        cyclicForwardDistance (gridBoundaryLength_pos hm hn) start finish := by
+  have hxi : clockwiseOutPortPosition hm hn i ≠
+      clockwiseOutPortPosition hm hn start := fun h =>
+    his (clockwiseOutPortPosition_injective hm hn h)
+  have hsfv : start.val ≠ finish.val := fun h => hsf (Fin.ext h)
+  have hisv : i.val ≠ start.val := fun h => his (Fin.ext h)
+  have hifv : i.val ≠ finish.val := fun h => hif (Fin.ext h)
+  by_cases hf0 : finish.val = 0
+  · have hinval : (clockwiseInPortPosition hm hn finish).val =
+        gridBoundaryLength (m + 2) (n + 2) - 1 := by
+      rw [clockwiseInPortPosition_val]
+      simp [clockwiseInPortIndex, hf0, gridBoundaryLength]
+      omega
+    have hys : clockwiseInPortPosition hm hn finish ≠
+        clockwiseOutPortPosition hm hn start := by
+      intro h
+      have := congrArg Fin.val h
+      rw [hinval] at this
+      have hslt := clockwiseOutPortPosition_lt_last hm hn start
+      omega
+    rw [cyclicForwardDistance_lt_iff_three_point_order _ _ _ _ hxi hys,
+      cyclicForwardDistance_lt_iff_three_point_order _ _ _ _ his hsf.symm]
+    rw [hinval]
+    have hilt := clockwiseOutPortPosition_lt_last hm hn i
+    have hslt := clockwiseOutPortPosition_lt_last hm hn start
+    rw [clockwiseOutPortPosition_lt_iff hm hn start i]
+    omega
+  · have hys : clockwiseInPortPosition hm hn finish ≠
+        clockwiseOutPortPosition hm hn start := by
+      intro h
+      have hv := congrArg Fin.val h
+      by_cases hlt : finish.val < start.val
+      · have := (clockwiseInPortPosition_lt_outPortPosition_iff
+          hm hn finish start hf0 hsf.symm).2 hlt
+        omega
+      · have hlt' : start.val < finish.val := by omega
+        have := (clockwiseOutPortPosition_lt_inPortPosition_iff
+          hm hn start finish hf0 hsf).2 hlt'
+        omega
+    rw [cyclicForwardDistance_lt_iff_three_point_order _ _ _ _ hxi hys,
+      cyclicForwardDistance_lt_iff_three_point_order _ _ _ _ his hsf.symm]
+    simp only [clockwiseOutPortPosition_lt_iff hm hn,
+      clockwiseOutPortPosition_lt_inPortPosition_iff hm hn i finish hf0 hif,
+      clockwiseInPortPosition_lt_outPortPosition_iff hm hn finish start hf0 hsf.symm]
 
 /-- The canonical clockwise outer-frame arc corresponding to the cyclic
 boundary interval from `i` to `j`. -/
@@ -283,6 +991,85 @@ noncomputable def clockwiseOuterArc {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
       (boundaryVertex_clockwiseOutPortPosition hm hn i) (by
         rw [cyclicOffset_forwardDistance]
         exact boundaryVertex_clockwiseInPortPosition hm hn j)
+
+/-- Exact edge list of the canonical clockwise collar arc. -/
+@[simp] theorem edges_clockwiseOuterArc {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i j : GridBoundaryPosition m n) :
+    (clockwiseOuterArc hm hn i j).edges =
+      (List.range (cyclicForwardDistance (gridBoundaryLength_pos (by omega) (by omega))
+        (clockwiseOutPortPosition hm hn i) (clockwiseInPortPosition hm hn j))).map
+        (gridBoundaryOffsetEdge (by omega) (by omega)
+          (clockwiseOutPortPosition hm hn i)) := by
+  unfold clockwiseOuterArc
+  simp
+
+/-- Membership of a named outer-frame edge in the canonical clockwise arc. -/
+theorem mem_edges_clockwiseOuterArc_iff {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i j : GridBoundaryPosition m n) {t : Nat}
+    (ht : t < gridBoundaryLength (m + 2) (n + 2)) :
+    gridBoundaryOffsetEdge (by omega) (by omega)
+        (clockwiseOutPortPosition hm hn i) t ∈
+        (clockwiseOuterArc hm hn i j).edges ↔
+      t < cyclicForwardDistance (gridBoundaryLength_pos (by omega) (by omega))
+        (clockwiseOutPortPosition hm hn i) (clockwiseInPortPosition hm hn j) := by
+  unfold clockwiseOuterArc
+  rw [Walk.edges_copy]
+  exact mem_edges_gridBoundaryForwardWalk_iff (by omega) (by omega)
+    (clockwiseOutPortPosition hm hn i)
+    (hd := Nat.le_of_lt (cyclicForwardDistance_lt _ _ _)) ht
+
+private theorem gridBoundaryOffsetEdge_forwardDistance {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (a b : GridBoundaryPosition m n) :
+    gridBoundaryOffsetEdge hm hn a
+        (cyclicForwardDistance (gridBoundaryLength_pos hm hn) a b) =
+      gridBoundaryOffsetEdge hm hn b 0 := by
+  unfold gridBoundaryOffsetEdge
+  let hk := gridBoundaryLength_pos hm hn
+  let d := cyclicForwardDistance hk a b
+  have hpos : cyclicOffset hk a d = b := cyclicOffset_forwardDistance hk a b
+  change s(gridBoundaryVertex hm hn (cyclicOffset hk a d),
+      gridBoundaryVertex hm hn (cyclicOffset hk a (d + 1))) = _
+  rw [hpos]
+  rw [show cyclicOffset (gridBoundaryLength_pos hm hn) b 0 = b by
+    apply Fin.ext
+    simp [cyclicOffset, Nat.mod_eq_of_lt b.isLt]]
+  rw [Sym2.eq_iff]
+  left
+  refine ⟨rfl, congrArg (gridBoundaryVertex hm hn) ?_⟩
+  rw [← hpos]
+  apply Fin.ext
+  change (a.val + (d + 1)) % gridBoundaryLength m n =
+    ((a.val + d) % gridBoundaryLength m n + 1) % gridBoundaryLength m n
+  rw [show a.val + (d + 1) = (a.val + d) + 1 by omega, Nat.add_mod]
+  simp [Nat.mod_eq_of_lt (gridBoundaryLength_pos hm hn)]
+
+/-- The outer edge attached to a non-endpoint original boundary position is in
+the canonical clockwise outer arc exactly on the corresponding open original
+sector. -/
+theorem outerEdgeAtPosition_mem_clockwiseOuterArc_iff_openCyclicSector
+    {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (start finish i : GridBoundaryPosition m n)
+    (hsf : start ≠ finish) (his : i ≠ start) (hif : i ≠ finish) :
+    (outerEdgeAtPosition hm hn i).primalSym2 ∈
+        (clockwiseOuterArc hm hn start finish).edges ↔
+      OpenCyclicSector (gridBoundaryLength_pos hm hn) start finish i := by
+  let t := cyclicForwardDistance (gridBoundaryLength_pos (by omega) (by omega))
+    (clockwiseOutPortPosition hm hn start) (clockwiseOutPortPosition hm hn i)
+  have ht : t < gridBoundaryLength (m + 2) (n + 2) :=
+    cyclicForwardDistance_lt _ _ _
+  have hedge : (outerEdgeAtPosition hm hn i).primalSym2 =
+      gridBoundaryOffsetEdge (by omega) (by omega)
+        (clockwiseOutPortPosition hm hn start) t := by
+    rw [outerEdgeAtPosition_primalSym2]
+    exact (gridBoundaryOffsetEdge_forwardDistance (by omega) (by omega)
+      (clockwiseOutPortPosition hm hn start)
+      (clockwiseOutPortPosition hm hn i)).symm
+  rw [hedge, mem_edges_clockwiseOuterArc_iff hm hn start finish ht]
+  rw [clockwisePort_forwardDistance_lt_iff hm hn start finish i hsf his hif]
+  unfold OpenCyclicSector
+  have hpos := cyclicForwardDistance_pos_of_ne (gridBoundaryLength_pos hm hn) his.symm
+  tauto
+
 
 /-- The counterclockwise outer-frame arc, defined as the reverse of the
 clockwise complementary interval. -/
@@ -456,6 +1243,13 @@ def closingWalk (A : GridCollarArc a b) :
       (gridCollarEmbedding m n b) (gridCollarEmbedding m n a) :=
   (Walk.cons A.end_spoke A.arc.reverse).concat A.start_spoke.symm
 
+/-- Exact edge decomposition of the route through the collar. -/
+@[simp] theorem edges_closingWalk (A : GridCollarArc a b) :
+    A.closingWalk.edges =
+      s(gridCollarEmbedding m n b, A.endPort) ::
+        A.arc.edges.reverse ++ [s(A.startPort, gridCollarEmbedding m n a)] := by
+  simp [closingWalk]
+
 @[simp] theorem mem_support_closingWalk_iff (A : GridCollarArc a b)
     (x : GridVertex (m + 2) (n + 2)) :
     x ∈ A.closingWalk.support ↔
@@ -508,6 +1302,20 @@ def mapWalk {u v : GridVertex m n} (p : (gridGraph m n).Walk u v) :
       (gridCollarEmbedding m n u) (gridCollarEmbedding m n v) :=
   p.map (gridCollarGraphEmbedding m n).toHom
 
+/-- An outer-frame edge is not used by a walk mapped from the central grid. -/
+theorem outerEdgeAtPosition_not_mem_edges_mapWalk {u v : GridVertex m n}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n)
+    (p : (gridGraph m n).Walk u v) :
+    (outerEdgeAtPosition hm hn i).primalSym2 ∉ (mapWalk p).edges := by
+  intro he
+  rw [mapWalk, Walk.edges_map, List.mem_map] at he
+  obtain ⟨e, -, he⟩ := he
+  induction e using Sym2.inductionOn with
+  | _ x y =>
+      rw [Sym2.map_pair_eq] at he
+      exact outerEdgeAtPosition_ne_edge_incident_collarEmbedding hm hn i x
+        (gridCollarEmbedding m n y) he.symm
+
 @[simp] theorem support_mapWalk {u v : GridVertex m n}
     (p : (gridGraph m n).Walk u v) :
     (mapWalk p).support = p.support.map (gridCollarEmbedding m n) := by
@@ -544,6 +1352,34 @@ def cycleWalk (A : GridCollarArc a b) (p : (gridGraph m n).Walk a b) :
     (gridGraph (m + 2) (n + 2)).Walk
       (gridCollarEmbedding m n b) (gridCollarEmbedding m n b) :=
   A.closingWalk.append (mapWalk p)
+
+/-- Exact edge decomposition of a collar-closed walk. -/
+@[simp] theorem edges_cycleWalk (A : GridCollarArc a b)
+    (p : (gridGraph m n).Walk a b) :
+    (A.cycleWalk p).edges =
+      s(gridCollarEmbedding m n b, A.endPort) ::
+        A.arc.edges.reverse ++
+          [s(A.startPort, gridCollarEmbedding m n a)] ++ (mapWalk p).edges := by
+  simp [cycleWalk]
+
+/-- A named outer-frame edge belongs to a collar closure exactly when it
+belongs to the selected outer arc. -/
+theorem outerEdgeAtPosition_mem_edges_cycleWalk_iff
+    (A : GridCollarArc a b) (p : (gridGraph m n).Walk a b)
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    (outerEdgeAtPosition hm hn i).primalSym2 ∈ (A.cycleWalk p).edges ↔
+      (outerEdgeAtPosition hm hn i).primalSym2 ∈ A.arc.edges := by
+  have hend := outerEdgeAtPosition_ne_edge_incident_collarEmbedding hm hn i b A.endPort
+  have hstart := outerEdgeAtPosition_ne_edge_incident_collarEmbedding hm hn i a A.startPort
+  have hstart' : (outerEdgeAtPosition hm hn i).primalSym2 ≠
+      s(A.startPort, gridCollarEmbedding m n a) := by
+    intro h
+    apply hstart
+    rw [h, Sym2.eq_iff]
+    exact Or.inr ⟨rfl, rfl⟩
+  have hmap := outerEdgeAtPosition_not_mem_edges_mapWalk hm hn i p
+  rw [edges_cycleWalk]
+  simp [hend, hstart', hmap]
 
 /-- The collar closure of a simple crosscut is a simple cycle.  The proof is
 purely combinatorial: the translated path is internal, while the middle of the
@@ -670,18 +1506,40 @@ noncomputable def finishPosition (P : GridCrosscut m n) (hm : 2 ≤ m) (hn : 2 �
 
 /-- The canonical clockwise collar arc of a crosscut. -/
 noncomputable def clockwiseArc (P : GridCrosscut m n) (hm : 2 ≤ m) (hn : 2 ≤ n) :
-    GridCollarArc P.start P.finish := by
-  rw [← P.boundaryVertex_startPosition hm hn,
-    ← P.boundaryVertex_finishPosition hm hn]
-  exact GridCollarArc.clockwise hm hn (P.startPosition hm hn) (P.finishPosition hm hn)
+    GridCollarArc P.start P.finish where
+  startPort := clockwiseOutPort hm hn (P.startPosition hm hn)
+  endPort := clockwiseInPort hm hn (P.finishPosition hm hn)
+  arc := clockwiseOuterArc hm hn (P.startPosition hm hn) (P.finishPosition hm hn)
+  start_spoke := by
+    rw [← P.boundaryVertex_startPosition hm hn]
+    exact clockwiseOutPort_spoke hm hn (P.startPosition hm hn)
+  end_spoke := by
+    rw [← P.boundaryVertex_finishPosition hm hn]
+    exact clockwiseInPort_spoke hm hn (P.finishPosition hm hn)
+  arc_isPath := clockwiseOuterArc_isPath hm hn _ _
+  arc_on_outer_frame := fun _ hx => clockwiseOuterArc_on_boundary hm hn _ _ hx
+
+/-- The endpoint transports in `clockwiseArc` do not alter its outer arc. -/
+@[simp] theorem edges_clockwiseArc (P : GridCrosscut m n)
+    (hm : 2 ≤ m) (hn : 2 ≤ n) :
+    (P.clockwiseArc hm hn).arc.edges =
+      (clockwiseOuterArc hm hn (P.startPosition hm hn)
+        (P.finishPosition hm hn)).edges := rfl
 
 /-- The canonical counterclockwise collar arc of a crosscut. -/
 noncomputable def counterclockwiseArc (P : GridCrosscut m n)
-    (hm : 2 ≤ m) (hn : 2 ≤ n) : GridCollarArc P.start P.finish := by
-  rw [← P.boundaryVertex_startPosition hm hn,
-    ← P.boundaryVertex_finishPosition hm hn]
-  exact GridCollarArc.counterclockwise hm hn
-    (P.startPosition hm hn) (P.finishPosition hm hn)
+    (hm : 2 ≤ m) (hn : 2 ≤ n) : GridCollarArc P.start P.finish where
+  startPort := clockwiseInPort hm hn (P.startPosition hm hn)
+  endPort := clockwiseOutPort hm hn (P.finishPosition hm hn)
+  arc := counterclockwiseOuterArc hm hn (P.startPosition hm hn) (P.finishPosition hm hn)
+  start_spoke := by
+    rw [← P.boundaryVertex_startPosition hm hn]
+    exact clockwiseInPort_spoke hm hn (P.startPosition hm hn)
+  end_spoke := by
+    rw [← P.boundaryVertex_finishPosition hm hn]
+    exact clockwiseOutPort_spoke hm hn (P.finishPosition hm hn)
+  arc_isPath := counterclockwiseOuterArc_isPath hm hn _ _
+  arc_on_outer_frame := fun _ hx => counterclockwiseOuterArc_on_boundary hm hn _ _ hx
 
 /-- Select either canonical cyclic boundary interval without supplying an arc. -/
 noncomputable def canonicalArc (P : GridCrosscut m n)
@@ -697,6 +1555,40 @@ noncomputable def canonicalClosedWalk (P : GridCrosscut m n)
     (gridGraph (m + 2) (n + 2)).Walk
       (gridCollarEmbedding m n P.finish) (gridCollarEmbedding m n P.finish) :=
   (P.canonicalArc choice hm hn).cycleWalk P.path
+
+/-- Exact edge decomposition of a canonical crosscut closure. -/
+@[simp] theorem edges_canonicalClosedWalk (P : GridCrosscut m n)
+    (choice : GridCollarArc.CanonicalChoice) (hm : 2 ≤ m) (hn : 2 ≤ n) :
+    (P.canonicalClosedWalk choice hm hn).edges =
+      s(gridCollarEmbedding m n P.finish,
+          (P.canonicalArc choice hm hn).endPort) ::
+        (P.canonicalArc choice hm hn).arc.edges.reverse ++
+          [s((P.canonicalArc choice hm hn).startPort,
+            gridCollarEmbedding m n P.start)] ++
+          (GridCollarArc.mapWalk P.path).edges := by
+  simp [canonicalClosedWalk]
+
+/-- For the clockwise choice, the canonical arc has exactly the underlying
+clockwise outer-arc edges, without endpoint casts. -/
+@[simp] theorem edges_canonicalArc_clockwise (P : GridCrosscut m n)
+    (hm : 2 ≤ m) (hn : 2 ≤ n) :
+    (P.canonicalArc .clockwise hm hn).arc.edges =
+      (clockwiseOuterArc hm hn (P.startPosition hm hn)
+        (P.finishPosition hm hn)).edges := by
+  rfl
+
+/-- Membership of a non-endpoint outer edge in the clockwise canonical closure
+is exactly membership in the corresponding clockwise outer arc. -/
+theorem outerEdgeAtPosition_mem_canonicalClosedWalk_clockwise_iff_outerArc
+    (P : GridCrosscut m n) (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) :
+    (outerEdgeAtPosition hm hn i).primalSym2 ∈
+        (P.canonicalClosedWalk .clockwise hm hn).edges ↔
+      (outerEdgeAtPosition hm hn i).primalSym2 ∈
+        (clockwiseOuterArc hm hn (P.startPosition hm hn)
+          (P.finishPosition hm hn)).edges := by
+  exact (P.canonicalArc .clockwise hm hn).outerEdgeAtPosition_mem_edges_cycleWalk_iff
+    P.path hm hn i |>.trans (by rw [P.edges_canonicalArc_clockwise hm hn])
 
 /-- Both canonical closures are simple cycles. -/
 theorem canonicalClosedWalk_isCycle (P : GridCrosscut m n)

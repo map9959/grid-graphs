@@ -1,0 +1,516 @@
+{
+  "checker": "residue_two_counter_interval_surgery",
+  "k_values": [
+    7,
+    8,
+    9
+  ],
+  "records": [
+    {
+      "affine_root": "H:r0:c2..22",
+      "checks": {
+        "counter_has_positive_length": true,
+        "leaf_elimination_covers_all_nodes": true,
+        "leaf_elimination_suffix_degree_at_most_one": true,
+        "one_root": true,
+        "parent_graph_has_node_minus_one_edges": true,
+        "stable_affine_edge_found": true,
+        "symbolic_attachment_owners_are_unique": true,
+        "target_cardinality": true
+      },
+      "count": {
+        "affine_length": 194,
+        "counter_length": 2,
+        "target_formula": "(3k^2+6k+5)+(k-5)=3k^2+7k",
+        "total_length": 196
+      },
+      "counter_interval": {
+        "abstract_endpoints": [
+          "0",
+          "k-6"
+        ],
+        "child": "V:c0:r0..22",
+        "child_attachment_owner": "open:beta_k(counter,branch)",
+        "grid_fixed_coordinate": null,
+        "id": "C:counter",
+        "length": 2,
+        "orientation": "H",
+        "parent": "H:r0:c2..22",
+        "parent_attachment_owner": "open:alpha_k(root,counter)"
+      },
+      "deleted_attachment": {
+        "child": "V:c0:r0..22",
+        "owner": [
+          0,
+          1
+        ],
+        "parent": "H:r0:c2..22"
+      },
+      "detached_branch": "V:c0:r0..22",
+      "geometry": {
+        "obligations": [
+          "realize C_k as a horizontal interval of length k-5",
+          "remove the affine root-branch star intersection at (0,1)",
+          "realize distinct singleton owners alpha_k and beta_k",
+          "exclude all undeclared star intersections and unit-cell cycles"
+        ],
+        "status": "open_L3"
+      },
+      "incidence_link_count": 28,
+      "k": 7,
+      "leaf_elimination_order": [
+        "H:r20:c18..18",
+        "H:r8:c14..14",
+        "V:c12:r4..20",
+        "H:r18:c17..17",
+        "V:c15:r10..11",
+        "V:c15:r13..14",
+        "V:c15:r16..20",
+        "H:r19:c20..20",
+        "H:r7:c20..20",
+        "V:c22:r3..22",
+        "V:c3:r3..20",
+        "V:c6:r4..20",
+        "V:c9:r4..20",
+        "H:r22:c2..20",
+        "V:c0:r0..22",
+        "C:counter",
+        "H:r2:c11..11",
+        "H:r2:c20..20",
+        "H:r2:c5..5",
+        "H:r2:c8..8",
+        "V:c14:r2..3",
+        "V:c15:r5..6",
+        "H:r12:c17..17",
+        "H:r15:c17..17",
+        "V:c19:r9..17",
+        "V:c17:r6..9",
+        "V:c19:r4..5",
+        "V:c17:r2..4",
+        "H:r0:c2..22"
+      ],
+      "leaf_elimination_suffix_degrees": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "node_count": 29,
+      "parent_overrides": {
+        "C:counter": "H:r0:c2..22",
+        "V:c0:r0..22": "C:counter"
+      },
+      "status": "abstract_verified"
+    },
+    {
+      "affine_root": "H:r0:c2..25",
+      "checks": {
+        "counter_has_positive_length": true,
+        "leaf_elimination_covers_all_nodes": true,
+        "leaf_elimination_suffix_degree_at_most_one": true,
+        "one_root": true,
+        "parent_graph_has_node_minus_one_edges": true,
+        "stable_affine_edge_found": true,
+        "symbolic_attachment_owners_are_unique": true,
+        "target_cardinality": true
+      },
+      "count": {
+        "affine_length": 245,
+        "counter_length": 3,
+        "target_formula": "(3k^2+6k+5)+(k-5)=3k^2+7k",
+        "total_length": 248
+      },
+      "counter_interval": {
+        "abstract_endpoints": [
+          "0",
+          "k-6"
+        ],
+        "child": "V:c0:r0..25",
+        "child_attachment_owner": "open:beta_k(counter,branch)",
+        "grid_fixed_coordinate": null,
+        "id": "C:counter",
+        "length": 3,
+        "orientation": "H",
+        "parent": "H:r0:c2..25",
+        "parent_attachment_owner": "open:alpha_k(root,counter)"
+      },
+      "deleted_attachment": {
+        "child": "V:c0:r0..25",
+        "owner": [
+          0,
+          1
+        ],
+        "parent": "H:r0:c2..25"
+      },
+      "detached_branch": "V:c0:r0..25",
+      "geometry": {
+        "obligations": [
+          "realize C_k as a horizontal interval of length k-5",
+          "remove the affine root-branch star intersection at (0,1)",
+          "realize distinct singleton owners alpha_k and beta_k",
+          "exclude all undeclared star intersections and unit-cell cycles"
+        ],
+        "status": "open_L3"
+      },
+      "incidence_link_count": 32,
+      "k": 8,
+      "leaf_elimination_order": [
+        "H:r23:c21..21",
+        "V:c12:r4..23",
+        "H:r8:c17..17",
+        "V:c15:r4..23",
+        "H:r21:c20..20",
+        "V:c18:r10..11",
+        "V:c18:r13..14",
+        "V:c18:r16..17",
+        "V:c18:r19..23",
+        "H:r22:c23..23",
+        "H:r7:c23..23",
+        "V:c25:r3..25",
+        "V:c3:r3..23",
+        "V:c6:r4..23",
+        "V:c9:r4..23",
+        "H:r25:c2..23",
+        "V:c0:r0..25",
+        "C:counter",
+        "H:r2:c11..11",
+        "H:r2:c14..14",
+        "H:r2:c23..23",
+        "H:r2:c5..5",
+        "H:r2:c8..8",
+        "V:c17:r2..3",
+        "V:c18:r5..6",
+        "H:r12:c20..20",
+        "H:r15:c20..20",
+        "H:r18:c20..20",
+        "V:c22:r9..20",
+        "V:c20:r6..9",
+        "V:c22:r4..5",
+        "V:c20:r2..4",
+        "H:r0:c2..25"
+      ],
+      "leaf_elimination_suffix_degrees": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "node_count": 33,
+      "parent_overrides": {
+        "C:counter": "H:r0:c2..25",
+        "V:c0:r0..25": "C:counter"
+      },
+      "status": "abstract_verified"
+    },
+    {
+      "affine_root": "H:r0:c2..28",
+      "checks": {
+        "counter_has_positive_length": true,
+        "leaf_elimination_covers_all_nodes": true,
+        "leaf_elimination_suffix_degree_at_most_one": true,
+        "one_root": true,
+        "parent_graph_has_node_minus_one_edges": true,
+        "stable_affine_edge_found": true,
+        "symbolic_attachment_owners_are_unique": true,
+        "target_cardinality": true
+      },
+      "count": {
+        "affine_length": 302,
+        "counter_length": 4,
+        "target_formula": "(3k^2+6k+5)+(k-5)=3k^2+7k",
+        "total_length": 306
+      },
+      "counter_interval": {
+        "abstract_endpoints": [
+          "0",
+          "k-6"
+        ],
+        "child": "V:c0:r0..28",
+        "child_attachment_owner": "open:beta_k(counter,branch)",
+        "grid_fixed_coordinate": null,
+        "id": "C:counter",
+        "length": 4,
+        "orientation": "H",
+        "parent": "H:r0:c2..28",
+        "parent_attachment_owner": "open:alpha_k(root,counter)"
+      },
+      "deleted_attachment": {
+        "child": "V:c0:r0..28",
+        "owner": [
+          0,
+          1
+        ],
+        "parent": "H:r0:c2..28"
+      },
+      "detached_branch": "V:c0:r0..28",
+      "geometry": {
+        "obligations": [
+          "realize C_k as a horizontal interval of length k-5",
+          "remove the affine root-branch star intersection at (0,1)",
+          "realize distinct singleton owners alpha_k and beta_k",
+          "exclude all undeclared star intersections and unit-cell cycles"
+        ],
+        "status": "open_L3"
+      },
+      "incidence_link_count": 36,
+      "k": 9,
+      "leaf_elimination_order": [
+        "H:r26:c24..24",
+        "V:c12:r4..26",
+        "V:c15:r4..26",
+        "H:r8:c20..20",
+        "V:c18:r4..26",
+        "H:r24:c23..23",
+        "V:c21:r10..11",
+        "V:c21:r13..14",
+        "V:c21:r16..17",
+        "V:c21:r19..20",
+        "V:c21:r22..26",
+        "H:r25:c26..26",
+        "H:r7:c26..26",
+        "V:c28:r3..28",
+        "V:c3:r3..26",
+        "V:c6:r4..26",
+        "V:c9:r4..26",
+        "H:r28:c2..26",
+        "V:c0:r0..28",
+        "C:counter",
+        "H:r2:c11..11",
+        "H:r2:c14..14",
+        "H:r2:c17..17",
+        "H:r2:c26..26",
+        "H:r2:c5..5",
+        "H:r2:c8..8",
+        "V:c20:r2..3",
+        "V:c21:r5..6",
+        "H:r12:c23..23",
+        "H:r15:c23..23",
+        "H:r18:c23..23",
+        "H:r21:c23..23",
+        "V:c25:r9..23",
+        "V:c23:r6..9",
+        "V:c25:r4..5",
+        "V:c23:r2..4",
+        "H:r0:c2..28"
+      ],
+      "leaf_elimination_suffix_degrees": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "node_count": 37,
+      "parent_overrides": {
+        "C:counter": "H:r0:c2..28",
+        "V:c0:r0..28": "C:counter"
+      },
+      "status": "abstract_verified"
+    }
+  ],
+  "schema": "grid-graphs.residue-two-counter-interval-surgery.v1",
+  "scope": "Exact abstract parent/count identities for arbitrary k>=7, with deterministic audits at listed widths; alpha_k and beta_k remain explicit L3 grid obligations.",
+  "status": "abstract_verified_geometry_open",
+  "symbolic_claim": {
+    "counter_length": "k-5",
+    "deleted_parent_edge": "R_k -> B_k",
+    "index_type": "AffineNode(k) + {C_k}",
+    "range": "k>=7",
+    "replacement_parent_path": "R_k -> C_k -> B_k",
+    "step_gain": "6k+10",
+    "total_length": "3k^2+7k"
+  },
+  "transitions": [
+    {
+      "checks": {
+        "affine_gain_is_6k_plus_9": true,
+        "all_old_nodes_have_images": true,
+        "counter_endpoint_moves_by_one": true,
+        "four_affine_new_nodes_remain_leaves": true,
+        "successor_leaf_elimination": true,
+        "surgery_gain_is_6k_plus_10": true,
+        "uniform_parent_map_transports": true
+      },
+      "gain": {
+        "changed_affine_old_intervals": "k+2, each gaining 3",
+        "changed_affine_old_length": 27,
+        "counter_length_change": 1,
+        "formula": "(3k+6)+(3k+3)+1=6k+10",
+        "new_affine_interval_length": 24,
+        "total": 52
+      },
+      "insertion_map": {
+        "affine_nodes": "the checked affine owner map",
+        "counter": "C_k -> C_(k+1)",
+        "counter_local_coordinate": "i -> i for 0<=i<=k-6",
+        "counter_new_endpoint": "k-5"
+      },
+      "k": 7,
+      "new_affine_leaves": [
+        "H:r2:c5..5",
+        "H:r12:c20..20",
+        "V:c6:r4..23",
+        "V:c18:r10..11"
+      ],
+      "parent_mismatches": [],
+      "status": "abstract_verified",
+      "successor_k": 8
+    },
+    {
+      "checks": {
+        "affine_gain_is_6k_plus_9": true,
+        "all_old_nodes_have_images": true,
+        "counter_endpoint_moves_by_one": true,
+        "four_affine_new_nodes_remain_leaves": true,
+        "successor_leaf_elimination": true,
+        "surgery_gain_is_6k_plus_10": true,
+        "uniform_parent_map_transports": true
+      },
+      "gain": {
+        "changed_affine_old_intervals": "k+2, each gaining 3",
+        "changed_affine_old_length": 30,
+        "counter_length_change": 1,
+        "formula": "(3k+6)+(3k+3)+1=6k+10",
+        "new_affine_interval_length": 27,
+        "total": 58
+      },
+      "insertion_map": {
+        "affine_nodes": "the checked affine owner map",
+        "counter": "C_k -> C_(k+1)",
+        "counter_local_coordinate": "i -> i for 0<=i<=k-6",
+        "counter_new_endpoint": "k-5"
+      },
+      "k": 8,
+      "new_affine_leaves": [
+        "H:r2:c5..5",
+        "H:r12:c23..23",
+        "V:c6:r4..26",
+        "V:c21:r10..11"
+      ],
+      "parent_mismatches": [],
+      "status": "abstract_verified",
+      "successor_k": 9
+    },
+    {
+      "checks": {
+        "affine_gain_is_6k_plus_9": true,
+        "all_old_nodes_have_images": true,
+        "counter_endpoint_moves_by_one": true,
+        "four_affine_new_nodes_remain_leaves": true,
+        "successor_leaf_elimination": true,
+        "surgery_gain_is_6k_plus_10": true,
+        "uniform_parent_map_transports": true
+      },
+      "gain": {
+        "changed_affine_old_intervals": "k+2, each gaining 3",
+        "changed_affine_old_length": 33,
+        "counter_length_change": 1,
+        "formula": "(3k+6)+(3k+3)+1=6k+10",
+        "new_affine_interval_length": 30,
+        "total": 64
+      },
+      "insertion_map": {
+        "affine_nodes": "the checked affine owner map",
+        "counter": "C_k -> C_(k+1)",
+        "counter_local_coordinate": "i -> i for 0<=i<=k-6",
+        "counter_new_endpoint": "k-5"
+      },
+      "k": 9,
+      "new_affine_leaves": [
+        "H:r2:c5..5",
+        "H:r12:c26..26",
+        "V:c6:r4..29",
+        "V:c24:r10..11"
+      ],
+      "parent_mismatches": [],
+      "status": "abstract_verified",
+      "successor_k": 10
+    }
+  ]
+}

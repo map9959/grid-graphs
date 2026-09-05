@@ -133,19 +133,19 @@ noncomputable def gridBoundaryEquiv {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n) :
         obtain ⟨i, rfl⟩ := exists_gridBoundaryPosition hm hn v hv
         exact ⟨i, rfl⟩⟩
 
-private theorem gridBoundaryVertex_top {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+theorem gridBoundaryVertex_top {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (i : GridBoundaryPosition m n) (hi : i.val < n) :
     gridBoundaryVertex hm hn i = (⟨0, by omega⟩, ⟨i.val, hi⟩) := by
   simp [gridBoundaryVertex, hi]
 
-private theorem gridBoundaryVertex_right {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+theorem gridBoundaryVertex_right {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (i : GridBoundaryPosition m n) (htop : ¬i.val < n)
     (hi : i.val < n + m - 1) :
     gridBoundaryVertex hm hn i =
       (⟨i.val - n + 1, by omega⟩, ⟨n - 1, by omega⟩) := by
   simp [gridBoundaryVertex, htop, hi]
 
-private theorem gridBoundaryVertex_bottom {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+theorem gridBoundaryVertex_bottom {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (i : GridBoundaryPosition m n) (hright : ¬i.val < n + m - 1)
     (hi : i.val < m + 2 * n - 2) :
     gridBoundaryVertex hm hn i =
@@ -153,7 +153,7 @@ private theorem gridBoundaryVertex_bottom {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤
   have htop : ¬i.val < n := by omega
   simp [gridBoundaryVertex, htop, hright, hi]
 
-private theorem gridBoundaryVertex_left {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+theorem gridBoundaryVertex_left {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (i : GridBoundaryPosition m n) (hi : ¬i.val < m + 2 * n - 2) :
     gridBoundaryVertex hm hn i =
       (⟨gridBoundaryLength m n - i.val, by
@@ -168,6 +168,18 @@ def gridBoundarySucc {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (i : GridBoundaryPosition m n) : GridBoundaryPosition m n :=
   ⟨(i.val + 1) % gridBoundaryLength m n,
     Nat.mod_lt _ (gridBoundaryLength_pos hm hn)⟩
+
+/-- Away from the final position, clockwise successor increments the index. -/
+theorem gridBoundarySucc_val_of_lt {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) (hi : i.val + 1 < gridBoundaryLength m n) :
+    (gridBoundarySucc hm hn i).val = i.val + 1 := by
+  exact Nat.mod_eq_of_lt hi
+
+/-- The final clockwise boundary position wraps to zero. -/
+theorem gridBoundarySucc_val_of_last {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (i : GridBoundaryPosition m n) (hi : i.val + 1 = gridBoundaryLength m n) :
+    (gridBoundarySucc hm hn i).val = 0 := by
+  simp [gridBoundarySucc, hi]
 
 /-- Consecutive clockwise positions are adjacent, including the wrap from the
 last position back to the top-left corner. -/
@@ -250,6 +262,11 @@ theorem gridBoundaryVertex_succ_adj {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
 /-- Move forward by `d` positions in a nonempty finite cycle. -/
 def cyclicOffset {k : Nat} (hk : 0 < k) (i : Fin k) (d : Nat) : Fin k :=
   ⟨(i.val + d) % k, Nat.mod_lt _ hk⟩
+
+/-- Offset one is the clockwise successor. -/
+theorem cyclicOffset_one_eq_gridBoundarySucc {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (i : GridBoundaryPosition m n) :
+    cyclicOffset (gridBoundaryLength_pos hm hn) i 1 = gridBoundarySucc hm hn i := rfl
 
 /-- Four distinct cyclic positions encountered in the displayed order after
 starting at `a`. -/

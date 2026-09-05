@@ -1,6 +1,6 @@
 import GridGraphs.GridBoundaryCycle
 import GridGraphs.GridCrop
-import GridGraphs.GridDual
+import GridGraphs.GridCrosscutParity
 
 /-!
 # Boundary path crossing and component nonalternation
@@ -63,6 +63,45 @@ theorem not_endpointPathsIntersect_of_distinct_component_paths
   exact hCD (ConnectedComponent.eq_of_common_vertex
     (Walk.support_subset_connectedComponent p C ha hxp)
     (Walk.support_subset_connectedComponent q D hb hxq))
+
+/-- Component labels around the boundary of a grid subgraph cannot alternate.
+-/
+theorem componentLabelsNonalternating_gridBoundary
+    {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
+    (G : SimpleGraph (GridVertex m n)) (hG : G ≤ gridGraph m n)
+    (a b c d : GridBoundaryPosition m n)
+    (halt : CyclicallyAlternating (gridBoundaryLength_pos hm hn) a c b d) :
+    ComponentLabelsNonalternating G
+      (gridBoundaryVertex hm hn a) (gridBoundaryVertex hm hn b)
+      (gridBoundaryVertex hm hn c) (gridBoundaryVertex hm hn d) := by
+  intro C D ha hc hb hd
+  by_contra hCD
+  rw [ConnectedComponent.mem_supp_iff] at ha hc hb hd
+  have hac : G.Reachable (gridBoundaryVertex hm hn a)
+      (gridBoundaryVertex hm hn c) :=
+    ConnectedComponent.exact (ha.trans hc.symm)
+  have hbd : G.Reachable (gridBoundaryVertex hm hn b)
+      (gridBoundaryVertex hm hn d) :=
+    ConnectedComponent.exact (hb.trans hd.symm)
+  obtain ⟨p, hp⟩ := hac.exists_isPath
+  obtain ⟨q, hq⟩ := hbd.exists_isPath
+  let inclusion : G →g gridGraph m n :=
+    { toFun := id
+      map_rel' := fun h => hG h }
+  let p' := p.map inclusion
+  let q' := q.map inclusion
+  have hp' : p'.IsPath :=
+    Walk.map_isPath_of_injective (by intro x y h; exact h) hp
+  obtain ⟨x, hxp, hxq⟩ :=
+    grid_paths_intersect_of_cyclicallyAlternating hm hn p' hp' q' halt
+  apply hCD
+  apply ConnectedComponent.eq_of_common_vertex
+  · apply Walk.support_subset_connectedComponent p C
+      (by simpa [ConnectedComponent.mem_supp_iff] using ha)
+    simpa [p', inclusion, Walk.support_map] using hxp
+  · apply Walk.support_subset_connectedComponent q D
+      (by simpa [ConnectedComponent.mem_supp_iff] using hb)
+    simpa [q', inclusion, Walk.support_map] using hxq
 
 /-! ## Persistence across overlapping induced crops -/
 

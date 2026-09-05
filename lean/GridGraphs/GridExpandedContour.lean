@@ -164,6 +164,95 @@ omit [DecidableRel T.Adj] in theorem slotOfDart_injective :
   congr 1
   exact congrArg GridDirectionalDart.target (GridDirectionalDart.ext rfl rfl)
 
+/-- Expanded contour slots based at vertices in a dart's target shore. -/
+noncomputable def expandedTargetShoreSlots (d : GridDirectionalDart T) :
+    Finset (GridCompassSlot m n) :=
+  Finset.univ.filter fun slot => slot.1 ∈ d.targetShoreVertices
+
+@[simp] theorem mem_expandedTargetShoreSlots
+    (d : GridDirectionalDart T) (slot : GridCompassSlot m n) :
+    slot ∈ expandedTargetShoreSlots d ↔ slot.1 ∈ d.targetShoreVertices := by
+  simp [expandedTargetShoreSlots]
+
+theorem succ_mem_expandedTargetShoreSlots_iff_of_notMem
+    (hacyclic : T.IsAcyclic) (d : GridDirectionalDart T)
+    (slot : GridCompassSlot m n)
+    (hout : slot ∉ expandedTargetShoreSlots d) :
+    succ (T := T) slot ∈ expandedTargetShoreSlots d ↔
+      slot = slotOfDart d := by
+  by_cases hoccupied : Occupied (T := T) slot
+  · let x := GridDirectionalDart.ofDirectionMem (T := T) slot.1 slot.2 hoccupied
+    have hsucc : succ (T := T) slot =
+        (x.target, slot.2.opposite.clockwise) := succ_of_occupied hoccupied
+    constructor
+    · intro hin
+      have hxOut : x.source ∉ d.targetShoreVertices := by
+        simpa [mem_expandedTargetShoreSlots, x] using hout
+      have hxIn : x.target ∈ d.targetShoreVertices := by
+        simpa [mem_expandedTargetShoreSlots, hsucc] using hin
+      have hedge := GridDirectionalDart.edgeSym2_eq_of_source_mem_target_notMem
+        d x.reverse (by simpa [GridDirectionalDart.reverse] using hxIn)
+          (by simpa [GridDirectionalDart.reverse] using hxOut)
+      rw [GridDirectionalDart.edgeSym2, GridDirectionalDart.edgeSym2,
+        GridDirectionalDart.reverse, Sym2.eq_iff] at hedge
+      rcases hedge with ⟨hxt, hxs⟩ | ⟨hxs, hxt⟩
+      · have : d.source ∈ d.targetShoreVertices := hxt ▸ hxIn
+        exact (GridDirectionalDart.source_notMem_targetShoreVertices
+          hacyclic d this).elim
+      · have hx : x = d := GridDirectionalDart.ext_endpoints hxt hxs
+        simpa [slotOfDart, x] using congrArg slotOfDart hx
+    · rintro rfl
+      rw [mem_expandedTargetShoreSlots, succ_slotOfDart]
+      exact d.target_mem_targetShoreVertices
+  · rw [succ_of_not_occupied hoccupied]
+    constructor
+    · intro hin
+      exact (hout (by simpa using hin)).elim
+    · intro heq
+      subst slot
+      exact (hoccupied (occupied_slotOfDart d)).elim
+
+theorem succ_notMem_expandedTargetShoreSlots_iff_of_mem
+    (hacyclic : T.IsAcyclic) (d : GridDirectionalDart T)
+    (slot : GridCompassSlot m n)
+    (hin : slot ∈ expandedTargetShoreSlots d) :
+    succ (T := T) slot ∉ expandedTargetShoreSlots d ↔
+      slot = slotOfDart d.reverse := by
+  by_cases hoccupied : Occupied (T := T) slot
+  · let x := GridDirectionalDart.ofDirectionMem (T := T) slot.1 slot.2 hoccupied
+    have hsucc : succ (T := T) slot =
+        (x.target, slot.2.opposite.clockwise) := succ_of_occupied hoccupied
+    constructor
+    · intro hout
+      have hxIn : x.source ∈ d.targetShoreVertices := by
+        simpa [mem_expandedTargetShoreSlots, x] using hin
+      have hxOut : x.target ∉ d.targetShoreVertices := by
+        simpa [mem_expandedTargetShoreSlots, hsucc] using hout
+      have hedge := GridDirectionalDart.edgeSym2_eq_of_source_mem_target_notMem
+        d x hxIn hxOut
+      rw [GridDirectionalDart.edgeSym2, GridDirectionalDart.edgeSym2,
+        Sym2.eq_iff] at hedge
+      rcases hedge with ⟨hxs, hxt⟩ | ⟨hxt, hxs⟩
+      · have : d.source ∈ d.targetShoreVertices := hxs ▸ hxIn
+        exact (GridDirectionalDart.source_notMem_targetShoreVertices
+          hacyclic d this).elim
+      · have hx : x = d.reverse := by
+          apply GridDirectionalDart.ext_endpoints
+          · simpa [GridDirectionalDart.reverse] using hxt
+          · simpa [GridDirectionalDart.reverse] using hxs
+        simpa [slotOfDart, x] using congrArg slotOfDart hx
+    · rintro rfl
+      rw [mem_expandedTargetShoreSlots, succ_slotOfDart]
+      simpa [GridDirectionalDart.reverse] using
+        GridDirectionalDart.source_notMem_targetShoreVertices hacyclic d
+  · rw [succ_of_not_occupied hoccupied]
+    constructor
+    · intro hout
+      exact (hout (by simpa using hin)).elim
+    · intro heq
+      subst slot
+      exact (hoccupied (occupied_slotOfDart d.reverse)).elim
+
 /-- Starting at an occupied dart slot, the first occupied expanded successor
 is the ordinary contour successor, after one to four expanded moves. -/
 theorem firstReturn_slotOfDart (d : GridDirectionalDart T) :
@@ -506,6 +595,141 @@ theorem equiv_isCycle_of_spanningSquareTree {n : Nat}
     exact T.loopless d.source (htarget ▸ d.adj)
   · intro y _
     exact equiv_sameCycle_of_spanningSquareTree hn hT (slotOfDart d) y
+
+/-! ### Expanded shore intervals -/
+
+/-- Every expanded target-shore slot occurs after the dart entry and no later
+than its reverse-dart exit. -/
+theorem mem_targetShore_exists_pow_through_exit {n : Nat}
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hn : 2 ≤ n) (hT : IsSpanningSubtree (gridGraph n n) T)
+    (d : GridDirectionalDart T) {slot : GridCompassSlot n n}
+    (hslot : slot ∈ expandedTargetShoreSlots d) :
+    ∃ k, 0 < k ∧ k ≤ permForwardDistance (equiv (T := T)) (slotOfDart d)
+        (slotOfDart d.reverse)
+        (equiv_sameCycle_of_spanningSquareTree hn hT _ _) ∧
+      ((equiv (T := T)) ^ k) (slotOfDart d) = slot := by
+  rw [← mem_permClosedForwardInterval_iff]
+  apply Equiv.Perm.mem_closedForwardInterval_of_unique_entry_exit
+    (equiv (T := T)) (expandedTargetShoreSlots d)
+      (equiv_isCycle_of_spanningSquareTree hn hT)
+      (fun x => equiv_sameCycle_of_spanningSquareTree hn hT _ x)
+  · rw [mem_expandedTargetShoreSlots]
+    exact GridDirectionalDart.source_notMem_targetShoreVertices hT.isAcyclic d
+  · simp [equiv_apply, succ_slotOfDart]
+  · intro x hx
+    simpa [equiv_apply] using
+      succ_notMem_expandedTargetShoreSlots_iff_of_mem hT.isAcyclic d x hx
+  · intro x hx
+    simpa [equiv_apply] using
+      succ_mem_expandedTargetShoreSlots_iff_of_notMem hT.isAcyclic d x hx
+  · exact hslot
+
+/-- An expanded fundamental shore is exactly the closed forward contour
+segment after its entry through its exit. -/
+theorem expandedTargetShoreSlots_eq_closedForwardInterval {n : Nat}
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hn : 2 ≤ n) (hT : IsSpanningSubtree (gridGraph n n) T)
+    (d : GridDirectionalDart T) :
+    expandedTargetShoreSlots d =
+      permClosedForwardInterval (equiv (T := T)) (slotOfDart d)
+        (slotOfDart d.reverse)
+        (equiv_sameCycle_of_spanningSquareTree hn hT _ _) := by
+  apply Equiv.Perm.eq_closedForwardInterval_of_unique_entry_exit
+    (equiv (T := T)) (expandedTargetShoreSlots d)
+      (equiv_isCycle_of_spanningSquareTree hn hT)
+      (fun x => equiv_sameCycle_of_spanningSquareTree hn hT _ x)
+  · rw [mem_expandedTargetShoreSlots]
+    exact GridDirectionalDart.source_notMem_targetShoreVertices hT.isAcyclic d
+  · simp [equiv_apply, succ_slotOfDart]
+  · intro x hx
+    simpa [equiv_apply] using
+      succ_notMem_expandedTargetShoreSlots_iff_of_mem hT.isAcyclic d x hx
+  · intro x hx
+    simpa [equiv_apply] using
+      succ_mem_expandedTargetShoreSlots_iff_of_notMem hT.isAcyclic d x hx
+
+/-- Every positive expanded-contour iterate after the entry, through the exit
+slot itself, is based in the target shore. -/
+theorem pow_mem_expandedTargetShoreSlots_through_exit {n : Nat}
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hn : 2 ≤ n) (hT : IsSpanningSubtree (gridGraph n n) T)
+    (d : GridDirectionalDart T) {k : Nat} (hkpos : 0 < k)
+    (hkle : k ≤ permForwardDistance (equiv (T := T)) (slotOfDart d)
+      (slotOfDart d.reverse)
+      (equiv_sameCycle_of_spanningSquareTree hn hT _ _)) :
+    ((equiv (T := T)) ^ k) (slotOfDart d) ∈
+      expandedTargetShoreSlots d := by
+  apply Equiv.Perm.pow_mem_of_pos_le_permForwardDistance_of_unique_exit
+    (equiv (T := T)) (expandedTargetShoreSlots d)
+      (equiv_sameCycle_of_spanningSquareTree hn hT _ _)
+  · simp [equiv_apply, succ_slotOfDart]
+  · intro slot hin
+    simpa [equiv_apply] using
+      succ_notMem_expandedTargetShoreSlots_iff_of_mem hT.isAcyclic d slot hin
+  · exact hkpos
+  · exact hkle
+
+/-- The corrected entry-to-exit open interval consists entirely of expanded
+slots based in the target shore. -/
+theorem permOpenForwardInterval_entry_exit_subset_targetShore {n : Nat}
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hn : 2 ≤ n) (hT : IsSpanningSubtree (gridGraph n n) T)
+    (d : GridDirectionalDart T) :
+    permOpenForwardInterval (equiv (T := T)) (slotOfDart d)
+      (slotOfDart d.reverse)
+      (equiv_sameCycle_of_spanningSquareTree hn hT _ _) ⊆
+        expandedTargetShoreSlots d := by
+  apply Equiv.Perm.permOpenForwardInterval_subset_of_unique_exit
+    (equiv (T := T)) (expandedTargetShoreSlots d)
+      (equiv_sameCycle_of_spanningSquareTree hn hT _ _)
+  · simp [equiv_apply, succ_slotOfDart]
+  · intro slot hin
+    simpa [equiv_apply] using
+      succ_notMem_expandedTargetShoreSlots_iff_of_mem hT.isAcyclic d slot hin
+
+/-- Every positive expanded-contour iterate after the exit, through the next
+entry slot itself, is based outside the target shore. -/
+theorem pow_notMem_expandedTargetShoreSlots_through_entry {n : Nat}
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hn : 2 ≤ n) (hT : IsSpanningSubtree (gridGraph n n) T)
+    (d : GridDirectionalDart T) {k : Nat} (hkpos : 0 < k)
+    (hkle : k ≤ permForwardDistance (equiv (T := T))
+      (slotOfDart d.reverse) (slotOfDart d)
+      (equiv_sameCycle_of_spanningSquareTree hn hT _ _)) :
+    ((equiv (T := T)) ^ k) (slotOfDart d.reverse) ∉
+      expandedTargetShoreSlots d := by
+  apply Equiv.Perm.pow_notMem_of_pos_le_permForwardDistance_of_unique_entry
+    (equiv (T := T)) (expandedTargetShoreSlots d)
+      (equiv_sameCycle_of_spanningSquareTree hn hT _ _)
+  · rw [equiv_apply, mem_expandedTargetShoreSlots, succ_slotOfDart]
+    simpa [GridDirectionalDart.reverse] using
+      GridDirectionalDart.source_notMem_targetShoreVertices hT.isAcyclic d
+  · intro slot hout
+    simpa [equiv_apply] using
+      succ_mem_expandedTargetShoreSlots_iff_of_notMem hT.isAcyclic d slot hout
+  · exact hkpos
+  · exact hkle
+
+/-- The complementary exit-to-entry open interval consists entirely of slots
+based outside the target shore. -/
+theorem disjoint_permOpenForwardInterval_exit_entry_targetShore {n : Nat}
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hn : 2 ≤ n) (hT : IsSpanningSubtree (gridGraph n n) T)
+    (d : GridDirectionalDart T) :
+    Disjoint
+      (permOpenForwardInterval (equiv (T := T)) (slotOfDart d.reverse)
+        (slotOfDart d) (equiv_sameCycle_of_spanningSquareTree hn hT _ _))
+      (expandedTargetShoreSlots d) := by
+  apply Equiv.Perm.disjoint_permOpenForwardInterval_of_unique_entry
+    (equiv (T := T)) (expandedTargetShoreSlots d)
+      (equiv_sameCycle_of_spanningSquareTree hn hT _ _)
+  · rw [equiv_apply, mem_expandedTargetShoreSlots, succ_slotOfDart]
+    simpa [GridDirectionalDart.reverse] using
+      GridDirectionalDart.source_notMem_targetShoreVertices hT.isAcyclic d
+  · intro slot hout
+    simpa [equiv_apply] using
+      succ_mem_expandedTargetShoreSlots_iff_of_notMem hT.isAcyclic d slot hout
 
 end GridExpandedContour
 

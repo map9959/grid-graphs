@@ -1,0 +1,228 @@
+{
+  "checker": "residue_two_zero_two_layer_ladder",
+  "grammar": {
+    "cap_masks": "one forced vertex at one of four terminal 2x2 coordinates",
+    "exact_descriptor_bound": 48,
+    "hard_descriptor_bound": 4096,
+    "orientations": [
+      "identity",
+      "transpose",
+      "rotate180",
+      "anti_transpose"
+    ],
+    "packet_masks": "8 bottom masks x 8 right masks x 4 rung states",
+    "packet_sites": "three outer-bottom rail, three outer-right rail, one old-bottom rung"
+  },
+  "k_values": [
+    7,
+    8,
+    9
+  ],
+  "next_topology": {
+    "additional_deletion": "rightmost retained interval, length 3k-5",
+    "name": "double-cap two-layer interval ladder",
+    "packet": "three bottom rail + three right rail + bottom rung + right rung + two pivot-separated inner connectors",
+    "replacement_count": "10k-4",
+    "successor_packet_gain": 10
+  },
+  "records": [
+    {
+      "best_exact_materialization": {
+        "checks": {
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_seven": true,
+          "tree_incidence": false,
+          "unit_cells_valid": true
+        },
+        "component_count": 27,
+        "descriptor": {
+          "bottom_mask": "111",
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_mask": "111",
+          "rung_offset": 0
+        },
+        "forced_count": 196,
+        "forced_cycle_rank": 16,
+        "incidence_connected": true,
+        "incidence_links": 42,
+        "k": 7,
+        "maximum_star_intersection": 16,
+        "n": 23,
+        "parallel_right_rail_intersection": 16,
+        "survives": false,
+        "target_count": 196
+      },
+      "checks": {
+        "all_exact_components_straight": true,
+        "all_exact_counts_match_target": true,
+        "all_exact_unit_cells_valid": true,
+        "best_cycle_rank_formula": true,
+        "declared_descriptor_count": true,
+        "exact_descriptor_count": true,
+        "exact_masks_are_saturated": true,
+        "no_forced_forest_candidate": true,
+        "no_singleton_intersection_candidate": true,
+        "no_tree_incidence_candidate": true,
+        "parallel_intersection_formula": true
+      },
+      "enumeration": {
+        "bottom_masks": 8,
+        "cap_masks": 4,
+        "declared_descriptors": 4096,
+        "exact_count_descriptors": 48,
+        "materializations_checked": 48,
+        "orientations": 4,
+        "right_masks": 8,
+        "rung_states": 4
+      },
+      "k": 7,
+      "n": 23,
+      "obstruction": {
+        "forced_exact_packet": "bottom=111, right=111, one rung",
+        "minimum_forced_cycle_rank": 16,
+        "parallel_right_rail_intersection": 16,
+        "survivors": 0
+      },
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_exact_materialization": {
+        "checks": {
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_seven": true,
+          "tree_incidence": false,
+          "unit_cells_valid": true
+        },
+        "component_count": 31,
+        "descriptor": {
+          "bottom_mask": "111",
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_mask": "111",
+          "rung_offset": 0
+        },
+        "forced_count": 248,
+        "forced_cycle_rank": 19,
+        "incidence_connected": true,
+        "incidence_links": 49,
+        "k": 8,
+        "maximum_star_intersection": 19,
+        "n": 26,
+        "parallel_right_rail_intersection": 19,
+        "survives": false,
+        "target_count": 248
+      },
+      "checks": {
+        "all_exact_components_straight": true,
+        "all_exact_counts_match_target": true,
+        "all_exact_unit_cells_valid": true,
+        "best_cycle_rank_formula": true,
+        "declared_descriptor_count": true,
+        "exact_descriptor_count": true,
+        "exact_masks_are_saturated": true,
+        "no_forced_forest_candidate": true,
+        "no_singleton_intersection_candidate": true,
+        "no_tree_incidence_candidate": true,
+        "parallel_intersection_formula": true
+      },
+      "enumeration": {
+        "bottom_masks": 8,
+        "cap_masks": 4,
+        "declared_descriptors": 4096,
+        "exact_count_descriptors": 48,
+        "materializations_checked": 48,
+        "orientations": 4,
+        "right_masks": 8,
+        "rung_states": 4
+      },
+      "k": 8,
+      "n": 26,
+      "obstruction": {
+        "forced_exact_packet": "bottom=111, right=111, one rung",
+        "minimum_forced_cycle_rank": 19,
+        "parallel_right_rail_intersection": 19,
+        "survivors": 0
+      },
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_exact_materialization": {
+        "checks": {
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_seven": true,
+          "tree_incidence": false,
+          "unit_cells_valid": true
+        },
+        "component_count": 35,
+        "descriptor": {
+          "bottom_mask": "111",
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_mask": "111",
+          "rung_offset": 0
+        },
+        "forced_count": 306,
+        "forced_cycle_rank": 22,
+        "incidence_connected": true,
+        "incidence_links": 56,
+        "k": 9,
+        "maximum_star_intersection": 22,
+        "n": 29,
+        "parallel_right_rail_intersection": 22,
+        "survives": false,
+        "target_count": 306
+      },
+      "checks": {
+        "all_exact_components_straight": true,
+        "all_exact_counts_match_target": true,
+        "all_exact_unit_cells_valid": true,
+        "best_cycle_rank_formula": true,
+        "declared_descriptor_count": true,
+        "exact_descriptor_count": true,
+        "exact_masks_are_saturated": true,
+        "no_forced_forest_candidate": true,
+        "no_singleton_intersection_candidate": true,
+        "no_tree_incidence_candidate": true,
+        "parallel_intersection_formula": true
+      },
+      "enumeration": {
+        "bottom_masks": 8,
+        "cap_masks": 4,
+        "declared_descriptors": 4096,
+        "exact_count_descriptors": 48,
+        "materializations_checked": 48,
+        "orientations": 4,
+        "right_masks": 8,
+        "rung_states": 4
+      },
+      "k": 9,
+      "n": 29,
+      "obstruction": {
+        "forced_exact_packet": "bottom=111, right=111, one rung",
+        "minimum_forced_cycle_rank": 22,
+        "parallel_right_rail_intersection": 22,
+        "survivors": 0
+      },
+      "status": "complete_grammar_obstruction"
+    }
+  ],
+  "schema": "grid-graphs.residue-two-zero-two-layer-ladder.v1",
+  "status": "complete_grammar_obstruction",
+  "symbolic_obstruction": {
+    "forced_packet": "111/111 plus one rung",
+    "minimum_cycle_rank": "3k-5",
+    "replacement_count": "7k+1",
+    "right_rail_star_intersection": "3k-5",
+    "successor_packet_gain": 7
+  }
+}

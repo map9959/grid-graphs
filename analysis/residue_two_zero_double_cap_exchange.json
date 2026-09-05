@@ -1,0 +1,243 @@
+{
+  "checker": "residue_two_zero_double_cap_exchange",
+  "grammar": {
+    "cap": "one of four fixed sixteen-vertex terminal caps",
+    "exact_descriptor_count": 576,
+    "packet": "three cells on each outer rail plus two distinct auxiliary offsets on each deleted cap layer",
+    "packets": "k-2 repeated ten-site packets",
+    "raw_descriptor_bound": 262144,
+    "replacement_formula": "10(k-2)+16=10k-4"
+  },
+  "k_values": [
+    7,
+    8,
+    9
+  ],
+  "next_topology": {
+    "name": "phase-alternating twelve-site sparse-rail ladder",
+    "packet_capacity": 12,
+    "packet_gain": 10,
+    "phase": "move each rail gap across packet boundaries so auxiliary components remain singleton",
+    "rule": "omit one site from each outer rail and replace both by pivot-separated reservoir leaves"
+  },
+  "records": [
+    {
+      "best_local_materialization": {
+        "checks": {
+          "cap_gain_sixteen": true,
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_ten": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 30,
+        "descriptor": {
+          "bottom_connector": 2,
+          "bottom_rail_mask": "111",
+          "bottom_rung": 1,
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_connector": 2,
+          "right_rail_mask": "111",
+          "right_rung": 1
+        },
+        "forced_count": 196,
+        "forced_cycle_rank": 20,
+        "incidence_connected": false,
+        "incidence_links": 48,
+        "k": 7,
+        "maximum_star_intersection": 3,
+        "n": 23,
+        "replacement_count": 66,
+        "survives": false,
+        "target_count": 196,
+        "unit_cell_violation_count": 0
+      },
+      "checks": {
+        "all_exact_cap_gains": true,
+        "all_exact_counts": true,
+        "all_exact_packet_gains": true,
+        "exact_descriptor_count": true,
+        "local_survivor_count": true,
+        "minimum_cycle_rank_formula": true,
+        "minimum_intersection_is_two": true,
+        "no_forced_forest_candidate": true,
+        "no_incidence_tree_candidate": true,
+        "no_singleton_intersection_candidate": true,
+        "raw_descriptor_bound": true
+      },
+      "enumeration": {
+        "exact_descriptors": 576,
+        "hard_raw_descriptor_bound": 262144,
+        "locally_valid_descriptors": 576,
+        "materializations_checked": 576,
+        "orientations": 4,
+        "raw_cap_masks": 4,
+        "raw_packet_descriptors": 16384
+      },
+      "k": 7,
+      "n": 23,
+      "obstruction": {
+        "exact_packet": "111 bottom rail, 111 right rail, two distinct bottom offsets, two distinct right offsets",
+        "minimum_forced_cycle_rank": 20,
+        "minimum_star_intersection": 2,
+        "periodic_density": "every repeated two-of-three auxiliary mask has an adjacent pair",
+        "survivors": 0
+      },
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_local_materialization": {
+        "checks": {
+          "cap_gain_sixteen": true,
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_ten": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 35,
+        "descriptor": {
+          "bottom_connector": 2,
+          "bottom_rail_mask": "111",
+          "bottom_rung": 1,
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_connector": 2,
+          "right_rail_mask": "111",
+          "right_rung": 1
+        },
+        "forced_count": 248,
+        "forced_cycle_rank": 24,
+        "incidence_connected": false,
+        "incidence_links": 57,
+        "k": 8,
+        "maximum_star_intersection": 3,
+        "n": 26,
+        "replacement_count": 76,
+        "survives": false,
+        "target_count": 248,
+        "unit_cell_violation_count": 0
+      },
+      "checks": {
+        "all_exact_cap_gains": true,
+        "all_exact_counts": true,
+        "all_exact_packet_gains": true,
+        "exact_descriptor_count": true,
+        "local_survivor_count": true,
+        "minimum_cycle_rank_formula": true,
+        "minimum_intersection_is_two": true,
+        "no_forced_forest_candidate": true,
+        "no_incidence_tree_candidate": true,
+        "no_singleton_intersection_candidate": true,
+        "raw_descriptor_bound": true
+      },
+      "enumeration": {
+        "exact_descriptors": 576,
+        "hard_raw_descriptor_bound": 262144,
+        "locally_valid_descriptors": 576,
+        "materializations_checked": 576,
+        "orientations": 4,
+        "raw_cap_masks": 4,
+        "raw_packet_descriptors": 16384
+      },
+      "k": 8,
+      "n": 26,
+      "obstruction": {
+        "exact_packet": "111 bottom rail, 111 right rail, two distinct bottom offsets, two distinct right offsets",
+        "minimum_forced_cycle_rank": 24,
+        "minimum_star_intersection": 2,
+        "periodic_density": "every repeated two-of-three auxiliary mask has an adjacent pair",
+        "survivors": 0
+      },
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_local_materialization": {
+        "checks": {
+          "cap_gain_sixteen": true,
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_ten": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 40,
+        "descriptor": {
+          "bottom_connector": 2,
+          "bottom_rail_mask": "111",
+          "bottom_rung": 1,
+          "cap_mask": 1,
+          "orientation": "anti_transpose",
+          "right_connector": 2,
+          "right_rail_mask": "111",
+          "right_rung": 1
+        },
+        "forced_count": 306,
+        "forced_cycle_rank": 28,
+        "incidence_connected": false,
+        "incidence_links": 66,
+        "k": 9,
+        "maximum_star_intersection": 3,
+        "n": 29,
+        "replacement_count": 86,
+        "survives": false,
+        "target_count": 306,
+        "unit_cell_violation_count": 0
+      },
+      "checks": {
+        "all_exact_cap_gains": true,
+        "all_exact_counts": true,
+        "all_exact_packet_gains": true,
+        "exact_descriptor_count": true,
+        "local_survivor_count": true,
+        "minimum_cycle_rank_formula": true,
+        "minimum_intersection_is_two": true,
+        "no_forced_forest_candidate": true,
+        "no_incidence_tree_candidate": true,
+        "no_singleton_intersection_candidate": true,
+        "raw_descriptor_bound": true
+      },
+      "enumeration": {
+        "exact_descriptors": 576,
+        "hard_raw_descriptor_bound": 262144,
+        "locally_valid_descriptors": 576,
+        "materializations_checked": 576,
+        "orientations": 4,
+        "raw_cap_masks": 4,
+        "raw_packet_descriptors": 16384
+      },
+      "k": 9,
+      "n": 29,
+      "obstruction": {
+        "exact_packet": "111 bottom rail, 111 right rail, two distinct bottom offsets, two distinct right offsets",
+        "minimum_forced_cycle_rank": 28,
+        "minimum_star_intersection": 2,
+        "periodic_density": "every repeated two-of-three auxiliary mask has an adjacent pair",
+        "survivors": 0
+      },
+      "status": "complete_grammar_obstruction"
+    }
+  ],
+  "schema": "grid-graphs.residue-two-zero-double-cap-exchange.v1",
+  "status": "complete_grammar_obstruction",
+  "symbolic_obstruction": {
+    "adjacent_pair": "inside each packet or across each packet boundary",
+    "forced_auxiliary_density": "two of every three positions on both arms",
+    "minimum_cycle_rank": "4k-8",
+    "star_intersection": "at least two with the saturated parallel outer rail"
+  }
+}

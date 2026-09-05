@@ -1,0 +1,298 @@
+{
+  "algebra_before_enumeration": {
+    "cap_count": 16,
+    "checked_ledgers": [
+      {
+        "cap_count": 16,
+        "identity": "10(k-2)+16=10k-4",
+        "packet_count": 5,
+        "packet_gain": 10,
+        "replacement_count": 66,
+        "retained_count": 130,
+        "target_count": 196
+      },
+      {
+        "cap_count": 16,
+        "identity": "10(k-2)+16=10k-4",
+        "packet_count": 6,
+        "packet_gain": 10,
+        "replacement_count": 76,
+        "retained_count": 172,
+        "target_count": 248
+      },
+      {
+        "cap_count": 16,
+        "identity": "10(k-2)+16=10k-4",
+        "packet_count": 7,
+        "packet_gain": 10,
+        "replacement_count": 86,
+        "retained_count": 220,
+        "target_count": 306
+      }
+    ],
+    "forced_packet_gain": 10,
+    "identity": "10(k-2)+16=10k-4",
+    "packet_count": "k-2",
+    "replacement": "10k-4",
+    "retained": "3k^2-3k+4",
+    "target": "3k^2+7k"
+  },
+  "branch_assessment": {
+    "reason": "the complete phase grammar has no descriptor satisfying all geometric and incidence gates",
+    "stable_candidate": false,
+    "wholly_new_base_required": true
+  },
+  "checker": "residue_two_three_layer_moving_seam",
+  "grammar": {
+    "arm_words": 162,
+    "cap_masks": 4,
+    "hard_descriptor_bound": 104976,
+    "per_arm_packet": "outer mask omits seam; one site on each of three inner tracks",
+    "seam_recurrence": "s(t+1)=s(t)+d mod 3, d in {-1,+1}",
+    "track_offsets": "three independent shifts in Z/3 relative to s(t)"
+  },
+  "records": [
+    {
+      "best_materialization": {
+        "checks": {
+          "cap_count_sixteen": true,
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_ten": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 45,
+        "descriptor": {
+          "bottom": {
+            "direction": 1,
+            "phase": 2,
+            "track_phases": [
+              1,
+              2,
+              0
+            ]
+          },
+          "cap_mask": 1,
+          "right": {
+            "direction": 1,
+            "phase": 2,
+            "track_phases": [
+              0,
+              2,
+              0
+            ]
+          }
+        },
+        "forced_count": 196,
+        "forced_cycle_rank": 40,
+        "incidence_connected": false,
+        "incidence_links": 96,
+        "k": 7,
+        "maximum_star_intersection": 2,
+        "n": 23,
+        "replacement_count": 66,
+        "survives": false,
+        "target_count": 196,
+        "unit_cell_violation_count": 0
+      },
+      "capacity_or_intersection": {
+        "minimum_cycle_rank_among_local": 40,
+        "minimum_star_intersection_among_local": 2,
+        "minimum_unit_cell_violations": 0,
+        "packet_capacity": 24,
+        "packet_gain": 10,
+        "survivors": 0
+      },
+      "count_ledger": {
+        "cap_count": 16,
+        "identity": "10(k-2)+16=10k-4",
+        "packet_count": 5,
+        "packet_gain": 10,
+        "replacement_count": 66,
+        "retained_count": 130,
+        "target_count": 196
+      },
+      "enumeration": {
+        "arm_words": 162,
+        "bottom_strip_admissible": 39,
+        "cap_masks": 4,
+        "descriptors_classified": 104976,
+        "hard_descriptor_bound": 104976,
+        "joint_materializations_checked": 6084,
+        "locally_valid": 4624,
+        "right_strip_admissible": 39
+      },
+      "first_survivor": null,
+      "k": 7,
+      "n": 23,
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_materialization": {
+        "checks": {
+          "cap_count_sixteen": true,
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_ten": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 55,
+        "descriptor": {
+          "bottom": {
+            "direction": 1,
+            "phase": 1,
+            "track_phases": [
+              1,
+              2,
+              0
+            ]
+          },
+          "cap_mask": 1,
+          "right": {
+            "direction": 1,
+            "phase": 1,
+            "track_phases": [
+              1,
+              2,
+              0
+            ]
+          }
+        },
+        "forced_count": 248,
+        "forced_cycle_rank": 48,
+        "incidence_connected": false,
+        "incidence_links": 115,
+        "k": 8,
+        "maximum_star_intersection": 2,
+        "n": 26,
+        "replacement_count": 76,
+        "survives": false,
+        "target_count": 248,
+        "unit_cell_violation_count": 0
+      },
+      "capacity_or_intersection": {
+        "minimum_cycle_rank_among_local": 48,
+        "minimum_star_intersection_among_local": 2,
+        "minimum_unit_cell_violations": 0,
+        "packet_capacity": 24,
+        "packet_gain": 10,
+        "survivors": 0
+      },
+      "count_ledger": {
+        "cap_count": 16,
+        "identity": "10(k-2)+16=10k-4",
+        "packet_count": 6,
+        "packet_gain": 10,
+        "replacement_count": 76,
+        "retained_count": 172,
+        "target_count": 248
+      },
+      "enumeration": {
+        "arm_words": 162,
+        "bottom_strip_admissible": 39,
+        "cap_masks": 4,
+        "descriptors_classified": 104976,
+        "hard_descriptor_bound": 104976,
+        "joint_materializations_checked": 6084,
+        "locally_valid": 4624,
+        "right_strip_admissible": 39
+      },
+      "first_survivor": null,
+      "k": 8,
+      "n": 26,
+      "status": "complete_grammar_obstruction"
+    },
+    {
+      "best_materialization": {
+        "checks": {
+          "cap_count_sixteen": true,
+          "components_straight": true,
+          "exact_target_count": true,
+          "forced_forest": false,
+          "incidence_tree": false,
+          "replacement_count": true,
+          "retained_count": true,
+          "singleton_star_intersections": false,
+          "stable_packet_gain_ten": true,
+          "unit_cells_valid": true
+        },
+        "component_count": 63,
+        "descriptor": {
+          "bottom": {
+            "direction": 1,
+            "phase": 0,
+            "track_phases": [
+              1,
+              2,
+              0
+            ]
+          },
+          "cap_mask": 1,
+          "right": {
+            "direction": 1,
+            "phase": 0,
+            "track_phases": [
+              1,
+              2,
+              0
+            ]
+          }
+        },
+        "forced_count": 306,
+        "forced_cycle_rank": 55,
+        "incidence_connected": false,
+        "incidence_links": 132,
+        "k": 9,
+        "maximum_star_intersection": 2,
+        "n": 29,
+        "replacement_count": 86,
+        "survives": false,
+        "target_count": 306,
+        "unit_cell_violation_count": 0
+      },
+      "capacity_or_intersection": {
+        "minimum_cycle_rank_among_local": 55,
+        "minimum_star_intersection_among_local": 2,
+        "minimum_unit_cell_violations": 0,
+        "packet_capacity": 24,
+        "packet_gain": 10,
+        "survivors": 0
+      },
+      "count_ledger": {
+        "cap_count": 16,
+        "identity": "10(k-2)+16=10k-4",
+        "packet_count": 7,
+        "packet_gain": 10,
+        "replacement_count": 86,
+        "retained_count": 220,
+        "target_count": 306
+      },
+      "enumeration": {
+        "arm_words": 162,
+        "bottom_strip_admissible": 39,
+        "cap_masks": 4,
+        "descriptors_classified": 104976,
+        "hard_descriptor_bound": 104976,
+        "joint_materializations_checked": 6084,
+        "locally_valid": 4624,
+        "right_strip_admissible": 39
+      },
+      "first_survivor": null,
+      "k": 9,
+      "n": 29,
+      "status": "complete_grammar_obstruction"
+    }
+  ],
+  "schema": "grid-graphs.residue-two-three-layer-moving-seam.v1",
+  "status": "complete_grammar_obstruction"
+}

@@ -1,0 +1,94 @@
+{
+  "census": {
+    "3": {
+      "states_by_layer": [
+        1,
+        8,
+        14,
+        14
+      ],
+      "transitions_by_row": [
+        8,
+        24,
+        52
+      ]
+    },
+    "4": {
+      "states_by_layer": [
+        1,
+        16,
+        34,
+        39,
+        40
+      ],
+      "transitions_by_row": [
+        16,
+        62,
+        202,
+        224
+      ]
+    },
+    "5": {
+      "states_by_layer": [
+        1,
+        32,
+        85,
+        105,
+        114,
+        114
+      ],
+      "transitions_by_row": [
+        32,
+        161,
+        790,
+        930,
+        1053
+      ]
+    },
+    "6": {
+      "states_by_layer": [
+        1,
+        64,
+        205,
+        279,
+        325,
+        326,
+        326
+      ],
+      "transitions_by_row": [
+        64,
+        417,
+        2914,
+        3710,
+        4632,
+        4644
+      ]
+    }
+  },
+  "result": {
+    "constraints": 18129,
+    "feasible": true,
+    "feature_states": 1979,
+    "potential_range": [
+      -9,
+      13
+    ],
+    "potential_sha256": "cce4ec9c99d7a35a11b85714fb6511d365b60a1a4c87c8a5244ce78b00f65a4e",
+    "terminal_minima": {
+      "3": 6,
+      "4": 4,
+      "5": 6,
+      "6": 4
+    }
+  },
+  "scope": {
+    "semantics": "finite-width exact falsification gate, not a uniform proof",
+    "terminal_target": 4,
+    "widths": [
+      3,
+      4,
+      5,
+      6
+    ]
+  }
+}

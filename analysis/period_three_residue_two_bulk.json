@@ -1,0 +1,371 @@
+{
+  "boundary_grammar": {
+    "finite_cap_tables": [
+      {
+        "distance_two_gap_grammar": {
+          "final_scores": {
+            "0": 7,
+            "1": 8,
+            "2": 8
+          },
+          "layers_checked": 23,
+          "length": 23,
+          "maximum": 8,
+          "states": [
+            0,
+            1,
+            2
+          ],
+          "transition_rule": "empty: s -> max(0,s-1); occupied: 0 -> 2 with weight 1"
+        },
+        "expected_singleton_cap": 8,
+        "k": 7,
+        "parallel_side_length": 23
+      },
+      {
+        "distance_two_gap_grammar": {
+          "final_scores": {
+            "0": 8,
+            "1": 9,
+            "2": 9
+          },
+          "layers_checked": 26,
+          "length": 26,
+          "maximum": 9,
+          "states": [
+            0,
+            1,
+            2
+          ],
+          "transition_rule": "empty: s -> max(0,s-1); occupied: 0 -> 2 with weight 1"
+        },
+        "expected_singleton_cap": 9,
+        "k": 8,
+        "parallel_side_length": 26
+      },
+      {
+        "distance_two_gap_grammar": {
+          "final_scores": {
+            "0": 9,
+            "1": 10,
+            "2": 10
+          },
+          "layers_checked": 29,
+          "length": 29,
+          "maximum": 10,
+          "states": [
+            0,
+            1,
+            2
+          ],
+          "transition_rule": "empty: s -> max(0,s-1); occupied: 0 -> 2 with weight 1"
+        },
+        "expected_singleton_cap": 10,
+        "k": 9,
+        "parallel_side_length": 29
+      }
+    ],
+    "hard_rules": [
+      "a transverse non-rail center has a two-vertex star intersection with an adjacent rail and is forbidden; each transverse side contributes at most k",
+      "a distance-one parallel cap bends or closes a unit cell and contributes zero",
+      "a distance-three parallel cap is one disjoint full rail and contributes at most 3k+2",
+      "at distance two every component is a singleton; two sites less than three columns apart create a cycle through the same bulk rail, so the 3-state gap grammar contributes at most k+1",
+      "corner bits are owned by the parallel cap; the four cap tables introduce no extra term"
+    ],
+    "maximum_boundary_contribution": "5k+2",
+    "maximum_total": "3k^2+5k+2",
+    "phase_bounds": {
+      "center phase 1": "2k + 2(k+1) = 4k+2",
+      "outer phase 0 or 2": "2k + (3k+2) = 5k+2"
+    },
+    "states": [
+      "rail endpoint: extend or omit",
+      "parallel cap: distance 1, 2, or 3 from the nearest bulk rail",
+      "gap counter 0,1,2 since the preceding singleton cap",
+      "four corner ownership bits"
+    ]
+  },
+  "bulk_classification": {
+    "bulk_count": "3k^2",
+    "representatives": [
+      7
+    ],
+    "survivors": [
+      {
+        "canonical_symmetry_phase_mask": 7,
+        "finite_box_forest_repetitions_2_through_8": true,
+        "mask": 7,
+        "quotient": {
+          "components": 1,
+          "cycle_rank": 1,
+          "cycle_voltages": [
+            [
+              0,
+              1
+            ]
+          ],
+          "edges": 9,
+          "lift_is_forest": true,
+          "vertices": 9,
+          "voltage_rank": 1
+        },
+        "rows": [
+          "111",
+          "000",
+          "000"
+        ]
+      },
+      {
+        "canonical_symmetry_phase_mask": 7,
+        "finite_box_forest_repetitions_2_through_8": true,
+        "mask": 56,
+        "quotient": {
+          "components": 1,
+          "cycle_rank": 1,
+          "cycle_voltages": [
+            [
+              0,
+              1
+            ]
+          ],
+          "edges": 9,
+          "lift_is_forest": true,
+          "vertices": 9,
+          "voltage_rank": 1
+        },
+        "rows": [
+          "000",
+          "111",
+          "000"
+        ]
+      },
+      {
+        "canonical_symmetry_phase_mask": 7,
+        "finite_box_forest_repetitions_2_through_8": true,
+        "mask": 73,
+        "quotient": {
+          "components": 1,
+          "cycle_rank": 1,
+          "cycle_voltages": [
+            [
+              1,
+              0
+            ]
+          ],
+          "edges": 9,
+          "lift_is_forest": true,
+          "vertices": 9,
+          "voltage_rank": 1
+        },
+        "rows": [
+          "100",
+          "100",
+          "100"
+        ]
+      },
+      {
+        "canonical_symmetry_phase_mask": 7,
+        "finite_box_forest_repetitions_2_through_8": true,
+        "mask": 146,
+        "quotient": {
+          "components": 1,
+          "cycle_rank": 1,
+          "cycle_voltages": [
+            [
+              1,
+              0
+            ]
+          ],
+          "edges": 9,
+          "lift_is_forest": true,
+          "vertices": 9,
+          "voltage_rank": 1
+        },
+        "rows": [
+          "010",
+          "010",
+          "010"
+        ]
+      },
+      {
+        "canonical_symmetry_phase_mask": 7,
+        "finite_box_forest_repetitions_2_through_8": true,
+        "mask": 292,
+        "quotient": {
+          "components": 1,
+          "cycle_rank": 1,
+          "cycle_voltages": [
+            [
+              1,
+              0
+            ]
+          ],
+          "edges": 9,
+          "lift_is_forest": true,
+          "vertices": 9,
+          "voltage_rank": 1
+        },
+        "rows": [
+          "001",
+          "001",
+          "001"
+        ]
+      },
+      {
+        "canonical_symmetry_phase_mask": 7,
+        "finite_box_forest_repetitions_2_through_8": true,
+        "mask": 448,
+        "quotient": {
+          "components": 1,
+          "cycle_rank": 1,
+          "cycle_voltages": [
+            [
+              0,
+              1
+            ]
+          ],
+          "edges": 9,
+          "lift_is_forest": true,
+          "vertices": 9,
+          "voltage_rank": 1
+        },
+        "rows": [
+          "000",
+          "000",
+          "111"
+        ]
+      }
+    ],
+    "symbolic_quotient_survivors": 6,
+    "symmetry_phase_orbits": 1,
+    "unit_cell_survivors": 6
+  },
+  "checks": {
+    "all_512_masks_accounted_for": true,
+    "all_six_survivors_have_symbolic_forest_quotient": true,
+    "finite_gap_grammar_tables_validate": true,
+    "k_7_8_9_maximizers_validate": true,
+    "one_symmetry_phase_orbit": true
+  },
+  "next_family": {
+    "minimal_rectangular_period": "3x4 (four centers in twelve sites), up to rotation",
+    "next_square_period": "6x6 (twelve centers)",
+    "required_topology": "phase-staggered bent rails or diagonal carriers with one controlled articulation per packet"
+  },
+  "quotient_criterion": {
+    "finite_repetition_tests": "open 3r by 3r boxes for r=2..8; corroboration only",
+    "implementation": "a spanning-forest cycle basis has beta=E-V+C; lift_is_forest iff its integer voltage vectors have rational rank beta",
+    "statement": "the periodic forced lift is acyclic iff the Z^beta cycle-voltage map into Z^2 is injective"
+  },
+  "schema": "grid-graphs.period-three-residue-two-bulk.v1",
+  "scope": {
+    "boundary": "the width-one outer ring",
+    "boundary_hypotheses": [
+      "preserved-center components are straight intervals",
+      "forced-star intersections are singleton and their incidence graph is a forest"
+    ],
+    "core": "rows and columns 1..3k, tiled by one 3x3 mask",
+    "masks_enumerated": 512,
+    "three_center_masks": 84
+  },
+  "status": "complete_period_three_obstruction",
+  "target_decision": {
+    "attainable": false,
+    "maximum_deficit": "2k-2",
+    "stable_increment_maximum": "6k+8",
+    "stable_increment_required": "6k+10",
+    "target": "3k^2+7k"
+  },
+  "validation": [
+    {
+      "k": 7,
+      "n": 23,
+      "phases": [
+        {
+          "boundary_count": 37,
+          "boundary_formula": 37,
+          "forced_forest": true,
+          "phase": 0,
+          "preserved_count": 184,
+          "straight_components": true
+        },
+        {
+          "boundary_count": 30,
+          "boundary_formula": 30,
+          "forced_forest": true,
+          "phase": 1,
+          "preserved_count": 177,
+          "straight_components": true
+        },
+        {
+          "boundary_count": 37,
+          "boundary_formula": 37,
+          "forced_forest": true,
+          "phase": 2,
+          "preserved_count": 184,
+          "straight_components": true
+        }
+      ]
+    },
+    {
+      "k": 8,
+      "n": 26,
+      "phases": [
+        {
+          "boundary_count": 42,
+          "boundary_formula": 42,
+          "forced_forest": true,
+          "phase": 0,
+          "preserved_count": 234,
+          "straight_components": true
+        },
+        {
+          "boundary_count": 34,
+          "boundary_formula": 34,
+          "forced_forest": true,
+          "phase": 1,
+          "preserved_count": 226,
+          "straight_components": true
+        },
+        {
+          "boundary_count": 42,
+          "boundary_formula": 42,
+          "forced_forest": true,
+          "phase": 2,
+          "preserved_count": 234,
+          "straight_components": true
+        }
+      ]
+    },
+    {
+      "k": 9,
+      "n": 29,
+      "phases": [
+        {
+          "boundary_count": 47,
+          "boundary_formula": 47,
+          "forced_forest": true,
+          "phase": 0,
+          "preserved_count": 290,
+          "straight_components": true
+        },
+        {
+          "boundary_count": 38,
+          "boundary_formula": 38,
+          "forced_forest": true,
+          "phase": 1,
+          "preserved_count": 281,
+          "straight_components": true
+        },
+        {
+          "boundary_count": 47,
+          "boundary_formula": 47,
+          "forced_forest": true,
+          "phase": 2,
+          "preserved_count": 290,
+          "straight_components": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1979 @@
+{
+  "blocker_role_status_histogram": {
+    "beta_singleton_owner_equations_fail": 9,
+    "gamma_singleton_owner_equations_fail": 9,
+    "role_component_merges_intended_geometry": 18,
+    "role_component_overlaps_intended_geometry": 24
+  },
+  "chains": [],
+  "checker": "residue_two_borrowed_leaf_bypass_census",
+  "derivation": {
+    "attempts": [
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c11..11",
+            "transported": [
+              "H:r2:c11..11",
+              "H:r2:c14..14",
+              "H:r2:c17..17"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "beta_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "gamma",
+        "type_index": 0
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c11..11",
+            "transported": [
+              "H:r2:c11..11",
+              "H:r2:c14..14",
+              "H:r2:c17..17"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "gamma_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "beta",
+        "type_index": 0
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c11..11",
+            "transported": [
+              "H:r2:c11..11",
+              "H:r2:c14..14",
+              "H:r2:c17..17"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "gamma",
+        "type_index": 0
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c11..11",
+            "transported": [
+              "H:r2:c11..11",
+              "H:r2:c14..14",
+              "H:r2:c17..17"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "beta",
+        "type_index": 0
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c14:r2..3",
+            "transported": [
+              "V:c14:r2..3",
+              "V:c17:r2..3",
+              "V:c20:r2..3"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "beta_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "gamma",
+        "type_index": 1
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c14:r2..3",
+            "transported": [
+              "V:c14:r2..3",
+              "V:c17:r2..3",
+              "V:c20:r2..3"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "gamma_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "beta",
+        "type_index": 1
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c14:r2..3",
+            "transported": [
+              "V:c14:r2..3",
+              "V:c17:r2..3",
+              "V:c20:r2..3"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "gamma",
+        "type_index": 1
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c14:r2..3",
+            "transported": [
+              "V:c14:r2..3",
+              "V:c17:r2..3",
+              "V:c20:r2..3"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "beta",
+        "type_index": 1
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c5..5",
+            "transported": [
+              "H:r2:c5..5",
+              "H:r2:c8..8",
+              "H:r2:c11..11"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "gamma",
+        "type_index": 2
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c5..5",
+            "transported": [
+              "H:r2:c5..5",
+              "H:r2:c8..8",
+              "H:r2:c11..11"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "beta",
+        "type_index": 2
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c5..5",
+            "transported": [
+              "H:r2:c5..5",
+              "H:r2:c8..8",
+              "H:r2:c11..11"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "beta_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "gamma",
+        "type_index": 2
+      },
+      {
+        "adjacent_constant_leaf_count": 1,
+        "adjacent_constant_leaves": [
+          {
+            "length": 1,
+            "source": "H:r2:c5..5",
+            "transported": [
+              "H:r2:c5..5",
+              "H:r2:c8..8",
+              "H:r2:c11..11"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "gamma_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "beta",
+        "type_index": 2
+      },
+      {
+        "adjacent_constant_leaf_count": 0,
+        "adjacent_constant_leaves": [],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "beta_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "gamma",
+        "type_index": 3
+      },
+      {
+        "adjacent_constant_leaf_count": 0,
+        "adjacent_constant_leaves": [],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "gamma_singleton_owner_equations_fail",
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "beta",
+        "type_index": 3
+      },
+      {
+        "adjacent_constant_leaf_count": 0,
+        "adjacent_constant_leaves": [],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "gamma",
+        "type_index": 3
+      },
+      {
+        "adjacent_constant_leaf_count": 0,
+        "adjacent_constant_leaves": [],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "role_component_overlaps_intended_geometry",
+          "role_component_overlaps_intended_geometry"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "beta",
+        "type_index": 3
+      },
+      {
+        "adjacent_constant_leaf_count": 3,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c15:r5..6",
+            "transported": [
+              "V:c15:r5..6",
+              "V:c18:r5..6",
+              "V:c21:r5..6"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r8:c14..14",
+            "transported": [
+              "H:r8:c14..14",
+              "H:r8:c17..17",
+              "H:r8:c20..20"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r15:c17..17",
+            "transported": [
+              "H:r15:c17..17",
+              "H:r18:c20..20",
+              "H:r21:c23..23"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "beta_singleton_owner_equations_fail",
+          "beta_singleton_owner_equations_fail",
+          "beta_singleton_owner_equations_fail"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "gamma",
+        "type_index": 4
+      },
+      {
+        "adjacent_constant_leaf_count": 3,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c15:r5..6",
+            "transported": [
+              "V:c15:r5..6",
+              "V:c18:r5..6",
+              "V:c21:r5..6"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r8:c14..14",
+            "transported": [
+              "H:r8:c14..14",
+              "H:r8:c17..17",
+              "H:r8:c20..20"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r15:c17..17",
+            "transported": [
+              "H:r15:c17..17",
+              "H:r18:c20..20",
+              "H:r21:c23..23"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "gamma_singleton_owner_equations_fail",
+          "gamma_singleton_owner_equations_fail",
+          "gamma_singleton_owner_equations_fail"
+        ],
+        "leaf_attempts": [],
+        "offset_side": -1,
+        "second_role": "beta",
+        "type_index": 4
+      },
+      {
+        "adjacent_constant_leaf_count": 3,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c15:r5..6",
+            "transported": [
+              "V:c15:r5..6",
+              "V:c18:r5..6",
+              "V:c21:r5..6"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r8:c14..14",
+            "transported": [
+              "H:r8:c14..14",
+              "H:r8:c17..17",
+              "H:r8:c20..20"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r15:c17..17",
+            "transported": [
+              "H:r15:c17..17",
+              "H:r18:c20..20",
+              "H:r21:c23..23"
+            ]
+          }
+        ],
+        "blocker_role": "beta",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "beta_singleton_owner_equations_fail",
+          "beta_singleton_owner_equations_fail"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "gamma",
+        "type_index": 4
+      },
+      {
+        "adjacent_constant_leaf_count": 3,
+        "adjacent_constant_leaves": [
+          {
+            "length": 2,
+            "source": "V:c15:r5..6",
+            "transported": [
+              "V:c15:r5..6",
+              "V:c18:r5..6",
+              "V:c21:r5..6"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r8:c14..14",
+            "transported": [
+              "H:r8:c14..14",
+              "H:r8:c17..17",
+              "H:r8:c20..20"
+            ]
+          },
+          {
+            "length": 1,
+            "source": "H:r15:c17..17",
+            "transported": [
+              "H:r15:c17..17",
+              "H:r18:c20..20",
+              "H:r21:c23..23"
+            ]
+          }
+        ],
+        "blocker_role": "gamma",
+        "blocker_statuses": [
+          "role_component_merges_intended_geometry",
+          "gamma_singleton_owner_equations_fail",
+          "gamma_singleton_owner_equations_fail"
+        ],
+        "leaf_attempts": [],
+        "offset_side": 1,
+        "second_role": "beta",
+        "type_index": 4
+      }
+    ],
+    "choices": [],
+    "types": [
+      {
+        "blocker": "H:r2:c8..8",
+        "blocker_translation": [
+          0,
+          1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c5..5",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              8
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "H:r2:c8..8"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              5
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c5..5",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              11
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "H:r2:c11..11"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              8
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c8..8",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "H:r2:c14..14"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 2,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_carriers": [
+          "H:r2:c5..5",
+          "H:r2:c8..8",
+          "H:r2:c11..11"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      {
+        "blocker": "H:r2:c11..11",
+        "blocker_translation": [
+          0,
+          1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c8..8",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              11
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "H:r2:c11..11"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              8
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c8..8",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "H:r2:c14..14"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              17
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "H:r2:c17..17"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              14
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c14..14",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 10,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_carriers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      {
+        "blocker": "H:r2:c8..8",
+        "blocker_translation": [
+          0,
+          -1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c11..11",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              8
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "H:r2:c8..8"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              11
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "H:r2:c11..11"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              14
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c14..14",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "H:r2:c14..14"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              17
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c17..17",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "start",
+        "source_chain_index": 13,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "H:r2:c8..8",
+          "H:r2:c11..11",
+          "H:r2:c14..14"
+        ],
+        "transported_carriers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      {
+        "blocker": "V:c14:r2..3",
+        "blocker_translation": [
+          0,
+          1
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "H:r2:c11..11",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              1,
+              14
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..22",
+              "V:c14:r2..3"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              11
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c11..11",
+              "H:r0:c2..22"
+            ],
+            "k": 7,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              17
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..25",
+              "V:c17:r2..3"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              14
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c14..14",
+              "H:r0:c2..25"
+            ],
+            "k": 8,
+            "spine_parent": null
+          },
+          {
+            "blocker_attachment": [
+              1,
+              20
+            ],
+            "blocker_parent_edge": [
+              "H:r0:c2..28",
+              "V:c20:r2..3"
+            ],
+            "carrier_spine_attachment": [
+              1,
+              17
+            ],
+            "carrier_spine_edge": [
+              "H:r2:c17..17",
+              "H:r0:c2..28"
+            ],
+            "k": 9,
+            "spine_parent": null
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 18,
+        "spine": "H:r0:c2..22",
+        "transported_blockers": [
+          "V:c14:r2..3",
+          "V:c17:r2..3",
+          "V:c20:r2..3"
+        ],
+        "transported_carriers": [
+          "H:r2:c11..11",
+          "H:r2:c14..14",
+          "H:r2:c17..17"
+        ],
+        "transported_spines": [
+          "H:r0:c2..22",
+          "H:r0:c2..25",
+          "H:r0:c2..28"
+        ]
+      },
+      {
+        "blocker": "H:r12:c17..17",
+        "blocker_translation": [
+          1,
+          0
+        ],
+        "bypass_rule": "from the far projected endpoint, k-5 centers perpendicular toward the carrier",
+        "carrier": "V:c17:r6..9",
+        "declared_singleton_owners": [
+          "alpha_k(near spine, carrier): retained old owner",
+          "beta_k(carrier, bypass)",
+          "gamma_k(bypass, far spine)",
+          "delta_k(translated blocker, replacement parent)"
+        ],
+        "old_interfaces": [
+          {
+            "blocker_attachment": [
+              12,
+              18
+            ],
+            "blocker_parent_edge": [
+              "V:c19:r9..17",
+              "H:r12:c17..17"
+            ],
+            "carrier_spine_attachment": [
+              9,
+              18
+            ],
+            "carrier_spine_edge": [
+              "V:c17:r6..9",
+              "V:c19:r9..17"
+            ],
+            "k": 7,
+            "spine_parent": "V:c17:r6..9"
+          },
+          {
+            "blocker_attachment": [
+              15,
+              21
+            ],
+            "blocker_parent_edge": [
+              "V:c22:r9..20",
+              "H:r15:c20..20"
+            ],
+            "carrier_spine_attachment": [
+              9,
+              21
+            ],
+            "carrier_spine_edge": [
+              "V:c20:r6..9",
+              "V:c22:r9..20"
+            ],
+            "k": 8,
+            "spine_parent": "V:c20:r6..9"
+          },
+          {
+            "blocker_attachment": [
+              18,
+              24
+            ],
+            "blocker_parent_edge": [
+              "V:c25:r9..23",
+              "H:r18:c23..23"
+            ],
+            "carrier_spine_attachment": [
+              9,
+              24
+            ],
+            "carrier_spine_edge": [
+              "V:c23:r6..9",
+              "V:c25:r9..23"
+            ],
+            "k": 9,
+            "spine_parent": "V:c23:r6..9"
+          }
+        ],
+        "removed_segment_rule": "orthogonal projection of the carrier ray onto the spine",
+        "side": "end",
+        "source_chain_index": 55,
+        "spine": "V:c19:r9..17",
+        "transported_blockers": [
+          "H:r12:c17..17",
+          "H:r15:c20..20",
+          "H:r18:c23..23"
+        ],
+        "transported_carriers": [
+          "V:c17:r6..9",
+          "V:c20:r6..9",
+          "V:c23:r6..9"
+        ],
+        "transported_spines": [
+          "V:c19:r9..17",
+          "V:c22:r9..20",
+          "V:c25:r9..23"
+        ]
+      }
+    ]
+  },
+  "grammar": {
+    "blocker_role_assignments": [
+      "beta",
+      "gamma"
+    ],
+    "borrowed_choices": 0,
+    "offset_sides": [
+      -1,
+      1
+    ],
+    "other_edits": "none",
+    "role_attempts": 20,
+    "source_types": 5
+  },
+  "intrinsic_core_carrier_adjacency": [
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        [
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        [
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            7
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 0
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            10
+          ]
+        ],
+        [
+          [
+            2,
+            10
+          ],
+          [
+            2,
+            9
+          ]
+        ],
+        [
+          [
+            2,
+            10
+          ],
+          [
+            2,
+            11
+          ]
+        ],
+        [
+          [
+            3,
+            10
+          ],
+          [
+            2,
+            10
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 0
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            14
+          ],
+          [
+            2,
+            14
+          ]
+        ],
+        [
+          [
+            2,
+            14
+          ],
+          [
+            2,
+            13
+          ]
+        ],
+        [
+          [
+            2,
+            14
+          ],
+          [
+            2,
+            15
+          ]
+        ],
+        [
+          [
+            3,
+            14
+          ],
+          [
+            2,
+            14
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 0
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            8
+          ],
+          [
+            2,
+            7
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 0
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            12
+          ],
+          [
+            2,
+            11
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 0
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            16
+          ],
+          [
+            2,
+            15
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 0
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            9
+          ],
+          [
+            2,
+            9
+          ]
+        ],
+        [
+          [
+            2,
+            9
+          ],
+          [
+            2,
+            8
+          ]
+        ],
+        [
+          [
+            2,
+            9
+          ],
+          [
+            2,
+            10
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 1
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            13
+          ],
+          [
+            2,
+            13
+          ]
+        ],
+        [
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ]
+        ],
+        [
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            14
+          ]
+        ],
+        [
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 1
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            17
+          ],
+          [
+            2,
+            17
+          ]
+        ],
+        [
+          [
+            2,
+            17
+          ],
+          [
+            2,
+            16
+          ]
+        ],
+        [
+          [
+            2,
+            17
+          ],
+          [
+            2,
+            18
+          ]
+        ],
+        [
+          [
+            3,
+            17
+          ],
+          [
+            2,
+            17
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 1
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            11
+          ],
+          [
+            2,
+            10
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 1
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            15
+          ],
+          [
+            2,
+            14
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 1
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            19
+          ],
+          [
+            2,
+            18
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 1
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            8
+          ],
+          [
+            2,
+            9
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 2
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            10
+          ],
+          [
+            2,
+            11
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 2
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            12
+          ],
+          [
+            2,
+            13
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 2
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            10
+          ]
+        ],
+        [
+          [
+            2,
+            10
+          ],
+          [
+            2,
+            9
+          ]
+        ],
+        [
+          [
+            2,
+            10
+          ],
+          [
+            2,
+            11
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 2
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            12
+          ],
+          [
+            2,
+            12
+          ]
+        ],
+        [
+          [
+            2,
+            12
+          ],
+          [
+            2,
+            11
+          ]
+        ],
+        [
+          [
+            2,
+            12
+          ],
+          [
+            2,
+            13
+          ]
+        ],
+        [
+          [
+            3,
+            12
+          ],
+          [
+            2,
+            12
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 2
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            14
+          ],
+          [
+            2,
+            14
+          ]
+        ],
+        [
+          [
+            2,
+            14
+          ],
+          [
+            2,
+            13
+          ]
+        ],
+        [
+          [
+            2,
+            14
+          ],
+          [
+            2,
+            15
+          ]
+        ],
+        [
+          [
+            3,
+            14
+          ],
+          [
+            2,
+            14
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 2
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            12
+          ],
+          [
+            2,
+            12
+          ]
+        ],
+        [
+          [
+            2,
+            12
+          ],
+          [
+            2,
+            11
+          ]
+        ],
+        [
+          [
+            2,
+            12
+          ],
+          [
+            2,
+            13
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 3
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            16
+          ],
+          [
+            2,
+            16
+          ]
+        ],
+        [
+          [
+            2,
+            16
+          ],
+          [
+            2,
+            15
+          ]
+        ],
+        [
+          [
+            2,
+            16
+          ],
+          [
+            2,
+            17
+          ]
+        ],
+        [
+          [
+            3,
+            16
+          ],
+          [
+            2,
+            16
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 3
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            1,
+            20
+          ],
+          [
+            2,
+            20
+          ]
+        ],
+        [
+          [
+            2,
+            20
+          ],
+          [
+            2,
+            19
+          ]
+        ],
+        [
+          [
+            2,
+            20
+          ],
+          [
+            2,
+            21
+          ]
+        ],
+        [
+          [
+            3,
+            20
+          ],
+          [
+            2,
+            20
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 3
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            14
+          ],
+          [
+            2,
+            13
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 3
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            18
+          ],
+          [
+            2,
+            17
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 3
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            2,
+            22
+          ],
+          [
+            2,
+            21
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 3
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            10,
+            17
+          ],
+          [
+            9,
+            17
+          ]
+        ],
+        [
+          [
+            10,
+            17
+          ],
+          [
+            11,
+            17
+          ]
+        ],
+        [
+          [
+            10,
+            18
+          ],
+          [
+            10,
+            17
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 4
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            11,
+            19
+          ],
+          [
+            11,
+            20
+          ]
+        ],
+        [
+          [
+            11,
+            20
+          ],
+          [
+            10,
+            20
+          ]
+        ],
+        [
+          [
+            11,
+            20
+          ],
+          [
+            12,
+            20
+          ]
+        ],
+        [
+          [
+            11,
+            21
+          ],
+          [
+            11,
+            20
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 4
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            12,
+            22
+          ],
+          [
+            12,
+            23
+          ]
+        ],
+        [
+          [
+            12,
+            23
+          ],
+          [
+            11,
+            23
+          ]
+        ],
+        [
+          [
+            12,
+            23
+          ],
+          [
+            13,
+            23
+          ]
+        ],
+        [
+          [
+            12,
+            24
+          ],
+          [
+            12,
+            23
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": -1,
+      "status": "core_merges_carrier",
+      "type_index": 4
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            12,
+            17
+          ],
+          [
+            11,
+            17
+          ]
+        ]
+      ],
+      "k": 7,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 4
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            13,
+            20
+          ],
+          [
+            12,
+            20
+          ]
+        ]
+      ],
+      "k": 8,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 4
+    },
+    {
+      "adjacent_center_pairs": [
+        [
+          [
+            14,
+            23
+          ],
+          [
+            13,
+            23
+          ]
+        ]
+      ],
+      "k": 9,
+      "offset_side": 1,
+      "status": "core_merges_carrier",
+      "type_index": 4
+    }
+  ],
+  "next_topology": {
+    "count": "full core relocation and two leaf translations are zero-net; carrier is +1 per step",
+    "name": "two-layer dogleg bypass",
+    "specification": "move the full core from local y=+-1 to y=+-2 and use the prescribed blocker plus one adjacent constant leaf as the two short dogleg rungs"
+  },
+  "schema": "grid-graphs.residue-two-borrowed-leaf-bypass-census.v1",
+  "status": "complete_borrowed_leaf_bypass_obstruction",
+  "survivors": [],
+  "terminal_histogram": {},
+  "width_terminal_histograms": {
+    "7": {},
+    "8": {},
+    "9": {}
+  }
+}

@@ -192,6 +192,24 @@ theorem grid_component_reduction {m n : Nat} (F : Finset (GridVertex m n))
   have hdef := sum_degrees_add_boundaryDeficiencySum m n F
   omega
 
+/-- Subtraction-free row-prefix form of `grid_component_reduction`.  The row
+charge `n + 3 - 3|F_row|`, summed over `m` rows, is represented by moving its
+forced-vertex term to the left. -/
+theorem grid_prefix_component_ledger {m n : Nat}
+    (F : Finset (GridVertex m n))
+    (hH : (forcedEdgeGraph (gridGraph m n)
+      (↑F : Set (GridVertex m n))).IsAcyclic) :
+    3 * F.card + 3 * m +
+          Fintype.card
+            ((gridGraph m n).induce
+              (↑F : Set (GridVertex m n))).ConnectedComponent +
+          Fintype.card (forcedEdgeGraph (gridGraph m n)
+            (↑F : Set (GridVertex m n))).ConnectedComponent =
+      m * (n + 3) + boundaryDeficiencySum m n F := by
+  have h := grid_component_reduction F hH
+  rw [Nat.mul_add, Nat.mul_comm m 3]
+  omega
+
 /-- Exact subtraction-free component identity when the forced vertices are the
 complement of `U`. -/
 theorem grid_component_reduction_compl {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)

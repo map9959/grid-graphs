@@ -303,6 +303,56 @@ lemma sum_degrees_blackCenters_add_whiteCenters {m n : Nat}
   rw [← Finset.sum_union (blackCenters_disjoint_whiteCenters F),
     blackCenters_union_whiteCenters]
 
+/-- Boundary deficiency partitions exactly between the two checkerboard center
+sets.  In particular, a forced corner remains charged twice in the sum. -/
+lemma boundaryDeficiencySum_blackCenters_add_whiteCenters {m n : Nat}
+    (F : Finset (GridVertex m n)) :
+    boundaryDeficiencySum m n (blackCenters F) +
+        boundaryDeficiencySum m n (whiteCenters F) =
+      boundaryDeficiencySum m n F := by
+  unfold boundaryDeficiencySum
+  rw [← Finset.sum_union (blackCenters_disjoint_whiteCenters F),
+    blackCenters_union_whiteCenters]
+
+/-- Exact black-center component formula.  Since black centers are independent,
+their forced-edge count is their ambient degree sum. -/
+theorem black_center_component_ledger {m n : Nat}
+    (F : Finset (GridVertex m n))
+    (hH : (forcedEdgeGraph (gridGraph m n)
+      (↑F : Set (GridVertex m n))).IsAcyclic) :
+    4 * (blackCenters F).card +
+        Fintype.card (forcedEdgeGraph (gridGraph m n)
+          (↑(blackCenters F) : Set (GridVertex m n))).ConnectedComponent =
+      m * n + boundaryDeficiencySum m n (blackCenters F) := by
+  have hledger := grid_forcedEdgeGraph_forest_ledger m n (blackCenters F)
+    (forced_blackCenters_isAcyclic F hH)
+  have hrestricted := sum_degrees_finset_eq_forced_add_induced
+    (gridGraph m n) (blackCenters F)
+  have hzero : ((gridGraph m n).induce
+      (↑(blackCenters F) : Set (GridVertex m n))).edgeFinset.card = 0 := by
+    simp [gridGraph_induce_blackCenters_eq_bot]
+  have hdef := sum_degrees_add_boundaryDeficiencySum m n (blackCenters F)
+  omega
+
+/-- White analogue of `black_center_component_ledger`. -/
+theorem white_center_component_ledger {m n : Nat}
+    (F : Finset (GridVertex m n))
+    (hH : (forcedEdgeGraph (gridGraph m n)
+      (↑F : Set (GridVertex m n))).IsAcyclic) :
+    4 * (whiteCenters F).card +
+        Fintype.card (forcedEdgeGraph (gridGraph m n)
+          (↑(whiteCenters F) : Set (GridVertex m n))).ConnectedComponent =
+      m * n + boundaryDeficiencySum m n (whiteCenters F) := by
+  have hledger := grid_forcedEdgeGraph_forest_ledger m n (whiteCenters F)
+    (forced_whiteCenters_isAcyclic F hH)
+  have hrestricted := sum_degrees_finset_eq_forced_add_induced
+    (gridGraph m n) (whiteCenters F)
+  have hzero : ((gridGraph m n).induce
+      (↑(whiteCenters F) : Set (GridVertex m n))).edgeFinset.card = 0 := by
+    simp [gridGraph_induce_whiteCenters_eq_bot]
+  have hdef := sum_degrees_add_boundaryDeficiencySum m n (whiteCenters F)
+  omega
+
 /-- Exact checkerboard component identity on the ambient grid.  Vertices not
 belonging to a given star forest are retained as isolated components; this
 ambient normalization avoids subtraction in `Nat`. -/

@@ -1,0 +1,277 @@
+{
+  "boundary_grammar": {
+    "gap_checks": {
+      "7": 8,
+      "8": 9,
+      "9": 10
+    },
+    "gap_grammar": "occupied: 0->2 with weight 1; empty: s->max(0,s-1)",
+    "hard_bounds": {
+      "center row phase 1": "2k transverse endpoints + 2(k+1) gap-grammar singletons = 4k+2",
+      "outer row phases 0 and 2": "2k transverse endpoints + (3k+2) disjoint rail = 5k+2"
+    },
+    "maximum_boundary_contribution": "5k+2",
+    "maximum_total": "3k^2+5k+2",
+    "states": [
+      "row phase 0, 1, or 2",
+      "rail endpoint extend/omit",
+      "parallel cap distance 1, 2, or 3",
+      "singleton gap counter 0, 1, or 2",
+      "four corner ownership bits"
+    ]
+  },
+  "bulk_classification": {
+    "bulk_count": "3k^2",
+    "quotient_rejections_by_rank_and_reason": {
+      "rank_2:commutator_in_voltage_kernel": 12,
+      "rank_3:commutator_in_voltage_kernel": 12,
+      "rank_5:commutator_in_voltage_kernel": 6
+    },
+    "representatives": [
+      15
+    ],
+    "survivors": [
+      {
+        "canonical_symmetry_phase_mask": 15,
+        "finite_open_boxes_2_through_12": true,
+        "mask": 15,
+        "quotient": {
+          "components": 1,
+          "edges": 12,
+          "fundamental_cycle_rank": 1,
+          "fundamental_cycle_voltages": [
+            [
+              0,
+              1
+            ]
+          ],
+          "lift_is_forest": true,
+          "reason": "ok",
+          "vertices": 12
+        },
+        "rows": [
+          "1111",
+          "0000",
+          "0000"
+        ]
+      },
+      {
+        "canonical_symmetry_phase_mask": 15,
+        "finite_open_boxes_2_through_12": true,
+        "mask": 240,
+        "quotient": {
+          "components": 1,
+          "edges": 12,
+          "fundamental_cycle_rank": 1,
+          "fundamental_cycle_voltages": [
+            [
+              0,
+              1
+            ]
+          ],
+          "lift_is_forest": true,
+          "reason": "ok",
+          "vertices": 12
+        },
+        "rows": [
+          "0000",
+          "1111",
+          "0000"
+        ]
+      },
+      {
+        "canonical_symmetry_phase_mask": 15,
+        "finite_open_boxes_2_through_12": true,
+        "mask": 3840,
+        "quotient": {
+          "components": 1,
+          "edges": 12,
+          "fundamental_cycle_rank": 1,
+          "fundamental_cycle_voltages": [
+            [
+              0,
+              1
+            ]
+          ],
+          "lift_is_forest": true,
+          "reason": "ok",
+          "vertices": 12
+        },
+        "rows": [
+          "0000",
+          "0000",
+          "1111"
+        ]
+      }
+    ],
+    "symbolic_forced_forest_survivors": 3,
+    "symmetry_phase_orbits": 1,
+    "unit_cell_rejections": 462,
+    "unit_cell_survivors": 33
+  },
+  "checks": {
+    "all_symbolic_survivors_one_orbit": true,
+    "all_weight_four_masks_accounted_for": true,
+    "commutator_candidates_rejected": true,
+    "k_7_8_9_maximizers_validate": true
+  },
+  "k_mod_4": {
+    "0": {
+      "horizontal_clip_phase": "3k mod 4 = 0",
+      "maximum_total": "3k^2+5k+2",
+      "survivor_effect": "none; every survivor is constant across the period-four coordinate"
+    },
+    "1": {
+      "horizontal_clip_phase": "3k mod 4 = 3",
+      "maximum_total": "3k^2+5k+2",
+      "survivor_effect": "none; every survivor is constant across the period-four coordinate"
+    },
+    "2": {
+      "horizontal_clip_phase": "3k mod 4 = 2",
+      "maximum_total": "3k^2+5k+2",
+      "survivor_effect": "none; every survivor is constant across the period-four coordinate"
+    },
+    "3": {
+      "horizontal_clip_phase": "3k mod 4 = 1",
+      "maximum_total": "3k^2+5k+2",
+      "survivor_effect": "none; every survivor is constant across the period-four coordinate"
+    }
+  },
+  "next_search": {
+    "decision": "6x6 periodic before nonperiodic",
+    "fallback": "move to nonperiodic topology if the 6x6 quotient census and cap grammar also miss the target",
+    "reason": "3x4 adds no bulk topology beyond the period-three rail; 6x6 is the next square density-one-third cell and can support a nonabelian-looking finite quotient only if its actual lift remains rank at most one per component"
+  },
+  "schema": "grid-graphs.three-by-four-residue-two-bulk.v1",
+  "scope": {
+    "boundary_grammar": "straight preserved intervals with singleton forced-star intersections and forest incidence",
+    "core": "the 3k by 3k interior of the (3k+2)-square",
+    "density": "4/12=1/3",
+    "masks_enumerated": 4096,
+    "period": "3x4",
+    "weight_four_masks": 495
+  },
+  "status": "complete_three_by_four_obstruction",
+  "symbolic_criterion": {
+    "abelian_rank_warning": "linear independence of cycle voltages is not sufficient when fundamental rank is at least two",
+    "commutator_obstruction": "rank at least two is impossible: two free generators have a nontrivial commutator, and every commutator has zero voltage in the abelian deck group Z^2",
+    "statement": "the periodic lift is a forest iff every quotient component has fundamental rank zero, or rank one with nonzero deck voltage"
+  },
+  "target_obstruction": {
+    "attainable": false,
+    "exact_deficit": "2k-2",
+    "four_step": {
+      "family": "P(k+4)-P(k)=24k+68",
+      "target": "T(k+4)-T(k)=24k+76"
+    },
+    "one_step": {
+      "family": "P(k+1)-P(k)=6k+8",
+      "target": "T(k+1)-T(k)=6k+10"
+    },
+    "target": "3k^2+7k"
+  },
+  "validation": [
+    {
+      "k": 7,
+      "k_mod_4": 3,
+      "n": 23,
+      "phases": [
+        {
+          "boundary_contribution": 37,
+          "boundary_formula": 37,
+          "deficit": 12,
+          "forced_forest": true,
+          "row_phase": 0,
+          "target": 196,
+          "total": 184
+        },
+        {
+          "boundary_contribution": 30,
+          "boundary_formula": 30,
+          "deficit": 19,
+          "forced_forest": true,
+          "row_phase": 1,
+          "target": 196,
+          "total": 177
+        },
+        {
+          "boundary_contribution": 37,
+          "boundary_formula": 37,
+          "deficit": 12,
+          "forced_forest": true,
+          "row_phase": 2,
+          "target": 196,
+          "total": 184
+        }
+      ]
+    },
+    {
+      "k": 8,
+      "k_mod_4": 0,
+      "n": 26,
+      "phases": [
+        {
+          "boundary_contribution": 42,
+          "boundary_formula": 42,
+          "deficit": 14,
+          "forced_forest": true,
+          "row_phase": 0,
+          "target": 248,
+          "total": 234
+        },
+        {
+          "boundary_contribution": 34,
+          "boundary_formula": 34,
+          "deficit": 22,
+          "forced_forest": true,
+          "row_phase": 1,
+          "target": 248,
+          "total": 226
+        },
+        {
+          "boundary_contribution": 42,
+          "boundary_formula": 42,
+          "deficit": 14,
+          "forced_forest": true,
+          "row_phase": 2,
+          "target": 248,
+          "total": 234
+        }
+      ]
+    },
+    {
+      "k": 9,
+      "k_mod_4": 1,
+      "n": 29,
+      "phases": [
+        {
+          "boundary_contribution": 47,
+          "boundary_formula": 47,
+          "deficit": 16,
+          "forced_forest": true,
+          "row_phase": 0,
+          "target": 306,
+          "total": 290
+        },
+        {
+          "boundary_contribution": 38,
+          "boundary_formula": 38,
+          "deficit": 25,
+          "forced_forest": true,
+          "row_phase": 1,
+          "target": 306,
+          "total": 281
+        },
+        {
+          "boundary_contribution": 47,
+          "boundary_formula": 47,
+          "deficit": 16,
+          "forced_forest": true,
+          "row_phase": 2,
+          "target": 306,
+          "total": 290
+        }
+      ]
+    }
+  ]
+}

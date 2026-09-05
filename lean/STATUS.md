@@ -89,6 +89,9 @@ reduction, in addition to the algebraic bound expressions.
 - `GridGraphs/ComponentReduction.lean` proves restricted handshaking and the
   exact subtraction-free component identity. Its square `U`-form is
   `square_grid_component_reduction_compl`.
+- `grid_prefix_component_ledger` gives the exact subtraction-free row-prefix
+  charge identity; the remaining universal bound is the terminal
+  boundary/component inequality, not an unidentified additive potential.
 - `GridGraphs/CotreeWaste.lean` identifies the support and degrees of
   `gridGraph m n \ T` with non-preserved vertices and deficiencies, and proves
   `W + D + 3*numPreserved = 3mn`.
@@ -119,6 +122,11 @@ reduction, in addition to the algebraic bound expressions.
 - `grid_cell_has_unforced_edge`: every grid unit cell in an acyclic forced-edge
   graph has at least one boundary edge whose endpoints both lie outside the
   full-degree set.
+- `grid_tree_cotree_support_row_or_column_coverage`: the cotree support of a
+  square grid spanning tree meets every row or meets every column. Missing one
+  of each would contradict the complete supported-side theorem at their
+  intersection cell. Axis coverage alone does not prove universal waste; the
+  direct run-incidence route still needs a cycle-rank/projection inequality.
 - `grid_cell_has_unforced_corner`: vertex-form corollary—every grid unit cell
   contains at least one corner outside the full-degree set.
 - `preserved_set_cell_corner`: spanning-subgraph specialisation—the set of
@@ -406,6 +414,227 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   an independent geometric hypothesis. Row/column axis choice cannot change
   this deficit. A proof now requires a localized Hall relation that handles
   bare component-attachment branches nonlocally.
+- Expanded merger ownership is now canonical and local to its stop interval;
+  the earlier cardinality-chosen embedding remains only as a generic fallback.
+  `RankedCarrierQuotient.lean` likewise selects the first contact with each
+  component in expanded-contour order and retains later contacts as ordered
+  collision labels.
+- `LocalizedHallRouting.lean` proves the exact finite Hall equivalence and a
+  disjoint-owner specialization. The remaining geometry must supply owner
+  neighborhoods and one inequality per owner fiber.
+- `RankedTransitionOwnership.lean` packages occurrence-indexed transition
+  chains with strictly decreasing rank. Every state reaches a terminal
+  occurrence with unchanged debt provenance; equal geometric transition labels
+  are deliberately not quotiented when chains reconverge.
+- `ReconvergenceLens.lean` identifies merger slots with occurrence-level lenses,
+  selects the nearest later merger on each shared suffix, and proves strict
+  stop-distance rank decrease, parent-forest well-foundedness, monotone origin
+  provenance, strict containment of finite origin-occurrence regions, and a
+  common reached marked stop along every parent edge.
+  `CanonicalReconvergenceLens.lean` specializes this to the expanded grid
+  contour: canonical collision occurrences embed into lenses, lenses retain
+  injective physical tree-edge tokens, and parent lenses reach the same split
+  outer cotree port. It also identifies the exact binary merger children as the
+  private start at the merger slot and the distinct expanded-contour predecessor.
+  Direct and shared branch germs distinguish retained darts, outer stubs, and
+  in-place turns without inventing primal edges; edge-valued branch darts are
+  distinct.
+- `GridExpandedContourTrace.lean` projects every finite expanded-contour
+  interval to an honest retained-tree walk by erasing in-place turns, and proves
+  exact ordered dart and edge traces. Canonical lenses now expose shared-
+  predecessor, shared-suffix, and conditional direct-inward walks with exact
+  endpoints. Enclosed planar regions and laminarity remain open: retained-tree
+  walks cannot themselves form a nontrivial cycle, so an offset/collar contour
+  realization with boundary stubs is required.
+- `GridExpandedContourCollar.lean` embeds expanded slots injectively as sector
+  points in a fourfold rectangular collar and realizes every successor as a
+  two-edge grid walk. Segment midpoints are injective and disjoint from all slot
+  points; finite trace support is exact, and every slot-injective interval gives
+  a collar `Walk.IsPath`. A complete-orbit `IsCycle` still needs the final
+  undirected trail/closing-edge lemma, and a lens region still needs a second
+  closing collar arc.
+- The collar cycle and corrected planar hierarchy are now complete.
+  `spanningTreeCollarCycle_isCycle` realizes the full contour orbit;
+  `inwardShoreCollarCycle` closes a retained inward shore with an explicit
+  edge-corridor chord and has a nonempty interior-face carrier. Because raw
+  first-stop parents need not be geometrically nested, planar parents are the
+  unique minimal strict supershores after orienting darts away from their common
+  reached outer-port root. `canonicalUpperU1Default` packages occurrence
+  assignment, laminar/disjoint regions, ranked parents, roots, and outer
+  rank-zero degeneracies. U1 is complete using concrete shore-vertex regions.
+- U2 defines actual exposed split-port, internal-edge, and selected free-
+  component-contact resources. `CanonicalUpperU2ExposedOwnership` gives unique
+  first owners and global injective forgetful embeddings; distinct owner fibers
+  are disjoint. No capacity or matching theorem is hidden in this layer.
+- U3 now has finite regional debt, passed-transition, and owned-resource types,
+  exact sigma/cardinality ledgers, root cancellation, and a generic telescoping
+  theorem. Leaves are discharged. Ranked first-difference shell traversal
+  reduces the open local theorem to unary slot classification and genuine
+  multi-child reconvergence; passed transitions retain origin multiplicity.
+- The original all-crossing passed-transition census is now explicitly rejected:
+  it forms a debt/edge Cartesian product and overcounts unresolved debt. The
+  corrected `PlanarLensDebtRouting` keeps one active state and one optional
+  selected transition per original merger slot. Local debt is exactly
+  `Fin (mergerExcessAt region)`, and genuine reconvergences inject those debts
+  into distinct immediate-child interface lanes without counting the retained
+  attachment edges as resources.
+- `PlanarLensTransportLabel` now includes cotree transitions, interface lanes,
+  and parentless root escapes. Unary propagation contracts, selected parent
+  passes telescope exactly once, and the finite root-escape system terminates at
+  an occurrence-labelled geometric event while preserving debt provenance.
+  Event occurrence is not physical payment.
+- `canonicalPlanarLensDebtRouting` now constructs the corrected routing
+  unconditionally. Its active fiber at a region is exactly the original merger
+  slots born below that region. The exact flow equivalence splits this fiber
+  into local births and occurrences arriving from one unique immediate child.
+  Local births use their canonical merger lanes, inherited occurrences use the
+  final child lane, and parentless occurrences use provenance-preserving root
+  escapes. Thus all nonroot interface/pass obligations are discharged.
+- Every planar merger debt now has a sound physical launch independent of the
+  rejected root escape. `planarLensOriginalDebtImmediateChildEmbedding`
+  globally selects distinct child occurrences, and
+  `planarLensOriginalDebtFirstStopMergerEmbedding` sends them to distinct
+  first-stop merger tokens. `planarLensOriginalDebtFullPrunedLaunchEmbedding`
+  then performs the exact carrier split: one ranked representative may use its
+  raw component, while every later same-component token remains an
+  occurrence-labelled `FullPrunedOrderedCollision` for continued routing.
+- Given a `FullPrunedRegionalCertificate`,
+  `planarLensOriginalDebtPhysicalEmbedding` completes this launch into genuine
+  raw ports, retained internal edges, or raw components. Its representative
+  and collision equations are proved, and
+  `rootActiveDebtFiberPhysicalEmbedding` supplies the corresponding injective
+  map on each canonical root active fiber. This is global physical transport;
+  it deliberately does not claim that a selected resource is first-owned at
+  the terminal planar root.
+- `CanonicalUpperU3ActiveDebtCertificate` and
+  `CanonicalUpperU3TransportCertificate` isolate the sole remaining upper
+  construction: inject active debts regionwise into first-owned raw physical
+  resources plus selected parent passes. Root passes are empty. The corrected
+  telescope and Hall theorem are proved, so U4 is complete conditional on this
+  U3 certificate. Universal terminal freshness would be circular because
+  complete residual routing is already equivalent to `W>=n+2`.
+- `UniversalPrimalContourRouting.lean` proves the clean conditional U4 endpoint:
+  an explicit canonical-demand embedding into `PrimalContourResource` gives
+  `n+4 <= fourSideComponentRank` and hence universal waste. No bare cardinal
+  inequality is accepted as a routing premise.
+- `GridCrosscutCycle.lean` now proves exact edge-list formulas for finite
+  boundary walks and clockwise outer arcs. Collar port indices are explicit on
+  all four sides, and `outerEdgeAtPosition_mem_clockwiseOuterArc_iff_openCyclicSector`
+  identifies closure-arc edges with the original open cyclic sector. The
+  outer-edge dual-face classification, alternating path intersection, and
+  boundary component nonalternation are now proved. They complete C1-C4 but do
+  not imply the global-core root Hall theorem.
+- `OrderedMultiHull.lean` proves that pairwise laminar ordered occurrence hulls
+  can have arbitrary simultaneous depth. Consequently the concrete two-hull
+  defect cannot be repaired by assuming a fixed hull bound from planarity or
+  laminarity alone.
+- `BareCombTransition.lean` formalizes all four orientations of the bare-comb
+  conservation move. Distinct gaps inject into internal support-support edges
+  or labelled cotree transitions. Local debt is conserved, but transitions can
+  propagate arbitrarily far and reconverge; no final-resource Hall theorem is
+  yet proved.
+- `GridCellBoundaryEdges.lean` provides labelled cell-side edges, exact primal
+  and dual endpoints, cotree support and dual adjacency, and retained internal-
+  resource versus cotree classification. It also proves that every cell of a
+  grid spanning tree supplies an internal resource or an exact labelled cotree
+  transition on one of its sides.
+- Component-local ordinary-gap geometry is now unconditional.
+  `ordinaryGapBoundaryCellWitness` selects a unit segment between consecutive
+  spatial contacts using straight-component interval closure, and its opposite
+  cell side is a labelled cotree transition. Mixed-side and repeated-side cases
+  require no `BareComb` premise. Ordinary and duplicated-corner occurrences keep
+  their labels, so coordinate-edge collisions do not collapse transport states.
+- Every full-pruned ordered collision now canonically determines its enriched
+  contact, raw component, component-contour collision, component-spatial gap,
+  ordinary/corner occurrence, and omitted transition. The generic ranked-
+  collision transport is proved in `RankedCarrierQuotient.lean`; C5 no longer
+  assumes a component-gap assignment or geometric edge injectivity.
+- `canonicalComponentOmittedEdgeTransportPlacement` gives every omitted
+  occurrence an unconditional relocated placement in the corrected shore
+  forest. It chooses the outermost crossed supershore and passes to its immediate
+  parent, or chooses a maximal parentless supershore for root escape. The
+  transport region is therefore derived rather than fixed incorrectly at the
+  launch occurrence.
+- `FullPrunedCarrierBlockGapAssignment` is now unconditional bookkeeping; it
+  contains no injection into the corrected planar shore forest. Its component,
+  spatial gap, and omitted edge are derived directly from each inward collision.
+  The earlier injection target was false in the one-root contact-tree case:
+  leaves are paid by roots plus branch excess, not by branch excess alone.
+  The later component-split cotree-dual forest is retained as legacy audit/Euler
+  scaffolding. Its component-copied continuation roots and branch excess are not
+  independent physical payment.
+- Full-pruned collisions are formally partitioned into disjoint inward- and
+  outer-direct subtypes. Inward collisions have a canonical injective launch
+  occurrence with the exact merger-slot equation. For an outer collision, the
+  direct port equals the reached `lensOuterPort`, belongs to the reserved
+  `exitEmbedding` range, and cannot inhabit `UnreservedCanonicalBoundaryPort`.
+  This is a source partition, not a payment theorem; the grouped C5 construction
+  must route only the inward residual source and leave reserved outer exits out
+  of the residual resource pool.
+- The collision partition is now an explicit equivalence
+  `FullPrunedOrderedCollision ≃ FullPrunedInwardCollision ⊕
+  FullPrunedOuterCollision`, with the corresponding cardinal identity. Outer
+  collisions are not cancellation credits: their direct ports are reserved, so
+  they remain obligations requiring separate residual routing. The sound grouped
+  ledger keeps unreserved root ports, reserved inward-root routing, outer-
+  collision routing, and branch ownership pairwise disjoint in the same genuine
+  residual resource pool.
+- The legacy component cotree-dual forest no longer uses only the one omitted
+  transition selected by each inward collision.  Each raw-component fiber now
+  has a provenance-preserving occurrence universe containing every component
+  spatial-gap occurrence and a continuation occurrence for every genuine
+  grid-cotree edge.  Selected starts map to their exact gap occurrence and
+  embed as private leaves.
+  Its tree-cotree boundary connectivity and root classification are proved.
+  Global-core correction nevertheless supersedes it: copying that complete
+  continuation universe into every component fiber duplicates the same physical
+  boundary occurrence, so private roots and merger slots cannot be paid
+  componentwise.
+- `ComponentResolvedBoundaryGapHullExpansion` and
+  `CanonicalGroupedResidualHullExpansion` are legacy Hall-strength witness
+  propositions, not consequences of hull topology. The associated arbitrary
+  first-separator/outer classifications and reserved-root launch type remain for
+  build compatibility and audit only.
+- The former corrected endpoint `CanonicalUpperU3RootHall` keeps one
+  global escape core and original debt provenance. The concrete shared carrier
+  is `FullPrunedSharedCotreeDualEdgeOccurrence` with
+  `fullPrunedSharedCotreeDualForest`: selected gaps remain private provenance
+  occurrences, but each actual continuation transition occurs once globally.
+  `RootDebtCanUse` requires a reached raw resource and a first-owned witness at
+  the same root. The exact blocker is Hall for `rootRawNeighborhood`:
+  termination, nonalternation, and component quotienting do not prove freshness
+  or injectivity. For `canonicalPlanarLensDebtRouting`, the theorem
+  `canonicalUpperU3_activeGlobalHall_of_canonicalRootHall` proves that this root
+  Hall statement alone implies active global Hall; the nonroot transport is no
+  longer an input. However, the endpoint audit is now complete and rejects this
+  root Hall statement as the final route: `rootDebtCanUse_eq_outerPort` proves
+  that the current escape system never exposes internal edges or components,
+  `canonicalRootRawNeighborhood_card_le_one` proves every canonical root
+  neighborhood is empty or a singleton, and
+  `canonicalUpperU3RootHall_activeFiber_card_le_one` proves Hall would force at
+  most one accumulated debt per root. A replacement root transport must expose
+  genuine internal-edge and raw-component events before applying Hall.
+- The newer active C5 endpoint supersedes that root-Hall decomposition with the
+  one-copy global shared cotree core and `SharedCanonicalGroupedResidualHall`.
+  `SharedCanonicalGroupedResidualGeometry` reduces it classwise to reserved-port
+  provenance routing, routing on the actual global merger slots, outer routing,
+  and pairwise separation of the three selected images. Unused candidate
+  neighborhoods may overlap; whole-neighborhood disjointness and singleton
+  outer neighborhoods were stronger than composition requires. Earlier component-refined
+  multiplicity quantified the product of every slot with every component below
+  its branch vertex, although the grouped ledger contains only one demand per
+  slot; nested combs show that stronger product is not the right obligation.
+  The unresolved mathematical bridge is exactly downstream physical-union
+  capacity for the real merger slots, including repeated same-component stops.
+- `CheckerboardColorWaste.lean` proves exact black/white cotree degree and waste
+  ledgers plus residue-two tight/near color normal forms.
+  `CheckerboardContourMarks.lean` realizes those color wastes as actual color
+  subtypes of `CotreeContourMark`.
+- `CanonicalDemandPhase.lean` proves the `Fin 3` phase counts, six phase/color
+  histograms by parity, and exact provenance sums over expanded-contour exits.
+  `ResidueTwoColorCapacity.lean` derives tight anchor/color rigidity and the
+  near-tight one-packet alternatives from any color-preserving anchored
+  marking. No universal such marking or residue-two contradiction is claimed.
 - `ChannelContourRouting.lean` now proves the corrected abstract pruning
   theorem `incidenceWaste_ge_of_prunedRootChannelRoutingWithDirectExits`.
   Later exits must be roots, demand vertices must be leaves, and only
@@ -418,6 +647,9 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   `6k^2+6k-1` and increment `12k+12`. `ResidueTwoAffineStep.lean` proves its
   `n=17` base connectivity and now discharges all old-edge transport and
   successor-face attachment obligations symbolically.
+- `ResidueTwoAffineMax.lean` now records the exact construction deficit: the
+  affine score plus `k-5` is the stable target, and one affine pump gains
+  `6k+9` preserved vertices versus the required `6k+10`.
 - The affine successor API now includes two symbolic occurrence embeddings:
   one moves the final old pumped block past the insertion and one keeps an old
   copy in the newly inserted position. `residueTwoAffineStepVertex_mem` proves
@@ -432,6 +664,39 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   support vertex have acyclic union, lifts this to indexed leaf-elimination
   orders, and identifies the resulting graph with the forced graph of the union
   of all listed interval centers.
+- `analysis/check_residue_two_counter_interval_surgery.py` verifies an abstract
+  target-count edge-subdivision candidate: inserting one interval of length
+  `k-5` between the affine root and boundary-spine branch gives `4k+1` nodes,
+  target score `3k^2+7k`, a transported postorder, and step gain `6k+10`.
+  Its two new attachment owners have no grid coordinates yet.
+- `analysis/census_residue_two_counter_interval_geometry.py` completely rejects
+  the candidate's declared natural corner grammar at `k=7,8,9`: all 7,912,264
+  choices fail the unit-cell condition. This is a bounded falsification, not a
+  global obstruction to the abstract surgery.
+- `analysis/census_residue_two_affine_endpoint_extensions.py` rejects all `56`
+  stable single-endpoint types transported from `k=7` through `k=9`. Although
+  each proposed ray has the exact count recurrence, every type is geometrically
+  obstructed by the grid boundary, old centers, a forbidden unit cell, or an
+  affine component merge.
+- `analysis/census_residue_two_endpoint_slide.py` derives exactly `20`
+  constant-size leaf blockers from those endpoint failures and checks their
+  four unit translations. All `80` chains fail. The remaining narrowed lower
+  topology is a two-leaf hinge exchange based on the six multiple-intersection
+  witnesses and one non-blocker-parent witness.
+- `analysis/census_residue_two_two_leaf_hinge.py` derives only two legal leaf
+  hinges from those seven witnesses; both fail by unit cells or overlap. The
+  remaining five witnesses require a nonleaf spine operation.
+- `analysis/census_residue_two_nonleaf_spine_bypass.py` rejects the five minimal
+  projected-segment bypasses by a uniform count obstruction: distance two from
+  spine to carrier forces the length-`k-5` bypass through a carrier-ray center.
+  The next topology is an offset `k-7` core with two connector leaves.
+- The remaining declared affine bypasses, neighboring-residue cap exchanges,
+  safe-comb and periodic bulks through `6x6`, and bounded one/two/three-wall
+  domain seams have all been completely classified and rejected. Periodic
+  density-one-third bulks reduce to parallel rails with deficit `2k-2`; the best
+  one-wall seam gains `6k+9`; bounded islands cannot simultaneously attain the
+  target count and a singleton-owned incidence tree. The lower L2 gate remains
+  open and is research blocked pending a genuinely nonlocal topology.
 - Analytic calibration rules out the naive exact repair of the affine family.
   Every U vertex in a repeated `UU.` pump block closes a forced unit-cell cycle
   when promoted, and the `k=6` affine member has no valid single promotion.
@@ -544,18 +809,40 @@ have `P = refinedUB` (refined bound is tight); the average gap
 
 ## Next Steps
 
-1. Use the forced-forest maximum as the primary optimization model and seek
-   another infinite family where a compact structural certificate closes the
-   current rigorous interval.
-2. Compose the proved fundamental-shore marks-or-ports routings through the
-   nested contour intervals, discharging exported ports without reuse.
-3. Construct `Fin n ↪ GeometricCotreeContourMark T` from that composition,
-   proving the first linear bound `W>=n`.
-4. Use the four extreme contour sectors to strengthen the marking by two and
-   prove universal cotree waste `W>=n+2`.
-5. Classify checkerboard/contour slack zero to exclude `W=n+2` outside residue
-   one.
-6. Classify slack three to exclude `W=n+5` in the stable
-   residue-two range.
-7. Recompute the rigorous lower/upper interval after each exclusion and pursue
-   only symbolic lower or upper theorems until the endpoints agree.
+1. Do not target an unconditional `FullPrunedRegionalCertificate`: exhaustive
+   `3 x 3` analysis found a spanning tree with one ranked collision and three
+   residual resources globally, but no residual resource first-owned by its
+   only inward shore. Thus the structure's `terminal_owned` field is false for
+   that tree despite surplus cardinal capacity.
+2. Prove the universal bound through a weaker global routing or direct geometric
+   inequality that permits ownership exchange across regions. The completed
+   occurrence-preserving launch and three-pool adapter remain valid conditional
+   tools, but cannot be instantiated by the rejected regional certificate.
+3. The maximum-only summed four-crop rank inequality and its weaker balanced-crop
+   consequence are also rejected by explicit maximum `9 x 9` witnesses. The
+   straight-carrier axial-gap strengthening fails at `n=10`. These routes must
+   not be reused without materially different hypotheses.
+4. Global insertion-circuit localizations were also falsified. Owner-labelled
+   fundamental paths have unbounded edge and angle-sector congestion. The
+   minimum-reflex strengthening fails for an inclusion-maximal `9 x 9` forced
+   forest even after independently minimizing each owner's circuit. Generic
+   graphic-matroid submodularity gives an upper bound on omitted bundles, in the
+   opposite direction from the required support lower bound.
+- A sound global alternating-exchange layer is now implemented. It includes
+  finite matching augmentation and deficient closures, exact automatic owners
+  of reserved ports/edges/components, one-copy shared-hull continuation,
+  displaced-owner adjacency, ordered outer traversal, reverse-root traversal,
+  retained-edge pass-through, and component-contact tree-basis exchange. The
+  unified `PhysicalSaturationTransitionSystem` preserves each initiating source
+  occurrence while raw resources remain one-copy physical objects.
+- The completed executable saturation model exhausts every `3 x 3` and `4 x 4`
+  spanning tree, both axes, every grouped-source subset, and every spatial-gap
+  bijection with no Hall failure. Targeted/random trees through `8 x 8` also
+  show no failure. This is finite falsification evidence, not a proof.
+- The exact remaining theorem is the arbitrary-width no-deficient-closure
+  statement for the physical saturation neighborhood. Connectivity and total
+  component balance do not imply Hall, and the total source/resource cardinal
+  consequence is already equivalent to universal waste. A proof must therefore
+  establish genuine expansion for every alternating-closed source subset.
+3. Invent and formalize a genuinely nonlocal stable residue-two lower family;
+   the declared bounded affine-repair grammars are exhausted.

@@ -113,6 +113,45 @@ Hence the following proposed ownership rule is false:
 > Every repeated contact owns a port, internal edge, or distinct component in
 > its own attachment branch.
 
+## Ordered Bare-Comb Transport
+
+The local failure still has an exact conservation law. In a maximal one-sided
+run of consecutive bare leaves, consider each unit-cell gap between neighboring
+leaves. Three sides of the outward cell are cotree edges. Its distinct fourth
+edge is either:
+
+```text
+retained: an internal support-support tree-edge resource,
+omitted:  a labelled cotree transition to the next dual layer.
+```
+
+Thus a run with `k` contacts has `k-1` duplicate-contact debts and exactly
+`k-1` distinct immediate payments or transition labels. This is formalized for
+all four orientations in `BareCombTransition.lean`.
+
+Transition labels are not final resources. They can propagate through
+arbitrarily many layers and several transition chains can reconverge. The next
+global theorem must splice these layers while preserving multiplicity and
+assign disjoint final owners. `LocalizedHallRouting.lean` provides the finite
+Hall endpoint once those owner-fiber inequalities are proved.
+
+`RankedTransitionOwnership.lean` now records the required multiplicity model:
+states are occurrences carrying their original debt, not geometric transition
+labels. A decreasing rank forces every chain to a terminal occurrence while
+preserving provenance, even when distinct occurrences use the same transition
+label after reconvergence. `GridCellBoundaryEdges.lean` also proves that every
+grid-tree cell has a side supplying either an internal resource or a labelled
+cotree transition. What remains is to instantiate the ranked states globally
+and prove the owner-fiber capacities.
+
+The targeted occurrence-labelled Hall census in
+`TARGETED_COMPUTATION_WAVE_2026-08-11.md` shows that assigning every occurrence
+all geometric slots in its transported trace basin still fails Hall: four debts
+can share a basin with only three slots. Thus a global construction must pay
+each reconverged branch-excess unit with a new physical primal resource. Merely
+widening the neighborhood from terminal slots to complete transition traces is
+not sufficient.
+
 ## Next Theorem
 
 The next result must be a genuinely localized Hall/decongestion theorem, not an

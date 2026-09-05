@@ -91,6 +91,24 @@ def markedSlots : Finset (GridCompassSlot n n) :=
 def startSlots : Finset (GridCompassSlot n n) :=
   Finset.univ.image (startSlot axis hn2 hT)
 
+/-- The unique canonical demand represented by a canonical start slot. -/
+def demandOfStartSlot (s : ↥(startSlots axis hn2 hT)) :
+    CanonicalShoreDemand axis n :=
+  (Finset.mem_image.mp s.2).choose
+
+@[simp] theorem startSlot_demandOfStartSlot
+    (s : ↥(startSlots axis hn2 hT)) :
+    startSlot axis hn2 hT (demandOfStartSlot axis hn2 hT s) = s.1 :=
+  (Finset.mem_image.mp s.2).choose_spec.2
+
+theorem demand_eq_demandOfStartSlot
+    (hn3 : 3 ≤ n) (s : ↥(startSlots axis hn2 hT))
+    (q : CanonicalShoreDemand axis n)
+    (hq : startSlot axis hn2 hT q = s.1) :
+    q = demandOfStartSlot axis hn2 hT s := by
+  apply startSlot_injective axis hn2 hT hn3
+  rw [hq, startSlot_demandOfStartSlot axis hn2 hT s]
+
 /-- An omitted perimeter edge supplies a supported boundary vertex and hence an
 outer cotree port. -/
 theorem outerPort_nonempty (hn2 : 2 ≤ n)
