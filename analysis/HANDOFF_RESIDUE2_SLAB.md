@@ -24,7 +24,7 @@ families. Those also failed; details are below.
 
 ### Successful: explicit slab `n=8 → n=11`
 
-`analysis/slab_construction.py::slab_extend_general(rows_old)` reproduces the
+`analysis/transport/slab_construction.py::slab_extend_general(rows_old)` reproduces the
 cached n=11 pattern exactly from cached n=8 by:
 
 1. Inserting 3 rows at row positions `(n_old-2, n_old-1, n_old)`.
@@ -72,7 +72,7 @@ Attempted to find n=14 as cached n=8 + 6-row+6-col slab. Best alignment
 
 ### Failed: SA from scratch for n=17
 
-`analysis/sa_residue2.py` runs simulated annealing seeded from cached n=14
+`analysis/searches/sa_residue2.py` runs simulated annealing seeded from cached n=14
 extended with random slab fill. Best result for n=17:
 - 196 cells valid (target 178; 18 over) after extensive search.
 - 177 cells appeared valid mid-run but turned out to be a SA tracker bug
@@ -80,20 +80,20 @@ extended with random slab fill. Best result for n=17:
 
 ### 2026-07-19: failed bounded-rewrite and band-pumping follow-up
 
-New deterministic alignment diagnostics in `analysis/slab_alignment.py` show:
+New deterministic alignment diagnostics in `analysis/transport/slab_alignment.py` show:
 
 * The exact cached `n=8 → n=11` alignment needs only 3 copied-cell rewrites.
 * The best cached `n=11 → n=14` alignment over every insertion position needs
   22 copied-cell rewrites and reaches 5 layers from the seam.
 * Transposition only swaps the row/column result; it does not improve it.
 
-`analysis/search_slab_rewrite.py` adds fixed-cardinality annealing with graded
+`analysis/transport/search_slab_rewrite.py` adds fixed-cardinality annealing with graded
 penalties for disconnected dual faces and forced cycles. Starting from the
 hand slab, searches with slab-only, halos of widths 1--4, and unrestricted
 cells did not improve past `(2 disconnected faces, 2 forced cycles)`. This is
 negative search evidence, not an impossibility proof.
 
-`analysis/search_band_pump.py` tests a more structural extension: insert copies
+`analysis/transport/search_band_pump.py` tests a more structural extension: insert copies
 of three contiguous old rows and columns. It found no valid exact-count pump
 for `n=8 → 11`, `n=11 → 14`, or `n=14 → 17`. For `n=14 → 17`, an exhaustive
 generalization allowed every insertion position, every contiguous source band,
@@ -107,18 +107,18 @@ U cells against target 178 and connects only 27 of 257 dual vertices.
 
 ### New this session
 
-* `analysis/sa_residue2.py` — SA q-witness search with v35 / cached seeds.
-* `analysis/slab_construction.py` — slab insertion (n=8→n=11 works exactly).
+* `analysis/searches/sa_residue2.py` — SA q-witness search with v35 / cached seeds.
+* `analysis/transport/slab_construction.py` — slab insertion (n=8→n=11 works exactly).
 
 ### New in the 2026-07-19 continuation
 
-* `analysis/slab_alignment.py` — exhaustive cached-witness slab alignment.
-* `analysis/search_slab_rewrite.py` — graded fixed-count seam rewrite search.
-* `analysis/search_band_pump.py` — exhaustive contiguous-band pump search.
+* `analysis/transport/slab_alignment.py` — exhaustive cached-witness slab alignment.
+* `analysis/transport/search_slab_rewrite.py` — graded fixed-count seam rewrite search.
+* `analysis/transport/search_band_pump.py` — exhaustive contiguous-band pump search.
 
 ### Modified
 
-* `analysis/diagonal_patterns.py` (already committed in user's
+* `analysis/patterns/diagonal_patterns.py` (already committed in user's
   `bd5081058d4c4ed38d538fd48a17948ddf4ea125`):
   - `_RESIDUE_TWO_EXPLICIT` dict caches optimal patterns for n ∈ {5, 8, 11, 14}.
   - `residue_two_explicit_pattern(n)` function returns these.
@@ -146,10 +146,10 @@ for n in [5, 8, 11, 14]:
 "
 
 # Slab works for n=8→n=11 only
-python3 analysis/slab_construction.py
+python3 -m analysis.transport.slab_construction
 
 # SA tool (works at small n, stalls at n>=11 from v35 seed)
-python3 analysis/sa_residue2.py 11 --time 30
+python3 -m analysis.searches.sa_residue2 11 --time 30
 ```
 
 ## Strategic recommendations for next session
@@ -197,10 +197,10 @@ python3 analysis/sa_residue2.py 11 --time 30
 | File | Purpose |
 |------|---------|
 | `analysis/proofs_diagonal.md` | Authoritative proof program; ~1200 lines |
-| `analysis/diagonal_patterns.py` | Cached residue-1 (verified to n=40) and residue-2 (n ∈ {5,8,11,14}) |
-| `analysis/slab_construction.py` | Slab insertion (works for n=8→n=11 only) |
-| `analysis/sa_residue2.py` | SA q-witness search tool |
-| `analysis/construction_lab.py` | Verification: dual + forest + greedy completion |
+| `analysis/patterns/diagonal_patterns.py` | Cached residue-1 (verified to n=40) and residue-2 (n ∈ {5,8,11,14}) |
+| `analysis/transport/slab_construction.py` | Slab insertion (works for n=8→n=11 only) |
+| `analysis/searches/sa_residue2.py` | SA q-witness search tool |
+| `analysis/patterns/construction_lab.py` | Verification: dual + forest + greedy completion |
 | `data/diagonal_u_*.txt` | Cached fullub-pattern outputs for n ∈ {5,...,15} |
 
 ## Next concrete TODO
@@ -215,7 +215,7 @@ python3 analysis/sa_residue2.py 11 --time 30
 
 ### 2026-07-19: finite-state grammar implemented
 
-`analysis/tile_grammar.py` now implements the pivot above. Its row transition
+`analysis/tiles/tile_grammar.py` now implements the pivot above. Its row transition
 tracks the exposed dual-face connectivity partition, previous U mask, U cost,
 and dual cycle excess; three row transitions form a tile-band production.
 
@@ -247,7 +247,7 @@ within its dihedral class finds a new exact n=15 witness after 190,877
 extensions. Its top row is empty. This points toward a production preserving
 the bottom frontier transition rather than fixed geometric boundary roles.
 
-`analysis/search_tile_production.py` now tests that conclusion at n=15→18.
+`analysis/searches/search_tile_production.py` now tests that conclusion at n=15→18.
 It synthesizes a complete inserted tile row and column under the exact +63
 budget. All 180 cost-compatible copied class profiles at every insertion
 alignment fail for both available n=15 orientations. Freeing the full inserted

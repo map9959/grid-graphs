@@ -2,7 +2,7 @@
 
 You are inheriting the diagonal proof program at the point where residue 1 is
 fully constructive (`n = 3k + 1`, validated through `n = 40` by
-`analysis/check_diagonal_patterns.py`). Residue zero now has an exact
+`analysis/patterns/check_diagonal_patterns.py`). Residue zero now has an exact
 phase-boundary family from `n=21` onward, discovered from the stochastic n=21
 witness. Residue two still has a surplus skeleton and finite exact witnesses.
 
@@ -46,7 +46,7 @@ finite-state candidate searches above that size are allowed.
 
 ```bash
 # Residue 1 (still passes, do not regress).
-python3 analysis/check_diagonal_patterns.py 40
+python3 -m analysis.patterns.check_diagonal_patterns 40
 
 # Sweep all three skeletons.
 python3 -c "
@@ -59,38 +59,38 @@ sweep(residue_zero_pattern, [6, 9, 12, 15, 18])
 "
 
 # Inspect cached witnesses.
-python3 analysis/dual_decycling.py < data/diagonal_u_14.txt
-python3 analysis/tile_class_matrix.py < data/diagonal_u_14.txt
+python3 -m analysis.patterns.dual_decycling < data/diagonal_u_14.txt
+python3 -m analysis.tiles.tile_class_matrix < data/diagonal_u_14.txt
 ```
 
 ## Code map (new this session)
 
 | File | Purpose |
 |------|---------|
-| `analysis/construction_lab.py` | Single-file pattern checker. `run_check`, `sweep`, `dual_connectivity_check`, `forest_completion_check`. The canonical way to validate any candidate. |
-| `analysis/tile_alphabet.py` | Named 3x3 tile alphabet (S/C/C'/B/B'/K) with U-counts and edge signatures. |
-| `analysis/tile_grammar.py` | Streamed and bidirectional dual-frontier grammar, exact cost pruning, synthesis, and verification. |
+| `analysis/patterns/construction_lab.py` | Single-file pattern checker. `run_check`, `sweep`, `dual_connectivity_check`, `forest_completion_check`. The canonical way to validate any candidate. |
+| `analysis/tiles/tile_alphabet.py` | Named 3x3 tile alphabet (S/C/C'/B/B'/K) with U-counts and edge signatures. |
+| `analysis/tiles/tile_grammar.py` | Streamed and bidirectional dual-frontier grammar, exact cost pruning, synthesis, and verification. |
 | `analysis/TILE_GRAMMAR.md` | Current grammar design, commands, and search conclusions. |
-| `analysis/search_tile_production.py` | Nonlocal inserted-row/column production search and bounded rewrite experiments. |
-| `analysis/search_phase_shifted_production.py` | Unaligned cell-phase width-three cross synthesis. |
-| `analysis/search_frontier_caps.py` | Cost-240 diverse prefix search against exact cost-35 suffix caps. |
-| `analysis/frontier_quotient.py` | Executable n=15/n=18 frontier-anchor and affine-cost checks. |
-| `analysis/search_residue_anneal.py` | Exact-cardinality stochastic search with a reproducible near-hit seed and directed three-for-three repair. |
-| `analysis/search_near_exchange.py` | Exhaustive local exchange and contracted corner-patch searches around the n=21 near-hit. |
+| `analysis/searches/search_tile_production.py` | Nonlocal inserted-row/column production search and bounded rewrite experiments. |
+| `analysis/searches/search_phase_shifted_production.py` | Unaligned cell-phase width-three cross synthesis. |
+| `analysis/searches/search_frontier_caps.py` | Cost-240 diverse prefix search against exact cost-35 suffix caps. |
+| `analysis/transport/frontier_quotient.py` | Executable n=15/n=18 frontier-anchor and affine-cost checks. |
+| `analysis/searches/search_residue_anneal.py` | Exact-cardinality stochastic search with a reproducible near-hit seed and directed three-for-three repair. |
+| `analysis/searches/search_near_exchange.py` | Exhaustive local exchange and contracted corner-patch searches around the n=21 near-hit. |
 | `analysis/PHASE_PATTERN.md` | Exact residue-zero family, count proof, dual-edge formulas, and connectivity induction scaffold. |
-| `analysis/search_residue.py` | Random/constrained local search for spot-check witnesses. |
-| `analysis/diagonal_patterns.py` (rewritten) | `residue_one_pattern`, `residue_two_pattern`, `residue_zero_pattern`, plus skeleton variants and rejected experimental patterns. |
+| `analysis/searches/search_residue.py` | Random/constrained local search for spot-check witnesses. |
+| `analysis/patterns/diagonal_patterns.py` (rewritten) | `residue_one_pattern`, `residue_two_pattern`, `residue_zero_pattern`, plus skeleton variants and rejected experimental patterns. |
 
 ## Code map (existing)
 
 | File | Purpose |
 |------|---------|
-| `analysis/check_diagonal_patterns.py` | End-to-end checker. Now iterates residue 1 plus cached exact residue-0/2 witnesses; extend parametric dispatch when those families are complete. |
-| `analysis/dual_decycling.py` | Planar-dual analysis for any U-pattern on stdin. |
-| `analysis/tile_symmetry.py` | Group 3x3 tiles by dihedral class. |
-| `analysis/tile_class_matrix.py` | Print tile-class matrix for a witness (read from stdin). |
-| `analysis/u_pattern_stats.py` | Row/strip/sliding-window U counts. |
-| `analysis/crop_diff.py` | Compare residue-0/2 cached witnesses against cropped residue-1 patterns. |
+| `analysis/patterns/check_diagonal_patterns.py` | End-to-end checker. Now iterates residue 1 plus cached exact residue-0/2 witnesses; extend parametric dispatch when those families are complete. |
+| `analysis/patterns/dual_decycling.py` | Planar-dual analysis for any U-pattern on stdin. |
+| `analysis/tiles/tile_symmetry.py` | Group 3x3 tiles by dihedral class. |
+| `analysis/tiles/tile_class_matrix.py` | Print tile-class matrix for a witness (read from stdin). |
+| `analysis/witness_tools/u_pattern_stats.py` | Row/strip/sliding-window U counts. |
+| `analysis/witness_tools/crop_diff.py` | Compare residue-0/2 cached witnesses against cropped residue-1 patterns. |
 | `analysis/proofs_diagonal.md` | Complete proof program and computational findings; the authoritative source. |
 | `data/diagonal_u_{12,13,14,15}.txt` | Cached `fullub-pattern` outputs. |
 | `lean/GridGraphs/Core/Forced.lean` | Forced-edge lemma (formalized). |
@@ -135,7 +135,7 @@ extensions, with an empty top row. The remaining work is to turn that stable
 bottom-frontier behavior into a recurring production.
 
 The first direct n=15→18 production search is implemented in
-`analysis/search_tile_production.py`. It jointly synthesizes an inserted tile
+`analysis/searches/search_tile_production.py`. It jointly synthesizes an inserted tile
 row and column rather than fixing a crossing tile. Copied class profiles,
 full-height free inserted columns, 3x3 crossing neighborhoods, arbitrary
 same-cost replacements at the two cycle-closing old tiles, and the observed

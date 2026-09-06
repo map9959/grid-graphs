@@ -16,11 +16,11 @@ private theorem phaseHorizontal (K : Nat) (hK : 7 ≤ K)
     (by have hi := i.isLt; have hlen := phaseRows_length K hK; omega) hc
     (phase_occupied_mem_uResidueZero K hK i c hl)
     (phase_occupied_mem_uResidueZero K hK i (c + 1) hr)
-  · simp only [IsStrictInteriorResidueZeroCoord, Prod.fst, Fin.val_mk]
+  · simp only [IsStrictInteriorResidueZeroCoord]
     have hi := i.isLt
     have hlen := phaseRows_length K hK
     omega
-  · simp only [IsStrictInteriorResidueZeroCoord, Prod.fst, Fin.val_mk]
+  · simp only [IsStrictInteriorResidueZeroCoord]
     have hi := i.isLt
     have hlen := phaseRows_length K hK
     omega
@@ -38,10 +38,10 @@ private theorem phaseVertical (K : Nat) (hK : 7 ≤ K)
     (by rw [phaseRows_length K hK] at hi; omega) hc0 hc
     (phase_occupied_mem_uResidueZero K hK ⟨i, by omega⟩ c ht)
     (phase_occupied_mem_uResidueZero K hK ⟨i + 1, hi⟩ c hb)
-  · simp only [IsStrictInteriorResidueZeroCoord, Prod.fst, Fin.val_mk]
+  · simp only [IsStrictInteriorResidueZeroCoord]
     have hlen := phaseRows_length K hK
     omega
-  · simp only [IsStrictInteriorResidueZeroCoord, Prod.fst, Fin.val_mk]
+  · simp only [IsStrictInteriorResidueZeroCoord]
     have hlen := phaseRows_length K hK
     omega
 
@@ -59,7 +59,7 @@ private theorem topInterface (k : Nat) (hk : 7 ≤ k) (c : Nat)
     (by rw [hrow0]; exact hocc)
   have hm0' : ((⟨2, by omega⟩, ⟨c, by omega⟩) :
       GridVertex (3 * (k + 1)) (3 * (k + 1))) ∈ uResidueZero (k + 1) (by omega) := by
-    convert hm0 using 1 <;> apply Fin.ext <;> simp [i0]
+    exact hm0
   have hnow := vertical_uu_dual_cells_adj (uResidueZero (k + 1) (by omega)) 1 c
     (by omega) hc0 hc (all_cap_mem_uResidueZero (k + 1) (by omega) c (by omega)) hm0'
   let is : Fin (phaseRows (k + 2)).length := ⟨1, by
@@ -73,7 +73,7 @@ private theorem topInterface (k : Nat) (hk : 7 ≤ k) (c : Nat)
   have hms := phase_occupied_mem_uResidueZero (k + 2) (by omega) is c
     (by rw [hrs]; exact hs)
   have hmo := phase_occupied_mem_uResidueZero (k + 2) (by omega) io c
-    (by rw [hro]; exact hocc.widen (by omega) (by simp [PhaseRow.parameter]; omega))
+    (by rw [hro]; exact hocc.widen (by omega) (by simp [PhaseRow.parameter]))
   have hnext := vertical_uu_dual_cells_adj (uResidueZero (k + 2) (by omega)) 3 c
     (by omega) hc0 (by omega) (by simpa [is] using hms) (by simpa [io] using hmo)
   exact ⟨⟨hnow, by simpa [widenCell, widenBoundedFace] using hnext⟩,
@@ -102,7 +102,8 @@ private theorem appendedInterface (k : Nat) (hk : 7 ≤ k) (c : Nat)
       GridVertex (3 * (k + 1)) (3 * (k + 1))) ∈ uResidueZero (k + 1) (by omega) := by
     convert hm using 1
     apply Prod.ext <;> apply Fin.ext <;>
-      simp [ilast, phaseRows_length (k + 1) (by omega)] <;> omega
+      simp [ilast, phaseRows_length (k + 1) (by omega)]
+    omega
   have hnow := vertical_uu_dual_cells_adj (uResidueZero (k + 1) (by omega))
     (3 * k) c (by omega) hc0 hc hm'
     (penultimate_cap_mem_uResidueZero (k + 1) (by omega) c hc0 (by omega))
@@ -126,11 +127,13 @@ private theorem appendedInterface (k : Nat) (hk : 7 ≤ k) (c : Nat)
     (by
       convert hmOld using 1
       apply Prod.ext <;> apply Fin.ext <;>
-        simp [ilast, phaseRows_length (k + 1) (by omega)] <;> omega)
+        simp [ilast, phaseRows_length (k + 1) (by omega)]
+      omega)
     (by
       convert hmNew using 1
       apply Prod.ext <;> apply Fin.ext <;>
-        simp [inew, phaseRows_length (k + 2) (by omega)] <;> omega)
+        simp [inew, phaseRows_length (k + 2) (by omega)]
+      omega)
   exact ⟨⟨hnow, by
     simpa [widenCell, widenBoundedFace] using hnext⟩,
     by simp [IsStrictInteriorResidueZeroCoord]; omega,
@@ -199,7 +202,7 @@ private theorem topRowOneToTwo (k : Nat) (hk : 7 ≤ k)
                 rw [phaseRows_length K (by omega)]; omega)) _; rw [hrow]; exact hr.1)
             (by change PhaseOccupied K ((phaseRows K)[0]'(by
                 rw [phaseRows_length K (by omega)]; omega)) _; rw [hrow]; exact hr.2)).symm.reachable,
-        by simpa [row1, K] using (topInterface k hk (3 * (q + 1)) (by omega) (by omega) hr.1
+        by simpa [row1, K, Nat.mul_add] using (topInterface k hk (3 * (q + 1)) (by omega) (by omega) hr.1
           (seam_right_run (k := k + 2) (a := k - 1) (q := q + 1)
             (by omega) (by omega) (by omega)).1)⟩
 
@@ -214,7 +217,8 @@ private theorem interiorRowAttachment (k : Nat) (hk : 7 ≤ k)
     have heq : widenBoundedFace k (r₀, c₀) =
         ((r, c) : Fin (3 * (k + 1) - 1) ×
           Fin (3 * (k + 1) - 1)) := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [widenBoundedFace, r₀, c₀] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [widenBoundedFace, r₀, c₀]
+      omega
     rw [heq]
   · refine ⟨(residueZeroAnchorCoord k hk).1, ?_, ?_,
       (residueZeroAnchorCoord k hk).2, ?_⟩
@@ -282,8 +286,9 @@ private theorem rowTwoAttachment (k : Nat) (hk : 7 ≤ k)
     have hcross := (cross (3 * q + 1) (by omega) hs.1 hs.2).reachable
     rcases hm with hm | hm | hm
     · apply finish d (by
-        convert e₁.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-          simp [d] <;> omega) (by simpa [d] using hcross)
+        convert e₁.reachable using 1
+        apply Prod.ext <;> apply Fin.ext <;> simp
+        omega) (by simpa [d] using hcross)
     · apply finish d (by
         have hcd : c = d := Fin.ext (by simp [d]; omega)
         simpa only [hcd] using
@@ -291,7 +296,8 @@ private theorem rowTwoAttachment (k : Nat) (hk : 7 ≤ k)
         (by simpa [d] using hcross)
     · apply finish d (by
         convert e₂.symm.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-          simp [d] <;> omega) (by simpa [d] using hcross)
+          simp [d]
+        omega) (by simpa [d] using hcross)
   · by_cases hpivot : q = a
     · have hpivot' : q = k - 2 := by simpa [a] using hpivot
       have ho := ordinary_left_run (k := k + 1) (a := a) (q := q)
@@ -311,7 +317,7 @@ private theorem rowTwoAttachment (k : Nat) (hk : 7 ≤ k)
       have eup₂ := phaseHorizontal (k + 1) (by omega)
         ⟨0, by rw [phaseRows_length (k + 1) (by omega)]; omega⟩ (3 * q + 2)
         (by omega) (by simpa [hrowO] using ho.2)
-        (by simpa [hrowO] using ho'.1)
+        (by simpa [hrowO, Nat.mul_add, Nat.add_assoc] using ho'.1)
       have etop := topInterface k hk (3 * q + 2) (by omega) (by omega) ho.2
         (seam_left_run (k := k + 2) (a := k - 1) (q := q)
           (by omega) (by omega) (by omega)).2
@@ -324,15 +330,18 @@ private theorem rowTwoAttachment (k : Nat) (hk : 7 ≤ k)
           (etop.reachable.trans (eup₂.reachable.trans e₃.reachable))
       rcases hm with hm | hm | hm
       · apply finish d (by
-          convert e₁.reachable.trans hfromOne using 1 <;>
-            apply Prod.ext <;> apply Fin.ext <;> simp [d] <;> omega)
+          convert e₁.reachable.trans hfromOne using 1
+          apply Prod.ext <;> apply Fin.ext <;> simp
+          omega)
           (by simpa [d] using hcross)
       · apply finish d (by
-          convert hfromOne using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-            simp [d] <;> omega) (by simpa [d] using hcross)
+          convert hfromOne using 1
+          apply Prod.ext <;> apply Fin.ext <;> simp
+          omega) (by simpa [d] using hcross)
       · apply finish d (by
-          convert e₃.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-            simp [d] <;> omega) (by simpa [d] using hcross)
+          convert e₃.reachable using 1
+          apply Prod.ext <;> apply Fin.ext <;> simp
+          omega) (by simpa [d] using hcross)
     · have hright : a < q := by omega
       have ho := ordinary_right_run (k := k + 1) (a := a) (q := q)
         (by omega) hq hright
@@ -351,7 +360,8 @@ private theorem rowTwoAttachment (k : Nat) (hk : 7 ≤ k)
         have hcross := (cross (3 * q) (by omega) hs.1 hs.2).reachable
         apply finish d (by
           convert e₁.symm.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-            simp [d] <;> omega)
+            simp [d]
+          omega)
           (by simpa [d] using hcross)
       · have hq' : q + 1 < k + 1 := by have := c.isLt; omega
         have ho' := ordinary_right_run (k := k + 1) (a := a) (q := q + 1)
@@ -362,8 +372,9 @@ private theorem rowTwoAttachment (k : Nat) (hk : 7 ≤ k)
         have e₃ := vertical (3 * (q + 1)) (by omega) (by omega) ho'.1 hs'.1
         have hcross := (cross (3 * (q + 1)) (by omega) hs'.1 hs'.2).reachable
         apply finish d (by
-          convert e₃.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-            simp [d] <;> omega) (by simpa [d] using hcross)
+          convert e₃.reachable using 1
+          apply Prod.ext <;> apply Fin.ext <;> simp
+          omega) (by simpa [d] using hcross)
 
 private theorem appendedAttachment (k : Nat) (hk : 7 ≤ k)
     (c : Fin (3 * (k + 1) - 1)) :
@@ -388,7 +399,7 @@ private theorem appendedAttachment (k : Nat) (hk : 7 ≤ k)
   have hcross : (persistentResidueZeroGraph (k + 1) (by omega)).Reachable
       (⟨3 * k, by omega⟩, d) (⟨3 * k - 1, by omega⟩, d) := by
     have e := phaseHorizontal (k + 1) (by omega) i (3 * q + 1) (by omega)
-      (by rw [hrow]; exact hr.1) (by rw [hrow]; convert hr.2 using 1 <;> omega)
+      (by rw [hrow]; exact hr.1) (by rw [hrow]; exact hr.2)
     convert e.symm.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
       simp [i, d, phaseRows_length (k + 1) (by omega)] <;> omega
   have hmove : (persistentResidueZeroGraph (k + 1) (by omega)).Reachable
@@ -397,8 +408,9 @@ private theorem appendedAttachment (k : Nat) (hk : 7 ≤ k)
     · have e := appendedInterface k hk (3 * q + 1) (by omega) (by omega) hr.1
         (ordinary_left_run (k := k + 2) (a := k + 1) (q := q)
           (by omega) (by omega) (by omega)).1
-      convert e.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [d] <;> omega
+      convert e.reachable using 1
+      apply Prod.ext <;> apply Fin.ext <;> simp
+      omega
     · have hcd : c = d := Fin.ext (by simp [d]; omega)
       simpa only [hcd] using
         (Reachable.refl ((⟨3 * k, by omega⟩, d) : Fin (3 * (k + 1) - 1) × _))
@@ -406,7 +418,8 @@ private theorem appendedAttachment (k : Nat) (hk : 7 ≤ k)
         (ordinary_left_run (k := k + 2) (a := k + 1) (q := q)
           (by omega) (by omega) (by omega)).2
       convert e.symm.reachable using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [d] <;> omega
+        simp [d]
+      omega
   let r : Fin (3 * (k + 1) - 1) := ⟨3 * k - 1, by omega⟩
   rcases interiorRowAttachment k hk r d (by simp [r]; omega) (by simp [r]; omega) with
     ⟨r₀, hr₀, hr₀last, c₀, hfinish⟩
@@ -482,8 +495,7 @@ theorem residueZero_constructionScore_lower_step (k : Nat) (hk : 7 ≤ k) :
   have hk_le_three_k : k ≤ 3 * k :=
     Nat.le_mul_of_pos_left k (Nat.zero_lt_succ 2)
   have hbase : 2 ≤ 3 * k ^ 2 + 3 * k :=
-    htwo_le_k.trans (hk_le_three_k.trans (by
-      simpa [Nat.add_comm] using Nat.le_add_right (3 * k) (3 * k ^ 2)))
+    htwo_le_k.trans (hk_le_three_k.trans (Nat.le_add_left (3 * k) (3 * k ^ 2)))
   have hscore :
       3 * k ^ 2 + 3 * k - 2 + 2 * (3 * (k + 1)) =
         3 * (k + 1) ^ 2 + 3 * (k + 1) - 2 := by

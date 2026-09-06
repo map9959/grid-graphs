@@ -95,12 +95,11 @@ theorem edges_walk (s : GridCompassSlot m n) (k : Nat) :
   | zero => rfl
   | succ k ih =>
       by_cases hs : Occupied (T := T) s
-      · simp only [walk, occupiedDarts, dif_pos hs, List.map_cons,
-          Walk.edges_cons, Walk.edges_copy]
-        rw [ih]
-        rfl
-      · simp only [walk, occupiedDarts, dif_neg hs, Walk.edges_copy]
-        exact ih (succ (T := T) s)
+      · simp only [walk, occupiedDarts, dif_pos hs, List.map_cons]
+        refine (Walk.edges_cons _ _).trans ?_
+        exact congrArg (List.cons _) ((Walk.edges_copy _ _ _).trans (ih _))
+      · simp only [walk, occupiedDarts, dif_neg hs]
+        exact (Walk.edges_copy _ _ _).trans (ih (succ (T := T) s))
 
 /-- Strong oriented form of `edges_walk`: after turns are erased, the
 collected directional darts are exactly the consecutive darts of the walk. -/
@@ -111,12 +110,11 @@ theorem darts_walk (s : GridCompassSlot m n) (k : Nat) :
   | zero => rfl
   | succ k ih =>
       by_cases hs : Occupied (T := T) s
-      · simp only [walk, occupiedDarts, dif_pos hs, List.map_cons,
-          Walk.darts_cons, Walk.darts_copy]
-        rw [ih]
-        rfl
-      · simp only [walk, occupiedDarts, dif_neg hs, Walk.darts_copy]
-        exact ih (succ (T := T) s)
+      · simp only [walk, occupiedDarts, dif_pos hs, List.map_cons]
+        refine (Walk.darts_cons _ _).trans ?_
+        exact congrArg (List.cons _) ((Walk.darts_copy _ _ _).trans (ih _))
+      · simp only [walk, occupiedDarts, dif_neg hs]
+        exact (Walk.darts_copy _ _ _).trans (ih (succ (T := T) s))
 
 /-- Standard-iterate projection has the same exact edge trace. -/
 theorem edges_iterateWalk (s : GridCompassSlot m n) (k : Nat) :

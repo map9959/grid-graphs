@@ -29,7 +29,7 @@ variable {m n : Nat} {T : SimpleGraph (GridVertex m n)} [DecidableRel T.Adj]
 /-- The barycentric core: one vertex for every labelled occurrence and one for
 every grid face.  The occurrence summand prevents equal coordinate transitions
 from being identified. -/
-def OccurrenceCotreeDualCore (O : Type*) := O ⊕ GridFace m n
+abbrev OccurrenceCotreeDualCore (O : Type*) := O ⊕ GridFace m n
 
 namespace OccurrenceCotreeDualCore
 
@@ -57,9 +57,11 @@ def graph : SimpleGraph (OccurrenceCotreeDualCore (m := m) (n := n) O) where
     | .inr f, .inl o => Incident transition o f
     | _, _ => False
   symm := by
+    constructor
     intro x y h
     cases x <;> cases y <;> simp_all
   loopless := by
+    constructor
     intro x h
     cases x <;> simp_all
 
@@ -192,13 +194,13 @@ theorem outer_mem_forest_roots [Fintype O] [DecidableEq O] :
     (outer : OccurrenceCotreeDualCore (m := m) (n := n) O) ∈
       (forest transition).roots := by
   classical
-  simp [ParentForest.roots, forest]
+  exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, parent_outer_eq_none transition⟩
 
 end OccurrenceCotreeDualCore
 
 /-- The final carrier distinguishes start labels from the generally larger
 universe of edge occurrences used by dual paths. -/
-def OccurrenceLabelledCotreeDualCarrier (Start EdgeOccurrence : Type*) :=
+abbrev OccurrenceLabelledCotreeDualCarrier (Start EdgeOccurrence : Type*) :=
   Start ⊕ OccurrenceCotreeDualCore (m := m) (n := n) EdgeOccurrence
 
 /-- Concrete finite edge-occurrence universe retaining debt provenance across
@@ -291,6 +293,7 @@ noncomputable def forest
             subst w
             exact OccurrenceCotreeDualCore.dist_parent_lt transition hcore
 
+omit [Fintype Start] [DecidableEq Start] [Fintype EdgeOccurrence] [DecidableEq EdgeOccurrence] in
 theorem no_parent_is_privateLeaf
     (x : OccurrenceLabelledCotreeDualCarrier
       (m := m) (n := n) Start EdgeOccurrence) (start : Start) :
@@ -303,8 +306,9 @@ theorem privateLeaf_mem_leaves (start : Start) :
       (m := m) (n := n) Start EdgeOccurrence) ∈
       (forest transition startEdge).leaves := by
   classical
-  simp only [ParentForest.leaves, Finset.mem_filter, Finset.mem_univ, true_and,
-    ParentForest.childCount]
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_univ _, ?_⟩
+  change ((forest transition startEdge).children (.inl start)).card = 0
   apply Finset.card_eq_zero.mpr
   apply Finset.eq_empty_iff_forall_notMem.mpr
   intro x hx
@@ -354,7 +358,7 @@ theorem supportedEndpoint_mem (o : BoundaryTransitionOccurrence transition) :
 
 /-- The geometric side through which the coordinate edge meets `out`.  The
 `2 ≤ m,n` hypotheses exclude a coordinate edge having `out` on both sides. -/
-def side (hm : 2 ≤ m) (hn : 2 ≤ n)
+def side (_hm : 2 ≤ m) (_hn : 2 ≤ n)
     (o : BoundaryTransitionOccurrence transition) : OuterBoundarySide :=
   match (transition o.1).1 with
   | .horizontal e => if e.row.val = 0 then .top else .bottom
@@ -372,8 +376,8 @@ theorem side_incidence (hm : 2 ≤ m) (hn : 2 ≤ n)
   | horizontal e =>
       change _ at hout ⊢
       by_cases htop : e.row.val = 0
-      · simpa [side, supportedEndpoint, hlabel, htop, GridEdge.primalEndpoints,
-          horizontalPrimalEndpoints] using htop
+      · simp [side, supportedEndpoint, hlabel, htop, GridEdge.primalEndpoints,
+          horizontalPrimalEndpoints]
       · have hbottom : e.row.val + 1 = m := by
           simp [hlabel, GridEdge.dualEndpoints, horizontalDualEndpoints, htop] at hout
           exact hout
@@ -382,8 +386,8 @@ theorem side_incidence (hm : 2 ≤ m) (hn : 2 ≤ n)
   | vertical e =>
       change _ at hout ⊢
       by_cases hleft : e.col.val = 0
-      · simpa [side, supportedEndpoint, hlabel, hleft, GridEdge.primalEndpoints,
-          verticalPrimalEndpoints] using hleft
+      · simp [side, supportedEndpoint, hlabel, hleft, GridEdge.primalEndpoints,
+          verticalPrimalEndpoints]
       · have hright : e.col.val + 1 = n := by
           simp [hlabel, GridEdge.dualEndpoints, verticalDualEndpoints, hleft] at hout
           exact hout
@@ -480,7 +484,7 @@ end BoundaryTransitionOccurrence
 
 /-- Split incidence carrier: edge occurrences, shared bounded faces, and one
 private outer-incidence vertex for every boundary occurrence. -/
-def SplitOccurrenceCotreeDualCore {O : Type*}
+abbrev SplitOccurrenceCotreeDualCore {O : Type*}
     (transition : O → LabelledCotreeTransition T) :=
   O ⊕ ({f : GridFace m n // f ≠ GridFace.out} ⊕
     BoundaryTransitionOccurrence transition)
@@ -528,8 +532,8 @@ def graph : SimpleGraph (SplitOccurrenceCotreeDualCore transition) where
     | .inl o, .inr x => Incident transition o x
     | .inr x, .inl o => Incident transition o x
     | _, _ => False
-  symm := by intro x y h; cases x <;> cases y <;> simp_all
-  loopless := by intro x h; cases x <;> simp_all
+  symm := ⟨by intro x y h; cases x <;> cases y <;> simp_all⟩
+  loopless := ⟨by intro x h; cases x <;> simp_all⟩
 
 noncomputable instance graphDecidableRel [DecidableEq O] :
     DecidableRel (graph transition).Adj := by
@@ -555,7 +559,7 @@ theorem bounded_incidence_iff (o : O) (f : GridFace m n)
 
 /-- An auxiliary hub joins all private outer incidences.  It is used only as a
 common shortest-path target and is not a vertex of the split forest. -/
-def RoutingVertex := SplitOccurrenceCotreeDualCore transition ⊕ Unit
+abbrev RoutingVertex := SplitOccurrenceCotreeDualCore transition ⊕ Unit
 
 def hub : RoutingVertex transition := .inr ()
 
@@ -566,10 +570,11 @@ def routingGraph : SimpleGraph (RoutingVertex transition) where
     | .inr _, .inl x => IsOuter transition x
     | .inr _, .inr _ => False
   symm := by
+    constructor
     intro x y h
     cases x <;> cases y <;> simp_all
-    exact (graph transition).symm h
-  loopless := by intro x h; cases x <;> simp_all
+    exact h.symm
+  loopless := ⟨by intro x h; cases x <;> simp_all⟩
 
 noncomputable instance routingGraphDecidableRel [DecidableEq O] :
     DecidableRel (routingGraph transition).Adj := by
@@ -754,7 +759,8 @@ theorem mem_roots_iff [Fintype O] [DecidableEq O]
     x ∈ (forest transition).roots ↔
       IsOuter transition x ∨
         ¬(routingGraph transition).Reachable (.inl x) (hub transition) := by
-  simp [ParentForest.roots, forest, parent_eq_none_iff]
+  exact (Finset.mem_filter.trans (and_iff_right (Finset.mem_univ x))).trans
+    (parent_eq_none_iff transition x)
 
 /-- Exact connectivity hypothesis needed to rule out bounded roots.  It is
 deliberately a property of the supplied occurrence universe: omitted geometric
@@ -779,7 +785,7 @@ incidence graph with one occurrence for every actual cotree edge.  Splitting
 the outer face is harmless here: its private occurrences are joined only by
 the auxiliary routing hub. -/
 def GridSpanningTreeCotreeDualBoundaryConnectivity
-    (hT : IsSpanningSubtree (gridGraph m n) T) : Prop :=
+    (_hT : IsSpanningSubtree (gridGraph m n) T) : Prop :=
   ReachesSplitOuterBoundary (fun e : LabelledCotreeTransition T => e)
 
 /-- The face immediately counterclockwise from a compass slot. -/
@@ -811,11 +817,9 @@ private theorem faceBeforeSlot_succ_of_occupied
     · change gridNeighbor? v .north = some dart.target at hstep
       simp [gridNeighbor?, hv] at hstep
       rw [← hstep]
-      simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise,
-        Prod.fst, Prod.snd, Fin.isValue] <;>
-        split_ifs <;> try omega
+      simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise]
+      split_ifs <;> try omega
       all_goals try rfl
-      all_goals congr 1 <;> apply Fin.ext <;> omega
     · change gridNeighbor? v .north = some dart.target at hstep
       simp [gridNeighbor?, hv] at hstep
   · have hv : v.2.val + 1 < n := by
@@ -825,11 +829,9 @@ private theorem faceBeforeSlot_succ_of_occupied
     change gridNeighbor? v .east = some dart.target at hstep
     simp [gridNeighbor?, hv] at hstep
     rw [← hstep]
-    simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise,
-      Prod.fst, Prod.snd, Fin.isValue] <;>
-      split_ifs <;> try omega
+    simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise]
+    split_ifs <;> try omega
     all_goals try rfl
-    all_goals congr 1 <;> apply Fin.ext <;> omega
   · have hv : v.1.val + 1 < m := by
       by_contra hv
       change gridNeighbor? v .south = some dart.target at hstep
@@ -837,20 +839,16 @@ private theorem faceBeforeSlot_succ_of_occupied
     change gridNeighbor? v .south = some dart.target at hstep
     simp [gridNeighbor?, hv] at hstep
     rw [← hstep]
-    simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise,
-      Prod.fst, Prod.snd, Fin.isValue] <;>
-      split_ifs <;> try omega
+    simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise]
+    split_ifs <;> try omega
     all_goals try rfl
-    all_goals congr 1 <;> apply Fin.ext <;> omega
   · by_cases hv : 0 < v.2.val
     · change gridNeighbor? v .west = some dart.target at hstep
       simp [gridNeighbor?, hv] at hstep
       rw [← hstep]
-      simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise,
-        Prod.fst, Prod.snd, Fin.isValue] <;>
-        split_ifs <;> try omega
+      simp only [faceBeforeSlot, GridDirection.opposite, GridDirection.clockwise]
+      split_ifs <;> try omega
       all_goals try rfl
-      all_goals congr 1 <;> apply Fin.ext <;> omega
     · change gridNeighbor? v .west = some dart.target at hstep
       simp [gridNeighbor?, hv] at hstep
 
@@ -867,7 +865,7 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
       ¬T.Adj e.primalEndpoints.1 e.primalEndpoints.2 := by
   classical
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hsame (s : GridCompassSlot m n) :
       faceBeforeSlot (GridExpandedContour.succ (T := T) s) ∈ S ↔
         faceBeforeSlot s ∈ S := by
@@ -877,8 +875,7 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
     rw [GridExpandedContour.succ_of_not_occupied hoccupied]
     fin_cases d
     · by_cases hr : v.1.val = 0
-      · have hn1 : n ≠ 1 := by omega
-        simp [faceBeforeSlot, GridDirection.clockwise, hr, hn1]
+      · simp [faceBeforeSlot, GridDirection.clockwise, hr]
       · let e : GridEdge m n := .vertical
           ⟨⟨v.1.val - 1, by
             have hvlt := v.1.isLt
@@ -890,17 +887,18 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
           rw [GridDirectionalDart.mem_directionsAt]
           refine ⟨e.primalEndpoints.1, ?_, ?_⟩
           · simp [e, GridEdge.primalEndpoints, verticalPrimalEndpoints,
-              gridNeighbor?, Fin.ext_iff] <;> omega
-          · convert hadj.symm using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;>
-              simp [e, GridEdge.primalEndpoints, verticalPrimalEndpoints] <;> omega
+              gridNeighbor?]
+            omega
+          · convert hadj.symm using 1
+            apply Prod.ext <;> apply Fin.ext <;>
+              simp [e, GridEdge.primalEndpoints, verticalPrimalEndpoints]
+            omega
         have hnocross := mt (hnone e) hnotT
         simp [e, GridEdge.dualEndpoints, verticalDualEndpoints, faceBeforeSlot,
-          hr, Fin.ext_iff] at hnocross ⊢
+          hr] at hnocross ⊢
         tauto
     · by_cases hc : v.2.val + 1 = n
-      · have hm1 : m ≠ 1 := by omega
-        simp [faceBeforeSlot, GridDirection.clockwise, hc, hm1]
+      · simp [faceBeforeSlot, GridDirection.clockwise, hc]
       · have hvn := v.2.isLt
         have hvlt : v.2.val < n - 1 := by omega
         let e : GridEdge m n := .horizontal ⟨v.1, ⟨v.2.val, hvlt⟩⟩
@@ -912,14 +910,13 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
           refine ⟨e.primalEndpoints.2, ?_, hadj⟩
           have : v.2.val + 1 < n := by omega
           simp [e, GridEdge.primalEndpoints, horizontalPrimalEndpoints,
-            gridNeighbor?, Fin.ext_iff, this]
+            gridNeighbor?, this]
         have hnocross := mt (hnone e) hnotT
         simp [e, GridEdge.dualEndpoints, horizontalDualEndpoints, faceBeforeSlot,
-          hc, Fin.ext_iff] at hnocross ⊢
+          hc] at hnocross ⊢
         tauto
     · by_cases hr : v.1.val + 1 = m
-      · have hn1 : n ≠ 1 := by omega
-        simp [faceBeforeSlot, GridDirection.clockwise, hr, hn1]
+      · simp [faceBeforeSlot, GridDirection.clockwise, hr]
       · have hvm := v.1.isLt
         have hvlt : v.1.val < m - 1 := by omega
         let e : GridEdge m n := .vertical ⟨⟨v.1.val, hvlt⟩, v.2⟩
@@ -931,14 +928,13 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
           refine ⟨e.primalEndpoints.2, ?_, hadj⟩
           have : v.1.val + 1 < m := by omega
           simp [e, GridEdge.primalEndpoints, verticalPrimalEndpoints,
-            gridNeighbor?, Fin.ext_iff, this]
+            gridNeighbor?, this]
         have hnocross := mt (hnone e) hnotT
         simp [e, GridEdge.dualEndpoints, verticalDualEndpoints, faceBeforeSlot,
-          hr, Fin.ext_iff] at hnocross ⊢
+          hr] at hnocross ⊢
         tauto
     · by_cases hc : v.2.val = 0
-      · have hm1 : m ≠ 1 := by omega
-        simp [faceBeforeSlot, GridDirection.clockwise, hc, hm1]
+      · simp [faceBeforeSlot, GridDirection.clockwise, hc]
       · let e : GridEdge m n := .horizontal
           ⟨v.1, ⟨v.2.val - 1, by
             have hvlt := v.2.isLt
@@ -950,13 +946,15 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
           rw [GridDirectionalDart.mem_directionsAt]
           refine ⟨e.primalEndpoints.1, ?_, ?_⟩
           · simp [e, GridEdge.primalEndpoints, horizontalPrimalEndpoints,
-              gridNeighbor?, Fin.ext_iff] <;> omega
-          · convert hadj.symm using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;>
-              simp [e, GridEdge.primalEndpoints, horizontalPrimalEndpoints] <;> omega
+              gridNeighbor?]
+            omega
+          · convert hadj.symm using 1
+            apply Prod.ext <;> apply Fin.ext <;>
+              simp [e, GridEdge.primalEndpoints, horizontalPrimalEndpoints]
+            omega
         have hnocross := mt (hnone e) hnotT
         simp [e, GridEdge.dualEndpoints, horizontalDualEndpoints, faceBeforeSlot,
-          hc, Fin.ext_iff] at hnocross ⊢
+          hc] at hnocross ⊢
         tauto
   obtain ⟨f, hfS⟩ := hne
   cases f with
@@ -1014,7 +1012,7 @@ theorem gridSpanningTreeCotreeDualBoundaryConnectivity
         have hone : e.1.dualEndpoints.1 ≠ GridFace.out ∨
             e.1.dualEndpoints.2 ≠ GridFace.out := by
           by_contra h
-          push_neg at h
+          push Not at h
           cases he : e.1 with
           | horizontal a =>
               simp [he, GridEdge.dualEndpoints, horizontalDualEndpoints] at h
@@ -1055,7 +1053,7 @@ theorem gridSpanningTreeCotreeDualBoundaryConnectivity
   by_contra heT
   have heDiff : e.primalSym2 ∈ (gridGraph m n \ T).edgeFinset := by
     simp only [SimpleGraph.edgeFinset_sdiff, Finset.mem_sdiff,
-      SimpleGraph.mem_edgeFinset, SimpleGraph.mem_edgeSet]
+      SimpleGraph.mem_edgeFinset]
     exact ⟨GridEdge.primalSym2_mem_gridGraph_edgeSet e, by
       simpa [GridEdge.primalSym2] using heT⟩
   let o : LabelledCotreeTransition T := ⟨e, heDiff⟩
@@ -1151,20 +1149,20 @@ theorem reachesSplitOuterBoundary_of_fullCotree
           cases y with
           | inl y =>
               cases y with
-              | inl e => simp [routingGraph, mapRouting, mapCore, IsOuter] at hxy
+              | inl e => simp [routingGraph, IsOuter] at hxy
               | inr y =>
                   cases y with
-                  | inl f => simp [routingGraph, mapRouting, mapCore, IsOuter] at hxy
+                  | inl f => simp [routingGraph, IsOuter] at hxy
                   | inr b => simp [routingGraph, mapRouting, mapCore, IsOuter]
           | inr v => simp [routingGraph] at hxy
       | inl x =>
           cases y with
           | inr u =>
               cases x with
-              | inl e => simp [routingGraph, mapRouting, mapCore, IsOuter] at hxy
+              | inl e => simp [routingGraph, IsOuter] at hxy
               | inr x =>
                   cases x with
-                  | inl f => simp [routingGraph, mapRouting, mapCore, IsOuter] at hxy
+                  | inl f => simp [routingGraph, IsOuter] at hxy
                   | inr b => simp [routingGraph, mapRouting, mapCore, IsOuter]
           | inl y =>
               cases x with
@@ -1221,18 +1219,18 @@ theorem occurrences_reachable_of_transition_eq
     | horizontal e =>
         by_cases htop : e.row.val = 0
         · exact ⟨GridFace.cell ⟨0, by omega⟩ e.col, by simp,
-            Or.inr (by simp [hedge, GridEdge.dualEndpoints,
-              horizontalDualEndpoints, htop]; congr 1; omega)⟩
+            Or.inr (by simp [GridEdge.dualEndpoints,
+              horizontalDualEndpoints, htop]; omega)⟩
         · exact ⟨GridFace.cell ⟨e.row.val - 1, by omega⟩ e.col, by simp,
-            Or.inl (by simp [hedge, GridEdge.dualEndpoints,
+            Or.inl (by simp [GridEdge.dualEndpoints,
               horizontalDualEndpoints, htop])⟩
     | vertical e =>
         by_cases hleft : e.col.val = 0
         · exact ⟨GridFace.cell e.row ⟨0, by omega⟩, by simp,
-            Or.inr (by simp [hedge, GridEdge.dualEndpoints,
-              verticalDualEndpoints, hleft]; congr 1; omega)⟩
+            Or.inr (by simp [GridEdge.dualEndpoints,
+              verticalDualEndpoints, hleft]; omega)⟩
         · exact ⟨GridFace.cell e.row ⟨e.col.val - 1, by omega⟩, by simp,
-            Or.inl (by simp [hedge, GridEdge.dualEndpoints,
+            Or.inl (by simp [GridEdge.dualEndpoints,
               verticalDualEndpoints, hleft])⟩
   obtain ⟨f, hfout, hfa⟩ := hbounded
   apply SimpleGraph.Reachable.trans
@@ -1342,7 +1340,7 @@ end SplitOccurrenceCotreeDualCore
 
 /-- Final split carrier.  Starts remain private leaves, while each occurrence
 of the outer face remains a private root in the core. -/
-def SplitOccurrenceLabelledCotreeDualCarrier {EdgeOccurrence : Type*}
+abbrev SplitOccurrenceLabelledCotreeDualCarrier {EdgeOccurrence : Type*}
     (transition : EdgeOccurrence → LabelledCotreeTransition T) (Start : Type*) :=
   Start ⊕ SplitOccurrenceCotreeDualCore transition
 
@@ -1400,6 +1398,7 @@ noncomputable def forest : ParentForest
   forestWithTieBreaking transition startEdge
     (SplitOccurrenceCotreeDualCore.shortestPathTieBreaking transition)
 
+omit [Fintype Start] [DecidableEq Start] in
 theorem no_parent_is_privateLeaf
     (x : SplitOccurrenceLabelledCotreeDualCarrier transition Start)
     (start : Start) : (forest transition startEdge).parent x ≠ some (.inl start) := by
@@ -1409,8 +1408,9 @@ theorem privateLeaf_mem_leaves (start : Start) :
     (.inl start : SplitOccurrenceLabelledCotreeDualCarrier transition Start) ∈
       (forest transition startEdge).leaves := by
   classical
-  simp only [ParentForest.leaves, Finset.mem_filter, Finset.mem_univ, true_and,
-    ParentForest.childCount]
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_univ _, ?_⟩
+  change ((forest transition startEdge).children (.inl start)).card = 0
   apply Finset.card_eq_zero.mpr
   apply Finset.eq_empty_iff_forall_notMem.mpr
   intro x hx
@@ -1427,6 +1427,7 @@ theorem privateLeaf_not_mem_mergers (start : Start) :
   simp [ParentForest.leaves] at hleaf
   omega
 
+omit [DecidableEq Start] in
 /-- Private start leaves do not create roots. The roots are exactly private
 boundary occurrences and core vertices in components not reaching the hub. -/
 theorem mem_roots_iff
@@ -1440,12 +1441,17 @@ theorem mem_roots_iff
             (.inl y) (SplitOccurrenceCotreeDualCore.hub transition)) := by
   classical
   cases x with
-  | inl start => simp [ParentForest.roots, forest, forestWithTieBreaking]
+  | inl start =>
+      change (Sum.inl start ∈ Finset.univ.filter _) ↔ _
+      rw [Finset.mem_filter]
+      simp [forest, forestWithTieBreaking]
   | inr y =>
       rw [show (.inr y : SplitOccurrenceLabelledCotreeDualCarrier transition Start) ∈
           (forest transition startEdge).roots ↔
           y ∈ (SplitOccurrenceCotreeDualCore.forest transition).roots by
-        simp [ParentForest.roots, forest, forestWithTieBreaking,
+        change (Sum.inr y ∈ Finset.univ.filter _) ↔ (y ∈ Finset.univ.filter _)
+        rw [Finset.mem_filter, Finset.mem_filter]
+        simp [forest, forestWithTieBreaking,
           SplitOccurrenceCotreeDualCore.shortestPathTieBreaking,
           SplitOccurrenceCotreeDualCore.forest]]
       rw [SplitOccurrenceCotreeDualCore.mem_roots_iff]

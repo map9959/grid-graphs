@@ -93,7 +93,7 @@ and its position between the `B_k` branch and `R_k` is unchanged.
 
 ## Verification And Blocker
 
-`analysis/check_residue_two_counter_interval_surgery.py` checks the exact
+`analysis/residue_geometry/check_residue_two_counter_interval_surgery.py` checks the exact
 parent override, symbolic attachment-owner uniqueness, cardinality, transition,
 and postorder elimination.  Its JSON artifact audits `k=7,8,9`; tests also run
 at `k=12` to guard against fitting only the three artifact widths.

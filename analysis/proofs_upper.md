@@ -168,7 +168,7 @@ above.
 
 ## Construction Coverage After Phase 4
 
-Comparing `python3 analysis/check_constructions.py` results:
+Comparing `python3 -m analysis.patterns.check_constructions` results:
 
 | m | construction | optimal in n ≥ m regime (before / after) |
 |---|--------------|:-----------------------------------------|
@@ -213,10 +213,10 @@ cargo run --release -- alpha 6   # alpha=5/2,  cycle length 4 (~40 s)
 cargo run --release -- motif 8 35
 
 # Per-column edge-pattern decoder (Python helper).
-python3 analysis/extract_patterns.py 8 21
+python3 -m analysis.witness_tools.extract_patterns 8 21
 
 # Verify all constructions.
-python3 analysis/check_constructions.py
+python3 -m analysis.patterns.check_constructions
 
 # Regression tests cover the rational α_m for m ∈ {3..8}:
 cargo test --release transfer:: motif::

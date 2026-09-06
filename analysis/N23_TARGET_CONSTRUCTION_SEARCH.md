@@ -4,7 +4,7 @@
 
 No 333-U witness was found in the finite neighborhoods below.  The machine-readable
 certificate is `analysis/n23_target_search_result.json`; it is reproduced by
-`python3 analysis/n23_target_search.py` and checked by
+`python3 -m analysis.searches.n23_target_search` and checked by
 `python3 -m unittest n23_target_search_test.py` from `analysis/`.
 
 This is not a global nonexistence result for n=23.

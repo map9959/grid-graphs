@@ -137,7 +137,8 @@ theorem southwestLongBoundaryStart_vertex (hn : 2 ≤ n) :
       simp [southwestLongBoundaryStart, h2]
       omega)]
     apply Prod.ext <;> apply Fin.ext <;>
-      simp [southwestLongBoundaryStart, h2, gridBoundaryLength] <;> omega
+      simp [southwestLongBoundaryStart, h2, gridBoundaryLength]
+    omega
 
 theorem southwestLongBoundary_offset (hn : 2 ≤ n) :
     cyclicOffset (gridBoundaryLength_pos hn hn)
@@ -174,7 +175,8 @@ theorem southwestLongBoundaryEnd_vertex (hn : 2 ≤ n) :
       omega) (by
       change 3 * n - 4 < n + 2 * n - 2
       omega)]
-    apply Prod.ext <;> apply Fin.ext <;> simp <;> omega
+    apply Prod.ext <;> apply Fin.ext <;> simp
+    omega
 
 def southwestLongBoundaryWalk (hn : 2 ≤ n) :
     (gridGraph n n).Walk
@@ -203,13 +205,7 @@ theorem southwestCorner_not_mem_longBoundaryWalk (hn : 2 ≤ n) :
   by_cases h2 : n = 2
   · subst n
     interval_cases t <;> norm_num [southwestLongBoundaryStart, cyclicOffset,
-      gridBoundaryLength, gridBoundaryVertex] at hv ⊢
-    all_goals
-      have hrow := congrArg (fun v : GridVertex 2 2 => v.1.val) hv
-      norm_num at hrow
-    all_goals
-      have hcol := congrArg (fun v : GridVertex 2 2 => v.2.val) hv
-      norm_num at hcol
+      gridBoundaryLength, gridBoundaryVertex] at hv
   have hn3 : 3 ≤ n := by omega
   let cornerPosition : GridBoundaryPosition n n :=
     ⟨3 * n - 3, by unfold gridBoundaryLength; omega⟩
@@ -220,7 +216,8 @@ theorem southwestCorner_not_mem_longBoundaryWalk (hn : 2 ≤ n) :
       omega) (by
       dsimp [cornerPosition]
       omega)]
-    apply Prod.ext <;> apply Fin.ext <;> simp [cornerPosition] <;> omega
+    apply Prod.ext <;> apply Fin.ext <;> simp [cornerPosition]
+    omega
   have hp := gridBoundaryVertex_injective hn hn (hcorner.trans hv)
   have hi := congrArg Fin.val hp
   change 3 * n - 3 =
@@ -260,7 +257,7 @@ theorem northeastLongBoundaryStart_vertex (hn : 2 ≤ n) :
       change n < n + n - 1
       omega)]
   apply Prod.ext <;> apply Fin.ext <;>
-    simp [northeastLongBoundaryStart] <;> omega
+    simp [northeastLongBoundaryStart]
 
 theorem northeastLongBoundary_offset (hn : 2 ≤ n) :
     cyclicOffset (gridBoundaryLength_pos hn hn)

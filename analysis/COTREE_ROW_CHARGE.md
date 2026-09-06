@@ -86,7 +86,7 @@ the strip frontier, retaining one component/final token globally.
 
 ## Census
 
-`analysis/cotree_row_charge.py` produced:
+`analysis/bounds/cotree_row_charge.py` produced:
 
 | family | trees | minimum OCB slack |
 |---|---:|---:|
@@ -116,6 +116,6 @@ tight census.
 Run:
 
 ```bash
-PYTHONPATH=analysis python3 analysis/cotree_row_charge.py
-PYTHONPATH=analysis python3 -m unittest analysis/test_cotree_row_charge.py
+PYTHONPATH=analysis python3 -m analysis.bounds.cotree_row_charge
+PYTHONPATH=analysis python3 -m unittest analysis/tests/bounds/test_cotree_row_charge.py
 ```

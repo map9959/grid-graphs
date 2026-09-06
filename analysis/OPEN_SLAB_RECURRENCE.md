@@ -100,6 +100,6 @@ component.
 ## Reproduction
 
 ```text
-PYTHONPATH=analysis python3 analysis/residue_two_open_slab_census.py
-PYTHONPATH=analysis python3 -m unittest analysis/residue_two_open_slab_test.py
+PYTHONPATH=analysis python3 -m analysis.transport.residue_two_open_slab_census
+PYTHONPATH=analysis python3 -m unittest analysis/tests/transport/test_residue_two_open_slab.py
 ```

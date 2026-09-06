@@ -9,7 +9,7 @@ surgery design. It is **not** a target-count skeleton: its preserved score is
 `3k^2+6k+5`, while the required stable score is `3k^2+7k`.
 
 The executable export is produced by
-`analysis/check_residue_two_affine_interval_skeleton.py`. The checked artifact
+`analysis/residue_geometry/check_residue_two_affine_interval_skeleton.py`. The checked artifact
 `analysis/residue_two_affine_rooted_interval_skeleton.json` contains the full
 nodes, parent map, physical parent attachments, old-node embeddings, and
 transitions for `k=7,8,9`.

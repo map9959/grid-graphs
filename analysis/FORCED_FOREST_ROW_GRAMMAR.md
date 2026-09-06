@@ -32,7 +32,7 @@ new partition is then restricted to the new row and canonicalized.
 Run a finite search with:
 
 ```bash
-python3 analysis/forced_forest_row_grammar.py 6 --witness
+python3 -m analysis.bounds.forced_forest_row_grammar 6 --witness
 ```
 
 The unit tests compare the grammar with direct enumeration of all forced sets
@@ -52,7 +52,7 @@ Thus `sum q >= 2` is exactly `3|F| <= n^2+3n-2`; at widths divisible by three
 the sharper requested target is `sum q >= 4`. Run the committed experiment:
 
 ```bash
-python3 analysis/forced_forest_diagonal_cegar.py \
+python3 -m analysis.bounds.forced_forest_diagonal_cegar \
   --output analysis/forced_forest_diagonal_cegar.json
 ```
 
@@ -152,6 +152,6 @@ coefficient vector.
 Reproduce it with:
 
 ```bash
-python3 analysis/forced_forest_additive_potential.py \
+python3 -m analysis.bounds.forced_forest_additive_potential \
   --output analysis/forced_forest_additive_potential.json
 ```

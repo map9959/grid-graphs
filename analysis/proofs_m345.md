@@ -2,7 +2,7 @@
 
 This file documents the constructive lower-bound results for `P(m, n)`
 produced in Phase 3. Each construction is given as an explicit
-edge-set generator in `analysis/check_constructions.py` and is verified by
+edge-set generator in `analysis/patterns/check_constructions.py` and is verified by
 an independent Python checker that confirms (a) the edge set forms a
 valid spanning tree of `G(m, n)` and (b) the count of full-degree vertices
 matches the conjectured `P(m, n)` from `analysis/conjectures.md`.
@@ -206,12 +206,12 @@ cargo test --release witness
 cargo run --release -- witness 5 21
 
 # Verify all the constructions in this document
-python3 analysis/check_constructions.py
+python3 -m analysis.patterns.check_constructions
 
 # Re-extract motifs from the witness output (rendered as ASCII art)
-python3 analysis/render_witness.py --probe
+python3 -m analysis.witness_tools.render_witness --probe
 ```
 
-The script `analysis/motif_search.py` contains additional candidate
+The script `analysis/searches/motif_search.py` contains additional candidate
 motif-builders that were tried during development; the ones that worked
 are migrated to `check_constructions.py`.

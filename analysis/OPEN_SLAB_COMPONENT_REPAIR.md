@@ -132,6 +132,6 @@ depths, or a recurrence carrying the extra port through a subsequent step.
 ## Reproduction
 
 ```text
-PYTHONPATH=analysis python3 analysis/open_slab_repair_search.py
-PYTHONPATH=analysis python3 -m unittest analysis/open_slab_repair_test.py
+PYTHONPATH=analysis python3 -m analysis.transport.open_slab_repair_search
+PYTHONPATH=analysis python3 -m unittest analysis/tests/transport/test_open_slab_repair.py
 ```

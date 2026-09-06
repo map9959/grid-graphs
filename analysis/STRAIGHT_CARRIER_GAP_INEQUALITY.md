@@ -198,12 +198,12 @@ this declared nonnegative family.
 Run:
 
 ```bash
-PYTHONPATH=analysis python3 -m unittest analysis/test_gap_inequality_falsification.py
+PYTHONPATH=analysis python3 -m unittest analysis/tests/bounds/test_gap_inequality_falsification.py
 cargo test --release --bin gap_inequality_falsification
 cargo run --release --bin gap_inequality_falsification -- 10
-PYTHONPATH=analysis python3 analysis/gap_inequality_falsification.py \
+PYTHONPATH=analysis python3 -m analysis.bounds.gap_inequality_falsification \
   --exact-through 7 --maximal-n 0 --mutation-through 20 --attempts 500
-PYTHONPATH=analysis python3 analysis/straight_carrier_inequality.py \
+PYTHONPATH=analysis python3 -m analysis.bounds.straight_carrier_inequality \
   --exhaustive-n 5 --maximum-n 6 --targeted-n 15 --random-count 30
 python3 -m unittest discover -s analysis -p 'test_straight_carrier_inequality.py'
 ```

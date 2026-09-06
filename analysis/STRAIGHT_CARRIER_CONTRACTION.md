@@ -216,7 +216,7 @@ Run:
 
 ```bash
 python3 -m unittest discover -s analysis -p 'test_straight_carrier_count.py'
-python3 analysis/straight_carrier_count.py --brute-max-n 4
+python3 -m analysis.bounds.straight_carrier_count --brute-max-n 4
 ```
 
 These checks are finite validation only; the proofs above establish the carrier

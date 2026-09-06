@@ -28,7 +28,7 @@ theorem fourCropBoundaryCounterexample12_isAcyclic :
     exists_isTree_preserving_compl_of_uuDual_connected_grid finiteU12
       finiteU12RankedDualCertificate.connected
       (gridGraph_connected (by omega) (by omega))
-  apply grid_forcedEdgeGraph_isAcyclic_of_preserves htree.IsAcyclic
+  apply grid_forcedEdgeGraph_isAcyclic_of_preserves htree.isAcyclic
   intro v hv
   exact hpreserves (by simpa [fourCropBoundaryCounterexample12] using hv)
 

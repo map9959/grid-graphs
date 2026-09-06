@@ -149,8 +149,8 @@ settle the requested revised bound.
 ## Reproduction
 
 ```text
-PYTHONPATH=analysis python3 -m unittest analysis/test_residue_two_revised_recurrence.py
-PYTHONPATH=analysis python3 analysis/residue_two_revised_recurrence.py --maximum-k 40
+PYTHONPATH=analysis python3 -m unittest analysis/tests/residue_certificates/test_residue_two_revised_recurrence.py
+PYTHONPATH=analysis python3 -m analysis.residue_certificates.residue_two_revised_recurrence --maximum-k 40
 ```
 
 The test range is `k=5..40` for direct affine topology and forest completion,

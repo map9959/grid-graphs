@@ -324,7 +324,7 @@ supported endpoints, is the isolated open step.
 Run
 
 ```text
-python3 analysis/check_laminar_multi_exchange.py
+python3 -m analysis.bounds.check_laminar_multi_exchange
 ```
 
 The script has no third-party dependencies.  It verifies the arbitrary

@@ -7,7 +7,7 @@ much of the old witness. The replacement is a frontier grammar that can rewrite
 the preceding 3-row band while retaining exactly the information needed to
 compose another band.
 
-`analysis/tile_grammar.py` implements the grammar kernel. It processes the
+`analysis/tiles/tile_grammar.py` implements the grammar kernel. It processes the
 dual graph of U-U primal edges without constructing a spanning tree.
 
 ## State
@@ -35,9 +35,9 @@ The initial production layer assembles bands from the canonical named tiles in
 bounded beam retains states closest to the residue-specific U budget:
 
 ```bash
-python3 analysis/tile_grammar.py --synthesize 6
-python3 analysis/tile_grammar.py --synthesize 9 --beam 5000
-python3 analysis/tile_grammar.py --synthesize 6 --oriented
+python3 -m analysis.tiles.tile_grammar --synthesize 6
+python3 -m analysis.tiles.tile_grammar --synthesize 9 --beam 5000
+python3 -m analysis.tiles.tile_grammar --synthesize 6 --oriented
 ```
 
 The default alphabet uses six canonical orientations. `--oriented` expands it
@@ -51,8 +51,8 @@ not reach n=12, but widening each boundary role to every geometrically
 compatible oriented tile does:
 
 ```bash
-python3 analysis/tile_grammar.py --zero-template 12 --beam 5000
-python3 analysis/tile_grammar.py --zero-wide 12 --beam 1000
+python3 -m analysis.tiles.tile_grammar --zero-template 12 --beam 5000
+python3 -m analysis.tiles.tile_grammar --zero-wide 12 --beam 1000
 ```
 
 The wide search finds n=12 after 237,702 streamed tile extensions. Its witness
@@ -66,8 +66,8 @@ remaining domain suffix. For n=12 this reduces the wide search from 237,702 to
 reflection and joins their connectivity partition to a top-down frontier:
 
 ```bash
-python3 analysis/tile_grammar.py --zero-bidirectional 12 --beam 1000
-python3 analysis/tile_grammar.py --class-pattern data/diagonal_u_15.txt \
+python3 -m analysis.tiles.tile_grammar --zero-bidirectional 12 --beam 1000
+python3 -m analysis.tiles.tile_grammar --class-pattern data/diagonal_u_15.txt \
   --fix-bottom-band --beam 100
 ```
 
@@ -83,9 +83,9 @@ residue-0 family.
 The grammar's final acceptance condition is dual connectivity. The command
 
 ```bash
-python3 analysis/tile_grammar.py --verify --max-n 4
-python3 analysis/tile_grammar.py --verify-streamed --oriented
-python3 analysis/tile_grammar.py --verify-bidirectional --max-n 3
+python3 -m analysis.tiles.tile_grammar --verify --max-n 4
+python3 -m analysis.tiles.tile_grammar --verify-streamed --oriented
+python3 -m analysis.tiles.tile_grammar --verify-bidirectional --max-n 3
 ```
 
 exhaustively compares it with `construction_lab.dual_connectivity_check` on
@@ -97,7 +97,7 @@ possible row cuts through 3x3 and verifies both connectivity and cycle excess.
 Cached residue-2 traces are available with:
 
 ```bash
-python3 analysis/tile_grammar.py --trace 14
+python3 -m analysis.tiles.tile_grammar --trace 14
 ```
 
 For a connected final dual graph, `cycle_excess` is its cyclomatic excess.
@@ -131,12 +131,12 @@ free, rewrite nearby preserved tiles, or use every same-cost 3x3 pattern at
 selected old positions:
 
 ```bash
-python3 analysis/search_tile_production.py 15 --all-insertions \
+python3 -m analysis.searches.search_tile_production 15 --all-insertions \
   --copy-row 2 --copy-col 2 --beam 100
-python3 analysis/search_tile_production.py 15 3 3 \
+python3 -m analysis.searches.search_tile_production 15 3 3 \
   --copy-row 2 --free-old 1,1 --free-old 3,2 \
   --free-old-patterns --beam 200
-python3 analysis/search_tile_production.py 15 --observed-transfer --beam 20
+python3 -m analysis.searches.search_tile_production 15 --observed-transfer --beam 20
 ```
 
 For n=15→18, the target increase is 63 U vertices: the 11 new tiles must
@@ -172,9 +172,9 @@ U cost, cap horizontal prefix states with `--prefix-beam`, and rank final
 backward states by their actual join with the retained forward frontier:
 
 ```bash
-python3 analysis/search_tile_production.py 15 3 3 \
+python3 -m analysis.searches.search_tile_production 15 3 3 \
   --free-old-band 2 --free-old-band 3 --beam 500 --prefix-beam 500
-python3 analysis/tile_grammar.py --compare-zero 9 12
+python3 -m analysis.tiles.tile_grammar --compare-zero 9 12
 ```
 
 Horizontal prefix pruning rejects a dual component as soon as it lies wholly
@@ -196,10 +196,10 @@ can now replace selected synthesized tiles by every same-cost 3x3 pattern and
 can expand the two tiles at a cut column, optionally requiring its crossing:
 
 ```bash
-python3 analysis/search_tile_production.py 15 3 1 \
+python3 -m analysis.searches.search_tile_production 15 3 1 \
   --free-old-band 2 --free-old-band 3 --expand-cut-column 2 \
   --free-pattern 1,0 --free-pattern 4,0 --beam 200 --prefix-beam 300
-python3 analysis/search_tile_production.py 15 3 1 \
+python3 -m analysis.searches.search_tile_production 15 3 1 \
   --free-old-band 2 --free-old-band 3 --bridge-column 0 \
   --max-cycle-excess 2 --beam 200 --prefix-beam 300
 ```
@@ -222,7 +222,7 @@ ranking are now implemented. The successful n=15→18 search uses insertion
 (seven 6-U and four 5-U tiles):
 
 ```bash
-python3 analysis/search_tile_production.py 15 3 1 \
+python3 -m analysis.searches.search_tile_production 15 3 1 \
   --tile-cost 1,2=6 --cost-patterns --target-side forward \
   --beam 200 --prefix-beam 500
 ```

@@ -24,7 +24,7 @@ grid covering/decycling theorem.
 * The local cell-hitting relaxation is too weak after `n = 4`.
 * The `n ≡ 1 (mod 3)` construction pattern is explicit and dual-connected for
   `n = 4, 7, 10, 13, 16`.
-* `analysis/check_diagonal_patterns.py` verifies the `n ≡ 1 (mod 3)` pattern
+* `analysis/patterns/check_diagonal_patterns.py` verifies the `n ≡ 1 (mod 3)` pattern
   through `n = 40`, including forced-edge acyclicity, greedy tree completion,
   and exact full-degree counts.
 
@@ -54,8 +54,8 @@ Use these files for pattern analysis instead of rerunning `fullub-pattern`.
 For example:
 
 ```bash
-python3 analysis/u_pattern_stats.py < data/diagonal_u_14.txt
-python3 analysis/dual_decycling.py < data/diagonal_u_14.txt
+python3 -m analysis.witness_tools.u_pattern_stats < data/diagonal_u_14.txt
+python3 -m analysis.patterns.dual_decycling < data/diagonal_u_14.txt
 ```
 
 ## Target theorem
@@ -166,7 +166,7 @@ This cell-hitting condition is necessary but not sufficient: larger
 rectangular cycles also have to be broken. The full condition is the forest
 condition on `G - E(G[U])`.
 
-The helper `analysis/cell_hitting.py` computes the local relaxation. It agrees
+The helper `analysis/patterns/cell_hitting.py` computes the local relaxation. It agrees
 with the conjectured decycling number only at `n = 4`; after that it is much
 too small:
 
@@ -285,7 +285,7 @@ If the dual graph formed by U-U edges connects all cell-faces to OUT,
 then |U| is at least the conjectured q(n).
 ```
 
-The helper `analysis/dual_decycling.py` checks this dual graph for witness
+The helper `analysis/patterns/dual_decycling.py` checks this dual graph for witness
 patterns. Current outputs:
 
 ```text
@@ -337,7 +337,7 @@ mod3 counts:
   12,22,10
 ```
 
-The row-word summaries from `analysis/u_pattern_stats.py` show repeated
+The row-word summaries from `analysis/witness_tools/u_pattern_stats.py` show repeated
 `.UU` / `.UU.UU` motifs. For example, many n = 14 rows are built from runs
 like
 
@@ -360,7 +360,7 @@ length-4 runs to keep the dual network connected between strips.
 
 ### Tile-matrix view
 
-The helper `analysis/tile_catalog.py` groups a cached witness into 3x3 tiles
+The helper `analysis/tiles/tile_catalog.py` groups a cached witness into 3x3 tiles
 and assigns labels to distinct tiles. This is the right abstraction level for
 the remaining construction search: the residue classes appear to be finite
 tile systems plus boundary tiles.
@@ -433,7 +433,7 @@ interior and finitely many residue-boundary patches.
 The symmetry-reduced catalog from
 
 ```bash
-python3 analysis/tile_symmetry.py data/diagonal_u_12.txt data/diagonal_u_14.txt data/diagonal_u_15.txt
+python3 -m analysis.tiles.tile_symmetry data/diagonal_u_12.txt data/diagonal_u_14.txt data/diagonal_u_15.txt
 ```
 
 is especially informative. Nearly all full 3x3 tiles in the residue-0/2
@@ -474,7 +474,7 @@ This suggests a much sharper construction hypothesis:
 If this is correct, residues 0 and 2 may be described by a finite-state path of
 C1/C2/C3 tiles through the 3x3 tile grid, rather than by row-level formulas.
 
-`analysis/tile_class_matrix.py` prints this symmetry-class view. For the cached
+`analysis/tiles/tile_class_matrix.py` prints this symmetry-class view. For the cached
 witnesses:
 
 ```text
@@ -526,8 +526,8 @@ croppings of the clean residue-1 construction at the next larger `n ≡ 1`
 size. Use
 
 ```bash
-python3 analysis/crop_diff.py 14
-python3 analysis/crop_diff.py 15
+python3 -m analysis.witness_tools.crop_diff 14
+python3 -m analysis.witness_tools.crop_diff 15
 ```
 
 to compare cached witnesses against those croppings.
@@ -565,14 +565,14 @@ tested for the other residues:
 * `n = 3k+2`: repeat row counts `1, n-2, n-2`, then add one all-`U` row and
   a sparse bottom row of `k+1` vertices.
 
-Both match the conjectured cardinalities, but `analysis/dual_decycling.py`
+Both match the conjectured cardinalities, but `analysis/patterns/dual_decycling.py`
 shows that their dual graphs are disconnected for the tested sizes. They are
 therefore invalid constructions. The rejected patterns are still available for
 inspection via
 
 ```bash
-python3 analysis/diagonal_patterns.py --experimental 12 | python3 analysis/dual_decycling.py
-python3 analysis/diagonal_patterns.py --experimental 14 | python3 analysis/dual_decycling.py
+python3 -m analysis.patterns.diagonal_patterns --experimental 12 | python3 -m analysis.patterns.dual_decycling
+python3 -m analysis.patterns.diagonal_patterns --experimental 14 | python3 -m analysis.patterns.dual_decycling
 ```
 
 This failure is useful: the remaining residue classes need either different
@@ -661,7 +661,7 @@ The residue-0 and residue-2 witnesses are not aligned to simple horizontal
 strips, which explains the fluctuations. A successful proof may need sliding
 3-row windows or diagonal strips rather than fixed bands starting at row 0.
 
-The cached witnesses support this. `analysis/u_pattern_stats.py` now prints
+The cached witnesses support this. `analysis/witness_tools/u_pattern_stats.py` now prints
 sliding 3-row totals. Examples:
 
 ```text
@@ -781,7 +781,7 @@ the standard forced-edge completion lemma.
 #### Definition of `U_{3k+1}`
 
 The `n = 13` witness reveals a clean infinite pattern, implemented in
-`analysis/diagonal_patterns.py`.
+`analysis/patterns/diagonal_patterns.py`.
 
 For `n = 3k + 1`, define `U` as follows. The bottom row is all full, i.e. no
 vertices in `U`. For each 3-row block `t = 0, ..., k-1` with first row
@@ -825,7 +825,7 @@ which is the conjectured `q(3k+1)`.
 The script check
 
 ```bash
-python3 analysis/diagonal_patterns.py 16 | python3 analysis/dual_decycling.py
+python3 -m analysis.patterns.diagonal_patterns 16 | python3 -m analysis.patterns.dual_decycling
 ```
 
 returns
@@ -844,7 +844,7 @@ planar-dual equivalence is written down formally.
 The stronger construction checker
 
 ```bash
-python3 analysis/check_diagonal_patterns.py 40
+python3 -m analysis.patterns.check_diagonal_patterns 40
 ```
 
 verifies every `n ≡ 1 (mod 3)` case up to `n = 40` by explicitly completing the
@@ -1100,7 +1100,7 @@ work.
    yet derivable directly from any single cached witness.
 
 3. **The "skeleton" parametric pattern has the right structural shape.**
-   Defined in `analysis/diagonal_patterns.py` as `residue_zero_pattern` and
+   Defined in `analysis/patterns/diagonal_patterns.py` as `residue_zero_pattern` and
    `residue_two_pattern`:
    - Top sandwich: `.U....`, `.UUUUUUUU` (residue-1-style top anchor).
    - Middle: column stripes `.UU.UU.UU....`.
@@ -1150,18 +1150,18 @@ the cleanest.
 
 ### Tooling produced this session
 
-- `analysis/construction_lab.py` — single-file checker for any candidate
+- `analysis/patterns/construction_lab.py` — single-file checker for any candidate
   pattern. Produces `(u_count, expected_u, dual_ok, forest_ok)` per call.
   This replaces ad-hoc snippets and is the canonical way to validate a
   candidate generator.
-- `analysis/tile_alphabet.py` — named tile alphabet (S, C, C', B, B', K) with
+- `analysis/tiles/tile_alphabet.py` — named tile alphabet (S, C, C', B, B', K) with
   per-tile U-counts and N/S/E/W edge signatures, derived from
   `tile_symmetry.py` outputs on cached witnesses. Foundation for any
   tile-grammar synthesis approach.
-- `analysis/search_residue.py` — random/constrained local search; useful for
+- `analysis/searches/search_residue.py` — random/constrained local search; useful for
   generating spot-check witnesses at small n and for verifying the structural
   hypothesis.
-- `analysis/diagonal_patterns.py` (rewritten) — `residue_one_pattern`,
+- `analysis/patterns/diagonal_patterns.py` (rewritten) — `residue_one_pattern`,
   `residue_two_pattern`, `residue_zero_pattern`, plus the skeleton variants.
   The status registries `STATUS_RESIDUE_*` flag which n are verified.
 
@@ -1189,9 +1189,9 @@ the cleanest.
 
 ### Files to read for context
 
-- `analysis/diagonal_patterns.py` — current skeleton constructions.
-- `analysis/construction_lab.py` — primary verification tool.
-- `analysis/check_diagonal_patterns.py` — validates the residue-1 family and
+- `analysis/patterns/diagonal_patterns.py` — current skeleton constructions.
+- `analysis/patterns/construction_lab.py` — primary verification tool.
+- `analysis/patterns/check_diagonal_patterns.py` — validates the residue-1 family and
   every cached exact residue-0/2 witness. Extend its parametric dispatch once
   residues 0 and 2 have infinite constructions.
 - `data/diagonal_u_*.txt` — cached witnesses.
@@ -1458,7 +1458,7 @@ The cached n=11 pattern can be reconstructed from cached n=8 by:
    - Slab rows: `(.UUUUUU.UU.)`, `(.U....UUUU.)`, `(.UUUUUUU.UU)`.
    - Slab cols: `(.UU.UUU.UU.)`, `(.UU.UUUUUU.)`, `(.UU.U..UUU.)`.
 
-This is implemented in `analysis/slab_construction.py::slab_extend_general`
+This is implemented in `analysis/transport/slab_construction.py::slab_extend_general`
 and verified to produce cached n=11 EXACTLY.
 
 The 3 cell modifications encode the ENVELOPE TRANSITION from n=8-style
@@ -1517,14 +1517,14 @@ Possible directions for next session:
    envelope correction looks like.
 
 4. **Accept that residue 2 may need explicit witnesses for all n**. With SA
-   tooling (`analysis/sa_residue2.py`) we can find witnesses up to some n,
+   tooling (`analysis/searches/sa_residue2.py`) we can find witnesses up to some n,
    but parametric form is elusive.
 
 Implementation status:
 
-* `analysis/slab_construction.py::slab_extend_general(rows_old)`: works for
+* `analysis/transport/slab_construction.py::slab_extend_general(rows_old)`: works for
   n=8 → n=11 exactly. For other n, it's incomplete.
-* `analysis/sa_residue2.py`: SA search tool. Reaches q for n=5, n=8 from
+* `analysis/searches/sa_residue2.py`: SA search tool. Reaches q for n=5, n=8 from
   v35 seed. Stalls for n >= 11.
 
 ## 2026-07-19 follow-up: bounded slab families ruled out computationally
@@ -1555,7 +1555,7 @@ tile layout is a reasonable development target before returning to residue 2.
 
 ### Finite-state grammar implementation
 
-`analysis/tile_grammar.py` now provides the exact dual-frontier transition.
+`analysis/tiles/tile_grammar.py` now provides the exact dual-frontier transition.
 After each primal row it retains OUT plus the exposed row of cell faces, their
 connectivity partition, the previous U mask, accumulated U cost, and dual
 cycle excess. A component is rejected exactly when it disappears behind the

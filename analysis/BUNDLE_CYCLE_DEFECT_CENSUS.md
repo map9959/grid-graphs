@@ -152,5 +152,5 @@ Run:
 
 ```bash
 python3 -m unittest discover -s analysis -p 'test_bundle_cycle_defect_census.py'
-python3 analysis/bundle_cycle_defect_census.py
+python3 -m analysis.bounds.bundle_cycle_defect_census
 ```

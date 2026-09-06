@@ -59,17 +59,19 @@ def inwardTarget {n : Nat} (axis : ShoreSweepAxis) (hn : 2 ≤ n) :
   | rows =>
       rcases q with q | q
       · simp [boundaryIncidence, inwardTarget, OuterBoundarySide.inwardDirection,
-          gridNeighbor?] <;> omega
+          gridNeighbor?]; omega
       · fin_cases q <;>
           simp [boundaryIncidence, inwardTarget, OuterBoundarySide.inwardDirection,
-            gridNeighbor?] <;> omega
+            gridNeighbor?]
+        omega
   | columns =>
       rcases q with q | q
       · simp [boundaryIncidence, inwardTarget, OuterBoundarySide.inwardDirection,
-          gridNeighbor?] <;> omega
+          gridNeighbor?]; omega
       · fin_cases q <;>
           simp [boundaryIncidence, inwardTarget, OuterBoundarySide.inwardDirection,
-            gridNeighbor?] <;> omega
+            gridNeighbor?]
+        omega
 
 /-- The unordered physical edge used by the germ's first inward step. -/
 def inwardEdgeSym2 {n : Nat} (axis : ShoreSweepAxis) (hn : 2 ≤ n)
@@ -82,86 +84,26 @@ theorem inwardEdgeSym2_injective {n : Nat}
     Function.Injective (inwardEdgeSym2 axis hn) := by
   obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_le hn3
   intro a b hab
-  simp only [inwardEdgeSym2] at hab
+  rw [inwardEdgeSym2, inwardEdgeSym2, Sym2.eq_iff] at hab
   cases axis with
   | rows =>
       rcases a with a | a <;> rcases b with b | b
       · congr 1
-        rw [Sym2.eq_iff] at hab
-        rcases hab with ⟨hl, _⟩ | ⟨hl, _⟩
-        · exact congrArg Prod.fst hl
-        · have hl' := congrArg (fun v : GridVertex (3 + d) (3 + d) => v.2.val) hl
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hl'
-      · fin_cases b <;> rw [Sym2.eq_iff] at hab <;>
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hab
-        all_goals
-          rcases hab with ⟨hl, hr⟩ | ⟨hl, hr⟩ <;> exfalso
-          all_goals
-            have hl' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hl
-            have hr' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hr
-            simp at hl' hr' <;> omega
-      · fin_cases a <;> rw [Sym2.eq_iff] at hab <;>
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hab
-        all_goals
-          rcases hab with ⟨hl, hr⟩ | ⟨hl, hr⟩ <;> exfalso
-          all_goals
-            have hl' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hl
-            have hr' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hr
-            simp at hl' hr' <;> omega
-      · fin_cases a <;> fin_cases b <;> try rfl
-        all_goals
-          rw [Sym2.eq_iff] at hab
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hab
-          rcases hab with ⟨hl, hr⟩ | ⟨hl, hr⟩ <;> exfalso
-          all_goals
-            have hl' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hl
-            have hr' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hr
-            simp at hl' hr' <;> omega
+        simpa [boundaryIncidence, inwardTarget] using hab
+      · fin_cases b <;> simp [boundaryIncidence, inwardTarget] at hab
+        all_goals simp only [Fin.ext_iff] at hab; omega
+      · fin_cases a <;> simp [boundaryIncidence, inwardTarget] at hab
+        all_goals simp only [Fin.ext_iff] at hab; omega
+      · fin_cases a <;> fin_cases b <;> first | rfl | simp [boundaryIncidence, inwardTarget] at hab
   | columns =>
       rcases a with a | a <;> rcases b with b | b
       · congr 1
-        rw [Sym2.eq_iff] at hab
-        rcases hab with ⟨hl, _⟩ | ⟨hl, _⟩
-        · exact congrArg Prod.snd hl
-        · have hl' := congrArg (fun v : GridVertex (3 + d) (3 + d) => v.1.val) hl
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hl'
-      · fin_cases b <;> rw [Sym2.eq_iff] at hab <;>
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hab
-        all_goals
-          rcases hab with ⟨hl, hr⟩ | ⟨hl, hr⟩ <;> exfalso
-          all_goals
-            have hl' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hl
-            have hr' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hr
-            simp at hl' hr' <;> omega
-      · fin_cases a <;> rw [Sym2.eq_iff] at hab <;>
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hab
-        all_goals
-          rcases hab with ⟨hl, hr⟩ | ⟨hl, hr⟩ <;> exfalso
-          all_goals
-            have hl' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hl
-            have hr' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hr
-            simp at hl' hr' <;> omega
-      · fin_cases a <;> fin_cases b <;> try rfl
-        all_goals
-          rw [Sym2.eq_iff] at hab
-          simp [inwardEdgeSym2, boundaryIncidence, inwardTarget] at hab
-          rcases hab with ⟨hl, hr⟩ | ⟨hl, hr⟩ <;> exfalso
-          all_goals
-            have hl' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hl
-            have hr' := congrArg
-              (fun v : GridVertex (3 + d) (3 + d) => (v.1.val, v.2.val)) hr
-            simp at hl' hr' <;> omega
+        simpa [boundaryIncidence, inwardTarget] using hab
+      · fin_cases b <;> simp [boundaryIncidence, inwardTarget] at hab
+        all_goals simp only [Fin.ext_iff] at hab; omega
+      · fin_cases a <;> simp [boundaryIncidence, inwardTarget] at hab
+        all_goals simp only [Fin.ext_iff] at hab; omega
+      · fin_cases a <;> fin_cases b <;> first | rfl | simp [boundaryIncidence, inwardTarget] at hab
 
 /-- Canonical demands that do not terminate directly at cotree support. -/
 abbrev Unsupported {n : Nat} (axis : ShoreSweepAxis) (hn : 2 ≤ n)
@@ -232,10 +174,9 @@ noncomputable def rootedOrientation {m n : Nat}
     (htree : T.IsTree) (root : GridVertex m n) (d : GridDirectionalDart T) :
     (rootedOrientation htree root d).1.edgeSym2 = d.edgeSym2 := by
   classical
-  unfold rootedOrientation
-  split
-  · rfl
-  · simp [edgeSym2, reverse, Sym2.eq_swap]
+  by_cases h : AwayFromRoot root d
+  · simp [rootedOrientation, h]
+  · simp [rootedOrientation, h, edgeSym2, reverse, Sym2.eq_swap]
 
 /-- Unsupported canonical germs launch at distinct rooted shore positions. -/
 noncomputable def launchedShoreEmbedding {n : Nat}

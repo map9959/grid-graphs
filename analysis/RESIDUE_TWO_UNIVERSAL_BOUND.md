@@ -275,9 +275,9 @@ remaining merge capacity. The n17 terminal artifact proves one instance only.
 Regenerate and test with:
 
 ```bash
-python3 -B analysis/residue_two_universal_bound_ledger.py \
+python3 -B -m analysis.residue_certificates.residue_two_universal_bound_ledger \
   --output analysis/residue_two_universal_bound_ledger.json
-python3 -B analysis/test_residue_two_universal_bound_ledger.py
+python3 -B -m analysis.tests.residue_certificates.test_residue_two_universal_bound_ledger
 ```
 
 ## Direct-program execution update

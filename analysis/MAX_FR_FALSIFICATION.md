@@ -103,7 +103,7 @@ Run:
 
 ```bash
 python3 -m unittest discover -s analysis -p 'test_max_fr_checker.py'
-python3 analysis/max_fr_checker.py --exhaustive-max-n 6 --exhaustive-limit 100000000
+python3 -m analysis.bounds.max_fr_checker --exhaustive-max-n 6 --exhaustive-limit 100000000
 ```
 
 The campaign exits nonzero only for a balanced-crop counterexample. A Max-FR

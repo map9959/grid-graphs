@@ -255,7 +255,7 @@ The independent checker verifies the cycle sizes, the four doubled spokes,
 the annular margin-three construction, and nonextendability through `n=8`:
 
 ```text
-python3 analysis/check_radial_backbone_inequality.py
+python3 -m analysis.bounds.check_radial_backbone_inequality
 ```
 
 It does not claim to verify (R4) for arbitrary size.

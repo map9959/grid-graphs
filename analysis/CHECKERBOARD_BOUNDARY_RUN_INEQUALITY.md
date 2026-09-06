@@ -438,6 +438,6 @@ counterexamples within this cancellation family.
 Run:
 
 ```bash
-PYTHONPATH=analysis python3 analysis/checkerboard_boundary_runs.py
+PYTHONPATH=analysis python3 -m analysis.bounds.checkerboard_boundary_runs
 python3 -m unittest discover -s analysis -p 'test_checkerboard_boundary_runs.py'
 ```

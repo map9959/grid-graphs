@@ -156,8 +156,8 @@ selector-disagreement counts, and all four quantifiers. Run:
 
 ```bash
 python3 -m unittest discover -s analysis -p 'test_insertion_circuit_congestion.py'
-python3 analysis/insertion_circuit_congestion.py --adversarial-through 18
-python3 analysis/insertion_circuit_congestion.py --maximal-n 3 \
+python3 -m analysis.bounds.insertion_circuit_congestion --adversarial-through 18
+python3 -m analysis.bounds.insertion_circuit_congestion --maximal-n 3 \
   --adversarial-through 3 --require-choice maximum_turns  # exits 1
 ```
 
@@ -321,7 +321,7 @@ Run:
 
 ```bash
 python3 -m unittest discover -s analysis -p 'test_minimum_reflex_gate.py'
-python3 analysis/minimum_reflex_gate.py --adversarial-through 21 --attempts 32
+python3 -m analysis.bounds.minimum_reflex_gate --adversarial-through 21 --attempts 32
 ```
 
 The gate exits nonzero because the retained `n=9` counterexample is found.

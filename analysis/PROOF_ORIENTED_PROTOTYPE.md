@@ -64,7 +64,7 @@ transition deltas. It includes a half-integral potential and one tight
 inequality. Verify it with:
 
 ```bash
-python3 analysis/proof_oriented_identities.py demo
+python3 -m analysis.bounds.proof_oriented_identities demo
 ```
 
 ## Feeding `tile_grammar`
@@ -134,7 +134,7 @@ exact structural equality, and reruns the independent inequality checker.
 Emit and immediately reverify the default source with:
 
 ```bash
-python3 analysis/proof_oriented_identities.py export-small \
+python3 -m analysis.bounds.proof_oriented_identities export-small \
   --n 3 --output /tmp/opencode/grid-graphs-n3-certificate.json
 ```
 
@@ -231,8 +231,8 @@ correctly drops from five to two.
 Run the reproducible comparison with:
 
 ```bash
-python3 -B analysis/proof_oriented_identities.py pool-features --level coarse
-python3 -B analysis/proof_oriented_identities.py pool-features --level runs
+python3 -B -m analysis.bounds.proof_oriented_identities pool-features --level coarse
+python3 -B -m analysis.bounds.proof_oriented_identities pool-features --level runs
 ```
 
 This remains a finite enumerated-width experiment. In particular, feature
@@ -275,11 +275,11 @@ Reproduce the principal checks with HiGHS 1.15.1 or a compatible binary,
 passing its location with `--highs` when it is not at the development default:
 
 ```bash
-python3 -B analysis/synthesize_sparse_frontier_potential.py --basis linear
-python3 -B analysis/synthesize_sparse_frontier_potential.py --basis hinges
-python3 -B analysis/synthesize_sparse_frontier_potential.py \
+python3 -B -m analysis.bounds.synthesize_sparse_frontier_potential --basis linear
+python3 -B -m analysis.bounds.synthesize_sparse_frontier_potential --basis hinges
+python3 -B -m analysis.bounds.synthesize_sparse_frontier_potential \
   --basis lookup --denominator-limit 1
-python3 -B analysis/synthesize_sparse_frontier_potential.py \
+python3 -B -m analysis.bounds.synthesize_sparse_frontier_potential \
   --analyze-table --validate-tree 7
 ```
 
@@ -380,9 +380,9 @@ state before another row-local feature fit.
 Run the exact analyses with:
 
 ```bash
-python3 -B analysis/equality_corridor.py --n 7
-python3 -B analysis/equality_corridor.py --n 8
-python3 -B analysis/equality_corridor.py --compare-residue-two
+python3 -B -m analysis.transport.equality_corridor --n 7
+python3 -B -m analysis.transport.equality_corridor --n 8
+python3 -B -m analysis.transport.equality_corridor --compare-residue-two
 ```
 
 The compact residue-two comparison is cached in
@@ -444,7 +444,7 @@ equality corridors. Rewrites of retained cells remain outside this scope.
 Regenerate the compact artifact with:
 
 ```bash
-python3 -B analysis/equality_slab_lanes.py \
+python3 -B -m analysis.transport.equality_slab_lanes \
   --output analysis/equality_slab_lanes.json
 ```
 
@@ -486,7 +486,7 @@ acyclic sequence of complete hidden decorations.
 Regenerate the compact artifact with:
 
 ```bash
-python3 -B analysis/equality_moving_slab.py \
+python3 -B -m analysis.transport.equality_moving_slab \
   --output analysis/equality_moving_slab.json
 ```
 
@@ -529,7 +529,7 @@ width, while no repeatable `5 -> 8 -> 11` transport has been established.
 Regenerate the artifact with:
 
 ```bash
-python3 -B analysis/equality_composed_transport.py \
+python3 -B -m analysis.transport.equality_composed_transport \
   --output analysis/equality_composed_transport.json
 ```
 

@@ -241,8 +241,8 @@ that second requirement.
 Run the unit checks and randomized search with
 
 ```text
-python3 -m unittest analysis/check_annular_merger_surplus.py
-python3 analysis/check_annular_merger_surplus.py --random-n 6 --trials 200000
+python3 -m unittest analysis/bounds/check_annular_merger_surplus.py
+python3 -m analysis.bounds.check_annular_merger_surplus --random-n 6 --trials 200000
 ```
 
 Run the complete `n=5` census with

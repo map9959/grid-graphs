@@ -92,6 +92,6 @@ Run:
 
 ```bash
 python3 -m unittest discover -s analysis -p 'test_boundary_charge_reduction.py'
-python3 analysis/boundary_charge_reduction.py --brute-max-n 4 \
+python3 -m analysis.bounds.boundary_charge_reduction --brute-max-n 4 \
   --exhaustive-maximum-n 6 --augmented-max-n 7
 ```

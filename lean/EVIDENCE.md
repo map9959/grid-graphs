@@ -302,7 +302,7 @@ connectivity to transport.
 ### `GridGraphs/Constructions/ResidueOne/ResidueOne.lean` — residue-1 diagonal `U` cardinality
 
 For `n = 3k + 1` (square grid `n × n`), the residue-1 lower-bound construction
-`residue_one_pattern` from `analysis/diagonal_patterns.py` (see Proposition L1
+`residue_one_pattern` from `analysis/patterns/diagonal_patterns.py` (see Proposition L1
 in `analysis/proofs_diagonal.md`) is encoded as a `Finset` and its cardinality
 is proven exactly.
 

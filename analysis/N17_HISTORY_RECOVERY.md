@@ -43,7 +43,7 @@ files are:
 - `analysis/frontier_n17_u179_replay.json`, SHA-256
   `d33f6ca716c81dc2ecdf50c5773ca2fdb475c47348b2f5874a203bbc7882620d`.
 - `analysis/frontier_n17_mirror_result.json` and
-  `analysis/test_frontier_n17_result.py`.
+  `analysis/tests/searches/test_frontier_n17_result.py`.
 - `src/bin/search_n17_frontier_pruned.rs`, SHA-256
   `111c509818d072df1a9da1e954bedc24dd3dee06451fe680db9f3982cc735ca2`.
 
@@ -92,7 +92,7 @@ the expensive computation the present investigation is meant to avoid.
 
 ## Bounded reverse experiment
 
-`analysis/n17_history_reverse_probe.py` independently applies the exact cell
+`analysis/searches/n17_history_reverse_probe.py` independently applies the exact cell
 transition used by the Rust program. For each reverse candidate it forwards the
 candidate again and retains it only if the dumped post-state, row mask, and cost
 are reproduced exactly. Candidate origins are tracked as a 20-bit set, so the
@@ -101,7 +101,7 @@ per-survivor universal claims above remain valid when reverse branches merge.
 Command:
 
 ```bash
-python3 -B analysis/n17_history_reverse_probe.py --depth 4
+python3 -B -m analysis.searches.n17_history_reverse_probe --depth 4
 ```
 
 Exact layer sizes and distributions:

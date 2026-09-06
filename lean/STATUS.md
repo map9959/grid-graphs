@@ -400,7 +400,7 @@ formalising Phase 8 of `docs/ROADMAP.md`.
 
 ### `GridGraphs/Constructions/ResidueOne/ResidueOne.lean`
 - `isInUResidueOne k r c`: predicate defining the residue-1 non-full set
-  `U` of the `(3k+1) × (3k+1)` grid (cf. `analysis/diagonal_patterns.py`'s
+  `U` of the `(3k+1) × (3k+1)` grid (cf. `analysis/patterns/diagonal_patterns.py`'s
   `residue_one_pattern`).
 - `uResidueOne k : Finset (GridVertex (3*k+1) (3*k+1))`: the corresponding
   `Finset`.
@@ -771,29 +771,29 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   support vertex have acyclic union, lifts this to indexed leaf-elimination
   orders, and identifies the resulting graph with the forced graph of the union
   of all listed interval centers.
-- `analysis/check_residue_two_counter_interval_surgery.py` verifies an abstract
+- `analysis/residue_geometry/check_residue_two_counter_interval_surgery.py` verifies an abstract
   target-count edge-subdivision candidate: inserting one interval of length
   `k-5` between the affine root and boundary-spine branch gives `4k+1` nodes,
   target score `3k^2+7k`, a transported postorder, and step gain `6k+10`.
   Its two new attachment owners have no grid coordinates yet.
-- `analysis/census_residue_two_counter_interval_geometry.py` completely rejects
+- `analysis/residue_geometry/census_residue_two_counter_interval_geometry.py` completely rejects
   the candidate's declared natural corner grammar at `k=7,8,9`: all 7,912,264
   choices fail the unit-cell condition. This is a bounded falsification, not a
   global obstruction to the abstract surgery.
-- `analysis/census_residue_two_affine_endpoint_extensions.py` rejects all `56`
+- `analysis/residue_geometry/census_residue_two_affine_endpoint_extensions.py` rejects all `56`
   stable single-endpoint types transported from `k=7` through `k=9`. Although
   each proposed ray has the exact count recurrence, every type is geometrically
   obstructed by the grid boundary, old centers, a forbidden unit cell, or an
   affine component merge.
-- `analysis/census_residue_two_endpoint_slide.py` derives exactly `20`
+- `analysis/residue_geometry/census_residue_two_endpoint_slide.py` derives exactly `20`
   constant-size leaf blockers from those endpoint failures and checks their
   four unit translations. All `80` chains fail. The remaining narrowed lower
   topology is a two-leaf hinge exchange based on the six multiple-intersection
   witnesses and one non-blocker-parent witness.
-- `analysis/census_residue_two_two_leaf_hinge.py` derives only two legal leaf
+- `analysis/residue_geometry/census_residue_two_two_leaf_hinge.py` derives only two legal leaf
   hinges from those seven witnesses; both fail by unit cells or overlap. The
   remaining five witnesses require a nonleaf spine operation.
-- `analysis/census_residue_two_nonleaf_spine_bypass.py` rejects the five minimal
+- `analysis/residue_geometry/census_residue_two_nonleaf_spine_bypass.py` rejects the five minimal
   projected-segment bypasses by a uniform count obstruction: distance two from
   spine to carrier forces the length-`k-5` bypass through a carrier-ray center.
   The next topology is an offset `k-7` core with two connector leaves.
