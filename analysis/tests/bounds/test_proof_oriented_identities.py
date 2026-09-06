@@ -7,15 +7,14 @@ import unittest
 from fractions import Fraction
 from pathlib import Path
 
-from analysis.searches.certify_residue_two_relaxation import WITNESS
 from analysis.bounds.proof_oriented_identities import (
-    CertificateError,
     DEMO_CERTIFICATE,
+    CertificateError,
     InfeasiblePotentialError,
     PathTelescope,
     TileRowDeltas,
-    build_pooled_frontier_feature_experiment,
     build_complete_tile_certificate,
+    build_pooled_frontier_feature_experiment,
     check_n17_178_identity,
     check_pattern_identities,
     check_residue_two_terminal_algebra,
@@ -28,8 +27,9 @@ from analysis.bounds.proof_oriented_identities import (
     verify_frontier_certificate,
     verify_path_telescope,
 )
-from analysis.tiles.tile_grammar import advance_row, initial_state
+from analysis.searches.certify_residue_two_relaxation import WITNESS
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row, initial_state
 
 
 class PatternIdentityTests(unittest.TestCase):

@@ -4,15 +4,23 @@ import os
 import unittest
 from dataclasses import FrozenInstanceError, replace
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import build_equality_corridor
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.tiles.symbolic_packet_frontier import (
     SymbolicPacketFrontier,
     advance_symbolic_row,
     decode_frontier,
     encode_frontier,
 )
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
+from analysis.transport.equality_corridor import build_equality_corridor
 
 
 def split_mask(mask: int, n: int) -> tuple[int, tuple[int, ...], int]:

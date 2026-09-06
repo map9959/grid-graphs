@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import unittest
 
-from analysis.bounds.forced_forest_row_grammar import is_forced_forest, maximum_forced_forest
+from analysis.bounds.forced_forest_row_grammar import (
+    is_forced_forest,
+    maximum_forced_forest,
+)
 
 
 def direct_maximum(n: int) -> int:

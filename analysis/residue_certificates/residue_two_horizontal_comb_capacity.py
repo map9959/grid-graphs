@@ -7,8 +7,8 @@ import argparse
 import json
 from pathlib import Path
 from typing import Iterable
-from analysis._paths import analysis_path
 
+from analysis._paths import analysis_path
 
 Vertex = tuple[int, int]
 SCHEMA = "grid-graphs.residue-two-horizontal-comb-capacity.v1"

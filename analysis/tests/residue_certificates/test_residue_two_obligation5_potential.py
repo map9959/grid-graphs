@@ -5,16 +5,18 @@ import os
 import unittest
 from fractions import Fraction
 
-from analysis.transport.equality_corridor import build_equality_corridor
-from analysis.residue_certificates.residue_two_attachment_skeleton import linear_frontier_metric
+from analysis.residue_certificates.residue_two_attachment_skeleton import (
+    linear_frontier_metric,
+)
 from analysis.residue_certificates.residue_two_obligation5_potential import (
     DEFAULT_OUTPUT,
     _rref_solve,
     build_artifact,
     verify_symbolic,
 )
-from analysis.tiles.tile_grammar import advance_row
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row
+from analysis.transport.equality_corridor import build_equality_corridor
 
 
 class ResidueTwoObligation5PotentialTests(unittest.TestCase):

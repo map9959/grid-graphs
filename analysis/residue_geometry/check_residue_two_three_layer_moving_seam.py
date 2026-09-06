@@ -4,12 +4,13 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import dataclass
 import itertools
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator
 
+from analysis._paths import analysis_path
 from analysis.residue_geometry.check_residue_two_zero_cap_exchange import (
     _components,
     _interval_incidence,
@@ -23,8 +24,6 @@ from analysis.residue_geometry.check_residue_two_zero_double_cap_exchange import
     _cycle_rank,
     _source_sets,
 )
-from analysis._paths import analysis_path
-
 
 SCHEMA = "grid-graphs.residue-two-three-layer-moving-seam.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_three_layer_moving_seam.json")

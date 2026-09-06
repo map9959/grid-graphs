@@ -3,12 +3,12 @@ from __future__ import annotations
 import json
 import unittest
 
-
-from analysis.residue_certificates.residue_two_local_motif_grammar import maximum_face_cut_open_width
-from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
 from analysis._paths import ANALYSIS_ROOT
+from analysis.residue_certificates.residue_two_local_motif_grammar import (
+    maximum_face_cut_open_width,
+)
 from analysis.tests._support import migrated_artifact
-
+from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
 
 HERE = ANALYSIS_ROOT
 RESULT = HERE / "residue_two_n11_face_cut_defect_result.json"

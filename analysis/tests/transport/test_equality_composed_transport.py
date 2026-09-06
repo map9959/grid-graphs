@@ -4,10 +4,9 @@ import json
 import os
 import unittest
 
-
-from analysis.transport.equality_composed_transport import build_census
 from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
+from analysis.transport.equality_composed_transport import build_census
 
 
 class EqualityComposedTransportTests(unittest.TestCase):

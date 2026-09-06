@@ -18,8 +18,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from itertools import permutations
 
-from analysis.residue_certificates.residue_two_affine_motif_grammar import BoundaryDefectAtom
-from analysis.residue_certificates.residue_two_compact_transition import ActionKey, ControlKey
+from analysis.residue_certificates.residue_two_affine_motif_grammar import (
+    BoundaryDefectAtom,
+)
+from analysis.residue_certificates.residue_two_compact_transition import (
+    ActionKey,
+    ControlKey,
+)
 from analysis.residue_certificates.residue_two_silent_hull_language import (
     AffineRowCounters,
     SilentHullAtom,

@@ -3,11 +3,9 @@ from __future__ import annotations
 import json
 import unittest
 
-
-from analysis.bounds.proof_oriented_identities import check_pattern_identities
 from analysis._paths import analysis_path
+from analysis.bounds.proof_oriented_identities import check_pattern_identities
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("concentric_layer_rank_census.json")
 

@@ -5,7 +5,10 @@ import unittest
 from math import comb
 
 from analysis.searches.search_residue_two_middle import KNOWN_249_NEAR
-from analysis.searches.search_residue_two_two_lobe_phase_corridor import CAP_DISTRIBUTIONS, masks_with_u_count
+from analysis.searches.search_residue_two_two_lobe_phase_corridor import (
+    CAP_DISTRIBUTIONS,
+    masks_with_u_count,
+)
 from analysis.searches.search_residue_two_two_lobe_phase_corridor_four_columns import (
     DEFAULT_RESULT,
     FIXED_BODY_ROWS,
@@ -21,8 +24,7 @@ from analysis.searches.search_residue_two_two_lobe_phase_corridor_four_columns i
     scope,
     validate_scope,
 )
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class FourColumnTwoLobePhaseCorridorTests(unittest.TestCase):

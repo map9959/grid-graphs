@@ -4,7 +4,7 @@ import json
 import os
 import unittest
 
-
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_local_motif_grammar import (
     all_rooted_triple_symbols,
     build_artifact,
@@ -12,10 +12,8 @@ from analysis.residue_certificates.residue_two_local_motif_grammar import (
     grammar_acceptance,
     packet_motif_symbols,
 )
-from analysis.tiles.tile_grammar import FrontierState
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
+from analysis.tiles.tile_grammar import FrontierState
 
 ARTIFACT = analysis_path("residue_two_local_motif_grammar.json")
 ALPHABET = frozenset(

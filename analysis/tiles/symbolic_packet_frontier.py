@@ -19,7 +19,6 @@ from dataclasses import dataclass
 from analysis.tiles.row_packet_transition import verify_packet_row
 from analysis.tiles.tile_grammar import FrontierState
 
-
 ALL_THREE_BIT_PACKETS = {
     f"P{value}": "".join(
         "U" if value & (1 << offset) else "." for offset in range(3)

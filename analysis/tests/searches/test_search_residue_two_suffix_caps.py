@@ -5,16 +5,15 @@ import unittest
 from math import comb
 
 from analysis.searches.search_residue_two_suffix_caps import (
-    DISTRIBUTIONS,
     DEFAULT_CERTIFICATE,
+    DISTRIBUTIONS,
     N,
     certificate,
     masks_with_u_count,
     search,
 )
 from analysis.searches.search_residue_two_suffix_corridor import layer_after_row17
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class SuffixCapsTests(unittest.TestCase):

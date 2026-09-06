@@ -3,7 +3,10 @@ from __future__ import annotations
 import unittest
 from dataclasses import FrozenInstanceError
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.tiles.row_packet_transition import (
     PacketRowCursor,
     append_packet,
@@ -11,8 +14,12 @@ from analysis.tiles.row_packet_transition import (
     start_row,
     verify_packet_row,
 )
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
-
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
 
 ALL_THREE_BIT_PACKETS = {
     f"P{value}": "".join(

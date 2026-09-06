@@ -8,12 +8,11 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from analysis._paths import analysis_path
 from analysis.bounds.concentric_connectivity_profile import analyze_pattern
+from analysis.tiles.tile_grammar import render_mask
 from analysis.transport.equality_corridor import build_equality_corridor
 from analysis.transport.equality_slab_lanes import enumerate_minimum_mask_paths
-from analysis.tiles.tile_grammar import render_mask
-from analysis._paths import analysis_path
-
 
 SCHEMA = "grid-graphs.concentric-equality-census.v1"
 DEFAULT_OUTPUT = analysis_path("concentric_equality_census.json")

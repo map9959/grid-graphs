@@ -2,14 +2,17 @@ from __future__ import annotations
 
 import json
 import subprocess
-import sys
 import tempfile
 import unittest
 from math import comb
 from pathlib import Path
 
+from analysis._paths import REPO_ROOT, analysis_path, module_command
 from analysis.searches.search_residue_two_middle import KNOWN_249_NEAR
-from analysis.searches.search_residue_two_two_lobe_phase_corridor import CAP_DISTRIBUTIONS, masks_with_u_count
+from analysis.searches.search_residue_two_two_lobe_phase_corridor import (
+    CAP_DISTRIBUTIONS,
+    masks_with_u_count,
+)
 from analysis.searches.search_residue_two_two_lobe_phase_corridor_five_columns import (
     DEFAULT_RESULT,
     FIXED_BODY_ROWS,
@@ -23,9 +26,7 @@ from analysis.searches.search_residue_two_two_lobe_phase_corridor_five_columns i
     scope,
     validate_scope,
 )
-from analysis.tests._support import slow_test
-from analysis._paths import analysis_path
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class FiveColumnTwoLobePhaseCorridorTests(unittest.TestCase):
@@ -76,9 +77,7 @@ class FiveColumnTwoLobePhaseCorridorTests(unittest.TestCase):
             result = Path(directory) / "result.json"
             witness = Path(directory) / "witness.txt"
             completed = subprocess.run(
-                [
-                    sys.executable,
-                    str(script),
+                module_command(script) + [
                     "--quiet",
                     "--max-seconds",
                     "1",
@@ -88,6 +87,7 @@ class FiveColumnTwoLobePhaseCorridorTests(unittest.TestCase):
                     str(witness),
                 ],
                 check=False,
+                cwd=REPO_ROOT,
                 capture_output=True,
                 text=True,
                 timeout=10,

@@ -4,17 +4,18 @@ import json
 import os
 import unittest
 
-
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+from analysis._paths import analysis_path
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.residue_certificates.residue_two_band_classifier import (
     boundary_role,
     build_artifact,
     classify_masks,
 )
-from analysis.tiles.tile_grammar import row_mask
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
+from analysis.tiles.tile_grammar import row_mask
 
 ARTIFACT = analysis_path("residue_two_band_classifier.json")
 

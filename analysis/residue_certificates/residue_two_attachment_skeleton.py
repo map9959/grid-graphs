@@ -16,15 +16,24 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
 
+from analysis._paths import ANALYSIS_ROOT
 from analysis.bounds.concentric_connectivity_profile import analyze_pattern
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+from analysis.bounds.proof_oriented_identities import check_pattern_identities
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.residue_certificates.residue_two_n11_grammar_counterexample import (
+    ROWS as N11_SILENT_ROWS,
+)
+from analysis.tiles.tile_grammar import (
+    advance_row,
+    initial_state,
+    render_mask,
+    row_mask,
+)
 from analysis.transport.equality_corridor import build_equality_corridor
 from analysis.transport.equality_slab_lanes import enumerate_minimum_mask_paths
-from analysis.bounds.proof_oriented_identities import check_pattern_identities
-from analysis.residue_certificates.residue_two_n11_grammar_counterexample import ROWS as N11_SILENT_ROWS
-from analysis.tiles.tile_grammar import advance_row, initial_state, render_mask, row_mask
-from analysis._paths import ANALYSIS_ROOT
-
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_attachment_skeleton.json"

@@ -10,13 +10,12 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Iterable
 
+from analysis._paths import analysis_path
 from analysis.patterns.diagonal_patterns import (
     residue_one_pattern,
     residue_two_affine_pattern,
     residue_two_explicit_pattern,
 )
-from analysis._paths import analysis_path
-
 
 SCHEMA = "grid-graphs.concentric-strip-bound.v1"
 DEFAULT_OUTPUT = analysis_path("concentric_strip_bound.json")

@@ -5,16 +5,18 @@ import unittest
 from dataclasses import replace
 from itertools import product
 
-
-from analysis.transport.census_moving_seam_alignment import row_alignment_census
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_pattern
+from analysis._paths import analysis_path
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_pattern,
+)
 from analysis.searches.search_residue_two_moving_seam import (
+    PACKET_ALPHABET,
     AlignmentAutomaton,
     AlignmentState,
     AlignmentTransition,
     CompatibleSchedule,
     Node,
-    PACKET_ALPHABET,
     PathStep,
     ScheduleTemplate,
     affine_compatible_schedule,
@@ -31,8 +33,8 @@ from analysis.searches.search_residue_two_moving_seam import (
     enumerate_domain_rows,
     exact_state_key,
     holds_compatible_schedule_automaton,
-    language_membership,
     join_bidirectional_frontiers,
+    language_membership,
     one_hold_relocation_schedule_automaton,
     replay_path,
     row_boundary_variants,
@@ -42,7 +44,7 @@ from analysis.searches.search_residue_two_moving_seam import (
     search,
     search_bidirectional,
 )
-from analysis.tests._support import slow_test
+from analysis.tests._support import migrated_artifact, slow_test
 from analysis.tiles.tile_grammar import (
     FrontierState,
     advance_row,
@@ -50,8 +52,7 @@ from analysis.tiles.tile_grammar import (
     row_mask,
     stream_row_packets,
 )
-from analysis._paths import analysis_path
-from analysis.tests._support import migrated_artifact
+from analysis.transport.census_moving_seam_alignment import row_alignment_census
 
 
 class MovingSeamSearchTests(unittest.TestCase):

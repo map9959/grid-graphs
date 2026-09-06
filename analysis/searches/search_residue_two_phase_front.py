@@ -22,9 +22,12 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
 
+from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
 from analysis.patterns.construction_lab import (
     dual_connectivity_check,
     forest_completion_check,
+)
+from analysis.patterns.construction_lab import (
     q_old_formula as q_formula,
 )
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
@@ -39,8 +42,6 @@ from analysis.tiles.tile_grammar import (
     row_mask,
     stream_row_packets,
 )
-from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
 
 PHASE_ALPHABET = {**ROW_PACKET_ALPHABET, "S": ".U."}
 RESULT_SCHEMA = "grid-graphs.residue-two-phase-front.v2"

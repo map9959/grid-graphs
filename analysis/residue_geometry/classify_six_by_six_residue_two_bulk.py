@@ -8,8 +8,8 @@ import json
 import math
 from collections import Counter
 from pathlib import Path
-from analysis._paths import analysis_path
 
+from analysis._paths import analysis_path
 
 SIDE = 6
 VERTICES = SIDE * SIDE

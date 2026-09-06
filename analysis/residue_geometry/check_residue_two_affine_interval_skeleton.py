@@ -4,13 +4,12 @@
 from __future__ import annotations
 
 import argparse
-from fractions import Fraction
 import json
+from fractions import Fraction
 from pathlib import Path
 from typing import Iterable
 
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-
 
 Vertex = tuple[int, int]
 Edge = tuple[Vertex, Vertex]

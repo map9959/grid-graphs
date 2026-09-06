@@ -14,8 +14,8 @@ import argparse
 import itertools
 import json
 from pathlib import Path
-from analysis._paths import analysis_path
 
+from analysis._paths import analysis_path
 
 Vertex = tuple[int, int]
 SCHEMA = "grid-graphs.period-three-residue-two-bulk.v1"

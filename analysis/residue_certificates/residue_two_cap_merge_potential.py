@@ -14,14 +14,28 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import EqualityCorridor, build_equality_corridor
-from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
-from analysis.residue_certificates.residue_two_attachment_history import build_analysis as build_attachment_history
-from analysis.residue_certificates.residue_two_attachment_skeleton import linear_frontier_metric
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
 from analysis._paths import ANALYSIS_ROOT
-
+from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.residue_certificates.residue_two_attachment_history import (
+    build_analysis as build_attachment_history,
+)
+from analysis.residue_certificates.residue_two_attachment_skeleton import (
+    linear_frontier_metric,
+)
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    build_equality_corridor,
+)
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_cap_merge_potential.json"
@@ -402,7 +416,8 @@ def build_artifact() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/residue_certificates/residue_two_cap_merge_potential.py",
+                "-m",
+                'analysis.residue_certificates.residue_two_cap_merge_potential',
                 "--output",
                 "analysis/residue_two_cap_merge_potential.json",
             ],

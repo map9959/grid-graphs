@@ -18,12 +18,25 @@ from itertools import combinations
 from math import comb
 from pathlib import Path
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check, run_check
-from analysis.searches.search_residue_two_middle import BASIC_ALPHABET, KNOWN_249_NEAR
-from analysis.searches.search_residue_two_suffix_corridor import PathNode, _add_candidate, _reconstruct
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask, stream_row_packets
 from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    run_check,
+)
+from analysis.searches.search_residue_two_middle import BASIC_ALPHABET, KNOWN_249_NEAR
+from analysis.searches.search_residue_two_suffix_corridor import (
+    PathNode,
+    _add_candidate,
+    _reconstruct,
+)
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+    stream_row_packets,
+)
 
 N = 20
 TARGET_U = 249

@@ -16,7 +16,7 @@ from collections import Counter
 from fractions import Fraction
 from pathlib import Path
 
-from analysis.transport.equality_corridor import EqualityCorridor, build_equality_corridor, structural_key
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_cap_merge_potential import cap_phase
 from analysis.residue_certificates.residue_two_obligation5_potential import _rref_solve
 from analysis.residue_certificates.residue_two_silent_hull_language import (
@@ -24,8 +24,11 @@ from analysis.residue_certificates.residue_two_silent_hull_language import (
     classify_silent_hull_frontier,
 )
 from analysis.tiles.tile_grammar import FrontierState, advance_row
-from analysis._paths import analysis_path
-
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    build_equality_corridor,
+    structural_key,
+)
 
 WIDTHS = (5, 8)
 STAGES = ("atom-sum", "adjacent-bigrams", "finite-parser")

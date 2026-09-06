@@ -3,10 +3,9 @@ from __future__ import annotations
 import json
 import unittest
 from fractions import Fraction
+
 from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
-
 
 ARTIFACT = analysis_path("forced_forest_additive_potential.json")
 

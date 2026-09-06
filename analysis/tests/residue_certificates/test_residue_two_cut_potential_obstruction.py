@@ -3,7 +3,10 @@ from __future__ import annotations
 import json
 import unittest
 
-from analysis.residue_certificates.residue_two_cut_potential_obstruction import DEFAULT_OUTPUT, build_artifact
+from analysis.residue_certificates.residue_two_cut_potential_obstruction import (
+    DEFAULT_OUTPUT,
+    build_artifact,
+)
 from analysis.tests._support import migrated_artifact
 
 

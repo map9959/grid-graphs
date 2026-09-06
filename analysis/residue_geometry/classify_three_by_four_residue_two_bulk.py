@@ -8,8 +8,8 @@ import itertools
 import json
 from collections import Counter
 from pathlib import Path
-from analysis._paths import analysis_path
 
+from analysis._paths import analysis_path
 
 HEIGHT = 3
 WIDTH = 4

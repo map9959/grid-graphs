@@ -18,7 +18,6 @@ import json
 from pathlib import Path
 from typing import Callable, Hashable
 
-
 SCHEMA_V1 = "grid-graphs.residue-two-bounded-rank.v1"
 SCHEMA_V2 = "grid-graphs.residue-two-necessary-conditions.v2"
 LEVELS = ("scalar", "singleton", "interval", "rectangle", "seam", "window")

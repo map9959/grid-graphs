@@ -1,10 +1,14 @@
 from __future__ import annotations
 
-import json
 import itertools
+import json
 import unittest
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check, run_check
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    run_check,
+)
 from analysis.searches.search_residue_two_target_control import (
     DEFAULT_INPUT,
     DEFAULT_OUTPUT,

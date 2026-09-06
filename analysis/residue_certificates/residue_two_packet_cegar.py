@@ -15,10 +15,12 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Callable, Iterable
 
-from analysis.transport.equality_corridor import build_equality_corridor
-from analysis.residue_certificates.residue_two_equality_cegar import ObservedState, observe_corridor
+from analysis.residue_certificates.residue_two_equality_cegar import (
+    ObservedState,
+    observe_corridor,
+)
 from analysis.tiles.tile_grammar import FrontierState
-
+from analysis.transport.equality_corridor import build_equality_corridor
 
 SCHEMA = "grid-graphs.residue-two-packet-cegar.v1"
 WIDTHS = (5, 8)
@@ -298,7 +300,8 @@ def build_artifact() -> dict:
         "first_lossless_packet_level": "packet_global_carry",
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_packet_cegar.py",
-            "command": ["python3", "-B", "analysis/residue_certificates/residue_two_packet_cegar.py", "--output",
+            "command": ["python3", "-B", "-m",
+                                         'analysis.residue_certificates.residue_two_packet_cegar', "--output",
                         "analysis/residue_two_packet_cegar.json"],
         },
     }

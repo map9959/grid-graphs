@@ -20,8 +20,7 @@ from analysis.searches.search_residue_two_two_lobe_phase_corridor import (
     scope,
     validate_scope,
 )
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class TwoLobePhaseCorridorTests(unittest.TestCase):

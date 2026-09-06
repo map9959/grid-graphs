@@ -15,7 +15,6 @@ from functools import lru_cache
 from itertools import combinations
 from typing import Iterable, Iterator, Sequence
 
-
 Edge = tuple[int, int]
 
 

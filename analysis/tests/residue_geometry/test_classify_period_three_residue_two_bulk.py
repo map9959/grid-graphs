@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import json
-
 import unittest
 
+from analysis._paths import analysis_path
 from analysis.residue_geometry.classify_period_three_residue_two_bulk import (
     boundary_maximum,
     build_report,
@@ -11,9 +11,7 @@ from analysis.residue_geometry.classify_period_three_residue_two_bulk import (
     gap_grammar_maximum,
     materialize,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("period_three_residue_two_bulk.json")
 

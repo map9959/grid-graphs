@@ -4,9 +4,10 @@ import json
 import os
 import unittest
 
-
-from analysis.residue_certificates.residue_two_pooled_potential_n7 import build_experiment
 from analysis._paths import analysis_path
+from analysis.residue_certificates.residue_two_pooled_potential_n7 import (
+    build_experiment,
+)
 from analysis.tests._support import migrated_artifact
 
 

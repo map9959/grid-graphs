@@ -8,7 +8,6 @@ import random
 import subprocess
 from collections import defaultdict, deque
 
-
 Edge = tuple[int, int]
 Face = tuple[int, int] | str
 

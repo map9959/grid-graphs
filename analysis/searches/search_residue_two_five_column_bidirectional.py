@@ -18,14 +18,15 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
+from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
 from analysis.searches.search_residue_two_phase_front import _packet_names
 from analysis.searches.search_residue_two_phase_packet_corridor_22 import phase_rows
 from analysis.searches.search_residue_two_two_lobe_phase_corridor import (
     CAP_DISTRIBUTIONS,
     FIXED_BODY_ROWS,
     MUTABLE_ROWS,
-    N,
     TARGET_U,
+    N,
     file_sha256,
     masks_with_u_count,
     rows_sha256,
@@ -44,8 +45,6 @@ from analysis.tiles.tile_grammar import (
     render_mask,
     row_mask,
 )
-from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
 
 CUTS = (8, 9, 13)
 MUTABLE_H_QUOTA = 11

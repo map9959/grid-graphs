@@ -4,11 +4,12 @@ import json
 import os
 import unittest
 
-
-from analysis.residue_certificates.residue_two_structural_defect_gap import CATEGORIES, build_artifact
 from analysis._paths import analysis_path
+from analysis.residue_certificates.residue_two_structural_defect_gap import (
+    CATEGORIES,
+    build_artifact,
+)
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("residue_two_structural_defect_gap.json")
 

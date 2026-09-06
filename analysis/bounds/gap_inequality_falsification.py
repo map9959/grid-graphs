@@ -16,18 +16,25 @@ This is finite computational evidence, not a proof for uncomputed sizes.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
-from dataclasses import dataclass
 import json
 import random
 import time
+from collections import Counter
+from dataclasses import dataclass
 from typing import Iterable, Iterator
 
 from analysis.bounds.boundary_charge_reduction import canonical_rows
 from analysis.bounds.checkerboard_boundary_runs import acyclic_row_sets
-from analysis.bounds.forced_forest_row_grammar import State, first_row_state, is_forced_forest, transition
-from analysis.bounds.straight_carrier_inequality import carrier_profile, is_inclusion_maximal
-
+from analysis.bounds.forced_forest_row_grammar import (
+    State,
+    first_row_state,
+    is_forced_forest,
+    transition,
+)
+from analysis.bounds.straight_carrier_inequality import (
+    carrier_profile,
+    is_inclusion_maximal,
+)
 
 # State after reading a line prefix: neutral, singleton, long run, U-gap after
 # a long run, or singleton immediately after such a gap.

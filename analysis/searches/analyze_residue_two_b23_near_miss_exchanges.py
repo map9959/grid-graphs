@@ -8,9 +8,11 @@ import itertools
 import json
 from pathlib import Path
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check
 from analysis._paths import ANALYSIS_ROOT
-
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+)
 
 HERE = ANALYSIS_ROOT
 INPUT = HERE / "residue_two_b20_to_b23_basic_result.json"

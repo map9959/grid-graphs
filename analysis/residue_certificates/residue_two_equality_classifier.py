@@ -14,11 +14,22 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import _edge, build_equality_corridor, structural_key
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
+from analysis.transport.equality_corridor import (
+    _edge,
+    build_equality_corridor,
+    structural_key,
+)
 from analysis.transport.equality_slab_lanes import enumerate_minimum_mask_paths
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
-
 
 SCHEMA = "grid-graphs.residue-two-equality-debt-classifier.v1"
 
@@ -316,7 +327,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_equality_classifier.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_equality_classifier.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_equality_classifier',
                 "--output", "analysis/residue_two_equality_classifier.json",
             ],
         },

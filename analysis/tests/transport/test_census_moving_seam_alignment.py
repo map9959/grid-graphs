@@ -3,6 +3,10 @@ from __future__ import annotations
 import unittest
 from dataclasses import replace
 
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_pattern,
+)
 from analysis.transport.census_moving_seam_alignment import (
     PHASE_FRONT_WITNESS,
     census_known_pairs,
@@ -12,7 +16,6 @@ from analysis.transport.census_moving_seam_alignment import (
     replay_alignment,
     row_alignment_census,
 )
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_pattern
 
 
 def widened_row(source: str, seam: int, packet: str = "UUU") -> str:

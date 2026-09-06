@@ -9,7 +9,20 @@ import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+from analysis._paths import ANALYSIS_ROOT
 from analysis.patterns.analyze_residue_constructions import analyze
+from analysis.patterns.construction_lab import q_old_formula as q_formula
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    render_mask,
+    row_mask,
+)
 from analysis.transport.census_moving_seam_alignment import (
     PHASE_FRONT_WITNESS,
     d4_orientations,
@@ -17,12 +30,7 @@ from analysis.transport.census_moving_seam_alignment import (
     load_square_pattern,
     replay_alignment,
 )
-from analysis.patterns.construction_lab import q_old_formula as q_formula
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
 from analysis.transport.open_slab_signature import extract_open_slab_signature
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, render_mask, row_mask
-from analysis._paths import ANALYSIS_ROOT
-
 
 HERE = ANALYSIS_ROOT
 ROOT = HERE.parent
@@ -579,7 +587,8 @@ def build_artifact() -> dict:
             ],
             "command": [
                 "python3",
-                "analysis/residue_certificates/residue_two_frontier_signatures.py",
+                "-m",
+                'analysis.residue_certificates.residue_two_frontier_signatures',
                 "--output",
                 "analysis/residue_two_frontier_traces.json",
             ],

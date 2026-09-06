@@ -3,11 +3,12 @@ from __future__ import annotations
 import json
 import unittest
 
-
-from analysis.searches.export_residue_two_self_renewal_manifest import DEFAULT_OUTPUT, build_manifest
-from analysis.tests._support import slow_test
 from analysis._paths import analysis_path
-from analysis.tests._support import migrated_artifact
+from analysis.searches.export_residue_two_self_renewal_manifest import (
+    DEFAULT_OUTPUT,
+    build_manifest,
+)
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class SelfRenewalManifestTests(unittest.TestCase):

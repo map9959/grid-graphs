@@ -10,7 +10,7 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from analysis.transport.census_moving_seam_alignment import PHASE_FRONT_WITNESS, load_square_pattern
+from analysis._paths import ANALYSIS_ROOT
 from analysis.residue_certificates.residue_two_frontier_signatures import (
     initial_ranked_state,
     ordinary_state,
@@ -26,8 +26,10 @@ from analysis.searches.search_residue_two_moving_seam import (
     enumerate_domain_rows,
 )
 from analysis.tiles.tile_grammar import row_mask
-from analysis._paths import ANALYSIS_ROOT
-
+from analysis.transport.census_moving_seam_alignment import (
+    PHASE_FRONT_WITNESS,
+    load_square_pattern,
+)
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_b20_self_renewal_manifest.json"

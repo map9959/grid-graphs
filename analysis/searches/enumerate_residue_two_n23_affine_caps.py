@@ -14,9 +14,9 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from analysis._paths import analysis_path
 from analysis.patterns.construction_lab import q_old_formula
-from analysis.patterns.diagonal_patterns import q_formula
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
+from analysis.patterns.diagonal_patterns import q_formula, residue_two_affine_pattern
 from analysis.searches.search_residue_two_phase_front import PHASE_ALPHABET, row_words
 from analysis.tiles.tile_grammar import (
     ROW_PACKET_ALPHABET,
@@ -26,8 +26,6 @@ from analysis.tiles.tile_grammar import (
     render_mask,
     row_mask,
 )
-from analysis._paths import analysis_path
-
 
 N = 23
 PACKET_COUNT = 7

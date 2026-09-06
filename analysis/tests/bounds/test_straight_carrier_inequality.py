@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import unittest
 
+from analysis.bounds.checkerboard_boundary_runs import acyclic_row_sets
 from analysis.bounds.straight_carrier_inequality import (
     carrier_profile,
     search_strengthenings,
 )
-from analysis.bounds.checkerboard_boundary_runs import acyclic_row_sets
 
 
 class StraightCarrierInequalityTests(unittest.TestCase):

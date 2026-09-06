@@ -13,9 +13,9 @@ Run: python3 -m analysis.patterns.check_constructions
 """
 import csv
 import os
-
 from typing import Iterable, List, Tuple
-from analysis._paths import ANALYSIS_ROOT, REPO_ROOT
+
+from analysis._paths import REPO_ROOT
 
 ROOT = str(REPO_ROOT)
 DATA_CSV = os.path.join(ROOT, "data", "extended.csv")

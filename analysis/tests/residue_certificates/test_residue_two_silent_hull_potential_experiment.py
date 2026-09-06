@@ -6,7 +6,6 @@ import unittest
 from collections import Counter
 from fractions import Fraction
 
-from analysis.transport.equality_corridor import structural_key
 from analysis.residue_certificates.residue_two_silent_hull_potential_experiment import (
     DEFAULT_OUTPUT,
     STAGES,
@@ -18,8 +17,9 @@ from analysis.residue_certificates.residue_two_silent_hull_potential_experiment 
     build_artifact,
     structural_terms,
 )
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state
+from analysis.transport.equality_corridor import structural_key
 
 
 class ResidueTwoSilentHullPotentialExperimentTests(unittest.TestCase):

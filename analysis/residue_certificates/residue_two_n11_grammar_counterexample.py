@@ -7,6 +7,7 @@ import argparse
 import json
 from pathlib import Path
 
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_carrier_grammar import recognize_state
 from analysis.residue_certificates.residue_two_local_motif_grammar import (
     all_rooted_triple_symbols,
@@ -15,8 +16,6 @@ from analysis.residue_certificates.residue_two_local_motif_grammar import (
     packet_motif_symbols,
 )
 from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
-from analysis._paths import analysis_path
-
 
 SCHEMA = "grid-graphs.residue-two-n11-grammar-counterexample.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_n11_grammar_counterexample.json")

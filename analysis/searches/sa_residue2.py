@@ -22,10 +22,15 @@ import random
 import sys
 import time
 
-
-
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check, q_formula
-from analysis.patterns.diagonal_patterns import residue_one_pattern, residue_two_explicit_pattern
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    q_formula,
+)
+from analysis.patterns.diagonal_patterns import (
+    residue_one_pattern,
+    residue_two_explicit_pattern,
+)
 
 
 def is_valid(rows: list[str]) -> bool:

@@ -6,17 +6,16 @@ import unittest
 from dataclasses import replace
 from itertools import product
 
-
+from analysis._paths import analysis_path
+from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
+from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row, initial_state
 from analysis.transport.equality_corridor import (
     _edge,
     build_equality_corridor,
     residue_two_comparison,
     structural_key,
 )
-from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
-from analysis.tiles.tile_grammar import advance_row, initial_state
-from analysis._paths import analysis_path
-from analysis.tests._support import migrated_artifact
 
 
 class EqualityCorridorTests(unittest.TestCase):

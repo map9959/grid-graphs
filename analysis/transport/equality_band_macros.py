@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
 from analysis.tiles.tile_grammar import FrontierState, advance_row
 
-
 EQUALITY_ROW_CHARGE = 1
 
 

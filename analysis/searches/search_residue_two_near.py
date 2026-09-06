@@ -15,7 +15,6 @@ from analysis.searches.search_residue_anneal import (
     u_degree,
 )
 
-
 NEAR_PHASECROP = [
     ".U.............UU",
     ".UUUUUUUUUUUUUUU.",

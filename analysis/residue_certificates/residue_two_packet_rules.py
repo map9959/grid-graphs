@@ -15,9 +15,17 @@ from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import CorridorEdge, build_equality_corridor, structural_key
-from analysis.tiles.row_packet_transition import PacketRowCursor, append_packet, finish_row, start_row
+from analysis._paths import analysis_path
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.tiles.row_packet_transition import (
+    PacketRowCursor,
+    append_packet,
+    finish_row,
+    start_row,
+)
 from analysis.tiles.tile_grammar import (
     FrontierState,
     PartialRowState,
@@ -30,8 +38,11 @@ from analysis.tiles.tile_grammar import (
     render_mask,
     row_mask,
 )
-from analysis._paths import analysis_path
-
+from analysis.transport.equality_corridor import (
+    CorridorEdge,
+    build_equality_corridor,
+    structural_key,
+)
 
 SCHEMA = "grid-graphs.residue-two-packet-rules.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_packet_rules.json")
@@ -368,7 +379,8 @@ def build_artifact() -> dict:
         ],
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_packet_rules.py",
-            "command": ["python3", "-B", "analysis/residue_certificates/residue_two_packet_rules.py", "--output", "analysis/residue_two_packet_rules.json"],
+            "command": ["python3", "-B", "-m",
+                                         'analysis.residue_certificates.residue_two_packet_rules', "--output", "analysis/residue_two_packet_rules.json"],
         },
     }
 

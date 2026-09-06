@@ -5,8 +5,8 @@ import unittest
 
 from analysis.residue_geometry.classify_residue_two_elbow_island import (
     DEFAULT_OUTPUT,
-    build_report,
     boundary_domain_arcs,
+    build_report,
     local_paths,
     materialize,
     transition_valid,

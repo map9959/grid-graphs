@@ -4,14 +4,14 @@ import unittest
 from dataclasses import replace
 from itertools import product
 
+from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
+from analysis.tiles.tile_grammar import advance_row, initial_state
 from analysis.transport.equality_band_macros import (
     EQUALITY_ROW_CHARGE,
     advance_equality_band,
     rooted_debt,
     verify_equality_band_macro,
 )
-from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
-from analysis.tiles.tile_grammar import advance_row, initial_state
 
 
 class EqualityBandMacroTests(unittest.TestCase):

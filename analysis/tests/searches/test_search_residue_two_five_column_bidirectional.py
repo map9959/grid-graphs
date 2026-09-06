@@ -2,13 +2,11 @@ from __future__ import annotations
 
 import json
 import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-from analysis.searches.search_residue_two_phase_front import _packet_names
-from analysis.searches.search_residue_two_phase_packet_corridor_22 import phase_rows
+from analysis._paths import REPO_ROOT, analysis_path, module_command
 from analysis.searches.search_residue_two_five_column_bidirectional import (
     CUTS,
     DEFAULT_RESULT,
@@ -19,11 +17,14 @@ from analysis.searches.search_residue_two_five_column_bidirectional import (
     compatible_pair_census,
     scope,
 )
+from analysis.searches.search_residue_two_phase_front import _packet_names
+from analysis.searches.search_residue_two_phase_packet_corridor_22 import phase_rows
 from analysis.searches.search_residue_two_two_lobe_phase_corridor import MUTABLE_ROWS
-from analysis.searches.search_residue_two_two_lobe_phase_corridor_five_columns import row_domains
-from analysis.tiles.tile_grammar import advance_row, merge_frontier_profile, row_mask
-from analysis._paths import analysis_path
+from analysis.searches.search_residue_two_two_lobe_phase_corridor_five_columns import (
+    row_domains,
+)
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row, merge_frontier_profile, row_mask
 
 
 class FiveColumnBidirectionalTests(unittest.TestCase):
@@ -96,9 +97,7 @@ class FiveColumnBidirectionalTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             result_path = Path(directory) / "result.json"
             completed = subprocess.run(
-                [
-                    sys.executable,
-                    str(script),
+                module_command(script) + [
                     "--quiet",
                     "--max-states",
                     "1",
@@ -108,6 +107,7 @@ class FiveColumnBidirectionalTests(unittest.TestCase):
                     str(result_path),
                 ],
                 check=False,
+                cwd=REPO_ROOT,
                 capture_output=True,
                 text=True,
                 timeout=20,

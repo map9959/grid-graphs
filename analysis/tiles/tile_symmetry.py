@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 from collections import Counter, defaultdict
+from pathlib import Path
 
 from analysis.patterns.dual_decycling import parse_pattern
 

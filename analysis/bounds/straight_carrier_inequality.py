@@ -27,7 +27,6 @@ from analysis.bounds.max_fr_checker import (
     transform,
 )
 
-
 Vertex = tuple[int, int]
 
 

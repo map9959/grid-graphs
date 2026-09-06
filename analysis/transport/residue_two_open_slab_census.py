@@ -10,15 +10,17 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-from analysis.transport.census_moving_seam_alignment import d4_orientations, load_square_pattern
+from analysis._paths import ANALYSIS_ROOT
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
 from analysis.residue_certificates.residue_two_frontier_signatures import (
     RankedFrontierState,
     ranked_open_signature_record,
     replay_rows,
 )
-from analysis._paths import ANALYSIS_ROOT
-
+from analysis.transport.census_moving_seam_alignment import (
+    d4_orientations,
+    load_square_pattern,
+)
 
 HERE = ANALYSIS_ROOT
 ROOT = HERE.parent

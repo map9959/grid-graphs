@@ -4,18 +4,17 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import itertools
 import json
+from collections import Counter
 from pathlib import Path
 
+from analysis._paths import analysis_path
 from analysis.residue_geometry.classify_residue_two_staircase_seam import (
     _quadratic_formula,
     cap_maximum,
     forced_forest,
 )
-from analysis._paths import analysis_path
-
 
 Vertex = tuple[int, int]
 Packet = tuple[int, int, int]

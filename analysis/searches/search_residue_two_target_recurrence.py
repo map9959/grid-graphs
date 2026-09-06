@@ -17,6 +17,7 @@ import time
 from dataclasses import asdict
 from pathlib import Path
 
+from analysis._paths import ANALYSIS_ROOT
 from analysis.patterns.construction_lab import run_check
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
 from analysis.searches.search_residue_two_b_state_phase_pump import (
@@ -27,8 +28,6 @@ from analysis.searches.search_residue_two_b_state_phase_pump import (
 from analysis.searches.search_residue_two_b_state_pump import SOURCE, load_pattern
 from analysis.searches.search_residue_two_phase_front import _packet_names, row_words
 from analysis.tiles.tile_grammar import ROW_PACKET_ALPHABET, row_mask
-from analysis._paths import ANALYSIS_ROOT
-
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_n23_target_recurrence_result.json"

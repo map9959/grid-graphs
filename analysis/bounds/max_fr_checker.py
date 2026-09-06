@@ -12,27 +12,26 @@ All results are finite computations and are not Lean proof claims.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import json
 import random
 import time
+from collections import Counter
 from dataclasses import asdict, dataclass
 from functools import lru_cache
-
 from typing import Iterable, Iterator
 
-from analysis.patterns.diagonal_patterns import (
-    residue_one_pattern,
-    residue_two_pattern,
-    residue_zero_explicit_pattern,
-)
+from analysis._paths import REPO_ROOT
 from analysis.bounds.forced_forest_row_grammar import (
     State,
     first_row_state,
     is_forced_forest,
     transition,
 )
-from analysis._paths import REPO_ROOT
+from analysis.patterns.diagonal_patterns import (
+    residue_one_pattern,
+    residue_two_pattern,
+    residue_zero_explicit_pattern,
+)
 
 CORNERS = ("NW", "NE", "SW", "SE")
 

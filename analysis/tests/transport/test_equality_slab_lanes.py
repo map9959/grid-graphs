@@ -4,7 +4,9 @@ import json
 import os
 import unittest
 
-
+from analysis._paths import analysis_path
+from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row, compress_mask, initial_state
 from analysis.transport.equality_corridor import build_equality_corridor
 from analysis.transport.equality_slab_lanes import (
     build_census,
@@ -15,10 +17,6 @@ from analysis.transport.equality_slab_lanes import (
     mapped_target_depths,
     removed_prefix_u,
 )
-from analysis.tiles.tile_grammar import compress_mask
-from analysis.tiles.tile_grammar import advance_row, initial_state
-from analysis._paths import analysis_path
-from analysis.tests._support import migrated_artifact
 
 
 class EqualitySlabLaneTests(unittest.TestCase):

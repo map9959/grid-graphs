@@ -17,12 +17,19 @@ from fractions import Fraction
 from functools import cache
 from pathlib import Path
 
-from analysis.transport.equality_corridor import build_equality_corridor
-from analysis.residue_certificates.residue_two_affine_motif_grammar import BoundaryDefectAtom
-from analysis.residue_certificates.residue_two_attachment_skeleton import linear_frontier_metric
+from analysis._paths import ANALYSIS_ROOT
+from analysis.residue_certificates.residue_two_affine_motif_grammar import (
+    BoundaryDefectAtom,
+)
+from analysis.residue_certificates.residue_two_attachment_skeleton import (
+    linear_frontier_metric,
+)
 from analysis.residue_certificates.residue_two_cap_merge_potential import cap_phase
 from analysis.residue_certificates.residue_two_carrier_grammar import recognize_state
-from analysis.residue_certificates.residue_two_compact_transition import ActionKey, ControlKey
+from analysis.residue_certificates.residue_two_compact_transition import (
+    ActionKey,
+    ControlKey,
+)
 from analysis.residue_certificates.residue_two_stable_counter_certificate import (
     action_u,
     boundary_values,
@@ -32,8 +39,7 @@ from analysis.residue_certificates.residue_two_stable_counter_certificate import
     vertical_edges,
 )
 from analysis.tiles.tile_grammar import FrontierState
-from analysis._paths import ANALYSIS_ROOT
-
+from analysis.transport.equality_corridor import build_equality_corridor
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_obligation5_potential.json"
@@ -512,7 +518,8 @@ def build_artifact() -> dict:
         ],
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_obligation5_potential.py",
-            "command": ["python3", "-B", "analysis/residue_certificates/residue_two_obligation5_potential.py", "--output", "analysis/residue_two_obligation5_potential.json"],
+            "command": ["python3", "-B", "-m",
+                                         'analysis.residue_certificates.residue_two_obligation5_potential', "--output", "analysis/residue_two_obligation5_potential.json"],
         },
     }
 

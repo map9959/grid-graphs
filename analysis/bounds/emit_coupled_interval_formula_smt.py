@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Emit exact SMT-LIB for the uniform coupled-interval affine formula."""
 
-from pathlib import Path
-
 import argparse
+from pathlib import Path
 
 from analysis.bounds.coupled_interval_formula import constraints
 

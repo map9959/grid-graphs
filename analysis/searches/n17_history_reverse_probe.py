@@ -14,11 +14,9 @@ from collections import Counter
 from dataclasses import dataclass
 from functools import cache
 
-
+from analysis._paths import ANALYSIS_ROOT
 from analysis.residue_certificates import residue_two_attachment_history as attachment
 from analysis.residue_certificates.residue_two_attachment_history import Frontier
-from analysis._paths import ANALYSIS_ROOT
-
 
 HERE = ANALYSIS_ROOT
 DUMP = HERE / "frontier_n17_u178_step287.json"

@@ -21,7 +21,6 @@ from __future__ import annotations
 import argparse
 import itertools
 
-
 from analysis.patterns.construction_lab import q_formula, run_check
 
 

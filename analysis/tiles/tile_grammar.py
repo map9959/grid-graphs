@@ -18,7 +18,12 @@ from dataclasses import dataclass
 from itertools import product
 from pathlib import Path
 
-from analysis.patterns.construction_lab import DSU, dual_connectivity_check, q_formula, run_check
+from analysis.patterns.construction_lab import (
+    DSU,
+    dual_connectivity_check,
+    q_formula,
+    run_check,
+)
 from analysis.patterns.diagonal_patterns import (
     residue_two_affine_pattern,
     residue_two_explicit_pattern,

@@ -16,9 +16,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from analysis.patterns.diagonal_patterns import residue_two_explicit_pattern
 from analysis._paths import ANALYSIS_ROOT
-
+from analysis.patterns.diagonal_patterns import residue_two_explicit_pattern
 
 HERE = ANALYSIS_ROOT
 SURVIVORS = HERE / "frontier_n17_u178_step287.json"

@@ -15,7 +15,9 @@ from analysis.tests._support import migrated_artifact
 
 class TargetRecurrenceAttachmentTests(unittest.TestCase):
     def test_language_strictly_enlarges_only_attachment_rows(self) -> None:
-        from analysis.searches.search_residue_two_target_recurrence import schedule_domains as basic_domains
+        from analysis.searches.search_residue_two_target_recurrence import (
+            schedule_domains as basic_domains,
+        )
 
         for phase in ("main_diagonal", "anti_diagonal"):
             for schedule in SCHEDULES:

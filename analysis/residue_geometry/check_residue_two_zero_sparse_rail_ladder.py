@@ -4,11 +4,12 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator
 
+from analysis._paths import analysis_path
 from analysis.residue_geometry.check_residue_two_zero_cap_exchange import (
     _components,
     _interval_incidence,
@@ -22,9 +23,10 @@ from analysis.residue_geometry.check_residue_two_zero_double_cap_exchange import
     _cycle_rank,
     _source_sets,
 )
-from analysis.residue_geometry.check_residue_two_zero_two_layer_ladder import ORIENTATIONS, _transform
-from analysis._paths import analysis_path
-
+from analysis.residue_geometry.check_residue_two_zero_two_layer_ladder import (
+    ORIENTATIONS,
+    _transform,
+)
 
 SCHEMA = "grid-graphs.residue-two-zero-sparse-rail-ladder.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_zero_sparse_rail_ladder.json")

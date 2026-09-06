@@ -22,12 +22,11 @@ from typing import Iterable
 from analysis.bounds.bundle_cycle_defect_census import (
     adversarial_maximal_witnesses,
     defect_profile,
-    maximalize,
     maximal_profiles,
+    maximalize,
     neighbors,
     render_rows,
 )
-
 
 Edge = tuple[int, int]
 BoundaryUnit = tuple[str, int]

@@ -18,14 +18,26 @@ from dataclasses import asdict, dataclass
 from itertools import combinations
 from pathlib import Path
 
+from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
 from analysis.patterns.construction_lab import run_check
 from analysis.searches.search_residue_two_middle import BASIC_ALPHABET, KNOWN_249_NEAR
-from analysis.searches.search_residue_two_phase_front import MAX_CENTER_WIDTH, _packet_names, row_words
+from analysis.searches.search_residue_two_phase_front import (
+    MAX_CENTER_WIDTH,
+    _packet_names,
+    row_words,
+)
 from analysis.searches.search_residue_two_phase_packet_corridor_22 import phase_rows
-from analysis.searches.search_residue_two_suffix_corridor import PathNode, _add_candidate, _reconstruct
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
-from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
+from analysis.searches.search_residue_two_suffix_corridor import (
+    PathNode,
+    _add_candidate,
+    _reconstruct,
+)
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
 
 N = 20
 TARGET_U = 249

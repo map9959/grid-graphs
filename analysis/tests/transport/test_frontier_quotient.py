@@ -4,14 +4,17 @@ import unittest
 from dataclasses import replace
 
 from analysis.patterns.diagonal_patterns import residue_zero_explicit_pattern
-from analysis.transport.frontier_quotient import replace_slab_tile
-from analysis.transport.open_slab_signature import restore_open_slab_state, verify_open_slab_round_trip
 from analysis.tiles.tile_grammar import (
     advance_band,
     initial_state,
     production_tiles,
     projected_frontier_key,
     row_mask,
+)
+from analysis.transport.frontier_quotient import replace_slab_tile
+from analysis.transport.open_slab_signature import (
+    restore_open_slab_state,
+    verify_open_slab_round_trip,
 )
 
 

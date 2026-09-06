@@ -8,7 +8,7 @@ import hashlib
 import time
 from pathlib import Path
 
-from analysis.transport.census_moving_seam_alignment import find_alignment, replay_alignment
+from analysis._paths import ANALYSIS_ROOT
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
 from analysis.searches.search_residue_two_moving_seam import (
     AlignmentState,
@@ -19,8 +19,10 @@ from analysis.searches.search_residue_two_moving_seam import (
     result_record,
     write_result,
 )
-from analysis._paths import ANALYSIS_ROOT
-
+from analysis.transport.census_moving_seam_alignment import (
+    find_alignment,
+    replay_alignment,
+)
 
 HERE = ANALYSIS_ROOT
 SOURCE = HERE / "residue_two_phase_front_witness.txt"

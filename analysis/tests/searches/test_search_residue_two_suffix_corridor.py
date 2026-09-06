@@ -5,7 +5,10 @@ import unittest
 from collections import Counter
 from itertools import product
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+)
 from analysis.searches.search_residue_two_middle import BASIC_ALPHABET, KNOWN_250
 from analysis.searches.search_residue_two_suffix_corridor import (
     DEFAULT_CERTIFICATE,
@@ -19,9 +22,14 @@ from analysis.searches.search_residue_two_suffix_corridor import (
     search,
     validate_scope,
 )
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask, stream_row_packets
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+    stream_row_packets,
+)
 
 
 def state_before_row(row: int) -> FrontierState:

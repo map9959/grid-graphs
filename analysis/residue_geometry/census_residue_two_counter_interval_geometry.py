@@ -4,12 +4,14 @@
 from __future__ import annotations
 
 import argparse
+import json
 from collections import Counter
 from functools import lru_cache
 from itertools import combinations
-import json
 from pathlib import Path
 
+from analysis.patterns.construction_lab import forest_completion_check
+from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
 from analysis.residue_geometry.check_residue_two_affine_interval_skeleton import (
     _components,
     _forced_star,
@@ -17,9 +19,6 @@ from analysis.residue_geometry.check_residue_two_affine_interval_skeleton import
     _is_acyclic,
     _is_straight_interval,
 )
-from analysis.patterns.construction_lab import forest_completion_check
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-
 
 Vertex = tuple[int, int]
 SCHEMA = "grid-graphs.residue-two-counter-interval-geometry-census.v1"

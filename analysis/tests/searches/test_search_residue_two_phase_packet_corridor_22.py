@@ -18,8 +18,7 @@ from analysis.searches.search_residue_two_phase_packet_corridor_22 import (
     scope,
     validate_scope,
 )
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class PhasePacketCorridor22Tests(unittest.TestCase):

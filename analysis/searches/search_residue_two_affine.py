@@ -6,12 +6,14 @@ from __future__ import annotations
 import argparse
 from itertools import combinations
 
-
+from analysis._paths import analysis_path
 from analysis.patterns.construction_lab import run_check
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-from analysis.searches.search_residue_anneal import bits_to_rows, dual_metrics, rows_to_bits
-from analysis._paths import analysis_path
-
+from analysis.searches.search_residue_anneal import (
+    bits_to_rows,
+    dual_metrics,
+    rows_to_bits,
+)
 
 AFFINE_179 = residue_two_affine_pattern(17)
 

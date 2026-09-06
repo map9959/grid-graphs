@@ -12,7 +12,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from analysis.transport.equality_corridor import EqualityCorridor, build_equality_corridor, structural_key
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_carrier_grammar import recognize_state
 from analysis.residue_certificates.residue_two_local_motif_grammar import (
     grammar_acceptance,
@@ -21,8 +21,11 @@ from analysis.residue_certificates.residue_two_local_motif_grammar import (
     packet_motif_symbols,
 )
 from analysis.tiles.tile_grammar import FrontierState, advance_row
-from analysis._paths import analysis_path
-
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    build_equality_corridor,
+    structural_key,
+)
 
 SCHEMA = "grid-graphs.residue-two-structural-defect-gap.v1"
 WIDTHS = (5, 8)
@@ -297,7 +300,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_structural_defect_gap.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_structural_defect_gap.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_structural_defect_gap',
                 "--output", "analysis/residue_two_structural_defect_gap.json",
             ],
         },

@@ -7,10 +7,15 @@ import argparse
 import json
 from pathlib import Path
 
-from analysis.transport.equality_corridor import build_equality_corridor
-from analysis.residue_certificates.residue_two_cap_merge_potential import _difference_certificate
+from analysis._paths import analysis_path
+from analysis.residue_certificates.residue_two_cap_merge_potential import (
+    _difference_certificate,
+)
 from analysis.residue_certificates.residue_two_n11_grammar_counterexample import ROWS
-from analysis.residue_certificates.residue_two_persistent_debt_certificate import lift_corridor, lift_fixed_path
+from analysis.residue_certificates.residue_two_persistent_debt_certificate import (
+    lift_corridor,
+    lift_fixed_path,
+)
 from analysis.residue_certificates.residue_two_silent_hull_language import (
     encode_silent_hull_frontier,
     finite_structural_atom_alphabet,
@@ -19,8 +24,7 @@ from analysis.residue_certificates.residue_two_stable_topology_certificate impor
     certify_silent_hull_symbolic_transition,
 )
 from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
-from analysis._paths import analysis_path
-
+from analysis.transport.equality_corridor import build_equality_corridor
 
 SCHEMA = "grid-graphs.residue-two-silent-hull-certificate.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_silent_hull_certificate.json")
@@ -196,7 +200,8 @@ def build_artifact() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/residue_certificates/residue_two_silent_hull_certificate.py",
+                "-m",
+                'analysis.residue_certificates.residue_two_silent_hull_certificate',
                 "--output",
                 "analysis/residue_two_silent_hull_certificate.json",
             ],

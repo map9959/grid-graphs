@@ -10,9 +10,8 @@ Given a candidate generator function `n -> rows`, it checks:
   4. The forced forest can be greedily completed to a spanning tree. Since all
      non-U-U grid edges are forced already, every added edge is U-U.
 
-This module imports nothing from `diagonal_patterns` to avoid circular
-dependency: candidate generators live here during exploration, then the
-verified ones get promoted to `diagonal_patterns.py`.
+Formula functions come from `diagonal_patterns`. Candidate generators are
+loaded lazily, avoiding a module-level dependency cycle during exploration.
 """
 
 from __future__ import annotations
@@ -22,6 +21,7 @@ from collections import defaultdict, deque
 from typing import Callable, Iterable
 
 from analysis.patterns.diagonal_patterns import q_formula, q_old_formula
+
 
 class DSU:
     def __init__(self, items: Iterable):

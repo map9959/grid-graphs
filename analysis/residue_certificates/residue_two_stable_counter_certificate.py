@@ -12,7 +12,9 @@ from dataclasses import dataclass
 from typing import Callable, TypeVar
 
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-from analysis.residue_certificates.residue_two_affine_motif_grammar import BoundaryDefectAtom
+from analysis.residue_certificates.residue_two_affine_motif_grammar import (
+    BoundaryDefectAtom,
+)
 from analysis.residue_certificates.residue_two_compact_transition import (
     ActionKey,
     AffineDeltas,
@@ -21,7 +23,6 @@ from analysis.residue_certificates.residue_two_compact_transition import (
     structural_key,
     trace_observations,
 )
-
 
 T = TypeVar("T")
 

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import json
-
 import unittest
 
+from analysis._paths import analysis_path
 from analysis.residue_geometry.classify_six_by_six_residue_two_bulk import (
     adjacent_rows_valid,
     boundary_grammar,
@@ -13,9 +13,7 @@ from analysis.residue_geometry.classify_six_by_six_residue_two_bulk import (
     quotient_cycle_data,
     row_transition_table,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("six_by_six_residue_two_bulk.json")
 

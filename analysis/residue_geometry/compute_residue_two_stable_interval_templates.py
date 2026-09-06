@@ -22,9 +22,12 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Callable, Iterable, Iterator
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check, run_check
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    run_check,
+)
 from analysis.patterns.diagonal_patterns import q_formula, residue_two_affine_pattern
-
 
 SCHEMA = "grid-graphs.residue-two-stable-interval-template-search.v1"
 WIDTHS = (23, 26, 29)
@@ -272,9 +275,16 @@ def independent_replay(template: Template) -> dict:
 
         stable = {"applicable": False, "covered_transitions": 0, "transitions": n}
         if compact["accepted"]:
-            from analysis.residue_certificates.residue_two_compact_transition import structural_key, trace_observations
-            from analysis.residue_certificates.residue_two_stable_counter_certificate import stable_rule_certificates
-            from analysis.residue_certificates.residue_two_stable_topology_certificate import stable_topology_certificates
+            from analysis.residue_certificates.residue_two_compact_transition import (
+                structural_key,
+                trace_observations,
+            )
+            from analysis.residue_certificates.residue_two_stable_counter_certificate import (
+                stable_rule_certificates,
+            )
+            from analysis.residue_certificates.residue_two_stable_topology_certificate import (
+                stable_topology_certificates,
+            )
 
             rules = {
                 (item.source, item.action, item.target)
@@ -384,7 +394,8 @@ def search_templates(
         "provenance": {
             "producer": "analysis/residue_geometry/compute_residue_two_stable_interval_templates.py",
             "command": [
-                "python3", "-B", "analysis/residue_geometry/compute_residue_two_stable_interval_templates.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_geometry.compute_residue_two_stable_interval_templates',
                 "--output", "analysis/residue_two_stable_interval_templates.json",
             ],
         },

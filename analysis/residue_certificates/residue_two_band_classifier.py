@@ -14,7 +14,11 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.tiles.tile_grammar import FrontierState, row_mask
 from analysis.transport.equality_band_macros import (
     EqualityBandMacroTransition,
     advance_equality_band,
@@ -22,9 +26,10 @@ from analysis.transport.equality_band_macros import (
     verify_equality_band_macro,
 )
 from analysis.transport.equality_corridor import build_equality_corridor
-from analysis.transport.equality_slab_lanes import enumerate_minimum_mask_paths, replay_masks
-from analysis.tiles.tile_grammar import FrontierState, row_mask
-
+from analysis.transport.equality_slab_lanes import (
+    enumerate_minimum_mask_paths,
+    replay_masks,
+)
 
 SCHEMA = "grid-graphs.residue-two-band-classifier.v1"
 
@@ -335,7 +340,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_band_classifier.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_band_classifier.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_band_classifier',
                 "--output", "analysis/residue_two_band_classifier.json",
             ],
         },

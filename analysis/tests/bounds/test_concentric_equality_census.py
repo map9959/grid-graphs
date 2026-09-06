@@ -3,11 +3,9 @@ from __future__ import annotations
 import json
 import unittest
 
-
-from analysis.bounds.concentric_equality_census import BOUNDS, build_artifact
 from analysis._paths import analysis_path
+from analysis.bounds.concentric_equality_census import BOUNDS, build_artifact
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("concentric_equality_census.json")
 

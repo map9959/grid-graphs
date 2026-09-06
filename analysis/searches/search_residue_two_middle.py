@@ -14,6 +14,8 @@ from typing import Any
 from analysis.patterns.construction_lab import (
     dual_connectivity_check,
     forest_completion_check,
+)
+from analysis.patterns.construction_lab import (
     q_old_formula as q_formula,
 )
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
@@ -27,7 +29,6 @@ from analysis.tiles.tile_grammar import (
     row_mask,
     stream_row_packets,
 )
-
 
 BASIC_ALPHABET = ROW_PACKET_ALPHABET
 PHASE_ALPHABET = {

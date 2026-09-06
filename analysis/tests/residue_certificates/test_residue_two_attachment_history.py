@@ -3,9 +3,12 @@ from __future__ import annotations
 import json
 import unittest
 
-from analysis.residue_certificates.residue_two_attachment_history import DEFAULT_OUTPUT, build_analysis
-from analysis.tiles.tile_grammar import advance_row, initial_state
+from analysis.residue_certificates.residue_two_attachment_history import (
+    DEFAULT_OUTPUT,
+    build_analysis,
+)
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row, initial_state
 
 
 class AttachmentHistoryTests(unittest.TestCase):

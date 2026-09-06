@@ -16,8 +16,8 @@ from dataclasses import asdict, dataclass
 from fractions import Fraction
 from pathlib import Path
 from typing import Any, Iterable, Sequence
-from analysis._paths import analysis_path
 
+from analysis._paths import analysis_path
 
 CERTIFICATE_SCHEMA = "grid-graphs.frontier-inequality.v1"
 DEMO_CERTIFICATE = analysis_path("frontier_inequality_demo_certificate.json")

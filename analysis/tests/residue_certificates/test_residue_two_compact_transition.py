@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import unittest
 
-
+from analysis._paths import analysis_path
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
 from analysis.residue_certificates.residue_two_affine_motif_grammar import replay_trace
 from analysis.residue_certificates.residue_two_compact_transition import (
@@ -16,9 +16,7 @@ from analysis.residue_certificates.residue_two_compact_transition import (
     observe_transition,
     size_regime,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("residue_two_compact_transition.json")
 

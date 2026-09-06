@@ -13,12 +13,23 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import EqualityCorridor, build_equality_corridor, structural_key
-from analysis.residue_certificates.residue_two_carrier_grammar import recognize_state
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
 from analysis._paths import analysis_path
-
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.residue_certificates.residue_two_carrier_grammar import recognize_state
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    build_equality_corridor,
+    structural_key,
+)
 
 SCHEMA = "grid-graphs.residue-two-local-motif-grammar.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_local_motif_grammar.json")
@@ -337,7 +348,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_local_motif_grammar.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_local_motif_grammar.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_local_motif_grammar',
                 "--output", "analysis/residue_two_local_motif_grammar.json",
             ],
         },

@@ -6,17 +6,19 @@ from __future__ import annotations
 import json
 from itertools import combinations
 
-from analysis.transport.census_moving_seam_alignment import d4_orientations
 from analysis.patterns.construction_lab import forest_completion_check
-from analysis.residue_certificates.residue_two_frontier_signatures import RankedFrontierState, replay_rows
+from analysis.residue_certificates.residue_two_frontier_signatures import (
+    RankedFrontierState,
+    replay_rows,
+)
+from analysis.tiles.tile_grammar import canonicalize_partition_labels
+from analysis.transport.census_moving_seam_alignment import d4_orientations
 from analysis.transport.residue_two_open_slab_census import (
     RootedOpenSlabSignature,
     mismatch,
     pattern_inputs,
     removed_prefix_cost,
 )
-from analysis.tiles.tile_grammar import canonicalize_partition_labels
-
 
 SAMPLES = (
     ("A17", "rotate_90", "B20", "rotate_270", 2, 0, 3),

@@ -16,10 +16,10 @@ from itertools import combinations
 from math import comb
 from pathlib import Path
 
-from analysis.patterns.construction_lab import forest_completion_check, q_old_formula as q_formula, run_check
-from analysis.searches.search_residue_two_middle import KNOWN_249_NEAR
 from analysis._paths import analysis_path
-
+from analysis.patterns.construction_lab import forest_completion_check, run_check
+from analysis.patterns.construction_lab import q_old_formula as q_formula
+from analysis.searches.search_residue_two_middle import KNOWN_249_NEAR
 
 N = 20
 ROW_START = 8

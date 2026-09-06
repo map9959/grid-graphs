@@ -3,16 +3,21 @@ from __future__ import annotations
 import json
 import unittest
 
-from analysis.searches.analyze_residue_two_b_state import DEFAULT_OUTPUT, analyze
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+)
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
+from analysis.searches.analyze_residue_two_b_state import DEFAULT_OUTPUT, analyze
 from analysis.searches.search_residue_two_b_state_phase_pump import (
     DEFAULT_OUTPUT as PUMP_DEFAULT,
+)
+from analysis.searches.search_residue_two_b_state_phase_pump import (
     dual_diagnostics,
     row_domains,
 )
-from analysis.tiles.tile_grammar import row_mask
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import row_mask
 
 
 class BStateArtifactTests(unittest.TestCase):

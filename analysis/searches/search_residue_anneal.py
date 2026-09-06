@@ -16,7 +16,6 @@ from analysis.patterns.diagonal_patterns import (
 )
 from analysis.transport.search_band_pump import Pump, pump_pattern
 
-
 NEAR_N21 = [
     ".............UU......",
     "UUUUUUUUUUUUUUUUUUUUU",

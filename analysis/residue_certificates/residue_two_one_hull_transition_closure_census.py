@@ -26,8 +26,12 @@ from analysis.residue_certificates.residue_two_silent_hull_language import (
 from analysis.residue_certificates.residue_two_stable_topology_certificate import (
     certify_silent_hull_symbolic_transition,
 )
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, render_mask
-
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    render_mask,
+)
 
 SCHEMA = "grid-graphs.residue-two-one-hull-transition-closure-census.v1"
 HARD_STATE_CAP = 100_000

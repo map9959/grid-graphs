@@ -9,6 +9,8 @@ from pathlib import Path
 from analysis.patterns.construction_lab import (
     dual_connectivity_check,
     forest_completion_check,
+)
+from analysis.patterns.construction_lab import (
     q_old_formula as q_formula,
 )
 from analysis.searches.search_residue_two_phase_front import (
@@ -21,8 +23,7 @@ from analysis.searches.search_residue_two_phase_front import (
     search,
     write_artifacts,
 )
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class PhaseFrontArtifactTests(unittest.TestCase):

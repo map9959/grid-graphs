@@ -16,10 +16,21 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import CorridorEdge, EqualityCorridor, build_equality_corridor
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
-
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
+from analysis.transport.equality_corridor import (
+    CorridorEdge,
+    EqualityCorridor,
+    build_equality_corridor,
+)
 
 SCHEMA = "grid-graphs.residue-two-equality-motifs.v1"
 CORRIDOR_WIDTHS = (5, 8)
@@ -405,7 +416,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_equality_motifs.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_equality_motifs.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_equality_motifs',
                 "--output", "analysis/residue_two_equality_motifs.json",
             ],
         },

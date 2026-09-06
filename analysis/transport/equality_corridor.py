@@ -10,9 +10,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TypeAlias
 
-from analysis.bounds.proof_oriented_identities import frontier_feature_signature, tile_grammar_row_deltas
+from analysis.bounds.proof_oriented_identities import (
+    frontier_feature_signature,
+    tile_grammar_row_deltas,
+)
 from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state
-
 
 StateKey: TypeAlias = tuple[int, int, tuple[int, ...]]
 SCHEMA = "grid-graphs.equality-corridor.v1"
@@ -335,7 +337,10 @@ def _trace_profiles(rows: list[str], level: str) -> tuple[list[tuple], list[int]
 
 def residue_two_comparison() -> dict:
     """Compare exact n=5,8 equality corridors with known n=14,17 traces."""
-    from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+    from analysis.patterns.diagonal_patterns import (
+        residue_two_affine_pattern,
+        residue_two_explicit_pattern,
+    )
 
     corridors = {n: build_equality_corridor(n) for n in (5, 8)}
     levels = ("packet", "overlap", "local", "transport", "attachment", "full")
@@ -404,7 +409,8 @@ def residue_two_comparison() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/transport/equality_corridor.py",
+                "-m",
+                'analysis.transport.equality_corridor',
                 "--compare-residue-two",
                 "--output",
                 "analysis/residue_two_equality_comparison.json",

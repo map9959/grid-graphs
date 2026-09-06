@@ -17,17 +17,25 @@ import time
 from dataclasses import asdict
 from pathlib import Path
 
+from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
 from analysis.searches.search_residue_two_middle import BASIC_ALPHABET, KNOWN_249_NEAR
-from analysis.searches.search_residue_two_phase_front import MAX_CENTER_WIDTH, _packet_names, row_words
+from analysis.searches.search_residue_two_phase_front import (
+    MAX_CENTER_WIDTH,
+    _packet_names,
+    row_words,
+)
 from analysis.searches.search_residue_two_phase_packet_corridor_22 import phase_rows
-from analysis.searches.search_residue_two_suffix_corridor import PathNode, _add_candidate
+from analysis.searches.search_residue_two_suffix_corridor import (
+    PathNode,
+    _add_candidate,
+)
 from analysis.searches.search_residue_two_two_lobe_phase_corridor import (
     CAP_DISTRIBUTIONS,
     FIXED_BODY_ROWS,
     MUTABLE_ROWS,
-    N,
     PACKET_COUNT,
     TARGET_U,
+    N,
     RowStats,
     cap_search,
     file_sha256,
@@ -35,9 +43,12 @@ from analysis.searches.search_residue_two_two_lobe_phase_corridor import (
     render_word,
     rows_sha256,
 )
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
-from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
 
 MUTABLE_PACKET_COLUMNS = (0, 1, 2, 3, 4)
 FROZEN_PACKET_COLUMNS = (5,)

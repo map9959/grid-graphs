@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import json
-
 import unittest
 
+from analysis._paths import analysis_path
 from analysis.residue_geometry.classify_three_by_four_residue_two_bulk import (
     boundary_maximum,
     build_report,
@@ -11,9 +11,7 @@ from analysis.residue_geometry.classify_three_by_four_residue_two_bulk import (
     materialize,
     quotient_cycle_data,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("three_by_four_residue_two_bulk.json")
 

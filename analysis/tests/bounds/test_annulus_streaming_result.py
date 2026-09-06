@@ -1,8 +1,8 @@
 import json
 import unittest
+
 from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 
 class AnnulusStreamingResultTest(unittest.TestCase):

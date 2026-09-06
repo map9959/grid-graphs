@@ -10,10 +10,12 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.bounds.proof_oriented_identities import check_pattern_identities
 from analysis._paths import analysis_path
-
+from analysis.bounds.proof_oriented_identities import check_pattern_identities
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 
 SCHEMA = "grid-graphs.concentric-connectivity-profile.v1"
 DEFAULT_OUTPUT = analysis_path("concentric_connectivity_profile.json")

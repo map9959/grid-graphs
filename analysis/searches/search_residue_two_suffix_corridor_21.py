@@ -17,16 +17,21 @@ from itertools import combinations
 from math import comb
 from pathlib import Path
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check, run_check
+from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    run_check,
+)
 from analysis.searches.search_residue_two_middle import BASIC_ALPHABET, KNOWN_250
 from analysis.searches.search_residue_two_suffix_corridor import (
     FIRST_MUTABLE_ROW,
     LAST_MUTABLE_ROW,
-    N,
     PACKET_COUNT,
+    TARGET_U,
+    N,
     PathNode,
     RowStats,
-    TARGET_U,
     _add_candidate,
     _reconstruct,
     fixed_u_for,
@@ -34,8 +39,6 @@ from analysis.searches.search_residue_two_suffix_corridor import (
     layer_after_row17,
 )
 from analysis.tiles.tile_grammar import FrontierState, advance_row, row_mask
-from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
 
 MUTABLE_PACKET_COLUMNS = (0, 1, 2)
 MUTABLE_PACKETS = 21

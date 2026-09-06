@@ -3,7 +3,6 @@ from __future__ import annotations
 import unittest
 from dataclasses import dataclass
 
-
 Vertex = tuple[int, int]
 Edge = tuple[Vertex, Vertex]
 

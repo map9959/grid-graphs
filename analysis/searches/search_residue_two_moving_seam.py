@@ -14,21 +14,25 @@ import json
 import os
 import tempfile
 import time
-from collections import defaultdict
 from bisect import bisect_right
+from collections import defaultdict
 from dataclasses import asdict, dataclass, field
 from itertools import product
 from pathlib import Path
 from typing import Sequence
 
-from analysis.transport.census_moving_seam_alignment import find_alignment, replay_alignment
 from analysis.patterns.construction_lab import (
     dual_connectivity_check,
     forest_completion_check,
-    q_old_formula as q_formula,
     run_check,
 )
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_pattern
+from analysis.patterns.construction_lab import (
+    q_old_formula as q_formula,
+)
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_pattern,
+)
 from analysis.tiles.tile_grammar import (
     FrontierState,
     initial_state,
@@ -36,7 +40,10 @@ from analysis.tiles.tile_grammar import (
     render_mask,
     stream_row_packets,
 )
-
+from analysis.transport.census_moving_seam_alignment import (
+    find_alignment,
+    replay_alignment,
+)
 
 PACKET_ALPHABET = {
     "".join(bits): "".join("U" if bit == "1" else "." for bit in bits)

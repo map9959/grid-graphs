@@ -3,8 +3,12 @@ from __future__ import annotations
 import json
 import unittest
 
-from analysis.searches.analyze_residue_two_b23_cut_repairs import DEFAULT_OUTPUT, INPUT, rows_sha256
 from analysis.patterns.construction_lab import dual_connectivity_check
+from analysis.searches.analyze_residue_two_b23_cut_repairs import (
+    DEFAULT_OUTPUT,
+    INPUT,
+    rows_sha256,
+)
 from analysis.searches.search_residue_two_target_control import changed_rows
 from analysis.tests._support import migrated_artifact
 

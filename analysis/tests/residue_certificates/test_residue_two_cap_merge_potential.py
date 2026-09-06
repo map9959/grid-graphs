@@ -4,7 +4,10 @@ import json
 import os
 import unittest
 
-from analysis.residue_certificates.residue_two_cap_merge_potential import DEFAULT_OUTPUT, build_artifact
+from analysis.residue_certificates.residue_two_cap_merge_potential import (
+    DEFAULT_OUTPUT,
+    build_artifact,
+)
 from analysis.tests._support import migrated_artifact
 
 

@@ -15,11 +15,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import (
-    residue_one_pattern,
-    residue_two_pattern,
-    residue_zero_explicit_pattern,
-)
+from analysis._paths import REPO_ROOT
 from analysis.bounds.forced_forest_row_grammar import (
     State,
     _DisjointSet,
@@ -28,7 +24,11 @@ from analysis.bounds.forced_forest_row_grammar import (
     transition,
 )
 from analysis.bounds.max_fr_checker import TARGETED_MAXIMUM_WITNESSES, maximum_witnesses
-from analysis._paths import REPO_ROOT
+from analysis.patterns.diagonal_patterns import (
+    residue_one_pattern,
+    residue_two_pattern,
+    residue_zero_explicit_pattern,
+)
 
 
 @dataclass(frozen=True)

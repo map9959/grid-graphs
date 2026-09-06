@@ -21,9 +21,9 @@ from math import comb
 from pathlib import Path
 from typing import Iterable
 
-from analysis.patterns.construction_lab import forest_completion_check, q_old_formula as q_formula, run_check
 from analysis._paths import analysis_path
-
+from analysis.patterns.construction_lab import forest_completion_check, run_check
+from analysis.patterns.construction_lab import q_old_formula as q_formula
 
 N = 20
 WINDOW_ROWS = range(8, 14)

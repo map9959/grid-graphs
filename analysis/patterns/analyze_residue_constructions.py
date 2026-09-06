@@ -10,6 +10,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from typing import Callable, Iterable
 
+from analysis._paths import analysis_path
 from analysis.patterns.diagonal_patterns import (
     q_formula,
     residue_one_pattern,
@@ -17,8 +18,6 @@ from analysis.patterns.diagonal_patterns import (
     residue_two_explicit_pattern,
     residue_zero_phase_pattern,
 )
-from analysis._paths import analysis_path
-
 
 Face = tuple[int, int] | str
 
@@ -287,7 +286,11 @@ def main() -> None:
 
     metrics = [analyze(family, generator(n)) for family, n, generator in requests]
     if args.near:
-        from analysis.searches.search_residue_two_near import NEAR_MACRO, NEAR_PHASECROP, NEAR_PUMP
+        from analysis.searches.search_residue_two_near import (
+            NEAR_MACRO,
+            NEAR_PHASECROP,
+            NEAR_PUMP,
+        )
 
         near_patterns = {"phasecrop": NEAR_PHASECROP, "pump": NEAR_PUMP, "macro": NEAR_MACRO}
         metrics.extend(analyze(f"residue-two-near-{name}", list(near_patterns[name])) for name in args.near)

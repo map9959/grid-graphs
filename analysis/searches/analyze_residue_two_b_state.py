@@ -9,12 +9,21 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
-from analysis.transport.census_moving_seam_alignment import find_alignment, replay_alignment
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check, q_old_formula
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-from analysis.searches.search_residue_two_phase_front import _central_width, _packet_names
 from analysis._paths import ANALYSIS_ROOT
-
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    q_old_formula,
+)
+from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
+from analysis.searches.search_residue_two_phase_front import (
+    _central_width,
+    _packet_names,
+)
+from analysis.transport.census_moving_seam_alignment import (
+    find_alignment,
+    replay_alignment,
+)
 
 HERE = ANALYSIS_ROOT
 B20_PATH = HERE / "residue_two_phase_front_witness.txt"

@@ -22,8 +22,11 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import EqualityCorridor, build_equality_corridor
+from analysis._paths import analysis_path
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.residue_certificates.residue_two_carrier_grammar import (
     CarrierEvent,
     CarrierRecord,
@@ -32,9 +35,16 @@ from analysis.residue_certificates.residue_two_carrier_grammar import (
     recognize_state,
 )
 from analysis.tiles.symbolic_packet_frontier import encode_frontier
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
-from analysis._paths import analysis_path
-
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    build_equality_corridor,
+)
 
 SCHEMA = "grid-graphs.residue-two-affine-motif-grammar.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_affine_motif_grammar.json")
@@ -571,7 +581,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_affine_motif_grammar.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_affine_motif_grammar.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_affine_motif_grammar',
                 "--output", "analysis/residue_two_affine_motif_grammar.json",
             ],
         },

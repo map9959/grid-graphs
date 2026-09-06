@@ -4,18 +4,19 @@ import json
 import os
 import unittest
 
-
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+from analysis._paths import analysis_path
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.residue_certificates.residue_two_equality_classifier import (
     RootedDebt,
     build_artifact,
     canonical_rooted_partition,
     classify_masks,
 )
-from analysis.tiles.tile_grammar import FrontierState, row_mask
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
+from analysis.tiles.tile_grammar import FrontierState, row_mask
 
 ARTIFACT = analysis_path("residue_two_equality_classifier.json")
 

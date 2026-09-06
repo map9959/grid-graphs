@@ -26,7 +26,6 @@ from analysis.bounds.forced_forest_row_grammar import (
     transition,
 )
 
-
 FPartition = tuple[int, ...]  # -1 marks a vertex outside F.
 
 

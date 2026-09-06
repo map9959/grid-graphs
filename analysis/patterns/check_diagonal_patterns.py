@@ -27,8 +27,8 @@ from analysis.patterns.diagonal_patterns import (
     residue_two_pattern,
     residue_zero_explicit_pattern,
     residue_zero_improved_pattern,
-    residue_zero_phase_pattern,
     residue_zero_pattern,
+    residue_zero_phase_pattern,
 )
 
 

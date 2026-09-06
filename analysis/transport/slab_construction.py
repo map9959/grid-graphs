@@ -26,10 +26,6 @@ the slab's overcount.
 
 from __future__ import annotations
 
-
-
-
-
 from analysis.patterns.construction_lab import run_check
 from analysis.patterns.diagonal_patterns import residue_two_explicit_pattern
 

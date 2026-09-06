@@ -3,7 +3,10 @@ from __future__ import annotations
 import json
 import unittest
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+)
 from analysis.searches.n23_target_search import (
     AFFINE_WINDOW,
     DEFAULT_OUTPUT,

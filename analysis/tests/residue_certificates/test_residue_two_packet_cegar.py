@@ -4,8 +4,7 @@ import json
 import os
 import unittest
 
-
-from analysis.transport.equality_corridor import build_equality_corridor
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_equality_cegar import observe_corridor
 from analysis.residue_certificates.residue_two_packet_cegar import (
     LEVELS,
@@ -17,9 +16,8 @@ from analysis.residue_certificates.residue_two_packet_cegar import (
     packet_signature,
     packet_words,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
+from analysis.transport.equality_corridor import build_equality_corridor
 
 ARTIFACT = analysis_path("residue_two_packet_cegar.json")
 

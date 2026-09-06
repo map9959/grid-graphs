@@ -5,7 +5,7 @@ import os
 import unittest
 from dataclasses import replace
 
-
+from analysis._paths import analysis_path
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
 from analysis.residue_certificates.residue_two_affine_motif_grammar import (
     BoundaryDefectAtom,
@@ -22,9 +22,7 @@ from analysis.residue_certificates.residue_two_affine_motif_grammar import (
     expand_compact_boundary_defect_frontier,
     replay_trace,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("residue_two_affine_motif_grammar.json")
 

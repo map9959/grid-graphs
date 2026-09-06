@@ -3,10 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 import unittest
+
 from analysis._paths import ANALYSIS_ROOT
 from analysis.tests._support import migrated_artifact
-
-
 
 HERE = ANALYSIS_ROOT
 ROOT = HERE.parent

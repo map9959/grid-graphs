@@ -1,22 +1,25 @@
 from __future__ import annotations
 
-import itertools
 import hashlib
+import itertools
 import json
 import unittest
 
 from analysis.residue_certificates.residue_two_frontier_signatures import (
     DEFAULT_OUTPUT,
-    build_artifact,
     build_alignment_records,
+    build_artifact,
     initial_ranked_state,
     ordinary_state,
     ranked_advance_row,
     replay_rows,
 )
-from analysis.tiles.tile_grammar import advance_row, initial_state
-from analysis.transport.open_slab_signature import OpenSlabSignature, restore_open_slab_state
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row, initial_state
+from analysis.transport.open_slab_signature import (
+    OpenSlabSignature,
+    restore_open_slab_state,
+)
 
 
 class RankedFrontierTests(unittest.TestCase):

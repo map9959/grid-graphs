@@ -17,7 +17,11 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+from analysis._paths import analysis_path
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.residue_certificates.residue_two_affine_motif_grammar import (
     AFFINE_WIDTHS,
     BoundaryDefectAtom,
@@ -27,8 +31,6 @@ from analysis.residue_certificates.residue_two_affine_motif_grammar import (
     replay_trace,
 )
 from analysis.tiles.tile_grammar import FrontierState, advance_row, row_mask
-from analysis._paths import analysis_path
-
 
 SCHEMA = "grid-graphs.residue-two-compact-transition-census.v1"
 FIXED_WIDTHS = (11, 14)
@@ -410,7 +412,8 @@ def build_artifact() -> dict:
         ],
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_compact_transition.py",
-            "command": ["python3", "-B", "analysis/residue_certificates/residue_two_compact_transition.py", "--output", "analysis/residue_two_compact_transition.json"],
+            "command": ["python3", "-B", "-m",
+                                         'analysis.residue_certificates.residue_two_compact_transition', "--output", "analysis/residue_two_compact_transition.json"],
         },
     }
 

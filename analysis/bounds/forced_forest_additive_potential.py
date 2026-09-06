@@ -22,7 +22,6 @@ from analysis.bounds.forced_forest_diagonal_cegar import (
     solve_constraints,
 )
 
-
 NUMERIC_NAMES = (
     "forced_count",
     "forced_runs",

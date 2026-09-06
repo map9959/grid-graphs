@@ -28,7 +28,6 @@ from analysis.bounds.cotree_row_charge import (
     spanning_trees,
 )
 
-
 NORTH, EAST, SOUTH, WEST = range(4)
 OUT = -1
 AXES = ("rows", "columns")

@@ -4,7 +4,7 @@ import json
 import os
 import unittest
 
-
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_equality_motifs import (
     EventWord,
     IntervalEvent,
@@ -15,10 +15,8 @@ from analysis.residue_certificates.residue_two_equality_motifs import (
     event_metrics,
     motif_key,
 )
-from analysis.tiles.tile_grammar import FrontierState
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
+from analysis.tiles.tile_grammar import FrontierState
 
 ARTIFACT = analysis_path("residue_two_equality_motifs.json")
 

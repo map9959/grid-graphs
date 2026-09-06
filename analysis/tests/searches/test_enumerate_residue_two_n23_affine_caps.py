@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
 from analysis.searches.enumerate_residue_two_n23_affine_caps import (
     DEFAULT_RESULT,
     SCHEMA,
@@ -14,9 +15,7 @@ from analysis.searches.enumerate_residue_two_n23_affine_caps import (
     next_row_stats,
     write_cap_seed,
 )
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class AffineCapCensusTests(unittest.TestCase):

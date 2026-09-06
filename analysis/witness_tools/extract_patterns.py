@@ -7,8 +7,11 @@ Outputs, for each column c:
 
 Plus per-column full-degree gain. Useful for hand-constructing motifs.
 """
-import subprocess, sys
-from analysis._paths import ANALYSIS_ROOT, REPO_ROOT
+import subprocess
+import sys
+
+from analysis._paths import REPO_ROOT
+
 
 def witness(m, n):
     proj = str(REPO_ROOT)

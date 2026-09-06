@@ -4,13 +4,13 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import itertools
 import json
+from collections import Counter
 from fractions import Fraction
 from pathlib import Path
-from analysis._paths import analysis_path
 
+from analysis._paths import analysis_path
 
 Vertex = tuple[int, int]
 Packet = tuple[int, int, int]

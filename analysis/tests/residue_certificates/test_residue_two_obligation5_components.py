@@ -2,8 +2,13 @@
 
 import unittest
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.residue_certificates.residue_two_obligation5_components import check_component_reduction
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
+from analysis.residue_certificates.residue_two_obligation5_components import (
+    check_component_reduction,
+)
 
 
 class Obligation5ComponentReductionTests(unittest.TestCase):

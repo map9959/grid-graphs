@@ -4,6 +4,7 @@ import json
 import unittest
 
 from analysis.residue_certificates.residue_two_frontier_signatures import replay_rows
+from analysis.tests._support import migrated_artifact
 from analysis.transport.residue_two_open_slab_census import (
     CHANNELS,
     DEFAULT_OUTPUT,
@@ -12,7 +13,6 @@ from analysis.transport.residue_two_open_slab_census import (
     pattern_inputs,
     removed_prefix_cost,
 )
-from analysis.tests._support import migrated_artifact
 
 
 class RootedOpenSlabCensusTests(unittest.TestCase):

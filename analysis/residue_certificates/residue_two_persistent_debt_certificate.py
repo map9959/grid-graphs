@@ -14,24 +14,43 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import q_old_formula, residue_two_affine_pattern, residue_two_explicit_pattern
-from analysis.transport.equality_corridor import EqualityCorridor, build_equality_corridor
+from analysis._paths import ANALYSIS_ROOT
 from analysis.bounds.proof_oriented_identities import tile_grammar_row_deltas
+from analysis.patterns.diagonal_patterns import (
+    q_old_formula,
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.residue_certificates.residue_two_attachment_history import (
     Frontier,
+)
+from analysis.residue_certificates.residue_two_attachment_history import (
     build_analysis as build_attachment_history,
 )
-from analysis.residue_certificates.residue_two_attachment_skeleton import linear_frontier_metric
+from analysis.residue_certificates.residue_two_attachment_skeleton import (
+    linear_frontier_metric,
+)
 from analysis.residue_certificates.residue_two_cap_merge_potential import (
     ProjectedTransition,
     _difference_certificate,
     cap_phase,
 )
-from analysis.residue_certificates.residue_two_local_motif_grammar import maximum_face_cut_open_width
-from analysis.residue_certificates.residue_two_n11_grammar_counterexample import ROWS as N11_SILENT_ROWS
-from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state, row_mask
-from analysis._paths import ANALYSIS_ROOT
-
+from analysis.residue_certificates.residue_two_local_motif_grammar import (
+    maximum_face_cut_open_width,
+)
+from analysis.residue_certificates.residue_two_n11_grammar_counterexample import (
+    ROWS as N11_SILENT_ROWS,
+)
+from analysis.tiles.tile_grammar import (
+    FrontierState,
+    advance_row,
+    initial_state,
+    row_mask,
+)
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    build_equality_corridor,
+)
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_persistent_debt_certificate.json"
@@ -477,7 +496,8 @@ def build_artifact() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/residue_certificates/residue_two_persistent_debt_certificate.py",
+                "-m",
+                'analysis.residue_certificates.residue_two_persistent_debt_certificate',
                 "--output",
                 "analysis/residue_two_persistent_debt_certificate.json",
             ],

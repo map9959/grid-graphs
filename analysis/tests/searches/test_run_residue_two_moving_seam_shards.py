@@ -15,7 +15,10 @@ from analysis.searches.run_residue_two_moving_seam_shards import (
     production_shards,
     validate_shard_artifact,
 )
-from analysis.searches.search_residue_two_moving_seam import operation_word_hash, write_result
+from analysis.searches.search_residue_two_moving_seam import (
+    operation_word_hash,
+    write_result,
+)
 from analysis.tests._support import migrated_artifact
 
 

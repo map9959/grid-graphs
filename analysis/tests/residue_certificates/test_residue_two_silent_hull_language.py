@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import unittest
 
-from analysis.transport.equality_corridor import build_equality_corridor
-from analysis.residue_certificates.residue_two_local_motif_grammar import maximum_face_cut_open_width
+from analysis.residue_certificates.residue_two_local_motif_grammar import (
+    maximum_face_cut_open_width,
+)
 from analysis.residue_certificates.residue_two_n11_grammar_counterexample import ROWS
 from analysis.residue_certificates.residue_two_silent_hull_language import (
     SilentHullAtom,
@@ -14,6 +15,7 @@ from analysis.residue_certificates.residue_two_silent_hull_language import (
     finite_structural_atom_alphabet,
 )
 from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
+from analysis.transport.equality_corridor import build_equality_corridor
 
 
 def split_mask(mask: int, n: int):

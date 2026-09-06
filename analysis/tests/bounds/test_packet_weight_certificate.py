@@ -4,12 +4,15 @@ import unittest
 from dataclasses import FrozenInstanceError
 from fractions import Fraction
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
 from analysis.bounds.packet_weight_certificate import (
     PacketRowWeightCertificate,
     append_segment_exact,
     begin_row,
     verify_packet_row_weight,
+)
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
 )
 from analysis.tiles.tile_grammar import (
     FrontierState,
@@ -18,7 +21,6 @@ from analysis.tiles.tile_grammar import (
     render_mask,
     row_mask,
 )
-
 
 ALL_THREE_BIT_PACKETS = {
     f"P{value}": render_mask(value, 3) for value in range(8)

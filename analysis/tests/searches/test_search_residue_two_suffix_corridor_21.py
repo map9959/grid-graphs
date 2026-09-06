@@ -3,7 +3,10 @@ from __future__ import annotations
 import json
 import unittest
 
-from analysis.searches.search_residue_two_suffix_corridor import layer_after_row17, packet_domains
+from analysis.searches.search_residue_two_suffix_corridor import (
+    layer_after_row17,
+    packet_domains,
+)
 from analysis.searches.search_residue_two_suffix_corridor_21 import (
     DEFAULT_CERTIFICATE,
     DISTRIBUTIONS,
@@ -15,8 +18,7 @@ from analysis.searches.search_residue_two_suffix_corridor_21 import (
     frontier_sha256,
     provenance,
 )
-from analysis.tests._support import slow_test
-from analysis.tests._support import migrated_artifact
+from analysis.tests._support import migrated_artifact, slow_test
 
 
 class SuffixCorridor21Tests(unittest.TestCase):

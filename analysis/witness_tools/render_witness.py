@@ -9,11 +9,10 @@ or to dump several:
     python3 -m analysis.witness_tools.render_witness --probe
 """
 import argparse
-
 import subprocess
-
 from typing import List, Tuple
-from analysis._paths import ANALYSIS_ROOT, REPO_ROOT
+
+from analysis._paths import REPO_ROOT
 
 ROOT = str(REPO_ROOT)
 

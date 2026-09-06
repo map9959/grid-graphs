@@ -6,8 +6,8 @@ from analysis.residue_geometry.census_residue_two_offset_spine_bypass import (
     SCHEMA,
     build_report,
     derive_offset_choices,
-    replay_owner_census,
     replay_offset,
+    replay_owner_census,
 )
 
 

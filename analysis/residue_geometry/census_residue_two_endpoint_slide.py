@@ -4,12 +4,18 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import json
+from collections import Counter
 from pathlib import Path
 
-from analysis.residue_geometry import census_residue_two_affine_endpoint_extensions as endpoint
-from analysis.residue_geometry.census_residue_two_counter_interval_geometry import _local_cell_violation, _rows
+from analysis.patterns.construction_lab import forest_completion_check
+from analysis.residue_geometry import (
+    census_residue_two_affine_endpoint_extensions as endpoint,
+)
+from analysis.residue_geometry.census_residue_two_counter_interval_geometry import (
+    _local_cell_violation,
+    _rows,
+)
 from analysis.residue_geometry.check_residue_two_affine_interval_skeleton import (
     _components,
     _forced_star,
@@ -19,8 +25,6 @@ from analysis.residue_geometry.check_residue_two_affine_interval_skeleton import
     _standard_insertion_image,
     analyze_k,
 )
-from analysis.patterns.construction_lab import forest_completion_check
-
 
 Vertex = tuple[int, int]
 SCHEMA = "grid-graphs.residue-two-endpoint-slide-census.v1"

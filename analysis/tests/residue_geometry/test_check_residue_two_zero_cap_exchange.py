@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import unittest
 
-from analysis.residue_geometry.check_residue_two_zero_cap_exchange import SCHEMA, analyze_k, build_report
+from analysis.residue_geometry.check_residue_two_zero_cap_exchange import (
+    SCHEMA,
+    analyze_k,
+    build_report,
+)
 
 
 class ResidueTwoZeroCapExchangeTests(unittest.TestCase):

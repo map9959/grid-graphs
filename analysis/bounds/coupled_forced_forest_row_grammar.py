@@ -12,14 +12,14 @@ This is a finite discovery model.  It does not assert an arbitrary-width bound.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from collections.abc import Iterable
+from dataclasses import dataclass
 
 from analysis.bounds.forced_forest_row_grammar import (
     Partition,
     State,
-    _DisjointSet,
     _canonical_partition,
+    _DisjointSet,
     _validate_mask,
     first_row_state,
     transition,

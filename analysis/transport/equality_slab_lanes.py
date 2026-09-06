@@ -9,7 +9,6 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
-from analysis.transport.equality_corridor import EqualityCorridor, build_equality_corridor
 from analysis.tiles.tile_grammar import (
     FrontierState,
     advance_row,
@@ -17,7 +16,10 @@ from analysis.tiles.tile_grammar import (
     compress_mask,
     initial_state,
 )
-
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    build_equality_corridor,
+)
 
 SCHEMA = "grid-graphs.equality-slab-lanes.v1"
 
@@ -126,7 +128,10 @@ def extract_cross_slab_signature(
 
 
 def known_large_trace_deletions() -> dict:
-    from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+    from analysis.patterns.diagonal_patterns import (
+        residue_two_affine_pattern,
+        residue_two_explicit_pattern,
+    )
     from analysis.tiles.tile_grammar import row_mask
 
     source = tuple(map(row_mask, residue_two_explicit_pattern(14)))
@@ -438,7 +443,8 @@ def build_census() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/transport/equality_slab_lanes.py",
+                "-m",
+                'analysis.transport.equality_slab_lanes',
                 "--output",
                 "analysis/equality_slab_lanes.json",
             ],

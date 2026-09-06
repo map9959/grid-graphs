@@ -4,7 +4,7 @@ import json
 import os
 import unittest
 
-
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_carrier_grammar import (
     CarrierEvent,
     CarrierRecord,
@@ -14,9 +14,7 @@ from analysis.residue_certificates.residue_two_carrier_grammar import (
     packet_groups,
     recognize_partition,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("residue_two_carrier_grammar.json")
 

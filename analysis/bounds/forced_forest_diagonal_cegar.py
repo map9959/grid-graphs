@@ -24,7 +24,6 @@ from typing import Iterable, Sequence
 
 from analysis.bounds.forced_forest_row_grammar import State, first_row_state, transition
 
-
 Feature = tuple
 
 

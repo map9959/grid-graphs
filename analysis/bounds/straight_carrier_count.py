@@ -10,7 +10,6 @@ from dataclasses import asdict, dataclass
 
 from analysis.bounds.forced_forest_row_grammar import is_forced_forest
 
-
 Vertex = tuple[int, int]
 
 

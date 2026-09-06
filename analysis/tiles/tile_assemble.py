@@ -11,7 +11,6 @@ from __future__ import annotations
 import argparse
 import sys
 
-
 TILES = {
     # Common dense/cap/backbone tiles observed in witnesses.
     "A1": ["...", "UUU", "UUU"],

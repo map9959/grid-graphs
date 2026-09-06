@@ -8,6 +8,7 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from analysis.tiles.tile_grammar import compress_mask
 from analysis.transport.equality_corridor import build_equality_corridor
 from analysis.transport.equality_slab_lanes import (
     _forgotten_only_components,
@@ -15,8 +16,6 @@ from analysis.transport.equality_slab_lanes import (
     extract_cross_slab_signature,
     replay_masks,
 )
-from analysis.tiles.tile_grammar import compress_mask
-
 
 SCHEMA = "grid-graphs.equality-moving-slab.v1"
 
@@ -345,7 +344,8 @@ def build_census() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/transport/equality_moving_slab.py",
+                "-m",
+                'analysis.transport.equality_moving_slab',
                 "--output",
                 "analysis/equality_moving_slab.json",
             ],

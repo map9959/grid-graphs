@@ -8,13 +8,15 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from analysis.transport.census_moving_seam_alignment import d4_orientations
 from analysis.patterns.diagonal_patterns import residue_two_explicit_pattern
-from analysis.transport.equality_corridor import build_equality_corridor
-from analysis.transport.equality_moving_slab import _source_prefix_states, _target_alignment
-from analysis.transport.equality_slab_lanes import enumerate_minimum_mask_paths
 from analysis.tiles.tile_grammar import row_mask
-
+from analysis.transport.census_moving_seam_alignment import d4_orientations
+from analysis.transport.equality_corridor import build_equality_corridor
+from analysis.transport.equality_moving_slab import (
+    _source_prefix_states,
+    _target_alignment,
+)
+from analysis.transport.equality_slab_lanes import enumerate_minimum_mask_paths
 
 SCHEMA = "grid-graphs.equality-composed-transport.v1"
 
@@ -242,7 +244,8 @@ def build_census() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/transport/equality_composed_transport.py",
+                "-m",
+                'analysis.transport.equality_composed_transport',
                 "--output",
                 "analysis/equality_composed_transport.json",
             ],

@@ -17,6 +17,7 @@ from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
 
+from analysis._paths import ANALYSIS_ROOT
 from analysis.bounds.proof_oriented_identities import (
     _constraint_weight,
     _feature_id,
@@ -24,8 +25,6 @@ from analysis.bounds.proof_oriented_identities import (
     frontier_feature_signature,
     synthesize_difference_potentials,
 )
-from analysis._paths import ANALYSIS_ROOT
-
 
 HERE = ANALYSIS_ROOT
 DEFAULT_HIGHS = Path(shutil.which("highs") or "/tmp/opencode/bin/highs")

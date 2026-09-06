@@ -19,9 +19,8 @@ import json
 from pathlib import Path
 from typing import Iterable
 
-from analysis.patterns.diagonal_patterns import residue_zero_phase_pattern
 from analysis._paths import analysis_path
-
+from analysis.patterns.diagonal_patterns import residue_zero_phase_pattern
 
 Vertex = tuple[int, int]
 Edge = tuple[Vertex, Vertex]

@@ -14,13 +14,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from analysis.transport.equality_corridor import (
-    EqualityCorridor,
-    StateKey,
-    _edge,
-    build_equality_corridor,
-    structural_key,
-)
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_n11_grammar_counterexample import ROWS
 from analysis.residue_certificates.residue_two_silent_hull_language import (
     classify_silent_hull_frontier,
@@ -29,8 +23,13 @@ from analysis.residue_certificates.residue_two_stable_topology_certificate impor
     certify_silent_hull_symbolic_transition,
 )
 from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
-from analysis._paths import analysis_path
-
+from analysis.transport.equality_corridor import (
+    EqualityCorridor,
+    StateKey,
+    _edge,
+    build_equality_corridor,
+    structural_key,
+)
 
 SCHEMA = "grid-graphs.residue-two-first-defect-certificate.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_first_defect_certificate.json")
@@ -307,7 +306,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_first_defect_certificate.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_first_defect_certificate.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_first_defect_certificate',
                 "--output", "analysis/residue_two_first_defect_certificate.json",
             ],
         },

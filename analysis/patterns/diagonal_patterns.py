@@ -29,8 +29,8 @@ the phase-boundary family absorbs the correction with `k-2` seam rows.
 from __future__ import annotations
 
 import argparse
-from analysis._paths import analysis_path
 
+from analysis._paths import analysis_path
 
 
 def q_old_formula(n: int) -> int:

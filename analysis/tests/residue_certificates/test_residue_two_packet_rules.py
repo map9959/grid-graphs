@@ -13,8 +13,8 @@ from analysis.residue_certificates.residue_two_packet_rules import (
     segment_totals,
     working_component_debt,
 )
-from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
 from analysis.tests._support import migrated_artifact
+from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
 
 
 class ResidueTwoPacketRuleTests(unittest.TestCase):

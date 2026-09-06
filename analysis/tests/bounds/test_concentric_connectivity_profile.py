@@ -3,11 +3,12 @@ from __future__ import annotations
 import json
 import unittest
 
-
-from analysis.bounds.concentric_connectivity_profile import build_artifact, port_word_signature
 from analysis._paths import analysis_path
+from analysis.bounds.concentric_connectivity_profile import (
+    build_artifact,
+    port_word_signature,
+)
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("concentric_connectivity_profile.json")
 

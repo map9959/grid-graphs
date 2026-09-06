@@ -7,14 +7,15 @@ import argparse
 import json
 from pathlib import Path
 
+from analysis._paths import analysis_path
 from analysis.residue_certificates.residue_two_stable_counter_certificate import (
     horizontal_edges,
     stable_rule_certificates,
     vertical_edges,
 )
-from analysis.residue_certificates.residue_two_stable_topology_certificate import stable_topology_certificates
-from analysis._paths import analysis_path
-
+from analysis.residue_certificates.residue_two_stable_topology_certificate import (
+    stable_topology_certificates,
+)
 
 SCHEMA = "grid-graphs.residue-two-cut-potential-obstruction.v1"
 DEFAULT_OUTPUT = analysis_path("residue_two_cut_potential_obstruction.json")
@@ -83,7 +84,8 @@ def build_artifact() -> dict:
         "provenance": {
             "producer": "analysis/residue_certificates/residue_two_cut_potential_obstruction.py",
             "command": [
-                "python3", "-B", "analysis/residue_certificates/residue_two_cut_potential_obstruction.py",
+                "python3", "-B", "-m",
+                                 'analysis.residue_certificates.residue_two_cut_potential_obstruction',
                 "--output", "analysis/residue_two_cut_potential_obstruction.json",
             ],
         },

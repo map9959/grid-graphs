@@ -3,7 +3,10 @@ from __future__ import annotations
 import json
 import unittest
 
-from analysis.residue_certificates.residue_two_landmark_census import DEFAULT_OUTPUT, build_artifact
+from analysis.residue_certificates.residue_two_landmark_census import (
+    DEFAULT_OUTPUT,
+    build_artifact,
+)
 from analysis.tests._support import migrated_artifact
 
 

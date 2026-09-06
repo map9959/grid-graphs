@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import json
 import itertools
-
+import json
 import unittest
 
+from analysis._paths import analysis_path
 from analysis.residue_geometry.classify_residue_two_staircase_seam import (
     build_report,
     cap_maximum,
@@ -13,9 +13,7 @@ from analysis.residue_geometry.classify_residue_two_staircase_seam import (
     seam_core,
     transition_valid,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("residue_two_staircase_seam.json")
 

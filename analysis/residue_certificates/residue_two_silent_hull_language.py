@@ -14,7 +14,9 @@ from dataclasses import dataclass
 from itertools import product
 from typing import Sequence
 
-from analysis.residue_certificates.residue_two_local_motif_grammar import maximum_face_cut_open_width
+from analysis.residue_certificates.residue_two_local_motif_grammar import (
+    maximum_face_cut_open_width,
+)
 from analysis.tiles.symbolic_packet_frontier import encode_frontier
 from analysis.tiles.tile_grammar import FrontierState, advance_row
 

@@ -4,7 +4,7 @@ import json
 import os
 import unittest
 
-
+from analysis._paths import analysis_path
 from analysis.bounds.concentric_strip_bound import (
     build_artifact,
     maximum_perimeter_u_edges,
@@ -13,9 +13,7 @@ from analysis.bounds.concentric_strip_bound import (
     solve_rank_relaxation,
     solve_relaxation,
 )
-from analysis._paths import analysis_path
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("concentric_strip_bound.json")
 

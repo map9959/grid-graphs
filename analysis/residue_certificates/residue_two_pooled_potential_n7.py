@@ -16,13 +16,12 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any, Sequence
 
+from analysis._paths import analysis_path
 from analysis.bounds.proof_oriented_identities import (
     frontier_feature_signature,
     tile_grammar_row_deltas,
 )
 from analysis.tiles.tile_grammar import FrontierState, advance_row, initial_state
-from analysis._paths import analysis_path
-
 
 DEFAULT_WIDTHS = tuple(range(3, 9))
 DEFAULT_FEATURE = "runs+rows_remaining"

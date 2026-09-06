@@ -15,7 +15,11 @@ from analysis.searches.search_residue_anneal import (
     rows_to_bits,
     u_degree,
 )
-from analysis.searches.search_residue_two_near import NEAR_MACRO, NEAR_PHASECROP, NEAR_PUMP
+from analysis.searches.search_residue_two_near import (
+    NEAR_MACRO,
+    NEAR_PHASECROP,
+    NEAR_PUMP,
+)
 
 
 def energy(metrics) -> int:

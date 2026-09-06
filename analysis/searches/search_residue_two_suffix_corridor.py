@@ -16,11 +16,14 @@ from math import comb
 from pathlib import Path
 from typing import Callable
 
+from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
 from analysis.patterns.construction_lab import (
     dual_connectivity_check,
     forest_completion_check,
-    q_old_formula as q_formula,
     run_check,
+)
+from analysis.patterns.construction_lab import (
+    q_old_formula as q_formula,
 )
 from analysis.searches.search_residue_two_middle import BASIC_ALPHABET, KNOWN_250
 from analysis.tiles.tile_grammar import (
@@ -31,8 +34,6 @@ from analysis.tiles.tile_grammar import (
     row_mask,
     stream_row_packets,
 )
-from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
 
 N = 20
 TARGET_U = 249

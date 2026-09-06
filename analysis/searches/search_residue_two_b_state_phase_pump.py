@@ -11,9 +11,18 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from analysis.patterns.construction_lab import DSU, dual_connectivity_check, forest_completion_check
+from analysis._paths import ANALYSIS_ROOT
+from analysis.patterns.construction_lab import (
+    DSU,
+    dual_connectivity_check,
+    forest_completion_check,
+)
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-from analysis.searches.search_residue_two_b_state_pump import SOURCE, fixed_affine_schedule, load_pattern
+from analysis.searches.search_residue_two_b_state_pump import (
+    SOURCE,
+    fixed_affine_schedule,
+    load_pattern,
+)
 from analysis.searches.search_residue_two_moving_seam import (
     PACKET_NAME,
     _rank_deficit_impossible,
@@ -29,8 +38,6 @@ from analysis.tiles.tile_grammar import (
     render_mask,
     row_mask,
 )
-from analysis._paths import ANALYSIS_ROOT
-
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_b20_to_b23_phase_result.json"

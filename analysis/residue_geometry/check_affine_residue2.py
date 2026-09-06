@@ -5,8 +5,14 @@ from __future__ import annotations
 
 import argparse
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check
-from analysis.patterns.diagonal_patterns import _RESIDUE_TWO_AFFINE_17, residue_two_affine_pattern
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+)
+from analysis.patterns.diagonal_patterns import (
+    _RESIDUE_TWO_AFFINE_17,
+    residue_two_affine_pattern,
+)
 
 
 def require(condition: bool, message: object) -> None:

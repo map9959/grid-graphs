@@ -23,7 +23,6 @@ from analysis.bounds.coupled_forced_forest_row_grammar import (
     first_coupled_row_state,
 )
 
-
 Feature = tuple
 
 

@@ -4,7 +4,10 @@ import json
 import os
 import unittest
 
-from analysis.residue_certificates.residue_two_first_defect_certificate import DEFAULT_OUTPUT, build_artifact
+from analysis.residue_certificates.residue_two_first_defect_certificate import (
+    DEFAULT_OUTPUT,
+    build_artifact,
+)
 from analysis.tests._support import migrated_artifact
 
 

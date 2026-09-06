@@ -21,15 +21,14 @@ from typing import Iterable
 
 from analysis.bounds.boundary_charge_reduction import canonical_rows
 from analysis.bounds.bundle_cycle_defect_census import (
-    DefectProfile,
     TARGETED_MAXIMUM_WITNESSES,
+    DefectProfile,
     defect_profile,
     maximal_profiles,
     maximalize,
     neighbors,
     render_rows,
 )
-
 
 KNOWN_COUNTEREXAMPLE = (255, 0, 292, 293, 289, 297, 257, 256, 383)
 

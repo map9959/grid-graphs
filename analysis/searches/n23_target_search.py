@@ -15,12 +15,19 @@ from collections import Counter
 from math import comb
 from pathlib import Path
 
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-from analysis.residue_certificates.residue_two_revised_recurrence import target_charge_candidate
-from analysis.searches.search_residue_two_target_control import ConnectivitySensitivity, changed_rows
 from analysis._paths import ANALYSIS_ROOT
-
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+)
+from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
+from analysis.residue_certificates.residue_two_revised_recurrence import (
+    target_charge_candidate,
+)
+from analysis.searches.search_residue_two_target_control import (
+    ConnectivitySensitivity,
+    changed_rows,
+)
 
 N = 23
 TARGET_U = 333

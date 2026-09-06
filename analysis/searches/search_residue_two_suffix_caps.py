@@ -16,14 +16,15 @@ from dataclasses import asdict, dataclass
 from itertools import combinations
 from pathlib import Path
 
+from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
 from analysis.patterns.construction_lab import forest_completion_check, run_check
 from analysis.searches.search_residue_two_suffix_corridor import (
     LAST_MUTABLE_ROW,
     MUTABLE_PACKET_COLUMNS,
-    N,
     PACKET_COUNT,
-    PathNode,
     TARGET_U,
+    N,
+    PathNode,
     _add_candidate,
     _reconstruct,
     exact_state_key,
@@ -31,8 +32,6 @@ from analysis.searches.search_residue_two_suffix_corridor import (
     layer_after_row17,
 )
 from analysis.tiles.tile_grammar import FrontierState, advance_row
-from analysis._paths import ANALYSIS_ROOT, analysis_path, source_path
-
 
 DISTRIBUTIONS = ((19, 1), (18, 2), (17, 3))
 DEFAULT_WITNESS = analysis_path("residue_two_suffix_caps_witness.txt")

@@ -3,11 +3,11 @@ from __future__ import annotations
 import json
 import unittest
 
-
-from analysis.residue_certificates.residue_two_silent_hull_certificate import build_artifact
 from analysis._paths import analysis_path
+from analysis.residue_certificates.residue_two_silent_hull_certificate import (
+    build_artifact,
+)
 from analysis.tests._support import migrated_artifact
-
 
 ARTIFACT = analysis_path("residue_two_silent_hull_certificate.json")
 

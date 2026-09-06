@@ -14,7 +14,12 @@ import math
 import random
 import time
 
-from analysis.patterns.construction_lab import DSU, dual_connectivity_check, q_formula, run_check
+from analysis.patterns.construction_lab import (
+    DSU,
+    dual_connectivity_check,
+    q_formula,
+    run_check,
+)
 from analysis.patterns.diagonal_patterns import residue_two_explicit_pattern
 from analysis.transport.slab_construction import slab_extend_general
 

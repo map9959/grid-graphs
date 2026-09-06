@@ -7,8 +7,10 @@ import argparse
 import json
 from pathlib import Path
 
-from analysis.residue_geometry.check_residue_two_affine_interval_skeleton import analyze_k, analyze_transition
-
+from analysis.residue_geometry.check_residue_two_affine_interval_skeleton import (
+    analyze_k,
+    analyze_transition,
+)
 
 SCHEMA = "grid-graphs.residue-two-counter-interval-surgery.v1"
 COUNTER_ID = "C:counter"

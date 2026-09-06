@@ -49,7 +49,6 @@ from typing import Iterable, Iterator, Mapping, Sequence
 
 from analysis.bounds.check_boundary_peeling_lemmas import components
 
-
 ORIENTATIONS = ("north", "east", "south", "west")
 POLICIES = ("immediate-local", "transported-basin")
 DEFAULT_TEMPLATE_CAP = 50_000

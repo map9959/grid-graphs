@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import unittest
 
-
 slow_test = unittest.skipUnless(
     os.environ.get("GRID_GRAPHS_RUN_SLOW_TESTS") == "1",
     "set GRID_GRAPHS_RUN_SLOW_TESTS=1 to run slow exact-search/integration tests",
@@ -20,6 +19,7 @@ def migrated_artifact(record):
     import hashlib
     import json
     import re
+    from pathlib import Path
 
     from analysis._paths import ANALYSIS_ROOT, REPO_ROOT
 
@@ -68,6 +68,13 @@ def migrated_artifact(record):
         if isinstance(value, dict):
             return {key: walk(item) for key, item in value.items()}
         if isinstance(value, list):
+            if value and isinstance(value[0], str) and Path(value[0]).name.startswith("python"):
+                for index, argument in enumerate(value[1:], 1):
+                    if isinstance(argument, str) and argument in paths:
+                        module = paths[argument].removesuffix(".py").replace("/", ".")
+                        return [walk(item) for item in value[:index]] + ["-m", module] + [
+                            walk(item) for item in value[index + 1:]
+                        ]
             return [walk(item) for item in value]
         return text(value) if isinstance(value, str) else value
 

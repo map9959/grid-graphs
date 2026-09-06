@@ -10,7 +10,6 @@ from __future__ import annotations
 import argparse
 import itertools
 
-
 Vertex = tuple[int, int]
 Edge = tuple[Vertex, Vertex]
 

@@ -6,16 +6,17 @@ from __future__ import annotations
 import json
 from fractions import Fraction
 
-
-from analysis.bounds.coupled_interval_potential import enumerate_source, interval_feature
+from analysis._paths import analysis_path
+from analysis.bounds.coupled_interval_potential import (
+    enumerate_source,
+    interval_feature,
+)
 from analysis.bounds.forced_forest_additive_potential import (
     exact_farkas_from_seed,
     projected_candidate,
     projected_farkas_seed,
     verify_formula,
 )
-from analysis._paths import analysis_path
-
 
 NUMERIC_NAMES = (
     "constant",

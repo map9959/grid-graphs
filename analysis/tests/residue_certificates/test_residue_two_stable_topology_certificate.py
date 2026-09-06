@@ -9,13 +9,16 @@ from analysis.residue_certificates.residue_two_affine_motif_grammar import (
     PacketCarrierRole,
     expand_compact_boundary_defect_frontier,
 )
-from analysis.residue_certificates.residue_two_compact_transition import ActionKey, ControlKey
+from analysis.residue_certificates.residue_two_compact_transition import (
+    ActionKey,
+    ControlKey,
+)
 from analysis.residue_certificates.residue_two_n11_grammar_counterexample import ROWS
-from analysis.residue_certificates.residue_two_silent_hull_language import encode_silent_hull_frontier
 from analysis.residue_certificates.residue_two_silent_hull_language import (
     HullRole,
     SilentHullAtom,
     SilentHullFrontier,
+    encode_silent_hull_frontier,
 )
 from analysis.residue_certificates.residue_two_stable_topology_certificate import (
     TopologyCertificateError,

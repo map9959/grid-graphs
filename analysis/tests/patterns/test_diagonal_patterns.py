@@ -2,8 +2,12 @@ from __future__ import annotations
 
 import unittest
 
-
-from analysis.patterns.construction_lab import dual_connectivity_check, forest_completion_check, run_check
+from analysis._paths import analysis_path
+from analysis.patterns.construction_lab import (
+    dual_connectivity_check,
+    forest_completion_check,
+    run_check,
+)
 from analysis.patterns.diagonal_patterns import (
     q_formula,
     q_old_formula,
@@ -11,7 +15,6 @@ from analysis.patterns.diagonal_patterns import (
     residue_two_pattern,
     residue_two_revised_pattern,
 )
-from analysis._paths import analysis_path
 
 
 class DiagonalPatternTests(unittest.TestCase):

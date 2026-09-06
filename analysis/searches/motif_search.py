@@ -10,8 +10,11 @@ counting checks as `check_constructions.py`.
 
 
 
-from analysis.patterns.check_constructions import is_spanning_tree, count_full_degree, load_known
-from analysis._paths import ANALYSIS_ROOT
+from analysis.patterns.check_constructions import (
+    count_full_degree,
+    is_spanning_tree,
+    load_known,
+)
 
 
 def closed_form_P(m: int, n: int):

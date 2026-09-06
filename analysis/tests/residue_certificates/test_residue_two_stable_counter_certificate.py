@@ -3,8 +3,13 @@ from __future__ import annotations
 import unittest
 
 from analysis.patterns.diagonal_patterns import residue_two_affine_pattern
-from analysis.residue_certificates.residue_two_compact_transition import structural_key, trace_observations
-from analysis.residue_certificates.residue_two_stable_counter_certificate import stable_rule_certificates
+from analysis.residue_certificates.residue_two_compact_transition import (
+    structural_key,
+    trace_observations,
+)
+from analysis.residue_certificates.residue_two_stable_counter_certificate import (
+    stable_rule_certificates,
+)
 
 
 class ResidueTwoStableCounterCertificateTests(unittest.TestCase):

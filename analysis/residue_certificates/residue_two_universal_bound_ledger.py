@@ -13,8 +13,12 @@ import argparse
 import json
 from pathlib import Path
 
-from analysis.patterns.diagonal_patterns import residue_two_affine_pattern, residue_two_explicit_pattern
+from analysis._paths import ANALYSIS_ROOT
 from analysis.bounds.proof_oriented_identities import check_pattern_identities
+from analysis.patterns.diagonal_patterns import (
+    residue_two_affine_pattern,
+    residue_two_explicit_pattern,
+)
 from analysis.residue_certificates.residue_two_attachment_history import build_analysis
 from analysis.residue_certificates.residue_two_local_motif_grammar import (
     all_rooted_triple_symbols,
@@ -22,12 +26,14 @@ from analysis.residue_certificates.residue_two_local_motif_grammar import (
 )
 from analysis.residue_certificates.residue_two_n11_grammar_counterexample import (
     FORBIDDEN_MOTIFS,
+)
+from analysis.residue_certificates.residue_two_n11_grammar_counterexample import (
     ROWS as N11_SILENT_ROWS,
+)
+from analysis.residue_certificates.residue_two_n11_grammar_counterexample import (
     build_artifact as build_n11_counterexample,
 )
 from analysis.tiles.tile_grammar import advance_row, initial_state, row_mask
-from analysis._paths import ANALYSIS_ROOT
-
 
 HERE = ANALYSIS_ROOT
 DEFAULT_OUTPUT = HERE / "residue_two_universal_bound_ledger.json"
@@ -393,7 +399,8 @@ def build_ledger() -> dict:
             "command": [
                 "python3",
                 "-B",
-                "analysis/residue_certificates/residue_two_universal_bound_ledger.py",
+                "-m",
+                'analysis.residue_certificates.residue_two_universal_bound_ledger',
                 "--output",
                 "analysis/residue_two_universal_bound_ledger.json",
             ],

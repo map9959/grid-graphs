@@ -24,8 +24,11 @@ from analysis.searches.certify_residue_two_relaxation import (
     verify,
     window_measurements,
 )
-from analysis.searches.search_residue_two_near import NEAR_MACRO, NEAR_PHASECROP, NEAR_PUMP
-
+from analysis.searches.search_residue_two_near import (
+    NEAR_MACRO,
+    NEAR_PHASECROP,
+    NEAR_PUMP,
+)
 
 N = 17
 U_COUNT = 178

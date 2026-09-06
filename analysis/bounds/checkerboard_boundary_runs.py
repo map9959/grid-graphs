@@ -22,7 +22,6 @@ from analysis.bounds.max_fr_checker import (
     transform,
 )
 
-
 BLACK = 0
 WHITE = 1
 
