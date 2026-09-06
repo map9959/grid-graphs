@@ -177,9 +177,13 @@ theorem residueTwoAffineStep_horizontal_regular_adj
     have hm := residueTwoAffineStepVertex_mem k hk he₂
     rw [← show residueTwoAffineStepVertex k (horizontalPrimalEndpoints e).2 =
         (horizontalPrimalEndpoints e').2 by
-      apply Prod.ext <;> apply Fin.ext <;>
-        simp only [e', horizontalPrimalEndpoints, residueTwoAffineStepVertex]
-      split_ifs <;> omega]
+      apply Prod.ext
+      · rfl
+      · apply Fin.ext
+        change (if 3 * k - 11 ≤ e.col.val + 1 then e.col.val + 1 + 3
+          else e.col.val + 1) =
+          (if 3 * k - 11 ≤ e.col.val then e.col.val + 3 else e.col.val) + 1
+        split_ifs <;> omega]
     exact hm
   have hrow0' : e'.row.val ≠ 0 := by
     simp only [e']
@@ -254,9 +258,13 @@ theorem residueTwoAffineStep_vertical_regular_adj
     have hm := residueTwoAffineStepVertex_mem k hk he₂
     rw [← show residueTwoAffineStepVertex k (verticalPrimalEndpoints e).2 =
         (verticalPrimalEndpoints e').2 by
-      apply Prod.ext <;> apply Fin.ext <;>
-        simp only [e', verticalPrimalEndpoints, residueTwoAffineStepVertex]
-      split_ifs <;> omega]
+      apply Prod.ext
+      · apply Fin.ext
+        change (if 3 * k - 6 ≤ e.row.val + 1 then e.row.val + 1 + 3
+          else e.row.val + 1) =
+          (if 3 * k - 6 ≤ e.row.val then e.row.val + 3 else e.row.val) + 1
+        split_ifs <;> omega
+      · rfl]
     exact hm
   have hcol0' : e'.col.val ≠ 0 := by
     simp only [e']
@@ -329,9 +337,13 @@ theorem residueTwoAffineStep_horizontal_boundary_reachable
     have hm := residueTwoAffineStepVertex_mem k hk he₂
     rw [← show residueTwoAffineStepVertex k (horizontalPrimalEndpoints e).2 =
         (horizontalPrimalEndpoints e').2 by
-      apply Prod.ext <;> apply Fin.ext <;>
-        simp only [e', horizontalPrimalEndpoints, residueTwoAffineStepVertex]
-      split_ifs <;> omega]
+      apply Prod.ext
+      · rfl
+      · apply Fin.ext
+        change (if 3 * k - 11 ≤ e.col.val + 1 then e.col.val + 1 + 3
+          else e.col.val + 1) =
+          (if 3 * k - 11 ≤ e.col.val then e.col.val + 3 else e.col.val) + 1
+        split_ifs <;> omega]
     exact hm
   have hadj : (uuDualGraph (uResidueTwoAffine (k + 1))).Adj
       (residueTwoAffineStepFace k (horizontalDualEndpoints e).1)
@@ -402,9 +414,13 @@ theorem residueTwoAffineStep_vertical_boundary_reachable
     have hm := residueTwoAffineStepVertex_mem k hk he₂
     rw [← show residueTwoAffineStepVertex k (verticalPrimalEndpoints e).2 =
         (verticalPrimalEndpoints e').2 by
-      apply Prod.ext <;> apply Fin.ext <;>
-        simp only [e', verticalPrimalEndpoints, residueTwoAffineStepVertex]
-      split_ifs <;> omega]
+      apply Prod.ext
+      · apply Fin.ext
+        change (if 3 * k - 6 ≤ e.row.val + 1 then e.row.val + 1 + 3
+          else e.row.val + 1) =
+          (if 3 * k - 6 ≤ e.row.val then e.row.val + 3 else e.row.val) + 1
+        split_ifs <;> omega
+      · rfl]
     exact hm
   have hadj : (uuDualGraph (uResidueTwoAffine (k + 1))).Adj
       (residueTwoAffineStepFace k (verticalDualEndpoints e).1)
@@ -701,7 +717,7 @@ private theorem residueTwoAffine_rowSeam_run
   have hk5 : k - 5 + 5 = k := by omega
   have hkm4 : k - 4 = k - 5 + 1 := by omega
   have hrowExpanded : 3 * k - 6 = 9 + 3 * (k - 5) := by omega
-  simp only [horizontalPrimalEndpoints, Fin.mk.injEq] at hr₁ hr₂ hc₁ hc₂
+  simp only [horizontalPrimalEndpoints] at hr₁ hr₂ hc₁ hc₂
   rw [hrow] at hr₁ hr₂
   rw [hrowExpanded] at hr₁ hr₂
   have hr₁val : r₁.val = 9 := by
@@ -709,32 +725,32 @@ private theorem residueTwoAffine_rowSeam_run
       ⟨r₁, x₁.val.1⟩).val = 9 + 3 * (k - 5) at hr₁
     by_cases hp : 9 ≤ r₁.val ∧ r₁.val < 12
     · rw [residueTwoExpandIndex_of_pump _ _ _ _ hp] at hr₁
-      simp only [ResidueTwoAffineIndex.base, ResidueTwoAffineIndex.copy] at hr₁
+      dsimp only at hr₁
       simp [residueTwoPumpMultiplicity, hp] at hir₁
       have hcases : r₁.val = 9 ∨ r₁.val = 10 ∨ r₁.val = 11 := by omega
       rcases hcases with hcases | hcases | hcases <;> omega
     · by_cases ha : 12 ≤ r₁.val
       · rw [residueTwoExpandIndex_of_above _ _ _ _ hp ha] at hr₁
-        simp only [ResidueTwoAffineIndex.base] at hr₁
+        dsimp only at hr₁
         omega
       · rw [residueTwoExpandIndex_of_below _ _ _ _ hp ha] at hr₁
-        simp only [ResidueTwoAffineIndex.base] at hr₁
+        dsimp only at hr₁
         omega
   have hr₂val : r₂.val = 9 := by
     change (residueTwoExpandIndex 9 (k - 5) (by omega)
       ⟨r₂, x₂.val.1⟩).val = 9 + 3 * (k - 5) at hr₂
     by_cases hp : 9 ≤ r₂.val ∧ r₂.val < 12
     · rw [residueTwoExpandIndex_of_pump _ _ _ _ hp] at hr₂
-      simp only [ResidueTwoAffineIndex.base, ResidueTwoAffineIndex.copy] at hr₂
+      dsimp only at hr₂
       simp [residueTwoPumpMultiplicity, hp] at hir₂
       have hcases : r₂.val = 9 ∨ r₂.val = 10 ∨ r₂.val = 11 := by omega
       rcases hcases with hcases | hcases | hcases <;> omega
     · by_cases ha : 12 ≤ r₂.val
       · rw [residueTwoExpandIndex_of_above _ _ _ _ hp ha] at hr₂
-        simp only [ResidueTwoAffineIndex.base] at hr₂
+        dsimp only at hr₂
         omega
       · rw [residueTwoExpandIndex_of_below _ _ _ _ hp ha] at hr₂
-        simp only [ResidueTwoAffineIndex.base] at hr₂
+        dsimp only at hr₂
         omega
   simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow, hr₁val, hr₂val] at hb₁ hb₂
   change (residueTwoExpandIndex 4 (k - 5) (by omega)
@@ -769,10 +785,11 @@ private theorem residueTwoAffine_rowSeam_run
         exact Or.inr (Or.inl ⟨ha, hc₂⟩)
       · rw [residueTwoExpandIndex_of_below _ _ _ _ hp ha] at hc₂
         exact Or.inr (Or.inr ⟨by omega, hc₂⟩)
+  clear hx₁ hx₂ hr₁ hr₂ hc₁ hc₂ hir₁ hir₂ hic₁ hic₂ hr₁lt hr₂lt
+    hc₁lt hc₂lt hrowExpanded hr₁val hr₂val hrow
   rcases hc₁form with hc₁form | hc₁form | hc₁form <;>
     rcases hc₂form with hc₂form | hc₂form | hc₂form <;>
     rcases hb₁ with hb₁ | hb₁ | hb₁ | hb₁ | hb₁ | hb₁ | hb₁ | hb₁ | hb₁ | hb₁ | hb₁ <;>
-    rcases hb₂ with hb₂ | hb₂ | hb₂ | hb₂ | hb₂ | hb₂ | hb₂ | hb₂ | hb₂ | hb₂ | hb₂ <;>
     simp only [hkm4] at * <;>
     first
     | (refine Or.inr (Or.inl ⟨x₁.val.2.val, ?_, ?_⟩) <;> omega)
@@ -813,8 +830,9 @@ private theorem residueTwoAffine_successor_repeated_right_mem
     ⟨j, by simp [residueTwoPumpMultiplicity, hr]; omega⟩
     ⟨0, by simp [residueTwoPumpMultiplicity, hn]⟩
     (by simpa [IsResidueTwoAffineBase] using hbase)
-  convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-    simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hr, hc, hn] <;> omega
+  convert hm using 1
+  apply Prod.ext <;> apply Fin.ext <;>
+    simp [residueTwoExpandIndex, hr, hc, hn]
 
 private theorem residueTwoAffine_successor_repeated_below_mem
     (k : Nat) (hk : 5 ≤ k) (r c j : Nat)
@@ -830,8 +848,9 @@ private theorem residueTwoAffine_successor_repeated_below_mem
     ⟨j, by simp [residueTwoPumpMultiplicity, hr]; omega⟩
     ⟨0, by simp [residueTwoPumpMultiplicity, hn]⟩
     (by simpa [IsResidueTwoAffineBase] using hbase)
-  convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-    simp [residueTwoExpandIndex, hr, hn, hn7] <;> omega
+  convert hm using 1
+  apply Prod.ext <;> apply Fin.ext <;>
+    simp [residueTwoExpandIndex, hr, hn, hn7]
 
 private theorem residueTwoAffine_successor_repeated_pump_mem
     (k : Nat) (hk : 5 ≤ k) (r c jr jc : Nat)
@@ -846,8 +865,9 @@ private theorem residueTwoAffine_successor_repeated_pump_mem
     ⟨jr, by simp [residueTwoPumpMultiplicity, hr]; omega⟩
     ⟨jc, by simp [residueTwoPumpMultiplicity, hc]; omega⟩
     (by simpa [IsResidueTwoAffineBase] using hbase)
-  convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-    simp [residueTwoExpandIndex, hr, hc] <;> omega
+  convert hm using 1
+  apply Prod.ext <;> apply Fin.ext <;>
+    simp [residueTwoExpandIndex, hr, hc]
 
 /-- The ordinary seam replacement: cross the inserted copies of rows 9, 10,
 11 and then the shifted final copy of row 9. -/
@@ -890,37 +910,41 @@ private theorem residueTwoAffine_rowSeam_straight
   have h0 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
     (3 * k - 6) d (by omega) (by omega) (by
       dsimp [d]; split <;> have := e.col.isLt <;> omega) (by
-      convert htop₁ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      convert htop₁ using 1
+      apply Prod.ext <;> apply Fin.ext <;>
         simp [residueTwoAffineKeepStepVertex, horizontalPrimalEndpoints, d, hrow,
-          hrowCut] <;>
-        (try split_ifs) <;> omega) (by
-      convert htop₂ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+          hrowCut]) (by
+      convert htop₂ using 1
+      apply Prod.ext <;> apply Fin.ext <;>
         simp [residueTwoAffineKeepStepVertex, horizontalPrimalEndpoints, d, hrow,
-          hrowCut] <;>
-        (try split_ifs) <;> omega)
+          hrowCut]
+      split_ifs <;> omega)
   have h1 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
     (3 * k - 5) d (by omega) (by omega) (by
       dsimp [d]; split <;> have := e.col.isLt <;> omega) (by
       simpa [d] using hm10₁) (by
-      convert hm10₂ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [d] <;> (try split_ifs) <;> omega)
+      convert hm10₂ using 1
+      apply Prod.ext <;> apply Fin.ext <;> simp [d]
+      split_ifs <;> omega)
   have h2 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
     (3 * k - 4) d (by omega) (by omega) (by
       dsimp [d]; split <;> have := e.col.isLt <;> omega) (by
       simpa [d] using hm11₁) (by
-      convert hm11₂ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [d] <;> (try split_ifs) <;> omega)
+      convert hm11₂ using 1
+      apply Prod.ext <;> apply Fin.ext <;> simp [d]
+      split_ifs <;> omega)
   have h3 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
     (3 * k - 3) d (by omega) (by omega) (by
       dsimp [d]; split <;> have := e.col.isLt <;> omega) (by
-      convert hbottom₁ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      convert hbottom₁ using 1
+      apply Prod.ext <;> apply Fin.ext <;>
         simp [residueTwoAffineStepVertex, horizontalPrimalEndpoints, d, hrow,
-          hrowCut] <;>
-        (try split_ifs) <;> omega) (by
-      convert hbottom₂ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+          hrowCut]) (by
+      convert hbottom₂ using 1
+      apply Prod.ext <;> apply Fin.ext <;>
         simp [residueTwoAffineStepVertex, horizontalPrimalEndpoints, d, hrow,
-          hrowCut] <;>
-        (try split_ifs) <;> omega)
+          hrowCut]
+      split_ifs <;> omega)
   have hp := h0.reachable.trans (h1.reachable.trans (h2.reachable.trans h3.reachable))
   have hrow0 : e.row.val ≠ 0 := by omega
   have hrowLast : e.row.val + 1 ≠ 3 * k + 2 := by omega
@@ -936,7 +960,7 @@ private theorem residueTwoAffine_rowSeam_straight
     simp only [hd]
     apply congrArg₂ GridFace.cell <;> apply Fin.ext
     · simp [hrow]
-      (try split_ifs) <;> omega
+      omega
     · rfl
   have ht : residueTwoAffineStepFace k (horizontalDualEndpoints e).2 =
       .cell ⟨3 * k - 3, by omega⟩ ⟨d, by
@@ -965,57 +989,57 @@ private theorem residueTwoAffine_rowSeam_detour_left
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 9 8 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have m99 : ((⟨3 * k - 6, by omega⟩, ⟨3 * k - 3, by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 9 9 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have m107 : ((⟨3 * k - 5, by omega⟩, ⟨3 * k - 5, by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 10 7 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have m108 : ((⟨3 * k - 5, by omega⟩, ⟨3 * k - 4, by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 10 8 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have m117 : ((⟨3 * k - 4, by omega⟩, ⟨3 * k - 5, by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 11 7 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have m118 : ((⟨3 * k - 4, by omega⟩, ⟨3 * k - 4, by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 11 8 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have m98' : ((⟨3 * k - 3, by omega⟩, ⟨3 * k - 4, by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 9 8 (k - 4)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have m99' : ((⟨3 * k - 3, by omega⟩, ⟨3 * k - 3, by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
     have hm := residueTwoAffine_successor_repeated_right_mem k hk 9 9 (k - 4)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp only [Prod.fst, Prod.snd] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> (dsimp only; omega)
   have h0 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
     (3 * k - 6) (3 * k - 4) (by omega) (by omega) (by omega) m98
     (by simpa only [show 3 * k - 4 + 1 = 3 * k - 3 by omega] using m99)
@@ -1183,13 +1207,13 @@ theorem residueTwoAffineStep_horizontal_rowSeam_reachable
     have m11r := residueTwoAffine_successor_repeated_below_mem k hk 11 2 (k - 5)
       (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
     exact residueTwoAffine_rowSeam_straight k hk e hrow (by omega) he₁ he₂
-      (by convert m10c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> omega)
-      (by convert m10r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> omega)
-      (by convert m11c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> omega)
-      (by convert m11r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> omega)
   · let q := if i = k - 5 then i + 1 else i
     have hq : q < k - 3 := by dsimp [q]; split_ifs <;> omega
@@ -1206,13 +1230,13 @@ theorem residueTwoAffineStep_horizontal_rowSeam_reachable
       (k - 5) q (by omega) (by omega) (by omega) hq
       (by simp [residueTwoAffineBaseRow])
     exact residueTwoAffine_rowSeam_straight k hk e hrow (by omega) he₁ he₂
-      (by convert m10c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol, q] <;> (try split_ifs) <;> omega)
-      (by convert m10r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol, q] <;> (try split_ifs) <;> omega)
-      (by convert m11c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol, q] <;> (try split_ifs) <;> omega)
-      (by convert m11r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol, q] <;> (try split_ifs) <;> omega)
   · have m10c := residueTwoAffine_successor_repeated_right_mem k hk 10 7 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
@@ -1223,13 +1247,13 @@ theorem residueTwoAffineStep_horizontal_rowSeam_reachable
     have m11r := residueTwoAffine_successor_repeated_right_mem k hk 11 8 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
     exact residueTwoAffine_rowSeam_straight k hk e hrow (by omega) he₁ he₂
-      (by convert m10c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
-      (by convert m10r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
-      (by convert m11c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
-      (by convert m11r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
   · exact residueTwoAffine_rowSeam_detour_left k hk e hrow hcol
   · exact residueTwoAffine_rowSeam_detour_right k hk e hrow hcol
@@ -1242,13 +1266,13 @@ theorem residueTwoAffineStep_horizontal_rowSeam_reachable
     have m11r := residueTwoAffine_successor_repeated_right_mem k hk 11 15 (k - 5)
       (by omega) (by omega) (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
     exact residueTwoAffine_rowSeam_straight k hk e hrow (by omega) he₁ he₂
-      (by convert m10c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
-      (by convert m10r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m10r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
-      (by convert m11c using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11c using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
-      (by convert m11r using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+      (by convert m11r using 1; apply Prod.ext <;> apply Fin.ext <;>
         simp [hcol] <;> (try split_ifs) <;> omega)
 
 /-- Every old horizontal U-U edge transports to a successor dual path. -/
@@ -1306,34 +1330,36 @@ private theorem residueTwoAffine_colSeam_row_bounds
   have hbc4 : bc.val = 4 := by
     by_cases hp : 4 ≤ bc.val ∧ bc.val < 7
     · rw [residueTwoExpandIndex_of_pump _ _ _ _ hp] at hc
-      simp only [ResidueTwoAffineIndex.base, ResidueTwoAffineIndex.copy] at hc
+      dsimp only at hc
       have hic' : copies.val.2.val < k - 5 + 1 := by
         simpa [residueTwoPumpMultiplicity, hp] using hic
       omega
     · by_cases ha : 7 ≤ bc.val
       · rw [residueTwoExpandIndex_of_above _ _ _ _ hp ha] at hc
-        simp only [ResidueTwoAffineIndex.base] at hc
+        dsimp only at hc
         omega
       · rw [residueTwoExpandIndex_of_below _ _ _ _ hp ha] at hc
-        simp only [ResidueTwoAffineIndex.base] at hc
+        dsimp only at hc
         omega
   have hbaseRows : 1 ≤ br.val ∧ br.val ≤ 15 := by
-    simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow, hbc4] at hb
-    interval_cases h : br.val <;> simp_all
+    simp only [IsResidueTwoAffineBase, hbc4] at hb
+    by_contra h
+    have hends : br.val = 0 ∨ br.val = 16 := by omega
+    rcases hends with hends | hends <;> simp [residueTwoAffineBaseRow, hends] at hb
   change (residueTwoExpandIndex 9 (k - 5) (by omega)
     ⟨br, copies.val.1⟩).val = r.val at hr
   by_cases hp : 9 ≤ br.val ∧ br.val < 12
   · rw [residueTwoExpandIndex_of_pump _ _ _ _ hp] at hr
-    simp only [ResidueTwoAffineIndex.base, ResidueTwoAffineIndex.copy] at hr
+    dsimp only at hr
     have hir' : copies.val.1.val < k - 5 + 1 := by
       simpa [residueTwoPumpMultiplicity, hp] using hir
     omega
   · by_cases ha : 12 ≤ br.val
     · rw [residueTwoExpandIndex_of_above _ _ _ _ hp ha] at hr
-      simp only [ResidueTwoAffineIndex.base] at hr
+      dsimp only at hr
       omega
     · rw [residueTwoExpandIndex_of_below _ _ _ _ hp ha] at hr
-      simp only [ResidueTwoAffineIndex.base] at hr
+      dsimp only at hr
       omega
 
 /-- Every successor corridor row from base row 3 through shifted base row 15
@@ -1356,11 +1382,12 @@ private theorem residueTwoAffine_successor_corridor_mem
       ⟨0, by simp [residueTwoPumpMultiplicity, hnp]⟩
       ⟨j, by simp [residueTwoPumpMultiplicity, hcpump, ht]; omega⟩
       (by
-        simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow]
-        interval_cases r <;> rcases hc with rfl | rfl <;> simp_all)
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hnp, hna, hcpump, ht] <;>
-      omega
+        change c ∈ residueTwoAffineBaseRow r
+        interval_cases r <;> rcases hc with rfl | rfl <;>
+          simp [residueTwoAffineBaseRow])
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;>
+      simp [residueTwoExpandIndex, hnp, hna, hcpump]
   · by_cases hmid : r < 3 * k
     · let q := (r - 9) / 3
       let b := 9 + (r - 9) % 3
@@ -1379,12 +1406,14 @@ private theorem residueTwoAffine_successor_corridor_mem
         ⟨q, by simp [residueTwoPumpMultiplicity, hb, ht]; omega⟩
         ⟨j, by simp [residueTwoPumpMultiplicity, hcpump, ht]; omega⟩
         (by
-          simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow]
-          have : b ≤ 11 := by omega
-          interval_cases h : b <;> rcases hc with rfl | rfl <;> simp_all)
-      convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hb, hcpump, ht] <;>
-        omega
+          change c ∈ residueTwoAffineBaseRow b
+          obtain ⟨hb0, hb1⟩ := hb
+          interval_cases h : b <;> rcases hc with rfl | rfl <;>
+            simp [residueTwoAffineBaseRow])
+      convert hm using 1
+      apply Prod.ext <;> apply Fin.ext <;>
+        simp [residueTwoExpandIndex, hb, hcpump]
+      omega
     · let b := r - 3 * (k - 4)
       have hb : 12 ≤ b ∧ b ≤ 15 := by dsimp [b]; omega
       have hnp : ¬(9 ≤ b ∧ b < 12) := by omega
@@ -1393,12 +1422,14 @@ private theorem residueTwoAffine_successor_corridor_mem
         ⟨0, by simp [residueTwoPumpMultiplicity, hnp]⟩
         ⟨j, by simp [residueTwoPumpMultiplicity, hcpump, ht]; omega⟩
         (by
-          simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow]
-          have : b ≤ 15 := by omega
-          interval_cases h : b <;> rcases hc with rfl | rfl <;> simp_all)
-      convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hb, hnp, hcpump, ht] <;>
-        omega
+          change c ∈ residueTwoAffineBaseRow b
+          obtain ⟨hb0, hb1⟩ := hb
+          interval_cases h : b <;> rcases hc with rfl | rfl <;>
+            simp [residueTwoAffineBaseRow])
+      convert hm using 1
+      apply Prod.ext <;> apply Fin.ext <;>
+        simp [residueTwoExpandIndex, hb, hnp, hcpump, ht]
+      omega
 
 /-- Copied columns 4 and 5 give a vertical dual corridor from every row at
 least 3 down to dual row 3. -/
@@ -1421,8 +1452,9 @@ private theorem residueTwoAffine_successor_corridor_reachable
         (4 + d) (4 + 3 * j) (by omega) (by omega) (by omega)
         (by simpa only [show 4 + 3 * j = 4 + 3 * j by rfl] using hm4)
         (by
-          convert hm5 using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-            simp only [Prod.fst, Prod.snd] <;> omega)
+          convert hm5 using 1
+          apply Prod.ext <;> apply Fin.ext <;> dsimp only
+          omega)
       have hs : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
           (.cell ⟨4 + d, by omega⟩ ⟨4 + 3 * j, by omega⟩)
           (.cell ⟨3 + d, by omega⟩ ⟨4 + 3 * j, by omega⟩) := by
@@ -1457,34 +1489,34 @@ private theorem residueTwoAffine_successor_crossbar_reachable
       ⟨k - 5, by simp [residueTwoPumpMultiplicity]; omega⟩
       (by rcases hr with rfl | rfl <;>
         simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hnp, hna] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;>
+      simp [residueTwoExpandIndex, hnp, hna]
   have m26 := mem6 2 (Or.inl rfl)
   have m36 := mem6 3 (Or.inr rfl)
   have m24' : ((⟨2, by omega⟩, ⟨4 + 3 * (k - 4), by omega⟩) :
       GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
         uResidueTwoAffine (k + 1) := by
-    have hnp : ¬(9 ≤ (2 : Nat) ∧ 2 < 12) := by omega
     have hm := residueTwoAffine_successor_expanded_mem k hk
       ⟨2, by omega⟩ ⟨4, by omega⟩
-      ⟨0, by simp [residueTwoPumpMultiplicity, hnp]⟩
+      ⟨0, by simp [residueTwoPumpMultiplicity]⟩
       ⟨k - 4, by simp [residueTwoPumpMultiplicity]⟩
       (by simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow])
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hnp] <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> simp [residueTwoExpandIndex]
   have h0 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 3
     (5 + 3 * (k - 5)) (by omega) (by omega) (by omega) m35
-    (by convert m45 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m45
   have h1 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 3
     (5 + 3 * (k - 5)) (by omega) (by omega) (by omega) m35
     (by simpa only [show 5 + 3 * (k - 5) + 1 = 6 + 3 * (k - 5) by omega]
       using m36)
   have h2 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 2
     (6 + 3 * (k - 5)) (by omega) (by omega) (by omega) m26
-    (by convert m36 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m36
   have h3 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 2
     (4 + 3 * (k - 4)) (by omega) (by omega) (by omega) m24'
-    (by convert m34' using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m34'
   have h4 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 3
     (4 + 3 * (k - 4)) (by omega) (by omega) (by omega) m34'
     (by simpa only [show 4 + 3 * (k - 4) + 1 = 5 + 3 * (k - 4) by omega]
@@ -1558,8 +1590,9 @@ private theorem residueTwoAffineStepFace_insertedColumnMiddle_reachable
         ⟨0, by simp [residueTwoPumpMultiplicity]⟩
         ⟨k - 5, by simp [residueTwoPumpMultiplicity]; omega⟩
         (by simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow])
-      convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [residueTwoExpandIndex, residueTwoPumpMultiplicity] <;> omega
+      convert hm using 1
+      apply Prod.ext <;> apply Fin.ext <;> simp [residueTwoExpandIndex]
+      omega
     have hup := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
       (3 * k + 3) (5 + 3 * (k - 5)) (by omega) (by omega) (by omega) m5
       (by simpa only [show 5 + 3 * (k - 5) + 1 = 6 + 3 * (k - 5) by omega]
@@ -1572,11 +1605,11 @@ private theorem residueTwoAffineStepFace_insertedColumnMiddle_reachable
       (by omega) (by omega) (Or.inr rfl) (Or.inl rfl)
     have macross := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
       (3 * k + 2) (5 + 3 * (k - 5)) (by omega) (by omega) (by omega) m5'
-      (by convert m5 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+      m5
     have hacross : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
         (.cell r' ⟨3 * k - 10, by omega⟩) (.cell r' ⟨3 * k - 11, by omega⟩) := by
       simpa only [show 5 + 3 * (k - 5) = 3 * k - 10 by omega,
-        show 5 + 3 * (k - 5) - 1 = 3 * k - 11 by omega] using
+        show 3 * k - 10 - 1 = 3 * k - 11 by omega] using
           macross.reachable.symm
     have huppath : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
         (.cell ⟨3 * k + 3, by omega⟩ ⟨3 * k - 10, by omega⟩)
@@ -1584,8 +1617,7 @@ private theorem residueTwoAffineStepFace_insertedColumnMiddle_reachable
       simpa only [show 3 * k + 3 - 1 = 3 * k + 2 by omega,
         show 5 + 3 * (k - 5) = 3 * k - 10 by omega] using hup.reachable.symm
     have path := huppath.trans (hacross.trans hy)
-    convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [r', hbottom] <;> omega
+    exact path
   · have m5 := residueTwoAffine_successor_corridor_mem k hk r.val 5 (k - 5)
       hr (by have := r.isLt; omega) (Or.inr rfl) (Or.inl rfl)
     have m5' := residueTwoAffine_successor_corridor_mem k hk (r.val + 1) 5 (k - 5)
@@ -1597,11 +1629,10 @@ private theorem residueTwoAffineStepFace_insertedColumnMiddle_reachable
     refine ⟨y, ?_⟩
     have hacross : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
         (.cell r ⟨3 * k - 10, by omega⟩) (.cell r ⟨3 * k - 11, by omega⟩) := by
-      simpa only [show 5 + 3 * (k - 5) = 3 * k - 10 by omega,
-        show 5 + 3 * (k - 5) - 1 = 3 * k - 11 by omega] using
-          macross.reachable.symm
+      convert macross.reachable.symm using 1 <;>
+        apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> dsimp only <;> omega
     have path := hacross.trans hy
-    convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> omega
+    exact path
 
 /-- From row 3 down, the right inserted face-column crosses the next copy of
 base column 4 into the regular old rectangle.  The bottom face again first
@@ -1631,8 +1662,9 @@ private theorem residueTwoAffineStepFace_insertedColumnRight_reachable
         ⟨0, by simp [residueTwoPumpMultiplicity]⟩
         ⟨k - 5, by simp [residueTwoPumpMultiplicity]; omega⟩
         (by simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow])
-      convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [residueTwoExpandIndex, residueTwoPumpMultiplicity] <;> omega
+      convert hm using 1
+      apply Prod.ext <;> apply Fin.ext <;> simp [residueTwoExpandIndex]
+      omega
     have m4 := residueTwoAffine_successor_corridor_mem k hk (3 * k + 3) 4 (k - 4)
       (by omega) (by omega) (Or.inl rfl) (Or.inr rfl)
     have hup := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
@@ -1643,11 +1675,11 @@ private theorem residueTwoAffineStepFace_insertedColumnRight_reachable
       (by omega) (by omega) (Or.inl rfl) (Or.inr rfl)
     have macross := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1))
       (3 * k + 2) (4 + 3 * (k - 4)) (by omega) (by omega) (by omega) m4'
-      (by convert m4 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+      m4
     have hacross : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
         (.cell ⟨3 * k + 2, by omega⟩ ⟨3 * k - 9, by omega⟩)
         (.cell ⟨3 * k + 2, by omega⟩ targetCol) := by
-      simpa only [show 4 + 3 * (k - 4) - 1 = 3 * k - 9 by omega,
+      simpa only [show 3 * k - 8 - 1 = 3 * k - 9 by omega,
         show 4 + 3 * (k - 4) = 3 * k - 8 by omega, targetCol] using
           macross.reachable
     have huppath : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
@@ -1656,8 +1688,7 @@ private theorem residueTwoAffineStepFace_insertedColumnRight_reachable
       simpa only [show 3 * k + 3 - 1 = 3 * k + 2 by omega,
         show 6 + 3 * (k - 5) = 3 * k - 9 by omega] using hup.reachable.symm
     have path := huppath.trans (hacross.trans hy')
-    convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [targetCol, hbottom] <;> omega
+    exact path
   · have m4 := residueTwoAffine_successor_corridor_mem k hk r.val 4 (k - 4)
       hr (by have := r.isLt; omega) (Or.inl rfl) (Or.inr rfl)
     have m4' := residueTwoAffine_successor_corridor_mem k hk (r.val + 1) 4 (k - 4)
@@ -1668,12 +1699,10 @@ private theorem residueTwoAffineStepFace_insertedColumnRight_reachable
     refine ⟨y, ?_⟩
     have hacross : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
         (.cell r ⟨3 * k - 9, by omega⟩) (.cell r targetCol) := by
-      simpa only [show 4 + 3 * (k - 4) - 1 = 3 * k - 9 by omega,
-        show 4 + 3 * (k - 4) = 3 * k - 8 by omega, targetCol] using
-          macross.reachable
+      convert macross.reachable using 1 <;>
+        apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> dsimp [targetCol] <;> omega
     have path := hacross.trans hy
-    convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [targetCol] <;> omega
+    exact path
 
 /-- The three top face rows enter the copied-column machinery through the
 explicit base-row-1, base-row-2, and base-row-3 pattern on columns 4, 5, 6. -/
@@ -1699,9 +1728,9 @@ private theorem residueTwoAffineStepFace_insertedColumns_top_reachable
       ⟨0, by simp [residueTwoPumpMultiplicity, hrnp]⟩
       ⟨j, by simp [residueTwoPumpMultiplicity, hcp]; omega⟩
       (by simpa [IsResidueTwoAffineBase] using hb)
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hrnp, hrna, hcp] <;>
-      omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;>
+      simp [residueTwoExpandIndex, hrnp, hrna, hcp]
   have m14 := mem 1 4 (k - 5) (Or.inl rfl) (Or.inl rfl) (Or.inl rfl)
     (by simp [residueTwoAffineBaseRow])
   have m15 := mem 1 5 (k - 5) (Or.inl rfl) (Or.inr (Or.inl rfl)) (Or.inl rfl)
@@ -1735,10 +1764,10 @@ private theorem residueTwoAffineStepFace_insertedColumns_top_reachable
     (by simpa only [show 6 + 3 * (k - 5) + 1 = 4 + 3 * (k - 4) by omega] using m14')
   have left1 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 1
     (4 + 3 * (k - 5)) (by omega) (by omega) (by omega) m14
-    (by convert m24 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m24
   have right1 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 1
     (6 + 3 * (k - 5)) (by omega) (by omega) (by omega) m16
-    (by convert m26 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m26
   have d12 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 2
     (6 + 3 * (k - 5)) (by omega) (by omega) (by omega) m26
     (by simpa only [show 6 + 3 * (k - 5) + 1 = 4 + 3 * (k - 4) by omega] using m24')
@@ -1765,11 +1794,11 @@ private theorem residueTwoAffineStepFace_insertedColumns_top_reachable
   have pleft : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
       (.cell r1 ⟨3 * k - 11, by omega⟩) (.cell r1 cleft) := by
     simpa only [show 4 + 3 * (k - 5) = 3 * k - 11 by omega,
-      show 4 + 3 * (k - 5) - 1 = 3 * k - 12 by omega, r1, cleft] using
+      show 3 * k - 11 - 1 = 3 * k - 12 by omega, r1, cleft] using
         left1.reachable.symm
   have p12 : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
       (.cell r1 ⟨3 * k - 10, by omega⟩) (.cell r1 ⟨3 * k - 9, by omega⟩) := by
-    simpa only [show 6 + 3 * (k - 5) - 1 = 3 * k - 10 by omega,
+    simpa only [show 3 * k - 9 - 1 = 3 * k - 10 by omega,
       show 6 + 3 * (k - 5) = 3 * k - 9 by omega, r1] using right1.reachable
   have pd00 : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
       (.cell ⟨0, by omega⟩ ⟨3 * k - 11, by omega⟩)
@@ -1811,40 +1840,40 @@ private theorem residueTwoAffineStepFace_insertedColumns_top_reachable
   rcases hrow with hrow | hrow | hrow <;> rcases hcol with hcol | hcol | hcol
   · refine ⟨yleft, ?_⟩
     have path := pd00.trans (pleft.trans hyleft)
-    convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [hrow, hcol] <;> omega
+    convert path using 1
+    apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [hrow, hcol]
   · refine ⟨y2, ?_⟩
     have path := pd01.trans (p12.trans (pd12.trans (pd22.trans hy2)))
-    convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [r1, r3, hrow, hcol] <;> omega
+    convert path using 1
+    apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [hrow, hcol]
   · refine ⟨y2, ?_⟩
     have path := pd02.trans (pd12.trans (pd22.trans hy2))
-    convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [r3, hrow, hcol] <;> omega
+    convert path using 1
+    apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [hrow, hcol]
   · exact ⟨yleft, by
       have path := pleft.trans hyleft
-      convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-        simp [r1, hrow, hcol] <;> omega⟩
+      convert path using 1
+      apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [r1, hrow, hcol]⟩
   · exact ⟨y2, by
       have path := p12.trans (pd12.trans (pd22.trans hy2))
-      convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-        simp [r1, r3, hrow, hcol] <;> omega⟩
+      convert path using 1
+      apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [r1, hrow, hcol]⟩
   · exact ⟨y2, by
       have path := pd12.trans (pd22.trans hy2)
-      convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-        simp [r1, r3, hrow, hcol] <;> omega⟩
+      convert path using 1
+      apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [r1, hrow, hcol]⟩
   · exact ⟨y0, by
       have path := pd20.trans hy0
-      convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-        simp [r3, hrow, hcol] <;> omega⟩
+      convert path using 1
+      apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [hrow, hcol]⟩
   · exact ⟨y1, by
       have path := pd21.trans hy1
-      convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-        simp [r3, hrow, hcol] <;> omega⟩
+      convert path using 1
+      apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [hrow, hcol]⟩
   · exact ⟨y2, by
       have path := pd22.trans hy2
-      convert path using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-        simp [r3, hrow, hcol] <;> omega⟩
+      convert path using 1
+      apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [hrow, hcol]⟩
 
 /-- Every face in one of the three inserted columns whose row lies outside the
 inserted row slab attaches to an embedded old face. -/
@@ -1877,7 +1906,6 @@ private theorem residueTwoAffineStep_vertical_colSeam_of_two_le
     (k : Nat) (hk : 5 ≤ k)
     (e : VerticalGridEdge (3 * k + 2) (3 * k + 2))
     (hcol : e.col.val = 3 * k - 11) (hrow2 : 2 ≤ e.row.val)
-    (he₁ : (verticalPrimalEndpoints e).1 ∈ uResidueTwoAffine k)
     (he₂ : (verticalPrimalEndpoints e).2 ∈ uResidueTwoAffine k) :
     (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
       (residueTwoAffineStepFace k (verticalDualEndpoints e).1)
@@ -1890,7 +1918,8 @@ private theorem residueTwoAffineStep_vertical_colSeam_of_two_le
   let er2 : Fin (3 * k + 2) := ⟨e.row.val + 1, by have := e.row.isLt; omega⟩
   have her2 : ((er2, ⟨3 * k - 11, by omega⟩) :
       GridVertex (3 * k + 2) (3 * k + 2)) ∈ uResidueTwoAffine k := by
-    convert he₂ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+    convert he₂ using 1
+    apply Prod.ext <;> apply Fin.ext <;>
       simp [er2, verticalPrimalEndpoints, hcol]
   have hb2 := residueTwoAffine_colSeam_row_bounds k hk er2 her2
   have hRsuccmax : R + 1 ≤ 3 * k + 3 := by
@@ -1903,15 +1932,14 @@ private theorem residueTwoAffineStep_vertical_colSeam_of_two_le
           uResidueTwoAffine (k + 1) := by
     by_cases hr : r = 2
     · subst r
-      have hnp : ¬(9 ≤ (2 : Nat) ∧ 2 < 12) := by omega
       have hjlt : j < k - 3 := by rcases hj with rfl | rfl <;> omega
       have hm := residueTwoAffine_successor_expanded_mem k hk
         ⟨2, by omega⟩ ⟨4, by omega⟩
-        ⟨0, by simp [residueTwoPumpMultiplicity, hnp]⟩
+        ⟨0, by simp [residueTwoPumpMultiplicity]⟩
         ⟨j, by simp [residueTwoPumpMultiplicity]; omega⟩
         (by simp [IsResidueTwoAffineBase, residueTwoAffineBaseRow])
-      convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-        simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hnp] <;> omega
+      convert hm using 1
+      apply Prod.ext <;> apply Fin.ext <;> simp [residueTwoExpandIndex]
     · exact residueTwoAffine_successor_corridor_mem k hk r 4 j
         (by omega) hr1 (Or.inl rfl) hj
   have mc1 : ((⟨R, by omega⟩, ⟨4 + 3 * (k - 5), by omega⟩) :
@@ -1949,13 +1977,15 @@ private theorem residueTwoAffineStep_vertical_colSeam_of_two_le
     simp only [verticalDualEndpoints, dif_neg (by omega : e.col.val ≠ 0),
       residueTwoAffineStepFace]
     apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [R, hcol] <;> (try split_ifs) <;> omega
+      simp [R, hcol]
+    split_ifs <;> omega
   have htarget : residueTwoAffineStepFace k (verticalDualEndpoints e).2 =
       .cell ⟨R, by omega⟩ ⟨4 + 3 * (k - 4), by omega⟩ := by
     simp only [verticalDualEndpoints,
       dif_neg (by omega : e.col.val + 1 ≠ 3 * k + 2), residueTwoAffineStepFace]
     apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [R, hcol] <;> (try split_ifs) <;> omega
+      simp [R, hcol]
+    omega
   rw [hsource, htarget]
   simpa only [show 4 + 3 * (k - 5) - 1 = 3 * k - 12 by omega,
     show 4 + 3 * (k - 4) = 3 * k - 8 by omega] using path
@@ -1987,9 +2017,9 @@ private theorem residueTwoAffineStep_vertical_colSeam_row_one
         · simp [residueTwoPumpMultiplicity, hcp]; omega
         · simp [residueTwoPumpMultiplicity, hc3 rfl]⟩
       (by simpa [IsResidueTwoAffineBase] using hb)
-    convert hm using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
-      simp [residueTwoExpandIndex, residueTwoPumpMultiplicity, hrnp, hrna] <;>
-      (try rcases hcp with hcp | rfl) <;> simp_all <;> omega
+    convert hm using 1
+    apply Prod.ext <;> apply Fin.ext <;> simp [residueTwoExpandIndex, hrnp, hrna]
+    rcases hcp with hcp | rfl <;> simp_all
   have m24 := mem 2 4 (k - 5) (Or.inr (Or.inl rfl)) (Or.inr (Or.inl rfl))
     (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
   have m34 := mem 3 4 (k - 5) (Or.inr (Or.inr rfl)) (Or.inr (Or.inl rfl))
@@ -2022,26 +2052,26 @@ private theorem residueTwoAffineStep_vertical_colSeam_row_one
     (by simpa only [show 3 * k - 12 + 1 = 4 + 3 * (k - 5) by omega] using m24)
   have a1 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 2
     (4 + 3 * (k - 5)) (by omega) (by omega) (by omega) m24
-    (by convert m34 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m34
   have a2 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 3
     (4 + 3 * (k - 5)) (by omega) (by omega) (by omega) m34
     (by simpa only [show 4 + 3 * (k - 5) + 1 = 5 + 3 * (k - 5) by omega] using m35)
   have a3 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 3
     (5 + 3 * (k - 5)) (by omega) (by omega) (by omega) m35
-    (by convert m45 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m45
   have a4 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 3
     (5 + 3 * (k - 5)) (by omega) (by omega) (by omega) m35
     (by simpa only [show 5 + 3 * (k - 5) + 1 = 6 + 3 * (k - 5) by omega] using m36)
   have a5 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 2
     (6 + 3 * (k - 5)) (by omega) (by omega) (by omega) m26
-    (by convert m36 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m36
   have a6 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 2
     (6 + 3 * (k - 5)) (by omega) (by omega) (by omega) m26
     (by simpa only [show 6 + 3 * (k - 5) + 1 = 4 + 3 * (k - 4) by omega]
       using m24')
   have a7 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) 1
     (4 + 3 * (k - 4)) (by omega) (by omega) (by omega) m14'
-    (by convert m24' using 1 <;> apply Prod.ext <;> apply Fin.ext <;> omega)
+    m24'
   have p6 : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
       (.cell ⟨2, by omega⟩ ⟨6 + 3 * (k - 5), by omega⟩)
       (.cell ⟨1, by omega⟩ ⟨6 + 3 * (k - 5), by omega⟩) := by
@@ -2088,7 +2118,7 @@ private theorem residueTwoAffineStep_vertical_colSeam_row_one
     simp only [verticalDualEndpoints,
       dif_neg (by omega : e.col.val + 1 ≠ 3 * k + 2), residueTwoAffineStepFace]
     apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [hrow, hcol] <;> (try split_ifs) <;> omega
+      simp [hrow, hcol] <;> omega
   rw [hs, ht]
   simpa only [show 4 + 3 * (k - 4) = 3 * k - 8 by omega] using path
 
@@ -2105,13 +2135,14 @@ theorem residueTwoAffineStep_vertical_colSeam_reachable
   let er : Fin (3 * k + 2) := ⟨e.row.val, by have := e.row.isLt; omega⟩
   have her : ((er, ⟨3 * k - 11, by omega⟩) :
       GridVertex (3 * k + 2) (3 * k + 2)) ∈ uResidueTwoAffine k := by
-    convert he₁ using 1 <;> apply Prod.ext <;> apply Fin.ext <;>
+    convert he₁ using 1
+    apply Prod.ext <;> apply Fin.ext <;>
       simp [er, verticalPrimalEndpoints, hcol]
   have hr := (residueTwoAffine_colSeam_row_bounds k hk er her).1
   dsimp [er] at hr
   by_cases hrow : e.row.val = 1
   · exact residueTwoAffineStep_vertical_colSeam_row_one k hk e hcol hrow
-  · exact residueTwoAffineStep_vertical_colSeam_of_two_le k hk e hcol (by omega) he₁ he₂
+  · exact residueTwoAffineStep_vertical_colSeam_of_two_le k hk e hcol (by omega) he₂
 
 /-- Every old vertical U-U edge transports to a successor dual path. -/
 theorem residueTwoAffineStep_vertical_reachable
@@ -2135,8 +2166,8 @@ private theorem uuDual_threeRowRectangle_reachable
     (hc : lo ≤ c ∧ c ≤ hi) (hg : lo ≤ gate ∧ gate < hi)
     (hNrow : a + 3 < 3 * (k + 1) + 2)
     (hNcol : hi + 1 < 3 * (k + 1) + 2)
-    (hmove : ∀ rr vv (hrr : a ≤ rr) (hrr' : rr ≤ a + 3)
-      (hvv : lo < vv) (hvv' : vv ≤ hi),
+    (hmove : ∀ rr vv (hrr : a ≤ rr) (hrr' : rr ≤ a + 3),
+      lo < vv → ∀ (hvv' : vv ≤ hi),
       ((⟨rr, by omega⟩, ⟨vv, by omega⟩) :
         GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈ U)
     (hgate : ∀ rr (hrr : a ≤ rr) (hrr' : rr ≤ a + 3),
@@ -2181,7 +2212,8 @@ private theorem uuDual_threeRowRectangle_reachable
         have hs := vertical_uu_dual_cells_adj U rr (lo + d + 1)
           (by omega) (by omega) (by omega) hm0 hm1
         exact (ih (by omega) (by omega)).trans (by
-          simpa only [show lo + d + 1 - 1 = lo + d by omega] using hs.reachable)
+          simpa only [Nat.add_assoc, show lo + (d + 1) - 1 = lo + d by omega]
+            using hs.reachable)
   have across : (uuDualGraph U).Reachable
       (.cell ⟨r, by omega⟩ ⟨c, by omega⟩)
       (.cell ⟨r, by omega⟩ ⟨gate, by omega⟩) :=
@@ -2198,7 +2230,7 @@ private theorem uuDual_threeRowRectangle_reachable
     | zero =>
         have hm0 := (hgate a (by omega) (by omega)).1
         have hm1 := (hgate a (by omega) (by omega)).2
-        simpa only [show a - 1 = a - 1 by rfl] using
+        simpa only [Nat.add_zero] using
           (horizontal_uu_dual_cells_adj U a gate (by omega) (by omega) (by omega)
             hm0 hm1).reachable.symm
     | succ d ih =>
@@ -2229,126 +2261,75 @@ theorem residueTwoAffineStepFace_insertedRows_reachable
         GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
           uResidueTwoAffine (k + 1) := by
     have hrows : rr = a ∨ rr = a + 1 ∨ rr = a + 2 ∨ rr = a + 3 := by omega
-    rcases hrows with rfl | rfl | rfl | rfl <;>
-      rcases hbc with rfl | rfl
+    have hb (br : Nat) (hbr : br = 9 ∨ br = 10 ∨ br = 11) :
+        bc ∈ residueTwoAffineBaseRow br := by
+      rcases hbr with rfl | rfl | rfl <;> rcases hbc with rfl | rfl <;>
+        simp [residueTwoAffineBaseRow]
+    rcases hrows with rfl | rfl | rfl | rfl
     all_goals
       first
       | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 9 1 (k - 5)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 9 2 (k - 5)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_below_mem k hk 9 bc (k - 5)
+          (by omega) (by omega) (by omega) (hb 9 (by omega))
       | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 10 1 (k - 5)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 10 2 (k - 5)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_below_mem k hk 10 bc (k - 5)
+          (by omega) (by omega) (by omega) (hb 10 (by omega))
       | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 11 1 (k - 5)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 11 2 (k - 5)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_below_mem k hk 11 bc (k - 5)
+          (by omega) (by omega) (by omega) (hb 11 (by omega))
       | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 9 1 (k - 4)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_below_mem k hk 9 2 (k - 4)
-          (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_below_mem k hk 9 bc (k - 4)
+          (by omega) (by omega) (by omega) (hb 9 (by omega))
   have pumpMem (q rr bc : Nat) (hq : q < k - 3)
       (hrr : a ≤ rr) (hrr' : rr ≤ a + 3) (hbc : bc = 4 ∨ bc = 5) :
       ((⟨rr, by omega⟩, ⟨bc + 3 * q, by omega⟩) :
         GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
           uResidueTwoAffine (k + 1) := by
     have hrows : rr = a ∨ rr = a + 1 ∨ rr = a + 2 ∨ rr = a + 3 := by omega
-    rcases hrows with rfl | rfl | rfl | rfl <;>
-      rcases hbc with rfl | rfl
+    have hb (br : Nat) (hbr : br = 9 ∨ br = 10 ∨ br = 11) :
+        bc ∈ residueTwoAffineBaseRow br := by
+      rcases hbr with rfl | rfl | rfl <;> rcases hbc with rfl | rfl <;>
+        simp [residueTwoAffineBaseRow]
+    rcases hrows with rfl | rfl | rfl | rfl
     all_goals
       first
       | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 9 4 (k - 5) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 9 5 (k - 5) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_pump_mem k hk 9 bc (k - 5) q
+          (by omega) (by omega) (by omega) hq (hb 9 (by omega))
       | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 10 4 (k - 5) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 10 5 (k - 5) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_pump_mem k hk 10 bc (k - 5) q
+          (by omega) (by omega) (by omega) hq (hb 10 (by omega))
       | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 11 4 (k - 5) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 11 5 (k - 5) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_pump_mem k hk 11 bc (k - 5) q
+          (by omega) (by omega) (by omega) hq (hb 11 (by omega))
       | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 9 4 (k - 4) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_pump_mem k hk 9 5 (k - 4) q
-          (by omega) (by omega) (by omega) hq (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_pump_mem k hk 9 bc (k - 4) q
+          (by omega) (by omega) (by omega) hq (hb 9 (by omega))
   have rightMem (rr bc : Nat) (hrr : a ≤ rr) (hrr' : rr ≤ a + 3)
       (hbc : bc = 7 ∨ bc = 8 ∨ bc = 14 ∨ bc = 15) :
       ((⟨rr, by omega⟩, ⟨bc + 3 * (k - 4), by omega⟩) :
         GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
           uResidueTwoAffine (k + 1) := by
     have hrows : rr = a ∨ rr = a + 1 ∨ rr = a + 2 ∨ rr = a + 3 := by omega
-    rcases hrows with rfl | rfl | rfl | rfl <;>
-      rcases hbc with rfl | rfl | rfl | rfl
+    have hb (br : Nat) (hbr : br = 9 ∨ br = 10 ∨ br = 11) :
+        bc ∈ residueTwoAffineBaseRow br := by
+      rcases hbr with rfl | rfl | rfl <;> rcases hbc with rfl | rfl | rfl | rfl <;>
+        simp [residueTwoAffineBaseRow]
+    rcases hrows with rfl | rfl | rfl | rfl
     all_goals
       first
       | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 7 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 8 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 14 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 5) = a by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 15 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_right_mem k hk 9 bc (k - 5)
+          (by omega) (by omega) (by omega) (by omega) (hb 9 (by omega))
       | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 10 7 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 10 8 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 10 14 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 10 + 3 * (k - 5) = a + 1 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 10 15 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_right_mem k hk 10 bc (k - 5)
+          (by omega) (by omega) (by omega) (by omega) (hb 10 (by omega))
       | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 11 7 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 11 8 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 11 14 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 11 + 3 * (k - 5) = a + 2 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 11 15 (k - 5)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_right_mem k hk 11 bc (k - 5)
+          (by omega) (by omega) (by omega) (by omega) (hb 11 (by omega))
       | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 7 (k - 4)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 8 (k - 4)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 14 (k - 4)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
-      | simpa only [show 9 + 3 * (k - 4) = a + 3 by dsimp [a]; omega] using
-          residueTwoAffine_successor_repeated_right_mem k hk 9 15 (k - 4)
-          (by omega) (by omega) (by omega) (by omega) (by simp [a, residueTwoAffineBaseRow])
+          residueTwoAffine_successor_repeated_right_mem k hk 9 bc (k - 4)
+          (by omega) (by omega) (by omega) (by omega) (hb 9 (by omega))
   have attachAbove (g : Nat) (hg : g < 3 * (k + 1) + 1) :
       ∃ y : GridFace (3 * k + 2) (3 * k + 2),
         (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
@@ -2404,10 +2385,12 @@ theorem residueTwoAffineStepFace_insertedRows_reachable
         (by
           intro rr hrr hrr'
           constructor
-          · convert pumpMem q rr 4 hq hrr hrr' (Or.inl rfl) using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;> simp [lo] <;> omega
-          · convert pumpMem q rr 5 hq hrr hrr' (Or.inr rfl) using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;> simp [lo] <;> omega)
+          · convert pumpMem q rr 4 hq hrr hrr' (Or.inl rfl) using 1
+            apply Prod.ext <;> apply Fin.ext <;> simp [lo]
+            omega
+          · convert pumpMem q rr 5 hq hrr hrr' (Or.inr rfl) using 1
+            apply Prod.ext <;> apply Fin.ext <;> simp [lo]
+            omega)
       exact finish (lo + 1) (by dsimp [lo, q]; omega) (by simpa [a] using hp)
     · let s := 3 * k - 6
       have hcs : s ≤ c.val := by dsimp [s]; omega
@@ -2425,10 +2408,12 @@ theorem residueTwoAffineStepFace_insertedRows_reachable
           (by
             intro rr hrr hrr'
             constructor
-            · convert rightMem rr 7 hrr hrr' (Or.inl rfl) using 1 <;>
-                apply Prod.ext <;> apply Fin.ext <;> simp [s] <;> omega
-            · convert rightMem rr 8 hrr hrr' (Or.inr (Or.inl rfl)) using 1 <;>
-                apply Prod.ext <;> apply Fin.ext <;> simp [s] <;> omega)
+            · convert rightMem rr 7 hrr hrr' (Or.inl rfl) using 1
+              apply Prod.ext <;> apply Fin.ext <;> simp [s]
+              omega
+            · convert rightMem rr 8 hrr hrr' (Or.inr (Or.inl rfl)) using 1
+              apply Prod.ext <;> apply Fin.ext <;> simp [s]
+              omega)
         exact finish (s + 1) (by dsimp [s]; omega) (by simpa [a] using hp)
       · by_cases hlast : s + 7 ≤ c.val
         · have hp := uuDual_threeRowRectangle_reachable k
@@ -2444,10 +2429,12 @@ theorem residueTwoAffineStepFace_insertedRows_reachable
             (by
               intro rr hrr hrr'
               constructor
-              · convert rightMem rr 14 hrr hrr' (Or.inr (Or.inr (Or.inl rfl))) using 1 <;>
-                  apply Prod.ext <;> apply Fin.ext <;> simp [s] <;> omega
-              · convert rightMem rr 15 hrr hrr' (Or.inr (Or.inr (Or.inr rfl))) using 1 <;>
-                  apply Prod.ext <;> apply Fin.ext <;> simp [s] <;> omega)
+              · convert rightMem rr 14 hrr hrr' (Or.inr (Or.inr (Or.inl rfl))) using 1
+                apply Prod.ext <;> apply Fin.ext <;> simp [s]
+                omega
+              · convert rightMem rr 15 hrr hrr' (Or.inr (Or.inr (Or.inr rfl))) using 1
+                apply Prod.ext <;> apply Fin.ext <;> simp [s]
+                omega)
           exact finish (s + 8) (by dsimp [s]; omega) (by simpa [a] using hp)
         · have smem (br bc j : Nat) (hbr : 9 ≤ br ∧ br < 12)
               (hbc : 7 ≤ bc) (hbc' : bc < 17) (hj : j < k - 3)
@@ -2461,29 +2448,33 @@ theorem residueTwoAffineStepFace_insertedRows_reachable
               ((⟨a, by omega⟩, ⟨bc + 3 * (k - 4), by omega⟩) :
                 GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
                   uResidueTwoAffine (k + 1) := by
-            convert smem 9 bc (k - 5) (by omega) hbc hbc' (by omega) hb using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;> simp [a] <;> omega
+            convert smem 9 bc (k - 5) (by omega) hbc hbc' (by omega) hb using 1
+            apply Prod.ext <;> apply Fin.ext <;> simp [a]
+            omega
           have B (bc : Nat) (hbc : 7 ≤ bc) (hbc' : bc < 17)
               (hb : bc ∈ residueTwoAffineBaseRow 10) :
               ((⟨a + 1, by omega⟩, ⟨bc + 3 * (k - 4), by omega⟩) :
                 GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
                   uResidueTwoAffine (k + 1) := by
-            convert smem 10 bc (k - 5) (by omega) hbc hbc' (by omega) hb using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;> simp [a] <;> omega
+            convert smem 10 bc (k - 5) (by omega) hbc hbc' (by omega) hb using 1
+            apply Prod.ext <;> apply Fin.ext <;> simp [a]
+            omega
           have C (bc : Nat) (hbc : 7 ≤ bc) (hbc' : bc < 17)
               (hb : bc ∈ residueTwoAffineBaseRow 11) :
               ((⟨a + 2, by omega⟩, ⟨bc + 3 * (k - 4), by omega⟩) :
                 GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
                   uResidueTwoAffine (k + 1) := by
-            convert smem 11 bc (k - 5) (by omega) hbc hbc' (by omega) hb using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;> simp [a] <;> omega
+            convert smem 11 bc (k - 5) (by omega) hbc hbc' (by omega) hb using 1
+            apply Prod.ext <;> apply Fin.ext <;> simp [a]
+            omega
           have D (bc : Nat) (hbc : 7 ≤ bc) (hbc' : bc < 17)
               (hb : bc ∈ residueTwoAffineBaseRow 9) :
               ((⟨a + 3, by omega⟩, ⟨bc + 3 * (k - 4), by omega⟩) :
                 GridVertex (3 * (k + 1) + 2) (3 * (k + 1) + 2)) ∈
                   uResidueTwoAffine (k + 1) := by
-            convert smem 9 bc (k - 4) (by omega) hbc hbc' (by omega) hb using 1 <;>
-              apply Prod.ext <;> apply Fin.ext <;> simp [a] <;> omega
+            convert smem 9 bc (k - 4) (by omega) hbc hbc' (by omega) hb using 1
+            apply Prod.ext <;> apply Fin.ext <;> simp [a]
+            omega
           let p := s + 3
           have ma9 := A 9 (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
           have ma10 := A 10 (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
@@ -2498,52 +2489,52 @@ theorem residueTwoAffineStepFace_insertedRows_reachable
           have md12 := D 12 (by omega) (by omega) (by simp [residueTwoAffineBaseRow])
           have up0 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) a p
             (by omega) (by omega) (by omega)
-            (by convert ma9 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert ma10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert ma9 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert ma10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have va10 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) a (p + 1)
             (by omega) (by omega) (by omega)
-            (by convert ma10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mb10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert ma10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mb10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have va12 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) a (p + 3)
             (by omega) (by omega) (by omega)
-            (by convert ma12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mb12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert ma12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mb12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have vb10 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 1) (p + 1)
             (by omega) (by omega) (by omega)
-            (by convert mb10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mc10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mb10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mc10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have vb11 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 1) (p + 2)
             (by omega) (by omega) (by omega)
-            (by convert mb11 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mc11 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mb11 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mc11 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have vb12 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 1) (p + 3)
             (by omega) (by omega) (by omega)
-            (by convert mb12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mc12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mb12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mc12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have vc10 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 2) (p + 1)
             (by omega) (by omega) (by omega)
-            (by convert mc10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert md10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mc10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert md10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have vc12 := vertical_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 2) (p + 3)
             (by omega) (by omega) (by omega)
-            (by convert mc12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert md12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mc12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert md12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have ab10 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 1) (p + 1)
             (by omega) (by omega) (by omega)
-            (by convert mb10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mb11 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mb10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mb11 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have ab11 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 1) (p + 2)
             (by omega) (by omega) (by omega)
-            (by convert mb11 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mb12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mb11 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mb12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have bc10 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 2) (p + 1)
             (by omega) (by omega) (by omega)
-            (by convert mc10 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mc11 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mc10 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mc11 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have bc11 := horizontal_uu_dual_cells_adj (uResidueTwoAffine (k + 1)) (a + 2) (p + 2)
             (by omega) (by omega) (by omega)
-            (by convert mc11 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
-            (by convert mc12 using 1 <;> apply Prod.ext <;> apply Fin.ext <;> simp [p, s] <;> omega)
+            (by convert mc11 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
+            (by convert mc12 using 1; apply Prod.ext <;> apply Fin.ext <;> simp [p, s]; omega)
           have top : (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable
               (.cell ⟨a, by omega⟩ ⟨p, by omega⟩)
               (.cell ⟨a - 1, by omega⟩ ⟨p, by omega⟩) := by
@@ -2587,8 +2578,8 @@ theorem residueTwoAffineStepFace_insertedRows_reachable
                 (uuDualGraph (uResidueTwoAffine (k + 1))).Reachable (.cell r c)
                   (residueTwoAffineStepFace k y) := by
             apply finish p (by dsimp [p, s]; omega)
-            convert route using 1 <;> apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-              simp [hrr, hcc] <;> omega
+            convert route using 1
+            apply congrArg₂ GridFace.cell <;> apply Fin.ext <;> simp [hrr, hcc]
           rcases hrow with hrow | hrow | hrow <;>
             rcases hcol with hcol | hcol | hcol | hcol
           · exact close a p hrow hcol top
@@ -2718,8 +2709,8 @@ theorem uResidueTwoAffine_dual_connected_of_stepGeometry
   induction d with
   | zero => simpa using uResidueTwoAffine_five_dual_connected
   | succ d ih =>
-      simpa [Nat.add_assoc] using
-       (steps (5 + d) (by omega)).connected (ih (by omega))
+      rw [show 5 + d.succ = 5 + d + 1 by omega]
+      exact (steps (5 + d) (by omega)).connected (ih (by omega))
 
 /-- The affine residue-two U-U dual is connected at every admissible size. -/
 theorem uResidueTwoAffine_dual_connected (k : Nat) (hk : 5 ≤ k) :

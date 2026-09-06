@@ -64,7 +64,7 @@ theorem fourCycle_has_unforced_edge {G : SimpleGraph V} {F : Set V}
       (c ∉ F ∧ d ∉ F) ∨
       (d ∉ F ∧ a ∉ F) := by
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   rcases hnone with ⟨habF, hbcF, hcdF, hdaF⟩
   let H := forcedEdgeGraph G F
   have habFor : a ∈ F ∨ b ∈ F := by

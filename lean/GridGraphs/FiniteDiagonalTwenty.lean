@@ -192,24 +192,18 @@ private theorem finiteU20_parent_ne (f : GridFace 20 20) (hf : f ≠ .out) :
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;>
-        simp [finiteU20Parent, finiteU20ParentDirection, table]
+      fin_cases r <;> fin_cases c <;> decide
 
 private theorem finiteU20_parent_edge_data (f : GridFace 20 20) (hf : f ≠ .out) :
     let e := finiteU20ParentEdge f
     e.primalEndpoints.1 ∈ finiteU20 ∧
       e.primalEndpoints.2 ∈ finiteU20 ∧
       HasDualEndpoints e.dualEndpoints f (finiteU20Parent f) := by
+  simp only [finiteU20, Finset.mem_filter, Finset.mem_univ, true_and, HasDualEndpoints]
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;>
-        norm_num [finiteU20ParentEdge, finiteU20ParentEdgeCode,
-          FiniteU20PrimalEdge.primalEndpoints, FiniteU20PrimalEdge.dualEndpoints,
-          finiteU20, finiteU20Selected, finiteU20Mask, finiteU20Parent,
-          finiteU20ParentDirection, table, horizontalPrimalEndpoints,
-          verticalPrimalEndpoints, horizontalDualEndpoints, verticalDualEndpoints,
-          HasDualEndpoints, Fin.mk.injEq]
+      fin_cases r <;> fin_cases c <;> decide
 
 /-- The explicit ranked parent certificate on all three hundred sixty-two faces. -/
 def finiteU20RankedDualCertificate :
@@ -227,8 +221,7 @@ def finiteU20RankedDualCertificate :
     cases f with
     | out => exact (hf rfl).elim
     | cell r c =>
-        fin_cases r <;> fin_cases c <;>
-          norm_num [finiteU20Parent, finiteU20ParentDirection, finiteU20Rank, table]
+        fin_cases r <;> fin_cases c <;> decide
 
 theorem finiteU20_compl_card :
     ((Finset.univ : Finset (GridVertex 20 20)) \ finiteU20).card = 150 := by

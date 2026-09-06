@@ -110,19 +110,9 @@ theorem gridNeighbor?_outwardDirection_eq_none {m n : Nat}
     {U : Finset (GridVertex m n)} (p : OuterBoundaryPort U) :
     gridNeighbor? p.vertex p.outwardDirection = none := by
   have h := p.side_incidence
-  rcases p with p | p
-  · simpa [vertex, side, outwardDirection, OuterBoundarySide.outwardDirection,
-      gridNeighbor?] using h
-  · rcases p with p | p
-    · simp [vertex, side, outwardDirection, OuterBoundarySide.outwardDirection,
-        gridNeighbor?] at h ⊢
-      omega
-    · rcases p with p | p
-      · simpa [vertex, side, outwardDirection, OuterBoundarySide.outwardDirection,
-          gridNeighbor?] using h
-      · simp [vertex, side, outwardDirection, OuterBoundarySide.outwardDirection,
-          gridNeighbor?] at h ⊢
-        omega
+  cases hs : p.side <;>
+    simp only [hs] at h <;>
+    simp [outwardDirection, hs, OuterBoundarySide.outwardDirection, gridNeighbor?, h]
 
 /-- A split outer port is determined by its vertex and side label. -/
 theorem ext {m n : Nat} {U : Finset (GridVertex m n)}

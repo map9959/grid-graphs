@@ -36,12 +36,12 @@ private lemma bot_spanningSubtree_11 :
 /-- The three-edge path obtained by deleting the bottom edge of the square. -/
 private def smallTree22 : SimpleGraph (GridVertex 2 2) where
   Adj v w := (gridGraph 2 2).Adj v w ∧ (v.1.val = 0 ∨ w.1.val = 0)
-  symm := by
+  symm.symm := by
     rintro v w ⟨hvw, hvwTop⟩
     exact ⟨hvw.symm, hvwTop.symm⟩
-  loopless := by
+  loopless.irrefl := by
     rintro v ⟨hvv, _⟩
-    exact (gridGraph 2 2).loopless v hvv
+    exact (gridGraph 2 2).irrefl hvv
 
 private instance : DecidableRel smallTree22.Adj := by
   intro v w
@@ -116,7 +116,7 @@ private lemma numPreserved_22_le_two
     (fun v => ¬isPreserved 2 2 T v)
   have hcard : P.card + U.card = 4 := by
     simpa [P, U, GridVertex, Fintype.card_prod] using
-      filter_card_add_filter_neg_card_eq_card
+      card_filter_add_card_filter_not
         (s := (univ : Finset (GridVertex 2 2)))
         (p := fun v => isPreserved 2 2 T v)
   have hdegree_grid (v : GridVertex 2 2) : (gridGraph 2 2).degree v = 2 := by
@@ -134,7 +134,7 @@ private lemma numPreserved_22_le_two
       simp only [P, U, mem_univ, mem_union, mem_filter, true_and]
       exact iff_of_true trivial (em (isPreserved 2 2 T v))]
     apply sum_union
-    rw [disjoint_left]
+    rw [Finset.disjoint_left]
     intro v hvP hvU
     simp only [P, U, mem_filter] at hvP hvU
     exact hvU.2 hvP.2

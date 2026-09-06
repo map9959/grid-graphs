@@ -49,7 +49,7 @@ theorem maximalForcedAcyclic_threeSideCrop_insertable_escape
   obtain ⟨p, hp⟩ := hreach.exists_isPath
   refine ⟨v, hv, w, hw, hvw, p, hp, ?_⟩
   by_contra hescape
-  push_neg at hescape
+  push Not at hescape
   let P : Set (GridVertex n n) := {z | z ∈ p.support}
   let localVertex (z : P) : GridVertex (n - 3) (n - 3) :=
     Classical.choose (hescape z.1 z.2)
@@ -155,7 +155,7 @@ theorem forcedEdgePath_exists_forced_outside_gridOffsetEmbedding
       z ∉ Set.range (gridOffsetEmbedding rowOffset colOffset hrows hcols) := by
   classical
   by_contra hforced
-  push_neg at hforced
+  push Not at hforced
   obtain ⟨z, hzP, hzout⟩ := hescape
   obtain ⟨i, hiz, hi⟩ := Walk.mem_support_iff_exists_getVert.mp hzP
   have hi0 : i ≠ 0 := by
@@ -193,8 +193,8 @@ theorem forcedEdgePath_exists_forced_outside_gridOffsetEmbedding
     · simpa [hiz, show i - 1 + 1 = i by omega] using hprev.1.symm
     · simpa [hiz] using hnext.1
   have hindices : i - 1 = i + 1 := hP.getVert_injOn
-    (by simp only [Set.mem_setOf_eq]; omega)
-    (by simp only [Set.mem_setOf_eq]; omega) hneighbors
+    (by simp only [Set.mem_ofPred_eq]; omega)
+    (by simp only [Set.mem_ofPred_eq]; omega) hneighbors
   omega
 
 /-- Every ambient neighbor of an interior vertex of an offset crop is still

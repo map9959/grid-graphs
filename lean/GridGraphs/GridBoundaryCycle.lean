@@ -80,7 +80,7 @@ theorem exists_gridBoundaryPosition {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     · unfold gridBoundaryLength
       omega
     · unfold gridBoundaryVertex
-      rw [dif_pos (by simpa using v.2.isLt)]
+      rw [dif_pos v.2.isLt]
       apply Prod.ext <;> apply Fin.ext <;> simp_all
   by_cases hright : v.2.val + 1 = n
   · refine ⟨⟨n + v.1.val - 1, ?_⟩, ?_⟩
@@ -110,7 +110,7 @@ theorem exists_gridBoundaryPosition {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
       rw [dif_neg (by simp [gridBoundaryLength]; omega),
         dif_neg (by simp [gridBoundaryLength]; omega),
         dif_neg (by simp [gridBoundaryLength]; omega)]
-      apply Prod.ext <;> apply Fin.ext <;> simp_all [gridBoundaryLength] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp_all [gridBoundaryLength]; omega
 
 /-- The range of the clockwise map is exactly the rectangular boundary. -/
 theorem mem_range_gridBoundaryVertex_iff {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)

@@ -59,7 +59,7 @@ private theorem Walk.exists_two_common_of_right_edge {u v : V}
         rcases he with rfl | he
         · exact ⟨u, ⟨hu, ⟨v, heH⟩⟩, v,
             ⟨⟨u, hg.symm⟩, ⟨u, heH.symm⟩⟩,
-              fun huv => G.loopless u (huv ▸ hg)⟩
+              fun huv => G.loopless.irrefl u (huv ▸ hg)⟩
         · exact ih hp'.1 ⟨u, hg.symm⟩ hv ⟨e, he, heH⟩
       · obtain ⟨y, hyp, hy⟩ :=
           p.exists_common_on_crossing hK ⟨u, hh.symm⟩ hv
@@ -73,7 +73,7 @@ theorem IsAcyclic.sup_of_support_inter_subsingleton
     (G ⊔ H).IsAcyclic := by
   intro u c hc
   cases c with
-  | nil => exact hc.not_of_nil
+  | nil => exact Walk.not_isCycle_nil hc
   | cons h p =>
       have hp : p.IsPath := ((Walk.cons_isCycle_iff p h).mp hc).1
       rcases (sup_adj G H _ _).mp h with hg | hh
@@ -118,10 +118,6 @@ def listUnion : List (SimpleGraph V) → SimpleGraph V
 @[simp] theorem listUnion_cons (G : SimpleGraph V) (graphs : List (SimpleGraph V)) :
     listUnion (G :: graphs) = G ⊔ listUnion graphs :=
   rfl
-
-@[simp] theorem support_bot : (⊥ : SimpleGraph V).support = ∅ := by
-  ext v
-  simp [mem_support]
 
 @[simp] theorem support_sup (G H : SimpleGraph V) :
     (G ⊔ H).support = G.support ∪ H.support := by

@@ -227,7 +227,7 @@ private theorem uResidueOne_dual_reachable_out (k : Nat) (hk : 1 ≤ k)
 /-- The U-U dual of the residue-one construction is connected. -/
 theorem uuDualGraph_uResidueOne_connected (k : Nat) (hk : 1 ≤ k) :
     (uuDualGraph (uResidueOne k)).Connected := by
-  haveI : Nonempty (GridFace (3 * k + 1) (3 * k + 1)) := ⟨.out⟩
+  have : Nonempty (GridFace (3 * k + 1) (3 * k + 1)) := ⟨.out⟩
   constructor
   intro f g
   exact (uResidueOne_dual_reachable_out k hk f).trans

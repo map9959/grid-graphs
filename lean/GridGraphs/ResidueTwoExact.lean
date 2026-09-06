@@ -277,8 +277,12 @@ theorem residueTwoExact_weighted_base (t : Nat) :
       (if IsResidueTwoExactBase r c then
         residueTwoExactMultiplicity 5 t r * residueTwoExactMultiplicity 11 t c
       else 0) = 6 * (t + 1) ^ 2 + 65 * (t + 1) + 179 := by
-  simp [IsResidueTwoExactBase, residueTwoExactBaseRow,
-    residueTwoExactMultiplicity, Fin.sum_univ_succ]
+  norm_num only [Fin.sum_univ_succ, Fin.val_zero, Fin.val_succ,
+    IsResidueTwoExactBase, residueTwoExactBaseRow, List.mem_toFinset,
+    List.mem_cons, List.not_mem_nil, residueTwoExactMultiplicity,
+    Nat.reduceAdd, Nat.reduceLT, Nat.reduceEqDiff,
+    and_self, and_false, false_and, or_true, true_or, or_false, false_or,
+    if_true, if_false, Nat.mul_one, Nat.one_mul, Nat.add_zero]
   ring_nf
 
 theorem residueTwoExactOccurrences_card (t : Nat) :

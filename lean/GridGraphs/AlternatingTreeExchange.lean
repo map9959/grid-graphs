@@ -125,7 +125,7 @@ theorem isTree (h : BasisExchangeFeasible d e) (htree : T.IsTree) :
   have hexchangeEdges : (d.basisExchange e).edgeSet =
       (T.edgeSet \ {d.edgeSym2}) ∪ {e.primalSym2} := by
     rw [basisExchange, SimpleGraph.edgeSet_sup, SimpleGraph.edgeSet_deleteEdges,
-      SimpleGraph.edge_edgeSet_of_ne (endpoints_ne e)]
+      SimpleGraph.edgeSet_edge_of_ne (endpoints_ne e)]
     rfl
   have hdisjoint : Disjoint (T.edgeSet \ {d.edgeSym2}) ({e.primalSym2} : Set _) := by
     rw [Set.disjoint_singleton_right]
@@ -134,7 +134,7 @@ theorem isTree (h : BasisExchangeFeasible d e) (htree : T.IsTree) :
     (SimpleGraph.isTree_iff_connected_and_card.mp htree).2
   rw [Nat.card_coe_set_eq, hexchangeEdges,
     Set.ncard_union_eq hdisjoint, Set.ncard_singleton,
-    Set.ncard_diff_singleton_add_one hedgeMem]
+    Set.ncard_sdiff_singleton_add_one hedgeMem]
   exact htreeCard
 
 /-- If the inserted edge belongs to the ambient graph, basis exchange preserves

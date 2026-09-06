@@ -26,15 +26,17 @@ deleting the underlying edge is the component not containing `root`. -/
 def AwayFromRoot (root : GridVertex m n) (d : GridDirectionalDart T) : Prop :=
   root ∉ d.targetShoreVertices
 
+omit [DecidableRel T.Adj] in
 private theorem reverse_edgeSym2 (d : GridDirectionalDart T) :
     d.reverse.edgeSym2 = d.edgeSym2 := by
   simp [edgeSym2, reverse, Sym2.eq_swap]
 
+omit [DecidableRel T.Adj] in
 private theorem reachable_source_or_target (htree : T.IsTree)
     (d : GridDirectionalDart T) (v : GridVertex m n) :
     (T.deleteEdges ({d.edgeSym2} : Set (Sym2 (GridVertex m n)))).Reachable d.source v ∨
       (T.deleteEdges ({d.edgeSym2} : Set (Sym2 (GridVertex m n)))).Reachable d.target v := by
-  obtain ⟨p⟩ := htree.isConnected.preconnected d.source v
+  obtain ⟨p⟩ := htree.connected.preconnected d.source v
   have walk_class : ∀ {u w : GridVertex m n} (q : T.Walk u w),
       ((T.deleteEdges ({d.edgeSym2} : Set (Sym2 (GridVertex m n)))).Reachable d.source u ∨
         (T.deleteEdges ({d.edgeSym2} : Set (Sym2 (GridVertex m n)))).Reachable d.target u) →
@@ -82,7 +84,7 @@ theorem not_mem_targetShoreVertices_iff_reachable_source (htree : T.IsTree)
     exact (mem_targetShoreVertices_or_reachable_source htree d v).resolve_left hv
   · intro hv htarget
     have hst := ((mem_targetShoreVertices d v).1 htarget).trans hv.symm
-    exact source_notMem_targetShoreVertices htree.IsAcyclic d
+    exact source_notMem_targetShoreVertices htree.isAcyclic d
       ((mem_targetShoreVertices d d.source).2 hst)
 
 /-- Reversing an edge exchanges its two fundamental shores. -/
@@ -105,10 +107,11 @@ theorem awayFromRoot_reverse_iff_not (htree : T.IsTree)
 among its two directional darts. -/
 theorem awayFromRoot_xor_reverse (htree : T.IsTree)
     (root : GridVertex m n) (d : GridDirectionalDart T) :
-    Xor' (AwayFromRoot root d) (AwayFromRoot root d.reverse) := by
+    Xor (AwayFromRoot root d) (AwayFromRoot root d.reverse) := by
   rw [awayFromRoot_reverse_iff_not htree]
   simp
 
+omit [DecidableRel T.Adj] in
 private theorem reachable_delete_of_reachable_of_target_not_reachable
     {a b u v : GridVertex m n}
     (ha : (T.deleteEdges ({s(a, b)} : Set (Sym2 (GridVertex m n)))).Reachable u v)
@@ -123,10 +126,10 @@ private theorem reachable_delete_of_reachable_of_target_not_reachable
     let r := q.takeUntil c hcSupport
     have hab : s(a, b) ∉ r.edges := by
       intro hab
-      have habq : s(a, b) ∈ q.edges := q.edges_takeUntil_subset hcSupport hab
+      have habq : s(a, b) ∈ q.edges := q.edges_takeUntil_subset_edges hcSupport hab
       have hpab : s(a, b) ∈ p.edges := by simpa [q] using habq
       have hpedge := p.edges_subset_edgeSet hpab
-      rw [SimpleGraph.edgeSet_deleteEdges, Set.mem_diff, Set.mem_singleton_iff] at hpedge
+      rw [SimpleGraph.edgeSet_deleteEdges, Set.mem_sdiff, Set.mem_singleton_iff] at hpedge
       exact hpedge.2 rfl
     exact hc ⟨r.toDeleteEdge s(a, b) hab⟩
   exact ⟨q.toDeleteEdge s(c, e) hce⟩
@@ -166,7 +169,7 @@ theorem targetShoreVertices_laminar (htree : T.IsTree)
             exact (hb ((mem_targetShoreVertices b root).2
               (((mem_targetShoreVertices b v).1 hvb).trans hs.symm))).elim
           · simp [hva, hvb]
-      exact Or.inl (by simpa [hsides])
+      exact Or.inl (by simp [hsides])
     · by_cases hba : b.target ∈ a.targetShoreVertices
       · have hab : a.target ∉ b.targetShoreVertices := by
           intro hab
@@ -197,7 +200,7 @@ theorem targetShoreVertices_laminar (htree : T.IsTree)
             (reachable_delete_of_reachable_of_target_not_reachable
             (T := T) (a := b.source) (b := b.target) (c := a.target) (e := a.source)
             (by simpa [edgeSym2] using hv)
-            (by simpa only [mem_targetShoreVertices] using hab))
+            (by simpa only [mem_targetShoreVertices, edgeSym2] using hab))
         exact ((mem_targetShoreVertices a b.target).1 hba).trans hbToV
       · left
         intro v hv
@@ -208,12 +211,12 @@ theorem targetShoreVertices_laminar (htree : T.IsTree)
           simpa [edgeSym2, Sym2.eq_swap] using
             (reachable_delete_of_reachable_of_target_not_reachable
             (T := T) (a := a.source) (b := a.target) (c := b.target) (e := b.source)
-            hax (by simpa only [mem_targetShoreVertices] using hba))
+            hax (by simpa only [mem_targetShoreVertices, edgeSym2] using hba))
         have haToV : (T.deleteEdges ({b.edgeSym2} : Set _)).Reachable a.target v := by
           simpa [edgeSym2, Sym2.eq_swap] using
             (reachable_delete_of_reachable_of_target_not_reachable
               (T := T) (a := a.source) (b := a.target) (c := b.target) (e := b.source)
-              hv (by simpa only [mem_targetShoreVertices] using hba))
+              hv (by simpa only [mem_targetShoreVertices, edgeSym2] using hba))
         exact hbx.trans (haToX.symm.trans haToV)
   · right; right
     rw [Finset.disjoint_left]
@@ -247,15 +250,16 @@ theorem crosses_targetShoreVertices_iff_mem_path_edges (htree : T.IsTree)
         obtain ⟨q⟩ := huv
         let qT := q.map (.ofLE (T.deleteEdges_le ({d.edgeSym2} : Set _)))
         change T.Walk u v at qT
-        have heq := htree.IsAcyclic.path_unique (⟨p, hp⟩ : T.Path u v) qT.toPath
+        have heq := (htree.isAcyclic.subsingleton_path u v).elim
+          (⟨p, hp⟩ : T.Path u v) qT.toPath
         have hpq : p = (qT.toPath : T.Walk u v) := congrArg Subtype.val heq
         rw [hpq] at hedge
-        have hq := qT.edges_toPath_subset hedge
+        have hq := qT.edges_toPath_subset_edges hedge
         have hnot : d.edgeSym2 ∉ qT.edges := by
           intro h
           have hq : d.edgeSym2 ∈ q.edges := by simpa [qT] using h
           have hqe := q.edges_subset_edgeSet hq
-          rw [SimpleGraph.edgeSet_deleteEdges, Set.mem_diff, Set.mem_singleton_iff] at hqe
+          rw [SimpleGraph.edgeSet_deleteEdges, Set.mem_sdiff, Set.mem_singleton_iff] at hqe
           exact hqe.2 rfl
         exact hnot hq
       · exact Or.inl ⟨hu, hv⟩
@@ -267,15 +271,16 @@ theorem crosses_targetShoreVertices_iff_mem_path_edges (htree : T.IsTree)
         obtain ⟨q⟩ := huv
         let qT := q.map (.ofLE (T.deleteEdges_le ({d.edgeSym2} : Set _)))
         change T.Walk u v at qT
-        have heq := htree.IsAcyclic.path_unique (⟨p, hp⟩ : T.Path u v) qT.toPath
+        have heq := (htree.isAcyclic.subsingleton_path u v).elim
+          (⟨p, hp⟩ : T.Path u v) qT.toPath
         have hpq : p = (qT.toPath : T.Walk u v) := congrArg Subtype.val heq
         rw [hpq] at hedge
-        have hq := qT.edges_toPath_subset hedge
+        have hq := qT.edges_toPath_subset_edges hedge
         have hnot : d.edgeSym2 ∉ qT.edges := by
           intro h
           have hq : d.edgeSym2 ∈ q.edges := by simpa [qT] using h
           have hqe := q.edges_subset_edgeSet hq
-          rw [SimpleGraph.edgeSet_deleteEdges, Set.mem_diff, Set.mem_singleton_iff] at hqe
+          rw [SimpleGraph.edgeSet_deleteEdges, Set.mem_sdiff, Set.mem_singleton_iff] at hqe
           exact hqe.2 rfl
         exact hnot hq
 

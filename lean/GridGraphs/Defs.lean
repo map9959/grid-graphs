@@ -98,7 +98,7 @@ lemma deficiency_closed_form (m n : Nat) : deficiency m n = 2 * (m - 1) * (n - 1
 @[simp] def numInterior (m n : Nat) : Nat := if m < 3 || n < 3 then 0 else (m - 2) * (n - 2)
 
 /-- Vertex type for m×n grid graph: pairs of finite indices. -/
-def GridVertex (m n : Nat) := Fin m × Fin n
+abbrev GridVertex (m n : Nat) := Fin m × Fin n
 
 instance (m n : Nat) : Fintype (GridVertex m n) := by
   unfold GridVertex; infer_instance
@@ -118,6 +118,7 @@ def adjacent (m n : Nat) (v w : GridVertex m n) : Prop :=
 def gridGraph (m n : Nat) : SimpleGraph (GridVertex m n) :=
 { Adj := adjacent m n
   symm := by
+    constructor
     intro v w h; unfold adjacent at h; unfold adjacent;
     rcases h with h | h
     · rcases h with ⟨hrow, hdiff⟩;
@@ -133,6 +134,7 @@ def gridGraph (m n : Nat) : SimpleGraph (GridVertex m n) :=
         · right; simpa using h1
         · left; simpa using h1
   loopless := by
+    constructor
     intro v h
     unfold adjacent at h
     rcases h with h | h

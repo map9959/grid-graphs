@@ -42,11 +42,13 @@ theorem forced_compl_card_add_internalEdgeFinset_card {V : Type*}
     ext e
     induction e using Sym2.inductionOn with
     | _ v w =>
+        simp only [Finset.mem_filter, SimpleGraph.mem_edgeFinset]
         simp [forcedEdgeGraph, p, Sym2.mem_iff]
+        tauto
   rw [hforced]
   change (G.edgeFinset.filter fun e => ¬p e).card +
     (G.edgeFinset.filter p).card = G.edgeFinset.card
-  simpa [Nat.add_comm] using G.edgeFinset.filter_card_add_filter_neg_card_eq_card p
+  simpa [Nat.add_comm] using G.edgeFinset.card_filter_add_card_filter_not p
 
 /-- Outside cotree support, the ambient forced graph agrees with the tree's
 forced graph because every incident grid edge is preserved. -/
@@ -77,7 +79,7 @@ theorem forced_grid_compl_support_eq_forced_tree
         by_contra hnot
         exact hwU ((mem_supportFinset_sdiff_iff_not_preserves
           (gridGraph m n) T hT.le w).2 hnot)
-      exact T.symm (hpres ((gridGraph m n).symm hgrid))
+      exact (hpres hgrid.symm).symm
   · rintro ⟨hTree, hF⟩
     exact ⟨hT.le hTree, hF⟩
 

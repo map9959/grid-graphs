@@ -139,7 +139,11 @@ def threeSideCropConnectedComponentAncestor
 inductive ForcedComponentAxis
   | horizontal
   | vertical
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype ForcedComponentAxis where
+  elems := {.horizontal, .vertical}
+  complete := by intro axis; cases axis <;> simp
 
 /-- Axes on which all vertices of an induced forced component have a constant
 coordinate.  A singleton component validly has both axes. -/
@@ -240,7 +244,11 @@ inductive CropFrameSide
   | right
   | bottom
   | left
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype CropFrameSide where
+  elems := {.top, .right, .bottom, .left}
+  complete := by intro side; cases side <;> simp
 
 /-- Ambient coordinate edges with exactly one endpoint in the crop. -/
 noncomputable def cropFrameEdgeFinset {p q m n : Nat}
@@ -415,7 +423,7 @@ theorem mem_cropFrameEdgeFinset_iff_exists_halfEdge
         have hadj' : adjacent m n
             (gridOffsetEmbedding rowOffset colOffset hrows hcols w)
             edge.primalEndpoints.2 := by
-          simpa [hw] using hadj
+          simpa only [hw, gridGraph] using hadj
         have hout := (mem_range_gridOffsetEmbedding_iff rowOffset colOffset hrows hcols
           edge.primalEndpoints.2).not.mp h.2
         rcases hadj' with ⟨hrow, hcol | hcol⟩ | ⟨hcol, hrow | hrow⟩
@@ -451,7 +459,7 @@ theorem mem_cropFrameEdgeFinset_iff_exists_halfEdge
         have hadj' : adjacent m n
             (gridOffsetEmbedding rowOffset colOffset hrows hcols w)
             edge.primalEndpoints.1 := by
-          simpa [hw] using hadj.symm
+          simpa only [hw, gridGraph] using hadj.symm
         have hout := (mem_range_gridOffsetEmbedding_iff rowOffset colOffset hrows hcols
           edge.primalEndpoints.1).not.mp h.1
         rcases hadj' with ⟨hrow, hcol | hcol⟩ | ⟨hcol, hrow | hrow⟩

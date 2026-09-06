@@ -42,6 +42,7 @@ theorem sum_degrees_finset_eq_forced_add_induced
     ext e
     induction e using Sym2.inductionOn with
     | _ v w =>
+        simp only [Finset.mem_filter, SimpleGraph.mem_edgeFinset]
         simp [forcedEdgeGraph, Sym2.mem_iff]
   have hinduced :
       (G.induce (↑F : Set V)).edgeFinset.card =

@@ -41,10 +41,10 @@ private lemma corners33_card : corners33.card = 4 := by
         · right; apply Fin.ext; omega
     · constructor
       · rcases hr with h | h
-        · left; simpa [h]
+        · left; simp [h]
         · right; have := congrArg Fin.val h; norm_num at this ⊢; omega
       · rcases hc with h | h
-        · left; simpa [h]
+        · left; simp [h]
         · right; have := congrArg Fin.val h; norm_num at this ⊢; omega
   have hendpoints : endpoints.card = 2 := by
     rw [Finset.card_pair]
@@ -109,7 +109,7 @@ private lemma two_le_induced_component_count_of_card_five
         · exact (hr u (Set.mem_univ u)).trans (hr v (Set.mem_univ v)).symm
         · exact huv
       have hcard := Fintype.card_le_of_injective _ hinj
-      simpa [hFcard] using hcard
+      simp [hFcard] at hcard
     · have hinj : Function.Injective
           (fun v : (↑F : Set (GridVertex 3 3)) => v.1.1) := by
         intro u v huv
@@ -118,8 +118,8 @@ private lemma two_le_induced_component_count_of_card_five
         · exact huv
         · exact (hc u (Set.mem_univ u)).trans (hc v (Set.mem_univ v)).symm
       have hcard := Fintype.card_le_of_injective _ hinj
-      simpa [hFcard] using hcard
-  push_neg at hnot
+      simp [hFcard] at hcard
+  push Not at hnot
   obtain ⟨u, v, huv⟩ := hnot
   let cu := H.connectedComponentMk u
   let cv := H.connectedComponentMk v
@@ -194,9 +194,9 @@ private lemma numPreserved_three_three_le_four
   · exact huv (preservesIncidentEdges_of_le_of_degree_eq
       (gridGraph 3 3) T hT.le u
       ((Finset.mem_filter.mp (hcorners hu)).2) hperimeter.1)
-  · exact huv (T.symm (preservesIncidentEdges_of_le_of_degree_eq
+  · exact huv ((preservesIncidentEdges_of_le_of_degree_eq
       (gridGraph 3 3) T hT.le v
-      ((Finset.mem_filter.mp (hcorners hv)).2) hperimeter.1.symm))
+      ((Finset.mem_filter.mp (hcorners hv)).2) hperimeter.1.symm).symm)
 
 /-- Exactly four vertices can be preserved in the `3 x 3` grid. -/
 theorem maxPreserved_three_three : maxPreserved 3 3 = 4 := by
@@ -217,7 +217,7 @@ private def boundary55 : Finset (GridVertex 5 5) :=
       v.2.val = 0 ∨ v.2.val + 1 = 5
 
 private def boundaryPosition55 (i : Fin 16) : GridBoundaryPosition 5 5 :=
-  ⟨i.val, by simpa [gridBoundaryLength] using i.isLt⟩
+  ⟨i.val, by simp [gridBoundaryLength]⟩
 
 private def boundaryVertex55 (i : Fin 16) : GridVertex 5 5 :=
   gridBoundaryVertex (m := 5) (n := 5) (by omega) (by omega)
@@ -227,6 +227,10 @@ private def boundaryVertex55 (i : Fin 16) : GridVertex 5 5 :=
 def boundaryForcedPositions55 (F : Finset (GridVertex 5 5)) : Finset (Fin 16) :=
   Finset.univ.filter fun i =>
     boundaryVertex55 i ∈ F
+
+private lemma mem_boundaryForcedPositions55 (F : Finset (GridVertex 5 5)) (i : Fin 16) :
+    i ∈ boundaryForcedPositions55 F ↔ boundaryVertex55 i ∈ F := by
+  simp only [boundaryForcedPositions55, Finset.mem_filter, Finset.mem_univ, true_and]
 
 /-- The path forest formed by the cyclic boundary runs of `F`. -/
 def boundaryForcedRunGraph55 (F : Finset (GridVertex 5 5)) :
@@ -274,13 +278,14 @@ private lemma gridBoundaryCycleHom55_reflects_adj {i j : Fin 16}
     (cycleGraph 16).Adj i j := by
   rw [cycleGraph_adj']
   change adjacent 5 5 (boundaryVertex55 i) (boundaryVertex55 j) at hij
-  simp only [boundaryVertex55, boundaryPosition55, gridBoundaryVertex] at hij
-  split_ifs at hij <;>
-    simp only [adjacent, Prod.fst, Prod.snd, Fin.mk.injEq] at hij <;>
-    simp only [Fin.sub_def] <;>
+  unfold boundaryVertex55 gridBoundaryVertex boundaryPosition55 gridBoundaryLength adjacent at hij
+  dsimp only at hij
+  split_ifs at hij
+  all_goals
+    simp only [Fin.sub_def]
     rcases hij with ⟨h, h'⟩ | ⟨h, h'⟩ <;>
     rcases h' with h' | h'
-  all_goals norm_num [gridBoundaryLength] at *
+  all_goals norm_num [Fin.mk.injEq] at *
   all_goals
     have hmod :
         (16 - j.val + i.val = 1 ∨ 16 - j.val + i.val = 17) ∨
@@ -293,7 +298,7 @@ def boundaryForcedRunToInducedHom55 (F : Finset (GridVertex 5 5)) :
     boundaryForcedRunGraph55 F →g
       (gridGraph 5 5).induce (↑F : Set (GridVertex 5 5)) where
   toFun i := ⟨gridBoundaryCycleHom55 i.1, by
-    simpa [boundaryForcedPositions55] using i.2⟩
+    simpa [boundaryForcedPositions55, gridBoundaryCycleHom55] using i.2⟩
   map_rel' := by
     intro i j hij
     exact gridBoundaryCycleHom55.map_rel hij
@@ -349,14 +354,14 @@ private lemma boundaryForcedRunCount55_three_le_of_four_odd_omissions
     intro heq
     have hi : i = i + 2 := by
       have := congrArg (fun x => x + 1) heq
-      simpa [sub_eq_add_neg, add_assoc] using this
+      simpa only [sub_add_cancel, add_assoc, show (1 : Fin 16) + 1 = 2 from rfl] using this
     have hzero : (0 : Fin 16) = 2 :=
-      add_left_cancel (a := i) (by simpa using hi)
+      add_left_cancel (a := i) (by simpa only [add_zero] using hi)
     have := congrArg Fin.val hzero
     norm_num at this
   have hQinduced : (G.induce (↑Q : Set (Fin 16))).edgeFinset.card = 0 := by
     apply Finset.card_eq_zero.mpr
-    apply Finset.eq_empty_iff_forall_not_mem.mpr
+    apply Finset.eq_empty_iff_forall_notMem.mpr
     intro e he
     induction e using Sym2.inductionOn with
     | _ i j =>
@@ -367,7 +372,6 @@ private lemma boundaryForcedRunCount55_three_le_of_four_odd_omissions
     have hsum := sum_degrees_finset_eq_forced_add_induced G Q
     rw [Finset.sum_congr rfl (fun i _ => hdeg i), hQinduced] at hsum
     simp [hQcard] at hsum
-    norm_num [A] at hsum ⊢
     exact hsum.symm
   let E := B.edgeFinset.map
     (Function.Embedding.subtype (↑P : Set (Fin 16))).sym2Map
@@ -431,7 +435,7 @@ private lemma boundaryForcedRunCount55_three_le_of_four_odd_omissions
     exact hacyc.comap f (fun i j hij => Subtype.ext
       (gridBoundaryVertex_injective (m := 5) (n := 5)
         (by omega) (by omega) hij))
-  letI : Fintype (boundaryForcedRunGraph55 F).ConnectedComponent :=
+  let : Fintype (boundaryForcedRunGraph55 F).ConnectedComponent :=
     SetLike.instFintype
   have hledger := hBacyc.card_edgeFinset_add_card_connectedComponent
   have hcomponentInstances :
@@ -498,9 +502,9 @@ theorem fifth_boundary_omission_is_side_midpoint_of_three_runs
     intro heq
     have hi : i = i + 2 := by
       have := congrArg (fun x => x + 1) heq
-      simpa [sub_eq_add_neg, add_assoc] using this
+      simpa only [sub_add_cancel, add_assoc, show (1 : Fin 16) + 1 = 2 from rfl] using this
     have hzero : (0 : Fin 16) = 2 :=
-      add_left_cancel (a := i) (by simpa using hi)
+      add_left_cancel (a := i) (by simpa only [add_zero] using hi)
     have := congrArg Fin.val hzero
     norm_num at this
   have hQinduced : (G.induce (↑Q : Set (Fin 16))).edgeFinset.card = 0 := by
@@ -516,7 +520,6 @@ theorem fifth_boundary_omission_is_side_midpoint_of_three_runs
     have hsum := sum_degrees_finset_eq_forced_add_induced G Q
     rw [Finset.sum_congr rfl (fun i _ => hdeg i), hQinduced] at hsum
     simp [hQcard] at hsum
-    norm_num [A] at hsum ⊢
     exact hsum.symm
   have hBacyc : B.IsAcyclic := by
     let f : B →g forcedEdgeGraph (gridGraph 5 5)
@@ -531,7 +534,7 @@ theorem fifth_boundary_omission_is_side_midpoint_of_three_runs
     exact hacyc.comap f (fun i j hij => Subtype.ext
       (gridBoundaryVertex_injective (m := 5) (n := 5)
         (by omega) (by omega) hij))
-  letI : Fintype B.ConnectedComponent := SetLike.instFintype
+  let : Fintype B.ConnectedComponent := SetLike.instFintype
   have hledger := hBacyc.card_edgeFinset_add_card_connectedComponent
   have hcomponentInstances :
       @Fintype.card B.ConnectedComponent B.instFintypeConnectedComponent =
@@ -644,10 +647,10 @@ private lemma corners55_card : corners55.card = 4 := by
         · right; apply Fin.ext; omega
     · constructor
       · rcases hr with h | h
-        · left; simpa [h]
+        · left; simp [h]
         · right; have := congrArg Fin.val h; norm_num at this ⊢; omega
       · rcases hc with h | h
-        · left; simpa [h]
+        · left; simp [h]
         · right; have := congrArg Fin.val h; norm_num at this ⊢; omega
   have hendpoints : endpoints.card = 2 := by
     rw [Finset.card_pair]
@@ -668,9 +671,9 @@ private lemma cycleGraph_sixteen_not_isAcyclic :
     intro heq
     have hi : i = i + 2 := by
       have := congrArg (fun x => x + 1) heq
-      simpa [sub_eq_add_neg, add_assoc] using this
+      simpa only [sub_add_cancel, add_assoc, show (1 : Fin 16) + 1 = 2 from rfl] using this
     have hzero : (0 : Fin 16) = 2 :=
-      add_left_cancel (a := i) (by simpa using hi)
+      add_left_cancel (a := i) (by simpa only [add_zero] using hi)
     have := congrArg Fin.val hzero
     norm_num at this
   rw [Finset.sum_congr rfl (fun i _ => htwo i)] at hdeg
@@ -707,7 +710,7 @@ theorem forced_five_five_twelve_boundary_four_corners_impossible
         simpa [P, boundaryForcedPositions55] using hi
       exact Finset.mem_inter.mpr ⟨hiF, by
         simp only [boundary55, Finset.mem_filter, Finset.mem_univ, true_and]
-        simpa [IsGridBoundary] using
+        simpa [IsGridBoundary, boundaryVertex55] using
           (gridBoundaryVertex_isBoundary (m := 5) (n := 5)
             (by omega) (by omega) (boundaryPosition55 i))⟩
     · intro hv
@@ -718,7 +721,7 @@ theorem forced_five_five_twelve_boundary_four_corners_impossible
         (by omega) (by omega) v hvB
       refine Finset.mem_image.mpr ⟨⟨i.val, by simpa [gridBoundaryLength] using i.isLt⟩,
         ?_, ?_⟩
-      · simpa [P, boundaryForcedPositions55, boundaryVertex55,
+      · simpa [P, mem_boundaryForcedPositions55, boundaryVertex55,
           boundaryPosition55, hi] using hv'.1
       · simpa [boundaryVertex55, boundaryPosition55] using hi
   have hPcard : P.card = 12 := by
@@ -832,9 +835,9 @@ theorem forced_five_five_twelve_boundary_four_corners_impossible
   have hedgeForced {i j : Fin 16} (hij : (cycleGraph 16).Adj i j) :
       boundaryVertex55 i ∈ F ∨ boundaryVertex55 j ∈ F := by
     by_contra hnot
-    push_neg at hnot
-    have hiO : i ∈ O := by simpa [O, P, boundaryForcedPositions55, hnot.1]
-    have hjO : j ∈ O := by simpa [O, P, boundaryForcedPositions55, hnot.2]
+    push Not at hnot
+    have hiO : i ∈ O := by simp [O, P, boundaryForcedPositions55, hnot.1]
+    have hjO : j ∈ O := by simp [O, P, boundaryForcedPositions55, hnot.2]
     have hiOdd := hOodd hiO
     have hjOdd := hOodd hjO
     have hj : j = i - 1 ∨ j = i + 1 := by
@@ -940,7 +943,6 @@ private lemma boundaryDeficiency55_eq_boundary_add_corner
       have hvB : v ∉ boundary55 := by
         simp only [boundary55, Finset.mem_filter, Finset.mem_univ, true_and,
           not_or]
-        push_neg
         exact ⟨fun h => hr (Or.inl h), fun h => hr (Or.inr h),
           fun h => hc (Or.inl h), fun h => hc (Or.inr h)⟩
       have hvC : v ∉ corners55 := by
@@ -956,7 +958,7 @@ private lemma boundaryDeficiencySum55_eq_boundary_add_corner
   unfold boundaryDeficiencySum
   simp_rw [boundaryDeficiency55_eq_boundary_add_corner,
     Finset.sum_add_distrib, Finset.sum_boole]
-  congr 1 <;> ext v <;> simp
+  congr 1
 
 private noncomputable instance inducedComponentVertexFintype55
     (F : Finset (GridVertex 5 5))
@@ -1147,7 +1149,7 @@ theorem forced_five_five_boundary_supported_two_forced_components
     have hzNotF : z ∉ F := by
       intro hzF
       have hzB := hF hzF
-      simpa [boundary55, z] using hzB
+      simp [boundary55, z] at hzB
     have hxF : x ∈ F := hx.2.resolve_left hzNotF
     have hxB := hF hxF
     change adjacent 5 5 z x at hxGrid
@@ -1184,7 +1186,7 @@ theorem forced_five_five_boundary_supported_two_forced_components
 of `forced_five_five_twelve_ledger_profile` is impossible. -/
 theorem forced_five_five_twelve_boundary_three_corners_impossible
     (F : Finset (GridVertex 5 5)) (hcard : F.card = 12)
-    (hacyc : (forcedEdgeGraph (gridGraph 5 5)
+    (_hacyc : (forcedEdgeGraph (gridGraph 5 5)
       (↑F : Set (GridVertex 5 5))).IsAcyclic)
     (hprofile : boundaryDeficiencySum 5 5 F = 15 ∧
       Fintype.card ((gridGraph 5 5).induce
@@ -1237,25 +1239,25 @@ theorem forced_five_five_twelve_final_profile_reduction
   have hcorner40 : ((4, 0) : GridVertex 5 5) ∈ F := hcorners (by simp [corners55])
   have homit00 : (0, 1) ∉ F ∨ (1, 0) ∉ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact (grid_cell_forced_triples_free (F := (↑F : Set _))
       (⟨0, by omega⟩ : Fin (5 - 1)) (⟨0, by omega⟩ : Fin (5 - 1)) hacyc).2.2.2
       (by simpa [cell10, cell00, cell01] using ⟨h.2, hcorner00, h.1⟩)
   have homit04 : (0, 3) ∉ F ∨ (1, 4) ∉ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact (grid_cell_forced_triples_free (F := (↑F : Set _))
       (⟨0, by omega⟩ : Fin (5 - 1)) (⟨3, by omega⟩ : Fin (5 - 1)) hacyc).1
       (by simpa [cell00, cell01, cell11] using ⟨h.1, hcorner04, h.2⟩)
   have homit44 : (3, 4) ∉ F ∨ (4, 3) ∉ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact (grid_cell_forced_triples_free (F := (↑F : Set _))
       (⟨3, by omega⟩ : Fin (5 - 1)) (⟨3, by omega⟩ : Fin (5 - 1)) hacyc).2.1
       (by simpa [cell01, cell11, cell10] using ⟨h.1, hcorner44, h.2⟩)
   have homit40 : (4, 1) ∉ F ∨ (3, 0) ∉ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact (grid_cell_forced_triples_free (F := (↑F : Set _))
       (⟨3, by omega⟩ : Fin (5 - 1)) (⟨0, by omega⟩ : Fin (5 - 1)) hacyc).2.2.1
       (by simpa [cell11, cell10, cell00] using ⟨h.1, hcorner40, h.2⟩)
@@ -1281,7 +1283,7 @@ theorem forced_five_five_twelve_final_profile_reduction
         have : z = x := by simpa [hx] using hzOutside
         exact hxz this.symm
       let H := forcedEdgeGraph (gridGraph 5 5) (↑F : Set (GridVertex 5 5))
-      obtain ⟨C, hC⟩ := Finset.card_eq_one.mp (by
+      obtain ⟨C, hC⟩ := (Finset.card_eq_one (s := (Finset.univ : Finset H.ConnectedComponent))).mp (by
         simpa [H] using hforcedConnected)
       have hzC : H.connectedComponentMk z = C := by
         have hzmem : H.connectedComponentMk z ∈
@@ -1379,14 +1381,15 @@ private lemma final_profile_three_runs_and_one_attachment
       have hjVertex : boundaryVertex55 j = v.1 := by
         simpa [j, boundaryVertex55, boundaryPosition55] using hiv
       have hiP : i ∈ boundaryForcedPositions55 F := by
-        simpa [boundaryForcedPositions55, hiVertex] using u.2
+        simp [boundaryForcedPositions55, hiVertex]
       have hjP : j ∈ boundaryForcedPositions55 F := by
-        simpa [boundaryForcedPositions55, hjVertex] using v.2
+        simp [boundaryForcedPositions55, hjVertex]
       let iP : (↑(boundaryForcedPositions55 F) : Set (Fin 16)) := ⟨i, hiP⟩
       let jP : (↑(boundaryForcedPositions55 F) : Set (Fin 16)) := ⟨j, hjP⟩
       have hijCycle : (cycleGraph 16).Adj i j := by
         apply gridBoundaryCycleHom55_reflects_adj
-        simpa [hiVertex, hjVertex] using huvH
+        rw [hiVertex, hjVertex]
+        exact huvH
       change (B.map f).Adj u v
       rw [SimpleGraph.map_adj]
       exact ⟨iP, jP, by simpa [B, boundaryForcedRunGraph55, iP, jP],
@@ -1463,7 +1466,7 @@ private lemma final_profile_three_runs_and_one_attachment
       exfalso
       rcases huAdj with ⟨hr, hc | hc⟩ | ⟨hc, hr | hr⟩ <;>
         rcases huB with h | h | h | h
-      all_goals norm_num at hr hc h <;> omega
+      all_goals norm_num at hr hc h; omega
     · rw [hx] at huAdj hvAdj
       have huEq : u.1 = (0, 2) := by
         rcases huAdj with ⟨hr, hc | hc⟩ | ⟨hc, hr | hr⟩ <;>
@@ -1537,7 +1540,7 @@ private lemma final_profile_three_runs_and_one_attachment
     exact hacyc.comap g (fun i j hij => Subtype.ext
       (gridBoundaryVertex_injective (m := 5) (n := 5)
         (by omega) (by omega) hij))
-  letI : Fintype B.ConnectedComponent := SetLike.instFintype
+  let : Fintype B.ConnectedComponent := SetLike.instFintype
   have hBledger := hBacyc.card_edgeFinset_add_card_connectedComponent
   have hPcard : (boundaryForcedPositions55 F).card = 11 := by
     have hboundary : F ∩ boundary55 = F.erase x := by
@@ -1564,7 +1567,7 @@ private lemma final_profile_three_runs_and_one_attachment
         obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hv
         exact Finset.mem_inter.mpr ⟨by
           simpa [boundaryForcedPositions55] using hi, by
-          simpa [boundary55, IsGridBoundary] using
+          simpa [boundary55, IsGridBoundary, boundaryVertex55] using
             gridBoundaryVertex_isBoundary (m := 5) (n := 5)
               (by omega) (by omega) (boundaryPosition55 i)⟩
       · intro hv
@@ -1575,7 +1578,7 @@ private lemma final_profile_three_runs_and_one_attachment
           (by omega) (by omega) v hvB
         let j : Fin 16 := ⟨i.val, by simpa [gridBoundaryLength] using i.isLt⟩
         refine Finset.mem_image.mpr ⟨j, ?_, ?_⟩
-        · simpa [boundaryForcedPositions55, boundaryVertex55,
+        · simpa [mem_boundaryForcedPositions55, boundaryVertex55,
             boundaryPosition55, j, hi] using hv'.1
         · simpa [boundaryVertex55, boundaryPosition55, j] using hi
     have hinj : Function.Injective boundaryVertex55 := by
@@ -1688,8 +1691,7 @@ private lemma corner_boundary_positions_forced (F : Finset (GridVertex 5 5))
     · exact Or.inr (Or.inr (Or.inl (Fin.ext h)))
     · exact Or.inr (Or.inr (Or.inr (Fin.ext h)))
   rcases hiCases with rfl | rfl | rfl | rfl <;>
-    simp only [boundaryForcedPositions55, Finset.mem_filter, Finset.mem_univ,
-      true_and, boundaryVertex55, boundaryPosition55, gridBoundaryVertex,
+    simp only [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55, gridBoundaryVertex,
       gridBoundaryLength] <;> apply hcorners <;> simp [corners55]
 
 private lemma forced_six_cycle_false
@@ -1771,15 +1773,17 @@ private lemma final_profile_attachment_top_impossible
     · exact h
     · by_contra h01
       have hp := forced_two_edge_walk_parallel hacyc hxF hbF h01
-        (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
-      rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
+        (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
+      rcases hp with hp | hp <;> norm_num [x, b] at hp
+      omega
   have h03not : ((0, 3) : GridVertex 5 5) ∉ F := by
     rcases homit04 with h | h
     · exact h
     · by_contra h03
       have hp := forced_two_edge_walk_parallel hacyc hxF hbF h03
-        (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
-      rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
+        (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
+      rcases hp with hp | hp <;> norm_num [x, b] at hp
+      omega
   let q2 : Fin 16 := if (3, 4) ∈ F then 9 else 7
   let q3 : Fin 16 := if (4, 1) ∈ F then 13 else 11
   let Q : Finset (Fin 16) := {1, 3, q2, q3}
@@ -1813,9 +1817,9 @@ private lemma final_profile_attachment_top_impossible
     intro q hq
     simp only [Q, Finset.mem_insert, Finset.mem_singleton] at hq
     rcases hq with rfl | rfl | hq | hq
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h01not
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h03not
     · subst q
       simpa [boundaryForcedPositions55] using hq2omit
@@ -1842,15 +1846,14 @@ private lemma final_profile_attachment_top_impossible
       · exact Or.inr (Or.inr (Or.inl (Fin.ext h)))
       · exact Or.inr (Or.inr (Or.inr (Fin.ext h)))
     rcases hiCases with rfl | rfl | rfl | rfl <;>
-      simp only [boundaryForcedPositions55, Finset.mem_filter, Finset.mem_univ,
-        true_and, boundaryVertex55, boundaryPosition55, gridBoundaryVertex,
+      simp only [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55, gridBoundaryVertex,
         gridBoundaryLength] <;> apply hcorners <;> simp [corners55]
   obtain ⟨e, heO, heQ, heMid, hePrev, heNext⟩ :=
     fifth_boundary_omission_is_side_midpoint_of_three_runs F Q hacyc hPcard
       hQcard hQomit hQodd hcornerPositions hruns
   have he : e = 10 := by
     have hbP : (2 : Fin 16) ∈ boundaryForcedPositions55 F := by
-      simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+      simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength, b] using hbF
     have heCases : e = 2 ∨ e = 6 ∨ e = 10 ∨ e = 14 := by
       simp only [Finset.mem_insert, Finset.mem_singleton] at heMid
@@ -1872,7 +1875,7 @@ private lemma final_profile_attachment_top_impossible
     by_contra h15
     have h15O : (15 : Fin 16) ∈ (Finset.univ : Finset (Fin 16)) \
         boundaryForcedPositions55 F := by
-      simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+      simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h15
     have hOcard : ((Finset.univ : Finset (Fin 16)) \
         boundaryForcedPositions55 F).card = 5 := by
@@ -1896,7 +1899,7 @@ private lemma final_profile_attachment_top_impossible
     norm_num at this
   have h00F : ((0, 0) : GridVertex 5 5) ∈ F := hcorners (by simp [corners55])
   exact forced_six_cycle_false F hacyc x b (0, 1) (0, 0) (1, 0) (1, 1)
-    (by simp [x, b, gridVertex55_eq_iff_vals])
+    (by simp [x, b])
     (by simp [gridGraph, adjacent, x, b])
     (by simp [gridGraph, adjacent, b])
     (by simp [gridGraph, adjacent])
@@ -1932,12 +1935,12 @@ private lemma final_profile_attachment_right_impossible
   have h14not : ((1, 4) : GridVertex 5 5) ∉ F := by
     intro h14
     have hp := forced_two_edge_walk_parallel hacyc hxF hbF h14
-      (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
+      (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
     rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
   have h34not : ((3, 4) : GridVertex 5 5) ∉ F := by
     intro h34
     have hp := forced_two_edge_walk_parallel hacyc hxF hbF h34
-      (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
+      (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
     rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
   let q0 : Fin 16 := if (1, 0) ∈ F then 1 else 15
   let q3 : Fin 16 := if (4, 1) ∈ F then 13 else 11
@@ -1973,9 +1976,9 @@ private lemma final_profile_attachment_right_impossible
     simp only [Q, Finset.mem_insert, Finset.mem_singleton] at hq
     rcases hq with hq | rfl | rfl | hq
     · subst q; simpa [boundaryForcedPositions55] using hq0omit
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h14not
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h34not
     · subst q; simpa [boundaryForcedPositions55] using hq3omit
   have hQodd : ∀ q ∈ Q, q.val % 2 = 1 := by
@@ -1997,19 +2000,18 @@ private lemma final_profile_attachment_right_impossible
       · exact Or.inr (Or.inr (Or.inl (Fin.ext h)))
       · exact Or.inr (Or.inr (Or.inr (Fin.ext h)))
     rcases hiCases with rfl | rfl | rfl | rfl <;>
-      simp only [boundaryForcedPositions55, Finset.mem_filter, Finset.mem_univ,
-        true_and, boundaryVertex55, boundaryPosition55, gridBoundaryVertex,
+      simp only [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55, gridBoundaryVertex,
         gridBoundaryLength] <;> apply hcorners <;> simp [corners55]
   have h03F : ((0, 3) : GridVertex 5 5) ∈ F := by
     have h3P := odd_boundary_position_forced_of_three_runs F Q 3 hacyc hPcard
       hQcard hQomit hQodd hcornerPositions hruns (by norm_num) (by
         rcases hq0 with hq0 | hq0 <;> rcases hq3 with hq3 | hq3 <;>
           simp [Q, hq0, hq3])
-    simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
       gridBoundaryVertex, gridBoundaryLength] using h3P
   have h04F : ((0, 4) : GridVertex 5 5) ∈ F := hcorners (by simp [corners55])
   exact forced_six_cycle_false F hacyc x b (1, 4) (0, 4) (0, 3) (1, 3)
-    (by simp [x, b, gridVertex55_eq_iff_vals])
+    (by simp [x, b])
     (by simp [gridGraph, adjacent, x, b])
     (by simp [gridGraph, adjacent, b])
     (by simp [gridGraph, adjacent])
@@ -2044,12 +2046,12 @@ private lemma final_profile_attachment_bottom_impossible
   have h43not : ((4, 3) : GridVertex 5 5) ∉ F := by
     intro h43
     have hp := forced_two_edge_walk_parallel hacyc hxF hbF h43
-      (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
+      (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
     rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
   have h41not : ((4, 1) : GridVertex 5 5) ∉ F := by
     intro h41
     have hp := forced_two_edge_walk_parallel hacyc hxF hbF h41
-      (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
+      (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
     rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
   let q0 : Fin 16 := if (1, 0) ∈ F then 1 else 15
   let q1 : Fin 16 := if (1, 4) ∈ F then 3 else 5
@@ -2084,9 +2086,9 @@ private lemma final_profile_attachment_bottom_impossible
     rcases hq with hq | hq | rfl | rfl
     · subst q; simpa [boundaryForcedPositions55] using hq0omit
     · subst q; simpa [boundaryForcedPositions55] using hq1omit
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h43not
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h41not
   have hQodd : ∀ q ∈ Q, q.val % 2 = 1 := by
     intro q hq
@@ -2102,11 +2104,11 @@ private lemma final_profile_attachment_bottom_impossible
       (by norm_num) (by
         rcases hq0 with hq0 | hq0 <;> rcases hq1 with hq1 | hq1 <;>
           simp [Q, hq0, hq1])
-    simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
       gridBoundaryVertex, gridBoundaryLength] using h13P
   have h40F : ((4, 0) : GridVertex 5 5) ∈ F := hcorners (by simp [corners55])
   exact forced_six_cycle_false F hacyc x b (4, 1) (4, 0) (3, 0) (3, 1)
-    (by simp [x, b, gridVertex55_eq_iff_vals])
+    (by simp [x, b])
     (by simp [gridGraph, adjacent, x, b])
     (by simp [gridGraph, adjacent, b])
     (by simp [gridGraph, adjacent])
@@ -2141,13 +2143,15 @@ private lemma final_profile_attachment_left_impossible
   have h30not : ((3, 0) : GridVertex 5 5) ∉ F := by
     intro h30
     have hp := forced_two_edge_walk_parallel hacyc hxF hbF h30
-      (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
-    rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
+      (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
+    rcases hp with hp | hp <;> norm_num [x, b] at hp
+    omega
   have h10not : ((1, 0) : GridVertex 5 5) ∉ F := by
     intro h10
     have hp := forced_two_edge_walk_parallel hacyc hxF hbF h10
-      (by simp [gridGraph, adjacent, x, b]) (by simp [gridGraph, adjacent, b])
-    rcases hp with hp | hp <;> norm_num [x, b] at hp <;> omega
+      (by simp [gridGraph, adjacent, b]) (by simp [gridGraph, adjacent, b])
+    rcases hp with hp | hp <;> norm_num [x, b] at hp
+    omega
   let q1 : Fin 16 := if (1, 4) ∈ F then 3 else 5
   let q2 : Fin 16 := if (4, 3) ∈ F then 7 else 9
   let Q : Finset (Fin 16) := {15, q1, q2, 13}
@@ -2179,11 +2183,11 @@ private lemma final_profile_attachment_left_impossible
     intro q hq
     simp only [Q, Finset.mem_insert, Finset.mem_singleton] at hq
     rcases hq with rfl | hq | hq | rfl
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h10not
     · subst q; simpa [boundaryForcedPositions55] using hq1omit
     · subst q; simpa [boundaryForcedPositions55] using hq2omit
-    · simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    · simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
         gridBoundaryVertex, gridBoundaryLength] using h30not
   have hQodd : ∀ q ∈ Q, q.val % 2 = 1 := by
     intro q hq
@@ -2199,11 +2203,11 @@ private lemma final_profile_attachment_left_impossible
       (by norm_num) (by
         rcases hq1 with hq1 | hq1 <;> rcases hq2 with hq2 | hq2 <;>
           simp [Q, hq1, hq2])
-    simpa [boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
+    simpa [mem_boundaryForcedPositions55, boundaryVertex55, boundaryPosition55,
       gridBoundaryVertex, gridBoundaryLength] using h11P
   have h40F : ((4, 0) : GridVertex 5 5) ∈ F := hcorners (by simp [corners55])
   exact forced_six_cycle_false F hacyc x b (3, 0) (4, 0) (4, 1) (3, 1)
-    (by simp [x, b, gridVertex55_eq_iff_vals])
+    (by simp [x, b])
     (by simp [gridGraph, adjacent, x, b])
     (by simp [gridGraph, adjacent, b])
     (by simp [gridGraph, adjacent])
@@ -2222,7 +2226,7 @@ private lemma boundaryForcedPositions55_card_eq_boundary_inter
       obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hv
       exact Finset.mem_inter.mpr ⟨by
         simpa [boundaryForcedPositions55] using hi, by
-        simpa [boundary55, IsGridBoundary] using
+        simpa [boundary55, IsGridBoundary, boundaryVertex55] using
           gridBoundaryVertex_isBoundary (m := 5) (n := 5)
             (by omega) (by omega) (boundaryPosition55 i)⟩
     · intro hv
@@ -2233,7 +2237,7 @@ private lemma boundaryForcedPositions55_card_eq_boundary_inter
         (by omega) (by omega) v hvB
       let j : Fin 16 := ⟨i.val, by simpa [gridBoundaryLength] using i.isLt⟩
       exact Finset.mem_image.mpr ⟨j, by
-        simpa [boundaryForcedPositions55, boundaryVertex55,
+        simpa [mem_boundaryForcedPositions55, boundaryVertex55,
           boundaryPosition55, j, hi] using hv'.1, by
         simpa [boundaryVertex55, boundaryPosition55, j] using hi⟩
   rw [← himage, Finset.card_image_of_injective]

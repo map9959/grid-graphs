@@ -592,7 +592,7 @@ theorem equiv_isCycle_of_spanningSquareTree {n : Nat}
     rw [equiv_apply, succ_slotOfDart] at hfixed
     have htarget : d.target = d.source := by
       exact congrArg Prod.fst hfixed
-    exact T.loopless d.source (htarget ▸ d.adj)
+    exact T.loopless.irrefl d.source (htarget ▸ d.adj)
   · intro y _
     exact equiv_sameCycle_of_spanningSquareTree hn hT (slotOfDart d) y
 

@@ -77,8 +77,8 @@ private lemma perimeterVertex_succ_adj {k : Nat} (hk : 1 ≤ k)
     have hzV : perimeterVertex k (⟨0, by omega⟩ : Fin ((4 * k - 2) + 2)) =
         (⟨0, by omega⟩, ⟨0, by omega⟩) := by
       unfold perimeterVertex
-      rw [dif_pos (by simpa using hk : (⟨0, by omega⟩ :
-        Fin ((4 * k - 2) + 2)).val < k)]
+      have hbound : 0 < (4 * k - 2) + 2 := by omega
+      rw [dif_pos (show (⟨0, hbound⟩ : Fin ((4 * k - 2) + 2)).val < k from hk)]
     rw [hiV, hzV]
     right
     exact ⟨rfl, Or.inr rfl⟩
@@ -114,9 +114,14 @@ private lemma cycleGraph_four_mul_not_isAcyclic {k : Nat} (hk : 1 ≤ k) :
     intro i
     rw [cycleGraph_degree_two_le, Finset.card_pair]
     intro heq
+    have hone : (1 : Fin ((4 * k - 2) + 2)) + 1 = 2 := by
+      apply Fin.ext
+      change ((1 % ((4 * k - 2) + 2)) + (1 % ((4 * k - 2) + 2))) %
+        ((4 * k - 2) + 2) = 2 % ((4 * k - 2) + 2)
+      rw [Nat.mod_eq_of_lt (by omega : 1 < (4 * k - 2) + 2)]
     have hi : i = i + 2 := by
       have := congrArg (fun x => x + 1) heq
-      simpa [sub_eq_add_neg, add_assoc] using this
+      simpa only [sub_add_cancel, add_assoc, hone] using this
     have hzero : (0 : Fin ((4 * k - 2) + 2)) = 2 := by
       exact add_left_cancel (a := i) (by simpa using hi)
     have := congrArg Fin.val hzero
@@ -139,7 +144,7 @@ theorem exists_omitted_perimeter_edge {n : Nat} (hn : 2 ≤ n)
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : n ≠ 0)
   have hk : 1 ≤ k := by omega
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   let hemb : cycleGraph ((4 * k - 2) + 2) →g T :=
     { toFun := perimeterVertex k
       map_rel' := by

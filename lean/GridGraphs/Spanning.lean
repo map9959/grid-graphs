@@ -222,7 +222,7 @@ lemma gridGraph_degree_border {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     (gridGraph m n).degree v = 3 := by
   rw [gridGraph_degree]
   rcases h with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · push_neg at h2
+  · push Not at h2
     obtain ⟨hv0, hvN⟩ := h2
     have hp : (pathGraph m).degree v.1 = 1 := by
       rcases h1 with h | h
@@ -231,7 +231,7 @@ lemma gridGraph_degree_border {m n : Nat} (hm : 2 ≤ m) (hn : 2 ≤ n)
     have hq : (pathGraph n).degree v.2 = 2 :=
       pathGraph_degree_interior v.2 hv0 hvN
     rw [hp, hq]
-  · push_neg at h1
+  · push Not at h1
     obtain ⟨hv0, hvN⟩ := h1
     have hp : (pathGraph m).degree v.1 = 2 :=
       pathGraph_degree_interior v.1 hv0 hvN
@@ -250,7 +250,7 @@ lemma gridGraph_degree_interior {m n : Nat} (_hm : 2 ≤ m) (_hn : 2 ≤ n)
     (h2 : ¬ (v.2.val = 0 ∨ v.2.val + 1 = n)) :
     (gridGraph m n).degree v = 4 := by
   rw [gridGraph_degree]
-  push_neg at h1 h2
+  push Not at h1 h2
   obtain ⟨hv10, hv1N⟩ := h1
   obtain ⟨hv20, hv2N⟩ := h2
   rw [pathGraph_degree_interior v.1 hv10 hv1N,
@@ -266,7 +266,8 @@ lemma pathGraph_card_edgeFinset (k : Nat) : (pathGraph k).edgeFinset.card = k - 
   rcases Nat.lt_or_ge k 2 with hk | hk
   · interval_cases k
     · -- k = 0, no vertices.
-      simp
+      have hbot : pathGraph 0 = ⊥ := Subsingleton.elim _ _
+      simp [hbot]
     · -- k = 1, single vertex, no edges.
       have h2c : 2 * (pathGraph 1).edgeFinset.card = 0 := by
         rw [← (pathGraph 1).sum_degrees_eq_twice_card_edges]
@@ -310,7 +311,7 @@ lemma pathGraph_card_edgeFinset (k : Nat) : (pathGraph k).edgeFinset.card = k - 
         have h_int : ∀ v ∈ interior, (pathGraph k).degree v = 2 := by
           intro v hv
           simp only [interior, Finset.mem_filter, Finset.mem_univ, true_and] at hv
-          push_neg at hv
+          push Not at hv
           obtain ⟨hv0, hvN⟩ := hv
           exact pathGraph_degree_interior v hv0 hvN
         rw [Finset.sum_congr rfl h_end, Finset.sum_congr rfl h_int]
@@ -394,8 +395,8 @@ variable {V : Type*} {G T : SimpleGraph V}
 
 lemma le (h : IsSpanningSubtree G T) : T ≤ G := h.1
 lemma isTree (h : IsSpanningSubtree G T) : T.IsTree := h.2
-lemma isAcyclic (h : IsSpanningSubtree G T) : T.IsAcyclic := h.2.IsAcyclic
-lemma isConnected (h : IsSpanningSubtree G T) : T.Connected := h.2.isConnected
+lemma isAcyclic (h : IsSpanningSubtree G T) : T.IsAcyclic := h.2.isAcyclic
+lemma isConnected (h : IsSpanningSubtree G T) : T.Connected := h.2.connected
 
 /-- Per-vertex degree monotonicity: `T.degree v ≤ G.degree v`. -/
 lemma degree_le [Fintype V] [DecidableRel T.Adj] [DecidableRel G.Adj]
@@ -501,7 +502,7 @@ lemma tree_degree_pos {m n : Nat} (hmn : 2 ≤ m * n)
     exact hmn
   obtain ⟨w, hw⟩ : ∃ w : GridVertex m n, w ≠ v := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have : ∀ w : GridVertex m n, w = v := hno
     -- All vertices equal v ⇒ |V| ≤ 1, contradiction.
     have hSubset : (Finset.univ : Finset (GridVertex m n)) ⊆ {v} := by
@@ -634,7 +635,7 @@ theorem preserved_le_basicUB {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n)
     (Finset.univ : Finset (GridVertex m n)).filter (fun v => ¬ isPreserved m n T v)
   have hPU_card : P.card + U.card = m * n := by
     have : P.card + U.card = (Finset.univ : Finset (GridVertex m n)).card :=
-      Finset.filter_card_add_filter_neg_card_eq_card _
+      Finset.card_filter_add_card_filter_not _
     rw [this]
     unfold GridVertex; simp [Fintype.card_prod]
   -- ∑ v, vertexDeficiency = ∑ v ∈ P, ... + ∑ v ∈ U, ... = 0 + ∑ v ∈ U, ...
@@ -799,9 +800,9 @@ lemma interior_card_eq (m n : Nat) :
     rw [Finset.card_eq_zero]
     rw [Finset.eq_empty_iff_forall_notMem]
     intro v hv
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hv
+    have hv := (Finset.mem_filter.mp hv).2
     -- hv : ¬ ((v.1.val = 0 ∨ v.1.val + 1 = m) ∨ (v.2.val = 0 ∨ v.2.val + 1 = n))
-    push_neg at hv
+    push Not at hv
     -- hv : (v.1.val ≠ 0 ∧ v.1.val + 1 ≠ m) ∧ (v.2.val ≠ 0 ∧ v.2.val + 1 ≠ n)
     obtain ⟨⟨hv1a, hv1b⟩, hv2a, hv2b⟩ := hv
     rcases hcase with hm | hn
@@ -813,7 +814,7 @@ lemma interior_card_eq (m n : Nat) :
       omega
   · -- m, n ≥ 3.
     rw [if_neg hcase]
-    push_neg at hcase
+    push Not at hcase
     obtain ⟨hm, hn⟩ := hcase
     -- Build a bijection from Fin (m-2) × Fin (n-2) to the interior filter.
     let f : Fin (m - 2) × Fin (n - 2) → GridVertex m n :=
@@ -853,7 +854,7 @@ lemma interior_card_eq (m n : Nat) :
           dsimp at *
           omega)
       · intro hv
-        push_neg at hv
+        push Not at hv
         obtain ⟨⟨hv1a, hv1b⟩, hv2a, hv2b⟩ := hv
         have hv1pos : v.1.val ≥ 1 := by omega
         have hv2pos : v.2.val ≥ 1 := by omega
@@ -1056,7 +1057,7 @@ theorem preserved_le_refinedUB {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n)
     -- |P| + |U| = m * n.
     have hPU_card : P.card + U.card = m * n := by
       have hcomp : P.card + U.card = (Finset.univ : Finset (GridVertex m n)).card :=
-        Finset.filter_card_add_filter_neg_card_eq_card _
+        Finset.card_filter_add_card_filter_not _
       rw [hcomp]
       unfold GridVertex; simp [Fintype.card_prod]
     -- numPreserved = P.card.

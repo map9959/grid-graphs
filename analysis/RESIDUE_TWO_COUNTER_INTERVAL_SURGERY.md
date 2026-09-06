@@ -9,8 +9,10 @@ a set of size `3k^2+7k` has at most `3k+6` maximal preserved components.
 The proposed `4k+1` distinct components violate this throughout the intended
 `k>=7` range. At k=7 it demands 29 components where at most 27 are possible.
 Merging labeled intervals changes the proposed skeleton. See
-`RESIDUE_TWO_COMPONENT_BUDGET.md` for the paper proof and qualifications;
-this obstruction has not yet been added as a Lean theorem.
+`RESIDUE_TWO_COMPONENT_BUDGET.md` for the proof and qualifications. The general
+obstruction is now checked in `lean/GridGraphs/BoundaryFiveBudget.lean` as
+`not_feasible_target_of_four_mul_add_one_le_components`. Applying it to this
+abstract skeleton still requires its nodes to be distinct maximal components.
 
 ## Result
 

@@ -1,4 +1,7 @@
-import GridGraphs.ForestLedger
+import Mathlib.Combinatorics.SimpleGraph.Acyclic
+import Mathlib.Combinatorics.SimpleGraph.Connectivity.Finite
+
+open scoped Sym2
 
 /-!
 # Labelled component quotients
@@ -32,7 +35,7 @@ several edges have the same endpoints, and an edge whose endpoints coincide is
 retained as a triangle. -/
 def labelledExtension (H : SimpleGraph V) (ends : E → V × V) (S : Finset E) :
     SimpleGraph (LabelledExtensionVertex V E) :=
-  H.map ⟨Sum.inl, Sum.inl_injective⟩ ⊔ S.sup (labelledPath ends)
+  H.map Sum.inl ⊔ S.sup (labelledPath ends)
 
 /-- The component endpoints of a labelled physical edge. -/
 def componentEnds (H : SimpleGraph V) (ends : E → V × V) (e : E) :
@@ -68,13 +71,13 @@ def LabelledQuotientForest
   (labelledComponentQuotient H ends S).IsAcyclic
 
 @[simp] theorem labelledExtension_empty (H : SimpleGraph V) (ends : E → V × V) :
-    labelledExtension H ends ∅ = H.map ⟨Sum.inl, Sum.inl_injective⟩ := by
+    labelledExtension H ends ∅ = H.map Sum.inl := by
   simp [labelledExtension]
 
 @[simp] theorem labelledComponentQuotient_empty (H : SimpleGraph V)
     (ends : E → V × V) : labelledComponentQuotient H ends ∅ = ⊥ := by
   ext x y
-  simp [labelledComponentQuotient, SimpleGraph.map_adj]
+  simp [labelledComponentQuotient, SimpleGraph.map_adj']
 
 theorem labelledExtension_mono {H K : SimpleGraph V} {S T : Finset E}
     (hHK : H ≤ K) (hST : S ⊆ T) :
@@ -90,12 +93,12 @@ theorem labelledComponentQuotient_mono {S T : Finset E} (hST : S ⊆ T) :
 private def addEdge (G : SimpleGraph V) (u v : V) : SimpleGraph V where
   Adj x y := G.Adj x y ∨
     (((x = u ∧ y = v) ∨ (x = v ∧ y = u)) ∧ x ≠ y)
-  symm := by
+  symm.symm := by
     rintro x y (h | ⟨h, hxy⟩)
-    · exact Or.inl (G.symm h)
+    · exact Or.inl h.symm
     · exact Or.inr ⟨h.elim (fun h => Or.inr ⟨h.2, h.1⟩)
         (fun h => Or.inl ⟨h.2, h.1⟩), hxy.symm⟩
-  loopless x := by simp
+  loopless.irrefl x := by simp
 
 private lemma addEdge_adj {G : SimpleGraph V} {u v x y : V} :
     (addEdge G u v).Adj x y ↔ G.Adj x y ∨
@@ -119,7 +122,7 @@ private lemma delete_addEdge {G : SimpleGraph V} {u v : V}
     refine ⟨Or.inl hG, ?_⟩
     rintro ⟨h | h, _⟩
     · exact hnew (h.1 ▸ h.2 ▸ hG)
-    · exact hnew (G.symm (h.1 ▸ h.2 ▸ hG))
+    · exact hnew (Adj.symm (h.1 ▸ h.2 ▸ hG))
 
 private theorem isAcyclic_addEdge_iff {G : SimpleGraph V} {u v : V}
     (hG : G.IsAcyclic) (huv : u ≠ v) (hnew : ¬G.Adj u v) :
@@ -130,14 +133,14 @@ private theorem isAcyclic_addEdge_iff {G : SimpleGraph V} {u v : V}
   · intro hK huvReach
     obtain ⟨x, c, hc, _⟩ :=
       (adj_and_reachable_delete_edges_iff_exists_cycle (G := K) (v := u) (w := v)).mp
-        ⟨by exact Or.inr ⟨Or.inl ⟨rfl, rfl⟩, huv⟩, by simpa [hdel]⟩
+        ⟨by exact Or.inr ⟨Or.inl ⟨rfl, rfl⟩, huv⟩, by simpa [deleteEdges, hdel]⟩
     exact hK c hc
   · intro hnreach x c hc
     by_cases he : s(u, v) ∈ c.edges
     · have hreach :=
         (adj_and_reachable_delete_edges_iff_exists_cycle (G := K) (v := u) (w := v)).mpr
           ⟨x, c, hc, he⟩ |>.2
-      exact hnreach (by simpa [hdel] using hreach)
+      exact hnreach (by simpa [deleteEdges, hdel] using hreach)
     · have hedges : ∀ e ∈ c.edges, e ∈ G.edgeSet := by
         intro e hec
         have heK := c.edges_subset_edgeSet hec
@@ -188,7 +191,7 @@ private lemma reachable_addEdge_isolated {G : SimpleGraph V} {a p x y : V}
         (show (addEdge G a p).Adj a p from Or.inr ⟨Or.inl ⟨rfl, rfl⟩, hap⟩).reachable
 
 private lemma labelledExtension_insert [DecidableEq E] {H : SimpleGraph V}
-    {ends : E → V × V} {S : Finset E} {e : E} (he : e ∉ S) :
+    {ends : E → V × V} {S : Finset E} {e : E} :
     labelledExtension H ends (insert e S) =
       addEdge
         (addEdge
@@ -207,8 +210,8 @@ private lemma labelledExtension_isolated [DecidableEq E] {H : SimpleGraph V}
   intro hadj
   rw [labelledExtension, sup_adj] at hadj
   rcases hadj with hadj | hadj
-  · rcases hadj with ⟨u, v, _, hu, _⟩
-    exact Sum.noConfusion hu.symm
+  · rcases hadj with ⟨_, u, v, _, hu, _⟩
+    exact Sum.inl_ne_inr hu
   · have hs : ∀ (T : Finset E), e ∉ T →
         ¬(T.sup (labelledPath ends)).Adj (Sum.inr (e, b)) x := by
       intro T
@@ -246,7 +249,7 @@ private theorem labelledExtension_insert_isAcyclic_iff [DecidableEq E]
   have haq : a ≠ q := by simp [a, q]
   have hpq : p ≠ q := by simp [p, q]
   have hq : ∀ x, ¬G.Adj q x := fun x => labelledExtension_isolated he true x
-  have hpa : ¬G.Adj a p := fun h => hp a (G.symm h)
+  have hpa : ¬G.Adj a p := fun h => hp a h.symm
   have hG1q : ∀ x, ¬(addEdge G a p).Adj q x := by
     intro x h
     rcases h with h | ⟨h, _⟩
@@ -254,7 +257,7 @@ private theorem labelledExtension_insert_isAcyclic_iff [DecidableEq E]
     · rcases h with ⟨hqa, _⟩ | ⟨hqp, _⟩
       · exact haq hqa.symm
       · exact hpq hqp.symm
-  rw [labelledExtension_insert he]
+  rw [labelledExtension_insert]
   constructor
   · intro hAll
     have hG2 : (addEdge (addEdge G a p) p q).IsAcyclic :=
@@ -287,11 +290,11 @@ private theorem labelledExtension_insert_isAcyclic_iff [DecidableEq E]
       hpq (reachable_eq_of_isolated hG1q h)
     have hG2 : (addEdge (addEdge G a p) p q).IsAcyclic :=
       (isAcyclic_addEdge_iff hG1 hpq (fun h => hG1q p h.symm)).mpr hnG1q
-    apply (isAcyclic_addEdge_iff hG2 (by simp [q, b]) (by
+    apply (isAcyclic_addEdge_iff hG2 (by simp) (by
       intro h
       rcases h with h | ⟨h, _⟩
       · exact hG1q b h
-      · simp [p, q, b] at h)).mpr
+      · simp [p, q] at h)).mpr
     intro hqb
     have hbq := hqb.symm
     have hbne : b ≠ q := by simp [b, q]
@@ -312,12 +315,12 @@ private theorem labelledExtension_bot_isAcyclic_iff [DecidableEq E]
   | empty =>
       have hbot : labelledExtension (⊥ : SimpleGraph V) ends ∅ = ⊥ := by
         ext x y
-        simp [labelledExtension, SimpleGraph.map_adj]
+        simp [labelledExtension, SimpleGraph.map_adj']
       simp [hbot]
   | @insert e S he ih =>
       constructor
       · intro hAll f hf
-        have hfne : f ∉ (insert e S).erase f := not_mem_erase f _
+        have hfne : f ∉ (insert e S).erase f := notMem_erase f _
         have hins : insert f ((insert e S).erase f) = insert e S :=
           insert_erase hf
         have hAll' :
@@ -417,7 +420,7 @@ private lemma labelledExtension_base_reachable {H : SimpleGraph V}
     { toFun := Sum.inl
       map_rel' := by
         intro x y hxy
-        exact Or.inl ⟨x, y, hxy, rfl, rfl⟩ }
+        exact Or.inl ⟨Sum.inl_injective.ne hxy.ne, x, y, hxy, rfl, rfl⟩ }
   exact h.map f
 
 private lemma section_collapse_reachable [DecidableEq E] {H : SimpleGraph V}
@@ -428,7 +431,7 @@ private lemma section_collapse_reachable [DecidableEq E] {H : SimpleGraph V}
   | inl v =>
       apply labelledExtension_base_reachable
       apply ConnectedComponent.exact
-      simp [sectionExtensionVertex, collapseExtensionVertex]
+      simp
   | inr eb => exact Reachable.refl _
 
 private lemma collapse_adj_reachable [DecidableEq E] {H : SimpleGraph V}
@@ -438,7 +441,7 @@ private lemma collapse_adj_reachable [DecidableEq E] {H : SimpleGraph V}
       (collapseExtensionVertex H x) (collapseExtensionVertex H y) := by
   rw [labelledExtension, sup_adj] at hxy
   rcases hxy with hxy | hxy
-  · rcases hxy with ⟨u, v, huv, rfl, rfl⟩
+  · rcases hxy with ⟨_, u, v, huv, rfl, rfl⟩
     simp only [collapseExtensionVertex]
     rw [ConnectedComponent.sound huv.reachable]
   · obtain ⟨e, he, hxy⟩ := adj_finset_sup_exists (labelledPath ends) S hxy
@@ -469,7 +472,7 @@ private lemma quotient_adj_sections_reachable [DecidableEq E] {H : SimpleGraph V
       (sectionExtensionVertex H x) (sectionExtensionVertex H y) := by
   rw [labelledComponentQuotient, labelledExtension, sup_adj] at hxy
   rcases hxy with hxy | hxy
-  · rcases hxy with ⟨u, v, huv, _, _⟩
+  · rcases hxy with ⟨_, u, v, huv, _, _⟩
     simp at huv
   · obtain ⟨e, he, hxy : (labelledPath (componentEnds H ends) e).Adj x y⟩ :=
       adj_finset_sup_exists (labelledPath (componentEnds H ends)) S hxy
@@ -548,38 +551,41 @@ private lemma map_inl_walk_exists {X : Type*} {H : SimpleGraph V}
       intro u hu v hv
       have huv : u = v := Sum.inl.inj (hu.symm.trans hv)
       subst v
-      exact ⟨Walk.nil, by simp [Walk.copy_nil]⟩
+      exact ⟨Walk.nil, by cases hu; rfl⟩
   | cons h p ih =>
       intro u hu v hv
       cases hu
       cases hv
-      rcases h with ⟨a, b, hab, ha, hb⟩
+      rcases h with ⟨_, a, b, hab, ha, hb⟩
       have hau : a = u := Sum.inl.inj ha
       subst a
       cases ha
       cases hb
       obtain ⟨q, hq⟩ := ih b rfl v rfl
       refine ⟨Walk.cons hab q, ?_⟩
-      simp [hq]
+      simp only [Walk.map_cons]
+      rw [hq]
+      rfl
 
 private lemma isAcyclic_map_inl {X : Type*} {H : SimpleGraph V} (hH : H.IsAcyclic) :
     (H.map (inlEmbedding V X)).IsAcyclic := by
   intro x c hc
   cases c with
-  | nil => exact hc.not_of_nil
+  | nil => exact Walk.not_isCycle_nil hc
   | cons ha p =>
       let c0 := Walk.cons ha p
       have hc0 : c0.IsCycle := hc
-      rcases ha with ⟨u, v, huv, hu, hv⟩
+      rcases ha with ⟨_, u, v, huv, hu, hv⟩
       subst x
       subst_vars
       obtain ⟨q, hq⟩ := map_inl_walk_exists p v rfl u rfl
       let qcycle : H.Walk u u := Walk.cons huv q
       have hmap : qcycle.map (SimpleGraph.Embedding.map
           (inlEmbedding V X) H).toHom = c0 := by
-        simp [qcycle, c0, hq]
+        simp only [qcycle, Walk.map_cons, hq, c0]
+        rfl
       have hqc : qcycle.IsCycle := by
-        apply (Walk.map_isCycle_iff_of_injective (p := qcycle)
+        apply (Walk.isCycle_map_iff_of_injective (p := qcycle)
           (f := (SimpleGraph.Embedding.map (inlEmbedding V X) H).toHom)
           Sum.inl_injective).mp
         simpa [hmap] using hc0
@@ -592,7 +598,7 @@ private theorem labelledExtension_isAcyclic_iff_erased [DecidableEq E]
         (Sum.inl (ends e).1) (Sum.inl (ends e).2) := by
   classical
   induction S using Finset.induction_on with
-  | empty => simpa using (isAcyclic_map_inl (X := E × Bool) hH)
+  | empty => simpa [inlEmbedding] using (isAcyclic_map_inl (X := E × Bool) hH)
   | @insert e S he ih =>
       constructor
       · intro hAll f hf
@@ -645,8 +651,7 @@ theorem labelledExtension_isAcyclic_iff_componentQuotient
       apply (labelledExtension_reachable_iff_componentQuotient
         H ends (S.erase e) (Sum.inl (ends e).1) (Sum.inl (ends e).2)).mpr
       simpa [collapseExtensionVertex, componentEnds] using hq
-  · intro h e he
-    intro hp
+  · intro h e he hp
     apply (h e he).2
     have hq := (labelledExtension_reachable_iff_componentQuotient
       H ends (S.erase e) (Sum.inl (ends e).1) (Sum.inl (ends e).2)).mp hp

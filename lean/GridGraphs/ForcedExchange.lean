@@ -15,11 +15,12 @@ private def addEdge (H : SimpleGraph V) (u v : V) : SimpleGraph V where
   Adj x y := H.Adj x y ∨
     (((x = u ∧ y = v) ∨ (x = v ∧ y = u)) ∧ x ≠ y)
   symm := by
+    constructor
     rintro x y (h | ⟨h, hxy⟩)
-    · exact Or.inl (H.symm h)
+    · exact Or.inl (Adj.symm h)
     · exact Or.inr ⟨h.elim (fun h => Or.inr ⟨h.2, h.1⟩)
         (fun h => Or.inl ⟨h.2, h.1⟩), hxy.symm⟩
-  loopless x := by simp
+  loopless := ⟨by intro x; simp⟩
 
 private lemma addEdge_adj {H : SimpleGraph V} {u v x y : V} :
     (addEdge H u v).Adj x y ↔ H.Adj x y ∨
@@ -43,7 +44,7 @@ private lemma delete_added_edge {H : SimpleGraph V} {u v : V}
     refine ⟨Or.inl hH, ?_⟩
     rintro ⟨h | h, _⟩
     · exact hnew (h.1 ▸ h.2 ▸ hH)
-    · exact hnew (H.symm (h.1 ▸ h.2 ▸ hH))
+    · exact hnew (Adj.symm (h.1 ▸ h.2 ▸ hH))
 
 /-- Adding a genuinely new edge to a forest is acyclic exactly when its
 endpoints were in different components. -/
@@ -58,13 +59,13 @@ private theorem isAcyclic_addEdge_iff {H : SimpleGraph V} {u v : V}
     obtain ⟨x, c, hc, _⟩ :=
       (adj_and_reachable_delete_edges_iff_exists_cycle
         (G := K) (v := u) (w := v)).mp ⟨by
-          exact Or.inr ⟨Or.inl ⟨rfl, rfl⟩, huv⟩, by simpa [hdel]⟩
+          exact Or.inr ⟨Or.inl ⟨rfl, rfl⟩, huv⟩, by simpa [deleteEdges, hdel]⟩
     exact hK c hc
   · intro hnreach x c hc
     by_cases he : s(u, v) ∈ c.edges
     · have hreach := (adj_and_reachable_delete_edges_iff_exists_cycle
         (G := K) (v := u) (w := v)).mpr ⟨x, c, hc, he⟩ |>.2
-      exact hnreach (by simpa [hdel] using hreach)
+      exact hnreach (by simpa [deleteEdges, hdel] using hreach)
     · have hedges : ∀ e ∈ c.edges, e ∈ H.edgeSet := by
         intro e hec
         have heK := c.edges_subset_edgeSet hec
@@ -83,11 +84,12 @@ private def fanGraph (H : SimpleGraph V) (u : V) (S : Finset V) : SimpleGraph V 
   Adj x y := H.Adj x y ∨
     ((((x = u ∧ y ∈ S) ∨ (y = u ∧ x ∈ S))) ∧ x ≠ y)
   symm := by
+    constructor
     rintro x y (h | ⟨h, hxy⟩)
-    · exact Or.inl (H.symm h)
+    · exact Or.inl (Adj.symm h)
     · exact Or.inr ⟨h.elim (fun h => Or.inr ⟨h.1, h.2⟩)
         (fun h => Or.inl ⟨h.1, h.2⟩), hxy.symm⟩
-  loopless x := by simp
+  loopless := ⟨by intro x; simp⟩
 
 private lemma fanGraph_insert [DecidableEq V] (H : SimpleGraph V) (u v : V)
     (S : Finset V) :
@@ -217,13 +219,13 @@ private lemma forcedEdgeGraph_insert_eq_fan [Fintype V] [DecidableEq V]
     · exact Or.inl ⟨hxy, Or.inl hxF⟩
     · by_cases hx : x ∈ F
       · exact Or.inl ⟨hxy, Or.inl hx⟩
-      · exact Or.inr ⟨Or.inr ⟨rfl, G.symm hxy, hx⟩, G.ne_of_adj hxy⟩
+      · exact Or.inr ⟨Or.inr ⟨rfl, Adj.symm hxy, hx⟩, G.ne_of_adj hxy⟩
     · exact Or.inl ⟨hxy, Or.inr hyF⟩
   · rintro (⟨hxy, hxF | hyF⟩ | ⟨(⟨rfl, huy, hyF⟩ | ⟨rfl, hux, hxF⟩), hne⟩)
     · exact ⟨hxy, Or.inl (Or.inr hxF)⟩
     · exact ⟨hxy, Or.inr (Or.inr hyF)⟩
     · exact ⟨huy, Or.inl (Or.inl rfl)⟩
-    · exact ⟨G.symm hux, Or.inr (Or.inl rfl)⟩
+    · exact ⟨Adj.symm hux, Or.inr (Or.inl rfl)⟩
 
 /-- Exact one-vertex exchange criterion for forced forests.  The attachment
 vertices are `u` and its ambient neighbors outside the old forced set. -/
@@ -248,7 +250,7 @@ theorem forcedEdgeGraph_insert_isAcyclic_iff [Fintype V] [DecidableEq V]
     · exact hv.2 hvF
   rw [isAcyclic_fanGraph_iff hH huS hnew]
   simp only [mem_insert, forcedOutsideNeighbors, mem_filter, mem_univ, true_and,
-    Set.mem_union, Set.mem_singleton_iff, Set.mem_diff, mem_neighborSet]
+    Set.mem_union, Set.mem_singleton_iff, Set.mem_sdiff, mem_neighborSet]
 
 /-- A forced-acyclic set to which no single vertex can be added. -/
 def MaximalForcedAcyclic (G : SimpleGraph V) (F : Set V) : Prop :=
@@ -272,7 +274,7 @@ theorem maximalForcedAcyclic_iff_reachable [Fintype V] [DecidableEq V]
     intro u hu
     have hfail := hmax u hu
     rw [forcedEdgeGraph_insert_isAcyclic_iff hu hH] at hfail
-    push_neg at hfail
+    push Not at hfail
     exact hfail
   · rintro ⟨hH, hrepeat⟩
     refine ⟨hH, ?_⟩

@@ -86,7 +86,7 @@ theorem grid_cotree_support_card_add_numPreserved (hTG : T ≤ gridGraph m n) :
     (supportFinset (gridGraph m n \ T)).card + numPreserved m n T = m * n := by
   rw [grid_cotree_supportFinset_eq hTG]
   unfold numPreserved
-  rw [add_comm, Finset.filter_card_add_filter_neg_card_eq_card]
+  rw [add_comm, Finset.card_filter_add_card_filter_not]
   unfold GridVertex
   simp [Fintype.card_prod]
 

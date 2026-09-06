@@ -300,7 +300,7 @@ lemma card_rows_dense (k : Nat) (hk : 1 ≤ k) :
         (fun r => r.val + 1 ≠ 3 * k ∧ r.val % 3 ≠ 0)).card
       + ((Finset.univ : Finset (Fin (3 * k + 1))).filter
           (fun r => ¬ (r.val + 1 ≠ 3 * k ∧ r.val % 3 ≠ 0))).card = 3 * k + 1 := by
-    rw [Finset.filter_card_add_filter_neg_card_eq_card]
+    rw [Finset.card_filter_add_card_filter_not]
     simp
   -- Compute the negated filter as the disjoint union.
   have h_compl :
@@ -522,8 +522,7 @@ theorem uResidueOne_card_eq_q (k : Nat) (hk : 1 ≤ k) :
     unfold q
     -- After unfolding, the goal contains `let k' := (3*k+1)/3; match (3*k+1)%3 with ...`
     -- Substitute the div / mod values.
-    rw [show (3 * k + 1) / 3 = k from hdiv]
-    rw [show (3 * k + 1) % 3 = 1 from hmod]
+    simp only [hdiv, hmod]
   exact hq.symm
 
 end GridGraphs

@@ -191,11 +191,9 @@ theorem cropRepairAdmissible_iff_canonical_signature
         (cropEmbedding rowOffset colOffset hrows hcols) F R ↔
       (canonicalCyclicCropBoundarySignature
         rowOffset colOffset hrows hcols hp hq F R).RepairAdmissible := by
-  simpa [CyclicCropBoundarySignature.RepairAdmissible,
-    CyclicCropBoundarySignature.quotient,
-    SimpleGraph.LabelledQuotientForest] using
-      (cropRepairAdmissible_iff_labelledQuotientForest
-        (cropEmbedding rowOffset colOffset hrows hcols) F R hR hInitial)
+  rw [canonicalCyclicCropBoundarySignature_quotientAcyclic_iff]
+  exact cropRepairAdmissible_iff_componentQuotient_isAcyclic
+    (cropEmbedding rowOffset colOffset hrows hcols) F R hR hInitial
 
 /-- Canonical-signature formulation of actual repair admissibility. -/
 theorem canonicalCyclicCropBoundarySignature_admissible_iff

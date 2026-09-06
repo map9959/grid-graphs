@@ -1,5 +1,5 @@
 import Mathlib.Combinatorics.SimpleGraph.Acyclic
-import Mathlib.Combinatorics.SimpleGraph.Connectivity.WalkCounting
+import Mathlib.Combinatorics.SimpleGraph.Connectivity.Finite
 
 open scoped Sym2
 
@@ -36,7 +36,9 @@ private lemma sum_component_edgeFinset_card [Fintype V] [DecidableEq V]
       componentEdges, Finset.mem_map] at he
     obtain ⟨e', he', rfl⟩ := he
     induction e' using Sym2.inductionOn with
-    | _ u v => simpa [includeEdges, ConnectedComponent.toSimpleGraph] using he'
+    | _ u v =>
+      have hadj : c.toSimpleGraph.Adj u v := mem_edgeFinset.mp he'
+      exact mem_edgeFinset.mpr hadj
   have vertices_mem_component (c : H.ConnectedComponent) (e : Sym2 V)
       (he : e ∈ componentEdges c) : ∀ v ∈ e, v ∈ c.supp := by
     simp only [componentEdges, Finset.mem_map] at he
@@ -75,7 +77,7 @@ private lemma sum_component_edgeFinset_card [Fintype V] [DecidableEq V]
       simp only [edgesByComponent, Finset.mem_sigma, Finset.mem_univ, true_and,
         componentEdges, Finset.mem_map]
       refine ⟨s(⟨u, hu⟩, ⟨v, hv⟩), ?_, rfl⟩
-      simpa [ConnectedComponent.toSimpleGraph] using huv
+      exact mem_edgeFinset.mpr huv
   calc
     ∑ c : H.ConnectedComponent, c.toSimpleGraph.edgeFinset.card =
         ∑ c : H.ConnectedComponent, (componentEdges c).card := by

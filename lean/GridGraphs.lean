@@ -10,6 +10,12 @@ import GridGraphs.ForcedExchange
 import GridGraphs.CanonicalInsertionCircuit
 import GridGraphs.ThreeFrameSurgery
 import GridGraphs.Diagonal
+import GridGraphs.BoundaryFiveBudget
+import GridGraphs.BoundaryFiveEquality
+import GridGraphs.BoundaryFiveFrame
+import GridGraphs.BoundaryFiveAttachment
+import GridGraphs.BoundaryFiveConstruction
+import GridGraphs.ResidueTwoStaircaseForest
 import GridGraphs.ResidueOne
 import GridGraphs.Spanning
 import GridGraphs.ForestExtension

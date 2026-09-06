@@ -141,7 +141,7 @@ theorem physicalGridEdgeGraph_adj_iff {m n : Nat}
     have hloop : (gridGraph m n).Adj u u := by
       rw [← SimpleGraph.mem_edgeSet, ← heq]
       exact GridEdge.primalSym2_mem_gridGraph_edgeSet edge
-    exact (gridGraph m n).loopless u hloop
+    exact (gridGraph m n).loopless.irrefl u hloop
 
 private theorem physicalGridEdgeGraph_edgeSet {m n : Nat}
     (S : Finset (GridEdge m n)) :
@@ -187,7 +187,7 @@ private lemma collapseGridEdgeVertex_adj {m n : Nat}
   classical
   rw [SimpleGraph.labelledExtension, sup_adj] at hxy
   rcases hxy with hbase | hpath
-  · rcases hbase with ⟨u, v, huv, rfl, rfl⟩
+  · rcases hbase with ⟨_, u, v, huv, rfl, rfl⟩
     exact Or.inr (Or.inl huv)
   · obtain ⟨edge, hedge, hpath⟩ := adj_finset_sup_exists
       (SimpleGraph.labelledPath GridEdge.primalEndpoints) S hpath
@@ -254,7 +254,8 @@ private theorem physicalExtension_reachable_iff_labelledExtension {m n : Nat}
         apply ih.trans
         rcases hwv with hwv | hwv
         · exact (show (SimpleGraph.labelledExtension H GridEdge.primalEndpoints S).Adj
-              (Sum.inl w) (Sum.inl v) from Or.inl ⟨w, v, hwv, rfl, rfl⟩).reachable
+              (Sum.inl w) (Sum.inl v) from
+                Or.inl ⟨Sum.inl_injective.ne hwv.ne, w, v, hwv, rfl, rfl⟩).reachable
         · obtain ⟨edge, hedge, heq⟩ :=
             (physicalGridEdgeGraph_adj_iff S w v).mp hwv
           rw [GridEdge.primalSym2, Sym2.eq_iff] at heq
@@ -414,8 +415,8 @@ private theorem physicalCropExtension_delete {m n : Nat} [DecidableEq B]
     SimpleGraph.edgeSet_sup, SimpleGraph.edgeSet_sup,
     physicalGridEdgeGraph_edgeSet, physicalGridEdgeGraph_edgeSet]
   ext x
-  simp only [Set.mem_diff, Set.mem_union, Set.mem_singleton_iff,
-    Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, Finset.mem_erase]
+  simp only [Set.mem_sdiff, Set.mem_union, Set.mem_singleton_iff,
+    Set.mem_image, Finset.mem_coe, Finset.mem_erase]
   constructor
   · rintro ⟨hxH | ⟨other, hother, rfl⟩, hxne⟩
     · exact Or.inl hxH
@@ -431,7 +432,7 @@ private theorem physicalCropExtension_delete {m n : Nat} [DecidableEq B]
       rintro ⟨heq, -⟩
       apply physicalCropRepairEdge_not_initial e F R hedge
       rw [← SimpleGraph.mem_edgeSet]
-      simpa only [heq] using hxH
+      simpa only [heq, GridEdge.primalSym2] using hxH
     · refine ⟨Or.inr ⟨other, hother, rfl⟩, ?_⟩
       rintro ⟨heq, -⟩
       exact hne (GridEdge.primalSym2_injective heq)
@@ -474,7 +475,7 @@ private theorem physicalCropExtension_isAcyclic_iff_erased {m n : Nat}
   · intro herased x c hc
     by_cases hbase : ∀ edge ∈ c.edges, edge ∈ H.edgeSet
     · exact hcrop (c.transfer H hbase) (hc.transfer hbase)
-    · push_neg at hbase
+    · push Not at hbase
       obtain ⟨physical, hphysicalCycle, hphysicalBase⟩ := hbase
       have hphysicalAll := c.edges_subset_edgeSet hphysicalCycle
       rw [SimpleGraph.edgeSet_sup, physicalGridEdgeGraph_edgeSet] at hphysicalAll
@@ -522,7 +523,7 @@ private theorem physicalCropExtension_isAcyclic_iff_labelledExtension
         H GridEdge.primalEndpoints (S.erase edge)
           (Sum.inl edge.primalEndpoints.1)
           (Sum.inl edge.primalEndpoints.2)).mpr
-      simpa [SimpleGraph.componentEnds] using hquotient
+      exact hquotient
   · intro hindependent edge hedge hphysical
     apply (hindependent edge hedge).2
     apply (SimpleGraph.labelledExtension_reachable_iff_componentQuotient

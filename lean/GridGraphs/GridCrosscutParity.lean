@@ -450,7 +450,7 @@ theorem outerEdgeInnerFace_reachable_gridCollarFace_clockwise
   have hx : gridCollarEmbedding m n x ∉ c.support := by
     rw [P.mem_canonicalClosedWalk_of_original_boundary_iff .clockwise hm hn x
       (gridBoundaryVertex_isBoundary hm hn i)]
-    push_neg
+    push Not
     constructor
     · intro h
       apply his
@@ -486,19 +486,18 @@ theorem outerEdgeInnerFace_reachable_gridCollarFace_clockwise
         | GridFace.out => 0
         | GridFace.cell _ col => col.val) h
       rw [outerEdgeInnerFace_eq_top hm hn i htop] at hc
-      simp [gridCollarFace, x, hxcoord] at hc
+      simp [gridCollarFace, hxcoord] at hc
     · intro he
       apply hx
       have hs := c.snd_mem_support_of_mem_edges he
       have hend : (verticalPrimalEndpoints e).2 = gridCollarEmbedding m n x := by
         apply Prod.ext <;> apply Fin.ext <;>
-          simp [e, x, hxcoord, verticalPrimalEndpoints,
-            gridCollarEmbedding, gridOffsetEmbedding] <;> omega
+          simp [e, x, hxcoord, verticalPrimalEndpoints]
       exact hend ▸ hs
     · right
       rw [outerEdgeInnerFace_eq_top hm hn i htop]
-      simp [gridCollarFace, x, hxcoord, e, verticalDualEndpoints,
-        Fin.ext_iff] <;> omega
+      simp [gridCollarFace, hxcoord, e, verticalDualEndpoints]
+      omega
   by_cases hright : i.val < n + m - 2
   · let r := i.val + 1 - n
     have hrcoord : i.val + 2 - n = r + 1 := by
@@ -522,36 +521,37 @@ theorem outerEdgeInnerFace_reachable_gridCollarFace_clockwise
         (outerEdgeInnerFace hm hn i) fmid := by
       refine ⟨?_, Or.inl ⟨e₁, ?_, ?_⟩⟩
       · rw [outerEdgeInnerFace_eq_right hm hn i htop hright]
-        simp [fmid, r, hrcoord, Fin.ext_iff] <;> omega
+        simp [fmid, r, hrcoord, Fin.ext_iff]
       · intro he
         apply hx
         have hs := c.fst_mem_support_of_mem_edges he
         have hend : (horizontalPrimalEndpoints e₁).1 =
             gridCollarEmbedding m n x := by
           apply Prod.ext <;> apply Fin.ext <;>
-            simp [e₁, r, x, hxcoord, horizontalPrimalEndpoints,
-              gridCollarEmbedding, gridOffsetEmbedding] <;> omega
+            simp [e₁, r, x, hxcoord, horizontalPrimalEndpoints, hnsub]
         exact hend ▸ hs
       · right
         rw [outerEdgeInnerFace_eq_right hm hn i htop hright]
-        simp [fmid, e₁, r, hrcoord, horizontalDualEndpoints, Fin.ext_iff] <;> omega
+        simp [fmid, e₁, r, hrcoord, horizontalDualEndpoints]
+        omega
     have h₂ : (cycleComplementDualGraph c).Adj fmid
         (gridCollarFace x) := by
       refine ⟨?_, Or.inr ⟨e₂, ?_, ?_⟩⟩
       · simp [fmid, gridCollarFace, x, hxcoord,
-          r, Fin.ext_iff] <;> omega
+          r, Fin.ext_iff]
+        omega
       · intro he
         apply hx
         have hs := c.snd_mem_support_of_mem_edges he
         have hend : (verticalPrimalEndpoints e₂).2 =
             gridCollarEmbedding m n x := by
           apply Prod.ext <;> apply Fin.ext <;>
-            simp [e₂, r, x, hxcoord, verticalPrimalEndpoints,
-              gridCollarEmbedding, gridOffsetEmbedding] <;> omega
+            simp [e₂, r, x, hxcoord, verticalPrimalEndpoints, hnsub]
         exact hend ▸ hs
       · right
         simp [fmid, gridCollarFace, x, hxcoord,
-          e₂, r, verticalDualEndpoints, Fin.ext_iff] <;> omega
+          e₂, r, verticalDualEndpoints]
+        omega
     exact h₁.reachable.trans h₂.reachable
   by_cases hbottom : i.val < m + 2 * n - 3
   · let q := m + 2 * n - 3 - i.val
@@ -575,21 +575,19 @@ theorem outerEdgeInnerFace_reachable_gridCollarFace_clockwise
         | GridFace.out => 0
         | GridFace.cell row _ => row.val) h
       rw [outerEdgeInnerFace_eq_bottom hm hn i hright hbottom] at hr
-      simp [gridCollarFace, x, hxcoord, q] at hr
+      simp [gridCollarFace, hxcoord, q] at hr
       omega
     · intro he
       apply hx
       have hs := c.snd_mem_support_of_mem_edges he
       have hend : (horizontalPrimalEndpoints e).2 = gridCollarEmbedding m n x := by
         apply Prod.ext <;> apply Fin.ext <;>
-          simp [e, q, x, hxcoord, horizontalPrimalEndpoints,
-            gridCollarEmbedding, gridOffsetEmbedding] <;>
-            omega
+          simp [e, q, x, hxcoord, horizontalPrimalEndpoints, hmsub]
       exact hend ▸ hs
     · right
       rw [outerEdgeInnerFace_eq_bottom hm hn i hright hbottom]
-      simp [gridCollarFace, x, hxcoord, e, q, horizontalDualEndpoints,
-        Fin.ext_iff] <;> omega
+      simp [gridCollarFace, hxcoord, e, q, horizontalDualEndpoints]
+      omega
   · have hxcoord : gridBoundaryVertex hm hn i =
         (⟨gridBoundaryLength m n - i.val, by
           unfold gridBoundaryLength
@@ -599,7 +597,7 @@ theorem outerEdgeInnerFace_reachable_gridCollarFace_clockwise
         simp_all [gridBoundaryLength] <;> omega
     have heq : outerEdgeInnerFace hm hn i = gridCollarFace x := by
       rw [outerEdgeInnerFace_eq_left hm hn i hbottom]
-      simp [gridCollarFace, x, hxcoord, Fin.ext_iff]
+      simp [gridCollarFace, x, hxcoord]
     rw [heq]
 
 /-- The northwest anchor face at a non-endpoint boundary vertex has canonical
@@ -643,8 +641,7 @@ theorem cycleComplementDualGraph_adj_gridCollarFace {m n : Nat}
       have hs := c.snd_mem_support_of_mem_edges he
       have hend : (verticalPrimalEndpoints e).2 = gridCollarEmbedding m n x := by
         apply Prod.ext <;> apply Fin.ext <;>
-          simp [e, verticalPrimalEndpoints, gridCollarEmbedding,
-            gridOffsetEmbedding] <;> omega
+          simp [e, verticalPrimalEndpoints, hrow, hcol]
       exact hx (hend ▸ hs)
     · left
       have hy0 : y.2.val ≠ 0 := by omega
@@ -667,8 +664,7 @@ theorem cycleComplementDualGraph_adj_gridCollarFace {m n : Nat}
       have hs := c.snd_mem_support_of_mem_edges he
       have hend : (verticalPrimalEndpoints e).2 = gridCollarEmbedding m n y := by
         apply Prod.ext <;> apply Fin.ext <;>
-          simp [e, verticalPrimalEndpoints, gridCollarEmbedding,
-            gridOffsetEmbedding] <;> omega
+          simp [e, verticalPrimalEndpoints, hcol]
       exact hy (hend ▸ hs)
     · right
       have hx0 : x.2.val ≠ 0 := by omega
@@ -691,8 +687,7 @@ theorem cycleComplementDualGraph_adj_gridCollarFace {m n : Nat}
       have hs := c.snd_mem_support_of_mem_edges he
       have hend : (horizontalPrimalEndpoints e).2 = gridCollarEmbedding m n x := by
         apply Prod.ext <;> apply Fin.ext <;>
-          simp [e, horizontalPrimalEndpoints, gridCollarEmbedding,
-            gridOffsetEmbedding] <;> omega
+          simp [e, horizontalPrimalEndpoints, hrow, hcol]
       exact hx (hend ▸ hs)
     · left
       have hy0 : y.1.val ≠ 0 := by omega
@@ -715,8 +710,7 @@ theorem cycleComplementDualGraph_adj_gridCollarFace {m n : Nat}
       have hs := c.snd_mem_support_of_mem_edges he
       have hend : (horizontalPrimalEndpoints e).2 = gridCollarEmbedding m n y := by
         apply Prod.ext <;> apply Fin.ext <;>
-          simp [e, horizontalPrimalEndpoints, gridCollarEmbedding,
-            gridOffsetEmbedding] <;> omega
+          simp [e, horizontalPrimalEndpoints, hrow]
       exact hy (hend ▸ hs)
     · right
       have hx0 : x.1.val ≠ 0 := by omega
@@ -800,7 +794,7 @@ theorem exists_gridCrosscut_subpath_of_boundary_sectors {m n : Nat}
           (p.dropUntil z hzp) (hp.dropUntil hzp) hzB hv hzv hside
       refine ⟨P, ?_, hPside⟩
       intro x hx
-      exact p.support_dropUntil_subset hzp (hPsub hx)
+      exact p.support_dropUntil_subset_support hzp (hPsub hx)
     · have hside : sector ((gridBoundaryEquiv hm hn).symm ⟨u, hu⟩) ↔
           ¬sector zi := by tauto
       obtain ⟨P, hPsub, hPside⟩ :=
@@ -808,7 +802,7 @@ theorem exists_gridCrosscut_subpath_of_boundary_sectors {m n : Nat}
           (p.takeUntil z hzp) (hp.takeUntil hzp) hu hzB hzu.symm hside
       refine ⟨P, ?_, hPside⟩
       intro x hx
-      exact p.support_takeUntil_subset hzp (hPsub hx)
+      exact p.support_takeUntil_subset_support hzp (hPsub hx)
   ·
     let P : GridCrosscut m n :=
       { start := u
@@ -836,12 +830,12 @@ decreasing_by
       rw [Nat.pos_iff_ne_zero]
       intro hzero
       have hnil : (p.takeUntil z hzp).Nil := by
-        simpa [Walk.nil_iff_length_eq] using hzero
+        exact Walk.length_eq_zero_iff.mp hzero
       exact hzu ((p.nil_takeUntil hzp).mp hnil).symm
     have hlen := congrArg Walk.length (p.take_spec hzp)
     rw [Walk.length_append] at hlen
     omega
-  · exact p.length_takeUntil_lt hzp hzv
+  · exact p.length_takeUntil_lt_length hzp hzv
 
 /-- Direct trimming for alternating endpoints when the path avoids the other
 pair, as it does under a putative disjointness counterexample. -/

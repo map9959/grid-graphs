@@ -66,7 +66,7 @@ theorem RootedTreeDart.eq_of_targetShoreVertices_eq
     exact target_mem_targetShoreVertices b.1
   have hbsource : b.1.source ∉ a.1.targetShoreVertices := by
     rw [hshore]
-    exact source_notMem_targetShoreVertices htree.IsAcyclic b.1
+    exact source_notMem_targetShoreVertices htree.isAcyclic b.1
   have hedge := edgeSym2_eq_of_source_mem_target_notMem a.1 b.1.reverse
     (by simpa [reverse] using hbtarget)
     (by simpa [reverse] using hbsource)

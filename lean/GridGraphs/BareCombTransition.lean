@@ -258,7 +258,8 @@ noncomputable def gapResourceEmbedding :
     · by_cases hj : T.Adj (C.outer (C.gapLeft j)) (C.outer (C.gapRight j))
       · simp [hi, hj] at hij
       · simp [hi, hj] at hij
-        exact C.fourthEdge_injective (congrArg Subtype.val hij)
+        exact C.fourthEdge_injective
+          (congrArg (fun e : LabelledCotreeTransition T => e.val) (Sum.inr.inj hij))
 
 theorem gapResourceEmbedding_isLeft_iff (i : Fin C.gapCount) :
     (∃ e, C.gapResourceEmbedding i = Sum.inl e) ↔
@@ -275,6 +276,7 @@ theorem gapResourceEmbedding_isRight_iff (i : Fin C.gapCount) :
   by_cases h : T.Adj (C.outer (C.gapLeft i)) (C.outer (C.gapRight i))
   · simp [gapResourceEmbedding, h]
   · simp [gapResourceEmbedding, h]
+    exact ⟨_, rfl⟩
 
 end HorizontalSouthBareComb
 
@@ -505,7 +507,8 @@ noncomputable def gapResourceEmbedding :
     · by_cases hj : T.Adj (C.outer (C.gapLeft j)) (C.outer (C.gapRight j))
       · simp [hi, hj] at hij
       · simp [hi, hj] at hij
-        exact C.fourthEdge_injective (congrArg Subtype.val hij)
+        exact C.fourthEdge_injective
+          (congrArg (fun e : LabelledCotreeTransition T => e.val) (Sum.inr.inj hij))
 
 theorem gapResourceEmbedding_isLeft_iff (i : Fin C.gapCount) :
     (∃ e, C.gapResourceEmbedding i = Sum.inl e) ↔
@@ -522,6 +525,7 @@ theorem gapResourceEmbedding_isRight_iff (i : Fin C.gapCount) :
   by_cases h : T.Adj (C.outer (C.gapLeft i)) (C.outer (C.gapRight i))
   · simp [gapResourceEmbedding, h]
   · simp [gapResourceEmbedding, h]
+    exact ⟨_, rfl⟩
 
 end HorizontalNorthBareComb
 
@@ -749,7 +753,8 @@ noncomputable def gapResourceEmbedding :
     · by_cases hj : T.Adj (C.outer (C.gapTop j)) (C.outer (C.gapBottom j))
       · simp [hi, hj] at hij
       · simp [hi, hj] at hij
-        exact C.fourthEdge_injective (congrArg Subtype.val hij)
+        exact C.fourthEdge_injective
+          (congrArg (fun e : LabelledCotreeTransition T => e.val) (Sum.inr.inj hij))
 
 theorem gapResourceEmbedding_isLeft_iff (i : Fin C.gapCount) :
     (∃ e, C.gapResourceEmbedding i = Sum.inl e) ↔
@@ -766,6 +771,7 @@ theorem gapResourceEmbedding_isRight_iff (i : Fin C.gapCount) :
   by_cases h : T.Adj (C.outer (C.gapTop i)) (C.outer (C.gapBottom i))
   · simp [gapResourceEmbedding, h]
   · simp [gapResourceEmbedding, h]
+    exact ⟨_, rfl⟩
 
 end VerticalEastBareComb
 
@@ -996,7 +1002,8 @@ noncomputable def gapResourceEmbedding :
     · by_cases hj : T.Adj (C.outer (C.gapTop j)) (C.outer (C.gapBottom j))
       · simp [hi, hj] at hij
       · simp [hi, hj] at hij
-        exact C.fourthEdge_injective (congrArg Subtype.val hij)
+        exact C.fourthEdge_injective
+          (congrArg (fun e : LabelledCotreeTransition T => e.val) (Sum.inr.inj hij))
 
 theorem gapResourceEmbedding_isLeft_iff (i : Fin C.gapCount) :
     (∃ e, C.gapResourceEmbedding i = Sum.inl e) ↔
@@ -1013,6 +1020,7 @@ theorem gapResourceEmbedding_isRight_iff (i : Fin C.gapCount) :
   by_cases h : T.Adj (C.outer (C.gapTop i)) (C.outer (C.gapBottom i))
   · simp [gapResourceEmbedding, h]
   · simp [gapResourceEmbedding, h]
+    exact ⟨_, rfl⟩
 
 end VerticalWestBareComb
 

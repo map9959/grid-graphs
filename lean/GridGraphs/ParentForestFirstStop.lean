@@ -131,6 +131,7 @@ theorem exits_subset_roots
   change F.restrictedParent demand stop v = none
   exact (F.restrictedParent_eq_none demand stop v).mpr (Or.inl hstop)
 
+omit [DecidableEq V] in
 /-- There are no artificial roots: roots are exactly stops or inherited roots. -/
 theorem mem_firstStopRoots
     (F : ParentForest V) (demand : Finset V) (stop : V → Prop)
@@ -138,8 +139,10 @@ theorem mem_firstStopRoots
     v ∈ (F.firstStopForest demand stop).roots ↔
       stop v.1 ∨ v.1 ∈ F.roots := by
   classical
-  simp [ParentForest.roots, firstStopForest,
-    F.restrictedParent_eq_none demand stop v]
+  unfold ParentForest.roots
+  rw [Finset.mem_filter, Finset.mem_filter]
+  simp only [Finset.mem_univ, true_and]
+  exact F.restrictedParent_eq_none demand stop v
 
 /-- Original demand leaves remain leaves after restriction. -/
 theorem restrictedDemand_subset_leaves
@@ -153,8 +156,8 @@ theorem restrictedDemand_subset_leaves
   have hchildren : F.children v.1 = ∅ := by
     apply Finset.card_eq_zero.mp
     exact (Finset.mem_filter.mp hvleaf).2
-  simp only [ParentForest.leaves, Finset.mem_filter, Finset.mem_univ, true_and,
-    ParentForest.childCount]
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_univ _, ?_⟩
   apply Finset.card_eq_zero.mpr
   apply Finset.eq_empty_iff_forall_notMem.mpr
   intro w hw
@@ -173,7 +176,7 @@ noncomputable def demandEmbedding
     ↥demand ↪ ↥(F.restrictedDemand demand stop) where
   toFun d :=
     ⟨⟨d.1, ⟨d.1, d.2, Relation.ReflTransGen.refl⟩⟩, by
-      simp [restrictedDemand]⟩
+      exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, d.2⟩⟩
   inj' := by
     intro d e h
     exact Subtype.ext (congrArg (fun x => x.1.1) h)

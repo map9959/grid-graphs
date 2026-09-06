@@ -18,9 +18,12 @@ open Finset SimpleGraph
 inductive AxialOrientation
   | horizontal
   | vertical
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
 
 namespace AxialOrientation
+
+instance : Fintype AxialOrientation :=
+  ⟨{horizontal, vertical}, by intro x; cases x <;> simp⟩
 
 /-- The coordinate which is constant along an oriented line. -/
 def line {m n : Nat} : AxialOrientation → GridVertex m n → Nat

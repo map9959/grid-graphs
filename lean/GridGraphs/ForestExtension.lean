@@ -32,7 +32,7 @@ theorem isAcyclic_extends_to_isTree {V : Type*} [Fintype V] [DecidableEq V]
     {H | F ≤ H ∧ H ≤ G ∧ H.Connected}
   -- S is non-empty: take any spanning tree T₀ of G, then T₀ ⊔ F ∈ S.
   obtain ⟨T₀, hT₀_le, hT₀_tree⟩ := hG_conn.exists_isTree_le
-  have hT₀_conn : T₀.Connected := hT₀_tree.isConnected
+  have hT₀_conn : T₀.Connected := hT₀_tree.connected
   have hUnion_in_S : (T₀ ⊔ F) ∈ S := by
     refine ⟨?_, ?_, ?_⟩
     · -- F ≤ T₀ ⊔ F
@@ -64,10 +64,8 @@ theorem isAcyclic_extends_to_isTree {V : Type*} [Fintype V] [DecidableEq V]
         exact this
       -- e is non-bridge of T: it lies on cycle c.
       have hnonBridge : ¬ T.IsBridge s(u, w) := by
-        rw [isBridge_iff_adj_and_forall_cycle_notMem]
-        push_neg
-        intro _
-        exact ⟨v, c, hc, he⟩
+        intro hbridge
+        exact (isBridge_iff_forall_cycle_notMem hadj_T).mp hbridge c hc he
       -- T.deleteEdges {s(u, w)} is connected.
       have hDel_conn : (T.deleteEdges {s(u, w)}).Connected :=
         hT_conn.connected_delete_edge_of_not_isBridge hnonBridge

@@ -21,9 +21,12 @@ inductive FourCropCorner
   | northEast
   | southWest
   | southEast
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
 
 namespace FourCropCorner
+
+instance : Fintype FourCropCorner :=
+  ⟨{northWest, northEast, southWest, southEast}, by intro x; cases x <;> simp⟩
 
 def top : FourCropCorner → Nat
   | northWest | northEast => 0
@@ -237,7 +240,7 @@ theorem exists_fourCrop_repair_of_active_injections
       argument.repairAdmissible, argument.repair_card_le_loss,
       netFrameLoss_le_two_mul_of_bundlePreservingInjection hn argument⟩
   · refine ⟨c, ∅, by simp [IsCropRepairSet], ?_, by simp, ?_⟩
-    · simpa [CropRepairAdmissible] using
+    · simpa [CropRepairAdmissible, fourCropEmbedding] using
         threeSideCrop_forcedSet_isAcyclic n c.top c.bottom c.left c.right
           (by omega) c.top_add_bottom c.left_add_right F hF
     · simp only [netFrameLoss, Finset.card_empty, Nat.sub_zero]

@@ -229,9 +229,8 @@ theorem residueZeroAnchoredCertificate_succ_of_nextStable
     ResidueZeroAnchoredCertificate (k + 1) (by omega) := by
   apply residueZeroAnchoredCertificate_succ_of_newFaces_nextStable k hk hold
   · intro r hr0 hrlast c _
-    simpa [residueZeroAnchor, residueZeroAnchorCoord] using
-      (hstable r hr0 hrlast c).map
-        (widenableOldDualToOld (k + 1) (by omega))
+    exact (hstable r hr0 hrlast c).map
+      (widenableOldDualToOld (k + 1) (by omega))
   · exact hstable
 
 end GridGraphs

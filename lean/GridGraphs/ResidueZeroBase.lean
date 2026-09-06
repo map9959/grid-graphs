@@ -81,8 +81,7 @@ theorem residueZeroBase_root_or_rank_parent_lt
   rcases x with ⟨r, c⟩
   fin_cases r
   all_goals fin_cases c
-  all_goals norm_num [residueZeroAnchorCoord, residueZeroBaseParent,
-    residueZeroBaseParentDirection, residueZeroBaseRank, table]
+  all_goals decide
 
 theorem residueZeroBaseRank_parent_lt
     (x : Fin (3 * 7 - 1) × Fin (3 * 7 - 1))
@@ -178,7 +177,7 @@ theorem residueZeroBaseParent_adj
   all_goals try { norm_num at hr0 }
   all_goals try { norm_num at hrlast }
   all_goals simp [residueZeroAnchorCoord] at hne
-  all_goals norm_num [residueZeroBaseParent, residueZeroBaseParentDirection, table]
+  all_goals dsimp [residueZeroBaseParent, residueZeroBaseParentDirection, table]
   all_goals have hlen : (phaseRows 7).length = 17 := by norm_num [phaseRows,
     phaseRowsFrom, phaseRowsBase]
   all_goals first
@@ -252,48 +251,10 @@ theorem residueZeroBaseParent_adj
     | apply (base_top_interface_step _ _ _ _ _).symm
     | apply base_bottom_interface_step
     | apply (base_bottom_interface_step _ _ _ _ _).symm
-  all_goals norm_num [phaseRows, phaseRowsFrom, phaseRowsBase]
-  all_goals first
-    | apply phaseOccupied_backbone (q := 0) <;> omega
-    | apply phaseOccupied_backbone (q := 1) <;> omega
-    | apply phaseOccupied_backbone (q := 2) <;> omega
-    | apply phaseOccupied_backbone (q := 3) <;> omega
-    | apply phaseOccupied_backbone (q := 4) <;> omega
-    | apply phaseOccupied_backbone (q := 5) <;> omega
-    | apply phaseOccupied_backbone (q := 6) <;> omega
-    | apply phaseOccupied_backbone (q := 7) <;> omega
-    | apply (ordinary_left_run (q := 0) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_left_run (q := 1) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_left_run (q := 2) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_left_run (q := 3) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_left_run (q := 4) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_left_run (q := 5) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_left_run (q := 6) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_left_run (q := 7) (by omega) (by omega) (by omega)).2
-    | apply (ordinary_right_run (q := 0) (by omega) (by omega) (by omega)).1
-    | apply (ordinary_right_run (q := 1) (by omega) (by omega) (by omega)).1
-    | apply (ordinary_right_run (q := 2) (by omega) (by omega) (by omega)).1
-    | apply (ordinary_right_run (q := 3) (by omega) (by omega) (by omega)).1
-    | apply (ordinary_right_run (q := 4) (by omega) (by omega) (by omega)).1
-    | apply (ordinary_right_run (q := 5) (by omega) (by omega) (by omega)).1
-    | apply (ordinary_right_run (q := 6) (by omega) (by omega) (by omega)).1
-    | apply (ordinary_right_run (q := 7) (by omega) (by omega) (by omega)).1
-    | apply (seam_left_run (q := 0) (by omega) (by omega) (by omega)).2
-    | apply (seam_left_run (q := 1) (by omega) (by omega) (by omega)).2
-    | apply (seam_left_run (q := 2) (by omega) (by omega) (by omega)).2
-    | apply (seam_left_run (q := 3) (by omega) (by omega) (by omega)).2
-    | apply (seam_left_run (q := 4) (by omega) (by omega) (by omega)).2
-    | apply (seam_left_run (q := 5) (by omega) (by omega) (by omega)).2
-    | apply (seam_left_run (q := 6) (by omega) (by omega) (by omega)).2
-    | apply (seam_left_run (q := 7) (by omega) (by omega) (by omega)).2
-    | apply (seam_right_run (q := 0) (by omega) (by omega) (by omega)).1
-    | apply (seam_right_run (q := 1) (by omega) (by omega) (by omega)).1
-    | apply (seam_right_run (q := 2) (by omega) (by omega) (by omega)).1
-    | apply (seam_right_run (q := 3) (by omega) (by omega) (by omega)).1
-    | apply (seam_right_run (q := 4) (by omega) (by omega) (by omega)).1
-    | apply (seam_right_run (q := 5) (by omega) (by omega) (by omega)).1
-    | apply (seam_right_run (q := 6) (by omega) (by omega) (by omega)).1
-    | apply (seam_right_run (q := 7) (by omega) (by omega) (by omega)).1
+  all_goals dsimp [phaseRows, phaseRowsFrom, phaseRowsBase]
+  all_goals try omega
+  all_goals unfold PhaseOccupied
+  all_goals decide
 
 set_option maxHeartbeats 2000000 in
 private theorem residueZeroBaseParent_interior
@@ -302,11 +263,10 @@ private theorem residueZeroBaseParent_interior
     0 < (residueZeroBaseParent x).1.val ∧
       (residueZeroBaseParent x).1.val < 3 * 7 - 2 := by
   rcases x with ⟨r, c⟩
+  revert hr0 hrlast
   fin_cases r
   all_goals fin_cases c
-  all_goals try { norm_num at hr0 }
-  all_goals try { norm_num at hrlast }
-  all_goals norm_num [residueZeroBaseParent, residueZeroBaseParentDirection, table]
+  all_goals decide
 
 /-- Every interior width-seven face has a stable path to the designated anchor. -/
 theorem residueZeroAnchorBasePaths : ResidueZeroAnchorBasePaths := by
@@ -321,9 +281,7 @@ theorem residueZeroAnchorBasePaths : ResidueZeroAnchorBasePaths := by
     | h n ih =>
         intro y hyrank hy0 hylast
         by_cases hanchor : y = residueZeroAnchorCoord 7 (by omega)
-        · simpa [hanchor] using
-            (Reachable.refl : (widenableOldDualGraph 7 (by omega)).Reachable
-              (residueZeroAnchorCoord 7 (by omega)) (residueZeroAnchorCoord 7 (by omega)))
+        · simp [hanchor]
         · have hlt := residueZeroBaseRank_parent_lt y hy0 hylast hanchor
           have hinterior := residueZeroBaseParent_interior y hy0 hylast
           exact (residueZeroBaseParent_adj y hy0 hylast hanchor).reachable.trans

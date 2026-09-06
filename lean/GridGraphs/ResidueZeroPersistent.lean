@@ -26,12 +26,12 @@ def persistentResidueZeroGraph (k : Nat) (hk : 7 ≤ k) :
     (widenableOldDualGraph k hk).Adj x y ∧
       IsStrictInteriorResidueZeroCoord k x ∧
       IsStrictInteriorResidueZeroCoord k y
-  symm := by
+  symm.symm := by
     rintro x y ⟨hxy, hx, hy⟩
     exact ⟨hxy.symm, hy, hx⟩
-  loopless := by
+  loopless.irrefl := by
     rintro x ⟨hxx, -⟩
-    exact (widenableOldDualGraph k hk).loopless x hxx
+    exact (widenableOldDualGraph k hk).irrefl hxx
 
 /-- Every strict interior coordinate reaches the bounded anchor using only
 edges which retain the interior-row invariant. -/

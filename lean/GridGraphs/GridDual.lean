@@ -204,6 +204,7 @@ def uuDualGraph {m n : Nat} (U : Finset (GridVertex m n)) :
     SimpleGraph (GridFace m n) where
   Adj := UUDualAdj U
   symm := by
+    constructor
     rintro x y ⟨hxy, h⟩
     refine ⟨Ne.symm hxy, ?_⟩
     rcases h with h | h
@@ -216,6 +217,7 @@ def uuDualGraph {m n : Nat} (U : Finset (GridVertex m n)) :
       exact ⟨e, he₁, he₂, hends.elim (fun h => Or.inr ⟨h.2, h.1⟩)
         (fun h => Or.inl ⟨h.2, h.1⟩)⟩
   loopless := by
+    constructor
     intro x h
     exact h.1 rfl
 
@@ -263,6 +265,7 @@ def cycleComplementDualGraph {m n : Nat}
             (verticalPrimalEndpoints e).2) ∉ c.edges ∧
           HasDualEndpoints (verticalDualEndpoints e) x y))
   symm := by
+    constructor
     rintro x y ⟨hxy, h⟩
     refine ⟨hxy.symm, ?_⟩
     rcases h with h | h
@@ -275,6 +278,7 @@ def cycleComplementDualGraph {m n : Nat}
       exact ⟨e, he, hends.elim (fun h => Or.inr ⟨h.2, h.1⟩)
         (fun h => Or.inl ⟨h.2, h.1⟩)⟩
   loopless := by
+    constructor
     intro x h
     exact h.1 rfl
 
@@ -674,6 +678,8 @@ theorem countP_edgeCrossesRowRay_eq_card {m n : Nat}
     (col : Fin (n - 1)) :
     c.edges.countP (EdgeCrossesRowRay row col) =
       (rowRayCrossingEdges c row col).card := by
+  have mem_edgesFinset (e : Sym2 (GridVertex m n)) :
+      e ∈ hc.edgesFinset ↔ e ∈ c.edges := Iff.rfl
   let edgeOf : VerticalGridEdge m n → Sym2 (GridVertex m n) := fun a =>
     s((verticalPrimalEndpoints a).1, (verticalPrimalEndpoints a).2)
   have himage :
@@ -681,7 +687,7 @@ theorem countP_edgeCrossesRowRay_eq_card {m n : Nat}
         hc.edgesFinset.filter (fun e => EdgeCrossesRowRay row col e = true) := by
     ext e
     simp only [Finset.mem_image, mem_rowRayCrossingEdges_iff,
-      Finset.mem_filter, Finset.mem_mk, Multiset.mem_coe]
+      Finset.mem_filter, mem_edgesFinset]
     constructor
     · rintro ⟨a, ⟨ha, har, hac⟩, rfl⟩
       refine ⟨ha, ?_⟩
@@ -698,7 +704,7 @@ theorem countP_edgeCrossesRowRay_eq_card {m n : Nat}
       (c.edges.filter (EdgeCrossesRowRay row col)).toFinset =
         hc.edgesFinset.filter (fun e => EdgeCrossesRowRay row col e = true) := by
     ext e
-    simp
+    simp [mem_edgesFinset]
   rw [← hfilter, List.toFinset_card_of_nodup
     (hc.edges_nodup.filter (EdgeCrossesRowRay row col))]
 
@@ -778,7 +784,7 @@ def gridHorizontalSegmentSide {m n : Nat} (row : Fin m) (col : Fin (n - 1))
     by_cases hac : a.col.val ≤ col.val
     · refine ⟨hac, ?_⟩
       by_contra hr
-      push_neg at hr
+      push Not at hr
       simp [hac, show (⟨a.row.val, by omega⟩ : Fin m) ≠ row by
           exact fun he => hr.1 (congrArg Fin.val he),
         show (⟨a.row.val + 1, by omega⟩ : Fin m) ≠ row by
@@ -1196,6 +1202,8 @@ theorem even_rowCrossingEdges_card {m n : Nat}
     (hG : G ≤ gridGraph m n) (c : G.Walk v v)
     (hc : c.IsTrail) (row : Fin (m - 1)) :
     Even (rowCrossingEdges c row).card := by
+  have mem_edgesFinset (e : Sym2 (GridVertex m n)) :
+      e ∈ hc.edgesFinset ↔ e ∈ c.edges := Iff.rfl
   let edgeOf : VerticalGridEdge m n → Sym2 (GridVertex m n) := fun a =>
     s((verticalPrimalEndpoints a).1, (verticalPrimalEndpoints a).2)
   have himage : (rowCrossingEdges c row).image edgeOf =
@@ -1203,7 +1211,7 @@ theorem even_rowCrossingEdges_card {m n : Nat}
         EdgeCrossesBoolCut (gridRowPrefixSide row) edge = true) := by
     ext edge
     simp only [Finset.mem_image, mem_rowCrossingEdges_iff,
-      Finset.mem_filter, Finset.mem_mk, Multiset.mem_coe]
+      Finset.mem_filter, mem_edgesFinset]
     constructor
     · rintro ⟨a, ⟨ha, har⟩, rfl⟩
       exact ⟨ha, (vertical_edge_crosses_gridRowPrefixSide_iff row a).mpr har⟩
@@ -1215,13 +1223,15 @@ theorem even_rowCrossingEdges_card {m n : Nat}
           · obtain ⟨a, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
             · have hfalse := horizontal_edge_not_crosses_gridRowPrefixSide row a
               change EdgeCrossesBoolCut (gridRowPrefixSide row)
-                (Sym2.mk (horizontalPrimalEndpoints a)) = false at hfalse
+                s((horizontalPrimalEndpoints a).1,
+                  (horizontalPrimalEndpoints a).2) = false at hfalse
               rw [hfalse] at hcross
               contradiction
             · rw [Sym2.eq_swap] at hcross ⊢
               have hfalse := horizontal_edge_not_crosses_gridRowPrefixSide row a
               change EdgeCrossesBoolCut (gridRowPrefixSide row)
-                (Sym2.mk (horizontalPrimalEndpoints a)) = false at hfalse
+                s((horizontalPrimalEndpoints a).1,
+                  (horizontalPrimalEndpoints a).2) = false at hfalse
               rw [hfalse] at hcross
               contradiction
           · obtain ⟨a, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
@@ -1241,7 +1251,7 @@ theorem even_rowCrossingEdges_card {m n : Nat}
           hc.edgesFinset.filter (fun edge =>
             EdgeCrossesBoolCut (gridRowPrefixSide row) edge = true) := by
       ext edge
-      simp
+      simp [mem_edgesFinset]
     rw [← hfilter, List.toFinset_card_of_nodup
       (hc.edges_nodup.filter (EdgeCrossesBoolCut (gridRowPrefixSide row)))]
   rw [hcard, ← walkCutCrossings_eq_countP_edges]
@@ -1527,8 +1537,8 @@ theorem not_isAcyclic_of_edgeFinset_nonempty_of_even_degree
       let C := G.connectedComponentMk x
       have htree : C.toSimpleGraph.IsTree :=
         hacyclic.isTree_connectedComponent C
-      letI : Fintype C := Fintype.ofFinite C
-      letI : DecidableRel C.toSimpleGraph.Adj := Classical.decRel _
+      let : Fintype C := Fintype.ofFinite C
+      let : DecidableRel C.toSimpleGraph.Adj := Classical.decRel _
       have hnontrivial : Nontrivial C := by
         refine ⟨⟨x, by exact SimpleGraph.ConnectedComponent.connectedComponentMk_mem⟩,
           ⟨y, ?_⟩, ?_⟩
@@ -1536,7 +1546,7 @@ theorem not_isAcyclic_of_edgeFinset_nonempty_of_even_degree
             SimpleGraph.ConnectedComponent.connectedComponentMk_mem hxy
         · intro h
           exact hxy.ne (congrArg Subtype.val h)
-      letI : Nontrivial C := hnontrivial
+      let : Nontrivial C := hnontrivial
       obtain ⟨v, hv⟩ := htree.exists_vert_degree_one_of_nontrivial
       have hsupp : G.neighborSet v.1 ⊆ C.supp := by
         intro w hw
@@ -1546,12 +1556,14 @@ theorem not_isAcyclic_of_edgeFinset_nonempty_of_even_degree
           ← SimpleGraph.card_neighborFinset_eq_degree]
         apply Finset.card_bij (fun w _ => w.1)
         · intro w hw
-          simpa [SimpleGraph.ConnectedComponent.toSimpleGraph] using hw
+          rw [C.toSimpleGraph.mem_neighborFinset] at hw
+          exact (G.mem_neighborFinset _ _).mpr hw
         · intro a ha b hb hab
           exact Subtype.ext hab
         · intro w hw
           exact ⟨⟨w, hsupp (by simpa using hw)⟩, by
-            simpa [SimpleGraph.ConnectedComponent.toSimpleGraph] using hw, rfl⟩
+            rw [C.toSimpleGraph.mem_neighborFinset]
+            exact (G.mem_neighborFinset _ _).mp hw, rfl⟩
       have := heven v.1
       rw [← hdegree, hv] at this
       exact Nat.not_even_one this

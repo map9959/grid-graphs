@@ -347,7 +347,7 @@ def sharedForest (F : MarkedCycleFirstStop X) : ParentForest F.State where
       simpa [hy] using F.distance_f_lt hx
 
 /-- Carrier with one private leaf for every start. -/
-def Carrier (F : MarkedCycleFirstStop X) := (↥F.starts) ⊕ F.State
+abbrev Carrier (F : MarkedCycleFirstStop X) := (↥F.starts) ⊕ F.State
 
 instance carrierFintype (F : MarkedCycleFirstStop X) : Fintype F.Carrier := by
   unfold Carrier
@@ -415,10 +415,10 @@ theorem children_inr_eq (F : MarkedCycleFirstStop X) (x : F.State) :
       else ∅) ∪
         (F.statePredecessors x).map ⟨Sum.inr, Sum.inr_injective⟩ := by
   ext w
+  simp only [ParentForest.children, Finset.mem_filter, Finset.mem_univ, true_and]
   cases w with
   | inl s =>
-      simp only [ParentForest.children, Finset.mem_filter, Finset.mem_univ, true_and,
-        forest, parent, Option.some.injEq, Finset.mem_union, Finset.mem_map]
+      simp only [forest, parent, Option.some.injEq, Finset.mem_union, Finset.mem_map]
       by_cases hx : x.1 ∈ F.starts
       · rw [dif_pos hx]
         simp only [Finset.mem_singleton]
@@ -439,12 +439,13 @@ theorem children_inr_eq (F : MarkedCycleFirstStop X) (x : F.State) :
           apply (hx ?_).elim
           have hsx : s.1 = x.1 :=
             congrArg (fun z : F.State => z.1) (Sum.inr.inj h)
-          simpa [← hsx] using s.2
+          simp [← hsx]
         · rintro ⟨y, -, h⟩
           cases h
   | inr y =>
-      simp only [ParentForest.children, Finset.mem_filter, Finset.mem_univ, true_and,
-        forest, parent, Finset.mem_union, Finset.mem_map, statePredecessors]
+      simp only [Finset.mem_union, Finset.mem_map, statePredecessors,
+        Finset.mem_filter, Finset.mem_univ, true_and]
+      simp only [forest, parent]
       constructor
       · intro h
         right
@@ -457,7 +458,7 @@ theorem children_inr_eq (F : MarkedCycleFirstStop X) (x : F.State) :
               have hcarrier : (Sum.inr z : F.Carrier) = Sum.inr x :=
                 Option.some.inj hmapped
               have hzx : z = x := Sum.inr.inj hcarrier
-              simpa [hzx] using hy
+              simp [hzx]
         exact ⟨y, hparent, rfl⟩
       · rintro (h | ⟨z, hz, hzx⟩)
         · split at h <;> simp_all
@@ -468,7 +469,8 @@ theorem children_inr_eq (F : MarkedCycleFirstStop X) (x : F.State) :
 @[simp] theorem children_inl_eq_empty (F : MarkedCycleFirstStop X)
     (s : ↥F.starts) : F.forest.children (Sum.inl s) = ∅ := by
   ext w
-  cases w <;> simp [ParentForest.children, forest, parent]
+  simp only [ParentForest.children, Finset.mem_filter, Finset.mem_univ, true_and]
+  cases w <;> simp [forest, parent]
 
 /-- A shared state is a merger precisely when it is itself a start and has a
 used shared predecessor. -/
@@ -667,7 +669,6 @@ theorem children_mergerState_eq (F : MarkedCycleFirstStop X)
     · simp [F.mergerPredecessor_mem m]
   ext w
   simp [hpred]
-  tauto
 
 theorem not_mem_stop_of_stateParent (F : MarkedCycleFirstStop X)
     {x y : F.State} (hparent : F.stateParent x = some y) : x.1 ∉ F.stop := by
@@ -782,7 +783,7 @@ theorem earliestOriginStart_not_isMergerState (F : MarkedCycleFirstStop X)
     F.stateParent_mergerPredecessor m
   have hznot := F.not_mem_stop_of_stateParent hzy
   have hfz : F.f z.1 = e.1 := by
-    simpa [m, e] using F.f_eq_of_stateParent hzy
+    exact F.f_eq_of_stateParent hzy
   have hdistz := F.distance_succ hznot
   rw [hfz] at hdistz
   rcases (F.mem_origins_iff y e).mp (F.earliestOriginStart_mem y) with
@@ -887,13 +888,8 @@ theorem demands_subset_leaves (F : MarkedCycleFirstStop X) :
     F.demands ⊆ F.forest.leaves := by
   intro v hv
   obtain ⟨s, -, rfl⟩ := Finset.mem_map.mp hv
-  simp only [ParentForest.leaves, Finset.mem_filter, Finset.mem_univ, true_and,
-    ParentForest.childCount, ParentForest.children]
-  apply Finset.card_eq_zero.mpr
-  apply Finset.eq_empty_iff_forall_notMem.mpr
-  intro w hw
-  have hparent : F.forest.parent w = some (Sum.inl s) := (Finset.mem_filter.mp hw).2
-  cases w <;> simp [forest, parent] at hparent
+  apply Finset.mem_filter.mpr
+  exact ⟨Finset.mem_univ _, by simp [ParentForest.childCount]⟩
 
 /-- Every shared physical state has an incoming child in the augmented forest.
 If the state is a start, its private demand is a child.  Otherwise a usage
@@ -922,10 +918,12 @@ theorem state_has_child (F : MarkedCycleFirstStop X) (x : F.State) :
     refine ⟨Sum.inr y, ?_⟩
     have hvalue : F.f y.1 = x.1 := by
       simpa [y, Function.iterate_succ_apply'] using hiterate
-    simp only [forest, parent, stateParent, y, hnstop, ↓reduceDIte, Option.map_some,
-      Option.some.injEq]
-    congr 1
-    exact Subtype.ext hvalue
+    change (F.stateParent y).map Sum.inr = some (Sum.inr x)
+    have hy : F.stateParent y = some x := by
+      rw [stateParent, dif_neg hnstop]
+      exact congrArg some (Subtype.ext hvalue)
+    rw [hy]
+    rfl
 
 /-- The private demands are exactly all leaves.  In particular, shared stopped
 suffixes do not create additional leaves. -/
@@ -955,11 +953,11 @@ are introduced. -/
 theorem mem_roots_iff (F : MarkedCycleFirstStop X) (v : F.Carrier) :
     v ∈ F.forest.roots ↔
       ∃ x : F.State, x.1 ∈ F.stop ∧ v = Sum.inr x := by
+  simp only [ParentForest.roots, Finset.mem_filter, Finset.mem_univ, true_and]
   cases v with
-  | inl s => simp [ParentForest.roots, forest, parent]
+  | inl s => simp [forest, parent]
   | inr x =>
-      simp only [ParentForest.roots, Finset.mem_filter, Finset.mem_univ, true_and,
-        forest, parent, Option.map_eq_none_iff, stateParent_eq_none_iff]
+      simp only [forest, parent, Option.map_eq_none_iff, stateParent_eq_none_iff]
       constructor
       · intro hx
         exact ⟨x, hx, rfl⟩
@@ -994,7 +992,8 @@ def markedStartExitEmbedding (F : MarkedCycleFirstStop X) :
     ⟨Sum.inr (F.stateOfStart ⟨s.1, (Finset.mem_inter.mp s.2).1⟩), by
       apply Finset.mem_map.mpr
       refine ⟨F.stateOfStart ⟨s.1, (Finset.mem_inter.mp s.2).1⟩, ?_, rfl⟩
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and, stateOfStart]
+      apply Finset.mem_filter.mpr
+      refine ⟨Finset.mem_univ _, ?_⟩
       exact (Finset.mem_inter.mp s.2).2⟩
   inj' := by
     intro s t h

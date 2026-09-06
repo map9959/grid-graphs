@@ -137,11 +137,12 @@ noncomputable def residueOneReverseFrameTemplate (k : Nat) (hk : 1 ≤ k) :
       (gridGraph (3 * (k + 1) + 1) (3 * (k + 1) + 1))
       (↑core : Set _) order hnodup hdisj hcoreAcyclic).1
     have htargetSet : (↑core : Set _) ∪ (↑frame : Set _) =
-        {v | v ∈ forcedResidueOne (k + 1)} := by
-      ext v
-      simpa only [Set.mem_union, Finset.mem_coe, Set.mem_setOf_eq,
-        Finset.mem_union] using Finset.ext_iff.mp htarget v
-    simpa only [order, Finset.toList_toFinset, htargetSet] using htargetAcyclic
+        (↑(forcedResidueOne (k + 1)) :
+          Set (GridVertex (3 * (k + 1) + 1) (3 * (k + 1) + 1))) := by
+      rw [← Finset.coe_union, htarget]
+    simp only [order, Finset.toList_toFinset]
+    rw [htargetSet]
+    exact htargetAcyclic
   refine {
     embedding := e
     coreAcyclic := hcoreAcyclic

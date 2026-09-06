@@ -268,7 +268,7 @@ private theorem finiteU12_parent_ne (f : GridFace 12 12) (hf : f ≠ .out) :
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;> simp [finiteU12Parent]
+      fin_cases r <;> fin_cases c <;> decide
 
 set_option maxHeartbeats 5000000 in
 private theorem finiteU12_parent_edge_data (f : GridFace 12 12) (hf : f ≠ .out) :
@@ -276,15 +276,11 @@ private theorem finiteU12_parent_edge_data (f : GridFace 12 12) (hf : f ≠ .out
     e.primalEndpoints.1 ∈ finiteU12 ∧
       e.primalEndpoints.2 ∈ finiteU12 ∧
       HasDualEndpoints e.dualEndpoints f (finiteU12Parent f) := by
+  simp only [finiteU12, Finset.mem_filter, Finset.mem_univ, true_and, HasDualEndpoints]
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;>
-        norm_num [finiteU12ParentEdge, FiniteU12PrimalEdge.primalEndpoints,
-          FiniteU12PrimalEdge.dualEndpoints, finiteU12, finiteU12Selected,
-          finiteU12Parent, horizontalPrimalEndpoints, verticalPrimalEndpoints,
-          horizontalDualEndpoints, verticalDualEndpoints, HasDualEndpoints,
-          Fin.mk.injEq] <;> simp
+      fin_cases r <;> fin_cases c <;> decide
 
 set_option maxHeartbeats 1000000 in
 /-- The explicit ranked parent certificate on all one hundred twenty-two faces. -/
@@ -303,8 +299,7 @@ def finiteU12RankedDualCertificate :
     cases f with
     | out => exact (hf rfl).elim
     | cell r c =>
-        fin_cases r <;> fin_cases c <;>
-          norm_num [finiteU12Parent, finiteU12Rank]
+        fin_cases r <;> fin_cases c <;> decide
 
 set_option maxRecDepth 2000 in
 theorem finiteU12_compl_card :

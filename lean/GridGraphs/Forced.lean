@@ -28,15 +28,17 @@ the edges that are forced to be present in `T` by fullness. -/
 def forcedEdgeGraph (G : SimpleGraph V) (F : Set V) : SimpleGraph V where
   Adj v w := G.Adj v w ∧ (v ∈ F ∨ w ∈ F)
   symm := by
+    constructor
     intro v w h
     constructor
-    · exact G.symm h.1
+    · exact h.1.symm
     · rcases h.2 with hv | hw
       · exact Or.inr hv
       · exact Or.inl hw
   loopless := by
+    constructor
     intro v h
-    exact G.loopless v h.1
+    exact G.loopless.irrefl v h.1
 
 /-- Vertex `v` preserves all incident `G`-edges in `T`. This avoids committing
 to a particular finite-degree API: it is the edge-containment formulation of
@@ -61,7 +63,7 @@ theorem forcedEdgeGraph_mono (G : SimpleGraph V) {F₁ F₂ : Set V}
 /-- De-forcing vertices only removes edges from the forced-edge graph. -/
 theorem forcedEdgeGraph_diff_le (G : SimpleGraph V) (F D : Set V) :
     forcedEdgeGraph G (F \ D) ≤ forcedEdgeGraph G F :=
-  forcedEdgeGraph_mono G Set.diff_subset
+  forcedEdgeGraph_mono G Set.sdiff_subset
 
 /-- De-forcing vertices preserves acyclicity of the forced-edge graph. -/
 theorem forcedEdgeGraph_diff_isAcyclic (G : SimpleGraph V) {F : Set V}
@@ -121,7 +123,7 @@ theorem forcedEdgeGraph_le_of_preserves {G T : SimpleGraph V} {F : Set V}
   intro v w h
   rcases h with ⟨hG, hv | hw⟩
   · exact hF hv hG
-  · exact T.symm (hF hw (G.symm hG))
+  · exact (hF hw hG.symm).symm
 
 /-- Main forced-edge lemma: if `T` is acyclic, then any forced-edge graph
 coming from vertices that preserve all incident `G`-edges in `T` is acyclic. -/
@@ -136,7 +138,7 @@ theorem forcedEdgeGraph_isAcyclic_of_preserves_tree {G T : SimpleGraph V} {F : S
     (hT : T.IsTree)
     (hF : ∀ ⦃v : V⦄, v ∈ F → preservesIncidentEdges G T v) :
     (forcedEdgeGraph G F).IsAcyclic := by
-  exact forcedEdgeGraph_isAcyclic_of_preserves hT.IsAcyclic hF
+  exact forcedEdgeGraph_isAcyclic_of_preserves hT.isAcyclic hF
 
 /-- Grid-graph specialization: any set of full-degree/preserved grid vertices
 in an acyclic graph forces an acyclic subgraph of the grid. -/

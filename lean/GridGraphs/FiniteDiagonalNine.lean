@@ -177,7 +177,7 @@ private theorem finiteU9_parent_ne (f : GridFace 9 9) (hf : f ≠ .out) :
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;> simp [finiteU9Parent]
+      fin_cases r <;> fin_cases c <;> decide
 
 set_option maxHeartbeats 3000000 in
 private theorem finiteU9_parent_edge_data (f : GridFace 9 9) (hf : f ≠ .out) :
@@ -185,15 +185,11 @@ private theorem finiteU9_parent_edge_data (f : GridFace 9 9) (hf : f ≠ .out) :
     e.primalEndpoints.1 ∈ finiteU9 ∧
       e.primalEndpoints.2 ∈ finiteU9 ∧
       HasDualEndpoints e.dualEndpoints f (finiteU9Parent f) := by
+  simp only [finiteU9, Finset.mem_filter, Finset.mem_univ, true_and, HasDualEndpoints]
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;>
-        norm_num [finiteU9ParentEdge, FiniteU9PrimalEdge.primalEndpoints,
-          FiniteU9PrimalEdge.dualEndpoints, finiteU9, finiteU9Selected,
-          finiteU9Parent, horizontalPrimalEndpoints, verticalPrimalEndpoints,
-          horizontalDualEndpoints, verticalDualEndpoints, HasDualEndpoints,
-          Fin.mk.injEq] <;> simp
+      fin_cases r <;> fin_cases c <;> decide
 
 /-- The explicit ranked parent certificate on all sixty-five dual faces. -/
 def finiteU9RankedDualCertificate :
@@ -211,8 +207,7 @@ def finiteU9RankedDualCertificate :
     cases f with
     | out => exact (hf rfl).elim
     | cell r c =>
-        fin_cases r <;> fin_cases c <;>
-          norm_num [finiteU9Parent, finiteU9Rank]
+        fin_cases r <;> fin_cases c <;> decide
 
 theorem finiteU9_compl_card :
     ((Finset.univ : Finset (GridVertex 9 9)) \ finiteU9).card = 34 := by

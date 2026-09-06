@@ -23,6 +23,7 @@ attribute [local instance] Classical.propDecidable Classical.decEq
 def ParentStep (F : ParentForest V) (v w : V) : Prop :=
   F.parent v = some w
 
+omit [Fintype V] [DecidableEq V] in
 /-- Following a finite ranked parent map reaches a genuine root. -/
 theorem exists_rootAbove (F : ParentForest V) (v : V) :
     ∃ r : V, Relation.ReflTransGen F.ParentStep v r ∧ F.parent r = none := by
@@ -88,10 +89,10 @@ omit [Fintype Start] [DecidableEq Start] in
   · rename_i hnone
     constructor
     · intro h
-      exact Option.noConfusion h
+      cases h
     · intro h
       rw [hnone] at h
-      exact Option.noConfusion h
+      cases h
   · rename_i x hparent
     constructor
     · intro h
@@ -128,18 +129,21 @@ noncomputable def ancestorHullStart (F : ParentForest V)
       congrArg (fun x : F.AncestorHull start => x.1) hab
     exact start.injective (Subtype.ext hv)
 
+omit [Fintype Start] [DecidableEq Start] in
 /-- Roots of the hull are exactly active ambient roots. -/
 theorem mem_ancestorHullForest_roots_iff (F : ParentForest V)
     (start : Start ↪ ↥F.leaves) (v : F.AncestorHull start) :
     v ∈ (F.ancestorHullForest start).roots ↔ v.1 ∈ F.roots := by
   simp [roots, ancestorHullForest]
 
+omit [Fintype Start] [DecidableEq Start] in
 /-- No new root is introduced by restricting to complete parent chains. -/
 theorem ancestorHullForest_parent_eq_none_iff (F : ParentForest V)
     (start : Start ↪ ↥F.leaves) (v : F.AncestorHull start) :
     (F.ancestorHullForest start).parent v = none ↔ F.parent v.1 = none := by
   exact ancestorHullParent_eq_none F start v
 
+omit [Fintype Start] [DecidableEq Start] in
 /-- A hull vertex is a leaf precisely when it is one of the selected starts. -/
 theorem mem_ancestorHullForest_leaves_iff (F : ParentForest V)
     (start : Start ↪ ↥F.leaves) (v : F.AncestorHull start) :
@@ -155,15 +159,19 @@ theorem mem_ancestorHullForest_leaves_iff (F : ParentForest V)
         have huActive : F.AncestorActive start _ := ⟨s, hsu⟩
         have huChild : (⟨_, huActive⟩ : F.AncestorHull start) ∈
             (F.ancestorHullForest start).children v := by
-          simp [children, ancestorHullForest, ParentStep] at huv ⊢
-          exact huv
+          unfold AncestorHull at *
+          unfold children
+          simp only [Finset.mem_filter]
+          exact ⟨@Finset.mem_univ (F.AncestorHull start) (F.ancestorHullFintype start) _,
+            (ancestorHullParent_eq_some F start ⟨u, huActive⟩ v).2 huv⟩
         have hvzero : (F.ancestorHullForest start).childCount v = 0 := by
           simpa [leaves] using hv
         have : (F.ancestorHullForest start).childCount v ≠ 0 := by
           exact Finset.card_ne_zero.mpr ⟨_, huChild⟩
         exact this hvzero
   · rintro ⟨s, rfl⟩
-    simp only [leaves, Finset.mem_filter, Finset.mem_univ, true_and, childCount]
+    apply Finset.mem_filter.mpr
+    refine ⟨Finset.mem_univ _, ?_⟩
     apply Finset.card_eq_zero.mpr
     apply Finset.eq_empty_iff_forall_notMem.mpr
     intro w hw
@@ -192,6 +200,7 @@ noncomputable def ancestorHullLeafEquiv (F : ParentForest V)
       obtain ⟨s, rfl⟩ := (F.mem_ancestorHullForest_leaves_iff start v).1 hv
       exact ⟨s, rfl⟩⟩
 
+omit [DecidableEq Start] in
 /-- Exact Euler ledger for a generated ancestor hull, including empty and
 multi-start hulls. -/
 theorem card_start_eq_card_ancestorHull_roots_add_branchExcess
@@ -216,12 +225,14 @@ def ancestorHullDescendantSources (F : ParentForest V)
   Finset.univ.filter fun s =>
     Relation.ReflTransGen F.ParentStep (start s).1 v.1
 
+omit [DecidableEq Start] in
 @[simp] theorem mem_ancestorHullDescendantSources (F : ParentForest V)
     (start : Start ↪ ↥F.leaves) (v : F.AncestorHull start) (s : Start) :
     s ∈ F.ancestorHullDescendantSources start v ↔
       Relation.ReflTransGen F.ParentStep (start s).1 v.1 := by
   simp [ancestorHullDescendantSources]
 
+omit [DecidableEq Start] in
 /-- Every active hull vertex retains at least one selected descendant source. -/
 theorem ancestorHullDescendantSources_nonempty (F : ParentForest V)
     (start : Start ↪ ↥F.leaves) (v : F.AncestorHull start) :
@@ -229,6 +240,7 @@ theorem ancestorHullDescendantSources_nonempty (F : ParentForest V)
   obtain ⟨s, hs⟩ := v.2
   exact ⟨s, (F.mem_ancestorHullDescendantSources start v s).2 hs⟩
 
+omit [DecidableEq Start] in
 /-- Descendant provenance can only grow while following the hull parent map. -/
 theorem ancestorHullDescendantSources_mono_parent (F : ParentForest V)
     (start : Start ↪ ↥F.leaves) {v w : F.AncestorHull start}
@@ -247,6 +259,7 @@ def ancestorHullDescendantLabels {Label : Type*} [DecidableEq Label]
     (v : F.AncestorHull start) : Finset Label :=
   (F.ancestorHullDescendantSources start v).image label
 
+omit [DecidableEq Start] in
 @[simp] theorem mem_ancestorHullDescendantLabels {Label : Type*}
     [DecidableEq Label] (F : ParentForest V) (start : Start ↪ ↥F.leaves)
     (label : Start → Label) (v : F.AncestorHull start) (x : Label) :
@@ -261,6 +274,7 @@ def ancestorHullMergerSlotDescendantLabels {Label : Type*} [DecidableEq Label]
     (slot : (F.ancestorHullForest start).MergerSlot) : Finset Label :=
   F.ancestorHullDescendantLabels start label slot.1
 
+omit [DecidableEq Start] in
 theorem ancestorHullMergerSlotDescendantLabels_nonempty {Label : Type*}
     [DecidableEq Label] (F : ParentForest V) (start : Start ↪ ↥F.leaves)
     (label : Start → Label)

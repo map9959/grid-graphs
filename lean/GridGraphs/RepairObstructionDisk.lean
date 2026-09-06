@@ -37,10 +37,10 @@ theorem IsAcyclic.path_support_convex (hG : G.IsAcyclic)
   let rG : G.Walk u v :=
     (r.toPath : (G.induce S).Walk uS vS).map inclusion
   have hrG : rG.IsPath := by
-    exact Walk.map_isPath_of_injective Subtype.val_injective r.toPath.isPath
+    exact Walk.IsPath.map Subtype.val_injective r.toPath.isPath
   have heq : q = rG := by
     exact congrArg Subtype.val
-      (hG.path_unique (⟨q, hq⟩ : G.Path u v) (⟨rG, hrG⟩ : G.Path u v))
+      ((hG.subsingleton_path u v).elim (⟨q, hq⟩ : G.Path u v) (⟨rG, hrG⟩ : G.Path u v))
   intro x hx
   rw [heq] at hx
   change x ∈ ((r.toPath : (G.induce S).Walk uS vS).map inclusion).support at hx
@@ -235,7 +235,7 @@ noncomputable def BlockedForcedInsertion.canonicalClosing
       (CandidateOwnedClosing G (forcedEdgeGraph G F) u) := by
     have hblocked := h.blocked
     unfold ForcedInsertionCondition at hblocked
-    push_neg at hblocked
+    push Not at hblocked
     obtain ⟨a, ha, b, hb, hab, habReach⟩ := hblocked
     obtain ⟨p, hp⟩ := habReach.exists_isPath
     rcases ha with rfl | ⟨hua, haF⟩

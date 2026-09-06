@@ -20,7 +20,11 @@ inductive GridCellSide where
   | right
   | bottom
   | left
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype GridCellSide where
+  elems := {.top, .right, .bottom, .left}
+  complete side := by cases side <;> simp
 
 def GridCellSide.opposite : GridCellSide → GridCellSide
   | .top => .bottom
@@ -225,14 +229,14 @@ theorem gridCellBoundaryEdge_opposite_mem_cotree_of_preserved_side
       exact acyclic_grid_cell_missing_fourth_side hT.isAcyclic r c
         (hfirst (gridGraph_cell_adj_top r c))
         (hsecond (gridGraph_cell_adj_right r c)) hbottom.symm
-        (T.symm (hfirst (gridGraph_cell_adj_left r c).symm))
+        (hfirst (gridGraph_cell_adj_left r c).symm).symm
   | right =>
       simp only [GridCellSide.opposite,
         gridCellBoundaryEdge_primalEndpoints_right,
         gridCellBoundaryEdge_primalEndpoints_left] at hfirst hsecond ⊢
       intro hleft
       exact acyclic_grid_cell_missing_fourth_side hT.isAcyclic r c
-        (T.symm (hfirst (gridGraph_cell_adj_top r c).symm))
+        (hfirst (gridGraph_cell_adj_top r c).symm).symm
         (hfirst (gridGraph_cell_adj_right r c))
         (hsecond (gridGraph_cell_adj_bot r c)) hleft.symm
   | bottom =>
@@ -241,8 +245,8 @@ theorem gridCellBoundaryEdge_opposite_mem_cotree_of_preserved_side
         gridCellBoundaryEdge_primalEndpoints_top] at hfirst hsecond ⊢
       intro htop
       exact acyclic_grid_cell_missing_fourth_side hT.isAcyclic r c htop
-        (T.symm (hsecond (gridGraph_cell_adj_right r c).symm))
-        (T.symm (hfirst (gridGraph_cell_adj_bot r c).symm))
+        (hsecond (gridGraph_cell_adj_right r c).symm).symm
+        (hfirst (gridGraph_cell_adj_bot r c).symm).symm
         (hfirst (gridGraph_cell_adj_left r c))
   | left =>
       simp only [GridCellSide.opposite,
@@ -251,8 +255,8 @@ theorem gridCellBoundaryEdge_opposite_mem_cotree_of_preserved_side
       intro hright
       exact acyclic_grid_cell_missing_fourth_side hT.isAcyclic r c
         (hfirst (gridGraph_cell_adj_top r c)) hright
-        (T.symm (hsecond (gridGraph_cell_adj_bot r c).symm))
-        (T.symm (hfirst (gridGraph_cell_adj_left r c).symm))
+        (hsecond (gridGraph_cell_adj_bot r c).symm).symm
+        (hfirst (gridGraph_cell_adj_left r c).symm).symm
 
 /-- Subtype-packaged positive ordinary-gap theorem. The endpoint identities are
 the explicit row/column formulas in `gridCellBoundaryEdge_primalEndpoints`. -/

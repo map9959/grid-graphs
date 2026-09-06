@@ -17,7 +17,7 @@ private theorem old_final_mem_widened (k : Nat) (hk : 7 ≤ k) (c : Nat)
     (hc : PhaseOccupied (k + 1) (.ordinary (k - 1)) c) :
     ((⟨3 * k - 1, by omega⟩, ⟨c, by
         rcases hc with ⟨j, rfl⟩
-        exact phaseColumn_lt (by simp [PhaseRow.parameter]; omega) j⟩) :
+        exact phaseColumn_lt (by simp [PhaseRow.parameter]) j⟩) :
       GridVertex (3 * (k + 1)) (3 * (k + 1))) ∈
         uResidueZero (k + 1) (by omega) := by
   let i : Fin (phaseRows k).length := ⟨(phaseRows k).length - 1, by
@@ -101,7 +101,8 @@ theorem residueZero_embeddedAnchor_reachable_slab (k : Nat) (hk : 7 ≤ k) :
           (residueZeroAnchorCoord k hk).2 =
         .cell ⟨3 * k - 1, by omega⟩ ⟨3 * k - 2, by omega⟩ := by
     apply congrArg₂ GridFace.cell <;> apply Fin.ext <;>
-      simp [widenCell, widenBoundedFace, residueZeroAnchorCoord] <;> omega
+      simp [widenBoundedFace, residueZeroAnchorCoord]
+    omega
   have hright : G.Adj
       (.cell ⟨3 * k - 1, by omega⟩ ⟨3 * k - 2, by omega⟩)
       (.cell ⟨3 * k - 1, by omega⟩ ⟨3 * k - 1, by omega⟩) :=
@@ -110,7 +111,8 @@ theorem residueZero_embeddedAnchor_reachable_slab (k : Nat) (hk : 7 ≤ k) :
           GridVertex (3 * (k + 1)) (3 * (k + 1))) ∈
           uResidueZero (k + 1) (by omega) := by
         convert appended_at k hk _ (Or.inl rfl) using 1
-        apply Prod.ext <;> apply Fin.ext <;> simp <;> omega
+        apply Prod.ext <;> apply Fin.ext <;> simp
+        omega
       exact vertical_uu_dual_cells_adj _ (3 * k - 1) (3 * k - 1)
         (by omega) (by omega) (by omega)
         (old_final_at k hk _ (Or.inl rfl)) hb
@@ -122,7 +124,8 @@ theorem residueZero_embeddedAnchor_reachable_slab (k : Nat) (hk : 7 ≤ k) :
           GridVertex (3 * (k + 1)) (3 * (k + 1))) ∈
           uResidueZero (k + 1) (by omega) := by
         convert old_final_at k hk _ (Or.inr (Or.inl rfl)) using 1
-        apply Prod.ext <;> apply Fin.ext <;> simp <;> omega
+        apply Prod.ext <;> apply Fin.ext <;> simp
+        omega
       exact horizontal_uu_dual_cells_adj _ (3 * k - 1) (3 * k - 1)
         (by omega) (by omega) (by omega)
         (old_final_at k hk _ (Or.inl rfl)) hr
@@ -156,7 +159,8 @@ theorem residueZero_slab_reachable_appended (k : Nat) (hk : 7 ≤ k) :
         GridVertex (3 * (k + 1)) (3 * (k + 1))) ∈
         uResidueZero (k + 1) (by omega) := by
       convert appended_at k hk _ (Or.inr (Or.inl rfl)) using 1
-      apply Prod.ext <;> apply Fin.ext <;> simp <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp
+      omega
     exact vertical_uu_dual_cells_adj _ (3 * k - 1) (3 * k + 1)
       (by omega) (by omega) (by omega)
       (old_final_at k hk _ (Or.inr (Or.inr rfl))) hb

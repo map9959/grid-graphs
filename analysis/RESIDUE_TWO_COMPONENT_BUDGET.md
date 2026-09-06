@@ -1,8 +1,11 @@
 # Residue-Two Component Budget Reassessment
 
-Date: 2026-09-05. Status: paper deductions from the existing exact ledger,
-independently reviewed, not new Lean theorems or a solution of the conjecture.
-No optimization or finite grid search was used.
+Date: 2026-09-05. Status: independently reviewed deductions from the existing
+exact ledger. The five-unit boundary bound and target component obstructions
+are now proved in `lean/GridGraphs/BoundaryFiveBudget.lean`. Equality corner
+counts, the unique perimeter gap, and next-ring exclusion are also checked in
+`BoundaryFiveEquality.lean`; the remaining peeling geometry is paper-level. This is
+not a solution of the conjecture. No optimization or finite grid search was used.
 
 ## 1. One Objective For Both Sides
 
@@ -257,8 +260,11 @@ inspected or replayed; a short deterministic check of a new explicit witness
 may be useful, but no large check was run here. Finite checks remain debugging
 evidence, never the arbitrary-width proof.
 
-Next formal work should first certify the five-unit boundary lemma, its
-single-perimeter-gap equality case, the budget obstruction, and the connector
-restriction using the existing component ledger and cell-cycle lemmas. Build
-only affected modules during development; reserve a full build for an actual
-formal milestone. The present note is mathematical review, not build evidence.
+The five-unit boundary lemma and component obstructions are now checked in
+`BoundaryFiveBudget.lean`, with symbolic regression tests at sides 20 and 23.
+The full build passed on 2026-09-05 (7,521 jobs); the new theorems depend only
+on Lean's standard logical axioms. Both boundary modules and the tests have
+subsequently passed on Lean 4.33.1 (8,728 jobs), with the same axiom audits.
+The single-gap equality case and all-U next ring are now checked; the remaining
+two-way attachment reduction in `BOUNDARY_FIVE_PEELING.md` is still paper-level.
+The entire library has not yet completed a full build after the toolchain upgrade.

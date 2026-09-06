@@ -13,9 +13,12 @@ namespace GridGraphs
 /-- Clockwise compass directions in grid coordinates. -/
 inductive GridDirection where
   | north | east | south | west
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
 
 namespace GridDirection
+
+instance : Fintype GridDirection :=
+  ⟨{north, east, south, west}, by intro x; cases x <;> simp⟩
 
 /-- One clockwise quarter-turn. -/
 def clockwise : GridDirection → GridDirection
@@ -261,7 +264,7 @@ instance : DecidableEq (GridSubgraphDart T) := by
 def reverse (d : GridSubgraphDart T) : GridSubgraphDart T where
   edge := d.edge
   forward := !d.forward
-  adj := by simpa using T.symm d.adj
+  adj := by simpa using d.adj.symm
 
 @[simp] theorem reverse_reverse (d : GridSubgraphDart T) :
     d.reverse.reverse = d := by
@@ -296,14 +299,14 @@ theorem exists_of_adj (hTgrid : T ≤ gridGraph m n)
   rcases gridGraph_adj_exists_coordinate_edge (hTgrid hvw) with h | h
   · obtain ⟨e, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
     · refine ⟨⟨_, .east, _, ?_, hvw⟩, rfl, rfl⟩
-      simp [gridNeighbor?, horizontalPrimalEndpoints]
-      omega
+      have hcol : e.col.val + 1 < n := by have := e.col.isLt; omega
+      simp [gridNeighbor?, horizontalPrimalEndpoints, hcol]
     · refine ⟨⟨_, .west, _, ?_, hvw⟩, rfl, rfl⟩
       simp [gridNeighbor?, horizontalPrimalEndpoints]
   · obtain ⟨e, ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩⟩ := h
     · refine ⟨⟨_, .south, _, ?_, hvw⟩, rfl, rfl⟩
-      simp [gridNeighbor?, verticalPrimalEndpoints]
-      omega
+      have hrow : e.row.val + 1 < m := by have := e.row.isLt; omega
+      simp [gridNeighbor?, verticalPrimalEndpoints, hrow]
     · refine ⟨⟨_, .north, _, ?_, hvw⟩, rfl, rfl⟩
       simp [gridNeighbor?, verticalPrimalEndpoints]
 
@@ -375,7 +378,7 @@ def reverse (d : GridDirectionalDart T) : GridDirectionalDart T where
   direction := d.direction.opposite
   target := d.source
   step := gridNeighbor?_opposite d.step
-  adj := T.symm d.adj
+  adj := d.adj.symm
 
 @[simp] theorem reverse_reverse (d : GridDirectionalDart T) :
     d.reverse.reverse = d := by
@@ -385,7 +388,7 @@ theorem reverse_direction_mem [DecidableRel T.Adj]
     (d : GridDirectionalDart T) :
     d.direction.opposite ∈ directionsAt (T := T) d.target := by
   rw [mem_directionsAt]
-  exact ⟨d.source, gridNeighbor?_opposite d.step, T.symm d.adj⟩
+  exact ⟨d.source, gridNeighbor?_opposite d.step, d.adj.symm⟩
 
 /-- The unique directional dart certified by membership in `directionsAt`. -/
 noncomputable def ofDirectionMem [DecidableRel T.Adj]
@@ -426,7 +429,7 @@ theorem contourSucc_ne [DecidableRel T.Adj]
   intro h
   have hst : d.target = d.source := by
     simpa only [contourSucc_source] using congrArg GridDirectionalDart.source h
-  exact T.loopless d.source (hst ▸ d.adj)
+  exact T.loopless.irrefl d.source (hst ▸ d.adj)
 
 /-- The local rotations make contour successor injective. -/
 theorem contourSucc_injective [DecidableRel T.Adj] :

@@ -318,8 +318,7 @@ private theorem widthFourPerimeterVertex_succ_adj {n : Nat} (hn : 2 ≤ n)
         (⟨0, by positivity⟩ : Fin (2 * n + 4)) =
         (⟨0, by omega⟩, ⟨0, by omega⟩) := by
       unfold widthFourPerimeterVertex
-      rw [dif_pos (by simpa using (show 0 < n by omega) :
-        (⟨0, by positivity⟩ : Fin (2 * n + 4)).val < n)]
+      rw [dif_pos (show 0 < n by omega)]
     rw [hiV, hzV]
     right
     exact ⟨rfl, Or.inr rfl⟩
@@ -342,8 +341,8 @@ private def widthFourPerimeterHom {n : Nat} (hn : 2 ≤ n) :
     · rw [h]
       exact widthFourPerimeterVertex_succ_adj hn i
 
-private theorem cycleGraph_two_mul_add_four_not_isAcyclic {n : Nat}
-    (hn : 2 ≤ n) : ¬(cycleGraph (2 * n + 4)).IsAcyclic := by
+private theorem cycleGraph_two_mul_add_four_not_isAcyclic {n : Nat} :
+    ¬(cycleGraph (2 * n + 4)).IsAcyclic := by
   intro hacyc
   have htree : (cycleGraph (2 * n + 4)).IsTree :=
     ⟨cycleGraph_connected, hacyc⟩
@@ -352,17 +351,7 @@ private theorem cycleGraph_two_mul_add_four_not_isAcyclic {n : Nat}
   have htwo : ∀ i : Fin (2 * n + 4),
       (cycleGraph (2 * n + 4)).degree i = 2 := by
     intro i
-    rw [cycleGraph_degree_two_le, Finset.card_pair]
-    intro heq
-    have hi : i = i + 2 := by
-      have := congrArg (fun x => x + 1) heq
-      simpa [sub_eq_add_neg, add_assoc] using this
-    have hzero : (0 : Fin (2 * n + 4)) = 2 :=
-      add_left_cancel (a := i) (by simpa using hi)
-    have := congrArg Fin.val hzero
-    have h2lt : 2 < 2 * n + 4 := by omega
-    rw [show (2 : Fin (2 * n + 4)).val = 2 from Nat.mod_eq_of_lt h2lt] at this
-    simp at this
+    exact cycleGraph_degree_three_le
   rw [Finset.sum_congr rfl (fun i _ => htwo i)] at hdeg
   simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin,
     smul_eq_mul] at hdeg
@@ -376,7 +365,7 @@ theorem exists_omitted_widthFour_perimeter_edge {n : Nat} (hn : 2 ≤ n)
     ∃ u v, (gridGraph 4 n).Adj u v ∧ IsGridBoundary u ∧
       IsGridBoundary v ∧ ¬T.Adj u v := by
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   let hemb : cycleGraph (2 * n + 4) →g T :=
     { toFun := widthFourPerimeterVertex hn
       map_rel' := by
@@ -389,7 +378,7 @@ theorem exists_omitted_widthFour_perimeter_edge {n : Nat} (hn : 2 ≤ n)
   have hinj : Function.Injective hemb := by
     intro i j hij
     exact widthFourPerimeterVertex_injective hn hij
-  exact cycleGraph_two_mul_add_four_not_isAcyclic hn
+  exact cycleGraph_two_mul_add_four_not_isAcyclic
     (hT.isAcyclic.comap hemb hinj)
 
 /-- Each endpoint of an omitted perimeter edge has positive local waste. -/

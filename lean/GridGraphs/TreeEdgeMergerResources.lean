@@ -68,7 +68,7 @@ noncomputable def treeEdgeTokenResourceEmbedding
     by_cases ha : TreeEdgeTokenIsInternal U tokenEdge a
     · by_cases hb : TreeEdgeTokenIsInternal U tokenEdge b
       · simp [ha, hb] at hab
-        exact tokenEdge.injective (Subtype.ext hab)
+        exact hab
       · simp [ha, hb] at hab
     · by_cases hb : TreeEdgeTokenIsInternal U tokenEdge b
       · simp [ha, hb] at hab
@@ -131,7 +131,7 @@ noncomputable def mergerSlotTreeEdgeResourceEmbedding
     by_cases ha : F.MergerSlotEdgeIsInternal U slotEdge a
     · by_cases hb : F.MergerSlotEdgeIsInternal U slotEdge b
       · simp [ha, hb] at hab
-        exact slotEdge.injective (Subtype.ext hab)
+        exact hab
       · simp [ha, hb] at hab
     · by_cases hb : F.MergerSlotEdgeIsInternal U slotEdge b
       · simp [ha, hb] at hab

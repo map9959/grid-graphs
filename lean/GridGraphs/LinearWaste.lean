@@ -208,7 +208,7 @@ component. -/
 lemma one_le_card_connectedComponent {V : Type*} [Fintype V] [Nonempty V]
     [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] :
     1 ≤ Fintype.card G.ConnectedComponent := by
-  letI : Nonempty G.ConnectedComponent :=
+  let : Nonempty G.ConnectedComponent :=
     Nonempty.map G.connectedComponentMk (inferInstance : Nonempty V)
   exact Fintype.card_pos
 
@@ -236,7 +236,7 @@ theorem four_le_square_grid_tree_component_charge {n : Nat} (hn : 3 ≤ n)
   have hboundary : 2 ≤ boundaryDeficiencySum n n U := by
     simpa only [U] using two_le_grid_tree_cotree_boundaryDeficiencySum hn hT
   let z : GridVertex n n := (⟨0, by omega⟩, ⟨0, by omega⟩)
-  letI : Nonempty (GridVertex n n) := ⟨z⟩
+  let : Nonempty (GridVertex n n) := ⟨z⟩
   have hambient : 1 ≤ Fintype.card
       (forcedEdgeGraph (gridGraph n n)
         (↑F : Set (GridVertex n n))).ConnectedComponent :=
@@ -257,7 +257,7 @@ theorem four_le_square_grid_tree_component_charge {n : Nat} (hn : 3 ≤ n)
     omega
   · have hFne : F.Nonempty := Finset.nonempty_iff_ne_empty.mpr hF
     obtain ⟨v, hv⟩ := hFne
-    letI : Nonempty (↑F : Set (GridVertex n n)) := ⟨⟨v, hv⟩⟩
+    let : Nonempty (↑F : Set (GridVertex n n)) := ⟨⟨v, hv⟩⟩
     have hinduced : 1 ≤ Fintype.card
         ((gridGraph n n).induce
           (↑F : Set (GridVertex n n))).ConnectedComponent :=

@@ -28,7 +28,11 @@ inductive OuterBoundarySide
   | bottom
   | left
   | right
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype OuterBoundarySide where
+  elems := {.top, .bottom, .left, .right}
+  complete side := by cases side <;> simp
 
 /-- Geometric outer incidences based at vertices of `U`.  The nested sum keeps
 the four side copies disjoint, so a supported corner has two distinct ports. -/

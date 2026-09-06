@@ -1089,7 +1089,7 @@ def inwardReverseOrdering
     have hv : d.target = d.source := by
       simpa [GridDirectionalDart.reverse] using
         congrArg GridDirectionalDart.source hdarts
-    exact T.loopless d.source (hv ▸ d.adj)
+    exact T.loopless.irrefl d.source (hv ▸ d.adj)
   have hkNeRank : k ≠ L.rank := by
     intro hkr
     have hzterminal : z = (lensIntervalRegion axis hn2 hT L).terminalSlot := by
@@ -1171,7 +1171,7 @@ def inwardReversePreStartHistory
     have hv : d.target = d.source := by
       simpa [GridDirectionalDart.reverse] using
         congrArg GridDirectionalDart.source hdarts
-    exact T.loopless d.source (hv ▸ d.adj)
+    exact T.loopless.irrefl d.source (hv ▸ d.adj)
   · rw [support_lensComplementCollarTrace]
     apply (GridExpandedContour.mem_collarVertexList_iff (T := T) _ r pre).2
     exact Or.inl ⟨j, by omega, by rw [hjslot]⟩

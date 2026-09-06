@@ -93,7 +93,7 @@ theorem grid_tree_cotree_support_row_or_column_coverage
   change (∀ r : Fin n, ∃ c : Fin n, (r, c) ∈ U) ∨
     ∀ c : Fin n, ∃ r : Fin n, (r, c) ∈ U
   by_contra hcoverage
-  push_neg at hcoverage
+  push Not at hcoverage
   obtain ⟨⟨r, hrow⟩, ⟨c, hcolumn⟩⟩ := hcoverage
   have hrow' {v : GridVertex n n} (hv : v ∈ U) (heq : v.1 = r) : False := by
     apply hrow v.2

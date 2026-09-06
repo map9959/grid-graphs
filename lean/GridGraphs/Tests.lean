@@ -4,6 +4,10 @@ import GridGraphs.ResidueOne
 import GridGraphs.GridDual
 import GridGraphs.CotreeWaste
 import GridGraphs.MarkedCycleFirstStop
+import GridGraphs.BoundaryFiveBudget
+import GridGraphs.BoundaryFiveEquality
+import GridGraphs.BoundaryFiveConstruction
+import GridGraphs.ResidueTwoStaircaseForest
 
 /-!
 # Decidable sanity tests linking Lean definitions to Rust DP ground truth
@@ -19,6 +23,62 @@ these `example`s and therefore break `lake build`.
 -/
 
 namespace GridGraphs
+
+/-! ## Improved arbitrary-width residue-two construction -/
+
+example : 246 ≤ maxPreserved 26 26 := by
+  simpa using ResidueTwoStaircase.residueTwo_le_maxPreserved (k := 8) (by omega)
+
+example (k : ℕ) (hk : 8 ≤ k) :
+    3 * k ^ 2 + 6 * k + 5 < 3 * k ^ 2 + 6 * k + 2 + k / 2 := by
+  omega
+
+/-! ## Concrete boundary-five frame (symbolic checks, no search) -/
+
+example : (BoundaryFiveFrame.Houter 7).IsAcyclic :=
+  BoundaryFiveFrame.Houter_isAcyclic (by omega)
+
+example : ((BoundaryFiveFrame.Houter 7).induce
+    (BoundaryFiveFrame.Houter 7).support).IsTree :=
+  BoundaryFiveFrame.support_isTree (by omega)
+
+example : (BoundaryFiveConstruction.Ffull
+    (∅ : Finset (GridVertex 7 7))).card = 19 := by
+  have h := BoundaryFiveConstruction.Ffull_card (n := 7) (by omega)
+    (A := ∅) (by simp)
+  simpa using h
+
+/-! ## Residue-two target component obstructions (no grid enumeration) -/
+
+example (F : Finset (GridVertex 8 8))
+    (hacyc : (forcedEdgeGraph (gridGraph 8 8) (↑F : Set _)).IsAcyclic)
+    (hbudget : boundaryDeficiencySum 8 8 (Finset.univ \ F) = 5) :
+    ∃ e : Sym2 (GridVertex 8 8),
+      (∃ u v, e = Sym2.mk u v ∧ IsPerimeterEdge 8 u v ∧ u ∉ F ∧ v ∉ F) ∧
+      ∀ x y, IsPerimeterEdge 8 x y → x ∉ F → y ∉ F → Sym2.mk x y = e := by
+  exact boundaryDeficiencySum_compl_eq_five_unique_perimeter_edge (by omega) F hacyc hbudget
+
+example (F : Finset (GridVertex 7 7))
+    (hacyc : (forcedEdgeGraph (gridGraph 7 7) (↑F : Set _)).IsAcyclic)
+    (hbudget : boundaryDeficiencySum 7 7 (Finset.univ \ F) = 5)
+    (j : Fin 7) (hjlo : 1 ≤ j.val) (hjhi : j.val ≤ 5) :
+    ((1 : Fin 7), j) ∉ F := by
+  exact boundaryDeficiencySum_compl_eq_five_next_ring_notMem (by omega) F hacyc
+    hbudget ((1 : Fin 7), j) (by norm_num) (by norm_num) hjlo hjhi (Or.inl rfl)
+
+example (F : Finset (GridVertex 23 23)) (hcard : F.card = 196)
+    (hr : 28 ≤ Fintype.card ((gridGraph 23 23).induce
+      (↑F : Set _)).ConnectedComponent) :
+    ¬(forcedEdgeGraph (gridGraph 23 23) (↑F : Set _)).IsAcyclic := by
+  exact not_feasible_target_of_four_mul_le_components (k := 7) (by omega)
+    F (by simpa using hcard) (by simpa using hr)
+
+example (F : Finset (GridVertex 20 20)) (hcard : F.card = 150)
+    (hr : 25 ≤ Fintype.card ((gridGraph 20 20).induce
+      (↑F : Set _)).ConnectedComponent) :
+    ¬(forcedEdgeGraph (gridGraph 20 20) (↑F : Set _)).IsAcyclic := by
+  exact not_feasible_target_of_four_mul_add_one_le_components (k := 6) (by omega)
+    F (by simpa using hcard) (by simpa using hr)
 
 /-! ## Marked-cycle merger accounting with a shared suffix -/
 

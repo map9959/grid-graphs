@@ -59,6 +59,7 @@ instance (m n : Nat) (v w : GridVertex m n) :
 def topSpineColumns (m n : Nat) : SimpleGraph (GridVertex m n) where
   Adj := topSpineColumnsAdj m n
   symm := by
+    constructor
     intro v w h
     unfold topSpineColumnsAdj at *
     rcases h with ⟨h1, h2, hd⟩ | ⟨h1, hd⟩
@@ -71,6 +72,7 @@ def topSpineColumns (m n : Nat) : SimpleGraph (GridVertex m n) where
       · exact Or.inr h
       · exact Or.inl h
   loopless := by
+    constructor
     intro v h
     unfold topSpineColumnsAdj at h
     rcases h with ⟨_, _, hd⟩ | ⟨_, hd⟩ <;>
@@ -161,7 +163,7 @@ lemma topSpineColumns_preconnected {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n) :
 /-- `topSpineColumns m n` is connected for `m, n ≥ 1`. -/
 lemma topSpineColumns_connected {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n) :
     (topSpineColumns m n).Connected := by
-  haveI : Nonempty (GridVertex m n) :=
+  have : Nonempty (GridVertex m n) :=
     ⟨(⟨0, by omega⟩, ⟨0, by omega⟩)⟩
   exact { preconnected := topSpineColumns_preconnected hm hn }
 

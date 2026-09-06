@@ -19,9 +19,50 @@ interchangeably in this codebase, following `docs/DERIVATION.md`.)
 
 ## Formally Proven (Lean 4 + mathlib, zero `sorry`s in active code)
 
-A complete `lake build` succeeds (`lake build` exit 0) and a syntactic check
-confirms there are no `sorry`/`admit` tokens in tactic position anywhere in the
-project. All claims below are checked by the Lean kernel.
+The last complete `lake build` succeeded on Lean 4.24.0-rc1. On Lean/mathlib
+4.33.1 the boundary budget, equality, canonical frame, attachment, counted
+construction, and regression tests build successfully (8,732 jobs). Full-library
+validation is now running in the background without a time limit. The first
+pass finished with errors; all its reported modules now pass direct checks,
+including the existing finite witnesses at sides 8,9,11,12,14,15,17,18,20.
+Their fixed entries use kernel `decide` replay, with no changed data or native
+proof axioms. The full retry has not completed. Unless explicitly marked as rechecked,
+historical claims below are not evidence of a successful full build on the
+new toolchain. See `STATUS.md`.
+
+### Boundary-Five Component Obstruction (2026-09-05)
+
+The improved explicit family is now formalized in `ResidueTwoStaircase.lean`
+and `ResidueTwoStaircaseForest.lean`. The latter proves unconditionally
+`3k^2+6k+2+k/2 <= maxPreserved (3k+2) (3k+2)` for k>=3 through actual
+coordinate geometry and forest gluing. It is strictly stronger than the affine
+bound for k>=8, not a proof of the conjectured optimum. The side-26 regression
+is a specialization of the arbitrary-width theorem, not a grid search.
+
+`GridGraphs/BoundaryFiveBudget.lean` proves `b>=5` for every feasible forced
+set on a square of side at least five. Combined with the existing component
+ledger, it proves `r<=3k+6` at cardinality `3k^2+7k` on side `3k+2`, and
+rules out the retained `4k` and counter `4k+1` component architectures in
+their stated ranges. These are arbitrary-width structural proofs, not finite
+census results. The four exported theorems use only `propext`,
+`Classical.choice`, and `Quot.sound`; targeted and full builds passed.
+
+The tests at sides 20 and 23 instantiate those universal theorems rather than
+evaluate or optimize grid configurations. Exact residue-two lower and upper
+bounds remain open. The boundary-five unique gap and next-ring exclusion are
+now checked in `GridGraphs/BoundaryFiveEquality.lean` on 4.33.1. Its five
+exported results have axiom audits containing only `propext`, `Classical.choice`,
+and `Quot.sound`. Symbolic tests cover uniqueness at side 8 and next-ring
+exclusion at the threshold side 7.
+
+`BoundaryFiveFrame.lean`, `BoundaryFiveAttachment.lean`, and
+`BoundaryFiveConstruction.lean` now check the actual canonical frame tree,
+the necessary-and-sufficient attachment condition, and the exact counted
+extension. The principal axiom audits use only the standard logical axioms.
+The residue-two bound-transfer theorem is conditional: an actual inner set of
+the required cardinality and attachment type is still missing. Arbitrary-b=5
+normalization and the separate smaller-grid Q reformulation are not yet fully
+formalized; see `analysis/BOUNDARY_FIVE_PEELING.md`.
 
 ### `GridGraphs/Defs.lean`
 

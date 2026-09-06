@@ -208,7 +208,7 @@ private theorem finiteU8_parent_ne (f : GridFace 8 8) (hf : f ≠ .out) :
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;> simp [finiteU8Parent]
+      fin_cases r <;> fin_cases c <;> decide
 
 set_option maxHeartbeats 2000000 in
 private theorem finiteU8_parent_edge_data (f : GridFace 8 8) (hf : f ≠ .out) :
@@ -216,16 +216,11 @@ private theorem finiteU8_parent_edge_data (f : GridFace 8 8) (hf : f ≠ .out) :
     e.primalEndpoints.1 ∈ finiteU8 ∧
       e.primalEndpoints.2 ∈ finiteU8 ∧
       HasDualEndpoints e.dualEndpoints f (finiteU8Parent f) := by
+  simp only [finiteU8, Finset.mem_filter, Finset.mem_univ, true_and, HasDualEndpoints]
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;>
-        norm_num [finiteU8ParentEdge, FiniteU8PrimalEdge.primalEndpoints,
-          FiniteU8PrimalEdge.dualEndpoints, finiteU8, finiteU8Mask,
-          finiteU8Selected,
-          finiteU8Parent, horizontalPrimalEndpoints, verticalPrimalEndpoints,
-          horizontalDualEndpoints, verticalDualEndpoints, HasDualEndpoints,
-          Fin.mk.injEq] <;> simp
+      fin_cases r <;> fin_cases c <;> decide
 
 /-- The explicit ranked parent certificate on all fifty dual faces. -/
 def finiteU8RankedDualCertificate :
@@ -243,8 +238,7 @@ def finiteU8RankedDualCertificate :
     cases f with
     | out => exact (hf rfl).elim
     | cell r c =>
-        fin_cases r <;> fin_cases c <;>
-          norm_num [finiteU8Parent, finiteU8Rank]
+        fin_cases r <;> fin_cases c <;> decide
 
 theorem finiteU8_compl_card :
     ((Finset.univ : Finset (GridVertex 8 8)) \ finiteU8).card = 27 := by

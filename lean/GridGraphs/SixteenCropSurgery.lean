@@ -90,7 +90,7 @@ theorem exists_totalThreeCrop_gain_ge_demand
     ∃ c : TotalThreeCrop,
       totalThreeCropDemand n c hn F ≤ availableGain c := by
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hlt : (∑ c : TotalThreeCrop, availableGain c) <
       ∑ c : TotalThreeCrop, totalThreeCropDemand n c hn F := by
     apply Finset.sum_lt_sum

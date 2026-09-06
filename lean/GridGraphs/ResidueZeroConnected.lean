@@ -92,7 +92,7 @@ the strengthened global frontier certificate above. -/
 theorem uuDualGraph_uResidueZero_connected_of_interior (k : Nat) (hk : 7 ≤ k)
     (hinterior : ResidueZeroInteriorReachability k hk) :
     (uuDualGraph (uResidueZero k hk)).Connected := by
-  haveI : Nonempty (GridFace (3 * k) (3 * k)) := ⟨.out⟩
+  have : Nonempty (GridFace (3 * k) (3 * k)) := ⟨.out⟩
   constructor
   intro f g
   exact (uResidueZero_dual_reachable_out_of_interior k hk hinterior f).trans

@@ -225,7 +225,8 @@ theorem bundleCycleDefect_eq_zero_iff_forcedInsertionCondition [Fintype V]
   constructor
   · intro hzero
     have hrank : S.card ≤ (I.erase center).card := by
-      simpa [bundleCycleDefect, starAttachmentGraphicRank, S, f, center, I,
+      simpa [bundleCycleDefect, starAttachmentGraphicRank,
+        noncentralStarAttachmentComponents, S, f, center, I,
         Nat.sub_eq_zero_iff_le] using hzero
     have herase_le : (I.erase center).card ≤ I.card := Finset.card_erase_le
     have himage_le : I.card ≤ S.card := by
@@ -347,9 +348,7 @@ theorem bundleCycleDefect_le_three_of_not_forced
     · intro v hv
       simpa only [SimpleGraph.mem_neighborFinset] using
         (mem_starAttachmentLeaves (gridGraph m n) F u v).mp hv |>.1
-    · change ((gridGraph m n).neighborFinset u).card ≤
-        (starAttachmentLeaves (gridGraph m n) F u).card
-      rw [show ((gridGraph m n).neighborFinset u).card = 4 from hdegreefour,
+    · rw [show ((gridGraph m n).neighborFinset u).card = 4 from hdegreefour,
         hleafcard]
   have hnonempty : (starAttachmentLeaves (gridGraph m n) F u).Nonempty :=
     Finset.card_pos.mp (by omega)

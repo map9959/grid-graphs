@@ -63,7 +63,7 @@ theorem residueZeroAnchoredCertificate_mk (k : Nat) (hk : 7 ≤ k)
             (residueZeroAnchorCoord k hk)) :
     ResidueZeroAnchoredCertificate k hk :=
   ⟨fun r hr0 hrlast c => by
-      simpa [residueZeroAnchor, residueZeroAnchorCoord] using
+      simpa [residueZeroAnchor, residueZeroAnchorCoord, widenableOldDualToOld] using
         (hreach r hr0 hrlast c).map (widenableOldDualToOld k hk),
     hreach, residueZeroAnchor_adj_out k hk⟩
 

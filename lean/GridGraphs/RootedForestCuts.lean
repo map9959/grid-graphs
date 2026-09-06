@@ -20,7 +20,7 @@ theorem IsAcyclic.firstEdge_mem_connecting_or_otherRoot (hH : H.IsAcyclic)
     s(x, px.snd) ∈ q.edges ∨ s(x, px.snd) ∈ py.edges := by
   have hbridge : H.IsBridge s(x, px.snd) :=
     (isAcyclic_iff_forall_adj_isBridge.mp hH) (px.adj_snd hnil)
-  have hedge := (isBridge_iff_adj_and_forall_walk_mem_edges.mp hbridge).2
+  have hedge := (isBridge_iff_forall_walk_mem_edges.mp hbridge)
     ((q.append py).append px.tail.reverse)
   simp only [Walk.edges_append, Walk.edges_reverse, List.mem_append,
     List.mem_reverse] at hedge
@@ -92,7 +92,8 @@ theorem IsAcyclic.not_reachable_of_firstEdge_not_adj
       have hymem : y ∈ px.support := px.fst_mem_support_of_mem_edges hyother
       have heq : px = py.dropUntil x hxmem := by
         exact congrArg Subtype.val
-          (hH.path_unique ⟨px, hpx⟩ ⟨py.dropUntil x hxmem, hpy.dropUntil hxmem⟩)
+          ((hH.subsingleton_path _ _).elim
+            ⟨px, hpx⟩ ⟨py.dropUntil x hxmem, hpy.dropUntil hxmem⟩)
       have hymem' : y ∈ (py.dropUntil x hxmem).support := by
         rwa [← heq]
       have hsplit : ((py.takeUntil x hxmem).append

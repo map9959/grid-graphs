@@ -1,8 +1,25 @@
 # Proof Status
 
 This file is the authoritative ledger of what is and isn't formally proven in
-the Lean project. Last verified by `lake build` (exit 0) on the current
-commit.
+the Lean project. The last successful full build was on Lean 4.24.0-rc1.
+
+Toolchain update, 2026-09-05: Lean and mathlib are pinned to 4.33.1. The
+boundary/test dependency chain has been ported and
+`lake build GridGraphs.BoundaryFiveConstruction GridGraphs.Tests` passes (8,732
+jobs). Further graph, contour, and construction modules exposed by full builds
+were also ported and checked individually. Full-library validation now runs in
+the background without a time limit, at the user's request. Its log and final
+exit status are `/tmp/opencode/grid-graphs-library-verification.log` and
+`/tmp/opencode/grid-graphs-library-verification.exit` for the first pass, which
+finished with exit 1. All reported modules subsequently passed direct source
+checks. Fixed-entry kernel `decide` replay replaces broad simplification in
+the existing certificates for sides 8,9,11,12,14,15,17,18,20; no certificate
+data or theorem statements changed. The fresh unrestricted pass uses
+`/tmp/opencode/grid-graphs-library-verification-retry.log` and
+`/tmp/opencode/grid-graphs-library-verification-retry.exit`.
+No full-library success is claimed yet. The historical ledger
+below is not a claim that every module has been rechecked on 4.33.1. No global
+backward flags or proof placeholders were added.
 
 A grep over the active `*.lean` sources confirms **zero `sorry` and zero
 `admit` tokens in tactic positions** anywhere in the project.
@@ -25,6 +42,90 @@ the cotree incidence-waste ledger, and the exact forced-forest component
 reduction, in addition to the algebraic bound expressions.
 
 ## Proved (sorry-free)
+
+### Improved Residue-Two Staircase (Lean 4.33.1)
+
+`ResidueTwoStaircase.lean` defines the actual family in ambient coordinates,
+proves disjointness of its centers, placement in the twice-cropped square, and
+the exact inner count `3s^2+(s+1)/2` for s>=2.
+
+`ResidueTwoStaircaseForest.lean` proves the interval forests and all required
+physical support intersections, then glues the baseline and added stars to the
+canonical frame. Its `Ffull_isAcyclic` is unconditional for s>=2. The final
+`residueTwo_le_maxPreserved` proves
+
+```text
+3k^2+6k+2+k/2 <= maxPreserved (3k+2) (3k+2),    k>=3.
+```
+
+The only hypothesis is the stated arithmetic range. No missing connectivity
+or attachment assumption is hidden in this result. This improves the affine
+bound for k>=8 but does not prove the conjectured optimum.
+
+### Canonical Boundary-Five Extension (2026-09-05, Lean 4.33.1)
+
+`BoundaryFiveFrame.lean` defines the actual five-hole boundary pattern. It
+proves exact support, unique next-ring spokes, the isolated vertex `(1,2)`,
+and unconditional `Houter_isAcyclic` and `support_isTree`. The full ambient
+graph still includes isolated deep vertices; only its support is one tree.
+
+`BoundaryFiveAttachment.lean` proves `Houter_sup_isAcyclic_iff`: for any inner
+graph J with all edges in the once-cropped square, its union with the frame
+is a forest iff J is a forest and no J-component joins two distinct attachment
+vertices. Isolated and unattached components are permitted.
+
+`BoundaryFiveConstruction.lean` instantiates the iff with a concrete preserved
+set A in the twice-cropped square, proves the extension cardinality
+`4n-9+A.card`, and transfers it to `maxPreserved`. Its
+`residueTwo_le_maxPreserved` remains conditional on an actual A of size
+`3k^2-5k+1` and the proved interface's acyclicity/attachment hypotheses.
+No target-count family A is defined or asserted to exist.
+
+All three modules and the regression tests pass together (8,732 jobs).
+The frame, attachment iff, count, and bound-transfer axiom audits contain only
+`propext`, `Classical.choice`, and `Quot.sound`. The arbitrary-b=5 normalization
+and the Q reformulation on a separate smaller vertex type remain partly
+paper-level; they are not needed to use this canonical lower construction.
+
+### `GridGraphs/BoundaryFiveEquality.lean` (2026-09-05, Lean 4.33.1)
+
+- `boundaryDeficiencySum_compl_eq_five_corners_and_card`: for n>=6 and feasible
+  F with complement boundary deficiency five, all corners are in F and exactly
+  five boundary vertices are outside F.
+- `boundaryDeficiencySum_compl_eq_five_witness_decomposition`: four independent
+  corner witnesses plus one extra boundary vertex, with its neighbor restriction.
+- `boundaryDeficiencySum_compl_eq_five_unique_perimeter_edge`: exactly one
+  unordered perimeter edge has both endpoints outside F.
+- `boundaryDeficiencySum_compl_eq_five_no_boundary_distance_two`: for n>=7,
+  same-side vertices two grid steps apart cannot both lie outside F.
+- `boundaryDeficiencySum_compl_eq_five_next_ring_notMem`: for n>=7 the entire
+  next ring lies outside F, including its corners.
+
+The module is imported by the root and tests. Targeted builds pass on 4.33.1;
+all five axiom audits report only `propext`, `Classical.choice`, and `Quot.sound`.
+The canonical frame and attachment results are now checked as above. The full
+arbitrary-configuration normalization and deep-square Q reformulation remain
+partly paper-level.
+
+### `GridGraphs/BoundaryFiveBudget.lean` (2026-09-05)
+
+- `five_le_boundaryDeficiencySum_compl`: every feasible forced set on a square
+  of side at least five has complement boundary deficiency at least five.
+- `induced_components_le_three_mul_add_six`: a feasible set of cardinality
+  `3*k^2+7*k` on side `3*k+2` has at most `3*k+6` induced components.
+- `not_feasible_target_of_four_mul_le_components`: excludes at least `4*k`
+  induced components at that target for `k>=7`.
+- `not_feasible_target_of_four_mul_add_one_le_components`: excludes at least
+  `4*k+1` induced components at that target for `k>=6`.
+
+The module is imported by the root library. `Tests.lean` includes symbolic
+specializations at sides 23 and 20; no grid enumeration is involved. Targeted
+build and full `LEAN_NUM_THREADS=2 timeout 90s lake build` passed (7,521 jobs).
+The four axiom audits report only `propext`, `Classical.choice`, and `Quot.sound`.
+The budget module has also been rechecked on 4.33.1. Equality geometry and
+next-ring exclusion, the canonical frame, and its two-way attachment criterion
+are now formalized as above. The scope limits for the full peeling statement
+are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
 
 ### `GridGraphs/Defs.lean`
 - `numEdges_eq`: `numEdges m n = m*(n-1) + n*(m-1)`.

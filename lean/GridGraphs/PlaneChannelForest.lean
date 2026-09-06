@@ -140,7 +140,7 @@ theorem card_leaves_eq_card_roots_add_branchExcess :
         Fintype.card V := by
     rw [leaves]
     simpa [Finset.filter_not] using
-      (Finset.filter_card_add_filter_neg_card_eq_card
+      (Finset.card_filter_add_card_filter_not
         (s := (Finset.univ : Finset V)) (p := fun v => F.childCount v = 0))
   have hcancel :
       F.leaves.card + (Finset.univ.filter fun v => F.childCount v ≠ 0).card =
@@ -189,6 +189,7 @@ noncomputable instance rootPortDebtSlotFintype {P : Type*} [DecidableEq P]
   unfold RootPortDebtSlot
   infer_instance
 
+omit [DecidableEq V] in
 theorem card_rootPortDebtSlot {P : Type*} [DecidableEq P]
     (rootPort : ↥F.roots → P) :
     Fintype.card (F.RootPortDebtSlot rootPort) = F.rootPortDebt rootPort := by
@@ -198,6 +199,7 @@ theorem card_rootPortDebtSlot {P : Type*} [DecidableEq P]
   exact Finset.sum_attach (F.usedRootPorts rootPort)
     (fun port => F.rootPortMultiplicity rootPort port - 1)
 
+omit [DecidableEq V] in
 /-- Exact finite multiplicity formula: occurrence roots are one representative
 per used physical port plus all duplicate-root debt. -/
 theorem card_usedRootPorts_add_rootPortDebt {P : Type*} [DecidableEq P]
@@ -231,13 +233,13 @@ theorem card_usedRootPorts_add_rootPortDebt {P : Type*} [DecidableEq P]
       exact Nat.add_sub_of_le (hpositive port hport)
     _ = F.roots.card := hsum.symm
 
+omit [DecidableEq V] in
 /-- Pointwise root-port injectivity is exactly the exceptional zero-debt case. -/
 theorem rootPortDebt_eq_zero_iff_injective {P : Type*} [DecidableEq P]
     (rootPort : ↥F.roots → P) :
     F.rootPortDebt rootPort = 0 ↔ Function.Injective rootPort := by
   constructor
-  · intro hzero
-    intro a b hab
+  · intro hzero a b hab
     apply (Finset.card_image_iff.mp ?_) (Finset.mem_univ a)
       (Finset.mem_univ b) hab
     have hcount := F.card_usedRootPorts_add_rootPortDebt rootPort

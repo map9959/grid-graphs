@@ -121,7 +121,7 @@ theorem path_unique (hacyclic : (forcedEdgeGraph G F).IsAcyclic)
     {u : V} (p : InsertionAttachmentPair G F u)
     (q : (forcedEdgeGraph G F).Walk p.left p.right) (hq : q.IsPath) :
     q = p.path G F := by
-  have h := hacyclic.path_unique
+  have h := (hacyclic.subsingleton_path _ _).elim
     (⟨q, hq⟩ : (forcedEdgeGraph G F).Path p.left p.right)
     (⟨p.path G F, p.path_isPath G F⟩ :
       (forcedEdgeGraph G F).Path p.left p.right)
@@ -200,7 +200,7 @@ theorem canonicalInsertionAttachmentPair_minimal {m n : Nat}
         (canonicalInsertionAttachmentPair F x) ≤
       insertionCircuitKey F x.owner p := by
   classical
-  letI : Nonempty (InsertionAttachmentPair (gridGraph m n) F x.owner) :=
+  let : Nonempty (InsertionAttachmentPair (gridGraph m n) F x.owner) :=
     InsertionAttachmentPair.nonempty (gridGraph m n) F x
   let candidates :=
     (Finset.univ : Finset (InsertionAttachmentPair (gridGraph m n) F x.owner))
@@ -210,10 +210,8 @@ theorem canonicalInsertionAttachmentPair_minimal {m n : Nat}
   have hle := (Classical.choose_spec
     (Finset.exists_min_image candidates orderedKey Finset.univ_nonempty)).2
       p (Finset.mem_univ p)
-  rw [Prod.Lex.toLex_le_toLex] at hle
-  rcases hle with hlt | ⟨heq, _⟩
-  · exact hlt.le
-  · exact heq.le
+  exact @Prod.Lex.monotone_fst _ _ inferInstance
+    (inferInstance : LinearOrder (Lex (GridVertex m n × GridVertex m n))).toLE _ _ hle
 
 /-- Horizontal or vertical orientation, forgetting the direction of travel. -/
 inductive GridAxis where

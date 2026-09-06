@@ -90,11 +90,13 @@ def widenableOldDualGraph (k : Nat) (hk : 7 ≤ k) :
       (uuDualGraph (uResidueZero (k + 1) (by omega))).Adj
         (widenCell k x.1 x.2) (widenCell k y.1 y.2)
   symm := by
+    constructor
     rintro x y ⟨hold, hnew⟩
     exact ⟨hold.symm, hnew.symm⟩
   loopless := by
+    constructor
     rintro x ⟨hold, -⟩
-    exact (uuDualGraph (uResidueZero k hk)).loopless (.cell x.1 x.2) hold
+    exact (uuDualGraph (uResidueZero k hk)).loopless.irrefl (.cell x.1 x.2) hold
 
 /-- Every edge of the restricted old graph is an old U-U dual edge. -/
 def widenableOldDualToOld (k : Nat) (hk : 7 ≤ k) :

@@ -891,7 +891,7 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
           refine ⟨e.primalEndpoints.1, ?_, ?_⟩
           · simp [e, GridEdge.primalEndpoints, verticalPrimalEndpoints,
               gridNeighbor?, Fin.ext_iff] <;> omega
-          · convert T.symm hadj using 1 <;>
+          · convert hadj.symm using 1 <;>
               apply Prod.ext <;> apply Fin.ext <;>
               simp [e, GridEdge.primalEndpoints, verticalPrimalEndpoints] <;> omega
         have hnocross := mt (hnone e) hnotT
@@ -951,7 +951,7 @@ theorem exists_faceCut_crossing_not_adj_of_isAcyclic
           refine ⟨e.primalEndpoints.1, ?_, ?_⟩
           · simp [e, GridEdge.primalEndpoints, horizontalPrimalEndpoints,
               gridNeighbor?, Fin.ext_iff] <;> omega
-          · convert T.symm hadj using 1 <;>
+          · convert hadj.symm using 1 <;>
               apply Prod.ext <;> apply Fin.ext <;>
               simp [e, GridEdge.primalEndpoints, horizontalPrimalEndpoints] <;> omega
         have hnocross := mt (hnone e) hnotT

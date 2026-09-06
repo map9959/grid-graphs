@@ -495,7 +495,7 @@ theorem slotPoint_dart_ne_reverse (d : GridDirectionalDart T) :
   have hv : d.target = d.source := by
     simpa [GridDirectionalDart.reverse] using
       (congrArg GridDirectionalDart.source hdarts).symm
-  exact T.loopless d.source (hv ▸ d.adj)
+  exact T.loopless.irrefl d.source (hv ▸ d.adj)
 
 theorem edgeCorridorChord_isPath (d : GridDirectionalDart T) :
     (edgeCorridorChord d).IsPath := by
@@ -575,7 +575,7 @@ theorem succ_ne (s : GridCompassSlot m n) : succ (T := T) s ≠ s := by
   · let d := GridDirectionalDart.ofDirectionMem (T := T) s.1 s.2 hs
     have hv : d.target = d.source := by
       simpa [d, succ_of_occupied hs] using congrArg Prod.fst h
-    exact T.loopless d.source (hv ▸ d.adj)
+    exact T.loopless.irrefl d.source (hv ▸ d.adj)
   · have hd : s.2.clockwise = s.2 := by
       simpa [succ_of_not_occupied hs] using congrArg Prod.snd h
     exact GridDirection.clockwise_ne_self s.2 hd

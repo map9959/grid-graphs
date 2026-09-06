@@ -59,13 +59,13 @@ theorem source_notMem_targetShoreVertices
     d.source ∉ d.targetShoreVertices := by
   rw [mem_targetShoreVertices]
   have hbridge : T.IsBridge d.edgeSym2 := by
-    rw [SimpleGraph.isAcyclic_iff_forall_edge_isBridge] at hacyc
+    rw [SimpleGraph.isAcyclic_iff_forall_isBridge] at hacyc
     apply hacyc
     change s(d.source, d.target) ∈ T.edgeSet
     rw [SimpleGraph.mem_edgeSet]
     exact d.adj
   intro hreach
-  exact hbridge.2 hreach.symm
+  exact hbridge hreach.symm
 
 /-- Every tree edge crossing a fundamental shore is its attachment edge. -/
 theorem edgeSym2_eq_of_source_mem_target_notMem (d x : GridDirectionalDart T)
@@ -159,17 +159,19 @@ theorem contourEquiv_sameCycle_reverse
   · rw [mem_targetShoreDarts]
     exact source_notMem_targetShoreVertices hacyc d
   · rw [mem_targetShoreDarts]
-    simpa only [contourEquiv, Equiv.ofBijective_apply, contourSucc_source] using
-      target_mem_targetShoreVertices d
+    change d.contourSucc.source ∈ d.targetShoreVertices
+    simpa only [contourSucc_source] using target_mem_targetShoreVertices d
   · intro x hxIn hxOut
     apply eq_reverse_of_mem_targetShore_of_contourSucc_notMem hacyc d x hxIn
-    simpa only [contourEquiv, Equiv.ofBijective_apply] using hxOut
+    change x.contourSucc ∉ d.targetShoreDarts at hxOut
+    exact hxOut
 
 private theorem contourEquiv_sameCycle_contourSucc
     (d : GridDirectionalDart T) :
     Equiv.Perm.SameCycle (contourEquiv (T := T)) d d.contourSucc := by
   refine ⟨1, ?_⟩
-  simp [contourEquiv]
+  change (contourEquiv (T := T)) d = d.contourSucc
+  rfl
 
 /-- Outgoing darts consecutive in the local clockwise rotation lie in the same
 global contour orbit. -/
@@ -252,7 +254,7 @@ theorem contourEquiv_sameCycle
     (hTgrid : T ≤ gridGraph m n) (htree : T.IsTree)
     (a b : GridDirectionalDart T) :
     Equiv.Perm.SameCycle (contourEquiv (T := T)) a b := by
-  obtain ⟨p⟩ := htree.isConnected.preconnected a.source b.source
+  obtain ⟨p⟩ := htree.connected.preconnected a.source b.source
   have walk_same : ∀ {u v : GridVertex m n} (q : T.Walk u v)
       (x y : GridDirectionalDart T), x.source = u → y.source = v →
         Equiv.Perm.SameCycle (contourEquiv (T := T)) x y := by
@@ -260,14 +262,14 @@ theorem contourEquiv_sameCycle
     induction q with
     | nil =>
         intro x y hx hy
-        apply contourEquiv_sameCycle_of_source_eq htree.IsAcyclic
+        apply contourEquiv_sameCycle_of_source_eq htree.isAcyclic
         exact hx.trans hy.symm
     | cons hadj q ih =>
         intro x y hx hy
         obtain ⟨d, hdSource, hdTarget⟩ := exists_of_adj hTgrid hadj
-        have hxd := contourEquiv_sameCycle_of_source_eq htree.IsAcyclic
+        have hxd := contourEquiv_sameCycle_of_source_eq htree.isAcyclic
           (a := x) (b := d) (hx.trans hdSource.symm)
-        have hreverse := contourEquiv_sameCycle_reverse htree.IsAcyclic d
+        have hreverse := contourEquiv_sameCycle_reverse htree.isAcyclic d
         have hrest := ih d.reverse y (by simp [reverse, hdTarget]) hy
         exact hxd.trans (hreverse.trans hrest)
   exact walk_same p a b rfl rfl

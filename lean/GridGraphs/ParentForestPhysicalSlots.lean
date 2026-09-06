@@ -31,7 +31,7 @@ theorem mergerExcessAt_le_card_physicalChildren
     (v : V) :
     F.mergerExcessAt v ≤ (F.physicalChildren physical v).card := by
   have hpartition :=
-    (F.children v).filter_card_add_filter_neg_card_eq_card physical
+    (F.children v).card_filter_add_card_filter_not physical
   change (F.children v).card - 1 ≤ ((F.children v).filter physical).card
   have hnonphysical := hghost v
   change ((F.children v).filter fun x => ¬physical x).card ≤ 1 at hnonphysical

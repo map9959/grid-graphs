@@ -162,22 +162,18 @@ private theorem finiteU17_parent_ne (f : GridFace 17 17) (hf : f ≠ .out) :
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;> simp [finiteU17Parent]
+      fin_cases r <;> fin_cases c <;> decide
 
 private theorem finiteU17_parent_edge_data (f : GridFace 17 17) (hf : f ≠ .out) :
     let e := finiteU17ParentEdge f
     e.primalEndpoints.1 ∈ finiteU17 ∧
       e.primalEndpoints.2 ∈ finiteU17 ∧
       HasDualEndpoints e.dualEndpoints f (finiteU17Parent f) := by
+  simp only [finiteU17, Finset.mem_filter, Finset.mem_univ, true_and, HasDualEndpoints]
   cases f with
   | out => exact (hf rfl).elim
   | cell r c =>
-      fin_cases r <;> fin_cases c <;>
-        norm_num [finiteU17ParentEdge, FiniteU17PrimalEdge.primalEndpoints,
-          FiniteU17PrimalEdge.dualEndpoints, finiteU17, finiteU17Selected,
-          finiteU17Mask, finiteU17Parent, horizontalPrimalEndpoints,
-          verticalPrimalEndpoints, horizontalDualEndpoints, verticalDualEndpoints,
-          HasDualEndpoints, Fin.mk.injEq] <;> simp
+      fin_cases r <;> fin_cases c <;> decide
 
 /-- The explicit ranked parent certificate on all two hundred fifty-seven faces. -/
 def finiteU17RankedDualCertificate :
@@ -195,8 +191,7 @@ def finiteU17RankedDualCertificate :
     cases f with
     | out => exact (hf rfl).elim
     | cell r c =>
-        fin_cases r <;> fin_cases c <;>
-          norm_num [finiteU17Parent, finiteU17Rank]
+        fin_cases r <;> fin_cases c <;> decide
 
 theorem finiteU17_compl_card :
     ((Finset.univ : Finset (GridVertex 17 17)) \ finiteU17).card = 110 := by

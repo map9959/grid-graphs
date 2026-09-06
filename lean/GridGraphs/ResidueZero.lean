@@ -99,11 +99,13 @@ theorem phaseRowsFrom_slot_sum (k t : Nat) (hk : 1 ≤ k) :
   have hsub : 2 * (k + 1) - 1 = 2 * k + 1 := by omega
   induction t with
   | zero =>
-      simp [phaseRowsFrom, phaseRowsBase, phaseSlotCount]
+      simp only [phaseRowsFrom, phaseRowsBase, List.map_cons, List.map_nil,
+        List.sum_cons, List.sum_nil, phaseSlotCount, Nat.mul_zero, Nat.add_zero]
       rw [hsub]
       ring
   | succ t ih =>
-      simp [phaseRowsFrom, phaseSlotCount, ih]
+      simp only [phaseRowsFrom, List.map_append, List.map_cons, List.map_nil,
+        List.sum_append, List.sum_cons, List.sum_nil, phaseSlotCount, ih, Nat.add_zero]
       rw [hsub]
       ring
 
@@ -125,7 +127,7 @@ theorem phaseRows_slot_sum (k : Nat) (hk : 7 ≤ k) :
   ring
 
 /-- The finite slots occupied by U in one phase row. -/
-def PhaseSlot (k : Nat) (row : PhaseRow) := Fin (phaseSlotCount k row)
+abbrev PhaseSlot (k : Nat) (row : PhaseRow) := Fin (phaseSlotCount k row)
 
 instance (k : Nat) (row : PhaseRow) : Fintype (PhaseSlot k row) := by
   unfold PhaseSlot
@@ -180,7 +182,7 @@ theorem phaseColumn_injective {k : Nat} (row : PhaseRow)
         split at hxy <;> omega
       · simp [hx, hy] at hxy
         split at hxy <;> omega
-      · simp [hx, hy] at hxy
+      · simp only [if_neg hx, if_neg hy] at hxy
         by_cases hx2 : x.val < k + a + 1 <;>
           by_cases hy2 : y.val < k + a + 1 <;>
           simp [hx2, hy2] at hxy <;> omega
@@ -192,12 +194,12 @@ theorem phaseColumn_injective {k : Nat} (row : PhaseRow)
         split at hxy <;> omega
       · simp [hx, hy] at hxy
         split at hxy <;> omega
-      · simp [hx, hy] at hxy
+      · simp only [if_neg hx, if_neg hy] at hxy
         by_cases hx2 : x.val < k + a <;> by_cases hy2 : y.val < k + a <;>
           simp [hx2, hy2] at hxy <;> omega
 
 /-- Indices of all vertices in the construction. -/
-def ResidueZeroIndex (k : Nat) :=
+abbrev ResidueZeroIndex (k : Nat) :=
   Fin (3 * k) ⊕
     Fin (3 * k - 1) ⊕
       Fin 1 ⊕

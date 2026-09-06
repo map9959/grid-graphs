@@ -47,25 +47,25 @@ private theorem forced_horizontal_vertical_turn_false {m n : Nat}
   · let r : Fin (m - 1) := ⟨v.1.val, by omega⟩
     let c : Fin (n - 1) := ⟨u.2.val, by omega⟩
     have eu : u = cell00 r c := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [cell00, r, c] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [cell00, r, c]; omega
     have ev : v = cell01 r c := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [cell01, r, c] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [cell01, r, c]; omega
     have ew : w = cell11 r c := by
       apply Prod.ext <;> apply Fin.ext <;> simp [cell11, r, c] <;> omega
     exact (grid_cell_forced_triples_free r c hacyc).1 ⟨eu ▸ hu, ev ▸ hv, ew ▸ hw⟩
   · let r : Fin (m - 1) := ⟨w.1.val, by omega⟩
     let c : Fin (n - 1) := ⟨u.2.val, by omega⟩
     have ew : w = cell01 r c := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [cell01, r, c] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [cell01, r, c]; omega
     have ev : v = cell11 r c := by
       apply Prod.ext <;> apply Fin.ext <;> simp [cell11, r, c] <;> omega
     have eu : u = cell10 r c := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [cell10, r, c] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [cell10, r, c]; omega
     exact (grid_cell_forced_triples_free r c hacyc).2.1 ⟨ew ▸ hw, ev ▸ hv, eu ▸ hu⟩
   · let r : Fin (m - 1) := ⟨v.1.val, by omega⟩
     let c : Fin (n - 1) := ⟨v.2.val, by omega⟩
     have ev : v = cell00 r c := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [cell00, r, c] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [cell00, r, c]
     have eu : u = cell01 r c := by
       apply Prod.ext <;> apply Fin.ext <;> simp [cell01, r, c] <;> omega
     have ew : w = cell10 r c := by
@@ -74,11 +74,11 @@ private theorem forced_horizontal_vertical_turn_false {m n : Nat}
   · let r : Fin (m - 1) := ⟨w.1.val, by omega⟩
     let c : Fin (n - 1) := ⟨v.2.val, by omega⟩
     have ew : w = cell00 r c := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [cell00, r, c] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [cell00, r, c]; omega
     have eu : u = cell11 r c := by
       apply Prod.ext <;> apply Fin.ext <;> simp [cell11, r, c] <;> omega
     have ev : v = cell10 r c := by
-      apply Prod.ext <;> apply Fin.ext <;> simp [cell10, r, c] <;> omega
+      apply Prod.ext <;> apply Fin.ext <;> simp [cell10, r, c]; omega
     exact (grid_cell_forced_triples_free r c hacyc).2.2.1 ⟨eu ▸ hu, ev ▸ hv, ew ▸ hw⟩
 
 /-- Two grid edges meeting at a forced vertex cannot make a perpendicular
@@ -165,7 +165,7 @@ theorem induced_forced_preconnected_set_straight {m n : Nat}
   obtain ⟨a, ha⟩ := hC
   by_cases hrow : ∀ v ∈ C, v.1.1 = a.1.1
   · exact Or.inl ⟨a.1.1, hrow⟩
-  · push_neg at hrow
+  · push Not at hrow
     obtain ⟨b, hb, hba⟩ := hrow
     have hab := induced_forced_reachable_same_row_or_column hacyc (hconn ha hb)
     have habCol : a.1.2 = b.1.2 := hab.resolve_left (fun h => hba h.symm)

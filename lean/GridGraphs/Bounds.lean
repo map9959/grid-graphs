@@ -155,7 +155,7 @@ lemma basicUB_4n {n : Nat} (hn : 1 ≤ n) : basicUB 4 n = 2 * n + 2 := by
 lemma I_4n {n : Nat} (hn : 3 ≤ n) : I 4 n = 2 * (n - 2) := by
   unfold I
   have hcond : ¬ (4 < 3 ∨ n < 3) := by
-    push_neg; exact ⟨by decide, hn⟩
+    push Not; exact ⟨by decide, hn⟩
   -- After rewriting the if and reducing (4-2) to 2, goal closes definitionally.
   rw [if_neg hcond]
 
@@ -227,7 +227,7 @@ lemma refinedUB_le_basicUB {m n : Nat} (hm : 1 ≤ m) (hn : 1 ≤ n) :
       unfold I
       split_ifs with hcase
       · simp
-      · push_neg at hcase
+      · push Not at hcase
         obtain ⟨hm3, hn3⟩ := hcase
         have hm2 : m - 2 ≤ m := Nat.sub_le _ _
         have hn2 : n - 2 ≤ n := Nat.sub_le _ _

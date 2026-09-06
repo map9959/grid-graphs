@@ -42,7 +42,7 @@ theorem reachable_root {V : Type*} {G : SimpleGraph V}
 /-- A ranked parent certificate proves graph connectivity. -/
 theorem connected {V : Type*} {G : SimpleGraph V}
     (C : RankedParentCertificate G) : G.Connected := by
-  letI : Nonempty V := ⟨C.root⟩
+  let : Nonempty V := ⟨C.root⟩
   constructor
   intro v w
   exact (C.reachable_root v).trans (C.reachable_root w).symm

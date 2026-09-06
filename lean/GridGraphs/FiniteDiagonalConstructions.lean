@@ -114,9 +114,9 @@ theorem finiteU3_compl_card :
     ext v
     rcases v with ⟨r, c⟩
     fin_cases r <;> fin_cases c <;>
-      simp [finiteU3, gridVertex_eq_iff]
+      simp [finiteU3]
   rw [hcompl]
-  norm_num [Finset.card_insert_of_notMem, gridVertex_eq_iff]
+  decide
 
 /-- Four vertices can be preserved in the `3 x 3` grid. -/
 theorem four_le_maxPreserved_three_three : 4 ≤ maxPreserved 3 3 := by

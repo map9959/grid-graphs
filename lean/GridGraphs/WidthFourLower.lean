@@ -176,7 +176,7 @@ theorem forced_widthFourOuterRows_isAcyclic {n : Nat} (hn : 2 ≤ n) :
           widthFourCombEmbedding] at hgrid houter ⊢)
         all_goals omega }
   have htree := topSpineColumns_two_isTree (N := 2 * n) (by omega)
-  exact htree.IsAcyclic.comap f widthFourCombEmbedding_injective
+  exact htree.isAcyclic.comap f widthFourCombEmbedding_injective
 
 /-- A `4 x n` grid preserves at least its two outer rows. -/
 theorem two_mul_le_maxPreserved_widthFour {n : Nat} (hn : 2 ≤ n) :

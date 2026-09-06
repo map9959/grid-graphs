@@ -30,7 +30,7 @@ theorem Equiv.Perm.sameCycle_of_unique_leave
     exact Equiv.Perm.sameCycle_apply_right.symm
   have hexit : ∃ x ∈ C, x ∈ S ∧ f x ∉ S := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     let A := C ∩ S
     have hmap : A.image f ⊆ A := by
       intro y hy

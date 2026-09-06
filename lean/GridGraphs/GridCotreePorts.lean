@@ -130,13 +130,13 @@ theorem coordinateEdge_notMem_cotreePorts
     (hTgrid : T ≤ gridGraph m n) (d : GridDirectionalDart T) :
     d.coordinateEdge hTgrid ∉ d.cotreePorts := by
   rw [mem_cotreePorts]
-  push_neg
+  push Not
   intro _
   have hsym := coordinateEdge_primalSym2 hTgrid d
   rw [GridEdge.primalSym2, edgeSym2, Sym2.eq_iff] at hsym
   rcases hsym with ⟨h₁, h₂⟩ | ⟨h₁, h₂⟩
   · simpa [h₁, h₂] using d.adj
-  · simpa [h₁, h₂] using T.symm d.adj
+  · simpa [h₁, h₂] using d.adj.symm
 
 /-- Set-level form of the exact fundamental cut decomposition. -/
 theorem shoreCrossingEdges_eq_insert_coordinateEdge_cotreePorts
