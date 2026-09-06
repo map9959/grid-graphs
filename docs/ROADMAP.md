@@ -1,14 +1,14 @@
 # Astra Roadmap: Exact Square-Grid Optimum
 
-Updated: 2026-09-05.
+Updated: 2026-09-06.
 
 Source layout: the 190 Lean modules are now grouped under `Core`, `Forests`,
 `Geometry`, `Accounting`, `Routing`, `Surgery`, `Constructions`, `Results`,
 and `Tests`. Construction families have their own subfolders. Public theorem
 namespaces and the `import GridGraphs` entry point are unchanged; module
 imports and live path references have been updated. See `lean/README.md` for
-navigation. Verification recorded before this move does not certify the new
-module layout; a fresh warning-as-error check is required.
+navigation. The reorganized source tree has passed a fresh full strict build,
+including the five modules outside the aggregate import closure.
 
 Python layout: the 283 former flat analysis sources now live in eight subject
 packages with mirrored tests. Run them with `python3 -m analysis.<area>.<module>`
@@ -18,38 +18,32 @@ regenerated; source snapshots and an explicit before/after migration ledger
 preserve their provenance. The smoke/layout suite and six targeted provenance
 checks pass (29 tests total), with no optimization searches.
 
-## Toolchain Migration Status
+## Verification Status
 
-The project now pins Lean `v4.33.1` and mathlib `v4.33.1`; the dependency
-manifest and mathlib binary cache have been updated. The earlier successful
-7,521-job build below was on Lean `v4.24.0-rc1`, not the new toolchain.
+Lean and mathlib are pinned to `v4.33.1`. The reorganized project passed full
+verification with **zero errors and zero warnings**: 8,897 jobs, exit 0.
+The command, run from `lean/`, was:
 
-The boundary/test dependency chain now builds on 4.33.1:
-`lake build GridGraphs.Constructions.BoundaryFive.BoundaryFiveConstruction GridGraphs.Tests.Regression` passed with
-8,732 jobs. The former `Forced`, `ResidueOne`, and `MarkedCycleFirstStop`
-blockers are fixed, along with further graph, component, contour, and
-construction API changes exposed downstream.
+```bash
+LEAN_NUM_THREADS=2 lake --no-cache --wfail build GridGraphs \
+  GridGraphs.Tests.FourCropBoundaryCounterexample \
+  GridGraphs.Tests.GroupedAlternatingClosureCounterexample \
+  GridGraphs.Tests.InsertionReflexCounterexample \
+  GridGraphs.Constructions.ResidueZero.ResidueZeroPersistentEnds \
+  GridGraphs.Results.SmallDiagonal
+```
 
-Full-library validation now runs in the background WITHOUT a time limit,
-explicitly authorized by the user. It targets `GridGraphs`, reusing cached
-mathlib dependencies, not a separate mathlib-wide verification. The log is
-`/tmp/opencode/grid-graphs-library-verification-retry.log`; completion writes
-`/tmp/opencode/grid-graphs-library-verification-retry.exit`. Do not launch a competing
-full build or assume success while that status file is absent.
+This covers all 190 source modules without changing the aggregate API. It
+reuses cached mathlib dependencies rather than running a separate mathlib-wide
+verification. The completed log is `/tmp/opencode/grid-graphs-layout-build-pass6.log`,
+with exit status in the corresponding `.exit` file. No verification process
+was left running.
 
-The first unrestricted pass finished with exit 1. Every module it reported
-has now passed a direct source check, and the retry runs against those fixes.
-In particular, the existing finite certificates for sides 8,9,11,12,14,15,17,18,20
-now replay their fixed entries with kernel-checked `decide`, instead of broad
-table simplification. Certificate data, statements, and limits are unchanged;
-these are rechecks, not new optimization searches or native evaluation axioms.
-The 17/18/20 files passed in about 19-21 seconds each; the smaller files took
-about 6-11 seconds. The original log and exit status remain at the paths
-without `-retry`. Full-library success is not claimed until the retry completes.
-
-The active proof chain is usable, so equality/peeling work has resumed. No
-theorem statements were weakened and no proof placeholders or global
-backward-compatibility flags were added.
+Migration fixes preserve theorem statements and certificate data. Existing
+finite certificates now use efficient kernel-checked fixed-entry replay, not
+new searches or native proof axioms. Linter warnings were removed rather than
+suppressed. No proof placeholders or global backward-compatibility flags were
+added. The improved staircase construction is included in this verified build.
 
 This is the working roadmap. Historical roadmaps and analysis notes retain
 the previous programs, evidence, and failed approaches for reference. Their
@@ -128,11 +122,9 @@ unconditional arbitrary-width exact formulas. A residue-two-specific proof
 need not wait for the common upper theorem; a full diagonal result still
 needs the other residues' upper bounds.
 
-Verification on 2026-09-05, before the toolchain upgrade: the new boundary module and regression tests passed,
-then `LEAN_NUM_THREADS=2 timeout 90s lake build` completed successfully with
-7,521 jobs. The four new theorems depend only on `propext`, `Classical.choice`,
-and `Quot.sound`. This certified the formal milestone on Lean 4.24.0-rc1,
-not current 4.33.1 compatibility, the open paper results, or the diagonal formula.
+The new boundary and staircase axiom audits contain only `propext`,
+`Classical.choice`, and `Quot.sound`. The verified improved lower bound is not
+the conjectured optimum; the open upper/lower obligations above remain open.
 
 ## 3. The Central Model
 

@@ -60,6 +60,11 @@ previously unimported modules remain outside the aggregate import closure;
 check them explicitly when verifying every source file. See `STATUS.md` for
 current verification rather than inferring it from this directory structure.
 
+The reorganized source tree has passed strict verification on Lean/mathlib
+4.33.1: all 190 modules, zero errors and zero warnings.
+Use `lake --wfail build GridGraphs` for the aggregate; `../docs/ROADMAP.md` records the full command
+including the five additional modules.
+
 ## Key Modules
 
 - `GridGraphs/Core/Defs.lean`: Vertex/edge counts, deficiency, vertex-class

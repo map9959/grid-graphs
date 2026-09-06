@@ -1,31 +1,21 @@
 # Proof Status
 
-Layout update: all 190 source modules have moved into proof-area subfolders.
-The aggregate import graph and public declaration namespaces are unchanged.
-The following historical build results predate that move; fresh verification
-must use the nested module paths. Five modules outside the aggregate closure
-are checked separately, without silently expanding the aggregate API.
+This is the ledger of formally proved results and remaining obligations.
 
-This file is the authoritative ledger of what is and isn't formally proven in
-the Lean project. The last successful full build was on Lean 4.24.0-rc1.
+All 190 source modules are organized into proof-area subfolders. Public
+declaration namespaces and the aggregate import graph are unchanged. Full
+verification on 2026-09-06 with Lean/mathlib **4.33.1** passed with **zero errors and zero
+warnings**, using `--wfail` and explicitly including the five modules outside
+the aggregate closure: **8,897 jobs, exit 0**. See `../docs/ROADMAP.md` for the
+complete command. The completed log is
+`/tmp/opencode/grid-graphs-layout-build-pass6.log`.
 
-Toolchain update, 2026-09-05: Lean and mathlib are pinned to 4.33.1. The
-boundary/test dependency chain has been ported and
-`lake build GridGraphs.Constructions.BoundaryFive.BoundaryFiveConstruction GridGraphs.Tests.Regression` passes (8,732
-jobs). Further graph, contour, and construction modules exposed by full builds
-were also ported and checked individually. Full-library validation now runs in
-the background without a time limit, at the user's request. Its log and final
-exit status are `/tmp/opencode/grid-graphs-library-verification.log` and
-`/tmp/opencode/grid-graphs-library-verification.exit` for the first pass, which
-finished with exit 1. All reported modules subsequently passed direct source
-checks. Fixed-entry kernel `decide` replay replaces broad simplification in
-the existing certificates for sides 8,9,11,12,14,15,17,18,20; no certificate
-data or theorem statements changed. The fresh unrestricted pass uses
-`/tmp/opencode/grid-graphs-library-verification-retry.log` and
-`/tmp/opencode/grid-graphs-library-verification-retry.exit`.
-No full-library success is claimed yet. The historical ledger
-below is not a claim that every module has been rechecked on 4.33.1. No global
-backward flags or proof placeholders were added.
+Migration preserved theorem statements and certificate data. Kernel-checked
+fixed-entry replay replaces expensive simplification in the existing finite
+certificates; no native proof axioms, global backward flags, linter suppressions,
+or proof placeholders were added. The improved staircase lower bound below
+is included in the full verified build. Historical build counts later in this
+document refer to earlier milestones, not the current verification total.
 
 A grep over the active `*.lean` sources confirms **zero `sorry` and zero
 `admit` tokens in tactic positions** anywhere in the project.

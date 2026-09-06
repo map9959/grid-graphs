@@ -19,16 +19,16 @@ interchangeably in this codebase, following `docs/DERIVATION.md`.)
 
 ## Formally Proven (Lean 4 + mathlib, zero `sorry`s in active code)
 
-The last complete `lake build` succeeded on Lean 4.24.0-rc1. On Lean/mathlib
-4.33.1 the boundary budget, equality, canonical frame, attachment, counted
-construction, and regression tests build successfully (8,732 jobs). Full-library
-validation is now running in the background without a time limit. The first
-pass finished with errors; all its reported modules now pass direct checks,
-including the existing finite witnesses at sides 8,9,11,12,14,15,17,18,20.
-Their fixed entries use kernel `decide` replay, with no changed data or native
-proof axioms. The full retry has not completed. Unless explicitly marked as rechecked,
-historical claims below are not evidence of a successful full build on the
-new toolchain. See `STATUS.md`.
+Full verification of the reorganized project has passed on Lean/mathlib
+**4.33.1** with **zero errors and zero warnings**, using `--wfail`: 8,897 jobs,
+exit 0. All 190 source modules were covered, including the five outside the
+aggregate import closure. The new staircase lower bound is included.
+
+Existing finite-witness data and statements are unchanged; their fixed entries
+now use efficient kernel `decide` replay, not new searches or native proof
+axioms. See `STATUS.md` and `../docs/ROADMAP.md` for the current verification
+command. Older counts and line references below belong to their historical
+milestones; the theorem names and relocated module paths are the stable references.
 
 ### Boundary-Five Component Obstruction (2026-09-05)
 
