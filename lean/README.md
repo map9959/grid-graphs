@@ -25,58 +25,95 @@ lower bound) that constrain `P(m, n)`.
 In this codebase a "full-degree" vertex is also called "preserved", following
 the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
 
-## Contents
+## Source Layout
 
-- `GridGraphs/Defs.lean`: Vertex/edge counts, deficiency, vertex-class
+`GridGraphs.lean` remains the aggregate entry point. Modules are grouped by
+subject rather than by proof status:
+
+| Directory under `GridGraphs/` | Contents |
+|---|---|
+| `Core/` | Grid definitions, spanning trees, bounds, and optimization model |
+| `Forests/` | Generic forest, cut, parent, and first-stop machinery |
+| `Geometry/` | Grid edges and duals, boundary cycles, crosscuts, and contours |
+| `Accounting/` | Waste and component ledgers, boundary and equality obstructions |
+| `Routing/` | Channels, Hall conditions, physical resources, and ownership |
+| `Surgery/` | Cropping, insertion, exchanges, and repair arguments |
+| `Constructions/` | Shared construction certificates and gluing tools |
+| `Results/` | Exact small cases, formula assembly, and recurrence statements |
+| `Tests/` | `Regression.lean` and explicit counterexamples |
+
+`Constructions/` has `BoundaryFive/`, `Finite/`, `ResidueZero/`, `ResidueOne/`,
+and `ResidueTwo/` subfolders. Failed construction attempts remain with their
+families; directory placement is not a claim that a theorem is proved.
+
+Module paths changed, but public declaration namespaces did not. For example:
+
+```lean
+import GridGraphs.Constructions.ResidueTwo.ResidueTwoStaircaseForest
+
+#check GridGraphs.ResidueTwoStaircase.residueTwo_le_maxPreserved
+```
+
+Use `import GridGraphs` for the aggregate or a specific nested module for a
+small dependency set. There are no old-path compatibility wrappers. The five
+previously unimported modules remain outside the aggregate import closure;
+check them explicitly when verifying every source file. See `STATUS.md` for
+current verification rather than inferring it from this directory structure.
+
+## Key Modules
+
+- `GridGraphs/Core/Defs.lean`: Vertex/edge counts, deficiency, vertex-class
   partition, and the simple graph `gridGraph m n` itself (a real
   `SimpleGraph (Fin m × Fin n)` with proven `symm` and `loopless`).
   Includes `Fintype` / `DecidableEq` / `DecidableRel` instances and real
   `gridDegree` / `isPreserved` / `vertexDeficiency` / `numPreserved`
   definitions built on `SimpleGraph.degree`.
-- `GridGraphs/Bounds.lean`: Algebraic bound expressions `D`, `I`, `ceilDiv3`,
+- `GridGraphs/Core/Bounds.lean`: Algebraic bound expressions `D`, `I`, `ceilDiv3`,
   `basicUB`, `refinedUB`, `lowerB`, and their `sorry`-free properties.
-- `GridGraphs/Forced.lean`: Forced-edge subgraph of full-degree vertices;
+- `GridGraphs/Core/Forced.lean`: Forced-edge subgraph of full-degree vertices;
   forced-edge acyclicity from a spanning tree.
-- `GridGraphs/Diagonal.lean`: Induced-edge decycling sets, complement-of-
+- `GridGraphs/Geometry/Diagonal.lean`: Induced-edge decycling sets, complement-of-
   preserved is decycling, every grid 4-cycle has an unforced boundary edge,
   cell-adjacency lemmas, and the cell-hitting corner condition.
-- `GridGraphs/GridDual.lean`: Explicit grid faces, primal/dual edge endpoint
+- `GridGraphs/Geometry/GridDual.lean`: Explicit grid faces, primal/dual edge endpoint
   maps, executable U-U dual graph, and the conditional theorem chain reducing
   dual-certified constructions to the remaining cycle-separation proposition.
-- `GridGraphs/ResidueOne.lean`: Residue-1 diagonal `U` construction
+- `GridGraphs/Constructions/ResidueOne/ResidueOne.lean`: Residue-1 diagonal `U` construction
   (`uResidueOne k`) with proven cardinality `6 * k^2 + k + 1` (Proposition L1
   cardinality from `analysis/proofs_diagonal.md`).
-- `GridGraphs/Spanning.lean`: `IsSpanningSubtree` predicate, total-deficiency
+- `GridGraphs/Core/Spanning.lean`: `IsSpanningSubtree` predicate, total-deficiency
   identity, per-vertex deficiency caps (≤ 1 / ≤ 2 / ≤ 3 for corner / border /
   interior), and the headline operational upper bounds
   `preserved_le_basicUB` and `preserved_le_refinedUB`.
-- `GridGraphs/ForestExtension.lean`: the standalone, generic forest
+- `GridGraphs/Forests/ForestExtension.lean`: the standalone, generic forest
   extension lemma `isAcyclic_extends_to_isTree`.
-- `GridGraphs/IncidenceWaste.lean`: support incidence waste and exact arbitrary
+- `GridGraphs/Accounting/IncidenceWaste.lean`: support incidence waste and exact arbitrary
   equal-edge exchange accounting.
-- `GridGraphs/ForestLedger.lean`: generic finite-forest edge/component ledger.
-- `GridGraphs/CotreeWaste.lean`: identifies grid cotree support with
+- `GridGraphs/Accounting/ForestLedger.lean`: generic finite-forest edge/component ledger.
+- `GridGraphs/Accounting/CotreeWaste.lean`: identifies grid cotree support with
   non-preserved vertices and proves the exact cotree waste identity.
-- `GridGraphs/ForcedForestLedger.lean` and
-  `GridGraphs/ComponentReduction.lean`: exact forced-forest and induced-forest
+- `GridGraphs/Accounting/ForcedForestLedger.lean` and
+  `GridGraphs/Accounting/ComponentReduction.lean`: exact forced-forest and induced-forest
   component reductions.
-- `GridGraphs/TreeComponentBridge.lean`: exact equality between square cotree
+- `GridGraphs/Accounting/TreeComponentBridge.lean`: exact equality between square cotree
   incidence waste and the forced-forest component charge.
-- `GridGraphs/MaxPreserved.lean`: finite operational definition of `P(m,n)` and
+- `GridGraphs/Core/MaxPreserved.lean`: finite operational definition of `P(m,n)` and
   maximum/witness/universal-bound APIs.
-- `GridGraphs/ResidueOneDual.lean` and `ResidueOneMax.lean`: complete
+- `GridGraphs/Constructions/ResidueOne/ResidueOneDual.lean` and `ResidueOneMax.lean`: complete
   residue-one dual connectivity, preserving construction, and lower bound.
-- `GridGraphs/ResidueZero*.lean`: recursive phase construction, exact
-  cardinality, symbolic transition/cap/frontier lemmas, and the isolated
-  remaining global frontier certificate.
-- `GridGraphs/DiagonalUpper.lean` and `DiagonalFormula.lean`: residue-wise
+- `GridGraphs/Constructions/ResidueZero/`: recursive phase construction, exact
+  cardinality, and the symbolic arbitrary-width construction proofs.
+- `GridGraphs/Constructions/ResidueTwo/ResidueTwoStaircaseForest.lean`: the
+  unconditional improved lower bound `3k^2+6k+2+k/2`, for k>=3. This does not
+  attain the conjectured stable target at all widths.
+- `GridGraphs/Results/DiagonalUpper.lean` and `DiagonalFormula.lean`: residue-wise
   conditional upper bounds and assembly of the proposed exact formula from
   four named structural/construction hypotheses.
-- `GridGraphs/DoubleComb.lean`: the L-bend forced subgraph and the
+- `GridGraphs/Constructions/DoubleComb.lean`: the L-bend forced subgraph and the
   simpler `topSpineColumns` spanning-tree candidate, with connectedness
   and top-row preservation. The IsTree proof and headline lower-bound
   theorem are deferred.
-- `GridGraphs/Tests.lean`: `decide`-based regression checks pinning Lean
+- `GridGraphs/Tests/Regression.lean`: `decide`-based regression checks pinning Lean
   values of bound expressions and vertex counts to known Rust DP outputs.
 - `GridGraphs.lean`: Aggregate import.
 - `STATUS.md`: Detailed proof-status ledger.
@@ -102,8 +139,7 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
   contains at least one corner outside the full-degree set.
 - `uResidueOne_card`: for `k ≥ 1`, the residue-1 diagonal `U` construction
   has `|U| = 6 * k^2 + k + 1`. Cardinality half of Proposition L1; the
-  acyclicity / forest-extension half is documented as deferred in
-  `STATUS.md`.
+  acyclicity and forest-extension results are also documented in `STATUS.md`.
 - `gridGraph_eq_boxProd`: the grid graph is the box product
   `pathGraph m □ pathGraph n` (enabling free connectivity / degree
   decomposition from mathlib).
@@ -115,8 +151,7 @@ the terminology in `docs/DERIVATION.md`; the two terms are interchangeable.
   vertices.
 - **`preserved_le_basicUB`** and **`preserved_le_refinedUB`**: the
   operational connection of both algebraic upper bounds to
-  `numPreserved m n T` for any spanning subtree. Phase 8 of
-  `docs/ROADMAP.md` complete (including the refined branch).
+  `numPreserved m n T` for any spanning subtree.
 - **`SimpleGraph.isAcyclic_extends_to_isTree`**: any acyclic subgraph of
   a finite connected graph extends to a spanning tree. Standalone,
   generic, mathlib-style.
@@ -142,9 +177,9 @@ references plus empirical evidence.
 The operational maximum and basic/refined upper bounds are proved. The exact
 diagonal formula remains conditional on the universal waste theorem, equality
 classification, residue-two tail exclusion, and missing construction cases.
-Residue one is complete; residue zero is reduced to
-`ResidueZeroInteriorReachability`; the arbitrary-width revised residue-two
-construction remains unknown.
+Residues zero and one have matching constructions, while their general exactness
+still needs upper bounds. The improved arbitrary-width residue-two family is
+proved, but the target-count family and sharp upper exclusions remain open.
 
 ## Build Instructions
 

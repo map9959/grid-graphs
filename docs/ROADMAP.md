@@ -2,6 +2,14 @@
 
 Updated: 2026-09-05.
 
+Source layout: the 190 Lean modules are now grouped under `Core`, `Forests`,
+`Geometry`, `Accounting`, `Routing`, `Surgery`, `Constructions`, `Results`,
+and `Tests`. Construction families have their own subfolders. Public theorem
+namespaces and the `import GridGraphs` entry point are unchanged; module
+imports and live path references have been updated. See `lean/README.md` for
+navigation. Verification recorded before this move does not certify the new
+module layout; a fresh warning-as-error check is required.
+
 ## Toolchain Migration Status
 
 The project now pins Lean `v4.33.1` and mathlib `v4.33.1`; the dependency
@@ -9,7 +17,7 @@ manifest and mathlib binary cache have been updated. The earlier successful
 7,521-job build below was on Lean `v4.24.0-rc1`, not the new toolchain.
 
 The boundary/test dependency chain now builds on 4.33.1:
-`lake build GridGraphs.BoundaryFiveConstruction GridGraphs.Tests` passed with
+`lake build GridGraphs.Constructions.BoundaryFive.BoundaryFiveConstruction GridGraphs.Tests.Regression` passed with
 8,732 jobs. The former `Forced`, `ResidueOne`, and `MarkedCycleFirstStop`
 blockers are fixed, along with further graph, component, contour, and
 construction API changes exposed downstream.
@@ -216,7 +224,7 @@ one more preserved vertex to an unchanged incidence architecture.
 
 ## 5. Formal Milestone And Next Gate
 
-Completed in `lean/GridGraphs/BoundaryFiveBudget.lean`:
+Completed in `lean/GridGraphs/Accounting/BoundaryFiveBudget.lean`:
 
 1. `five_le_boundaryDeficiencySum_compl`: `b>=5` for every feasible F and n>=5.
 2. `induced_components_le_three_mul_add_six`: `r<=3k+6` at target count.
@@ -229,7 +237,7 @@ specialize the obstructions to sides 23 and 20, without enumerating grids.
 The proof reuses the existing unit-cell unforced-edge theorem and forest
 extension/perimeter theorem; no new general routing framework was needed.
 
-Also completed in `lean/GridGraphs/BoundaryFiveEquality.lean`:
+Also completed in `lean/GridGraphs/Accounting/BoundaryFiveEquality.lean`:
 
 1. `boundaryDeficiencySum_compl_eq_five_corners_and_card`: all corners in F
    and exactly five complementary boundary vertices, n>=6.
@@ -466,21 +474,21 @@ a full Lean build and must not be reported as one.
 |---|---|
 | `analysis/RESIDUE_TWO_COMPONENT_BUDGET.md` | New paper proofs, exact qualifications, analytic gates |
 | `analysis/BOUNDARY_FIVE_PEELING.md` | Exact paper reduction to an inner boundary-rooted forest |
-| `lean/GridGraphs/BoundaryFiveBudget.lean` | Checked boundary bound and target component obstructions |
-| `lean/GridGraphs/BoundaryFiveEquality.lean` | Checked equality geometry, unique gap, and next-ring exclusion |
-| `lean/GridGraphs/BoundaryFiveFrame.lean` | Actual canonical frame, support tree, and spokes |
-| `lean/GridGraphs/BoundaryFiveAttachment.lean` | Exact canonical inner-attachment iff |
-| `lean/GridGraphs/BoundaryFiveConstruction.lean` | Counted concrete extension and lower-bound transfer |
-| `lean/GridGraphs/ResidueTwoStaircase.lean` | Improved family's coordinates, placement, and exact count |
-| `lean/GridGraphs/ResidueTwoStaircaseForest.lean` | Improved family's support geometry and unconditional lower bound |
-| `lean/GridGraphs/ForcedMaximum.lean` | Exact optimization equivalence |
-| `lean/GridGraphs/ComponentReduction.lean` | Existing exact ledger |
-| `lean/GridGraphs/SmallDiagonalExact.lean` | Structural small-grid proofs |
-| `lean/GridGraphs/ResidueTwoAffineMax.lean` | Uniform near-target lower bound and exact deficit |
-| `lean/GridGraphs/IntervalStarGluing.lean` | Reusable lower-bound acyclicity interface |
-| `lean/GridGraphs/UniversalPrimalContourRouting.lean` | Alternative upper-bound endpoint |
-| `lean/GridGraphs/DiagonalUpperResidue.lean` | Precise open upper hypotheses and adapters |
-| `lean/GridGraphs/DiagonalFormula.lean` | Remaining construction obligation and conditional assembly |
+| `lean/GridGraphs/Accounting/BoundaryFiveBudget.lean` | Checked boundary bound and target component obstructions |
+| `lean/GridGraphs/Accounting/BoundaryFiveEquality.lean` | Checked equality geometry, unique gap, and next-ring exclusion |
+| `lean/GridGraphs/Constructions/BoundaryFive/BoundaryFiveFrame.lean` | Actual canonical frame, support tree, and spokes |
+| `lean/GridGraphs/Constructions/BoundaryFive/BoundaryFiveAttachment.lean` | Exact canonical inner-attachment iff |
+| `lean/GridGraphs/Constructions/BoundaryFive/BoundaryFiveConstruction.lean` | Counted concrete extension and lower-bound transfer |
+| `lean/GridGraphs/Constructions/ResidueTwo/ResidueTwoStaircase.lean` | Improved family's coordinates, placement, and exact count |
+| `lean/GridGraphs/Constructions/ResidueTwo/ResidueTwoStaircaseForest.lean` | Improved family's support geometry and unconditional lower bound |
+| `lean/GridGraphs/Core/ForcedMaximum.lean` | Exact optimization equivalence |
+| `lean/GridGraphs/Accounting/ComponentReduction.lean` | Existing exact ledger |
+| `lean/GridGraphs/Results/SmallDiagonalExact.lean` | Structural small-grid proofs |
+| `lean/GridGraphs/Constructions/ResidueTwo/ResidueTwoAffineMax.lean` | Uniform near-target lower bound and exact deficit |
+| `lean/GridGraphs/Constructions/IntervalStarGluing.lean` | Reusable lower-bound acyclicity interface |
+| `lean/GridGraphs/Routing/UniversalPrimalContourRouting.lean` | Alternative upper-bound endpoint |
+| `lean/GridGraphs/Results/DiagonalUpperResidue.lean` | Precise open upper hypotheses and adapters |
+| `lean/GridGraphs/Results/DiagonalFormula.lean` | Remaining construction obligation and conditional assembly |
 | `lean/STATUS.md`, `lean/EVIDENCE.md` | Detailed source/evidence indexes, not substitutes for fresh verification |
 
 Start with these files. Consult historical notes only when their specific

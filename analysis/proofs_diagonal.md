@@ -111,7 +111,7 @@ Since `T` is acyclic, `H(F)` is acyclic.
 This is formalized in Lean as:
 
 ```text
-GridGraphs/Forced.lean
+GridGraphs/Core/Forced.lean
 forcedEdgeGraph_le_of_preserves
 forcedEdgeGraph_isAcyclic_of_preserves
 grid_forcedEdgeGraph_isAcyclic_of_preserves

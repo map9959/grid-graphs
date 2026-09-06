@@ -5,7 +5,7 @@ certificates are not used as induction hypotheses.
 
 ## Formal interface
 
-`GridGraphs/ReverseFrame.lean` defines `ReverseFrameTemplate`. A template
+`GridGraphs/Constructions/ReverseFrame.lean` defines `ReverseFrameTemplate`. A template
 contains:
 
 - a coordinate embedding of the old forced set;
@@ -46,7 +46,7 @@ The formal cardinal calculation gives
 |F(k+1)| = |F(k)| + 2N.
 ```
 
-This is implemented in `GridGraphs/ResidueOneReverseFrame.lean`. The current
+This is implemented in `GridGraphs/Constructions/ResidueOne/ResidueOneReverseFrame.lean`. The current
 template reconstructs `SequentiallyInsertable` from the already proved,
 uniform symbolic residue-one acyclicity theorem. Thus it proves the exact
 reverse-frame factorization without finite certificates, but it is not yet an

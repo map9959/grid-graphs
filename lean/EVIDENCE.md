@@ -39,7 +39,7 @@ coordinate geometry and forest gluing. It is strictly stronger than the affine
 bound for k>=8, not a proof of the conjectured optimum. The side-26 regression
 is a specialization of the arbitrary-width theorem, not a grid search.
 
-`GridGraphs/BoundaryFiveBudget.lean` proves `b>=5` for every feasible forced
+`GridGraphs/Accounting/BoundaryFiveBudget.lean` proves `b>=5` for every feasible forced
 set on a square of side at least five. Combined with the existing component
 ledger, it proves `r<=3k+6` at cardinality `3k^2+7k` on side `3k+2`, and
 rules out the retained `4k` and counter `4k+1` component architectures in
@@ -50,7 +50,7 @@ census results. The four exported theorems use only `propext`,
 The tests at sides 20 and 23 instantiate those universal theorems rather than
 evaluate or optimize grid configurations. Exact residue-two lower and upper
 bounds remain open. The boundary-five unique gap and next-ring exclusion are
-now checked in `GridGraphs/BoundaryFiveEquality.lean` on 4.33.1. Its five
+now checked in `GridGraphs/Accounting/BoundaryFiveEquality.lean` on 4.33.1. Its five
 exported results have axiom audits containing only `propext`, `Classical.choice`,
 and `Quot.sound`. Symbolic tests cover uniqueness at side 8 and next-ring
 exclusion at the threshold side 7.
@@ -64,7 +64,7 @@ the required cardinality and attachment type is still missing. Arbitrary-b=5
 normalization and the separate smaller-grid Q reformulation are not yet fully
 formalized; see `analysis/BOUNDARY_FIVE_PEELING.md`.
 
-### `GridGraphs/Defs.lean`
+### `GridGraphs/Core/Defs.lean`
 
 Definitions (no proofs needed): `numVerts`, `numHoriz`, `numVert`, `numEdges`,
 `degSumGrid`, `degSumTree`, `deficiency`, `numCorners`, `numBorderNonCorner`,
@@ -83,7 +83,7 @@ symmetry and irreflexivity (loopless), at `Defs.lean:112`.
 
 The grid graph also carries `Fintype`, `DecidableEq`, and `DecidableRel` instances at `Defs.lean:103,106,151`, so `(gridGraph m n).degree` is a real (computable) function. `gridDegree`, `isPreserved`, `vertexDeficiency`, and `numPreserved` are now defined in terms of mathlib's `SimpleGraph.degree` (no longer stubs).
 
-### `GridGraphs/Bounds.lean` — algebraic bound expressions
+### `GridGraphs/Core/Bounds.lean` — algebraic bound expressions
 
 Definitions: `D`, `I`, `ceilDiv3`, `basicUB`, `refinedUB`, `lowerB` matching the
 formulas in `docs/DERIVATION.md`.
@@ -123,7 +123,7 @@ so each color contains at least `n` non-preserved vertices.
 | **`maxPreserved_widthFour_eq_two_mul`** | **`maxPreserved 4 n = 2*n` for `n≥2`** |
 | `maxForcedAcyclic_widthFour_eq_two_mul` | exact forced-forest form of the same theorem |
 
-### `GridGraphs/Forced.lean` — forced edges
+### `GridGraphs/Core/Forced.lean` — forced edges
 
 | Lemma | Statement | Location |
 |-------|-----------|----------|
@@ -236,7 +236,7 @@ counts for the induced full-vertex graph use the subtype vertex set, so the
 empty-set case contributes zero components rather than ambient isolated
 vertices.
 
-### `GridGraphs/Diagonal.lean` — induced-edge decycling and cell hitting
+### `GridGraphs/Geometry/Diagonal.lean` — induced-edge decycling and cell hitting
 
 | Lemma | Statement | Location |
 |-------|-----------|----------|
@@ -252,7 +252,7 @@ vertices.
 | `preserved_set_cell_corner` | spanning-subgraph form of the cell-hitting condition | `Diagonal.lean:195` |
 | `connected_graph_has_spanning_tree` | wrapper around mathlib's `Connected.exists_isTree_le` | `Diagonal.lean:214` |
 
-### `GridGraphs/GridDual.lean` — explicit rectangular dual
+### `GridGraphs/Geometry/GridDual.lean` — explicit rectangular dual
 
 | Lemma | Statement | Location |
 |-------|-----------|----------|
@@ -299,7 +299,7 @@ principle used by both residue-two step interfaces: source adjacencies may map
 to target paths, and target vertices need only attach to the source image for
 connectivity to transport.
 
-### `GridGraphs/ResidueOne.lean` — residue-1 diagonal `U` cardinality
+### `GridGraphs/Constructions/ResidueOne/ResidueOne.lean` — residue-1 diagonal `U` cardinality
 
 For `n = 3k + 1` (square grid `n × n`), the residue-1 lower-bound construction
 `residue_one_pattern` from `analysis/diagonal_patterns.py` (see Proposition L1
@@ -394,7 +394,7 @@ the primal contour ledger proves
 No global injection is asserted yet: the remaining step is to compose the
 local routings through nested shores while discharging ports without reuse.
 
-### `GridGraphs/Spanning.lean` (refined) — `preserved_le_refinedUB`
+### `GridGraphs/Core/Spanning.lean` (refined) — `preserved_le_refinedUB`
 
 Phase 8.refined. Adds vertex-class predicates and the matching upper-bound
 theorem.
@@ -408,7 +408,7 @@ theorem.
 | **`preserved_le_refinedUB`** | **`numPreserved m n T ≤ refinedUB m n` for spanning subtrees** | `Spanning.lean` |
 | `forall_spanning_subtree_preserved_le_refinedUB` | ∀-quantified form | `Spanning.lean` |
 
-### `GridGraphs/ForestExtension.lean` — Forest extension
+### `GridGraphs/Forests/ForestExtension.lean` — Forest extension
 
 Standalone, generic lemma. Mathlib-style.
 
@@ -420,7 +420,7 @@ Generalises mathlib's `Connected.exists_isTree_le` (case `F = ⊥`). Used
 to convert any acyclic forced subgraph into a real spanning tree
 witness.
 
-### `GridGraphs/DoubleComb.lean` — Lower-bound construction (partial)
+### `GridGraphs/Constructions/DoubleComb.lean` — Lower-bound construction (partial)
 
 Definitions and connectivity for the simpler "top spine + every column"
 spanning-tree candidate, plus the L-bend forced-subgraph framework.
@@ -438,7 +438,7 @@ Still deferred (in this file): the `IsTree` proof of `topSpineColumns`
 (needs edge count via degree-sum + `isTree_iff_connected_and_card`), the
 headline existence theorem, and the L-bend acyclicity proof.
 
-### `GridGraphs/Tests.lean` — small-grid sanity tests
+### `GridGraphs/Tests/Regression.lean` — small-grid sanity tests
 
 A regression suite of `decide`-evaluated `example`s pinning Lean values
 of `D`, `basicUB`, `refinedUB`, `lowerB`, the vertex-class counts, and
@@ -446,7 +446,7 @@ of `D`, `basicUB`, `refinedUB`, `lowerB`, the vertex-class counts, and
 `lean/results-empirical.csv`. Any regression in the bound expressions or
 vertex counts breaks `lake build`.
 
-### `GridGraphs/Spanning.lean` — operational upper bound `P(m,n) ≤ basicUB m n`
+### `GridGraphs/Core/Spanning.lean` — operational upper bound `P(m,n) ≤ basicUB m n`
 
 Phase 8 from `docs/ROADMAP.md`. Bridges the algebraic bound expressions to
 the operational quantity `numPreserved m n T` for a spanning subtree `T`.
@@ -686,7 +686,7 @@ P(n, n) = ⌊n² / 3⌋ + n + C(n mod 3),    n ≥ 4,
 ```
 
 where `C(1) = −1`, `C(0) = C(2) = −2`. Equivalently, the non-full set has
-size `q(n)` from `lean/GridGraphs/ResidueOne.lean`'s `q` function, and
+size `q(n)` from `lean/GridGraphs/Constructions/ResidueOne/ResidueOne.lean`'s `q` function, and
 `P(n, n) = n² − q(n)`.
 
 | n  | P(n, n) | basicUB(n, n) | refinedUB(n, n) | conjectured P |

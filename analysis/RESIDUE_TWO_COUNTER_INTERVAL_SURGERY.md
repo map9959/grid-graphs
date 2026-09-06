@@ -10,7 +10,7 @@ The proposed `4k+1` distinct components violate this throughout the intended
 `k>=7` range. At k=7 it demands 29 components where at most 27 are possible.
 Merging labeled intervals changes the proposed skeleton. See
 `RESIDUE_TWO_COMPONENT_BUDGET.md` for the proof and qualifications. The general
-obstruction is now checked in `lean/GridGraphs/BoundaryFiveBudget.lean` as
+obstruction is now checked in `lean/GridGraphs/Accounting/BoundaryFiveBudget.lean` as
 `not_feasible_target_of_four_mul_add_one_le_components`. Applying it to this
 abstract skeleton still requires its nodes to be distinct maximal components.
 

@@ -2,9 +2,9 @@
 
 Date: 2026-09-05. Status: partially formalized, independently audited paper
 proof. No grid search or optimization was used. The bound b>=5 is proved in
-`lean/GridGraphs/BoundaryFiveBudget.lean`. The corner/boundary counts, unique
+`lean/GridGraphs/Accounting/BoundaryFiveBudget.lean`. The corner/boundary counts, unique
 perimeter gap, and all-U next ring (Sections 1-2) are now proved in
-`lean/GridGraphs/BoundaryFiveEquality.lean` on Lean 4.33.1. The concrete
+`lean/GridGraphs/Accounting/BoundaryFiveEquality.lean` on Lean 4.33.1. The concrete
 canonical frame tree, its exact inner-attachment iff, and counted extension
 are now checked in `BoundaryFiveFrame.lean`, `BoundaryFiveAttachment.lean`,
 and `BoundaryFiveConstruction.lean`. The formal attachment criterion uses the
@@ -198,7 +198,7 @@ rooted class, not arbitrary feasible F or arbitrary b=5 constructions.
 ## 8. Explicit Improved Inner Family (Formalized)
 
 The following coordinate construction is now formalized in
-`lean/GridGraphs/ResidueTwoStaircase.lean` and `ResidueTwoStaircaseForest.lean`.
+`lean/GridGraphs/Constructions/ResidueTwo/ResidueTwoStaircase.lean` and `ResidueTwoStaircaseForest.lean`.
 Lean checks the actual count, placement, support geometry, forced acyclicity,
 and unconditional bound transfer. It improves the affine arbitrary-width lower
 score but does not attain the stable target. No finite search was used.

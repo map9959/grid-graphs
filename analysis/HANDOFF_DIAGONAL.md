@@ -93,8 +93,8 @@ python3 analysis/tile_class_matrix.py < data/diagonal_u_14.txt
 | `analysis/crop_diff.py` | Compare residue-0/2 cached witnesses against cropped residue-1 patterns. |
 | `analysis/proofs_diagonal.md` | Complete proof program and computational findings; the authoritative source. |
 | `data/diagonal_u_{12,13,14,15}.txt` | Cached `fullub-pattern` outputs. |
-| `lean/GridGraphs/Forced.lean` | Forced-edge lemma (formalized). |
-| `lean/GridGraphs/Diagonal.lean` | Decycling-set lemma (formalized). |
+| `lean/GridGraphs/Core/Forced.lean` | Forced-edge lemma (formalized). |
+| `lean/GridGraphs/Geometry/Diagonal.lean` | Decycling-set lemma (formalized). |
 
 ## Two key technical observations to leverage
 

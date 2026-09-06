@@ -1,11 +1,17 @@
 # Proof Status
 
+Layout update: all 190 source modules have moved into proof-area subfolders.
+The aggregate import graph and public declaration namespaces are unchanged.
+The following historical build results predate that move; fresh verification
+must use the nested module paths. Five modules outside the aggregate closure
+are checked separately, without silently expanding the aggregate API.
+
 This file is the authoritative ledger of what is and isn't formally proven in
 the Lean project. The last successful full build was on Lean 4.24.0-rc1.
 
 Toolchain update, 2026-09-05: Lean and mathlib are pinned to 4.33.1. The
 boundary/test dependency chain has been ported and
-`lake build GridGraphs.BoundaryFiveConstruction GridGraphs.Tests` passes (8,732
+`lake build GridGraphs.Constructions.BoundaryFive.BoundaryFiveConstruction GridGraphs.Tests.Regression` passes (8,732
 jobs). Further graph, contour, and construction modules exposed by full builds
 were also ported and checked individually. Full-library validation now runs in
 the background without a time limit, at the user's request. Its log and final
@@ -87,7 +93,7 @@ The frame, attachment iff, count, and bound-transfer axiom audits contain only
 and the Q reformulation on a separate smaller vertex type remain partly
 paper-level; they are not needed to use this canonical lower construction.
 
-### `GridGraphs/BoundaryFiveEquality.lean` (2026-09-05, Lean 4.33.1)
+### `GridGraphs/Accounting/BoundaryFiveEquality.lean` (2026-09-05, Lean 4.33.1)
 
 - `boundaryDeficiencySum_compl_eq_five_corners_and_card`: for n>=6 and feasible
   F with complement boundary deficiency five, all corners are in F and exactly
@@ -107,7 +113,7 @@ The canonical frame and attachment results are now checked as above. The full
 arbitrary-configuration normalization and deep-square Q reformulation remain
 partly paper-level.
 
-### `GridGraphs/BoundaryFiveBudget.lean` (2026-09-05)
+### `GridGraphs/Accounting/BoundaryFiveBudget.lean` (2026-09-05)
 
 - `five_le_boundaryDeficiencySum_compl`: every feasible forced set on a square
   of side at least five has complement boundary deficiency at least five.
@@ -127,7 +133,7 @@ next-ring exclusion, the canonical frame, and its two-way attachment criterion
 are now formalized as above. The scope limits for the full peeling statement
 are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
 
-### `GridGraphs/Defs.lean`
+### `GridGraphs/Core/Defs.lean`
 - `numEdges_eq`: `numEdges m n = m*(n-1) + n*(m-1)`.
 - `succ_mul_succ_sub_one`: `(a+1)*(b+1) - 1 = a*b + a + b`.
 - `deficiency_succ_succ`: `deficiency (m+1) (n+1) = 2*m*n`.
@@ -145,7 +151,7 @@ are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
 - `verts_partition`: `numCorners m n + numBorderNonCorner m n + numInterior m n = m * n`.
   Pure arithmetic case-analysis on the `{0, 1, ≥2}` shape of `m, n`.
 
-### `GridGraphs/Bounds.lean`
+### `GridGraphs/Core/Bounds.lean`
 - Definitions of `D`, `I`, `ceilDiv3`, `basicUB`, `refinedUB`, `lowerB` matching
   `docs/DERIVATION.md`.
 - `ceilDiv3_mul_ge`, `ceilDiv3_mul_le`, `ceilDiv3_mono`, `ceilDiv3_three_mul`:
@@ -162,7 +168,7 @@ are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
 - `refinedUB_le_basicUB`: `refinedUB m n ≤ basicUB m n` (`m, n ≥ 1`). Matches
   the Rust assertion in `refined_never_worse_and_valid`.
 
-### `GridGraphs/Forced.lean`
+### `GridGraphs/Core/Forced.lean`
 - `forcedEdgeGraph G F`: the graph of all `G`-edges incident to at least one
   vertex of `F`.
 - `preservesIncidentEdges G T v`: edge-containment formulation of a vertex being
@@ -176,33 +182,33 @@ are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
   the acyclicity lemma.
 
 ### Incidence waste and component ledgers
-- `GridGraphs/IncidenceWaste.lean` defines `supportFinset`, `newSupport`,
+- `GridGraphs/Accounting/IncidenceWaste.lean` defines `supportFinset`, `newSupport`,
   `lostSupport`, and `incidenceWaste` for finite simple graphs.
 - `incidenceWaste_add_twice_card_edges` proves
   `W + 2|E| = 3|support|` under the degree-three cap.
 - `incidenceWaste_exchange_balance` and `incidenceWaste_int_delta` prove the
   exact arbitrary equal-edge exchange formula, including shared endpoints and
   multi-edge exchanges.
-- `GridGraphs/ForestLedger.lean` proves
+- `GridGraphs/Accounting/ForestLedger.lean` proves
   `|E(H)| + c(H) = |V(H)|` for every finite acyclic simple graph.
-- `GridGraphs/ForcedForestLedger.lean` instantiates this identity for the
+- `GridGraphs/Accounting/ForcedForestLedger.lean` instantiates this identity for the
   ambient forced forest and for the induced graph on the forced-vertex subtype.
-- `GridGraphs/ComponentReduction.lean` proves restricted handshaking and the
+- `GridGraphs/Accounting/ComponentReduction.lean` proves restricted handshaking and the
   exact subtraction-free component identity. Its square `U`-form is
   `square_grid_component_reduction_compl`.
 - `grid_prefix_component_ledger` gives the exact subtraction-free row-prefix
   charge identity; the remaining universal bound is the terminal
   boundary/component inequality, not an unidentified additive potential.
-- `GridGraphs/CotreeWaste.lean` identifies the support and degrees of
+- `GridGraphs/Accounting/CotreeWaste.lean` identifies the support and degrees of
   `gridGraph m n \ T` with non-preserved vertices and deficiencies, and proves
   `W + D + 3*numPreserved = 3mn`.
 - `diagonal_cotree_incidenceWaste_ge_iff_preserved_bound` formally identifies
   the open diagonal waste bound with the full-degree spanning-tree bound.
-- `GridGraphs/TreeComponentBridge.lean` proves that the full-vertex forced
+- `GridGraphs/Accounting/TreeComponentBridge.lean` proves that the full-vertex forced
   graph attached to a cotree support is acyclic and that its square component
   charge is exactly `incidenceWaste + 2`.
 
-### `GridGraphs/Diagonal.lean`
+### `GridGraphs/Geometry/Diagonal.lean`
 - `IsInducedEdgeDecyclingSet G U`: the named condition that deleting all
   edges internal to `U` leaves a forest, represented as acyclicity of
   `forcedEdgeGraph G Uᶜ`.
@@ -236,7 +242,7 @@ are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
 - `connected_graph_has_spanning_tree`: any finite connected graph has a
   spanning tree subgraph (wrapper around mathlib's `Connected.exists_isTree_le`).
 
-### `GridGraphs/GridDual.lean`
+### `GridGraphs/Geometry/GridDual.lean`
 - `GridFace`, `HorizontalGridEdge`, `VerticalGridEdge`: explicit rectangular
   grid faces and oriented primal-edge coordinates.
 - `horizontalDualEndpoints`, `verticalDualEndpoints`: the two faces across each
@@ -300,7 +306,7 @@ are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
 - `exists_isTree_preserving_compl_of_uuDual_connected_grid`: unconditional
   preserving-tree endpoint from U-U dual connectivity and grid connectivity.
 
-### `GridGraphs/Spanning.lean` — refined upper bound (Phase 8.refined)
+### `GridGraphs/Core/Spanning.lean` — refined upper bound (Phase 8.refined)
 - `isCornerVertex`, `isBorderVertex`, `isInteriorVertex`: vertex-class
   predicates with decidability instances.
 - `vertexClass_trichotomy`: every grid vertex is exactly one of corner /
@@ -313,14 +319,14 @@ are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
   `numPreserved m n T ≤ refinedUB m n`. Closes Phase 8.refined.
 - `forall_spanning_subtree_preserved_le_refinedUB`: ∀-quantified form.
 
-### `GridGraphs/ForestExtension.lean`
+### `GridGraphs/Forests/ForestExtension.lean`
 - **`SimpleGraph.isAcyclic_extends_to_isTree`**: any acyclic subgraph
   `F ≤ G` of a finite connected graph extends to a spanning tree of `G`.
   Generalises mathlib's `Connected.exists_isTree_le` (which is the case
   `F = ⊥`). Reusable mathlib-style lemma; key input for converting the
   diagonal residue-1 forced forest to a spanning tree.
 
-### `GridGraphs/DoubleComb.lean`
+### `GridGraphs/Constructions/DoubleComb.lean`
 - `lBendForcedAdj` / `lBendForced`: the L-bend forced subgraph adjacency
   and `SimpleGraph` definition. Forces top-row + left-column preservation.
 - `lBendForced_le_gridGraph`: the L-bend forced subgraph is contained in
@@ -340,14 +346,14 @@ are recorded in `analysis/BOUNDARY_FIVE_PEELING.md`.
   lower bound. The infrastructure (definitions, connectedness,
   preservation lemma) is in place.
 
-### `GridGraphs/Tests.lean`
+### `GridGraphs/Tests/Regression.lean`
 - `decide`-based regression checks pinning Lean definitions of `D`,
   `basicUB`, `refinedUB`, `lowerB`, the vertex-class counts, and
   `uResidueOne k` cardinalities to specific small-grid values that match
   the Rust DP empirical data in `lean/results-empirical.csv`. A regression
   in any bound expression breaks the build.
 
-### `GridGraphs/Spanning.lean` — operational upper bound `P(m, n) ≤ basicUB m n`
+### `GridGraphs/Core/Spanning.lean` — operational upper bound `P(m, n) ≤ basicUB m n`
 
 This module bridges the algebraic bound expressions in `Bounds.lean` to
 the operational quantity `numPreserved m n T` for a spanning subtree `T`,
@@ -392,7 +398,7 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   `numPreserved m n T ≤ basicUB m n`. Phase 8 from `docs/ROADMAP.md`.
 - `forall_spanning_subtree_preserved_le_basicUB`: ∀-quantified form.
 
-### `GridGraphs/ResidueOne.lean`
+### `GridGraphs/Constructions/ResidueOne/ResidueOne.lean`
 - `isInUResidueOne k r c`: predicate defining the residue-1 non-full set
   `U` of the `(3k+1) × (3k+1)` grid (cf. `analysis/diagonal_patterns.py`'s
   `residue_one_pattern`).
@@ -403,7 +409,7 @@ formalising Phase 8 of `docs/ROADMAP.md`.
 - `uResidueOne_card_eq_q`: the proven cardinality equals `q (3k + 1)`.
 
 ### Operational maximum and diagonal constructions
-- `GridGraphs/MaxPreserved.lean` defines the finite spanning-subtree set,
+- `GridGraphs/Core/MaxPreserved.lean` defines the finite spanning-subtree set,
   `preservedScore`, and the operational maximum `maxPreserved m n`.
 - Every witness is bounded by `maxPreserved`; every universal tree bound bounds
   it; and a maximizing tree exists for nonempty grids.
@@ -418,13 +424,13 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   two disjoint acyclic combs and therefore give `2n` preserved vertices.
   `WidthFourExact.lean` proves the matching checkerboard-waste upper bound and
   the unconditional exact theorem `maxPreserved 4 n = 2n` for every `n>=2`.
-- `GridGraphs/ResidueOneDual.lean` proves
+- `GridGraphs/Constructions/ResidueOne/ResidueOneDual.lean` proves
   `uuDualGraph_uResidueOne_connected`, forced-complement acyclicity, and a
   preserving spanning-tree witness for every `k>=1`.
-- `GridGraphs/ResidueOneMax.lean` proves the unconditional lower bound
+- `GridGraphs/Constructions/ResidueOne/ResidueOneMax.lean` proves the unconditional lower bound
   `3k^2+5k <= maxPreserved (3k+1) (3k+1)` and the exact residue-one value
   conditional only on the universal incidence-waste bound.
-- `GridGraphs/ResidueZero.lean` encodes the recursive phase family for `k>=7`
+- `GridGraphs/Constructions/ResidueZero/ResidueZero.lean` encodes the recursive phase family for `k>=7`
   and proves its exact cardinality `6k^2-3k+2`.
 - `ResidueZeroTransitions`, `ResidueZeroWord`, `ResidueZeroFrontier`, and
   `ResidueZeroCaps` prove the six symbolic transition classes and their local
@@ -437,7 +443,7 @@ formalising Phase 8 of `docs/ROADMAP.md`.
 - `FiniteDiagonalConstructions.lean` and the width-specific finite modules
   prove target lower bounds at `n=3,5,6,8,9,11,12,14,15,17,18,20`, using
   explicit row masks, parent/rank tables, and symbolic U-U dual edges.
-- `GridGraphs/DiagonalUpper.lean` proves all four residue-wise operational upper
+- `GridGraphs/Results/DiagonalUpper.lean` proves all four residue-wise operational upper
   bounds from the named waste/equality exclusions.
 - `PerimeterWaste.lean` proves unconditionally that cotree incidence waste is
   at least three in residue one and at least four in residues zero and two,
@@ -865,7 +871,7 @@ formalising Phase 8 of `docs/ROADMAP.md`.
   `W+1` is boundary deficiency on cotree support, plus tree edges internal to
   that support, plus the number of full-vertex components. Thus `W>=n` is
   exactly an `n+1` lower bound on this concrete three-term charge.
-- `GridGraphs/DiagonalFormula.lean` defines `diagonalFormulaP` and proves
+- `GridGraphs/Results/DiagonalFormula.lean` defines `diagonalFormulaP` and proves
   `maxPreserved_eq_diagonalFormulaP` for every `n>=3` from four explicit
   hypotheses. Its strengthened `maxPreserved_eq_diagonalFormulaP_of_remaining`
   uses all completed constructions and assumes only the residue-two

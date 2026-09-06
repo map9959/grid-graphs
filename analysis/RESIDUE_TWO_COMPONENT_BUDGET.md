@@ -2,7 +2,7 @@
 
 Date: 2026-09-05. Status: independently reviewed deductions from the existing
 exact ledger. The five-unit boundary bound and target component obstructions
-are now proved in `lean/GridGraphs/BoundaryFiveBudget.lean`. Equality corner
+are now proved in `lean/GridGraphs/Accounting/BoundaryFiveBudget.lean`. Equality corner
 counts, the unique perimeter gap, and next-ring exclusion are also checked in
 `BoundaryFiveEquality.lean`; the remaining peeling geometry is paper-level. This is
 not a solution of the conjecture. No optimization or finite grid search was used.

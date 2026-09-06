@@ -1,0 +1,560 @@
+import GridGraphs.Forests.PlaneChannelForest
+import GridGraphs.Routing.NoncrossingShoreChannels
+import GridGraphs.Core.MaxPreserved
+
+/-!
+# Channel forests routed into the primal contour ledger
+
+This file is the generic bridge between an already-realized plane channel
+forest and the exact primal contour resource.  The three geometric realization
+maps remain explicit: exits use boundary sectors, merger slots use internal
+tree edges, and roots use full components of the unsupported induced graph.
+-/
+
+namespace GridGraphs
+
+open Finset SimpleGraph
+
+namespace PlaneChannelForest
+
+variable {V : Type*} [Fintype V] [DecidableEq V]
+
+/-- Realize the abstract channel-forest resource in the corresponding three
+summands of the primal contour resource. -/
+def contourResourceEmbedding {n : Nat}
+    (C : PlaneChannelForest V)
+    (T : SimpleGraph (GridVertex n n)) [DecidableRel T.Adj]
+    (U : Finset (GridVertex n n))
+    (exitEmbedding : (↥C.exits) ↪ BoundarySector U)
+    (mergerEmbedding : C.forest.MergerSlot ↪ ↥(internalEdgeFinset T U))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph n n).induce
+        (↑((Finset.univ : Finset (GridVertex n n)) \ U) :
+          Set (GridVertex n n))).ConnectedComponent) :
+    C.Resource ↪ PrimalContourResource T U where
+  toFun
+    | Sum.inl exit => Sum.inl (exitEmbedding exit)
+    | Sum.inr (Sum.inl merger) => Sum.inr (Sum.inl (mergerEmbedding merger))
+    | Sum.inr (Sum.inr root) => Sum.inr (Sum.inr (rootEmbedding root))
+  inj' := by
+    intro a b h
+    rcases a with exit | mergerOrRoot
+    · rcases b with exit' | mergerOrRoot'
+      · congr 1
+        exact exitEmbedding.injective (Sum.inl.inj h)
+      · cases mergerOrRoot' <;> simp at h
+    · rcases mergerOrRoot with merger | root
+      · rcases b with exit' | mergerOrRoot'
+        · simp at h
+        · rcases mergerOrRoot' with merger' | root'
+          · congr 2
+            exact mergerEmbedding.injective (Sum.inl.inj (Sum.inr.inj h))
+          · exact (Sum.inl_ne_inr (Sum.inr.inj h)).elim
+      · rcases b with exit' | mergerOrRoot'
+        · simp at h
+        · rcases mergerOrRoot' with merger' | root'
+          · exact (Sum.inr_ne_inl (Sum.inr.inj h)).elim
+          · congr 2
+            exact rootEmbedding.injective (Sum.inr.inj (Sum.inr.inj h))
+
+/-- Realize exits separately while routing merger slots and roots jointly.  The
+joint map is needed when a noninternal merger consumes a preserved component
+rather than an internal tree edge. -/
+def contourResourceEmbeddingCombined {n : Nat}
+    (C : PlaneChannelForest V)
+    (T : SimpleGraph (GridVertex n n)) [DecidableRel T.Adj]
+    (U : Finset (GridVertex n n))
+    (exitEmbedding : (↥C.exits) ↪ BoundarySector U)
+    (mergerRootEmbedding : (C.forest.MergerSlot ⊕ ↥C.forest.roots) ↪
+      (↥(internalEdgeFinset T U) ⊕
+        ((gridGraph n n).induce
+          (↑((Finset.univ : Finset (GridVertex n n)) \ U) :
+            Set (GridVertex n n))).ConnectedComponent)) :
+    C.Resource ↪ PrimalContourResource T U where
+  toFun
+    | Sum.inl exit => Sum.inl (exitEmbedding exit)
+    | Sum.inr mergerOrRoot => Sum.inr (mergerRootEmbedding mergerOrRoot)
+  inj' := by
+    intro a b h
+    rcases a with exit | mergerOrRoot <;>
+      rcases b with exit' | mergerOrRoot'
+    · congr 1
+      exact exitEmbedding.injective (Sum.inl.inj h)
+    · simp at h
+    · simp at h
+    · congr 1
+      exact mergerRootEmbedding.injective (Sum.inr.inj h)
+
+/-- Realize direct boundary terminations together with the exits of the
+continuing channel forest.  A demand that exits immediately does not create a
+spurious forest root. -/
+def contourResourceEmbeddingWithDirectExits {D : Type*} {n : Nat}
+    (C : PlaneChannelForest V)
+    (directExits : Finset D)
+    (T : SimpleGraph (GridVertex n n)) [DecidableRel T.Adj]
+    (U : Finset (GridVertex n n))
+    (exitEmbedding : (↥directExits ⊕ ↥C.exits) ↪ BoundarySector U)
+    (mergerRootEmbedding : (C.forest.MergerSlot ⊕ ↥C.forest.roots) ↪
+      (↥(internalEdgeFinset T U) ⊕
+        ((gridGraph n n).induce
+          (↑((Finset.univ : Finset (GridVertex n n)) \ U) :
+            Set (GridVertex n n))).ConnectedComponent)) :
+    (↥directExits ⊕ C.Resource) ↪ PrimalContourResource T U where
+  toFun
+    | Sum.inl direct => Sum.inl (exitEmbedding (Sum.inl direct))
+    | Sum.inr (Sum.inl exit) => Sum.inl (exitEmbedding (Sum.inr exit))
+    | Sum.inr (Sum.inr mergerOrRoot) =>
+        Sum.inr (mergerRootEmbedding mergerOrRoot)
+  inj' := by
+    intro a b h
+    rcases a with direct | exitOrResource
+    · rcases b with direct' | exitOrResource'
+      · congr 1
+        exact Sum.inl.inj (exitEmbedding.injective (Sum.inl.inj h))
+      · rcases exitOrResource' with exit' | mergerOrRoot'
+        · have hfalse := exitEmbedding.injective (Sum.inl.inj h)
+          exact (Sum.inl_ne_inr hfalse).elim
+        · simp at h
+    · rcases exitOrResource with exit | mergerOrRoot
+      · rcases b with direct' | exitOrResource'
+        · have hfalse := exitEmbedding.injective (Sum.inl.inj h)
+          exact (Sum.inr_ne_inl hfalse).elim
+        · rcases exitOrResource' with exit' | mergerOrRoot'
+          · congr 2
+            exact Sum.inr.inj (exitEmbedding.injective (Sum.inl.inj h))
+          · simp at h
+      · rcases b with direct' | exitOrResource'
+        · simp at h
+        · rcases exitOrResource' with exit' | mergerOrRoot'
+          · simp at h
+          · congr 2
+            exact mergerRootEmbedding.injective (Sum.inr.inj h)
+
+/-- Resource type for a forest pruned at later exits.  An exit root consumes a
+boundary sector instead of also consuming an internal-edge/component terminal. -/
+def PrunedRootResource (C : PlaneChannelForest V) :=
+  ↥C.exits ⊕
+    (C.forest.MergerSlot ⊕ ↥(C.forest.roots \ C.exits))
+
+noncomputable instance prunedRootResourceFintype
+    (C : PlaneChannelForest V) : Fintype C.PrunedRootResource := by
+  unfold PrunedRootResource
+  infer_instance
+
+noncomputable def prunedRootDemandEmbedding
+    (C : PlaneChannelForest V)
+    (hdemand : C.demand ⊆ C.forest.leaves)
+    (hexits : C.exits ⊆ C.forest.roots) :
+    ↥C.demand ↪ C.PrunedRootResource := by
+  classical
+  apply Classical.choice
+  apply Function.Embedding.nonempty_of_card_le
+  simp only [PrunedRootResource, Fintype.card_sum, Fintype.card_coe,
+    ParentForest.card_mergerSlot]
+  have hdemandCard : C.demand.card ≤ C.forest.leaves.card :=
+    Finset.card_le_card hdemand
+  have hrootPartition :
+      C.exits.card + (C.forest.roots \ C.exits).card = C.forest.roots.card := by
+    simpa only [Nat.add_comm] using
+      (Finset.card_sdiff_add_card_eq_card hexits)
+  rw [C.forest.card_leaves_eq_card_roots_add_branchExcess] at hdemandCard
+  omega
+
+noncomputable def canonicalShoreDemandPrunedRootEmbeddingWithDirectExits
+    {n : Nat} (axis : ShoreSweepAxis) (C : PlaneChannelForest V)
+    (directExits : Finset (CanonicalShoreDemand axis n))
+    (continuingEmbedding :
+      ↥((Finset.univ : Finset (CanonicalShoreDemand axis n)) \ directExits) ↪
+        ↥C.demand)
+    (hdemand : C.demand ⊆ C.forest.leaves)
+    (hexits : C.exits ⊆ C.forest.roots) :
+    CanonicalShoreDemand axis n ↪ (↥directExits ⊕ C.PrunedRootResource) where
+  toFun q := if hq : q ∈ directExits then
+      Sum.inl ⟨q, hq⟩
+    else
+      Sum.inr (C.prunedRootDemandEmbedding hdemand hexits (continuingEmbedding
+        ⟨q, Finset.mem_sdiff.mpr ⟨Finset.mem_univ q, hq⟩⟩))
+  inj' := by
+    classical
+    intro a b hab
+    by_cases ha : a ∈ directExits <;> by_cases hb : b ∈ directExits
+    · simp only [ha, hb, dite_true] at hab
+      exact congrArg Subtype.val (Sum.inl.inj hab)
+    · simp only [ha, hb, dite_true, dite_false] at hab
+      exact (Sum.inl_ne_inr hab).elim
+    · simp only [ha, hb, dite_true, dite_false] at hab
+      exact (Sum.inr_ne_inl hab).elim
+    · simp only [ha, hb, dite_false] at hab
+      have hd := (C.prunedRootDemandEmbedding hdemand hexits).injective
+        (Sum.inr.inj hab)
+      exact congrArg Subtype.val (continuingEmbedding.injective hd)
+
+def contourPrunedRootResourceEmbeddingWithDirectExits {D : Type*} {n : Nat}
+    (C : PlaneChannelForest V)
+    (directExits : Finset D)
+    (T : SimpleGraph (GridVertex n n)) [DecidableRel T.Adj]
+    (U : Finset (GridVertex n n))
+    (exitEmbedding : (↥directExits ⊕ ↥C.exits) ↪ BoundarySector U)
+    (terminalEmbedding :
+      (C.forest.MergerSlot ⊕ ↥(C.forest.roots \ C.exits)) ↪
+        (↥(internalEdgeFinset T U) ⊕
+          ((gridGraph n n).induce
+            (↑((Finset.univ : Finset (GridVertex n n)) \ U) :
+              Set (GridVertex n n))).ConnectedComponent)) :
+    (↥directExits ⊕ C.PrunedRootResource) ↪ PrimalContourResource T U where
+  toFun
+    | .inl direct => .inl (exitEmbedding (.inl direct))
+    | .inr (.inl exit) => .inl (exitEmbedding (.inr exit))
+    | .inr (.inr terminal) => .inr (terminalEmbedding terminal)
+  inj' := by
+    intro a b h
+    rcases a with direct | exitOrTerminal
+    · rcases b with direct' | exitOrTerminal'
+      · congr 1
+        exact Sum.inl.inj (exitEmbedding.injective (Sum.inl.inj h))
+      · rcases exitOrTerminal' with exit' | terminal'
+        · have hf := exitEmbedding.injective (Sum.inl.inj h)
+          exact (Sum.inl_ne_inr hf).elim
+        · simp at h
+    · rcases b with direct' | exitOrTerminal'
+      · rcases exitOrTerminal with exit | terminal
+        · have hf := exitEmbedding.injective (Sum.inl.inj h)
+          exact (Sum.inr_ne_inl hf).elim
+        · simp at h
+      · rcases exitOrTerminal with exit | terminal
+        · rcases exitOrTerminal' with exit' | terminal'
+          · congr 2
+            exact Sum.inr.inj (exitEmbedding.injective (Sum.inl.inj h))
+          · simp at h
+        · rcases exitOrTerminal' with exit' | terminal'
+          · simp at h
+          · congr 2
+            exact terminalEmbedding.injective (Sum.inr.inj h)
+
+/-- Split canonical demands into immediate exits and demands entering the
+continuing channel forest. -/
+noncomputable def canonicalShoreDemandResourceEmbeddingWithDirectExits
+    {n : Nat} (axis : ShoreSweepAxis) (C : PlaneChannelForest V)
+    (directExits : Finset (CanonicalShoreDemand axis n))
+    (continuingEmbedding :
+      ↥((Finset.univ : Finset (CanonicalShoreDemand axis n)) \ directExits) ↪
+        ↥C.demand) :
+    CanonicalShoreDemand axis n ↪ (↥directExits ⊕ C.Resource) where
+  toFun q := if hq : q ∈ directExits then
+      Sum.inl ⟨q, hq⟩
+    else
+      Sum.inr (C.demandEmbedding (continuingEmbedding
+        ⟨q, Finset.mem_sdiff.mpr ⟨Finset.mem_univ q, hq⟩⟩))
+  inj' := by
+    classical
+    intro a b hab
+    by_cases ha : a ∈ directExits <;> by_cases hb : b ∈ directExits
+    · simp only [ha, hb, dite_true] at hab
+      exact congrArg Subtype.val (Sum.inl.inj hab)
+    · simp only [ha, hb, dite_true, dite_false] at hab
+      exact (Sum.inl_ne_inr hab).elim
+    · simp only [ha, hb, dite_true, dite_false] at hab
+      exact (Sum.inr_ne_inl hab).elim
+    · simp only [ha, hb, dite_false] at hab
+      have hdemand := C.demandEmbedding.injective (Sum.inr.inj hab)
+      have hcontinuing := continuingEmbedding.injective hdemand
+      exact congrArg Subtype.val hcontinuing
+
+/-- A canonical shore demand embeds in the exact contour ledger once the
+channel demands and each of the three kinds of geometric terminal have been
+realized.  In particular, no embedding into the final resource is assumed. -/
+noncomputable def canonicalShoreDemandContourEmbedding {n : Nat}
+    (axis : ShoreSweepAxis) (C : PlaneChannelForest V)
+    (T : SimpleGraph (GridVertex n n)) [DecidableRel T.Adj]
+    (U : Finset (GridVertex n n))
+    (demandEmbedding : CanonicalShoreDemand axis n ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪ BoundarySector U)
+    (mergerEmbedding : C.forest.MergerSlot ↪ ↥(internalEdgeFinset T U))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph n n).induce
+        (↑((Finset.univ : Finset (GridVertex n n)) \ U) :
+          Set (GridVertex n n))).ConnectedComponent) :
+    CanonicalShoreDemand axis n ↪ PrimalContourResource T U :=
+  demandEmbedding.trans <| (C.demandEmbedding.trans <|
+    C.contourResourceEmbedding T U exitEmbedding mergerEmbedding rootEmbedding)
+
+/-- Generic channel-to-contour bound.  All geometric content is confined to
+the four typed embeddings; the conclusion then follows from forest pruning and
+the exact contour ledger. -/
+theorem incidenceWaste_ge_of_channelContourRouting {n : Nat} (hn : 2 ≤ n)
+    (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis n ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (mergerEmbedding : C.forest.MergerSlot ↪
+      ↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph n n).induce
+        (↑((Finset.univ : Finset (GridVertex n n)) \
+          supportFinset (gridGraph n n \ T)) :
+          Set (GridVertex n n))).ConnectedComponent) :
+    n + 2 ≤ incidenceWaste (gridGraph n n \ T) := by
+  let U := supportFinset (gridGraph n n \ T)
+  let routed : CanonicalShoreDemand axis n ↪ PrimalContourResource T U :=
+    C.canonicalShoreDemandContourEmbedding axis T U demandEmbedding
+      exitEmbedding mergerEmbedding rootEmbedding
+  have hcard : n + 3 ≤ Fintype.card (PrimalContourResource T U) := by
+    rw [← CanonicalShoreDemand.card axis n]
+    exact Fintype.card_le_of_injective routed.toFun routed.injective
+  have hledger :=
+    cotree_incidenceWaste_add_one_eq_card_primalContourResource hn hT
+  change incidenceWaste (gridGraph n n \ T) + 1 =
+    Fintype.card (PrimalContourResource T U) at hledger
+  rw [← hledger] at hcard
+  change (n + 2) + 1 ≤ incidenceWaste (gridGraph n n \ T) + 1 at hcard
+  exact Nat.le_of_add_le_add_right hcard
+
+/-- Generic channel-to-contour bound using the joint merger/root resource map
+provided by channel-merger factorization. -/
+theorem incidenceWaste_ge_of_combinedChannelContourRouting
+    {n : Nat} (hn : 2 ≤ n) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis n ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (mergerRootEmbedding : (C.forest.MergerSlot ⊕ ↥C.forest.roots) ↪
+      (↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))) ⊕
+        ((gridGraph n n).induce
+          (↑((Finset.univ : Finset (GridVertex n n)) \
+            supportFinset (gridGraph n n \ T)) :
+            Set (GridVertex n n))).ConnectedComponent)) :
+    n + 2 ≤ incidenceWaste (gridGraph n n \ T) := by
+  let U := supportFinset (gridGraph n n \ T)
+  let routed : CanonicalShoreDemand axis n ↪ PrimalContourResource T U :=
+    demandEmbedding.trans <| C.demandEmbedding.trans <|
+      C.contourResourceEmbeddingCombined T U exitEmbedding mergerRootEmbedding
+  have hcard : n + 3 ≤ Fintype.card (PrimalContourResource T U) := by
+    rw [← CanonicalShoreDemand.card axis n]
+    exact Fintype.card_le_of_injective routed.toFun routed.injective
+  have hledger :=
+    cotree_incidenceWaste_add_one_eq_card_primalContourResource hn hT
+  change incidenceWaste (gridGraph n n \ T) + 1 =
+    Fintype.card (PrimalContourResource T U) at hledger
+  rw [← hledger] at hcard
+  change (n + 2) + 1 ≤ incidenceWaste (gridGraph n n \ T) + 1 at hcard
+  exact Nat.le_of_add_le_add_right hcard
+
+/-- Channel-to-contour bound allowing some canonical demands to terminate at
+the boundary before entering the pruned forest. -/
+theorem incidenceWaste_ge_of_channelContourRoutingWithDirectExits
+    {n : Nat} (hn : 2 ≤ n) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (C : PlaneChannelForest V)
+    (directExits : Finset (CanonicalShoreDemand axis n))
+    (continuingEmbedding :
+      ↥((Finset.univ : Finset (CanonicalShoreDemand axis n)) \ directExits) ↪
+        ↥C.demand)
+    (exitEmbedding : (↥directExits ⊕ ↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (mergerRootEmbedding : (C.forest.MergerSlot ⊕ ↥C.forest.roots) ↪
+      (↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))) ⊕
+        ((gridGraph n n).induce
+          (↑((Finset.univ : Finset (GridVertex n n)) \
+            supportFinset (gridGraph n n \ T)) :
+            Set (GridVertex n n))).ConnectedComponent)) :
+    n + 2 ≤ incidenceWaste (gridGraph n n \ T) := by
+  let U := supportFinset (gridGraph n n \ T)
+  let routed : CanonicalShoreDemand axis n ↪ PrimalContourResource T U :=
+    (canonicalShoreDemandResourceEmbeddingWithDirectExits axis C directExits
+      continuingEmbedding).trans
+      (C.contourResourceEmbeddingWithDirectExits directExits T U exitEmbedding
+        mergerRootEmbedding)
+  have hcard : n + 3 ≤ Fintype.card (PrimalContourResource T U) := by
+    rw [← CanonicalShoreDemand.card axis n]
+    exact Fintype.card_le_of_injective routed.toFun routed.injective
+  have hledger :=
+    cotree_incidenceWaste_add_one_eq_card_primalContourResource hn hT
+  change incidenceWaste (gridGraph n n \ T) + 1 =
+    Fintype.card (PrimalContourResource T U) at hledger
+  rw [← hledger] at hcard
+  change (n + 2) + 1 ≤ incidenceWaste (gridGraph n n \ T) + 1 at hcard
+  exact Nat.le_of_add_le_add_right hcard
+
+/-- Corrected pruning bound when later exits are roots of the truncated forest.
+Such a root uses its boundary exit and is removed from the separate terminal
+resource rather than being counted twice. -/
+theorem incidenceWaste_ge_of_prunedRootChannelRoutingWithDirectExits
+    {n : Nat} (hn : 2 ≤ n) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (C : PlaneChannelForest V)
+    (directExits : Finset (CanonicalShoreDemand axis n))
+    (continuingEmbedding :
+      ↥((Finset.univ : Finset (CanonicalShoreDemand axis n)) \ directExits) ↪
+        ↥C.demand)
+    (hdemand : C.demand ⊆ C.forest.leaves)
+    (hexits : C.exits ⊆ C.forest.roots)
+    (exitEmbedding : (↥directExits ⊕ ↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (terminalEmbedding :
+      (C.forest.MergerSlot ⊕ ↥(C.forest.roots \ C.exits)) ↪
+        (↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))) ⊕
+          ((gridGraph n n).induce
+            (↑((Finset.univ : Finset (GridVertex n n)) \
+              supportFinset (gridGraph n n \ T)) :
+                Set (GridVertex n n))).ConnectedComponent)) :
+    n + 2 ≤ incidenceWaste (gridGraph n n \ T) := by
+  let U := supportFinset (gridGraph n n \ T)
+  let routed : CanonicalShoreDemand axis n ↪ PrimalContourResource T U :=
+    (canonicalShoreDemandPrunedRootEmbeddingWithDirectExits axis C directExits
+      continuingEmbedding hdemand hexits).trans
+      (C.contourPrunedRootResourceEmbeddingWithDirectExits directExits T U
+        exitEmbedding terminalEmbedding)
+  have hcard : n + 3 ≤ Fintype.card (PrimalContourResource T U) := by
+    rw [← CanonicalShoreDemand.card axis n]
+    exact Fintype.card_le_of_injective routed.toFun routed.injective
+  have hledger :=
+    cotree_incidenceWaste_add_one_eq_card_primalContourResource hn hT
+  change incidenceWaste (gridGraph n n \ T) + 1 =
+    Fintype.card (PrimalContourResource T U) at hledger
+  rw [← hledger] at hcard
+  change (n + 2) + 1 ≤ incidenceWaste (gridGraph n n \ T) + 1 at hcard
+  exact Nat.le_of_add_le_add_right hcard
+
+/-- A realized channel routing gives the sharp preservation envelope for its
+spanning subtree. -/
+theorem preserved_upper_of_channelContourRouting {n : Nat} (hn : 2 ≤ n)
+    (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis n ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (mergerEmbedding : C.forest.MergerSlot ↪
+      ↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph n n).induce
+        (↑((Finset.univ : Finset (GridVertex n n)) \
+          supportFinset (gridGraph n n \ T)) :
+          Set (GridVertex n n))).ConnectedComponent) :
+    3 * numPreserved n n T + 4 ≤ n * n + 3 * n := by
+  apply (diagonal_cotree_incidenceWaste_ge_iff_preserved_bound hn hT).mp
+  exact incidenceWaste_ge_of_channelContourRouting hn axis hT C
+    demandEmbedding exitEmbedding mergerEmbedding rootEmbedding
+
+/-- If the supplied realized spanning subtree is a maximizer, channel routing
+gives the sharp absolute upper envelope for `maxPreserved`. -/
+theorem maxPreserved_upper_of_channelContourRouting {n : Nat} (hn : 2 ≤ n)
+    (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex n n)} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph n n) T)
+    (hmax : numPreserved n n T = maxPreserved n n)
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis n ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph n n \ T)))
+    (mergerEmbedding : C.forest.MergerSlot ↪
+      ↥(internalEdgeFinset T (supportFinset (gridGraph n n \ T))))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph n n).induce
+        (↑((Finset.univ : Finset (GridVertex n n)) \
+          supportFinset (gridGraph n n \ T)) :
+          Set (GridVertex n n))).ConnectedComponent) :
+    3 * maxPreserved n n + 4 ≤ n * n + 3 * n := by
+  rw [← hmax]
+  exact preserved_upper_of_channelContourRouting hn axis hT C
+    demandEmbedding exitEmbedding mergerEmbedding rootEmbedding
+
+/-- Residue-zero closed upper bound obtained from a realized maximizer. -/
+theorem maxPreserved_three_mul_le_of_channelContourRouting
+    (k : Nat) (hk : 1 ≤ k) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex (3 * k) (3 * k))} [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph (3 * k) (3 * k)) T)
+    (hmax : numPreserved (3 * k) (3 * k) T =
+      maxPreserved (3 * k) (3 * k))
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis (3 * k) ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪
+      BoundarySector (supportFinset (gridGraph (3 * k) (3 * k) \ T)))
+    (mergerEmbedding : C.forest.MergerSlot ↪
+      ↥(internalEdgeFinset T
+        (supportFinset (gridGraph (3 * k) (3 * k) \ T))))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph (3 * k) (3 * k)).induce
+        (↑((Finset.univ : Finset (GridVertex (3 * k) (3 * k))) \
+          supportFinset (gridGraph (3 * k) (3 * k) \ T)) :
+          Set (GridVertex (3 * k) (3 * k)))).ConnectedComponent) :
+    maxPreserved (3 * k) (3 * k) ≤ 3 * k ^ 2 + 3 * k - 2 := by
+  have h := maxPreserved_upper_of_channelContourRouting (by omega) axis hT
+    hmax C demandEmbedding exitEmbedding mergerEmbedding rootEmbedding
+  have hsquare : (3 * k) * (3 * k) + 3 * (3 * k) =
+      9 * k ^ 2 + 9 * k := by ring
+  rw [hsquare] at h
+  omega
+
+/-- Residue-one closed upper bound obtained from a realized maximizer. -/
+theorem maxPreserved_three_mul_add_one_le_of_channelContourRouting
+    (k : Nat) (hk : 1 ≤ k) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex (3 * k + 1) (3 * k + 1))}
+    [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph (3 * k + 1) (3 * k + 1)) T)
+    (hmax : numPreserved (3 * k + 1) (3 * k + 1) T =
+      maxPreserved (3 * k + 1) (3 * k + 1))
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis (3 * k + 1) ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪ BoundarySector
+      (supportFinset (gridGraph (3 * k + 1) (3 * k + 1) \ T)))
+    (mergerEmbedding : C.forest.MergerSlot ↪
+      ↥(internalEdgeFinset T
+        (supportFinset (gridGraph (3 * k + 1) (3 * k + 1) \ T))))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph (3 * k + 1) (3 * k + 1)).induce
+        (↑((Finset.univ :
+            Finset (GridVertex (3 * k + 1) (3 * k + 1))) \
+          supportFinset (gridGraph (3 * k + 1) (3 * k + 1) \ T)) :
+          Set (GridVertex (3 * k + 1) (3 * k + 1)))).ConnectedComponent) :
+    maxPreserved (3 * k + 1) (3 * k + 1) ≤ 3 * k ^ 2 + 5 * k := by
+  have h := maxPreserved_upper_of_channelContourRouting (by omega) axis hT
+    hmax C demandEmbedding exitEmbedding mergerEmbedding rootEmbedding
+  have hsquare :
+      (3 * k + 1) * (3 * k + 1) + 3 * (3 * k + 1) =
+        9 * k ^ 2 + 15 * k + 4 := by ring
+  rw [hsquare] at h
+  omega
+
+/-- The basic channel bound gives the coarse residue-two upper bound, two
+above the expected closed form. -/
+theorem maxPreserved_three_mul_add_two_le_of_channelContourRouting
+    (k : Nat) (axis : ShoreSweepAxis)
+    {T : SimpleGraph (GridVertex (3 * k + 2) (3 * k + 2))}
+    [DecidableRel T.Adj]
+    (hT : IsSpanningSubtree (gridGraph (3 * k + 2) (3 * k + 2)) T)
+    (hmax : numPreserved (3 * k + 2) (3 * k + 2) T =
+      maxPreserved (3 * k + 2) (3 * k + 2))
+    (C : PlaneChannelForest V)
+    (demandEmbedding : CanonicalShoreDemand axis (3 * k + 2) ↪ ↥C.demand)
+    (exitEmbedding : (↥C.exits) ↪ BoundarySector
+      (supportFinset (gridGraph (3 * k + 2) (3 * k + 2) \ T)))
+    (mergerEmbedding : C.forest.MergerSlot ↪
+      ↥(internalEdgeFinset T
+        (supportFinset (gridGraph (3 * k + 2) (3 * k + 2) \ T))))
+    (rootEmbedding : (↥C.forest.roots) ↪
+      ((gridGraph (3 * k + 2) (3 * k + 2)).induce
+        (↑((Finset.univ :
+            Finset (GridVertex (3 * k + 2) (3 * k + 2))) \
+          supportFinset (gridGraph (3 * k + 2) (3 * k + 2) \ T)) :
+          Set (GridVertex (3 * k + 2) (3 * k + 2)))).ConnectedComponent) :
+    maxPreserved (3 * k + 2) (3 * k + 2) ≤ 3 * k ^ 2 + 7 * k + 2 := by
+  have h := maxPreserved_upper_of_channelContourRouting (by omega) axis hT
+    hmax C demandEmbedding exitEmbedding mergerEmbedding rootEmbedding
+  have hsquare :
+      (3 * k + 2) * (3 * k + 2) + 3 * (3 * k + 2) =
+        9 * k ^ 2 + 21 * k + 10 := by ring
+  rw [hsquare] at h
+  omega
+
+end PlaneChannelForest
+
+end GridGraphs
