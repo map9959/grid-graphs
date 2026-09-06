@@ -475,14 +475,16 @@ theorem edges_lensSharedPredecessorWalk (L : CanonicalLens axis hn2 hT) :
       (GridExpandedContour.occupiedDarts (T := T)
         (lensMergerBranches axis hn2 hT L).sharedPredecessor.1 1).map
           GridDirectionalDart.edgeSym2 := by
-  simp [lensSharedPredecessorWalk, GridExpandedContour.edges_iterateWalk]
+  simp only [lensSharedPredecessorWalk, Walk.edges_copy,
+    GridExpandedContour.edges_iterateWalk]
 
 theorem darts_lensSharedPredecessorWalk (L : CanonicalLens axis hn2 hT) :
     (lensSharedPredecessorWalk axis hn2 hT L).darts =
       (GridExpandedContour.occupiedDarts (T := T)
         (lensMergerBranches axis hn2 hT L).sharedPredecessor.1 1).map
           GridExpandedContour.graphDart := by
-  simp [lensSharedPredecessorWalk, GridExpandedContour.darts_iterateWalk]
+  simp only [lensSharedPredecessorWalk, Walk.darts_copy,
+    GridExpandedContour.darts_iterateWalk]
 
 /-- A direct inward germ gives one honest retained-tree edge leaving the
 merger.  Outer-port direct germs intentionally have no such grid walk. -/
@@ -502,7 +504,8 @@ def lensDirectInwardWalk (L : CanonicalLens axis hn2 hT)
     (L : CanonicalLens axis hn2 hT) {d : GridDirectionalDart T}
     (hd : lensDirectBranchGerm axis hn2 hT L = .inward d) :
     (lensDirectInwardWalk axis hn2 hT L hd).edges = [d.edgeSym2] := by
-  simp [lensDirectInwardWalk, GridDirectionalDart.edgeSym2]
+  dsimp only [lensDirectInwardWalk]
+  exact Walk.edges_copy _ _ _
 
 /-- Offset-collar realization of the complete shared suffix.  Unlike the
 retained-tree projection, this keeps the two sides of every tree edge apart. -/
@@ -695,7 +698,7 @@ theorem lensGlobalContourArc_edges_disjoint
   have hslot := congrArg Prod.fst hpairs
   rw [ht, GridExpandedContour.advance_add] at hslot
   have happ : (f ^ i) s = (f ^ (L.rank + j)) s := by
-    simpa [GridExpandedContour.advance_eq_iterate] using hslot
+    simpa only [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using hslot
   have hpowers : f ^ i = f ^ (L.rank + j) :=
     hcycle.pow_eq_pow_iff.mpr ⟨s, hs, happ⟩
   have hiO : i < o := lt_trans hi hrank
@@ -749,7 +752,7 @@ theorem lensGlobalContourArc_support_intersection
           rw [hslot, hjEnd]
           exact hperiod
         have happ : (f ^ i) s = (f ^ 0) s := by
-          simpa [GridExpandedContour.advance_eq_iterate] using his
+          simpa [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using his
         have hpowers := hcycle.pow_eq_pow_iff.mpr ⟨s, hs, happ⟩
         have hi0 := pow_injOn_Iio_orderOf (lt_of_le_of_lt hi hrank) ho hpowers
         rw [hi0]
@@ -760,7 +763,7 @@ theorem lensGlobalContourArc_support_intersection
         have hsumle : L.rank + j ≤ o := by omega
         have hjLt : L.rank + j < o := lt_of_le_of_ne hsumle hjEnd
         have happ : (f ^ i) s = (f ^ (L.rank + j)) s := by
-          simpa [GridExpandedContour.advance_eq_iterate] using hslot
+          simpa only [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using hslot
         have hpowers := hcycle.pow_eq_pow_iff.mpr ⟨s, hs, happ⟩
         have hij := pow_injOn_Iio_orderOf (lt_of_le_of_lt hi hrank) hjLt hpowers
         have hirank : i = L.rank := by omega
@@ -782,7 +785,7 @@ theorem lensGlobalContourArc_support_intersection
       rw [ht, GridExpandedContour.advance_add] at hslot
       have hjLt : L.rank + j < o := by omega
       have happ : (f ^ i) s = (f ^ (L.rank + j)) s := by
-        simpa [GridExpandedContour.advance_eq_iterate] using hslot
+        simpa only [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using hslot
       have hpowers := hcycle.pow_eq_pow_iff.mpr ⟨s, hs, happ⟩
       have hij := pow_injOn_Iio_orderOf (lt_trans hi hrank) hjLt hpowers
       omega
@@ -987,9 +990,10 @@ theorem lensComplement_advance_injective
         rfl
       have hj0 : GridExpandedContour.advance (T := T) s (L.rank + j) =
           GridExpandedContour.advance (T := T) s 0 := by
-        simpa [hiEnd, hperiod] using hij.symm
+        change GridExpandedContour.advance (T := T) s (L.rank + j) = s
+        simpa only [hiEnd, hperiod] using hij.symm
       have happ : (f ^ (L.rank + j)) s = (f ^ 0) s := by
-        simpa [GridExpandedContour.advance_eq_iterate] using hj0
+        simpa [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using hj0
       have hpowers := hcycle.pow_eq_pow_iff.mpr ⟨s, hs, happ⟩
       have := pow_injOn_Iio_orderOf hjLt
         (lt_of_le_of_lt (Nat.zero_le _) hrankO) hpowers
@@ -1003,9 +1007,10 @@ theorem lensComplement_advance_injective
         rfl
       have hi0 : GridExpandedContour.advance (T := T) s (L.rank + i) =
           GridExpandedContour.advance (T := T) s 0 := by
-        simpa [hjEnd, hperiod] using hij
+        change GridExpandedContour.advance (T := T) s (L.rank + i) = s
+        simpa only [hjEnd, hperiod] using hij
       have happ : (f ^ (L.rank + i)) s = (f ^ 0) s := by
-        simpa [GridExpandedContour.advance_eq_iterate] using hi0
+        simpa [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using hi0
       have hpowers := hcycle.pow_eq_pow_iff.mpr ⟨s, hs, happ⟩
       have := pow_injOn_Iio_orderOf hiLt
         (lt_of_le_of_lt (Nat.zero_le _) hrankO) hpowers
@@ -1013,7 +1018,7 @@ theorem lensComplement_advance_injective
     · have hiLt : L.rank + i < o := lt_of_le_of_ne hiO hiEnd
       have hjLt : L.rank + j < o := lt_of_le_of_ne hjO hjEnd
       have happ : (f ^ (L.rank + i)) s = (f ^ (L.rank + j)) s := by
-        simpa [GridExpandedContour.advance_eq_iterate] using hij
+        simpa only [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using hij
       have hpowers := hcycle.pow_eq_pow_iff.mpr ⟨s, hs, happ⟩
       have := pow_injOn_Iio_orderOf hiLt hjLt hpowers
       omega
@@ -1084,7 +1089,7 @@ def inwardReverseOrdering
       calc
         z = s := by rw [← hkAdvance, hkzero]; rfl
         _ = GridExpandedContour.slotOfDart d := by
-          simpa [s] using hdslot.symm
+          simpa only [s, lensMergerBranches] using hdslot.symm
     have hdarts := GridExpandedContour.slotOfDart_injective hz
     have hv : d.target = d.source := by
       simpa [GridDirectionalDart.reverse] using
@@ -1282,7 +1287,7 @@ theorem inwardShoreContourArc_isPath (d : GridDirectionalDart T) :
     lt_of_le_of_lt hj (inwardShoreContourRank_lt_orderOf hn2 hT d)
   have happ : (f ^ i) (GridExpandedContour.slotOfDart d) =
       (f ^ j) (GridExpandedContour.slotOfDart d) := by
-    simpa [GridExpandedContour.advance_eq_iterate] using hij
+    simpa only [GridExpandedContour.advance_eq_iterate, f, Equiv.Perm.coe_pow] using hij
   have hpowers := hcycle.pow_eq_pow_iff.mpr ⟨_, hs, happ⟩
   exact pow_injOn_Iio_orderOf hik hjk hpowers
 
@@ -1437,7 +1442,7 @@ theorem inwardLens_dart_eq_retainedCanonicalInwardDart
           Finset.mem_sdiff.mpr ⟨Finset.mem_univ _, hq⟩⟩ := by
   unfold lensDirectBranchGerm at hd
   split at hd <;> rename_i hq
-  · exact CanonicalDirectBranchGerm.noConfusion hd
+  · cases hd
   · exact ⟨hq, CanonicalDirectBranchGerm.inward.inj hd |>.symm⟩
 
 /-- The chosen forward arc has the graph-theoretic target shore orientation:
@@ -1452,10 +1457,10 @@ theorem inwardLens_targetShore_entry_exit
   constructor
   · intro x hx
     exact GridDirectionalDart.contourSucc_mem_targetShore_iff_of_notMem
-      hT.isTree.IsAcyclic d x hx
+      hT.isTree.isAcyclic d x hx
   · intro x hx
     exact GridDirectionalDart.contourSucc_notMem_targetShore_iff_of_mem
-      hT.isTree.IsAcyclic d x hx
+      hT.isTree.isAcyclic d x hx
 
 /-- Existing rooted-shore APIs yield laminarity after the lens darts are
 oriented away from one common root.  Raw boundary-inward orientations need not
@@ -2787,7 +2792,7 @@ noncomputable def exposedSplitOuterPortFirstOwnerEmbedding
     apply Subtype.ext
     have hresource := congrArg
       (fun x : FirstOwnedSplitOuterPorts axis hn2 hT root => x.resource) hpq
-    simpa using hresource
+    simpa only [firstOwnedSplitOuterPortOfExposed] using hresource
 
 noncomputable def exposedInternalSupportEdgeFirstOwnerEmbedding
     (hn3 : 3 ≤ n) (root : GridVertex n n) :
@@ -2799,7 +2804,7 @@ noncomputable def exposedInternalSupportEdgeFirstOwnerEmbedding
     apply Subtype.ext
     have hresource := congrArg
       (fun x : FirstOwnedInternalSupportEdges axis hn2 hT root => x.resource) hef
-    simpa using hresource
+    simpa only [firstOwnedInternalSupportEdgeOfExposed] using hresource
 
 /-- Canonical U2 assignment for exactly the geometrically exposed physical
 resources.  It contains no ledger-wide exposure or resource-adequacy claim. -/
@@ -3131,11 +3136,11 @@ noncomputable def planarShellTransitionSlot
   split <;> rename_i h
   · constructor
     · intro hsome
-      exact Option.noConfusion hsome
+      cases hsome
     · intro hnone
       obtain ⟨parent, hparent⟩ := h
       rw [hnone] at hparent
-      exact Option.noConfusion hparent
+      cases hparent
   · simp only
     constructor
     · intro _
@@ -3269,7 +3274,7 @@ theorem planarLensPassedTransition_empty_of_isRoot
     have hx := x.2.1
     have hnone : (none : Option (PlanarInwardLensOccurrence axis hn2 hT root)) =
         some x.1.2 := ha.symm.trans hx
-    exact Option.noConfusion hnone⟩
+    cases hnone⟩
 
 /-- Global passed transitions are explicitly occurrence-labelled by the child
 region from which they leave. -/
@@ -3510,7 +3515,7 @@ theorem canonicalUpperU3_regionInequality_of_assignment
     (assignment : PlanarLensRegionalAssignment axis hn2 hn3 hT root a) :
     CanonicalUpperU3RegionInequality axis hn2 hn3 hT root a := by
   have hcard := Fintype.card_le_of_injective assignment assignment.injective
-  simpa only [PlanarLensRegionalDemand, PlanarLensRegionalAssignment,
+  simpa only [CanonicalUpperU3RegionInequality, PlanarLensRegionalDemand, PlanarLensRegionalAssignment,
     Fintype.card_sum, Fintype.card_sigma] using hcard
 
 /-- Leaf planar regions are an exhaustive structural subtype on which U3 is
@@ -3524,7 +3529,7 @@ theorem canonicalUpperU3_regionInequality_of_mem_leaves
   have hchildCount : F.childCount a = 0 := by
     simpa [ParentForest.leaves] using ha
   have hchildren : F.children a = ∅ := Finset.card_eq_zero.mp hchildCount
-  letI : IsEmpty (PlanarLensLocalDebt axis hn2 hn3 hT root a) :=
+  let : IsEmpty (PlanarLensLocalDebt axis hn2 hn3 hT root a) :=
     ⟨fun x => by
       have hmerger : F.mergerExcessAt x.1.1 = 0 := by
         rw [x.2]
@@ -3633,8 +3638,8 @@ theorem no_planarLensRegionalAssignment_of_unaryRoot_obstruction
       simp⟩
   let demand : PlanarLensRegionalDemand axis hn2 hn3 hT root a.1 :=
     .inr ⟨child, incoming⟩
-  letI : IsEmpty (PlanarLensRegionalOwned axis hn2 hT root a.1) := howned
-  letI : IsEmpty (PlanarLensPassedTransition axis hn2 hn3 hT root a.1) :=
+  let : IsEmpty (PlanarLensRegionalOwned axis hn2 hT root a.1) := howned
+  let : IsEmpty (PlanarLensPassedTransition axis hn2 hn3 hT root a.1) :=
     planarLensPassedTransition_empty_of_isRoot axis hn2 hn3 hT a.1 hroot
   exact isEmptyElim (hassignment.some demand)
 
@@ -3701,7 +3706,7 @@ theorem canonicalUpperU3_emptySelection_unaryAssignmentGate
     CanonicalUpperU3UnaryAssignmentGate axis hn2 hn3 hT
       (planarLensEmptyPassSelection axis hn2 hn3 hT root) := by
   intro a
-  letI := planarLensLocalDebt_isEmpty_of_unary axis hn2 hn3 hT a
+  let := planarLensLocalDebt_isEmpty_of_unary axis hn2 hn3 hT a
   refine ⟨{
     toFun := fun demand => ?_
     inj' := by
@@ -4656,12 +4661,14 @@ noncomputable def canonicalPlanarLensDebtRouting
         have h := congrArg
           (fun x => ((planarLensCanonicalFlow axis hn2 hn3 hT root a).symm x).1)
           hflow
-        simpa using h.symm
+        simp only [Equiv.symm_apply_apply] at h
+        exact h.symm
     | inr incoming =>
         have h := congrArg
           (fun x => ((planarLensCanonicalFlow axis hn2 hn3 hT root a).symm x).1)
           hflow
-        simpa using h.symm
+        simp only [Equiv.symm_apply_apply] at h
+        exact h.symm
 
 namespace PlanarLensDebtRouting
 
@@ -4855,7 +4862,7 @@ theorem selectedOutgoing_isEmpty_of_root
     obtain ⟨_e, parent, _he, hp, _hcross⟩ :=
       routing.selectedOutgoing_parent_typed axis hn2 hn3 hT q
     rw [ha] at hp
-    exact Option.noConfusion hp⟩
+    cases hp⟩
 
 abbrev RootTerminationAssignment
     {root : GridVertex n n}
@@ -4871,7 +4878,7 @@ theorem root_regionInequality_of_termination
     (hroot : (PlanarInwardLensForest axis hn2 hn3 hT root).parent a = none)
     (terminal : routing.RootTerminationAssignment axis hn2 hn3 hT a) :
     routing.RegionInequality axis hn2 hn3 hT a := by
-  letI := routing.selectedOutgoing_isEmpty_of_root axis hn2 hn3 hT a hroot
+  let := routing.selectedOutgoing_isEmpty_of_root axis hn2 hn3 hT a hroot
   have hout : Fintype.card
       (routing.SelectedOutgoingPass axis hn2 hn3 hT a) = 0 := Fintype.card_eq_zero
   rw [RegionInequality, hout, add_zero]
@@ -4898,7 +4905,7 @@ theorem card_active_eq_incoming_of_unary
       ∑ c : ↥((PlanarInwardLensForest axis hn2 hn3 hT root).children a.1),
         Fintype.card (routing.SelectedOutgoingPass axis hn2 hn3 hT c.1) := by
   rw [routing.card_active_eq_local_add_incoming axis hn2 hn3 hT a.1]
-  letI := planarLensLocalDebt_isEmpty_of_unary axis hn2 hn3 hT a
+  let := planarLensLocalDebt_isEmpty_of_unary axis hn2 hn3 hT a
   rw [Fintype.card_eq_zero, zero_add]
 
 theorem canonicalPlanarLensDebtRouting_carriesCanonicalLocalInterfacesAt
@@ -4949,7 +4956,7 @@ theorem canonicalUpperU3_activeLocalInequality_globalCard
     Fintype.card (routing.SelectedOutgoingPass axis hn2 hn3 hT a)
   have hroot : ∀ a, F.parent a = none → passed a = 0 := by
     intro a ha
-    letI := routing.selectedOutgoing_isEmpty_of_root axis hn2 hn3 hT a ha
+    let := routing.selectedOutgoing_isEmpty_of_root axis hn2 hn3 hT a ha
     exact Fintype.card_eq_zero
   have hlocal' : ∀ a,
       debt a + ∑ c ∈ F.children a, passed c ≤ owned a + passed a := by
@@ -5772,8 +5779,7 @@ theorem fullPrunedTokenEnrichedEquiv_component
       FullPrunedTokenCarrier axis hn2 hn3 hT token := by
   rcases token with ⟨token, hnoninternal⟩
   rcases token with merger | root
-  · simpa [fullPrunedTokenEnrichedEquiv, FullPrunedTokenCarrier,
-      terminalTreeEdgeEmbedding] using
+  · exact
       (contactEnrichedCanonicalMergerToken_component_compatible
         axis hn2 hn3 hT (⟨merger⟩ : ContactEnrichedCanonicalMergerToken axis hn2 hT))
   · exact False.elim (noSurvivingRoot axis hn2 hT root)
@@ -5918,7 +5924,7 @@ theorem fullPrunedCollision_not_inward_and_outer
           (fullPrunedCollisionLens axis hn2 hn3 hT collision) = .outer port)) := by
   rintro ⟨⟨dart, hdart⟩, ⟨port, hport⟩⟩
   rw [hdart] at hport
-  exact CanonicalDirectBranchGerm.noConfusion hport
+  cases hport
 
 /-- Direct germs partition all full-pruned ordered collisions into inward and
 outer source obligations. -/
@@ -6044,7 +6050,7 @@ theorem lensRank_eq_zero
   rw [hdirect, lensMergerBranches_directStart_value] at hslot
   have hslot' : GridExpandedContour.outerPortSlot
       (collision.port axis hn2 hn3 hT) = L.mergerState.1.1 := by
-    simpa [CanonicalDirectBranchGerm.slot] using hslot
+    simpa only [CanonicalDirectBranchGerm.slot, lensMergerBranches] using hslot
   rw [L.rank_eq]
   apply ((firstStop axis hn2 hT).distance_eq_zero_iff _).mpr
   rw [← hslot']
@@ -6063,7 +6069,7 @@ theorem port_eq_lensOuterPort
   rw [hdirect, lensMergerBranches_directStart_value] at hslot
   have hslot' : GridExpandedContour.outerPortSlot
       (collision.port axis hn2 hn3 hT) = L.mergerState.1.1 := by
-    simpa [CanonicalDirectBranchGerm.slot] using hslot
+    simpa only [CanonicalDirectBranchGerm.slot, lensMergerBranches] using hslot
   have hrank := collision.lensRank_eq_zero axis hn2 hn3 hT
   have hreached :=
     MarkedCycleFirstStop.ReconvergenceLens.iterate_rank_mergerState_eq_reachedStop L
@@ -6207,7 +6213,7 @@ structure FullPrunedCarrierBlockGapAssignment (root : GridVertex n n) : Prop whe
       collision.launch axis hn2 hn3 hT root := by simp
 
 /-- The carrier-block bookkeeping required by C5 is unconditional. -/
-def fullPrunedCarrierBlockGapAssignment
+theorem fullPrunedCarrierBlockGapAssignment
     (root : GridVertex n n) :
     FullPrunedCarrierBlockGapAssignment axis hn2 hn3 hT root :=
   {}
@@ -6350,8 +6356,8 @@ theorem boundaryGapFirstOwnedBranchResourceRaw_injective
   · exact congrArg Sum.inl
       ((firstOwnedInternalSupportEdgeEmbedding axis hn2 hT hn3 root).injective
         (Sum.inl.inj hab))
-  · exact (Sum.noConfusion hab)
-  · exact (Sum.noConfusion hab)
+  · cases hab
+  · cases hab
   · exact congrArg Sum.inr
       ((firstOwnedFreeComponentEmbedding axis hn2 hT hn3 root).injective
         (Sum.inr.inj hab))
@@ -6909,15 +6915,17 @@ noncomputable def fullPrunedComponentCotreeDualStartLeaf
         axis hn2 hn3 hT assignment (assignment.component collision) :=
       ⟨collision, rfl⟩
     refine ⟨⟨assignment.component collision, .inl occurrence⟩, ?_⟩
-    simp only [ParentForest.leaves, Finset.mem_filter, Finset.mem_univ, true_and,
-      ParentForest.childCount]
+    apply Finset.mem_filter.mpr
+    refine ⟨Finset.mem_univ _, ?_⟩
     apply Finset.card_eq_zero.mpr
     apply Finset.eq_empty_iff_forall_notMem.mpr
     rintro ⟨component, v⟩ hv
-    have hparent := (Finset.mem_filter.mp hv).2
-    simp [fullPrunedComponentCotreeDualForest,
-      SplitOccurrenceLabelledCotreeDualCarrier.forest] at hparent
-    obtain ⟨a, ha, hcomponent, hea⟩ := hparent
+    have hparent : (fullPrunedComponentCotreeDualForest axis hn2 hn3 hT assignment).parent
+        ⟨component, v⟩ = some ⟨assignment.component collision, .inl occurrence⟩ :=
+      by simpa only [ParentForest.children, Finset.mem_filter, Finset.mem_univ, true_and] using hv
+    simp only [fullPrunedComponentCotreeDualForest, Option.map_eq_some_iff] at hparent
+    obtain ⟨a, ha, heq⟩ := hparent
+    obtain ⟨hcomponent, hea⟩ := Sigma.mk.inj_iff.mp heq
     subst component
     have hea' : a = .inl occurrence := eq_of_heq hea
     subst a
@@ -7051,7 +7059,8 @@ def fullCotreeBoundaryContinuationRoot
         (fun edge : LabelledCotreeTransition T => edge)) ↪
       FullPrunedComponentPrivateBoundaryRoot axis hn2 hn3 hT assignment where
   toFun source :=
-    ⟨source.1, ⟨Sum.inr source.2.1, by simpa using source.2.2⟩⟩
+    ⟨source.1, ⟨Sum.inr source.2.1, by
+      simpa only [fullPrunedComponentCotreeDualEdgeTransition] using source.2.2⟩⟩
   inj' := by
     rintro ⟨component₁, boundary₁⟩ ⟨component₂, boundary₂⟩ hab
     obtain ⟨hcomponent, hboundaryOccurrence⟩ := Sigma.mk.inj_iff.mp hab
@@ -7458,7 +7467,11 @@ noncomputable def fullPrunedComponentCotreeDualRealization
   startLeaf :=
     (fullPrunedComponentCotreeDualHullLeafEquiv
       axis hn2 hn3 hT assignment).toEmbedding
-  start_component := fun collision => rfl
+  start_component := by
+    intro collision
+    change (((fullPrunedComponentCotreeDualForest axis hn2 hn3 hT assignment).ancestorHullStart
+      (fullPrunedComponentCotreeDualStartLeaf axis hn2 hn3 hT assignment) collision).1).1 = _
+    rfl
 
 namespace ComponentResolvedBoundaryGapForestRealization
 
@@ -7494,8 +7507,8 @@ theorem card_starts_le_card_roots_add_branchExcess
       axis hn2 hn3 hT root assignment) :
     Fintype.card (FullPrunedInwardCollision axis hn2 hn3 hT) ≤
       realization.forest.roots.card + realization.forest.branchExcess := by
-  letI := realization.carrierFintype
-  letI := realization.carrierDecidableEq
+  let := realization.carrierFintype
+  let := realization.carrierDecidableEq
   calc
     Fintype.card (FullPrunedInwardCollision axis hn2 hn3 hT) ≤
         Fintype.card ↥realization.forest.leaves :=
@@ -7872,11 +7885,12 @@ theorem fullPrunedComponentCotreeDualHull_parentStep_component_eq
       canonicalHullVertexComponent axis hn2 hn3 hT y := by
   change (fullPrunedComponentCotreeDualHullForest
     axis hn2 hn3 hT assignment).parent x = some y at hxy
-  simp [fullPrunedComponentCotreeDualHullForest,
-    ParentForest.ancestorHullForest, fullPrunedComponentCotreeDualForest] at hxy
-  rcases hxy with ⟨next, _hparent, hcarrier⟩
-  change x.1.1 = y.1.1
-  rw [← hcarrier]
+  have hambient := (ParentForest.ancestorHullParent_eq_some
+    (fullPrunedComponentCotreeDualForest axis hn2 hn3 hT assignment)
+    (fullPrunedComponentCotreeDualStartLeaf axis hn2 hn3 hT assignment) x y).1 hxy
+  simp only [fullPrunedComponentCotreeDualForest, Option.map_eq_some_iff] at hambient
+  obtain ⟨next, _, hcarrier⟩ := hambient
+  exact (Sigma.mk.inj_iff.mp hcarrier).1
 
 /-- Component labels are consequently preserved along every upward hull
 parent chain. -/
@@ -8066,8 +8080,8 @@ theorem canonicalHullResolvedFirstSeparatingLabel_injective
   rcases a with a | a <;> rcases b with b | b
   · exact congrArg Sum.inl
       ((carrierQuotientEmbedding firstSeparating).injective (Sum.inl.inj hab))
-  · exact (Sum.noConfusion hab)
-  · exact (Sum.noConfusion hab)
+  · cases hab
+  · cases hab
   · exact congrArg Sum.inr (Sum.inr.inj hab)
 
 /-- Every resolved occurrence remains an obligation against its concrete
@@ -8221,7 +8235,7 @@ theorem canonicalHull_firstSeparating_eq_slot_or_sameComponentNested
     · right
       refine ⟨hab, heq, hlabel, ⟨component, ha⟩, ?_⟩
       by_contra hnested
-      push_neg at hnested
+      push Not at hnested
       exact hab (hnonalternating hlabel hnested.1 hnested.2)
 
 /-- Exact local geometry still required to replace a cotree-dual hull vertex by
@@ -8383,7 +8397,7 @@ structure CanonicalHullFirstSeparatingRemainingCase
     axis hn2 hn3 hT assignment source terminal = .boundaryPort port
   reserved : port ∈ Set.range (exitEmbedding axis hn2 hT)
 
-def CanonicalHullFirstSeparatingRemainingCase.reached
+theorem CanonicalHullFirstSeparatingRemainingCase.reached
     {root : GridVertex n n}
     {assignment : FullPrunedCarrierBlockGapAssignment axis hn2 hn3 hT root}
     {source : {x : FullPrunedComponentCotreeDualHullCarrier
@@ -8414,7 +8428,7 @@ theorem canonicalHull_parent_exists_of_observation_ne_boundary
       axis hn2 hn3 hT assignment).parent vertex = some parent := by
   classical
   by_contra hparent
-  push_neg at hparent
+  push Not at hparent
   have hnone : (fullPrunedComponentCotreeDualHullForest
       axis hn2 hn3 hT assignment).parent vertex = none := by
     cases h : (fullPrunedComponentCotreeDualHullForest
@@ -8846,7 +8860,7 @@ abbrev CompatibleBoundaryGapRootPortDebtSlot
     (realization : ComponentResolvedBoundaryGapForestRealization
       axis hn2 hn3 hT root assignment)
     (rootPort : ↥realization.forest.roots → GridCotreeOuterPort T) :=
-  {slot : realization.forest.RootPortDebtSlot rootPort //
+  {_slot : realization.forest.RootPortDebtSlot rootPort //
     realization.RootPortDebtCompatible axis hn2 hn3 hT rootPort}
 
 /-- The only duplicate slots for which a residual routing remains to be
@@ -8857,7 +8871,7 @@ abbrev IncompatibleBoundaryGapRootPortDebtSlot
     (realization : ComponentResolvedBoundaryGapForestRealization
       axis hn2 hn3 hT root assignment)
     (rootPort : ↥realization.forest.roots → GridCotreeOuterPort T) :=
-  {slot : realization.forest.RootPortDebtSlot rootPort //
+  {_slot : realization.forest.RootPortDebtSlot rootPort //
     ¬realization.RootPortDebtCompatible axis hn2 hn3 hT rootPort}
 
 /-- An unreserved used physical port is itself the boundary resource. -/
@@ -9647,8 +9661,8 @@ theorem card_roots_eq_unreserved_add_reserved
         ledger.forest ledger.rootPort) +
       Fintype.card (ReservedBoundaryGapRoot axis hn2 hT
         ledger.forest ledger.rootPort) := by
-  letI := ledger.carrierFintype
-  letI := ledger.carrierDecidableEq
+  let := ledger.carrierFintype
+  let := ledger.carrierDecidableEq
   classical
   have hcompl := Fintype.card_subtype_compl
     (fun a : ↥ledger.forest.roots =>
@@ -9720,8 +9734,8 @@ theorem card_inward_add_outer_le_residual
       Fintype.card (UnreservedCanonicalBoundaryPort axis hn2 hT) +
         Fintype.card (BoundaryGapResidualInternalResource axis hn2 hn3 hT) +
           Fintype.card (BoundaryGapResidualComponentResource axis hn2 hn3 hT) := by
-  letI := ledger.carrierFintype
-  letI := ledger.carrierDecidableEq
+  let := ledger.carrierFintype
+  let := ledger.carrierDecidableEq
   have hroute := Fintype.card_le_of_injective
     (ledger.residualRouting axis hn2 hn3 hT)
     (ledger.residualRouting axis hn2 hn3 hT).injective
@@ -9756,7 +9770,7 @@ theorem fullPrunedComponentCotreeDual_card_starts_le
 
 /-- Resource pool of one collision's component-resolved minimal dual hull.
 Outer collisions are demands and are not a target summand. -/
-abbrev BoundaryGapForestResource (root : GridVertex n n) :=
+abbrev BoundaryGapForestResource (_root : GridVertex n n) :=
   BoundaryGapResidualPhysicalResource axis hn2 hn3 hT
 
 /-! #### Legacy selected-subset hull accounting -/
@@ -10277,6 +10291,15 @@ abbrev CanonicalGroupedResidualSource
       (CanonicalGroupedSeparatorOccurrenceObligation
         axis hn2 hn3 hT assignment ⊕
         FullPrunedOuterCollision axis hn2 hn3 hT))
+
+noncomputable instance canonicalGroupedResidualSourceFintype
+    {root : GridVertex n n}
+    (assignment : FullPrunedCarrierBlockGapAssignment axis hn2 hn3 hT root) :
+    Fintype (CanonicalGroupedResidualSource axis hn2 hn3 hT assignment) := by
+  unfold CanonicalGroupedResidualSource
+  dsimp only
+  unfold IncompatibleBoundaryGapRootPortDebtSlot ParentForest.RootPortDebtSlot
+  infer_instance
 
 /-- The two routes already installed before residual Hall is invoked.  Their
 sum is injective because ports and duplicate components occupy different
@@ -10887,7 +10910,7 @@ theorem canonicalGroupedResidualNeighborhood_incompatibleDuplicate_nonempty_iff
                 assignment (canonicalHullFirstSeparatingCandidateEquiv
                   axis hn2 hn3 hT candidate) := by
   classical
-  simpa only using
+  simpa only [canonicalGroupedResidualNeighborhood] using
     (canonicalGroupedAvailableRootEscapeNeighborhood_nonempty_iff
       axis hn2 hn3 hT assignment firstSeparating source.1.1)
 
@@ -11506,7 +11529,7 @@ private noncomputable def canonicalGroupedCompletedEmbedding
     · rcases b with b | b
       · have h := (canonicalGroupedAutomaticEmbedding
           axis hn2 hn3 hT assignment).injective hab
-        exact Sum.noConfusion h
+        cases h
       · have hab' : canonicalGroupedAutomaticEmbedding
             axis hn2 hn3 hT assignment (.inl a) = routing b := by
           exact hab
@@ -11514,7 +11537,7 @@ private noncomputable def canonicalGroupedCompletedEmbedding
     · rcases a with a | a
       · have h := (canonicalGroupedAutomaticEmbedding
           axis hn2 hn3 hT assignment).injective hab
-        exact Sum.noConfusion h
+        cases h
       · have hab' : canonicalGroupedAutomaticEmbedding
             axis hn2 hn3 hT assignment (.inl b) = routing a := by
           exact hab.symm
@@ -11561,7 +11584,7 @@ private def canonicalGroupedCompletedSourceEmbedding
     intro a b hab
     rcases a with a | a | a | a | a | a <;>
       rcases b with b | b | b | b | b | b <;>
-      simp_all
+      simp_all <;> injection hab
 
 /-- Forget only the neighborhood proofs and split the one unresolved routing
 into the legacy four-field partial package. -/
@@ -11612,9 +11635,7 @@ noncomputable def CanonicalPartialGroupedResidualRouting.toPartialGroupedRouting
     apply (canonicalGroupedCompletedEmbedding axis hn2 hn3 hT routing).injective
     rcases a with a | a | a | a | a | a <;>
       rcases b with b | b | b | b | b | b <;>
-      simpa only [canonicalGroupedCompletedEmbedding,
-        canonicalGroupedAutomaticEmbedding,
-        canonicalGroupedCompletedSourceEmbedding] using hab
+      exact hab
 
 /-- Legacy adapter from the component-split neighborhood routing to the old
 component-resolved grouped ledger.  It is not the active shared-core ledger. -/
@@ -12171,7 +12192,7 @@ theorem canonicalUpperU3_localInequality_implies_globalHall
     Fintype.card (PlanarLensPassedTransition axis hn2 hn3 hT root a)
   have hroot : ∀ a, F.parent a = none → passed a = 0 := by
     intro a ha
-    letI := planarLensPassedTransition_empty_of_isRoot axis hn2 hn3 hT a ha
+    let := planarLensPassedTransition_empty_of_isRoot axis hn2 hn3 hT a ha
     exact Fintype.card_eq_zero
   have hlocal' : ∀ a,
       debt a + ∑ c ∈ F.children a, passed c ≤ owned a + passed a := by
@@ -12340,7 +12361,7 @@ theorem preStartHistory_case_split
       · exact Or.inl he
       · right
         left
-        haveI : IsEmpty (InwardReverseHistoryData axis hn2 hT L) :=
+        have : IsEmpty (InwardReverseHistoryData axis hn2 hT L) :=
           ⟨fun x => he ⟨x⟩⟩
         exact ⟨d, rfl, inferInstance⟩
   | outer p =>

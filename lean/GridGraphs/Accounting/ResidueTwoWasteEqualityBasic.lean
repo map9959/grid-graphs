@@ -73,8 +73,7 @@ theorem residueTwoAttachmentCharge_eq_waste_add_two {n : Nat}
     (hT : IsSpanningSubtree (gridGraph n n) T) :
     residueTwoAttachmentCharge (residueTwoCotreeSupport T) =
       incidenceWaste (gridGraph n n \ T) + 2 := by
-  simpa only [residueTwoAttachmentCharge, residueTwoCotreeSupport] using
-    square_grid_tree_component_bridge hn hT
+  exact square_grid_tree_component_bridge hn hT
 
 /-- The four side/run-boundary presentation of the same attachment charge. -/
 theorem fourSideComponentRank_eq_residueTwoAttachmentCharge {n : Nat}

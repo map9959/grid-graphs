@@ -63,7 +63,7 @@ theorem residueTwoExactRepair_seam_upper_mem (t : Nat) (j : Fin t) :
   apply residueTwoExactRepairAt_mem_of_base t
       (⟨4, by omega⟩ : Fin 20) (⟨13, by omega⟩ : Fin 20)
       ⟨0, by simp [residueTwoExactMultiplicity]⟩
-      ⟨j.val, by simp [residueTwoExactMultiplicity]; omega⟩
+      ⟨j.val, by simp [residueTwoExactMultiplicity]⟩
   · simp [IsResidueTwoExactBase, residueTwoExactBaseRow]
   · simp [residueTwoExactExpandIndex]
     omega
@@ -75,7 +75,7 @@ theorem residueTwoExactRepair_seam_left_mem (t : Nat) (j : Fin t) :
   apply residueTwoExactRepairAt_mem_of_base t
       (⟨5, by omega⟩ : Fin 20) (⟨12, by omega⟩ : Fin 20)
       ⟨0, by simp [residueTwoExactMultiplicity]⟩
-      ⟨j.val, by simp [residueTwoExactMultiplicity]; omega⟩
+      ⟨j.val, by simp [residueTwoExactMultiplicity]⟩
   · simp [IsResidueTwoExactBase, residueTwoExactBaseRow]
   · simp [residueTwoExactExpandIndex]
     omega
@@ -94,7 +94,8 @@ theorem residueTwoExactRepair_seam_right_mem (t : Nat) (j : Fin t) :
     (by simp [ci, residueTwoExactExpandIndex]; omega)
   convert h using 1
   apply Prod.ext <;> apply Fin.ext <;>
-    simp [ri, ci, residueTwoExactExpandIndex] <;> omega
+    simp [ri, ci, residueTwoExactExpandIndex]
+  omega
 
 /-- The checkerboard face exposed by repeated-column seam `j`. -/
 def residueTwoExactRepairSeamFace (t : Nat) (j : Fin t) :

@@ -24,8 +24,8 @@ def collarSize (n : Nat) : Nat := 4 * n + 3
 /-- Center representing an original grid vertex. -/
 def collarCenter {m n : Nat} (v : GridVertex m n) :
     GridVertex (collarSize m) (collarSize n) :=
-  (⟨4 * v.1.val + 2, by simp [collarSize]; omega⟩,
-    ⟨4 * v.2.val + 2, by simp [collarSize]; omega⟩)
+  (⟨4 * v.1.val + 2, by simp [collarSize]⟩,
+    ⟨4 * v.2.val + 2, by simp [collarSize]⟩)
 
 /-- Cardinal midpoint representing a compass slot.  Boundary outward slots
 land in the added collar rather than outside the carrier. -/
@@ -65,15 +65,15 @@ def turnCorner {m n : Nat} (v : GridVertex m n) (d : GridDirection) :
   match d with
   | .north =>
       (⟨4 * v.1.val + 1, by simp [collarSize]; omega⟩,
-        ⟨4 * v.2.val + 2, by simp [collarSize]; omega⟩)
+        ⟨4 * v.2.val + 2, by simp [collarSize]⟩)
   | .east =>
-      (⟨4 * v.1.val + 2, by simp [collarSize]; omega⟩,
+      (⟨4 * v.1.val + 2, by simp [collarSize]⟩,
         ⟨4 * v.2.val + 3, by simp [collarSize]⟩)
   | .south =>
       (⟨4 * v.1.val + 3, by simp [collarSize]⟩,
-        ⟨4 * v.2.val + 2, by simp [collarSize]; omega⟩)
+        ⟨4 * v.2.val + 2, by simp [collarSize]⟩)
   | .west =>
-      (⟨4 * v.1.val + 2, by simp [collarSize]; omega⟩,
+      (⟨4 * v.1.val + 2, by simp [collarSize]⟩,
         ⟨4 * v.2.val + 1, by simp [collarSize]; omega⟩)
 
 /-- Centerline point of the geometric corridor carrying a retained grid edge. -/
@@ -83,15 +83,15 @@ def edgeCorridorCenter {m n : Nat} {T : SimpleGraph (GridVertex m n)}
   match d.direction with
   | .north =>
       (⟨4 * d.source.1.val, by simp [collarSize]; omega⟩,
-        ⟨4 * d.source.2.val + 2, by simp [collarSize]; omega⟩)
+        ⟨4 * d.source.2.val + 2, by simp [collarSize]⟩)
   | .east =>
-      (⟨4 * d.source.1.val + 2, by simp [collarSize]; omega⟩,
+      (⟨4 * d.source.1.val + 2, by simp [collarSize]⟩,
         ⟨4 * d.source.2.val + 4, by simp [collarSize]; omega⟩)
   | .south =>
       (⟨4 * d.source.1.val + 4, by simp [collarSize]; omega⟩,
-        ⟨4 * d.source.2.val + 2, by simp [collarSize]; omega⟩)
+        ⟨4 * d.source.2.val + 2, by simp [collarSize]⟩)
   | .west =>
-      (⟨4 * d.source.1.val + 2, by simp [collarSize]; omega⟩,
+      (⟨4 * d.source.1.val + 2, by simp [collarSize]⟩,
         ⟨4 * d.source.2.val, by simp [collarSize]; omega⟩)
 
 /-- First half of a clockwise slot turn. -/
@@ -198,7 +198,7 @@ def edgeCorridorChord {m n : Nat} {T : SimpleGraph (GridVertex m n)}
 @[simp] theorem length_edgeCorridorChord {m n : Nat}
     {T : SimpleGraph (GridVertex m n)} (d : GridDirectionalDart T) :
     (edgeCorridorChord d).length = 4 := by
-  simp [edgeCorridorChord]
+  rfl
 
 theorem support_edgeCorridorChord {m n : Nat}
     {T : SimpleGraph (GridVertex m n)} (d : GridDirectionalDart T) :
@@ -318,10 +318,12 @@ theorem support_successorSegment (s : GridCompassSlot m n) :
       [slotPoint s, segmentMidpoint (T := T) s,
         slotPoint (succ (T := T) s)] := by
   by_cases hs : Occupied (T := T) s
-  · simp [successorSegment, segmentMidpoint, hs, Walk.support_copy]
-    rw [succ_of_occupied hs]
-  · simp [successorSegment, segmentMidpoint, hs, turnSegment,
-      Walk.support_copy]
+  · simp only [successorSegment, dif_pos hs]
+    exact (Walk.support_copy _ _ _).trans (by
+      simp [Walk.support_cons, segmentMidpoint, hs, succ_of_occupied hs]
+      exact ⟨rfl, rfl, rfl⟩)
+  · simp only [successorSegment, dif_neg hs, Walk.support_copy,
+      turnSegment, Walk.support_cons, Walk.support_nil, segmentMidpoint, if_neg hs]
     rw [succ_of_not_occupied hs]
 
 /-- A local segment midpoint is never an expanded-slot sector point.  Their
@@ -397,6 +399,7 @@ theorem turnCorner_ne_crossingMidpoint {m n : Nat}
     simp [turnCorner, crossingMidpoint] at hr hc
     omega
 
+omit [DecidableRel T.Adj] in
 theorem edgeCorridorCenter_ne_slotPoint
     (d : GridDirectionalDart T) (s : GridCompassSlot m n) :
     edgeCorridorCenter d ≠ slotPoint s := by
@@ -409,6 +412,7 @@ theorem edgeCorridorCenter_ne_slotPoint
     simp [edgeCorridorCenter, slotPoint, hd] at hr hc
     omega
 
+omit [DecidableRel T.Adj] in
 theorem edgeCorridorCenter_ne_turnCorner
     (d : GridDirectionalDart T) (v : GridVertex m n) (e : GridDirection) :
     edgeCorridorCenter d ≠ turnCorner v e := by
@@ -420,6 +424,7 @@ theorem edgeCorridorCenter_ne_turnCorner
     simp [edgeCorridorCenter, turnCorner, hd] at hr hc
     omega
 
+omit [DecidableRel T.Adj] in
 theorem edgeCorridorCenter_ne_crossingMidpoint
     (d : GridDirectionalDart T) (v : GridVertex m n) (e : GridDirection) :
     edgeCorridorCenter d ≠ crossingMidpoint v e := by
@@ -431,6 +436,7 @@ theorem edgeCorridorCenter_ne_crossingMidpoint
     simp [edgeCorridorCenter, crossingMidpoint, hd] at hr hc
     omega
 
+omit [DecidableRel T.Adj] in
 /-- The three interior chord vertices avoid every expanded-contour slot. -/
 theorem edgeCorridorChord_interior_ne_slotPoint
     (d : GridDirectionalDart T) {x}
@@ -487,6 +493,7 @@ theorem edgeCorridorChord_interior_ne_segmentMidpoint
       exact hs (hsEq ▸ occupied_slotOfDart d.reverse)
   · exact (hfinish rfl).elim
 
+omit [DecidableRel T.Adj] in
 theorem slotPoint_dart_ne_reverse (d : GridDirectionalDart T) :
     slotPoint (slotOfDart d) ≠ slotPoint (slotOfDart d.reverse) := by
   intro h
@@ -497,6 +504,7 @@ theorem slotPoint_dart_ne_reverse (d : GridDirectionalDart T) :
       (congrArg GridDirectionalDart.source hdarts).symm
   exact T.loopless.irrefl d.source (hv ▸ d.adj)
 
+omit [DecidableRel T.Adj] in
 theorem edgeCorridorChord_isPath (d : GridDirectionalDart T) :
     (edgeCorridorChord d).IsPath := by
   rw [Walk.isPath_def, support_edgeCorridorChord]
@@ -540,11 +548,11 @@ theorem reverse_append_isCycle_of_paths
     · simpa [List.disjoint_reverse_left] using hedges
   have hpTail : b ∉ p.reverse.support.tail := by
     have hn := hpRev.support_nodup
-    rw [p.reverse.support_eq_cons, List.nodup_cons] at hn
+    rw [← p.reverse.cons_tail_support, List.nodup_cons] at hn
     exact hn.1
   have hqTail : a ∉ q.support.tail := by
     have hn := hq.support_nodup
-    rw [q.support_eq_cons, List.nodup_cons] at hn
+    rw [← q.cons_tail_support, List.nodup_cons] at hn
     exact hn.1
   have htailDisjoint : List.Disjoint p.reverse.support.tail q.support.tail := by
     rw [List.disjoint_left]
@@ -564,7 +572,7 @@ theorem reverse_append_isCycle_of_paths
     intro hnil
     have hlen := congrArg Walk.length hnil
     have hpzero : p.length = 0 := by
-      simp at hlen
+      simp only [Walk.length_append, Walk.length_reverse, Walk.length_nil] at hlen
       omega
     exact hab (Walk.exists_length_eq_zero_iff.mp ⟨p, hpzero⟩)
   exact ⟨⟨hedgeNodup⟩, hne, htailNodup⟩
@@ -574,7 +582,8 @@ theorem succ_ne (s : GridCompassSlot m n) : succ (T := T) s ≠ s := by
   by_cases hs : Occupied (T := T) s
   · let d := GridDirectionalDart.ofDirectionMem (T := T) s.1 s.2 hs
     have hv : d.target = d.source := by
-      simpa [d, succ_of_occupied hs] using congrArg Prod.fst h
+      change d.target = s.1
+      simpa only [succ_of_occupied hs] using congrArg Prod.fst h
     exact T.loopless.irrefl d.source (hv ▸ d.adj)
   · have hd : s.2.clockwise = s.2 := by
       simpa [succ_of_not_occupied hs] using congrArg Prod.snd h
@@ -619,36 +628,31 @@ theorem edges_successorSegment (s : GridCompassSlot m n) :
     (successorSegment (T := T) s).edges =
       [localEdge (T := T) s false, localEdge (T := T) s true] := by
   by_cases hs : Occupied (T := T) s
-  · simp [successorSegment, localEdge, segmentMidpoint, hs]
-    rw [succ_of_occupied hs]
-    exact Or.inl rfl
-  · simp [successorSegment, localEdge, segmentMidpoint, hs, turnSegment]
-    rw [succ_of_not_occupied hs]
-    exact Or.inl rfl
+  · simp only [successorSegment, dif_pos hs]
+    exact (Walk.edges_copy _ _ _).trans (by
+      simp [Walk.edges_cons, localEdge, segmentMidpoint, hs, succ_of_occupied hs]
+      exact ⟨Or.inl ⟨rfl, rfl⟩, Or.inl ⟨rfl, rfl⟩⟩)
+  · simp only [successorSegment, dif_neg hs, Walk.edges_copy,
+      turnSegment, Walk.edges_cons, Walk.edges_nil]
+    simp [localEdge, segmentMidpoint, hs, succ_of_not_occupied hs]
 
 /-- Occupied successors pass through the midpoint of one offset side of their
 retained edge. -/
 theorem crossingMidpoint_mem_successorSegment_of_occupied
     {s : GridCompassSlot m n} (hs : Occupied (T := T) s) :
     crossingMidpoint s.1 s.2 ∈ (successorSegment (T := T) s).support := by
-  unfold successorSegment
-  split <;> rename_i h
-  · simp [Walk.support_copy, Walk.support_cons]
-  · exact (h hs).elim
+  simp [support_successorSegment, segmentMidpoint, hs]
 
 /-- Unoccupied successors pass through the local clockwise turn corner. -/
 theorem turnCorner_mem_successorSegment_of_not_occupied
     {s : GridCompassSlot m n} (hs : ¬Occupied (T := T) s) :
     turnCorner s.1 s.2 ∈ (successorSegment (T := T) s).support := by
-  unfold successorSegment
-  split <;> rename_i h
-  · exact (hs h).elim
-  · simp [Walk.support_copy, turnSegment]
+  simp [support_successorSegment, segmentMidpoint, hs]
 
 @[simp] theorem length_successorSegment (s : GridCompassSlot m n) :
     (successorSegment (T := T) s).length = 2 := by
   unfold successorSegment
-  split <;> simp
+  split <;> exact (Walk.length_copy _ _ _).trans rfl
 
 /-- Every local segment ends where the next local segment begins. -/
 theorem successorSegment_endpoint_continuity (s : GridCompassSlot m n) :
@@ -686,7 +690,9 @@ theorem support_collarTrace (s : GridCompassSlot m n) (k : Nat) :
   induction k generalizing s with
   | zero => rfl
   | succ k ih =>
-      rw [collarTrace, Walk.support_append_eq_support_dropLast_append,
+      change ((successorSegment (T := T) s).append
+        (collarTrace (T := T) (succ (T := T) s) k)).support = _
+      rw [Walk.support_append_eq_support_dropLast_append,
         support_successorSegment, ih]
       rfl
 
@@ -695,7 +701,10 @@ theorem edges_collarTrace (s : GridCompassSlot m n) (k : Nat) :
   induction k generalizing s with
   | zero => rfl
   | succ k ih =>
-      simp [collarTrace, collarEdgeList, edges_successorSegment, ih]
+      change ((successorSegment (T := T) s).append
+        (collarTrace (T := T) (succ (T := T) s) k)).edges = _
+      rw [Walk.edges_append, edges_successorSegment, ih]
+      rfl
 
 theorem collarEdgeList_add (s : GridCompassSlot m n) (a b : Nat) :
     collarEdgeList (T := T) s (a + b) =
@@ -899,12 +908,14 @@ theorem orbitCollarWalk_isCycle
       · omega
       · have hbLt : b < q + 1 := by omega
         have h0b : advance (T := T) s 0 = advance (T := T) s b := by
+          change s = advance (T := T) s b
           simpa [haLast, hperiod] using hab
         have := hslots 0 b (by omega) hbLt h0b
         omega
     · by_cases hbLast : b = q + 1
       · have haLt : a < q + 1 := by omega
         have ha0 : advance (T := T) s a = advance (T := T) s 0 := by
+          change advance (T := T) s a = s
           simpa [hbLast, hperiod] using hab
         have := hslots a 0 haLt (by omega) ha0
         omega
@@ -949,7 +960,7 @@ theorem orderCollarWalk_isCycle
   · intro i j hi hj hij
     have hp : equiv (T := T) ^ i = equiv (T := T) ^ j :=
       hcycle.pow_eq_pow_iff.mpr ⟨s, hs, by
-        simpa [advance_eq_iterate] using hij⟩
+        simpa only [advance_eq_iterate, Equiv.Perm.coe_pow] using hij⟩
     exact pow_injOn_Iio_orderOf hi hj hp
 
 /-- The full offset-collar cycle of a square-grid spanning tree, based at any
@@ -988,8 +999,12 @@ def spanningTreeCollarInteriorFaces {n : Nat}
 @[simp] theorem length_collarTrace (s : GridCompassSlot m n) (k : Nat) :
     (collarTrace (T := T) s k).length = 2 * k := by
   induction k generalizing s with
-  | zero => simp [collarTrace]
-  | succ k ih => simp [collarTrace, ih, Nat.mul_succ]; omega
+  | zero => rfl
+  | succ k ih =>
+      change ((successorSegment (T := T) s).append
+        (collarTrace (T := T) (succ (T := T) s) k)).length = _
+      rw [Walk.length_append, length_successorSegment, ih]
+      omega
 
 /-- Standard-iterate endpoint form of the finite collar trace. -/
 def iterateCollarTrace (s : GridCompassSlot m n) (k : Nat) :

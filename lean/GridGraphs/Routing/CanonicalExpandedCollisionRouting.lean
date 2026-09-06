@@ -181,9 +181,8 @@ theorem ContactEnrichedCanonicalMergerToken.boundarySide_incidence
     | .bottom => token.contact.1.1.val + 1 = n
     | .left => token.contact.1.2.val = 0
     | .right => token.contact.1.2.val + 1 = n := by
-  simpa [ContactEnrichedCanonicalMergerToken.boundarySide] using
-    CanonicalShoreDemand.boundaryIncidence_side_incidence axis hn2
-      token.unsupportedDemand.1
+  exact CanonicalShoreDemand.boundaryIncidence_side_incidence axis hn2
+    token.unsupportedDemand.1
 
 @[simp] theorem ContactEnrichedCanonicalMergerToken.contact_mem_component
     (token : ContactEnrichedCanonicalMergerToken axis hn2 hT) :
@@ -300,10 +299,9 @@ theorem terminalTreeEdgeEmbedding_isNoninternal
     have hsource :
         (CanonicalShoreDemand.boundaryIncidence axis hn2 q.1).1 ∈
           ((terminalTreeEdgeEmbedding axis hn2 hn3 hT) (Sum.inl s)).1 := by
-      simp [terminalTreeEdgeEmbedding, mergerSlotTreeEdgeEmbedding,
-        unmarkedStartTreeEdgeEmbedding, u, q, GridDirectionalDart.edgeSym2,
-        Sym2.mem_iff]
-      exact Or.inl rfl
+      change (GridDirectionalDart.retainedCanonicalInwardDart axis hn2 hT q).source ∈
+        (GridDirectionalDart.retainedCanonicalInwardDart axis hn2 hT q).edgeSym2
+      exact Sym2.mem_iff.mpr (Or.inl rfl)
     exact CanonicalShoreDemand.unsupported_boundary_not_mem_support axis hn2 T q
       (hinternal _ hsource)
   · exact False.elim (noSurvivingRoot axis hn2 hT r)
@@ -314,8 +312,7 @@ theorem mergerSlotTreeEdgeEmbedding_isNoninternal
     (s : (planeChannelForest axis hn2 hT).forest.MergerSlot) :
     ¬TreeEdgeTokenIsInternal (supportFinset (gridGraph n n \ T))
       (mergerSlotTreeEdgeEmbedding axis hn2 hn3 hT) s := by
-  simpa [terminalTreeEdgeEmbedding] using
-    (terminalTreeEdgeEmbedding_isNoninternal axis hn2 hn3 hT (Sum.inl s))
+  exact terminalTreeEdgeEmbedding_isNoninternal axis hn2 hn3 hT (Sum.inl s)
 
 /-- The explicit outside contact selects the same raw induced component as the
 legacy arbitrary outside-endpoint choice. -/
@@ -333,7 +330,7 @@ theorem contactEnrichedCanonicalMergerToken_component_compatible
   let edgeEmbedding := mergerSlotTreeEdgeEmbedding axis hn2 hn3 hT
   let outside : ∃ v, v ∈ (edgeEmbedding token.mergerSlot).1 ∧ v ∉ U := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     exact (mergerSlotTreeEdgeEmbedding_isNoninternal
       axis hn2 hn3 hT token.mergerSlot) (fun v hv => hnone v hv)
   let chosen := Classical.choose outside
@@ -690,11 +687,9 @@ theorem rankedCarrierGap_attachmentOrientation_ne_of_contact_eq
         CanonicalShoreDemand.boundaryIncidence axis hn2
           gap.current.1.unsupportedDemand.1 := by
     apply Prod.ext
-    · simpa [ContactEnrichedCanonicalMergerToken.contact,
-        ContactEnrichedCanonicalMergerToken.inwardDart] using hcontact
+    · exact hcontact
     · apply outerBoundarySide_inwardDirection_injective
-      simpa [ContactEnrichedCanonicalMergerToken.attachmentOrientation,
-        ContactEnrichedCanonicalMergerToken.inwardDart] using horientation
+      exact horientation
   have hdemand := CanonicalShoreDemand.boundaryIncidence_injective axis hn2 hincidence
   have hstart : gap.previous.unmarkedStart = gap.current.1.unmarkedStart := by
     apply Subtype.ext
@@ -1896,7 +1891,7 @@ theorem cornerOuterPortSeparationTopologicalLemma :
       ∃ mark : ↥(markedSlots (T := T)),
         OpenExpandedContourInterval hn2 hT start finish mark.1 := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hno : Disjoint (GridExpandedContour.expandedTargetShoreSlots d)
         (markedSlots (T := T)) := by
       rw [Finset.disjoint_left]
@@ -1969,7 +1964,7 @@ theorem cornerOuterPortSeparationTopologicalLemma :
             ((⟨n - 1, by omega⟩, ⟨0, by omega⟩) : GridVertex n n) .north =
             some ((⟨n - 2, by omega⟩, ⟨0, by omega⟩) : GridVertex n n) := by
           simp [gridNeighbor?, show 0 < n - 1 by omega]
-          apply Prod.ext <;> apply Fin.ext <;> simp <;> omega
+          omega
         rw [hneighbor] at hs
         exact (Option.some.inj hs).symm
       have hcTarget : dc.target =
@@ -2129,7 +2124,7 @@ theorem cornerOuterPortSeparationTopologicalLemma :
             ((⟨0, by omega⟩, ⟨n - 1, by omega⟩) : GridVertex n n) .west =
             some ((⟨0, by omega⟩, ⟨n - 2, by omega⟩) : GridVertex n n) := by
           simp [gridNeighbor?, show 0 < n - 1 by omega]
-          apply Prod.ext <;> apply Fin.ext <;> simp <;> omega
+          omega
         rw [hneighbor] at hs
         exact (Option.some.inj hs).symm
       have hsuccP : f (GridExpandedContour.slotOfDart dp.reverse) = cs := by
@@ -3368,8 +3363,7 @@ theorem canonicalExpandedJointCollisionRouting_iff_incidenceWaste_ge :
   have hledger :=
     cotree_incidenceWaste_add_one_eq_boundary_add_internal_add_components hn2 hT
   dsimp only [U] at hledger ⊢
-  simp only [Fintype.card_coe, Fintype.card_sum, ParentForest.card_mergerSlot,
-    planeChannelForest] at hsource hledger ⊢
+  simp only [Fintype.card_coe, planeChannelForest] at hsource hledger ⊢
   omega
 
 /-- The stricter legacy residual routing condition, retained as a sufficient

@@ -136,9 +136,9 @@ private theorem card_index_phase_zero (k : Nat) :
         (Finset.univ : Finset (Fin (3 * k + 2))).filter
           (fun i => phase (axis := .rows)
             (Sum.inl i : CanonicalShoreDemand .rows (3 * k + 2)) = 0) := by
+    dsimp +instances only [phase]
     ext i
-    simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter,
-      phase_index]
+    simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter]
     constructor
     · rintro ⟨t, rfl⟩
       apply Fin.ext
@@ -173,9 +173,9 @@ private theorem card_index_phase_one (k : Nat) :
         (Finset.univ : Finset (Fin (3 * k + 2))).filter
           (fun i => phase (axis := .rows)
             (Sum.inl i : CanonicalShoreDemand .rows (3 * k + 2)) = 1) := by
+    dsimp +instances only [phase]
     ext i
-    simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter,
-      phase_index]
+    simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter]
     constructor
     · rintro ⟨t, rfl⟩
       apply Fin.ext
@@ -210,9 +210,9 @@ private theorem card_index_phase_two (k : Nat) :
         (Finset.univ : Finset (Fin (3 * k + 2))).filter
           (fun i => phase (axis := .rows)
             (Sum.inl i : CanonicalShoreDemand .rows (3 * k + 2)) = 2) := by
+    dsimp +instances only [phase]
     ext i
-    simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter,
-      phase_index]
+    simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter]
     constructor
     · rintro ⟨t, rfl⟩
       apply Fin.ext
@@ -241,20 +241,21 @@ theorem card_phase_zero (axis : ShoreSweepAxis) (k : Nat) :
         (Finset.univ.filter (fun c : Fin 3 =>
           phase (axis := axis)
             (Sum.inr c : CanonicalShoreDemand axis (3 * k + 2)) = 0)) := by
+    dsimp +instances only [phase, CanonicalShoreDemand]
     ext q
     rcases q with i | c
-    · simp only [Finset.mem_filter, Finset.mem_univ, true_and, phase]
-      rw [Finset.inl_mem_disjSum]
-      simp
-    · simp only [Finset.mem_filter, Finset.mem_univ, true_and, phase]
-      rw [Finset.inr_mem_disjSum]
-      simp
-  rw [hsplit, Finset.card_disjSum]
+    · simp
+      intro _
+      exact Finset.mem_univ _
+    · simp
+      intro _
+      exact Finset.mem_univ _
+  erw [hsplit, Finset.card_disjSum]
   have hindex := card_index_phase_zero k
   change _ + _ = k + 2
   rw [show (Finset.univ.filter (fun i : Fin (3 * k + 2) =>
     phase (axis := axis) (Sum.inl i) = 0)).card = k + 1 by
-      simpa only [phase_index] using hindex]
+      exact hindex]
   have hcorner : (Finset.univ.filter (fun c : Fin 3 => c = 0)) = {0} := by
     ext c
     simp
@@ -273,20 +274,21 @@ theorem card_phase_one (axis : ShoreSweepAxis) (k : Nat) :
         (Finset.univ.filter (fun c : Fin 3 =>
           phase (axis := axis)
             (Sum.inr c : CanonicalShoreDemand axis (3 * k + 2)) = 1)) := by
+    dsimp +instances only [phase, CanonicalShoreDemand]
     ext q
     rcases q with i | c
-    · simp only [Finset.mem_filter, Finset.mem_univ, true_and, phase]
-      rw [Finset.inl_mem_disjSum]
-      simp
-    · simp only [Finset.mem_filter, Finset.mem_univ, true_and, phase]
-      rw [Finset.inr_mem_disjSum]
-      simp
-  rw [hsplit, Finset.card_disjSum]
+    · simp
+      intro _
+      exact Finset.mem_univ _
+    · simp
+      intro _
+      exact Finset.mem_univ _
+  erw [hsplit, Finset.card_disjSum]
   have hindex := card_index_phase_one k
   change _ + _ = k + 2
   rw [show (Finset.univ.filter (fun i : Fin (3 * k + 2) =>
     phase (axis := axis) (Sum.inl i) = 1)).card = k + 1 by
-      simpa only [phase_index] using hindex]
+      exact hindex]
   have hcorner : (Finset.univ.filter (fun c : Fin 3 => c = 1)) = {1} := by
     ext c
     simp
@@ -305,20 +307,21 @@ theorem card_phase_two (axis : ShoreSweepAxis) (k : Nat) :
         (Finset.univ.filter (fun c : Fin 3 =>
           phase (axis := axis)
             (Sum.inr c : CanonicalShoreDemand axis (3 * k + 2)) = 2)) := by
+    dsimp +instances only [phase, CanonicalShoreDemand]
     ext q
     rcases q with i | c
-    · simp only [Finset.mem_filter, Finset.mem_univ, true_and, phase]
-      rw [Finset.inl_mem_disjSum]
-      simp
-    · simp only [Finset.mem_filter, Finset.mem_univ, true_and, phase]
-      rw [Finset.inr_mem_disjSum]
-      simp
-  rw [hsplit, Finset.card_disjSum]
+    · simp
+      intro _
+      exact Finset.mem_univ _
+    · simp
+      intro _
+      exact Finset.mem_univ _
+  erw [hsplit, Finset.card_disjSum]
   have hindex := card_index_phase_two k
   change _ + _ = k + 1
   rw [show (Finset.univ.filter (fun i : Fin (3 * k + 2) =>
     phase (axis := axis) (Sum.inl i) = 2)).card = k by
-      simpa only [phase_index] using hindex]
+      exact hindex]
   have hcorner : (Finset.univ.filter (fun c : Fin 3 => c = 2)) = {2} := by
     ext c
     simp
@@ -337,14 +340,15 @@ private theorem card_blackPhaseDemands_split {n : Nat} (axis : ShoreSweepAxis)
             (Sum.inr c : CanonicalShoreDemand axis n)).1 ∈ gridBlack n n).card := by
   rw [← Finset.card_disjSum]
   congr 1
+  dsimp +instances only [blackPhaseDemands, phase, boundaryIncidence, CanonicalShoreDemand]
   ext q
   rcases q with i | c
-  · simp only [blackPhaseDemands, Finset.mem_filter, Finset.mem_univ, true_and]
-    rw [Finset.inl_mem_disjSum]
-    simp
-  · simp only [blackPhaseDemands, Finset.mem_filter, Finset.mem_univ, true_and]
-    rw [Finset.inr_mem_disjSum]
-    simp
+  · simp
+    intro _ _
+    exact Finset.mem_univ _
+  · simp
+    intro _ _
+    exact Finset.mem_univ _
 
 private theorem card_black_add_white_phase {n : Nat} (axis : ShoreSweepAxis)
     (hn : 2 ≤ n) (p : Fin 3) :

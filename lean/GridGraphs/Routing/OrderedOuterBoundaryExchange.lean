@@ -48,10 +48,7 @@ theorem splitOuterPortCollarVertex_injective (hn2 : 2 ≤ n) :
   have hs : a.side = b.side := by
     rcases a with a | a | a | a <;> rcases b with b | b | b | b <;>
       simp [OuterBoundaryPort.side, splitOuterPortCollarVertex] at hab ⊢
-    all_goals
-      have h := congrArg (fun v => (v.1.val, v.2.val)) hab
-      simp at h
-      try omega
+    all_goals omega
   apply OuterBoundaryPort.ext
   · rcases a with a | a | a | a <;> rcases b with b | b | b | b <;>
       simp [OuterBoundaryPort.side] at hs

@@ -10,6 +10,14 @@ imports and live path references have been updated. See `lean/README.md` for
 navigation. Verification recorded before this move does not certify the new
 module layout; a fresh warning-as-error check is required.
 
+Python layout: the 283 former flat analysis sources now live in eight subject
+packages with mirrored tests. Run them with `python3 -m analysis.<area>.<module>`
+from the repository root. `analysis/README.md` documents the layout, bounded
+checks, and historical provenance policy. Existing result artifacts were not
+regenerated; source snapshots and an explicit before/after migration ledger
+preserve their provenance. The smoke/layout suite and six targeted provenance
+checks pass (29 tests total), with no optimization searches.
+
 ## Toolchain Migration Status
 
 The project now pins Lean `v4.33.1` and mathlib `v4.33.1`; the dependency

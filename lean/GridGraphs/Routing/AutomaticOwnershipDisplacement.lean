@@ -101,31 +101,25 @@ theorem planarLensRawPhysicalResource_isCanonicallyReserved_iff_mem_range :
       · rintro ⟨owner, howner⟩
         rcases owner with owner | owner | owner
         · exact ⟨owner, Sum.inl.inj howner⟩
-        · simp [fullPrunedAutomaticOwnerResourceEmbedding,
-            FullPrunedAutomaticOwner.rawResource] at howner
-        · simp [fullPrunedAutomaticOwnerResourceEmbedding,
-            FullPrunedAutomaticOwner.rawResource] at howner
+        · exact False.elim (Sum.inr_ne_inl howner)
+        · exact False.elim (Sum.inr_ne_inl howner)
   | .inr (.inl edge) => by
       constructor
       · rintro ⟨owner, rfl⟩
         exact ⟨.internalToken owner, rfl⟩
       · rintro ⟨owner, howner⟩
         rcases owner with owner | owner | owner
-        · simp [fullPrunedAutomaticOwnerResourceEmbedding,
-            FullPrunedAutomaticOwner.rawResource] at howner
+        · exact False.elim (Sum.inl_ne_inr howner)
         · exact ⟨owner, Sum.inl.inj (Sum.inr.inj howner)⟩
-        · simp [fullPrunedAutomaticOwnerResourceEmbedding,
-            FullPrunedAutomaticOwner.rawResource] at howner
+        · exact False.elim (Sum.inr_ne_inl (Sum.inr.inj howner))
   | .inr (.inr component) => by
       constructor
       · rintro ⟨owner, rfl⟩
         exact ⟨.carrierQuotient owner, rfl⟩
       · rintro ⟨owner, howner⟩
         rcases owner with owner | owner | owner
-        · simp [fullPrunedAutomaticOwnerResourceEmbedding,
-            FullPrunedAutomaticOwner.rawResource] at howner
-        · simp [fullPrunedAutomaticOwnerResourceEmbedding,
-            FullPrunedAutomaticOwner.rawResource] at howner
+        · exact False.elim (Sum.inl_ne_inr howner)
+        · exact False.elim (Sum.inl_ne_inr (Sum.inr.inj howner))
         · exact ⟨owner, Sum.inr.inj (Sum.inr.inj howner)⟩
 
 /-- A raw resource displaces its installed automatic owner.  The relation is
@@ -268,9 +262,12 @@ theorem fullPrunedAutomaticOwnerReachable_exit_iff
     FullPrunedAutomaticOwnerReachable axis hn2 hn3 hT continuation
         (.exit owner) raw ↔
       raw = .inl (exitEmbedding axis hn2 hT owner) := by
-  simp [FullPrunedAutomaticOwnerReachable,
-    FullPrunedAutomaticOwner.continuationToken?,
-    FullPrunedAutomaticOwner.rawResource, eq_comm]
+  constructor
+  · rintro (hraw | ⟨token, htoken, _⟩)
+    · exact hraw.symm
+    · cases htoken
+  · intro hraw
+    exact Or.inl hraw.symm
 
 theorem fullPrunedAutomaticOwnerReachable_internalToken_iff
     (continuation : FullPrunedTerminalCotreeContinuation axis hn2 hT)

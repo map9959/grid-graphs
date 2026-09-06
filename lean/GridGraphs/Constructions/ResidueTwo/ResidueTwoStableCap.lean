@@ -70,9 +70,7 @@ theorem residueTwoStableCapVertex_injective (t : Nat) :
 /-- The bridge set is absent from the raw pumped occurrence image. -/
 theorem residueTwoStableBridges_disjoint_raw (t : Nat) :
     Disjoint (residueTwoStableBridges t) (residueTwoExactOccurrenceImage t) := by
-  simpa only [residueTwoStableBridges, residueTwoStableBridgeVertex,
-    residueTwoExactRepairAdded, residueTwoExactRepairAddedVertex] using
-      residueTwoExactRepairAdded_disjoint_occurrences t
+  exact residueTwoExactRepairAdded_disjoint_occurrences t
 
 /-- Every cap deletion is the corresponding copy of the base vertex `(1,13)`. -/
 theorem residueTwoStableCapDeletions_subset_raw (t : Nat) :
@@ -87,7 +85,7 @@ theorem residueTwoStableCapDeletions_subset_raw (t : Nat) :
           Fin (residueTwoExactMultiplicity 11 t (⟨13, by omega⟩ : Fin 20)) //
         IsResidueTwoExactBase ⟨1, by omega⟩ ⟨13, by omega⟩} :=
     ⟨(⟨0, by simp [residueTwoExactMultiplicity]⟩,
-      ⟨j.val, by simp [residueTwoExactMultiplicity]; omega⟩), by
+      ⟨j.val, by simp [residueTwoExactMultiplicity]⟩), by
         simp [IsResidueTwoExactBase, residueTwoExactBaseRow]⟩
   let x : ResidueTwoExactOccurrence t :=
     ⟨⟨1, by omega⟩, ⟨13, by omega⟩, copies⟩
@@ -207,11 +205,12 @@ theorem residueTwoStableStepVertex_bridge (t : Nat) (j : Fin t) :
   have hj := j.isLt
   apply Prod.ext
   · apply Fin.ext
-    simp [residueTwoStableStepVertex, residueTwoStableBridgeVertex,
-      show ¬5 + 3 * t ≤ 5 by omega]
+    change (if 5 + 3 * t ≤ 5 then 5 + 3 else 5) = 5
+    rw [if_neg (by omega)]
   · apply Fin.ext
-    simp [residueTwoStableStepVertex, residueTwoStableBridgeVertex,
-      show ¬11 + 3 * t ≤ 13 + 3 * j.val by omega]
+    change (if 11 + 3 * t ≤ 13 + 3 * j.val then
+      13 + 3 * j.val + 3 else 13 + 3 * j.val) = 13 + 3 * j.val
+    rw [if_neg (by omega)]
 
 theorem residueTwoStableStepVertex_cap (t : Nat) (j : Fin t) :
     residueTwoStableStepVertex t (residueTwoStableCapVertex t j) =
@@ -219,11 +218,12 @@ theorem residueTwoStableStepVertex_cap (t : Nat) (j : Fin t) :
   have hj := j.isLt
   apply Prod.ext
   · apply Fin.ext
-    simp [residueTwoStableStepVertex, residueTwoStableCapVertex,
-      show ¬5 + 3 * t ≤ 1 by omega]
+    change (if 5 + 3 * t ≤ 1 then 1 + 3 else 1) = 1
+    rw [if_neg (by omega)]
   · apply Fin.ext
-    simp [residueTwoStableStepVertex, residueTwoStableCapVertex,
-      show ¬11 + 3 * t ≤ 13 + 3 * j.val by omega]
+    change (if 11 + 3 * t ≤ 13 + 3 * j.val then
+      13 + 3 * j.val + 3 else 13 + 3 * j.val) = 13 + 3 * j.val
+    rw [if_neg (by omega)]
 
 /-- An old symbolic occurrence remains a raw occurrence after insertion. -/
 theorem residueTwoExactOccurrenceImage_step_subset (t : Nat) :

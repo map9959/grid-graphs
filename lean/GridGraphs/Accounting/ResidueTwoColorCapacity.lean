@@ -120,14 +120,12 @@ theorem demand_color_capacities {n : Nat} {axis : ShoreSweepAxis} {hn : 2 ≤ n}
       · simpa [hq] using color_respecting q)
   have hmarkBlack : Fintype.card {mark // markBlack mark} =
       Fintype.card (BlackCotreeContourMark T) := by
-    rw [Fintype.card_subtype]
-    simp [BlackCotreeContourMark, CotreeContourMarkOn, Fintype.card_subtype,
-      markBlack_iff]
+    exact Fintype.card_congr (Equiv.subtypeEquivRight markBlack_iff)
   have hmarkWhite : Fintype.card {mark // ¬markBlack mark} =
       Fintype.card (WhiteCotreeContourMark T) := by
-    rw [Fintype.card_subtype]
-    simp [WhiteCotreeContourMark, CotreeContourMarkOn, gridWhite,
-      Fintype.card_subtype, markBlack_iff]
+    apply Fintype.card_congr (Equiv.subtypeEquivRight _)
+    intro mark
+    simp [gridWhite, markBlack_iff]
   rw [hmarkBlack] at h
   rw [hmarkWhite] at h
   constructor

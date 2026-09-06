@@ -156,10 +156,12 @@ theorem residueTwoExactRepairCut_horizontal
   have hj := j.isLt
   by_cases htop : e.row.val = 0
   · simp [residueTwoExactRepairCut, residueTwoExactRepairCutFace,
-      horizontalDualEndpoints, htop, show 1 ≠ 20 + 3 * t by omega] <;> omega
+      horizontalDualEndpoints, htop, show 1 ≠ 20 + 3 * t by omega]
+    omega
   by_cases hbottom : e.row.val + 1 = 20 + 3 * t
   · simp [residueTwoExactRepairCut, residueTwoExactRepairCutFace,
-      horizontalDualEndpoints, htop, hbottom] <;> omega
+      horizontalDualEndpoints, htop, hbottom]
+    omega
   simp only [horizontalDualEndpoints, dif_neg htop, dif_neg hbottom]
   constructor
   · intro h
@@ -224,7 +226,8 @@ theorem residueTwoExactRepairCut_vertical
       verticalDualEndpoints, hleft, show 1 ≠ 20 + 3 * t by omega]
   by_cases hright : e.col.val + 1 = 20 + 3 * t
   · simp [residueTwoExactRepairCut, residueTwoExactRepairCutFace,
-      verticalDualEndpoints, hleft, hright] <;> omega
+      verticalDualEndpoints, hleft, hright]
+    omega
   simp only [verticalDualEndpoints, dif_neg hleft, dif_neg hright]
   constructor
   · intro h

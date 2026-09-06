@@ -33,7 +33,9 @@ def source_path(name: str) -> Path:
     directories = [ANALYSIS_ROOT, ANALYSIS_ROOT / "tests"]
     directories.extend(ANALYSIS_ROOT / subject for subject in SUBJECTS)
     directories.extend(ANALYSIS_ROOT / "tests" / subject for subject in SUBJECTS)
-    matches = [directory / name for directory in directories if (directory / name).is_file()]
+    matches = [
+        directory / name for directory in directories if (directory / name).is_file()
+    ]
     if len(matches) != 1:
         raise FileNotFoundError(f"expected one source for {name!r}, found {matches}")
     return matches[0]

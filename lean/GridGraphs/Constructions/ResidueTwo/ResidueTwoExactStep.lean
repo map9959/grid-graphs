@@ -302,8 +302,8 @@ theorem uResidueTwoExact_dual_connected_of_stepGeometry
   induction d with
   | zero => simpa using uResidueTwoExact_six_dual_connected
   | succ d ih =>
-      simpa [Nat.add_assoc] using
-        (steps (6 + d) (by omega)).connected (ih (by omega))
+      rw [← Nat.add_assoc]
+      exact (steps (6 + d) (by omega)).connected (ih (by omega))
 
 /-- Connectedness of one exact member realizes its exact complement count. -/
 theorem residueTwoExact_le_maxPreserved_of_dual_connected

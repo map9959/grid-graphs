@@ -124,6 +124,7 @@ theorem NestedMergerSlotChildSectors.reaches_outer_obligation
     exact (Finset.mem_filter.mp hmem).2
   exact Relation.ReflTransGen.tail pair.nested hstep
 
+omit [DecidableEq Start] in
 /-- Every start in the inner nested sector belongs to the descendant group of
 the exposed outer branch obligation. -/
 theorem NestedMergerSlotChildSectors.descendantStartGroup_subset_outer

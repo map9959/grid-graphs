@@ -23,7 +23,9 @@ def migrated_artifact(record):
 
     from analysis._paths import ANALYSIS_ROOT, REPO_ROOT
 
-    ledger = json.loads((ANALYSIS_ROOT / "provenance" / "layout_migration.json").read_text())
+    ledger = json.loads(
+        (ANALYSIS_ROOT / "provenance" / "layout_migration.json").read_text()
+    )
     paths = {item["old_path"]: item["new_path"] for item in ledger["files"]}
     hashes = {}
     for item in ledger["files"]:
@@ -53,9 +55,14 @@ def migrated_artifact(record):
             current = REPO_ROOT / item["new_path"]
             digest = hashlib.sha256(current.read_bytes()).hexdigest()
             if digest != item["after_sha256"]:
-                raise AssertionError(f"source changed after layout migration: {current}")
+                raise AssertionError(
+                    f"source changed after layout migration: {current}"
+                )
             archived = ANALYSIS_ROOT / "provenance" / "sources" / f"{value}.py.txt"
-            if not archived.is_file() or hashlib.sha256(archived.read_bytes()).hexdigest() != value:
+            if (
+                not archived.is_file()
+                or hashlib.sha256(archived.read_bytes()).hexdigest() != value
+            ):
                 raise AssertionError(f"missing or altered historical source: {value}")
             return digest
         value = command_pattern.sub(command, value)
@@ -68,13 +75,19 @@ def migrated_artifact(record):
         if isinstance(value, dict):
             return {key: walk(item) for key, item in value.items()}
         if isinstance(value, list):
-            if value and isinstance(value[0], str) and Path(value[0]).name.startswith("python"):
+            if (
+                value
+                and isinstance(value[0], str)
+                and Path(value[0]).name.startswith("python")
+            ):
                 for index, argument in enumerate(value[1:], 1):
                     if isinstance(argument, str) and argument in paths:
                         module = paths[argument].removesuffix(".py").replace("/", ".")
-                        return [walk(item) for item in value[:index]] + ["-m", module] + [
-                            walk(item) for item in value[index + 1:]
-                        ]
+                        return (
+                            [walk(item) for item in value[:index]]
+                            + ["-m", module]
+                            + [walk(item) for item in value[index + 1 :]]
+                        )
             return [walk(item) for item in value]
         return text(value) if isinstance(value, str) else value
 

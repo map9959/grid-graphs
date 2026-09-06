@@ -96,7 +96,7 @@ theorem residueTwoExactRepairDeleted_subset (t : Nat) :
       {p : Fin (residueTwoExactMultiplicity 5 t (⟨6, by omega⟩ : Fin 20)) ×
           Fin (residueTwoExactMultiplicity 11 t (⟨8, by omega⟩ : Fin 20)) //
         IsResidueTwoExactBase ⟨6, by omega⟩ ⟨8, by omega⟩} :=
-    ⟨(⟨j.val, by simp [residueTwoExactMultiplicity]; omega⟩,
+    ⟨(⟨j.val, by simp [residueTwoExactMultiplicity]⟩,
       ⟨0, by simp [residueTwoExactMultiplicity]⟩), by
         simp [IsResidueTwoExactBase, residueTwoExactBaseRow]⟩
   let x : ResidueTwoExactOccurrence t :=
@@ -124,8 +124,7 @@ theorem residueTwoExactRepairAdded_disjoint_occurrences (t : Nat) :
       ⟨x.2.1, x.2.2.val.2⟩ =
       residueTwoExactExpandIndex 11 t (by omega)
         ⟨⟨13, by omega⟩, ⟨j.val, by
-          simp [residueTwoExactMultiplicity]
-          omega⟩⟩ := by
+          simp [residueTwoExactMultiplicity]⟩⟩ := by
     apply Fin.ext
     have h := congrArg (fun z => z.2.val) hx
     simpa [residueTwoExactVertex, residueTwoExactRepairAddedVertex,
@@ -148,7 +147,7 @@ theorem residueTwoExactRepairAdded_disjoint_occurrences (t : Nat) :
   have hr : x.1 = (⟨5, by omega⟩ : Fin 20) :=
     congrArg ResidueTwoExactIndex.base hri
   rw [hr] at hxbase
-  simpa [IsResidueTwoExactBase, residueTwoExactBaseRow] using hxbase
+  simp [IsResidueTwoExactBase, residueTwoExactBaseRow] at hxbase
 
 theorem residueTwoExactRepairAdded_disjoint_deleted (t : Nat) :
     Disjoint (residueTwoExactRepairAdded t) (residueTwoExactRepairDeleted t) := by

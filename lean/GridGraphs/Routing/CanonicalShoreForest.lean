@@ -179,8 +179,11 @@ theorem canonicalShoreDemands_subset_leaves {n : Nat}
       · simp [canonicalShoreParentForest, canonicalShoreParent]
       · simp only [canonicalShoreParentForest, canonicalShoreParent]
         split <;> simp
-    simp only [ParentForest.leaves, Finset.mem_filter, Finset.mem_univ, true_and,
-      ParentForest.childCount, hchildren, Finset.card_empty]
+    apply Finset.mem_filter.mpr
+    exact ⟨Finset.mem_univ _, by
+      change ((canonicalShoreParentForest axis hn2 hn3 hT root).children
+        (Sum.inl d)).card = 0
+      rw [hchildren, Finset.card_empty]⟩
   · simp [canonicalShoreDemands] at hq
 
 /-- The actual finite pruned forest of continuing canonical shore germs. -/
