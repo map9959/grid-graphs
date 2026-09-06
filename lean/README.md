@@ -61,9 +61,14 @@ check them explicitly when verifying every source file. See `STATUS.md` for
 current verification rather than inferring it from this directory structure.
 
 The reorganized source tree has passed strict verification on Lean/mathlib
-4.33.1: all 190 modules, zero errors and zero warnings.
+4.33.1: all 202 modules, zero errors and zero warnings.
 Use `lake --wfail build GridGraphs` for the aggregate; `../docs/ROADMAP.md` records the full command
 including the five additional modules.
+
+Before extending a Lean file over 1,000 lines, split it into focused modules;
+sub-subfolders are encouraged. Keep changed modules warning-free. The former
+large `Results/SmallDiagonalExact.lean` is now an aggregate over its
+`SmallDiagonalExact/` subfolder, with the largest proof file at 708 lines.
 
 ## Key Modules
 
@@ -95,6 +100,15 @@ including the five additional modules.
 - `GridGraphs/Accounting/IncidenceWaste.lean`: support incidence waste and exact arbitrary
   equal-edge exchange accounting.
 - `GridGraphs/Accounting/ForestLedger.lean`: generic finite-forest edge/component ledger.
+- `GridGraphs/Accounting/CarrierLengthBound.lean`: unconditional square upper bound
+  `P(n)<=n*(n*n+4*n-6)/(3*n+1)` for n>=5, from preserved-component lengths.
+- `GridGraphs/Accounting/BoundaryStratifiedCarrierBound.lean`: stronger numerator-minus-seven
+  bound for n>=7, from boundary/deep carrier separation and the b>=6 ledger.
+- `GridGraphs/Accounting/ResidueTwoCounterexampleProfile.lean` and
+  `GridGraphs/Geometry/CarrierPacking.lean`: checked counterexample restrictions
+  and local interval-overlap geometry for the next upper-bound steps.
+- `GridGraphs/Results/SmallDiagonalExact/`: structural exact proofs for sides
+  3, 5, 7, and 10, including the equalities `P(7)=22` and `P(10)=42`.
 - `GridGraphs/Accounting/CotreeWaste.lean`: identifies grid cotree support with
   non-preserved vertices and proves the exact cotree waste identity.
 - `GridGraphs/Accounting/ForcedForestLedger.lean` and

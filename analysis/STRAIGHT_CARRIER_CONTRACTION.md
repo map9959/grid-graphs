@@ -215,7 +215,7 @@ global summation.
 Run:
 
 ```bash
-python3 -m unittest discover -s analysis -p 'test_straight_carrier_count.py'
+python3 -m unittest analysis.tests.bounds.test_straight_carrier_count
 python3 -m analysis.bounds.straight_carrier_count --brute-max-n 4
 ```
 
@@ -235,3 +235,93 @@ UUU
 
 with the same values `2 > 1`; the interior example in Section 4 makes the
 branch-overlap geometry more symmetric.
+
+## 8. Unconditional Carrier-Length Upper Bound
+
+The following improvement is now formalized in
+`lean/GridGraphs/Accounting/CarrierLengthBound.lean`. It does not rely on the
+false global branch summation discussed above.
+
+For n>=5, write f=|F|, r=c_F, c=c_H and b=B_U. Straightness gives
+`f<=n*r`: project each component injectively onto its varying coordinate and
+sum the component cardinalities. This includes the empty forced set.
+The checked five-unit boundary theorem and nonemptiness of the ambient grid
+give `b>=5` and `c>=1`. Thus
+
+```text
+3f+r+6 <= n*n+4n,
+f <= n*r,
+(3n+1)*f + 6n <= n*(n*n+4n).
+```
+
+Consequently every square spanning-tree optimum satisfies
+
+```text
+P(n) <= floor(n*(n*n+4n-6)/(3n+1)),    n>=5.
+```
+
+The exact ledger also translates this algebraically to
+`(3n+1)*(r+c+b) >= n*(n+22)`. This is only a budget bound of leading order
+n/3, not the desired `r+c+b>=n+4`; collective geometry of the intervals is
+still needed for sharpness.
+
+At n=7 the new upper bound is 22 and meets the existing residue-one lower
+construction, proving `P(7)=22` unconditionally. At sides 23 and 26 it yields
+upper bounds 202 and 254, respectively, versus elementary/refined bounds 206
+and 259. With the checked staircase construction we have
+`194<=P(23)<=202` and `246<=P(26)<=254`.
+
+These are symbolic theorem specializations. No grid optimization or witness
+enumeration was used to establish the new bound or the exact 7x7 result.
+
+## 9. Boundary-Stratified Improvement (Checked)
+
+`Accounting/BoundaryStratifiedCarrierBound.lean` strengthens the preceding
+result to
+
+```text
+P(n) <= floor(n*(n*n+4n-7)/(3n+1)),    n>=7.
+```
+
+For b>=6, the original carrier cap and c>=1 give the extra budget unit
+directly. For b=5 and n>=10, the checked next-ring exclusion separates the
+components of grid[F] into boundary and deep carriers. There are exactly
+4n-9 preserved boundary vertices. Since each carrier has at most n vertices,
+at least four carriers are needed for the boundary. Each remaining carrier
+fits inside the deep square of side n-4. Writing r_B for the boundary-carrier
+count gives
+
+```text
+f <= 4n-9 + (n-4)*(r-r_B) <= (n-4)*r+7.
+```
+
+Together with `3f+r+6<=n*n+4n`, this yields the b=5 rational estimate
+`f <= (n^3-22n+31)/(3n-11)`. For n>=10 it is no larger than the displayed
+universal bound before rounding: the cross-multiplied difference is
+`n^2+6n-31>0`. Cases n=7,8,9 follow arithmetically from the preceding bound.
+This covers ALL configurations; no b=5 normal-form assumption is made.
+
+The checked residue-two form is
+
+```text
+P(3k+2) <= 3k^2+7k+floor((2k+3)/3),    k>=2.
+```
+
+It gives `194<=P(23)<=201` and retains `246<=P(26)<=254`. At side 10 it
+matches the residue-one construction and proves `P(10)=42` exactly. The
+stable target `3k^2+7k` is still not reached in general.
+
+Two supporting reductions are also checked:
+
+- `Geometry/CarrierPacking.lean`: two wholly preserved horizontal intervals
+  two rows apart have intersection cardinality at most one and total length
+  at most n+1. Two common columns would force a six-cycle.
+- `Accounting/ResidueTwoCounterexampleProfile.lean`: if
+  `f>=3k^2+7k+excess` with k>=1 and excess>=1, then r>=k+2 and
+  `b+c+3*excess<=2k+10`. A stable counterexample therefore has b+c<=2k+7.
+  At b=5 and k>=5 the refined geometry gives r>=k+3 and c<=2k+1.
+
+These necessary profiles are not themselves contradictions. Global summation
+of the local packing constraints and exclusion of the remaining low-cost
+profiles are still open. No new lower construction or six-width target pump
+is asserted by these upper-side results.

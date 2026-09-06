@@ -8,6 +8,12 @@ import GridGraphs.Accounting.BoundaryFiveBudget
 import GridGraphs.Accounting.BoundaryFiveEquality
 import GridGraphs.Constructions.BoundaryFive.BoundaryFiveConstruction
 import GridGraphs.Constructions.ResidueTwo.ResidueTwoStaircaseForest
+import GridGraphs.Accounting.CarrierLengthBound
+import GridGraphs.Accounting.BoundaryStratifiedCarrierBound
+import GridGraphs.Accounting.ResidueTwoCounterexampleProfile
+import GridGraphs.Geometry.CarrierPacking
+import GridGraphs.Results.SmallDiagonalExact.Seven
+import GridGraphs.Results.SmallDiagonalExact.Ten
 
 /-!
 # Decidable sanity tests linking Lean definitions to Rust DP ground truth
@@ -23,6 +29,52 @@ these `example`s and therefore break `lake build`.
 -/
 
 namespace GridGraphs
+
+/-! ## Unconditional carrier-length upper bounds -/
+
+example (k : Nat) (hk : 3 ≤ k) :
+    3 * k ^ 2 + 6 * k + 2 + k / 2 ≤ maxPreserved (3 * k + 2) (3 * k + 2) ∧
+      maxPreserved (3 * k + 2) (3 * k + 2) ≤
+        3 * k ^ 2 + 7 * k + (2 * k + 3) / 3 := by
+  exact ⟨ResidueTwoStaircase.residueTwo_le_maxPreserved hk,
+    maxPreserved_residueTwo_le_boundary_stratified (by omega)⟩
+
+example : maxPreserved 7 7 = 22 := maxPreserved_seven_seven
+
+example : maxPreserved 10 10 = 42 := maxPreserved_ten_ten
+
+example : 194 ≤ maxPreserved 23 23 ∧ maxPreserved 23 23 ≤ 201 := by
+  constructor
+  · simpa using ResidueTwoStaircase.residueTwo_le_maxPreserved (k := 7) (by omega)
+  · simpa using maxPreserved_le_boundary_stratified_carrier_bound (n := 23) (by omega)
+
+example : 246 ≤ maxPreserved 26 26 ∧ maxPreserved 26 26 ≤ 254 := by
+  constructor
+  · simpa using ResidueTwoStaircase.residueTwo_le_maxPreserved (k := 8) (by omega)
+  · simpa using maxPreserved_le_boundary_stratified_carrier_bound (n := 26) (by omega)
+
+example : maxPreserved 14 14 ≤ 79 := by
+  simpa using maxPreserved_le_boundary_stratified_carrier_bound (n := 14) (by omega)
+
+example (F : Finset (GridVertex 23 23))
+    (hacyc : (forcedEdgeGraph (gridGraph 23 23) (↑F : Set _)).IsAcyclic)
+    (hcard : 197 ≤ F.card) :
+    boundaryDeficiencySum 23 23 (Finset.univ \ F) +
+      Fintype.card (forcedEdgeGraph (gridGraph 23 23) (↑F : Set _)).ConnectedComponent ≤ 21 := by
+  exact residueTwo_stable_counterexample_budget (k := 7) (by omega)
+    F hacyc (by simpa using hcard)
+
+example (F : Set (GridVertex 3 2))
+    (hacyc : (forcedEdgeGraph (gridGraph 3 2) F).IsAcyclic)
+    (h00 : (0, 0) ∈ F) (h01 : (0, 1) ∈ F)
+    (h20 : (2, 0) ∈ F) (h21 : (2, 1) ∈ F) : False := by
+  apply forced_rectangle_two_rows_false (m := 3) (n := 2) (0 : Fin 1) (0 : Fin 1) hacyc
+  · simpa using h00
+  · simpa using h01
+  · simpa using h20
+  · simpa using h21
+
+example : 254 < refinedUB 26 26 := by norm_num [refinedUB]
 
 /-! ## Improved arbitrary-width residue-two construction -/
 

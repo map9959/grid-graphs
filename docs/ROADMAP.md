@@ -2,7 +2,7 @@
 
 Updated: 2026-09-06.
 
-Source layout: the 190 Lean modules are now grouped under `Core`, `Forests`,
+Source layout: the 202 Lean modules are grouped under `Core`, `Forests`,
 `Geometry`, `Accounting`, `Routing`, `Surgery`, `Constructions`, `Results`,
 and `Tests`. Construction families have their own subfolders. Public theorem
 namespaces and the `import GridGraphs` entry point are unchanged; module
@@ -21,7 +21,7 @@ checks pass (29 tests total), with no optimization searches.
 ## Verification Status
 
 Lean and mathlib are pinned to `v4.33.1`. The reorganized project passed full
-verification with **zero errors and zero warnings**: 8,897 jobs, exit 0.
+verification with **zero errors and zero warnings**: 8,909 jobs, exit 0.
 The command, run from `lean/`, was:
 
 ```bash
@@ -33,9 +33,9 @@ LEAN_NUM_THREADS=2 lake --no-cache --wfail build GridGraphs \
   GridGraphs.Results.SmallDiagonal
 ```
 
-This covers all 190 source modules without changing the aggregate API. It
+This covers all 202 source modules, including the five outside the aggregate closure. It
 reuses cached mathlib dependencies rather than running a separate mathlib-wide
-verification. The completed log is `/tmp/opencode/grid-graphs-layout-build-pass6.log`,
+verification. The completed log is `/tmp/opencode/boundary-stratified-final-build.log`,
 with exit status in the corresponding `.exit` file. No verification process
 was left running.
 
@@ -43,7 +43,8 @@ Migration fixes preserve theorem statements and certificate data. Existing
 finite certificates now use efficient kernel-checked fixed-entry replay, not
 new searches or native proof axioms. Linter warnings were removed rather than
 suppressed. No proof placeholders or global backward-compatibility flags were
-added. The improved staircase construction is included in this verified build.
+added. The staircase construction, boundary-stratified upper bound, and exact
+`P(7)=22` and `P(10)=42` results are included in this verified build.
 
 This is the working roadmap. Historical roadmaps and analysis notes retain
 the previous programs, evidence, and failed approaches for reference. Their
@@ -101,12 +102,16 @@ and does not establish an upper bound for b>=6.
 |---|---|
 | Maximum preserved vertices equals maximum feasible forced-set size | Established in Lean |
 | Exact component and boundary ledgers | Established in Lean |
-| Exact bases P(3)=4, P(4)=8, P(5)=11 | Established in Lean |
+| Exact values P(3)=4, P(4)=8, P(5)=11, P(7)=22, P(10)=42 | Established in Lean |
 | Residue-zero and residue-one matching lower constructions | Established in Lean |
 | Residue-two target-score lower witnesses through n=20 | Established in Lean |
 | Uniform affine residue-two lower bound `3k^2+6k+5`, k>=5 | Established in Lean |
 | Improved explicit lower family `3k^2+6k+2+floor(k/2)`, k>=3 | Unconditionally proved in Lean: `ResidueTwoStaircaseForest.lean` |
 | General sharp square upper bounds | Still open |
+| Carrier-length upper bound `P(n)<=n*(n*n+4*n-6)/(3*n+1)`, n>=5 | Unconditionally proved in Lean; division rounds down |
+| Stronger boundary-stratified upper bound `P(n)<=n*(n*n+4*n-7)/(3*n+1)`, n>=7 | Unconditionally proved in Lean |
+| Residue-two counterexample budget restrictions | Checked necessary conditions, not exclusions of all counterexamples |
+| Horizontal carriers two rows apart overlap in at most one column | Checked local packing theorem |
 | Residue-two target lower family for k>=7, starting at n=23 | Still open |
 | Five-unit boundary bound and target component obstruction | Established in Lean: `BoundaryFiveBudget.lean` |
 | Boundary-five corners, boundary count, and unique gap | Established in Lean: `BoundaryFiveEquality.lean` |
@@ -382,6 +387,78 @@ Completion gates:
 
 ## 7. Upper Track: Prove The Minimum
 
+### Current Unconditional Upper Bound
+
+`Accounting/BoundaryStratifiedCarrierBound.lean` proves, for every n>=7,
+
+```text
+P(n) <= floor(n*(n*n+4*n-7)/(3*n+1)).
+```
+
+This improves the earlier numerator-minus-six carrier bound, which remains
+available for n>=5. The new proof covers every feasible set, without assuming
+that an optimum has b=5:
+
+- If b>=6, the original carrier estimate and c>=1 already pay seven units.
+- If b=5 and n>=10, the empty next ring separates induced preserved components
+  into boundary carriers and deep carriers. The boundary contains exactly
+  `4n-9` preserved vertices and needs at least four carriers; each deep carrier
+  has length at most n-4. Consequently `|F|<=(n-4)*r+7`.
+- Combining this refined length estimate with the ledger gives the stronger
+  bound. The cases n=7,8,9 follow by arithmetic from the earlier estimate.
+
+In residue two, the checked polynomial form is
+
+```text
+P(3k+2) <= 3k^2+7k+floor((2k+3)/3),    k>=2.
+```
+
+There is no universal-waste assumption. The improvement does not change the
+linear asymptotic coefficient of the earlier bound, and the sharp stable
+target `3k^2+7k` remains open.
+
+| Side | Proved lower | Proved upper |
+|---:|---:|---:|
+| 7 | 22 | 22 |
+| 10 | 42 | 42 |
+| 14 | 77 | 79 |
+| 23 | 194 | 201 |
+| 26 | 246 | 254 |
+
+The new equality at side 10 is `maxPreserved_ten_ten` in
+`Results/SmallDiagonalExact/Ten.lean`, using the existing residue-one lower
+construction. These examples specialize structural theorems; no grid searches
+were run.
+
+### Checked Counterexample Restrictions
+
+`Accounting/ResidueTwoCounterexampleProfile.lean` proves that a feasible set on
+side 3k+2 with `|F|>=3k^2+7k+excess`, k>=1 and excess>=1, must satisfy
+
+```text
+r >= k+2,
+b+c+3*excess <= 2k+10.
+```
+
+Thus a stable counterexample has b+c<=2k+7, and a counterexample to the early
+target has b+c<=2k+4. The branch b+c>=2k+8 already satisfies the stable target.
+For stable counterexamples with b=5, the refined geometry additionally proves
+r>=k+3 and c<=2k+1. These narrow the open profiles; they do not prove that
+those profiles are impossible.
+
+`Geometry/CarrierPacking.lean` independently proves the six-cycle obstruction
+and the bound `length(C1)+length(C2)<=n+1` for wholly preserved horizontal
+intervals two rows apart. This local result has not yet been summed into a
+stronger global packing inequality.
+
+Next upper gate: analyze equality in the refined b=5 carrier bound and combine
+the remaining low-budget profiles with actual attachment or packing
+obstructions. Next lower gate: a valid six-width target construction with
+compatible seeds is still missing; this work has not improved the lower score
+beyond the checked staircase family.
+
+### Sharp Upper Obligations
+
 The direct targets are `B>=3k+9` for 1<=k<=4 and `B>=3k+12` for k>=5,
 for every feasible F. The known lower witnesses then close the early range
 and k=5,6; the lower track must close the remaining tail.
@@ -439,6 +516,18 @@ Hall or routing interfaces without new grid geometry are not a milestone.
 
 ## 9. Laptop And Verification Rules
 
+- Before extending a Lean file over 1,000 lines, split it into focused modules.
+  Use sub-subfolders where helpful, preserve public theorem names, and keep
+  new modules below that limit. Do not hide the old proof in an oversized helper.
+- Address every project linter warning; do not silence linters to obtain a clean
+  build. Verify changed modules and the full source set with warnings as errors.
+
+The previous 2,420-line `Results/SmallDiagonalExact.lean` has been split into
+`Three`, `BoundaryFive`, `LedgerFive`, `AttachmentFive`, `AttachmentCasesFive`,
+and `Five` under `Results/SmallDiagonalExact/`. The largest is 708 lines. The
+original entry module now aggregates these results and the `Seven` and `Ten` theorems;
+all 17 prior public declaration names are preserved.
+
 This work runs on a laptop with 32 GB RAM and a short interactive time budget.
 
 - No new exact-grid optimization, exhaustive enumeration, SAT/SMT, or expanding
@@ -476,6 +565,10 @@ a full Lean build and must not be reported as one.
 | `analysis/BOUNDARY_FIVE_PEELING.md` | Exact paper reduction to an inner boundary-rooted forest |
 | `lean/GridGraphs/Accounting/BoundaryFiveBudget.lean` | Checked boundary bound and target component obstructions |
 | `lean/GridGraphs/Accounting/BoundaryFiveEquality.lean` | Checked equality geometry, unique gap, and next-ring exclusion |
+| `lean/GridGraphs/Accounting/CarrierLengthBound.lean` | Unconditional square upper bound from component lengths |
+| `lean/GridGraphs/Accounting/BoundaryStratifiedCarrierBound.lean` | Stronger all-configuration upper bound using the b=5/b>=6 split |
+| `lean/GridGraphs/Accounting/ResidueTwoCounterexampleProfile.lean` | Necessary low-budget profiles and the solved high-budget branch |
+| `lean/GridGraphs/Geometry/CarrierPacking.lean` | Six-cycle and two-row interval-overlap restrictions |
 | `lean/GridGraphs/Constructions/BoundaryFive/BoundaryFiveFrame.lean` | Actual canonical frame, support tree, and spokes |
 | `lean/GridGraphs/Constructions/BoundaryFive/BoundaryFiveAttachment.lean` | Exact canonical inner-attachment iff |
 | `lean/GridGraphs/Constructions/BoundaryFive/BoundaryFiveConstruction.lean` | Counted concrete extension and lower-bound transfer |
@@ -483,7 +576,7 @@ a full Lean build and must not be reported as one.
 | `lean/GridGraphs/Constructions/ResidueTwo/ResidueTwoStaircaseForest.lean` | Improved family's support geometry and unconditional lower bound |
 | `lean/GridGraphs/Core/ForcedMaximum.lean` | Exact optimization equivalence |
 | `lean/GridGraphs/Accounting/ComponentReduction.lean` | Existing exact ledger |
-| `lean/GridGraphs/Results/SmallDiagonalExact.lean` | Structural small-grid proofs |
+| `lean/GridGraphs/Results/SmallDiagonalExact.lean` | Aggregate for modular exact 3x3, 5x5, 7x7, and 10x10 proofs |
 | `lean/GridGraphs/Constructions/ResidueTwo/ResidueTwoAffineMax.lean` | Uniform near-target lower bound and exact deficit |
 | `lean/GridGraphs/Constructions/IntervalStarGluing.lean` | Reusable lower-bound acyclicity interface |
 | `lean/GridGraphs/Routing/UniversalPrimalContourRouting.lean` | Alternative upper-bound endpoint |

@@ -2,13 +2,13 @@
 
 This is the ledger of formally proved results and remaining obligations.
 
-All 190 source modules are organized into proof-area subfolders. Public
-declaration namespaces and the aggregate import graph are unchanged. Full
+All 202 source modules are organized into proof-area subfolders. Existing public
+declaration names are preserved, and the exact-case proofs now have focused submodules. Full
 verification on 2026-09-06 with Lean/mathlib **4.33.1** passed with **zero errors and zero
 warnings**, using `--wfail` and explicitly including the five modules outside
-the aggregate closure: **8,897 jobs, exit 0**. See `../docs/ROADMAP.md` for the
+the aggregate closure: **8,909 jobs, exit 0**. See `../docs/ROADMAP.md` for the
 complete command. The completed log is
-`/tmp/opencode/grid-graphs-layout-build-pass6.log`.
+`/tmp/opencode/boundary-stratified-final-build.log`.
 
 Migration preserved theorem statements and certificate data. Kernel-checked
 fixed-entry replay replaces expensive simplification in the existing finite
@@ -38,6 +38,51 @@ the cotree incidence-waste ledger, and the exact forced-forest component
 reduction, in addition to the algebraic bound expressions.
 
 ## Proved (sorry-free)
+
+### Boundary-Stratified Upper Bound And Exact Side Ten
+
+`Accounting/BoundaryStratifiedCarrierBound.lean` proves the stronger bound
+`P(n)<=n*(n*n+4*n-7)/(3*n+1)` for n>=7, covering both b=5 and b>=6.
+Its b=5 geometry proves `|F|<=(n-4)*r+7` for n>=10 by separating induced
+boundary carriers from deep carriers. Its residue-two corollary is
+`P(3k+2)<=3k^2+7k+(2k+3)/3`, k>=2.
+
+`Results/SmallDiagonalExact/Ten.lean` combines the upper bound with the
+existing residue-one lower construction to prove `maxPreserved 10 10 = 42`.
+The current proved intervals include `[194,201]` at side 23 and `[246,254]`
+at side 26. All divisions in these formulas are natural-number floor divisions.
+
+`Accounting/ResidueTwoCounterexampleProfile.lean` checks the low-budget
+restrictions on hypothetical stable and early counterexamples, including the
+stronger b=5 profile. `Geometry/CarrierPacking.lean` proves the six-cycle
+obstruction and the two-row horizontal interval packing bound. These are
+necessary conditions, not a proof that all forbidden profiles are impossible.
+
+The new modules are under 300 lines and pass with zero warnings. Their axiom
+audits, including the exact 10x10 result, contain only `propext`,
+`Classical.choice`, and `Quot.sound`.
+
+### Carrier-Length Upper Bound And Exact Side Seven
+
+`Accounting/CarrierLengthBound.lean` proves that every feasible preserved set
+has at most n vertices per induced component. Summing those bounds and using
+the checked boundary/component ledger yields, for n>=5,
+
+```text
+maxPreserved n n <= n*(n*n+4*n-6)/(3*n+1).
+```
+
+Division rounds down. No universal-waste or sharp-profile exclusion is assumed.
+`Results/SmallDiagonalExact/Seven.lean` combines this with the residue-one
+construction to prove the unconditional exact value `maxPreserved 7 7 = 22`.
+The original bound gives `P(23)<=202`; the subsequent boundary-stratified
+result above improves this to 201, without enumerating grids.
+
+The new results and the refactored exact 5x5 theorem have axiom audits containing
+only `propext`, `Classical.choice`, and `Quot.sound`. The 2,420-line exact-case
+module was split into six focused modules, the largest 708 lines, with all 17
+prior public declarations preserved. Its entry point additionally imports the
+7x7 and 10x10 theorems. No existing oversized Lean file was extended.
 
 ### Improved Residue-Two Staircase (Lean 4.33.1)
 

@@ -20,15 +20,48 @@ interchangeably in this codebase, following `docs/DERIVATION.md`.)
 ## Formally Proven (Lean 4 + mathlib, zero `sorry`s in active code)
 
 Full verification of the reorganized project has passed on Lean/mathlib
-**4.33.1** with **zero errors and zero warnings**, using `--wfail`: 8,897 jobs,
-exit 0. All 190 source modules were covered, including the five outside the
-aggregate import closure. The new staircase lower bound is included.
+**4.33.1** with **zero errors and zero warnings**, using `--wfail`: 8,909 jobs,
+exit 0. All 202 source modules were covered, including the five outside the
+aggregate import closure. The staircase lower bound, new carrier-length upper
+bound, boundary-stratified improvement, and exact 7x7 and 10x10 results are included.
 
 Existing finite-witness data and statements are unchanged; their fixed entries
 now use efficient kernel `decide` replay, not new searches or native proof
 axioms. See `STATUS.md` and `../docs/ROADMAP.md` for the current verification
 command. Older counts and line references below belong to their historical
 milestones; the theorem names and relocated module paths are the stable references.
+
+### Boundary-Stratified Upper Bound (2026-09-06)
+
+`GridGraphs/Accounting/BoundaryStratifiedCarrierBound.lean` proves
+`P(n)<=n*(n*n+4*n-7)/(3*n+1)` for n>=7. The b=5 case uses the empty next ring
+to bound deep carriers by n-4 and requires at least four boundary carriers;
+the b>=6 case pays an additional unit in the ledger. No optimizer normalization
+is assumed. The closed residue-two upper bound is `3k^2+7k+(2k+3)/3`, k>=2.
+
+`maxPreserved_ten_ten` proves `P(10)=42` by matching this bound to the known
+construction. Side 23 now has the proved interval `[194,201]`; side 26 remains
+`[246,254]`. Counterexample-budget profiles and the local two-row packing
+restriction are also checked, without asserting a sharp general exclusion.
+All new result axiom audits contain only the standard logical axioms.
+
+### Carrier-Length Upper Bound (2026-09-06)
+
+`GridGraphs/Accounting/CarrierLengthBound.lean` proves
+`P(n)<=n*(n*n+4*n-6)/(3*n+1)` for n>=5 by injecting each straight preserved
+component into one coordinate and summing cardinalities. This is an
+unconditional upper bound, not an interface assuming universal waste.
+
+At side 7 it matches the existing lower construction, giving the unconditional
+theorem `maxPreserved_seven_seven` in `Results/SmallDiagonalExact/Seven.lean`.
+The original carrier estimate gives intervals [194,202] and [246,254] at sides
+23 and 26; the boundary-stratified improvement above tightens the first.
+The tests specialize structural theorems rather than optimize those grids.
+The new theorem axiom audits contain only the standard logical axioms.
+
+`Results/SmallDiagonalExact.lean` is now an aggregate over the split exact-case
+proofs. Earlier line-number references to that file are historical; public
+theorem names remain unchanged. No split module exceeds 708 lines.
 
 ### Boundary-Five Component Obstruction (2026-09-05)
 
