@@ -1,8 +1,9 @@
 import GridGraphs.Accounting.BoundaryFive.SingletonBound
 import GridGraphs.Accounting.BoundaryFive.Rootless.Reciprocal
+import GridGraphs.Accounting.BoundaryFive.Rootless.CornerRoots
 
 /-!
-# The remaining c=2 endpoint: scope and open gate
+# The boundary-five c=2 endpoint: completed exclusion
 
 Sources read: analysis/BOUNDARY_FIVE_PEELING.md and docs/PAPER_UPPER_PROGRAM.md,
 as well as BoundaryFive/{Perimeter,TopSingleton,SingletonBound,Symmetry}.lean.
@@ -23,62 +24,66 @@ f=T+e, r=k+4, c=2, b=5. It is not the old k%3=2 connected endpoint.
   for left/right roots in one row. The transposed orientation is its paper
   symmetry consequence, not an additional checked transport theorem here.
 * The no-reciprocal four-arrow classification is checked by ordinary decide.
+* current_rooted_deep_endpoint_false in CornerRoots.lean now excludes the
+  ENTIRE actual deep-rooted endpoint, including cyclic
+  orientations. Its only hypotheses are the deep forest, one boundary root
+  per forced component, four U corners, q=k, and the endpoint score.
+* boundary_five_two_component_endpoint_false in AmbientEndpoint.lean excludes
+  the actual ambient profile (r,c,b)=(k+4,2,5), with no gap-position or deep
+  hypotheses. Import AmbientEndpoint for this result; this singleton module
+  remains an earlier dependency of that theorem.
 
-## Ambient reduction: paper argument, NOT a theorem supplied here
+## Ambient reduction: checked in AmbientEndpoint
 
-Position only the unique perimeter gap at (0,1)--(0,2). Leave the other
-three corner-hole choices free. The all-U next ring and forced perimeter
-path give a tree on the outer two rings except w=(1,2). The corner-neighbor
-hole on every other corner leaves one spoke, not two missing spokes at that
-next-ring corner. Thus w is the sole exception for every such choice.
+CornerPacket.Transport positions only the unique gap at (0,1)--(0,2),
+preserving the actual cardinality and r,c,b. Other corner-hole choices stay
+free. No canonical-frame construction or general perimeter-run count is used.
 
-Put z=(2,2). If z is F, the off-boundary path argument in TopSingleton
-excludes its two deep F neighbors without needing ambient c=1: connectivity
-in that proof was used to obtain z in F, not for the path contradiction.
-Its other neighbors are next-ring U. Hence z would be a nonpure singleton,
-contradicting the checked cap below. Thus z is U, and w is isolated.
+GapRoot proves that z=(2,2) in F would be a nonpure singleton, using the
+actual perimeter path without c=1. The cap below contradicts that singleton.
+Thus z is U; the all-U next ring then makes w=(1,2) an ambient isolate.
 
-Since c=2 on ALL vertices, the other component contains every vertex other
-than w. An ordinary deep F corner would have two attachments to the same
-outer tree, closing a cycle. Consequently all four deep corners are U.
-Every deep forced component must have an attachment to the outer tree, so
-has a boundary F root. Two distinct such roots in one deep component would
-give a second path between their attachments and close a cycle. Therefore
-BoundaryRooted and UniqueBoundaryRoots hold in the deep square. In
-particular it is fully dominated, although it need not be connected.
+PeelingGraphs proves that at most two components plus an isolate makes all
+other vertices connected. AnnulusPeeling obtains the same connectivity inside
+the annulus from its cubic budget and its isolated w. DeepRooting then uses
+the unique crossing edge between connected disjoint forest shores to exclude
+two outward spokes at a deep F corner and two distinct roots in one deep
+component. First exit of a full-graph path gives BoundaryRooted, including
+putative deep isolates. The deep graph need not be connected.
 
-The four perimeter F runs are separated from the deep square by the all-U
-next ring, so q=r-4=k and f_D=f-(4n-9)=3k^2-5k+1+e. These deductions still
-need an ambient-to-deep Lean bridge; the canonical construction's iff is
-not silently applied to a differently oriented set of corner holes.
+DeepCrop supplies the exact coordinate isomorphism and f_D=f-(4n-9).
+RootedLedger identifies forced components with boundary F roots, cancelling
+their count from the grid ledger to give 3f_D+q=m^2. The endpoint mass now
+gives q=k directly, avoiding a separate induced-component partition proof.
 
-## Precise cyclic gate
+## Long-rod closure: checked, including the cyclic case
 
-Each U corner has exactly one adjacent boundary F root. Its induced carrier
-is perpendicular to that boundary side (or a singleton), and points toward
-the adjacent corner. The four roots, and hence their carriers, are distinct.
-A reciprocal pair is exactly the collinear opposite-boundary situation
-handled above. Without one, the checked four-arrow lemma leaves only a
-directed cycle and its reverse. A square symmetry changes one to the other.
+CornerRoots transports the covered-destination cap through all eight square
+charts and obtains four DISTINCT actual corner-root carriers of length <=m-3.
+The charts orient one root at a time and never fix another corner's choice.
+RodInventory extracts the complete interval of every actual induced component.
 
-In the clockwise representative the four F roots are
-  (1,0), (0,m-2), (m-2,m-1), (m-1,1).
-The four deep corners are U. The exact unresolved class consists of an
-acyclic deep F with BoundaryRooted, UniqueBoundaryRoots, q=k, these four
-roots, and f_D=3k^2-5k+1+(2k+1)/3. Additional boundary roots are allowed;
-neither four forced components nor four total boundary roots is assumed.
+Let DeltaStrict=k(m-1)-f_D=(4k-4)/3. For any carrier, at least three OTHER
+corner carriers contribute two strict-deficit units each. Thus every carrier
+has length >=(5k+13)/3>(m+1)/2. All intervals contain the same two central
+positions; parallel axes are three-spaced by the four- and six-cycle obstructions.
+Boundary-root uniqueness forces every nontrivial carrier axis into the interior.
+At most two of the four corner carriers have either orientation, so H,V>=2.
 
-Let Delta=k(m-1)-f_D. At the endpoint Delta=(4k-4)/3, so exclusion requires
-Delta >= (4k-1)/3. The four m-3 corner-root caps alone give Delta>=8.
-Thus a cyclic proof still needs an additional (4k-25)/3 units beyond those
-eight, using actual central coverage/attachments or another incompatibility.
-For the first admissible k=7 this is one additional unit; it is not zero.
-The reciprocal pair's loss is m already, not eight independent charges
-added on top of that pair's full loss. No central-coverage packet inequality
-or cyclic infeasibility certificate has been proved in this directory.
+For each perpendicular pair, one rod misses the entire triple centered on
+the other's axis. Otherwise two preserved vertices meet, are adjacent, or
+are diagonal cell corners. MissingTriples charges this triple to exactly one
+recipient, with an explicit tie-break. Slots are labelled by the recipient
+rod, and opposite-axis three-spacing prevents reuse within that recipient.
+Consequently
+  3HV <= DeltaFull = mk-f_D = (7k-4)/3.
+But HV>=2(k-2), giving 6k-12<=(7k-4)/3, impossible for k>=7.
+This closes the deep problem without a reciprocal/cyclic split or recursive
+central-coverage packet. Additional boundary roots remain allowed.
 
-There is no unconditional exclusion of the ambient profile here. In
-particular neither c=1 nor normalization of the other holes is assumed.
+The stated ambient profile is excluded. This does not by itself exclude
+other endpoint profiles or improve the global bound. Neither c=1 nor
+normalization of the other holes is assumed.
 -/
 
 namespace GridGraphs.BoundaryFive.Rootless

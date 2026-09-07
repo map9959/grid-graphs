@@ -2,8 +2,9 @@ import GridGraphs.Accounting.BoundaryFive.GapPosition
 
 /-! # Positioning only the boundary-five gap
 
-Pull back the preserved set by one of the eight square symmetries. Only its
-cardinality and forced acyclicity are transported; no other holes are normalized.
+Pull back the preserved set by one of the eight square symmetries. The original
+API transports size and feasibility; the isometry API also exposes the map for
+component and deficiency transport. No other holes are normalized.
 -/
 
 namespace GridGraphs.BoundaryFive
@@ -98,5 +99,45 @@ theorem exists_top_gap_pullback {n : Nat} (hn : 9 ≤ n)
     exact hqF
   · rw [hmem, heu]
     exact huF
+
+private noncomputable def frameIso {n : Nat} (r c s : Bool) :
+    gridGraph n n ≃g gridGraph n n :=
+  { Equiv.ofBijective (frame r c s)
+      ⟨frame_injective r c s, Finite.surjective_of_injective (frame_injective r c s)⟩ with
+    map_rel_iff' := by
+      intro x y
+      change (gridGraph n n).Adj (frame r c s x) (frame r c s y) ↔ _
+      constructor
+      · intro h
+        cases r <;> cases c <;> cases s <;>
+          simp [frame, gridGraph, adjacent, Fin.ext_iff] at * <;> omega
+      · exact frame_adj r c s }
+
+/-- Position only the gap and retain the square isometry and exact membership
+pullback. This supports transport of actual component profiles. -/
+theorem exists_top_gap_pullback_isometry {n : Nat} (hn : 9 ≤ n)
+    (F : Finset (GridVertex n n))
+    (hacyc : (forcedEdgeGraph (gridGraph n n) (↑F : Set _)).IsAcyclic)
+    (hb : boundaryDeficiencySum n n (univ \ F) = 5) :
+    ∃ (F' : Finset (GridVertex n n)) (e : gridGraph n n ≃g gridGraph n n),
+      (∀ v, v ∈ F' ↔ e v ∈ F) ∧
+      (⟨0, by omega⟩, ⟨1, by omega⟩) ∉ F' ∧
+      (⟨0, by omega⟩, ⟨2, by omega⟩) ∉ F' := by
+  classical
+  obtain ⟨Q, u, _, _, hholes, hnear, hu, q, hq, hadj⟩ :=
+    holes_eq_insert_second hn F hacyc hb
+  have huF : u ∉ F := by
+    have hm : u ∈ (univ \ F).filter IsGridBoundary := by rw [hholes]; simp
+    exact (mem_sdiff.mp (mem_filter.mp hm).1).2
+  have hqF : q ∉ F := by
+    have hm : q ∈ (univ \ F).filter IsGridBoundary := by rw [hholes]; simp [hq]
+    exact (mem_sdiff.mp (mem_filter.mp hm).1).2
+  obtain ⟨r, c, s, heq, heu⟩ := orient_second_near hn u q hu (hnear q hq) hadj
+  refine ⟨univ.filter (fun v => frame r c s v ∈ F), frameIso r c s, ?_, ?_, ?_⟩
+  · intro v
+    simp only [mem_filter, mem_univ, true_and]
+    rfl
+  · simpa only [mem_filter, mem_univ, true_and, heq] using hqF
+  · simpa only [mem_filter, mem_univ, true_and, heu] using huF
 
 end GridGraphs.BoundaryFive

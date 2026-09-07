@@ -2,22 +2,25 @@
 
 This is the ledger of formally proved results and remaining obligations.
 
-The latest 2026-09-07 Annulus/ThreeCarrier snapshot contains **302 source
-modules under `GridGraphs/`**, totaling **94,579 lines**, plus the **186-line**
-aggregate `GridGraphs.lean`: **303 library source files, 94,765 lines**.
+The latest 2026-09-07 EndpointUpper snapshot contains **342 source
+modules under `GridGraphs/`**, totaling **100,477 lines**, plus the **188-line**
+aggregate `GridGraphs.lean`: **343 library source files, 100,665 lines**.
 The exact full strict cached build in `README.md` passed on Lean/mathlib
-**4.33.1**, with **9,009 jobs, exit 0, zero errors and warnings**, without an
-imposed time limit. Log: `/tmp/opencode/annulus-three-carrier-full-build.log`.
-All **31 new modules** are in the root closure; only the original five legacy
-targets lie outside it. The root imports AllCoveredCounterexamples,
-ThreeCarrier.CostTwoCapacity, and MixedPacking.Defect in addition to the old imports.
-The external audits passed **409 public theorems + 28 definitions + 2
-abbreviations + 2 structures = 441 explicitly named public declarations**.
+**4.33.1**, with **9,049 jobs, exit 0, zero errors and warnings**, without an
+imposed time limit. Log: `/tmp/opencode/endpoint-upper-final-full-build.log`.
+All **40 new modules** are in the root closure; only the original five legacy
+targets lie outside it. EndpointUpper was already imported; this pass added
+the otherwise unused valid leaf `BoundarySix.Connected.RingEndpoint` to the
+root before taking the full build/audit snapshot.
+The external audits passed **584 public theorems + 50 definitions + 3
+abbreviations + 5 structures = 642 unique explicitly named public declarations**.
 All dependency lists contain only standard logical axioms (or none).
 Source fingerprints, including root and all tests, stayed unchanged through
-build and audit. All 270 old non-Regression modules match the prior snapshot.
-Only the three verification documents were edited in this pass, not proofs,
-root, tests, or Python application files. Pre-existing unrelated work was left alone.
+build and audit. All **300 old modules other than Regression and Symmetry**
+match the prior Annulus/ThreeCarrier snapshot. Symmetry intentionally adds its
+isometry export while preserving the old theorem statement. Besides the one
+permitted root import, only the three verification documents were edited in
+this pass; no proof/test repair or Python/search work was performed.
 See `EVIDENCE.md` for the source-derived inventory, counting convention, and logs.
 
 Migration preserved theorem statements and certificate data. Kernel-checked
@@ -49,6 +52,52 @@ reduction, in addition to the algebraic bound expressions.
 
 ## Proved (sorry-free)
 
+### Unconditional Endpoint Refinement
+
+`Accounting/EndpointUpper.lean` exports
+`GridGraphs.maxPreserved_residueTwo_le_endpoint_refinement`:
+**P(3k+2)<=T+floor(2k/3), T=3k^2+7k, k>=5**, unconditionally.
+`GridGraphs.forced_card_le_endpoint_refinement` is the feasible-set version.
+The namespace is `GridGraphs`, not `GridGraphs.EndpointUpper`.
+This saves one when k%3=1: **P(23)<=200** (previously 201) and
+**P(32)<=376** (previously 377). Regression checks both, the uniform interval,
+and the unchanged specializations at sides 17, 20, 26, 29, and 35.
+
+All three old k%3=1 endpoint profiles are excluded:
+
+- `(r,c,b)=(k+5,1,5)`: CornerPacket constructs two actual short carriers and
+  combines their losses with the annulus. Only the gap is oriented, with r/c/b
+  transported by the exposed square isometry; other corner-hole choices stay free.
+- `(k+4,2,5)`: Rootless derives actual ambient and annulus connectivity away
+  from the gap isolate, then proves full deep rooting, unique boundary roots,
+  four deep corners in U, and q=k by the exact deep ledger. Four distinct
+  corner-root carriers force long rods; nonreused missing triples contradict
+  the total rod deficit, including cyclic corner-root orientations.
+- `(k+4,1,6)`: the E=1 branch and E=0 branch with an outer corner in U use
+  the same fully rooted deep endpoint obstruction. In the remaining E=0,
+  all-outer-corners-F case, two actual gaps force two deep corners. If neither
+  were a singleton, two five-edge corner packets violate the perimeter forest
+  count. The resulting actual singleton and summed annulus deficits exclude
+  the endpoint. No assumption that the corners have distinct carriers is used.
+
+There is **no generic ambient b=5 strict n-5 carrier theorem** claimed.
+`Rootless.strict_carrier_cap` assumes `UniqueBoundaryRoots` on its actual
+smaller grid; the ambient bridge proves the required hypotheses only at the
+selected profile. No extra canonical hole choices are imposed.
+
+The topologically full sharp bound **P(3k+2)<=T is not proved**. The next
+profile program is the remaining all-covered lower-excess range
+**f=T+e, 1<=e<=floor(2k/3)**, not any of the three excluded old endpoints.
+Retain p>=4, r>=k+4, d=r-p-h>=k and b+c+3e<=2k+8; classify actual
+low-boundary/component slack and obtain further nonreused physical losses.
+The b>=7 estimate alone still allows excess. Neither the new upper endpoint
+nor any lower-excess profile is asserted attainable, and no general closure
+of those remaining excess levels is proved. The entire missing-side T closure
+and RailRepair lower bound are unchanged.
+
+Current intervals: **17 [110,113], 20 [149,154], 23 [195,200],
+26 [246,253], 29 [304,312]**; the uniform formulas also give **32 [367,376]**.
+
 ### Entire Missing-Side Closure And Annulus Bounds
 
 Let n=3k+2, k>=5, T=3k^2+7k, and let F have an acyclic forced graph.
@@ -78,17 +127,15 @@ rods, and D=(n-4)d minus deep occupancy. Its cubic ledger gives
 **rA+cA+4<=2K**; actual full-rod edge packets give **M+1<=cA**, and hence
 **r+5<=2K+D**. No carrier-contact forest is assumed.
 
-On the entire **b>=7** branch, **f<=T+floor(2k/3)**; at side 23 this is the
-conditional bound f<=200. The unconditional maximum remains
-**P(3k+2)<=T+floor((2k+1)/3)**. At k%3=1, attaining this upper endpoint
-requires one of `(r,c,b)=(k+5,1,5), (k+4,2,5), (k+4,1,6)`; none of these
-three profiles is excluded or asserted to exist. The all-covered sharp upper
-problem remains open. The RailRepair lower bound below is unchanged.
+On the entire **b>=7** branch, **f<=T+floor(2k/3)**. EndpointUpper now extends
+this bound unconditionally by excluding all three old k%3=1 endpoint profiles,
+as described above. The all-covered sharp upper problem remains open.
+The RailRepair lower bound below is unchanged.
 
 Regression passed the uniform missing-side bound T, its k=5 bound 110,
 missing-side counterexample `False`, global r>=9 at n=17 and f>=111, and
 b>=7 at n=23 implying f<=200, alongside all older regressions.
-New bounded mathematical certificate experiments use coordinates at most 13;
+Earlier bounded mathematical certificate experiments use coordinates at most 13;
 they are not a full-grid optimizer. No Python experiment was run in this pass.
 
 The following earlier milestones retain valid weaker implications; any
@@ -100,7 +147,7 @@ For the current research route labels, U1 means boundary-six control, U3 means
 global near-extremal packing, and L2 means six-width pumping. Older U1-U4
 labels in the historical contour ledger below refer to a different program.
 
-The current unconditional stable bound is
+The previous unconditional stable bound was
 `P(3k+2)<=3k^2+7k+floor((2k+1)/3)`, k>=5, covering all boundary budgets,
 via `Accounting/BoundaryFive/Upper.lean`. It strengthens the earlier
 BoundarySix floor `(2k+2)/3` by one when k%3=2, including sides 17, 26, and 35.
@@ -150,7 +197,7 @@ holes, preserved corners, and an ambient isolate, but its premises are now
 impossible: the shifted slack gives d<=2 and hence c<=3. These are necessary conditions;
 the one-excess exclusion is now proved above; the all-sides-covered branch remains open.
 
-The current global upper formula is P(3k+2)<=T+floor((2k+1)/3), k>=5.
+The current global upper formula is P(3k+2)<=T+floor(2k/3), k>=5.
 `OneExcessSeparated.lean` proves the root-separated hole charge
 `q+p+|S|+1<=r+c`: selected hole middles charge distinct extra induced carriers
 or ambient isolates. An intervening preserved root is essential; arbitrary
@@ -250,7 +297,7 @@ The endpoint is `GridGraphs.RailRepair.residueTwo_le_maxPreserved`. It gains
 one over the historical staircase at odd k and agrees at even k. It gives
 110 at side 17, 195 at side 23, and 304 at side 29. Side 17 is not proved
 exact: the current interval is [110,113]; sides 23 and 29 have intervals
-[195,201] and [304,312].
+[195,200] and [304,312].
 
 This is a single terminal parity repair, not an accumulating target pump.
 The checked k->k+2 score gain is still 12k+25, one below the stable target
@@ -275,6 +322,35 @@ proved for this historical staircase. Its lower bound remains valid but is
 superseded by the terminal-rail repair at odd k.
 
 ### Current Audit And Module Sizes
+
+The unchanged `TotalCurrentAudit.lean` and `AnnulusThreeCarrierAudit.lean`
+reran all **409 theorems + 28 definitions + 2 abbreviations + 2 structures**.
+The source-generated `/tmp/opencode/endpoint-upper-final-Audit.lean` checked
+every public declaration in the 40 new files and both Symmetry exports:
+**176 theorems + 22 definitions + 1 abbreviation + 3 structures = 202**.
+The old `exists_top_gap_pullback` is the only overlap, yielding **642 unique**
+declarations overall, not 643. All lists contain only standard axioms or none.
+
+| New group under `Accounting/` | Modules | Lines | Theorems | Definitions | Abbreviations | Structures |
+|---|---:|---:|---:|---:|---:|---:|
+| `BoundaryFive/CornerPacket/` | 6 | 1,196 | 30 | 0 | 0 | 0 |
+| `BoundaryFive/Rootless/` | 15 | 2,206 | 69 | 12 | 0 | 2 |
+| `BoundarySix/Connected/` | 18 | 2,402 | 73 | 10 | 1 | 1 |
+| `EndpointUpper.lean` | 1 | 46 | 2 | 0 | 0 | 0 |
+| **New total** | **40** | **5,850** | **174** | **22** | **1** | **3** |
+
+The existing Symmetry file is now 143 lines with two public theorems (one new).
+All new files are **31-521 lines**, below 1,000; all 11 old oversized modules
+are unchanged by hash. Source-derived inventory, declaration names, unique
+audit counts, and stable source/config fingerprints are recorded externally
+under `/tmp/opencode/endpoint-upper-final-`; see `EVIDENCE.md`.
+The nested-comment-aware placeholder scan is empty across root and all modules.
+Private helpers are covered transitively where used, not extra public entries;
+generated constructors/recursors/projections are not explicit source declarations.
+This is not a whole-library axiom audit; the six legacy `native_decide` uses
+in the separately built counterexample tests remain outside the audited list.
+
+### Previous Annulus/ThreeCarrier Audit
 
 The previous **273 theorems + 4 definitions** were rerun through the unchanged
 external `/tmp/opencode/TotalCurrentAudit.lean`. The source-generated
@@ -375,7 +451,7 @@ boundary carriers from deep carriers. Its residue-two corollary is
 
 `Results/SmallDiagonalExact/Ten.lean` combines the upper bound with the
 existing residue-one lower construction to prove `maxPreserved 10 10 = 42`.
-The current proved intervals include `[195,201]` at side 23 and `[246,253]`
+The current proved intervals include `[195,200]` at side 23 and `[246,253]`
 at side 26. All divisions in these formulas are natural-number floor divisions.
 
 `Accounting/ResidueTwoCounterexampleProfile.lean` checks the low-budget

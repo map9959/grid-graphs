@@ -24,6 +24,7 @@ import GridGraphs.Accounting.CarrierLayers.GlobalUpperProfiles
 import GridGraphs.Accounting.BoundaryFive.Upper
 import GridGraphs.Accounting.CarrierLayers.FourCarrier.Closure
 import GridGraphs.Accounting.CarrierLayers.AllCoveredCounterexamples
+import GridGraphs.Accounting.EndpointUpper
 import GridGraphs.Constructions.ResidueTwo.RailRepair.Score
 import GridGraphs.Constructions.ResidueTwo.Staircase.ComponentLedger
 import GridGraphs.Geometry.CarrierPacking
@@ -91,25 +92,31 @@ example (F : Finset (GridVertex 17 17))
 example (k : Nat) (hk : 5 ≤ k) :
     3 * k ^ 2 + 6 * k + 3 + (k - 1) / 2 ≤ maxPreserved (3 * k + 2) (3 * k + 2) ∧
       maxPreserved (3 * k + 2) (3 * k + 2) ≤
-        3 * k ^ 2 + 7 * k + (2 * k + 1) / 3 := by
+        3 * k ^ 2 + 7 * k + (2 * k) / 3 := by
   exact ⟨RailRepair.residueTwo_le_maxPreserved (by omega),
-    BoundaryFive.maxPreserved_residueTwo_le hk⟩
+    maxPreserved_residueTwo_le_endpoint_refinement hk⟩
+
+example : maxPreserved 23 23 ≤ 200 := by
+  simpa using maxPreserved_residueTwo_le_endpoint_refinement (k := 7) (by omega)
+
+example : maxPreserved 32 32 ≤ 376 := by
+  simpa using maxPreserved_residueTwo_le_endpoint_refinement (k := 10) (by omega)
 
 example : maxPreserved 17 17 ≤ 113 := by
-  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 5) (by omega)
+  simpa using maxPreserved_residueTwo_le_endpoint_refinement (k := 5) (by omega)
 
 example : maxPreserved 26 26 ≤ 253 := by
-  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 8) (by omega)
+  simpa using maxPreserved_residueTwo_le_endpoint_refinement (k := 8) (by omega)
 
 example : maxPreserved 35 35 ≤ 447 := by
-  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 11) (by omega)
+  simpa using maxPreserved_residueTwo_le_endpoint_refinement (k := 11) (by omega)
 
 example : maxPreserved 20 20 ≤ 154 := by
-  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 6) (by omega)
+  simpa using maxPreserved_residueTwo_le_endpoint_refinement (k := 6) (by omega)
 
 example : 304 ≤ maxPreserved 29 29 ∧ maxPreserved 29 29 ≤ 312 := by
   exact ⟨by simpa using RailRepair.residueTwo_le_maxPreserved (k := 9) (by omega),
-    by simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 9) (by omega)⟩
+    by simpa using maxPreserved_residueTwo_le_endpoint_refinement (k := 9) (by omega)⟩
 
 example : 110 ≤ maxPreserved 17 17 := by
   simpa using RailRepair.residueTwo_le_maxPreserved (k := 5) (by omega)

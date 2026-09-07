@@ -180,6 +180,8 @@ import GridGraphs.Accounting.CarrierLayers.FourCarrier.Closure
 import GridGraphs.Accounting.CarrierLayers.AllCoveredCounterexamples
 import GridGraphs.Accounting.CarrierLayers.ThreeCarrier.CostTwoCapacity
 import GridGraphs.Accounting.CarrierLayers.MixedPacking.Defect
+import GridGraphs.Accounting.EndpointUpper
+import GridGraphs.Accounting.BoundarySix.Connected.RingEndpoint
 import GridGraphs.Constructions.ResidueTwo.RailRepair.Score
 import GridGraphs.Tests.Regression
 

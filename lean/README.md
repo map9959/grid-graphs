@@ -57,51 +57,55 @@ import GridGraphs.Constructions.ResidueTwo.ResidueTwoStaircaseForest
 Use `import GridGraphs` for the aggregate or a specific nested module for a
 small dependency set. There are no old-path compatibility wrappers. The five
 previously unimported modules remain outside the aggregate import closure.
-All 31 new Annulus/MixedPacking/ThreeCarrier/AllCoveredCounterexamples modules
-and the previous 32 BoundaryFive/FourCarrier modules are covered by the aggregate.
+All 40 new CornerPacket/Rootless/BoundarySix.Connected/EndpointUpper modules
+and the previous Annulus/ThreeCarrier and BoundaryFive/FourCarrier groups are
+covered by the aggregate.
 Check the five legacy modules explicitly when verifying every source file. See `STATUS.md` for
 current verification rather than inferring it from this directory structure.
 
-The latest 2026-09-07 Annulus/ThreeCarrier snapshot passed the exact full strict
-cached build on Lean/mathlib 4.33.1: **9,009 jobs, exit 0, zero errors and warnings**.
-It contains **302 modules under `GridGraphs/`** (94,579 lines), plus the
-186-line root: **303 library source files, 94,765 lines total**. All **31 new
+The latest 2026-09-07 EndpointUpper snapshot passed the exact full strict
+cached build on Lean/mathlib 4.33.1: **9,049 jobs, exit 0, zero errors and warnings**.
+It contains **342 modules under `GridGraphs/`** (100,477 lines), plus the
+188-line root: **343 library source files, 100,665 lines total**. All **40 new
 modules** are in the recursively checked root closure; only the five original
-legacy targets remain outside. Root imports AllCoveredCounterexamples,
-ThreeCarrier.CostTwoCapacity, and MixedPacking.Defect in addition to old imports.
+legacy targets remain outside. EndpointUpper was already imported. The closure
+check found the unused valid leaf `BoundarySix.Connected.RingEndpoint`; this
+pass added its permitted root import before the full build/audit snapshot.
 
-The external `TotalCurrentAudit.lean` reran the previous **273 public theorems
-and 4 definitions**. The source-generated `AnnulusThreeCarrierAudit.lean` adds
-**136 theorems + 24 definitions + 2 abbreviations + 2 structures**. Both import
-only `GridGraphs` and passed with warnings as errors. Combined coverage is
-**409 theorems + 28 definitions + 2 abbreviations + 2 structures = 441 explicitly
-named public declarations**. Dot-named methods are included; generated field
+The unchanged external `TotalCurrentAudit.lean` and `AnnulusThreeCarrierAudit.lean`
+reran the previous **409 public theorems + 28 definitions + 2 abbreviations +
+2 structures**. The generated `endpoint-upper-final-Audit.lean` checked all
+new public declarations and both Symmetry exports: **202 declarations**.
+All three import only `GridGraphs` and passed with warnings as errors.
+The old `exists_top_gap_pullback` is the only overlap, so combined coverage is
+**584 theorems + 50 definitions + 3 abbreviations + 5 structures = 642 unique
+explicitly named public declarations**. Dot-named methods are included; generated field
 projections, constructors, and recursors are not additional source entries.
-The one new private theorem is covered transitively where used, not separately
+Private helpers are covered transitively where used, not separately
 counted. Every printed axiom list is a subset of
 `{propext, Classical.choice, Quot.sound}`, possibly empty. This is not a
 whole-library axiom audit: six legacy `native_decide` uses remain in the three
 separately built counterexample tests, outside this public audit scope.
 
-| New group under `Accounting/CarrierLayers/` | Modules | Lines | Theorems | Definitions | Abbreviations | Structures |
+| New group under `Accounting/` | Modules | Lines | Theorems | Definitions | Abbreviations | Structures |
 |---|---:|---:|---:|---:|---:|---:|
-| `Annulus/` | 7 | 1,088 | 41 | 10 | 2 | 1 |
-| `MixedPacking/` | 3 | 763 | 23 | 9 | 0 | 1 |
-| `ThreeCarrier/` | 20 | 3,394 | 70 | 5 | 0 | 0 |
-| `AllCoveredCounterexamples.lean` | 1 | 41 | 2 | 0 | 0 | 0 |
-| **Total** | **31** | **5,286** | **136** | **24** | **2** | **2** |
+| `BoundaryFive/CornerPacket/` | 6 | 1,196 | 30 | 0 | 0 | 0 |
+| `BoundaryFive/Rootless/` | 15 | 2,206 | 69 | 12 | 0 | 2 |
+| `BoundarySix/Connected/` | 18 | 2,402 | 73 | 10 | 1 | 1 |
+| `EndpointUpper.lean` | 1 | 46 | 2 | 0 | 0 | 0 |
+| **Total** | **40** | **5,850** | **174** | **22** | **1** | **3** |
 
-All new modules are **41-576 lines**. All 270 old non-Regression modules match
-the previous snapshot, including the **11 old oversized files**. Root and all
-302 module fingerprints (including every test) stayed stable through build and
+All new modules are **31-521 lines**. The existing Symmetry file is 143 lines
+with two public theorems, one new; its old theorem statement is preserved.
+All **300 old modules other than Regression and Symmetry** match the previous
+Annulus/ThreeCarrier snapshot, including the **11 old oversized files**. Root and all
+342 module fingerprints (including every test) stayed stable through build and
 audit. The comment-aware scan found zero `sorry`/`admit`/`sorryAx` tokens.
-Regression passed the uniform missing-side f<=T bound, k=5 f<=110, missing-side
-counterexample `False`, global r>=9 at n=17/f>=111, and conditional b>=7/n=23
-f<=200, together with all older checks. No Regression repair was needed.
-Only the three verification documents were edited in this pass, not proofs,
-root, tests, or Python application files; unrelated existing changes were left alone.
-New bounded mathematical certificate experiments use coordinates at most 13,
-not a full-grid optimizer. No Python tests or optimization searches were run here.
+Regression passed the uniform refined lower/upper interval, unconditional
+P(23)<=200 and P(32)<=376, and all older checks. No Regression repair was needed.
+Only the three verification documents and the one permitted root import were
+edited in this pass, not proofs, tests, or Python application files; unrelated
+existing changes were left alone. No Python or optimization searches were run.
 `EVIDENCE.md` records exact declarations, method/count conventions, and logs;
 the fingerprints do not cover all mathlib artifacts or the entire workspace.
 
@@ -213,7 +217,7 @@ large `Results/SmallDiagonalExact.lean` is now an aggregate over its
   For **b>=6**, **f<=T+floor((2k+1)/3)**. When k%3=2, reaching the old
   endpoint would force exactly that score and **(r,c,b)=(k+4,1,5)**.
   The new BoundaryFive argument excludes this profile.
-- `GridGraphs/Accounting/BoundaryFive/Upper.lean`: the current **global** bound
+- `GridGraphs/Accounting/BoundaryFive/Upper.lean`: the previous **global** bound
   **P(3k+2)<=T+floor((2k+1)/3), k>=5**, for all boundary budgets. The generic
   nonpure-singleton bound `f+n<=(n-4)r+12` (n>=10, b=5), top-gap singleton,
   and cardinality/acyclicity-preserving square symmetry exclude the old endpoint.
@@ -235,12 +239,24 @@ large `Results/SmallDiagonalExact.lean` is now an aggregate over its
   **M+1<=cA**, and **r+5<=2K+D**, where D=(n-4)d minus deep occupancy.
   No carrier-contact forest is assumed. Counterexamples have d=r-p-h>=k.
   The entire **b>=7** branch satisfies **f<=T+floor(2k/3)**, including the
-  conditional n=23 bound 200. At k%3=1 the current upper-endpoint profiles
-  `(r,c,b)=(k+5,1,5), (k+4,2,5), (k+4,1,6)` remain unexcluded.
+  conditional n=23 bound 200. EndpointUpper now excludes all three old k%3=1
+  upper-endpoint profiles `(r,c,b)=(k+5,1,5), (k+4,2,5), (k+4,1,6)`.
 - `GridGraphs/Accounting/CarrierLayers/AllCoveredCounterexamples.lean`:
   every f>=T+1 set is all-covered with **p>=4 and r>=k+4**; globally,
   **b+c+3e<=2k+8 for all e>=1 and f>=T+e**, without a coverage premise.
   These do not improve the unconditional upper formula or RailRepair lower bound.
+- `GridGraphs/Accounting/EndpointUpper.lean`: the current **unconditional** bound
+  **P(3k+2)<=T+floor(2k/3), k>=5**, via
+  `GridGraphs.maxPreserved_residueTwo_le_endpoint_refinement`. CornerPacket
+  excludes the connected b=5 first profile by two actual short carriers and
+  the annulus. Rootless bridges the actual c=2,b=5 profile to a fully rooted
+  deep square with q=k and four U corners, then contradicts long-rod missing
+  triples. BoundarySix.Connected uses the same bridge for E=1 and corner-U
+  E=0; the remaining all-corners-F E=0 case uses two five-edge packets to
+  force an actual singleton, then summed annulus deficits. Only the gap is
+  oriented; no extra canonical hole choices or distinct-corner-carrier
+  assumption is imposed. `Rootless.strict_carrier_cap` requires
+  `UniqueBoundaryRoots`; no generic ambient b=5 strict n-5 theorem is claimed.
 - `GridGraphs/Results/SmallDiagonalExact/`: structural exact proofs for sides
   3, 5, 7, and 10, including the equalities `P(7)=22` and `P(10)=42`.
 - `GridGraphs/Accounting/CotreeWaste.lean`: identifies grid cotree support with
@@ -281,12 +297,24 @@ large `Results/SmallDiagonalExact.lean` is now an aggregate over its
   ground-truth `P(m,n)` from the Rust DP for all `1 ≤ m, n ≤ 10`.
 - `results-empirical.csv`: Regenerated Rust output backing `EVIDENCE.md`.
 
-The global upper formula is `P(3k+2)<=T+floor((2k+1)/3)`, k>=5. The current
+The global upper formula is `P(3k+2)<=T+floor(2k/3)`, k>=5, T=3k^2+7k.
+It saves one at k%3=1: P(23)<=200 (previously 201), P(32)<=376 (previously 377).
+The current
 formal lower bound is `L(k)=3k^2+6k+3+floor((k-1)/2)`, k>=3, via
 `GridGraphs.RailRepair.residueTwo_le_maxPreserved`. It improves the staircase
 by one at odd k and agrees at even k: 110 at side 17, 195 at side 23, and
-304 at side 29. The current intervals are [110,113], [195,201], and [304,312];
+304 at side 29. Current intervals are **17 [110,113], 20 [149,154],
+23 [195,200], 26 [246,253], 29 [304,312]**, and the formulas give **32 [367,376]**;
 in particular side 17 is not proved exact.
+
+The topologically full sharp bound P(3k+2)<=T remains unproved. The next
+profile program concerns all-covered **f=T+e, 1<=e<=floor(2k/3)**, retaining
+p>=4, r>=k+4, d=r-p-h>=k and b+c+3e<=2k+8. These necessary constraints
+organize actual boundary/component slack but do not exclude all lower excess;
+further nonreused physical losses are needed, including beyond the current
+b>=7 bound. No remaining excess level or new upper endpoint is asserted
+attainable. The three old k%3=1 endpoint profiles are closed, not next tasks.
+The entire missing-side f<=T closure and RailRepair are unchanged.
 
 This terminal repair is not a target-count pump: k->k+2 still gains 12k+25,
 not 12k+26. Its deficit from the stable target `3k^2+7k-1` is
@@ -382,13 +410,12 @@ LEAN_NUM_THREADS=2 lake --no-cache --wfail build \
 ```
 
 This exact command passed for the snapshot above; its log is
-`/tmp/opencode/annulus-three-carrier-full-build.log` (same-stem `.exit` is 0).
-No competing full build was active at
-the initial check. Existing artifacts were reused, not deleted or rebuilt from
+`/tmp/opencode/endpoint-upper-final-full-build.log` (same-stem `.exit` is 0).
+Existing artifacts were reused, not deleted or rebuilt from
 scratch. The axiom-audit command and complete coverage are in `EVIDENCE.md`.
 The build ran without an imposed time limit. The root directly imports
-AllCoveredCounterexamples, ThreeCarrier.CostTwoCapacity, and MixedPacking.Defect,
-covering all 31 new modules alongside the old imports.
+EndpointUpper and the otherwise unused valid RingEndpoint leaf,
+covering all 40 new modules alongside the old imports.
 Only the original five legacy modules lie outside the aggregate closure; the
 command above includes them all. No additional separate build is needed.
 All audits are external `/tmp/opencode/*.lean` files; ThreeCarrier's removed
