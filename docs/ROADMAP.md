@@ -1,8 +1,13 @@
 # Astra Roadmap: Exact Square-Grid Optimum
 
-Updated: 2026-09-06.
+Updated: 2026-09-07.
 
 ## Active Checkpoint
+
+**Latest:** the entire missing-side sharp bound f<=T, k>=5, is formal without
+p/W assumptions. Only the all-covered sharp upper and accumulating lower pump
+remain open. Main full strict verification passed 9,009 jobs, zero warnings/errors;
+the audit covers 441 named public declarations, including 409 public theorems.
 
 Read [the U1/U3/L2 handoff](HANDOFF_U1_U3_L2.md) before continuing. Earlier milestones checked the
 boundary-six next-ring theorem, a stronger stable upper bound
@@ -24,17 +29,85 @@ The terminal repair now has a uniform Lean forest and score theorem:
 It gains one over the staircase at odd k and agrees at even k. Full strict
 verification passed with 8,939 jobs and 147 public axiom audits (72+31+44).
 
-The latest pass adds `CarrierLayers/ConcentratedGaps.lean` (7 public theorems,
+The preceding pass added `CarrierLayers/ConcentratedGaps.lean` (7 public theorems,
 297 lines) and `CoveredDeficit.lean` (9 public theorems, 244 lines). Full strict
-verification now passes 8,941 jobs and 163 public audits (147 rerun + 16 new).
-Neither numerical bound changes in this pass.
+verification passed 8,941 jobs and 163 public theorem audits (147 rerun + 16 new).
 
-Next goals: turn local gap/row losses into global accounting with overlap
-control; link covered shadows to carrier length without double counting;
-and jointly change the notch, remaining tail, and frame for a repair with the required
-six-width gain. **PROOF NOT FINISHED:** no target pump or sharp general upper
-bound is claimed. The global upper formula above is unchanged; the formal
-lower bound is now L(k), not just the historical staircase score.
+The preceding pass added five CarrierLayers modules: `GapGlobalCapacity.lean`,
+`GapGlobalExclusion.lean`, `GapGlobalMinimal.lean`,
+`CoveredGlobalMissingSides.lean`, and `GlobalUpperProfiles.lean`.
+For every feasible counterexample f>=T+1, k>=5, there is at most one missing
+open side, at least three covered sides, p>=3 (formerly k>=7), and r>=k+3
+(formerly k+2). The entire p=3, r=k+2 branch is excluded for ANY c.
+That milestone improved the b>=6 branch to `f<=T+floor((2k+1)/3)`, while its
+global upper remained `T+floor((2k+2)/3)`. Its historical full strict
+aggregate verification passed 8,946 jobs, zero warnings/errors;
+183 public theorems plus the separately audited definition `nextRingCarriers`
+give 184 dependency reports, not 184 theorems.
+
+The preceding milestone added `Accounting/BoundaryFive/Upper.lean` and
+`Accounting/CarrierLayers/FourCarrier/Closure.lean` with their dependencies:
+**32 then-new modules**. The checked global upper remains
+`P(3k+2)<=T+floor((2k+1)/3)` for **every k>=5 and all boundary budgets**,
+not just b>=6. The old endpoint at k%3=2, with `(r,c,b)=(k+4,1,5)`, is
+**excluded in that old-maximum context**; this does not exclude all b=5,c=1 sets.
+
+The boundary-five proof derives the generic four-Near-plus-one-Second hole
+pattern, then uses a square isometry to position only the gap at `(0,1)-(0,2)`.
+Only cardinality and forced acyclicity are transported. Reapplying the old
+endpoint profile to the mapped set supplies b=5 and c=1; the actual oriented
+perimeter path and inward spokes force a nonpure singleton at `z=(2,2)`.
+The singleton capacity bound `f+n<=(n-4)r+12` contradicts endpoint capacity.
+The other corner-hole orientations are not assumed canonical. A generic strict
+deep-carrier cap n-5 and the second-short corner packet are **not formalized**.
+
+FourCarrier formalizes the off-side path bound `p<=u+1`, where u counts
+ordinary off-side holes including corners. It closes the entire p=4 missing-side
+branch with f<=T for all k>=5, including k=5. At that milestone every remaining
+missing-side counterexample had exactly p=3 and f=T+1; those premises are now
+impossible. Its historical full strict verification passed **8,978 jobs, zero warnings/errors**;
+**273 public theorems + 4 public definitions = 277 audited reports**.
+
+**Current Annulus/ThreeCarrier milestone:**
+`GridGraphs.CarrierLayers.ThreeCarrier.card_le_target_of_missing_side` in
+`ThreeCarrier/Closure.lean` proves **f<=T for the ENTIRE missing-side branch,
+k>=5, without p or off-side cost W assumptions**. W2 counts an enlarged nonpure
+strip including roots and the next ring. Mixed interior-row shadows and the
+height-independent joint three-rod bound give `V+H<=(k-1)(3k-1)`.
+W3 leaves the extra off-side hole unclassified and maps bad vertical and bottom
+horizontal edges jointly to its two incident boundary edges. The defect is
+**at most two, not one**: `V+H<=(k-1)(3k-1)+2` yields
+`f<=T-k+5<=T`, including k=5. W4 uses global d>=k and connected shallow
+carriers. FourCarrier was closed previously. **No W2/W3/W4, mixed/top, or
+equality gap remains here.** The eight-case extra-hole adjacency classification
+is unused, unformalized, and unnecessary.
+
+Every stable counterexample f>=T+1 now has **all four sides covered**, p>=4,
+r>=k+4, and d=r-p-h>=k, where h counts actual shallow nonpure carriers.
+`stable_excess_budget` in `AllCoveredCounterexamples.lean` (namespace
+`GridGraphs.CarrierLayers`) gives `b+c+3e<=2k+8` for **every e>=1** and
+f>=T+e, with no coverage premise. There is no missing-side proof work left.
+
+The global annulus cap is `B+E<=4n-9` for n>=9, with
+`K=4n-4-B-E>=5`. For the full two-layer annulus A and selected set S,
+`2|S|+rA+cA+i=|A|+o`, including inner/outer corner corrections i/o,
+gives `rA+cA+4<=2K`. Literal full-deep-rod edge packets prove
+`M+1<=cA`, counting annulus isolates and assuming no quotient/contact forest.
+For total deep deficit `D=(n-4)d-|F_deep|`, this gives `r+5<=2K+D`.
+The entire b>=7 branch improves to `f<=T+floor(2k/3)`; f<=200 at n=23
+is **conditional on b>=7**, not a new global upper. At k%3=1 the current
+upper endpoint requires `(r,c,b)=(k+5,1,5), (k+4,2,5), (k+4,1,6)`.
+These are necessary profiles, **not excluded or asserted to exist**; they are
+not the already-excluded old k%3=2 endpoint.
+
+Next goals: all-covered low-b annulus/deep deficits and an accumulating lower
+repair. [Paper Upper Program](PAPER_UPPER_PROGRAM.md) records the completed
+missing-side resolution and retains failed certificates as guardrails.
+**PROOF NOT FINISHED:** the all-covered sharp upper and target lower pump
+remain open. The global upper formula and formal L(k) are unchanged.
+
+The following missing-side reductions are historical infrastructure. Their
+one-excess premises are now impossible, not remaining research obligations.
 
 The previous milestone's five leaves under `Accounting/CarrierLayers/` are `MissingSide.lean`,
 `MissingSideSharp.lean`, `RadialNearTightBoundary.lean`,
@@ -53,7 +126,23 @@ For missing-side root deficit m=k-q, `m<=e+1` and `p<=a+m+2`.
 At saturation `r=q+p`, equivalently `p=a+m+2`, distinct empty-block middles
 are ambient isolates, giving `c>=m+1` and `m<=d`. Outside saturation,
 inward witnesses may share a horizontal carrier; do NOT claim general nonreuse.
-These necessary conditions do not exclude one excess.
+These earlier necessary conditions alone did not exclude one excess; Closure now does.
+
+The earlier GapGlobal bound forced p=3 and a>=1 here, removing all four old a=0
+types (d,e)=(0,3),(1,2),(2,1),(3,0). Setting A=a-1 gives
+`r=k+3+A, c=1+d, b=2k+3+e, A+d+e=2` at p=3. This is derived
+algebra, not a new named Lean API. In particular e<=2 and c<=3.
+
+Write h for `|nextRingCarriers F|`: actual nonpure carriers with no deep
+vertices, allowing boundary endpoints. With B/E denoting preserved boundary/
+next-ring occupancy, the new global capacity bounds are
+`f<=B+E+(n-4)*(r-p-h)` for n>=5 and
+`f<=4n-4+(n-4)*(r-p-h)` for n>=7 (natural subtraction).
+Each shallow carrier loses deep capacity ONCE, even if many holes reuse it;
+the one-excess profile gives h<=a. At h=0, partitioning the boundary-injection
+image on/off a chosen open side gives `B+E+H_s<=4n-4+(r-p)`, where H_s
+counts that side's actual holes. A missing side has H_s>=2k; at p=3,
+r=k+2 this contradicts f>=T+1 for every k>=5, independently of c or corner holes.
 
 `OneExcessSeparated` now proves `q+p+|S|+1<=r+c` for actual root-separated
 hole middles S, without root saturation. An intervening preserved root proves
@@ -76,6 +165,10 @@ interval of length L forces at least `floor(L/2)` actual holes two rows away,
 even for arbitrary disconnected preserved occupancy on that row. This local
 loss is not globally addable without overlap control. Bounded gaps do not
 reduce the whole proof to finite-board search: distant component identifications remain.
+
+Combining `L+6k<=3b-2` with the now-derived e<=2 gives `L<=13` in
+the same one-excess branch. The old named L<=16 theorem remains valid;
+L<=13 is a derived consequence, not a new named API or finite-board reduction.
 
 `CoveredDeficit` defines the shadow union S of actual boundary holes, counting
 shared witnesses once (not the earlier selected root-separated middles).
@@ -117,9 +210,21 @@ finished exhaustively within their restricted windows, not as global bounds.
 Explicit independent joined outputs exist, but the unchanged extra continuation
 closes a cycle; deleting the obstructing tail center makes the extension
 count-neutral. The next step either meets another tail square or consumes
-independence through the frame. The latest main-agent run passed 19 tests,
+independence through the frame. That main-agent run passed 19 tests,
 with no searches during tests. This finite/paper evidence is not Lean-formalized
 and establishes neither a recurring gain nor a target pump.
+
+[Terminal tail interface](L2_TERMINAL_TAIL_INTERFACE.md) now gives a 76-center
+n=14 forest with an actual 43-vertex rootless output and a separate frame-attached
+cap. Its paper family still gains only 12k+25, not an accumulating pump.
+Ten bounded searches ran only at n=11/14: nine were exhaustive in their windows;
+the n=14 joint joined-output search hit 100,000 nodes, so its 76 is a lower
+bound, NOT a maximum. The historical main-agent run passed 23 tests without
+optimization searches during tests (fixed replays and one-node cutoff checks).
+This is finite/paper evidence, not a new Lean lower theorem. No Python application
+files were changed and those 23 tests were not rerun. The new bounded finite-capacity
+certificate experiments use coordinates at most 13, not a full-grid optimizer.
+No Python search or tests were run in the recorded verification pass or this docs update.
 
 ## Research Route Labels
 
@@ -136,11 +241,11 @@ induced preserved component lying entirely on the outer boundary; p counts them.
 
 | Label | Route | Goal and current position |
 |---|---|---|
-| **U1** | **Boundary-six control** | Analyze feasible sets with b=6, bound preserved vertices in the next ring, and use the resulting carrier capacity together with the b=5 and b>=7 branches. The next-ring bound and the improved unconditional upper bound `P(3k+2)<=T(k)+floor((2k+2)/3)` are checked for their stated ranges. This does not yet give the sharp upper bound. |
-| **U2** | **Boundary-five attachment rigidity** | For arbitrary b=5 sets, prove boundary connectivity after the unique perimeter gap, classify actual inward attachments, and exclude a deep preserved carrier spanning all n-4 positions. Use that rigidity to sharpen the remaining b=5 profiles. Canonical-frame connectivity is checked; the full arbitrary-b=5 attachment and strict-capacity route remains open. |
-| **U3** | **Global near-extremal packing** | Combine carrier lengths, boundary contacts, layer occupancy, and forced-component cost without resource reuse. Missing sides give f<=T+1; two excess requires four distinct side-covering pure carriers. Exact three-unit one-excess slack, root-separated hole charges, and actual pure-mass budgets are checked. The conditional f<=T bound needs p+\|S\|>=7, not guaranteed. One-excess exclusion and the all-sides-covered branch remain open. |
+| **U1** | **Boundary-six control** | The global upper remains `P(3k+2)<=T+floor((2k+1)/3)`, k>=5. Annulus proves global B+E<=4n-9, n>=9, and b>=7 gives `f<=T+floor(2k/3)`. Only all-covered sharpness remains open. |
+| **U2** | **Boundary-five attachment rigidity** | The old k%3=2 endpoint `(r,c,b)=(k+4,1,5)` is excluded by gap-only symmetry, actual perimeter/spoke geometry, and a singleton capacity contradiction. No canonical other-hole pattern is assumed. Generic strict cap n-5, candidate `f<=(n-5)r+11`, and second-short corner packet remain unformalized; general b=5,c=1 is not excluded. |
+| **U3** | **Global near-extremal packing** | Entire missing-side branch formally closed: f<=T for k>=5, without p/W assumptions. Every positive-excess counterexample is all-covered, p>=4, r>=k+4, d>=k, with b+c+3e<=2k+8. Only all-covered low-b deficit geometry remains an upper gap; shared physical budgets cannot be counted twice. |
 | **L1** | **Relayout and absorb uncovered vertices** | Rearrange the staircase's rails and attachments so that more uncovered vertices become legal promotion sites. Prove actual coordinates and attachments. The terminal parity repair is now checked, but a target-count relayout is not known. Disconnected forced forests and unrooted components are allowed. |
-| **L2** | **Six-width pump from the small seeds** | Construct an actual `k -> k+2` operation gaining `12k+26`, with compatible 11x11/14x14 seeds (historical staircase scores 48/76 and budgets are checked). The uniform terminal repair L(k) is formal, but still gains only `12k+25`. The propagating-interface alternative remains paper-level and fails the actual target gain. No target pump or closure invariant is proved. |
+| **L2** | **Six-width pump from the small seeds** | Construct an actual `k -> k+2` operation gaining `12k+26`, with compatible 11x11/14x14 seeds (historical staircase scores 48/76 and budgets are checked). Formal L(k) and the new paper tail/cap family still gain only `12k+25`. The 76-center n14 rootless output is progress on the interface, not an accumulating pump. Actual six-width closure remains open. |
 | **L3** | **Alternative boundary or direct dual construction** | Leave the staircase architecture if necessary. Either choose another controlled boundary pattern, such as b=6, and pay its full component budget, or construct an unpreserved set U of size `6k^2+5k+4` with connected U-U dual. Actual coordinates and connectivity must give the target lower bound. No exact arbitrary-width alternative family is known. |
 
 The selected emphasis is **U1 and L2, pushing into U3**. U2 supplies useful
@@ -152,7 +257,7 @@ completion means a feasible target-count family at every required width.
 Matching the two proves the optimum. A seed budget or a count recurrence alone
 does not complete a lower route.
 
-Source layout: the 234 Lean modules under `GridGraphs/` are grouped under `Core`, `Forests`,
+Source layout: the 302 Lean modules under `GridGraphs/` are grouped under `Core`, `Forests`,
 `Geometry`, `Accounting`, `Routing`, `Surgery`, `Constructions`, `Results`,
 and `Tests`. Construction families have their own subfolders. Public theorem
 namespaces and the `import GridGraphs` entry point are unchanged; module
@@ -166,12 +271,12 @@ from the repository root. `analysis/README.md` documents the layout, bounded
 checks, and historical provenance policy. Existing result artifacts were not
 regenerated; source snapshots and an explicit before/after migration ledger
 preserve their provenance. The smoke/layout suite and six targeted provenance
-checks pass (29 tests total), with no optimization searches.
+checks historically passed (29 tests total), with no optimization searches.
 
 ## Verification Status
 
 Lean and mathlib are pinned to `v4.33.1`. The reorganized project passed full
-verification with **zero errors and zero warnings**: 8,941 jobs, exit 0.
+verification with **zero errors and zero warnings**: 9,009 jobs, exit 0.
 The command, run from `lean/`, was:
 
 ```bash
@@ -183,36 +288,60 @@ LEAN_NUM_THREADS=2 lake --no-cache --wfail build GridGraphs \
   GridGraphs.Results.SmallDiagonal
 ```
 
-This covers all 234 source modules, including the five outside the aggregate closure. It
+This covers all 302 source modules, including the original five outside the aggregate closure. It
 reuses cached mathlib dependencies rather than running a separate mathlib-wide
-verification. The completed log is `/tmp/opencode/u1-u3-l2-gap-shadow-full-build.log`.
-There are 84,372 lines under GridGraphs, plus the 179-line root: 235 library
-source files and 84,551 lines total. All 163 public theorems in the 31 audited
-modules depend only on subsets of `propext`, `Classical.choice`, and `Quot.sound`.
-The previous 72+31+44 were rerun alongside all 16 new public theorems, with warnings
-as errors and no `sorryAx` or native proof axiom. Audit logs:
+verification. The completed log is `/tmp/opencode/annulus-three-carrier-full-build.log`
+(same-stem `.exit` records 0). There are **94,579 lines under GridGraphs**, plus
+the **186-line root: 303 library files and 94,765 lines total**. The targeted
+build initially hit the tool's 120-second timeout; its retry passed 8,842 jobs.
+That is separate from the 9,009-job main full strict build. No build is active.
 
-- `/tmp/opencode/u1-u3-l2-gap-shadow-previous72-axioms.log`
-- `/tmp/opencode/u1-u3-l2-gap-shadow-previous31-axioms.log`
-- `/tmp/opencode/u1-u3-l2-gap-shadow-previous44-axioms.log`
-- `/tmp/opencode/u1-u3-l2-gap-shadow-new16-axioms.log`
-- `/tmp/opencode/U1U3L2GapShadowAudit.lean` (new audit driver)
-- `/tmp/opencode/u1-u3-l2-gap-shadow-source-lengths.log` (source inventory)
+The external `/tmp/opencode/TotalCurrentAudit.lean` reran **273 public theorems +
+4 definitions**. `/tmp/opencode/AnnulusThreeCarrierAudit.lean` audited the new
+**136 theorems + 24 definitions + 2 abbreviations + 2 structures**. Both import
+only `GridGraphs`. Combined coverage is **409 PUBLIC THEOREMS + 28 definitions +
+2 abbreviations + 2 structures = 441 named public declaration reports**, not
+441 theorems. Kinds, duplicate-free names, and coverage were independently
+checked. Dependencies are subsets of `propext`, `Classical.choice`, and
+`Quot.sound`, possibly empty, with no `sorryAx` or native proof axiom.
+Generated constructors, projections, and recursors are not extra source entries;
+private helpers are covered transitively where used.
 
-ConcentratedGaps and CoveredDeficit have 297 and 244 lines respectively.
-The previous OneExcessSeparated, CoveredBoundary, and RailRepair Geometry, Forest, Score
-have 303, 276, 141, 97, and 146 lines respectively, all below 1,000.
-The 11 pre-existing modules over 1,000 lines are listed
-in [Lean STATUS](../lean/STATUS.md); none was extended. Private helpers are
-covered transitively where used, not individually printed. See
-[README](../lean/README.md) and [EVIDENCE](../lean/EVIDENCE.md) for the snapshot,
-audit commands, and regression coverage. These are recorded results, not a
-Lean build or Python test rerun for this documentation-only update. Root and
-Regression import both new modules: L=4 on a 9x9 board gives row occupancy <=7
-two rows away, and the k=5 shadow-cost threshold 49 implies f<=110. They retain the
-symbolic lower/upper interval and lower regressions at sides 17, 20, 23, 29.
-This is not a whole-library axiom audit; six legacy `native_decide` uses in
-three separately built counterexample tests are outside these audited results.
+Current logs:
+
+- `/tmp/opencode/annulus-three-carrier-previous-axioms.log`
+- `/tmp/opencode/annulus-three-carrier-new-axioms.log`
+- `/tmp/opencode/annulus-three-carrier-inventory.log`
+- `/tmp/opencode/annulus-three-carrier-verification-summary.log`
+
+The same-prefix source/root/configuration fingerprints match after build and
+audit, including all tests. All 270 old non-Regression modules match the prior
+snapshot. This is not a whole-workspace or mathlib hash.
+
+| New group under `Accounting/CarrierLayers/` | Modules | Lines | Theorems | Definitions | Abbreviations | Structures |
+|---|---:|---:|---:|---:|---:|---:|
+| `Annulus/` | 7 | 1,088 | 41 | 10 | 2 | 1 |
+| `MixedPacking/` | 3 | 763 | 23 | 9 | 0 | 1 |
+| `ThreeCarrier/` | 20 | 3,394 | 70 | 5 | 0 | 0 |
+| `AllCoveredCounterexamples.lean` | 1 | 41 | 2 | 0 | 0 | 0 |
+| **Total** | **31** | **5,286** | **136** | **24** | **2** | **2** |
+
+All new modules are **41-576 lines**, below 1,000. The 11 pre-existing oversized
+modules listed in [Lean STATUS](../lean/STATUS.md) are untouched. Every new module
+is in the aggregate closure. Root adds AllCoveredCounterexamples,
+ThreeCarrier.CostTwoCapacity, and MixedPacking.Defect to the old imports.
+Regression passed uniform missing-side f<=T, k=5 f<=110, missing-side
+counterexample `False`, global r>=9 at n=17/f>=111, and conditional b>=7/n=23
+f<=200, together with older interval, row-loss, shadow, and component checks.
+Old missing-side one-excess implications remain valid with impossible premises.
+
+This is **not a whole-library axiom audit**: six legacy `native_decide` uses in
+three separately built counterexample tests remain outside coverage. See
+[README](../lean/README.md) and [EVIDENCE](../lean/EVIDENCE.md) for commands and
+inventory. These are recorded verification results, not a Lean/Python rerun for
+this docs-only update. No Python application files changed; bounded mathematical
+capacity experiments use coordinates at most 13, not a full-grid optimizer.
+The historical 23 Python tests were not rerun.
 
 Migration fixes preserve theorem statements and certificate data. Existing
 finite certificates now use efficient kernel-checked fixed-entry replay, not
@@ -282,11 +411,17 @@ and does not establish an upper bound for b>=6.
 | Residue-two target-score lower witnesses through n=20 | Established in Lean |
 | Uniform affine residue-two lower bound `3k^2+6k+5`, k>=5 | Established in Lean |
 | Improved explicit lower family `3k^2+6k+2+floor(k/2)`, k>=3 | Unconditionally proved in Lean: `ResidueTwoStaircaseForest.lean` |
-| Stable residue-two upper bound `P(3k+2)<=T(k)+floor((2k+2)/3)`, k>=5 | Established in Lean: `BoundarySix/Upper.lean`; unchanged by latest milestone |
-| Any missing open side gives f<=T+1, k>=5, independent of p | Established in Lean: `CarrierLayers/MissingSideSharp.lean`; two excess requires four distinct side-covering pure carriers |
-| Exact p<=3 one-excess slack and saturated-root isolate bounds | Established in Lean: `CarrierLayers/RadialOneExcess.lean`; exclusion remains open |
+| Stable residue-two upper bound `P(3k+2)<=T(k)+floor((2k+1)/3)`, k>=5 | Established in Lean: `BoundaryFive/Upper.lean`, all boundary budgets; supersedes the historical BoundarySix floor `(2k+2)/3` |
+| Any missing open side gives f<=T, k>=5, independent of p/W | Established in Lean: `ThreeCarrier/Closure.lean`; entire branch closed, including mixed/top/equality cases |
+| Exact p<=3 one-excess slack and saturated-root isolate bounds | Historical checked reductions in `RadialOneExcess.lean`; one-excess premises now impossible |
 | Root-separated holes and covered-boundary pure mass | Established in Lean: `OneExcessSeparated.lean`, `CoveredBoundary.lean`; conditional sharpness only, no new global upper |
 | Concentrated gaps and covered shadows | Established in Lean: `ConcentratedGaps.lean`, `CoveredDeficit.lean`; scoped gap bound, local row loss, and physical shadow/length link, not a new numerical bound |
+| Global shallow capacity and coverage | Established in the preceding five CarrierLayers modules: k>=5, f>=T+1 implies at most one missing side, covered>=3, p>=3, r>=k+3; all p=3, r=k+2 excluded for any c |
+| Refined upper profiles and endpoint exclusion | Historical `GlobalUpperProfiles.lean` classifies the k%3=2 old endpoint as `(r,c,b)=(k+4,1,5)`; `BoundaryFive/Upper.lean` now excludes that endpoint, not all b=5,c=1 sets |
+| Off-side path and four-carrier closure | Previously established in `FourCarrier/OffsidePath.lean` and `Closure.lean`: p<=u+1 for ordinary off-side holes including corners; p=4 missing-side f<=T for every k>=5; the subsequent ThreeCarrier closure removes the last p=3 case |
+| Annulus cap, physical bridges, and deficit | Established in `Annulus/{Cap,Bridges,Deficit}.lean`: B+E<=4n-9, K>=5, rA+cA+4<=2K, M+1<=cA, r+5<=2K+D, n>=9 |
+| Global stable counterexamples | Established in `AllCoveredCounterexamples.lean` and `Annulus/Counterexamples.lean`: all-covered, p>=4, r>=k+4, d>=k; b+c+3e<=2k+8 for every positive excess |
+| Conditional annulus upper and current endpoint | `Annulus/Upper.lean`: b>=7 gives T+floor(2k/3); k%3=1 current endpoint has three necessary, not excluded, profiles |
 | Terminal rail repair L(k) | Uniform formal lower `3k^2+6k+3+floor((k-1)/2)`, k>=3, in `RailRepair/Score.lean`; not an accumulating pump |
 | Propagating-interface alternative J(s) | Paper-only forest argument; actual score fails the target pump gain |
 | General sharp square upper bounds | Still open |
@@ -368,8 +503,9 @@ again a cycle. This proves the fifth unit is necessary.
 
 For n>=6, equality b=5 forces exactly one perimeter UU edge. This uniqueness
 is now checked in Lean, as are preservation of all corners and the count of
-five complementary boundary vertices. The resulting perimeter-path and
-attachment decomposition is still paper-level. None of these results proves
+five complementary boundary vertices. The oriented actual perimeter-path and
+spoke geometry used by BoundaryFive.Upper is now checked; the full arbitrary
+attachment/Q decomposition remains partly paper-level. None of these results proves
 that optimal constructions must have b=5.
 
 ### Component Obstruction
@@ -580,10 +716,24 @@ Completion gates:
 
 ### Current Unconditional Upper Bound
 
-The current stable residue-two bound, from `Accounting/BoundarySix/Upper.lean`, is
-`P(3k+2)<=T(k)+floor((2k+2)/3)` for k>=5. The latest gap and covered-shadow work
-does not improve this global formula. The following boundary-stratified result
-is an earlier milestone, still valid over its broader range.
+The current stable residue-two bound, from `Accounting/BoundaryFive/Upper.lean`, is
+`P(3k+2)<=T(k)+floor((2k+1)/3)` for **all k>=5 and all boundary budgets**.
+The public endpoints are `GridGraphs.BoundaryFive.forced_card_le_residueTwo_bound`
+and `GridGraphs.BoundaryFive.maxPreserved_residueTwo_le`. This improves the
+historical BoundarySix floor `(2k+2)/3` by one when k%3=2.
+
+`GlobalUpperProfiles.lean` supplied the b>=6 bound and classified the old
+k%3=2 endpoint as `(r,c,b)=(k+4,1,5)`. BoundaryFive now excludes it:
+generic Near/Second holes locate the gap, square symmetry transports only size
+and acyclicity, and the old profile is reapplied to the mapped set for b=5,c=1.
+The oriented actual perimeter path and spokes force the nonpure singleton
+`z=(2,2)`; `f+n<=(n-4)r+12` contradicts the endpoint. No canonical positions
+for the other holes are assumed. At n=17, the former f=114 endpoint is impossible
+and the global upper is 113. This is not an exclusion of all b=5,c=1 sets.
+Generic strict deep cap n-5, candidate `f<=(n-5)r+11`, and the second-short
+corner packet remain unformalized, distinct from this completed endpoint proof.
+The following boundary-stratified result is an earlier milestone, still valid
+over its broader range.
 
 `Accounting/BoundaryStratifiedCarrierBound.lean` proves, for every n>=7,
 
@@ -618,15 +768,15 @@ target `3k^2+7k` remains open.
 | 7 | 22 | 22 |
 | 10 | 42 | 42 |
 | 14 | 77 | 79 |
-| 17 | 110 | 114 |
+| 17 | 110 | 113 |
 | 20 | 149 | 154 |
 | 23 | 195 | 201 |
-| 26 | 246 | 254 |
+| 26 | 246 | 253 |
 | 29 | 304 | 312 |
 
 The current uniform repair gives the displayed lower bounds from side 17
 onward. In particular 110 matches the existing finite lower witness at side
-17, but **P(17) is not proved exact**: its global upper bound is still 114.
+17, but **P(17) is not proved exact**: its current interval is [110,113].
 
 The new equality at side 10 is `maxPreserved_ten_ten` in
 `Results/SmallDiagonalExact/Ten.lean`, using the existing residue-one lower
@@ -643,25 +793,41 @@ r >= k+2,
 b+c+3*excess <= 2k+10.
 ```
 
-Thus a stable counterexample has b+c<=2k+7, and a counterexample to the early
-target has b+c<=2k+4. The branch b+c>=2k+8 already satisfies the stable target.
+Historically this gave b+c<=2k+7 for a stable counterexample and b+c<=2k+4
+for a counterexample to the early target. The branch b+c>=2k+8 already satisfies the stable target.
 For stable counterexamples with b=5, the refined geometry additionally proves
 r>=k+3 and c<=2k+1. These narrow the open profiles; they do not prove that
 those profiles are impossible.
 
+For the current stable range k>=5, `AllCoveredCounterexamples.lean` strengthens
+these to `r>=k+4` and `b+c+3*excess<=2k+8` whenever excess>=1 and
+f>=T+excess. Such sets are all-covered with p>=4 and d>=k. In particular
+b+c<=2k+5 above T, so b+c>=2k+6 suffices for f<=T. The older
+GlobalUpperProfiles bound 2k+9 and broader-range APIs remain valid.
+
 `Geometry/CarrierPacking.lean` independently proves the six-cycle obstruction
 and the bound `length(C1)+length(C2)<=n+1` for wholly preserved horizontal
-intervals two rows apart. This local result has not yet been summed into a
-stronger global packing inequality.
+intervals two rows apart. The newer mixed packing controls nearby edge shadows
+jointly in the enlarged nonpure strip; it is not an independent sum of all
+such local carrier-length bounds for the all-covered problem.
 
-Next upper gates: combine exact three-unit slack, bounded concentrated gaps,
-and local row loss into global gap-loss accounting with overlap and distant
-component identifications controlled. Use the covered shadow/length link, not
-the p=4 certificate as a new solved branch. Boundary-five equality remains a
-useful subcase, not a global normalization. Next lower gate: jointly change the
-notch, remaining tail, and frame contact while retaining an independent output
-and paying for all deletions and Delta b. Compatible seeds, gain 12k+26, and
-uniform six-width closure remain required; no current repair supplies that pump.
+`FourCarrier/Closure.lean` proves p=4 missing-side f<=T for every k>=5.
+The physical image budget handles k>=6; at k=5, shallow preimages force a
+second-position root and deep equality fills its radial axis, contradicting the
+boundary six-cycle. ThreeCarrier.Closure now closes p=3 as well, and proves
+f<=T with no p/W assumption. No missing-side proof obligations remain.
+
+Next upper gates: all-covered low-b annulus/deep-deficit geometry, beyond the
+already-excluded old endpoint. The b>=7 bound is now T+floor(2k/3), while
+the global upper stays T+floor((2k+1)/3). At k%3=1, the current endpoint
+profiles `(k+5,1,5), (k+4,2,5), (k+4,1,6)` are necessary, not excluded.
+[Paper Upper Program](PAPER_UPPER_PROGRAM.md) explains the actual enlarged-strip
+and two-defect resolution; its old mixed/top program is historical and closed.
+Use genuine joint capacity rather than the sufficient-only shadow certificate.
+Next lower gate: make the terminal tail/cap improvement accumulate while retaining
+an independent output and paying for all deletions and Delta b. Compatible seeds,
+gain 12k+26, and uniform six-width closure remain required; the new paper family
+still gains 12k+25 and supplies no pump.
 
 ### Sharp Upper Obligations
 
@@ -691,7 +857,8 @@ on that vertex. Tight overlapping families have an exact uncrossing rule.
 These are forest sparsity identities, not the missing inequality. The actual
 research gate is a grid-geometric argument forcing a deficient family at a
 forbidden score, or a geometric classification of low-budget feasible sets.
-In particular, the k=5 threshold still needs an explanation.
+In particular, the all-covered k=5 threshold still needs an explanation;
+the missing-side k=5 case is already closed.
 
 The new peeling theorem handles only b=5. Even a sharp Q bound would not
 exclude better configurations with b>=6. No normal-form theorem putting an
@@ -767,11 +934,27 @@ a full Lean build and must not be reported as one.
 
 | File | Role |
 |---|---|
-| `docs/HANDOFF_U1_U3_L2.md` | Latest formal repair, scoped upper fronts, verification, next goals |
+| `docs/HANDOFF_U1_U3_L2.md` | Entire missing-side closure, annulus/all-covered budgets, unchanged lower, verification, next goals |
 | `docs/L2_FIXED_RAIL_POCKET.md` | Paper-only obstruction with frame and rails fixed |
 | `docs/L2_RAIL_REPAIR_RESEARCH.md` | Now-formal terminal repair, historical finite searches, and scoped propagation obstruction |
 | `docs/L2_PROPAGATING_INTERFACE.md` | Separate paper alternative with unsuccessful actual target gain |
 | `docs/L2_TWO_RAIL_INTERFACE.md` | Two-rail/notch restricted searches, independent outputs, count-neutral continuation, and remaining tail/frame gate |
+| `docs/L2_TERMINAL_TAIL_INTERFACE.md` | 76-center n14 rootless output, scoped search cutoff, paper tail/cap family without accumulating gain |
+| `docs/PAPER_UPPER_PROGRAM.md` | Actual enlarged-strip and two-defect resolution; historical closed mixed/top program, false-certificate guardrails, and future all-covered low-b deficits |
+| `lean/GridGraphs/Accounting/BoundaryFive/Upper.lean` | Checked global `T+floor((2k+1)/3)` for every k>=5 via the old-endpoint singleton contradiction |
+| `lean/GridGraphs/Accounting/CarrierLayers/FourCarrier/Closure.lean` | Prior full p=4 missing-side closure including k=5; historical p=3 reduction now has impossible counterexample premises |
+| `lean/GridGraphs/Accounting/CarrierLayers/ThreeCarrier/Closure.lean` | Entire missing-side f<=T, k>=5, no p/W assumptions; every stable counterexample all-covered |
+| `lean/GridGraphs/Accounting/CarrierLayers/Annulus/Cap.lean` | Global B+E<=4n-9, K>=5, cubic ledger and annulus component budget |
+| `lean/GridGraphs/Accounting/CarrierLayers/Annulus/Bridges.lean` | Literal full-rod edge packets give M+1<=cA, including isolates, without a quotient-forest assumption |
+| `lean/GridGraphs/Accounting/CarrierLayers/Annulus/Deficit.lean` | Total deep deficit gives r+5<=2K+D |
+| `lean/GridGraphs/Accounting/CarrierLayers/Annulus/Counterexamples.lean` | Global d>=k in stable counterexamples |
+| `lean/GridGraphs/Accounting/CarrierLayers/Annulus/Upper.lean` | Conditional b>=7 upper T+floor(2k/3), and three necessary current k%3=1 endpoint profiles |
+| `lean/GridGraphs/Accounting/CarrierLayers/AllCoveredCounterexamples.lean` | Global p>=4, r>=k+4 and b+c+3e<=2k+8 for every positive excess |
+| `lean/GridGraphs/Accounting/CarrierLayers/GapGlobalCapacity.lean` | Once-per-shallow-carrier deep-capacity loss and h<=a |
+| `lean/GridGraphs/Accounting/CarrierLayers/GapGlobalExclusion.lean` | Shared inward carriers and initial connected minimal-induced exclusion |
+| `lean/GridGraphs/Accounting/CarrierLayers/GapGlobalMinimal.lean` | Boundary-image partition and entire p=3, r=k+2 exclusion for any c |
+| `lean/GridGraphs/Accounting/CarrierLayers/CoveredGlobalMissingSides.lean` | Global k>=5 coverage, p>=3, and r>=k+3 |
+| `lean/GridGraphs/Accounting/CarrierLayers/GlobalUpperProfiles.lean` | Improved counterbudget, b>=6 bound, and historical old-endpoint profile now excluded by BoundaryFive |
 | `lean/GridGraphs/Accounting/CarrierLayers/ConcentratedGaps.lean` | Scoped root-free gap bound and local two-row capacity loss |
 | `lean/GridGraphs/Accounting/CarrierLayers/CoveredDeficit.lean` | Actual shadow union, carrier-length shortfall, and sufficient-only certificate |
 | `lean/GridGraphs/Constructions/ResidueTwo/RailRepair/Score.lean` | Current uniform formal lower bound and insufficient six-width gain |

@@ -20,6 +20,10 @@ import GridGraphs.Accounting.CarrierLayers.OneExcessSeparated
 import GridGraphs.Accounting.CarrierLayers.CoveredBoundary
 import GridGraphs.Accounting.CarrierLayers.ConcentratedGaps
 import GridGraphs.Accounting.CarrierLayers.CoveredDeficit
+import GridGraphs.Accounting.CarrierLayers.GlobalUpperProfiles
+import GridGraphs.Accounting.BoundaryFive.Upper
+import GridGraphs.Accounting.CarrierLayers.FourCarrier.Closure
+import GridGraphs.Accounting.CarrierLayers.AllCoveredCounterexamples
 import GridGraphs.Constructions.ResidueTwo.RailRepair.Score
 import GridGraphs.Constructions.ResidueTwo.Staircase.ComponentLedger
 import GridGraphs.Geometry.CarrierPacking
@@ -43,6 +47,29 @@ namespace GridGraphs
 
 /-! ## Boundary-six refinement and global carrier-layer restrictions -/
 
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hf : 111 ≤ F.card) :
+    9 ≤ Fintype.card ((gridGraph 17 17).induce (↑F : Set _)).ConnectedComponent := by
+  exact (CarrierLayers.stable_counterexample_pure_and_induced (k := 5)
+    (by omega) F hacyc hf).2
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hb : 6 ≤ boundaryDeficiencySum 17 17 (Finset.univ \ F)) : F.card ≤ 113 := by
+  simpa using CarrierLayers.residueTwo_card_le_of_boundaryDeficiency_ge_six (k := 5)
+    (by omega) F hacyc hb
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hf : 114 ≤ F.card) :
+    F.card = 114 ∧
+      Fintype.card ((gridGraph 17 17).induce (↑F : Set _)).ConnectedComponent = 9 ∧
+      Fintype.card (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).ConnectedComponent = 1 ∧
+      boundaryDeficiencySum 17 17 (Finset.univ \ F) = 5 := by
+  simpa using CarrierLayers.residueTwo_old_upper_endpoint_profile (k := 5)
+    (by omega) (by decide) F hacyc hf
+
 example (F : Finset (GridVertex 9 9))
     (hacyc : (forcedEdgeGraph (gridGraph 9 9) (↑F : Set _)).IsAcyclic)
     (hinterval : ∀ j ∈ Finset.Icc (2 : Fin 9) 5, ((1 : Fin 9), j) ∈ F) :
@@ -64,16 +91,25 @@ example (F : Finset (GridVertex 17 17))
 example (k : Nat) (hk : 5 ≤ k) :
     3 * k ^ 2 + 6 * k + 3 + (k - 1) / 2 ≤ maxPreserved (3 * k + 2) (3 * k + 2) ∧
       maxPreserved (3 * k + 2) (3 * k + 2) ≤
-        3 * k ^ 2 + 7 * k + (2 * k + 2) / 3 := by
+        3 * k ^ 2 + 7 * k + (2 * k + 1) / 3 := by
   exact ⟨RailRepair.residueTwo_le_maxPreserved (by omega),
-    maxPreserved_residueTwo_le_boundary_six_refinement hk⟩
+    BoundaryFive.maxPreserved_residueTwo_le hk⟩
+
+example : maxPreserved 17 17 ≤ 113 := by
+  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 5) (by omega)
+
+example : maxPreserved 26 26 ≤ 253 := by
+  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 8) (by omega)
+
+example : maxPreserved 35 35 ≤ 447 := by
+  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 11) (by omega)
 
 example : maxPreserved 20 20 ≤ 154 := by
-  simpa using maxPreserved_residueTwo_le_boundary_six_refinement (k := 6) (by omega)
+  simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 6) (by omega)
 
 example : 304 ≤ maxPreserved 29 29 ∧ maxPreserved 29 29 ≤ 312 := by
   exact ⟨by simpa using RailRepair.residueTwo_le_maxPreserved (k := 9) (by omega),
-    by simpa using maxPreserved_residueTwo_le_boundary_six_refinement (k := 9) (by omega)⟩
+    by simpa using BoundaryFive.maxPreserved_residueTwo_le (k := 9) (by omega)⟩
 
 example : 110 ≤ maxPreserved 17 17 := by
   simpa using RailRepair.residueTwo_le_maxPreserved (k := 5) (by omega)
@@ -119,8 +155,8 @@ example (k : Nat) (hk : 5 ≤ k)
     (hacyc : (forcedEdgeGraph (gridGraph (3 * k + 2) (3 * k + 2))
       (↑F : Set _)).IsAcyclic)
     (hmissing : ∃ s : Fin 4, ∀ C ∈ pureBoundaryCarriers F, ∀ v ∈ C.supp,
-      ¬ CarrierLayers.OnOpenSide s v.val) : F.card ≤ 3 * k ^ 2 + 7 * k + 1 :=
-  residueTwo_card_le_target_add_one_of_missing_side hk F hacyc hmissing
+      ¬ CarrierLayers.OnOpenSide s v.val) : F.card ≤ 3 * k ^ 2 + 7 * k :=
+  CarrierLayers.ThreeCarrier.card_le_target_of_missing_side hk F hacyc hmissing
 
 example (F : Finset (GridVertex 17 17))
     (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
@@ -134,6 +170,36 @@ example (F : Finset (GridVertex 17 17))
   obtain ⟨_, _, _, hp⟩ := residueTwo_four_distinct_pure_carriers_of_two_excess (k := 5)
     (by omega) F hacyc hcard
   exact hp
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hp : (pureBoundaryCarriers F).card = 4)
+    (hmissing : ∃ s : Fin 4, ∀ C ∈ pureBoundaryCarriers F, ∀ v ∈ C.supp,
+      ¬ CarrierLayers.OnOpenSide s v.val) : F.card ≤ 110 := by
+  simpa using CarrierLayers.FourCarrier.card_le_target_of_four_pure_missing_side
+    (k := 5) (by omega) F hacyc hp hmissing
+
+example (k : Nat) (hk : 5 ≤ k)
+    (F : Finset (GridVertex (3 * k + 2) (3 * k + 2)))
+    (hacyc : (forcedEdgeGraph (gridGraph (3 * k + 2) (3 * k + 2))
+      (↑F : Set _)).IsAcyclic)
+    (hmissing : ∃ s : Fin 4, ∀ C ∈ pureBoundaryCarriers F, ∀ v ∈ C.supp,
+      ¬ CarrierLayers.OnOpenSide s v.val)
+    (hf : 3 * k ^ 2 + 7 * k + 1 ≤ F.card) : False := by
+  have h := CarrierLayers.ThreeCarrier.card_le_target_of_missing_side hk F hacyc hmissing
+  omega
+
+example (F : Finset (GridVertex 23 23))
+    (hacyc : (forcedEdgeGraph (gridGraph 23 23) (↑F : Set _)).IsAcyclic)
+    (hb : 7 ≤ boundaryDeficiencySum 23 23 (Finset.univ \ F)) : F.card ≤ 200 :=
+  CarrierLayers.Annulus.square23_card_le_two_hundred_of_boundaryDeficiency_ge_seven F hacyc hb
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hmissing : ∃ s : Fin 4, ∀ C ∈ pureBoundaryCarriers F, ∀ v ∈ C.supp,
+      ¬ CarrierLayers.OnOpenSide s v.val) : F.card ≤ 110 := by
+  simpa using CarrierLayers.ThreeCarrier.card_le_target_of_missing_side
+    (k := 5) (by omega) F hacyc hmissing
 
 example (F : Finset (GridVertex 9 9))
     (hacyc : (forcedEdgeGraph (gridGraph 9 9) (↑F : Set _)).IsAcyclic)

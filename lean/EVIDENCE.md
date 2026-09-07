@@ -19,22 +19,179 @@ interchangeably in this codebase, following `docs/DERIVATION.md`.)
 
 ## Formally Proven (Lean 4 + mathlib, zero `sorry`s in active code)
 
-Full strict cached verification of the latest 2026-09-06 U1/U3/L2 snapshot passed on
-Lean/mathlib **4.33.1** with **zero errors and zero warnings**: **8,941 jobs,
-exit 0**. It covers 234 modules under `GridGraphs/` plus the aggregate root,
-including the five explicitly requested modules outside its import closure.
-The source count is 84,372 lines under `GridGraphs/`, or 84,551 including
-the 179-line root (235 library source files in total). This snapshot includes
-BoundarySix, global CarrierLayers, CarrierLayerBound, the staircase
-ComponentLedger, all three RadialTight modules, the five MissingSide/near-tight
-leaves, OneExcessSeparated/CoveredBoundary/RailRepair, and the new
-ConcentratedGaps and CoveredDeficit modules. Root and Regression import both
-new modules. The new regressions passed unchanged: a length-four preserved
-interval on row 1 of a 9x9 board bounds row 3 occupancy by seven; at k=5,
-shadow-cost threshold 49 implies f<=110. Previous lower/upper, missing-side,
-and two-excess checks also passed. No proof or test files were edited. The full
-command is in `README.md`; the completed log is
-`/tmp/opencode/u1-u3-l2-gap-shadow-full-build.log`.
+### Current Annulus/ThreeCarrier Verification (2026-09-07)
+
+The exact full strict cached command in `README.md` passed on Lean/mathlib
+**4.33.1: 9,009 jobs, exit 0, zero errors and warnings**. It ran from `lean/`
+without a time limit, retaining existing artifacts. The earlier reported
+targeted AllCoveredCounterexamples/Regression build (8,842 jobs after a tool
+timeout and retry) is separate evidence, not the full build count.
+
+There are **302 GridGraphs modules, 94,579 lines**, plus the **186-line root**:
+**303 files and 94,765 lines**. The **31 new modules total 5,286 lines** and
+range from **41 to 576 lines**. Recursive local imports put every new module
+in the root closure. Only the five original legacy modules listed in the full
+command lie outside. Root imports AllCoveredCounterexamples,
+ThreeCarrier.CostTwoCapacity, and MixedPacking.Defect as well as the old targets.
+ThreeCarrier's removed Audit, ClosureAudit, CostTwoClosureAudit, and
+CostThreeAudit modules are absent; no production audit was recreated.
+
+`/tmp/opencode/inventory-annulus-three-carrier.py` removes nested Lean comments,
+enumerates explicitly named public theorem/lemma, def, abbrev, and structure
+declarations, preserves dot-qualified method names, checks uniqueness, computes
+the import closure, and generates `/tmp/opencode/AnnulusThreeCarrierAudit.lean`.
+The exact names and per-module counts are in
+`/tmp/opencode/annulus-three-carrier-inventory.log` and its `.json` companion.
+No removed audit file was assumed available. Lean independently checks each
+declaration's kind and rejects dependencies outside the standard axiom set.
+
+| Group under `Accounting/CarrierLayers/` | Modules | Lines | Public theorems | Public definitions | Abbreviations | Structures |
+|---|---:|---:|---:|---:|---:|---:|
+| `Annulus/` | 7 | 1,088 | 41 | 10 | 2 | 1 |
+| `MixedPacking/` | 3 | 763 | 23 | 9 | 0 | 1 |
+| `ThreeCarrier/` | 20 | 3,394 | 70 | 5 | 0 | 0 |
+| `AllCoveredCounterexamples.lean` | 1 | 41 | 2 | 0 | 0 | 0 |
+| **New total** | **31** | **5,286** | **136** | **24** | **2** | **2** |
+| **Previous audit, rerun** | | | **273** | **4** | **0** | **0** |
+| **Combined audit** | | | **409** | **28** | **2** | **2** |
+
+Thus **164 new + 277 previous = 441 explicitly named public declarations**
+passed. Abbreviations are definition constants in Lean but separately counted
+here; the two structures are inductive constants. Generated constructors,
+recursors, and field projections are not additional source-declaration entries.
+The one private theorem, Annulus's bridge helper, is excluded from the public
+count; private dependencies are still checked transitively wherever used.
+
+The new public definitions, relative to `GridGraphs.CarrierLayers`, are:
+
+- Annulus: `Mem`, `graph`, `OuterCorner`, `InnerCorner`, `selected`,
+  `deepCarriers`, `deepVertices`, `fullCarriers`, `Axis.point`, `Axis.edge`.
+- MixedPacking: `Spaced`, `topShadow`, `topBands`, `topWitness`,
+  `EdgeCompatible`, `InteriorRod.Excludes`, `spacingCapacity`,
+  `InteriorRod.shadow`, `eraseLastVertical`.
+- ThreeCarrier: `rectangleVerticalColumns`, `rectangleHorizontalColumns`,
+  `horizontalNonpureCarriers`, `nonpureVertices`, `nonpureGraph`.
+- Abbreviations: `Annulus.Vertex`, `Annulus.Carrier`.
+- Structures: `Annulus.Axis` (fields `horizontal`, `fixed`, `deep`) and
+  `MixedPacking.InteriorRod` (fields `row`, `left`, `right`, `row_bounds`,
+  `column_bounds`, `nontrivial`).
+
+Explicit theorem methods included in the 136 count are `Annulus.Axis.point_injective`,
+`point_mem`, `point_adj`, `edge_injective`, `edge_physical` (all under Axis), and
+`MixedPacking.EdgeCompatible.union`. The definition methods `Axis.point`,
+`Axis.edge`, `InteriorRod.Excludes`, and `InteriorRod.shadow` are included in
+the 24 definition count, not counted twice.
+
+Run from `lean/`:
+
+```bash
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/TotalCurrentAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/AnnulusThreeCarrierAudit.lean
+```
+
+Both drivers import only `GridGraphs`. The unchanged TotalCurrentAudit reads
+the eleven previous external lists documented below, thereby rerunning all
+273 previous theorems and four definitions. All **441** printed axiom lists
+are subsets of **`{propext, Classical.choice, Quot.sound}`**, possibly empty;
+there is no `sorryAx` or native proof axiom in this audit. This is not an axiom
+audit of the entire library: six `native_decide` uses in the three separately
+built legacy counterexample tests remain outside the audited declarations.
+
+Exact logs and external drivers are retained under `/tmp/opencode/`:
+
+- `annulus-three-carrier-full-build.log` and `.exit` (0).
+- `annulus-three-carrier-previous-axioms.log` and `.exit` (0).
+- `annulus-three-carrier-new-axioms.log` and `.exit` (0).
+- `verify-annulus-three-carrier.sh` and `audit-annulus-three-carrier.sh`.
+- `annulus-three-carrier-source-before.sha256`, `source-check.log`, and
+  `post-audit-source-check.log` under that same prefix: all 302 modules,
+  including every test, stable through build and audit.
+- `annulus-three-carrier-root-config-before.sha256`, `root-config-check.log`,
+  and `post-audit-root-config-check.log` under that prefix: root, toolchain,
+  lakefile, and manifest stable. `annulus-three-carrier-audit-inputs.sha256`
+  identifies the combined drivers and inventory generator.
+- `annulus-three-carrier-source-lengths.log` and `inventory.log` under that
+  prefix: all line counts, public names, root closure, and placeholder scan.
+- `annulus-three-carrier-verification-summary.log`: checked exit codes, exactly
+  441 duplicate-free printed public axiom lists across both drivers, and final
+  source/configuration fingerprint equality, including the source file set.
+
+The scan found zero `sorry`/`admit`/`sorryAx` tokens after comment removal.
+Comparison against the previous BoundaryFive/FourCarrier manifest shows all
+**270 old non-Regression modules unchanged**, including all **11 oversized
+modules** listed in STATUS. Only the already-updated Regression differs from
+that old manifest. No proof, root, test, or Python application file was edited
+in this verification pass. Unrelated pre-existing work was not modified.
+These hashes cover local Lean sources and named inputs, not all mathlib
+artifacts, research data, or the entire workspace.
+
+### Missing-Side Closure And Remaining Covered Cases
+
+For n=3k+2, k>=5, write T=3k^2+7k and f=|F|. Under forced-graph acyclicity,
+`GridGraphs.CarrierLayers.ThreeCarrier.card_le_target_of_missing_side` in
+`ThreeCarrier/Closure.lean` proves **f<=T on the entire missing-side branch**,
+with **no p or off-side cost W assumptions**. A missing side is an open side
+met by no pure boundary carrier, not a side with zero preserved occupancy.
+
+W2 uses the enlarged nonpure strip, including the top and next ring, and a
+joint nearby-rod/vertical-edge packing inequality. No top-position or equality
+exceptions remain. W3 does not classify adjacency of the extra off-side hole:
+one actual extra hole gives a joint defect of at most two frame edges. The
+resulting bound is `f<=T-k+5<=T`, including k=5, without a one-edge defect
+premise. W4 uses the annulus deep deficit and connected shallow carriers.
+Combined with FourCarrier, these results close all missing-side cases.
+
+Every **f>=T+1** counterexample now covers all four open sides, has **p>=4**,
+**r>=k+4**, and **d=r-p-h>=k**, where h counts actual shallow nonpure carriers.
+Annulus supplies the deep-carrier bound. `stable_counterexample_pure_and_induced`
+and `stable_excess_budget` in `AllCoveredCounterexamples.lean` make the global
+consequences explicit: **b+c+3e<=2k+8 for every e>=1 and f>=T+e**, not only
+two-excess or assumed-covered cases.
+
+The annulus geometry proves **B+E<=4n-9 for n>=9**, so K=4n-4-B-E>=5.
+With annulus induced/ambient component counts rA/cA, the cubic bound is
+**rA+cA+4<=2K**. Actual full deep rods supply physical edge packets proving
+**M+1<=cA**. If D=(n-4)d minus deep occupancy, the global loss bound is
+**r+5<=2K+D**. This argument does not assume a carrier-contact forest.
+
+`Annulus.card_le_of_boundaryDeficiency_ge_seven` gives **f<=T+floor(2k/3)**
+on the entire b>=7 branch. The side-23 consequence **f<=200 is conditional
+on b>=7**, not an improved global P(23) bound. The unconditional upper remains
+**P(3k+2)<=T+floor((2k+1)/3)**. For k%3=1, attaining the current endpoint
+requires `(r,c,b)=(k+5,1,5), (k+4,2,5), or (k+4,1,6)`; none is excluded or
+asserted to exist. The sharp all-covered problem remains open. RailRepair's
+lower bound and the intervals [110,113], [195,201], [304,312] are unchanged.
+
+Regression passed uniform missing-side f<=T, missing-side k=5 f<=110,
+missing-side counterexample `False`, global r>=9 at n=17 and f>=111, and
+conditional b>=7/n=23 f<=200. Older weaker implications also passed, even
+where their premises are now impossible. No regression repair was needed.
+New bounded mathematical certificate experiments use coordinates at most 13;
+they are not a full-grid optimizer. No Python search or tests were run here.
+
+### Previous BoundaryFive/FourCarrier Verification
+
+The following build counts, inventories, and audit results record the earlier
+snapshot. Its missing-side one-excess case is now closed as described above.
+
+Full strict cached verification of the 2026-09-07 BoundaryFive/FourCarrier
+snapshot passed on Lean/mathlib **4.33.1** with **zero errors and zero warnings**:
+**8,978 jobs, exit 0**. The inventory is **271 modules under `GridGraphs/`**,
+89,279 lines, plus the **183-line aggregate root**: 272 library source files,
+89,462 lines total. Root and Regression import BoundaryFive.Upper and
+FourCarrier.Closure. An independent recursive import inventory confirms all
+**32 new modules** are in the root closure, including FourCarrier.Deficit.
+Only the five original legacy modules lie outside; the exact command in
+`README.md` includes all five, so no root edit or additional target was needed.
+
+Regression passed the stronger uniform lower/upper interval, upper bounds
+113/253/447/154/312 at sides 17/26/35/20/29, the p=4 missing-side bound
+f<=110 at side 17, and the exact p=3 remaining missing-side counterexample
+theorem. Older checks also passed; the old f>=114 profile implication now has
+impossible premises. No proof, root, or test files were edited in this pass.
+The build ran without an imposed timeout and reused existing project/mathlib
+artifacts. Log: `/tmp/opencode/boundary-five-four-carrier-full-build.log`;
+the same-stem `.exit` records 0.
 
 Existing finite-witness data and statements are unchanged; their fixed entries
 now use efficient kernel `decide` replay, not new searches or native proof
@@ -42,14 +199,18 @@ axioms. See `STATUS.md` and `../docs/ROADMAP.md` for the current verification
 command. Older counts and line references below belong to their historical
 milestones; the theorem names and relocated module paths are the stable references.
 
-### U1/U3/L2 Axiom Audit (2026-09-06)
+### Combined Public Axiom Audit (2026-09-07)
 
 The temporary files `/tmp/opencode/U1U3L2Audit.lean` (previous 72),
 `/tmp/opencode/U1U3L2MissingSideAudit.lean` (previous 31),
 `/tmp/opencode/U1U3L2RailRepairAudit.lean` (previous 44), and
-`/tmp/opencode/U1U3L2GapShadowAudit.lean` (new 16), outside the proof tree,
-import `GridGraphs` and explicitly print axioms for every public theorem
-in these snapshot modules. The actual new public theorem count is 16:
+`/tmp/opencode/U1U3L2GapShadowAudit.lean` (previous 16), outside the proof tree,
+were rerun against `GridGraphs`. `/tmp/opencode/U1U3L2GapGlobalAudit.lean`
+imports `GridGraphs` and GapGlobalExclusion and prints the previous 20 public
+theorems. `/tmp/opencode/U1U3L2GapGlobalDefinitionAudit.lean` separately prints
+the public definition `nextRingCarriers`. No temporary GapGlobalAudit file or
+inline axiom prints remain in the proof modules. The following table is the
+**old 183-theorem baseline**, now rerun rather than carried forward:
 
 | Module group | Public theorems audited |
 |---|---:|
@@ -72,50 +233,144 @@ in these snapshot modules. The actual new public theorem count is 16:
 | `Constructions/ResidueTwo/RailRepair/Score.lean` | 16 |
 | `Accounting/CarrierLayers/ConcentratedGaps.lean` | 7 |
 | `Accounting/CarrierLayers/CoveredDeficit.lean` | 9 |
-| **Total** | **163** |
+| `Accounting/CarrierLayers/GapGlobalCapacity.lean` | 4 |
+| `Accounting/CarrierLayers/GapGlobalExclusion.lean` | 4 |
+| `Accounting/CarrierLayers/GapGlobalMinimal.lean` | 3 |
+| `Accounting/CarrierLayers/CoveredGlobalMissingSides.lean` | 6 |
+| `Accounting/CarrierLayers/GlobalUpperProfiles.lean` | 3 |
+| **Old total theorems** | **183** |
+
+Additionally in the baseline: **one definition**,
+`GridGraphs.CarrierLayers.nextRingCarriers`.
+
+The new source inventory has **12 BoundaryFive + 78 FourCarrier = 90 public
+theorems**, plus **3 public definitions**: `GridGraphs.CarrierLayers.FourCarrier`
+members `sideChart`, `shallowSidePreimages`, and `deepCarrierPart`.
+There are also three private definitions, not public audit entries:
+BoundaryFive `frame`, and FourCarrier `topPath` and `sideInvolution`.
+
+`/tmp/opencode/TotalCurrentAudit.lean`, created outside the proof tree with
+`apply_patch`, imports **only GridGraphs** and reads the eleven external driver
+lists below. It rejects duplicates, verifies declaration kinds, prints every
+axiom list, rejects any nonstandard dependency, and checks exactly **273 public
+theorems + 4 public definitions = 277 declarations**. The source inventory
+independently matches every new public theorem/definition to these lists.
+
+| External driver under `/tmp/opencode/` | Theorems | Definitions |
+|---|---:|---:|
+| `U1U3L2Audit.lean` | 72 | 0 |
+| `U1U3L2MissingSideAudit.lean` | 31 | 0 |
+| `U1U3L2RailRepairAudit.lean` | 44 | 0 |
+| `U1U3L2GapShadowAudit.lean` | 16 | 0 |
+| `U1U3L2GapGlobalAudit.lean` | 20 | 0 |
+| `U1U3L2GapGlobalDefinitionAudit.lean` | 0 | 1 |
+| `BoundaryFiveUpperAudit.lean` | 12 | 0 |
+| `FourCarrierAudit.lean` | 17 | 0 |
+| `FourCarrierRootDeficitAudit.lean` | 22 | 1 |
+| `FourCarrierShallowGapAudit.lean` | 15 | 0 |
+| `FourCarrierClosureAudit.lean` | 24 | 2 |
+| **Total** | **273** | **4** |
 
 Run from `lean/`:
 
 ```bash
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/TotalCurrentAudit.lean
 LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/U1U3L2Audit.lean
 LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/U1U3L2MissingSideAudit.lean
 LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/U1U3L2RailRepairAudit.lean
 LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/U1U3L2GapShadowAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/U1U3L2GapGlobalAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/U1U3L2GapGlobalDefinitionAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/BoundaryFiveUpperAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/FourCarrierAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/FourCarrierRootDeficitAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/FourCarrierShallowGapAudit.lean
+LEAN_NUM_THREADS=2 lake env lean -DwarningAsError=true /tmp/opencode/FourCarrierClosureAudit.lean
 ```
 
-Result: all four exit 0, zero warnings/errors, with all 163 dependency lists contained
-in `{propext, Classical.choice, Quot.sound}`. No `sorryAx` or native proof
-axiom appears. Complete outputs:
-`/tmp/opencode/u1-u3-l2-gap-shadow-previous72-axioms.log`,
-`/tmp/opencode/u1-u3-l2-gap-shadow-previous31-axioms.log`,
-`/tmp/opencode/u1-u3-l2-gap-shadow-previous44-axioms.log`, and
-`/tmp/opencode/u1-u3-l2-gap-shadow-new16-axioms.log`.
-This covers public helper theorems as well as headline upper bounds, global
-counterexample profiles, seed edge counts/profiles, both step lemmas, and all
-10 tight-boundary, exact-phase, and exclusion theorems, all 31 missing-side,
-near-tight, exclusion, and one-excess theorems, all 44 root-separated,
-physical-occupancy, repaired-geometry, forest, and score theorems, and all 16
-concentrated-gap and covered-shadow theorems. The previous 147 checks were
-rerun, not merely carried forward. Output counts are 72, 31, 44, and 16,
-including the axiom-free `GridGraphs.RailRepair.attachment_subsingleton`.
-Private helpers are covered transitively where used, not individually printed;
-definitions are not separately audited. Later additions require a new audit.
-This is not a whole-library axiom audit. The three separately built legacy
-counterexample tests contain six `native_decide` uses; no native proof axiom
-occurs in the 163 audited dependency lists.
+Result: the combined audit and all eleven individual drivers passed with zero
+warnings/errors. All **277** dependency lists are subsets of
+`{propext, Classical.choice, Quot.sound}`; no `sorryAx` or native proof axiom
+appears. `RailRepair.attachment_subsingleton` is axiom-free, as is `sideChart`.
+Private helpers are covered transitively where used, not individually printed.
+This is not a whole-library axiom audit: six `native_decide` uses remain in the
+three separately built legacy counterexample tests, outside the audited lists.
 
-The source-length inventory is `/tmp/opencode/u1-u3-l2-gap-shadow-source-lengths.log`.
-The source fingerprint manifest is `/tmp/opencode/u1-u3-l2-gap-shadow-source-sha256.log`
-(234 modules plus the aggregate root); it identifies this verified snapshot.
-All 31 audited modules are 55-380 lines. ConcentratedGaps and CoveredDeficit
-are 297 and 244 lines, with 7 and 9 public theorems respectively.
-OneExcessSeparated, CoveredBoundary,
-and RailRepair Geometry, Forest, and Score are respectively 303, 276, 141,
-97, and 146 lines, all below 1,000.
-`Geometry/GridLayers.lean` adds the
-12-line generic next-ring predicate. `STATUS.md` lists all 11 existing modules
-over 1,000 lines. A fresh tactic-position `sorry`/`admit` scan using the
-documented pattern returned no matches. No optimization search was run.
+The successful combined output is
+`/tmp/opencode/boundary-five-four-carrier-total-current-axioms.log`.
+Individual outputs are `/tmp/opencode/boundary-five-four-carrier-<Driver>.log`
+for each driver in the table, with same-stem `.exit` files. Initial combined
+driver syntax/type-inference errors were fixed only in the external driver;
+the successful combined rerun is the lowercase `total-current-axioms` log
+with its `.exit` recording 0. The consolidated checked result/count summary is
+`/tmp/opencode/boundary-five-four-carrier-verification-summary.log`.
+No library compile error or Regression repair occurred.
+
+Fingerprint scope: `/tmp/opencode/boundary-five-four-carrier-source-before.sha256`
+hashes **all 271 GridGraphs modules**, including Regression, before the build;
+post-build and post-audit check logs confirm all unchanged. Comparison with the
+previous GapGlobal manifest confirms **238 of the 239 old modules unchanged**;
+only the pre-existing Regression update differs from that earlier snapshot.
+In particular the 11 old oversized modules and all old proof modules match.
+The aggregate root,
+`lean-toolchain`, and `lake-manifest.json` are in `root-config-before.sha256`
+under the same prefix and also unchanged. The final `root-config.sha256`
+additionally records `lakefile.lean`; an initial wrapper typo requested nonexistent
+`lakefile.toml`, without affecting the build. `audit-drivers.sha256` identifies
+the external audit inputs. These manifests do not hash every mathlib artifact,
+the verification documents, Python research sources, or the entire workspace.
+The SHA-256 of the 271-module `source-before.sha256` manifest itself is
+`466ad17a8f826d267f8c62a99147fd793896663b27bc9578b922a458cb0038e0`.
+
+The line inventory is `/tmp/opencode/boundary-five-four-carrier-source-lengths.log`.
+The recursive import/declaration inventory is
+`/tmp/opencode/boundary-five-four-carrier-inventory.log`. It also strips nested
+comments and finds **zero sorry/admit/sorryAx tokens** in all active library
+sources and the root. All 32 new modules are **36-221 lines**, 3,978 total;
+all **11 old oversized modules** retain their previous line counts and were untouched.
+No Python tests or optimization searches were rerun; the prior 23 Python tests
+remain previously reported evidence, not a new result from this pass.
+
+| New module (relative to `Accounting/`) | Lines | Public theorems |
+|---|---:|---:|
+| `BoundaryFive/Endpoint.lean` | 36 | 1 |
+| `BoundaryFive/GapPosition.lean` | 73 | 1 |
+| `BoundaryFive/Inward.lean` | 51 | 1 |
+| `BoundaryFive/Perimeter.lean` | 69 | 1 |
+| `BoundaryFive/SingletonBound.lean` | 164 | 1 |
+| `BoundaryFive/Symmetry.lean` | 102 | 1 |
+| `BoundaryFive/TopSingleton.lean` | 184 | 3 |
+| `BoundaryFive/Upper.lean` | 52 | 3 |
+| **BoundaryFive subtotal (8 modules)** | **731** | **12** |
+| `CarrierLayers/FourCarrier/Capacity.lean` | 128 | 5 |
+| `CarrierLayers/FourCarrier/ChartShadow.lean` | 124 | 4 |
+| `CarrierLayers/FourCarrier/Closure.lean` | 80 | 3 |
+| `CarrierLayers/FourCarrier/DeepExtension.lean` | 129 | 3 |
+| `CarrierLayers/FourCarrier/DeepSaturation.lean` | 215 | 3 |
+| `CarrierLayers/FourCarrier/Deficit.lean` | 142 | 5 |
+| `CarrierLayers/FourCarrier/EndpointCost.lean` | 198 | 5 |
+| `CarrierLayers/FourCarrier/ExceptionalWitness.lean` | 105 | 1 |
+| `CarrierLayers/FourCarrier/FiveCarriers.lean` | 191 | 1 |
+| `CarrierLayers/FourCarrier/GapArithmetic.lean` | 85 | 1 |
+| `CarrierLayers/FourCarrier/ImageBudget.lean` | 60 | 3 |
+| `CarrierLayers/FourCarrier/Ledger.lean` | 151 | 5 |
+| `CarrierLayers/FourCarrier/MapPartition.lean` | 221 | 4 |
+| `CarrierLayers/FourCarrier/OffsidePath.lean` | 125 | 1 |
+| `CarrierLayers/FourCarrier/PathCount.lean` | 82 | 1 |
+| `CarrierLayers/FourCarrier/RootDeficit.lean` | 59 | 2 |
+| `CarrierLayers/FourCarrier/SaturatedBoundary.lean` | 217 | 2 |
+| `CarrierLayers/FourCarrier/SaturatedPhase.lean` | 81 | 2 |
+| `CarrierLayers/FourCarrier/SecondRootBoundary.lean` | 159 | 2 |
+| `CarrierLayers/FourCarrier/ShallowImage.lean` | 134 | 4 |
+| `CarrierLayers/FourCarrier/ShallowRequired.lean` | 143 | 4 |
+| `CarrierLayers/FourCarrier/ShortGaps.lean` | 168 | 4 |
+| `CarrierLayers/FourCarrier/SideChart.lean` | 79 | 10 |
+| `CarrierLayers/FourCarrier/ThreeOffside.lean` | 171 | 3 |
+| **FourCarrier subtotal (24 modules)** | **3,247** | **78** |
+| **Total (32 modules)** | **3,978** | **90** |
+
+SideChart, MapPartition, and DeepSaturation each additionally export one public
+definition, audited separately from their theorem counts.
 
 ### Boundary Six And Global Packing (2026-09-06)
 
@@ -151,15 +406,20 @@ their missing-side two-excess hypotheses are impossible.
 
 For p<=3 and f>=T+1, `one_excess_exact_slack` proves f=T+1 and
 `r=k+2+a`, `c=1+d`, `b=2k+3+e`, with natural `a+d+e=3`.
+The new global theorems force p=3 and a>=1 here. Substituting A=a-1 yields
+`r=k+3+A`, `c=1+d`, `b=2k+3+e`, `A+d+e=2`. This is derived algebra,
+not a newly checked named Lean API; the original slack theorem remains valid.
 For q roots on a missing side, put m=k-q. The refined profile gives
 `m<=e+1`, `p<=a+m+2`, and at root saturation `r=q+p`, `m<=d`.
 The last bound charges at least k-q distinct empty-block middle isolates
 to ambient components, plus one component containing a preserved vertex:
 `c>=k-q+1`. It does not assume different blocks have different inward
-carriers. At c=4 the geometry forces p=3, q=k-1, two off-side near-corner
-holes, preserved corners, and an ambient isolate. These are necessary
-conditions, not a one-excess exclusion. The one-excess and all-sides-covered
-branches remain open. The global upper formula remains T+(2k+2)/3, k>=5.
+carriers. The historical c=4 implication forces p=3, q=k-1, two off-side
+near-corner holes, preserved corners, and an ambient isolate. Its premises are
+now impossible, since the shifted slack gives c<=3. These are necessary
+conditions, not by themselves a one-excess exclusion. ThreeCarrier.Closure now
+excludes one excess on a missing side; only all-covered cases remain open.
+The current global upper formula is T+floor((2k+1)/3), k>=5.
 
 `GridGraphs.CarrierLayers.separated_holes_charge_components` in
 `OneExcessSeparated.lean` proves `q+p+|S|+1<=r+c` for actual selected
@@ -177,7 +437,8 @@ of disjoint pure-carrier lengths and satisfies P<=n*p. The module proves
 both `4n-4<=P+2b` and `4n-4<=P+b+2*(r-p)`. It also derives full-side
 shortfall bounds, including the exactly-four-pure-carrier case. These budgets
 use the same physical contacts, not independent charges that can be added.
-Neither new upper module closes the one-excess or all-sides-covered branch.
+Neither of these earlier modules alone closes either branch; the missing-side
+branch is now closed by ThreeCarrier.Closure.
 
 ### Concentrated Gaps And Covered Shadows (2026-09-06)
 
@@ -211,8 +472,60 @@ Cancelling the shared pure mass against the existing contact budget yields
 **if `|S|+2p+b+2c>=6k+19`**. This sufficient physical certificate is not
 guaranteed in covered configurations. For p=4 it is `|S|+b+2c>=6k+11`;
 the k=5 regression checks the general threshold 49 implies f<=110.
-Neither module gives a new unconditional upper or lower bound or closes the
-one-excess or all-sides-covered branch.
+Neither module alone gives a new unconditional upper or lower bound. The
+missing-side one-excess branch is now closed; the all-covered branch remains open.
+
+### Global Capacity And Profiles (2026-09-06)
+
+`GapGlobalCapacity.lean` counts h=|nextRingCarriers F|, actual nonpure
+induced carriers with no deep vertices, allowing boundary endpoints. It proves
+`f<=B+E+(n-4)*(r-p-h)` for n>=5 and
+`f<=4n-4+(n-4)*(r-p-h)` for n>=7, with natural subtraction. The loss is
+global and once per shallow carrier, not once per hole reusing that carrier.
+At k>=5, p=3, f>=T+1, r=k+2+a, it gives h<=a.
+
+`GapGlobalExclusion.lean` obtains nonreuse when h=0 and excludes the
+minimal-induced connected profile. `GapGlobalMinimal.lean` then proves
+`card_le_target_of_three_pure_minimal_induced`: **p=3 and r=k+2 imply
+f<=T, for arbitrary c**, without preserved-corner assumptions. Its global
+boundary/next-ring estimate counts unused missing-side holes, not an extra
+overlapping deficiency charge.
+
+`CoveredGlobalMissingSides.lean` proves b>=4k from two distinct missing
+open sides (k>=1), using disjoint physical holes. For every feasible f>=T+1
+set at **k>=5**, it gives at most one missing side, at least three physically
+covered sides, **p>=3** (previously k>=7), and **r>=k+3** (previously k+2).
+
+`GlobalUpperProfiles.lean` gives the global positive-excess budget
+**b+c+3e<=2k+9** for e>=1, f>=T+e, k>=5. Its b>=6 theorem proves
+**f<=T+floor((2k+1)/3)**. BoundaryFive now extends this branch refinement to
+all boundary budgets. For k%3=2, the old endpoint profile would have exactly
+that old score and **(r,c,b)=(k+4,1,5)**; the new singleton argument excludes it.
+The old profile regression remains a valid implication with impossible premises.
+
+### Boundary Five And Four-Carrier Closure (2026-09-07)
+
+`BoundaryFive.card_add_side_le_of_singleton` proves the generic bound
+`f+n<=(n-4)r+12` for n>=10, b=5, and an actual nonpure singleton component.
+The top-gap geometry constructs such a singleton; `exists_top_gap_pullback`
+uses square symmetry to orient the unique gap while preserving size and
+forced-forest acyclicity. No full-frame normalization or connectedness is assumed.
+`old_upper_endpoint_false` excludes the old k%3=2 endpoint, giving
+`BoundaryFive.forced_card_le_residueTwo_bound` and
+`BoundaryFive.maxPreserved_residueTwo_le`: **P(3k+2)<=T+floor((2k+1)/3)**
+for **every k>=5 and all boundary budgets**, not merely b>=6.
+Regression checks the uniform lower/upper interval and the specializations
+`P(17)<=113`, `P(26)<=253`, `P(35)<=447`, `P(20)<=154`, and `P(29)<=312`.
+
+`CarrierLayers.FourCarrier.card_le_target_of_four_pure_missing_side` proves
+**p=4 and a missing side imply f<=T for all k>=5**, including f<=110 at n=17.
+The image budget excludes k>=6; the residual k=5 equality forces a full deep
+radial axis at a second-position root, contradicting a checked boundary six-cycle.
+`missing_side_counterexample_pure_eq_three` proves **exactly p=3** for every
+remaining missing-side counterexample at f>=T+1. Both conclusions have regressions.
+The p=3 one-excess missing-side branch is now closed by ThreeCarrier.Closure;
+the all-sides-covered branch remains open.
+The RailRepair lower bound is unchanged; no new target-count pump is asserted.
 
 ### Terminal-Rail Repair (2026-09-06)
 
@@ -228,9 +541,9 @@ L(k) = 3k^2+6k+3+floor((k-1)/2) <= P(3k+2),    k>=3.
 
 It gains one over the historical staircase at odd k and agrees at even k.
 The new uniform theorem gives 110 at side 17, 195 at side 23, and 304 at
-side 29. The current proved intervals are [110,114], [195,201], and [304,312];
+side 29. The current proved intervals are [110,113], [195,201], and [304,312];
 110 at side 17 matches the existing finite lower witness, not a proof of
-exact P(17). The global upper formula is unchanged.
+exact P(17). Only the upper endpoint at side 17 changed in this snapshot.
 
 This is a single terminal parity repair, not an accumulating target-count
 pump. `score_step_two` still gives 12s+37, equivalently 12k+25, one short of
@@ -254,6 +567,9 @@ paper-level evidence only, distinct from the new Lean repair theorem. They do
 not prove a target-count pump; no Python search or test was run in this Lean
 verification pass. Joint-notch and new paper searches remain finite side-11/14
 research, with no new formal construction or bound claim.
+In particular, `../docs/L2_TERMINAL_TAIL_INTERFACE.md` records a 76-center
+n=14 rootless-output candidate and unformalized paper geometry. This is not
+a new Lean lower bound or accumulating pump; its six-width gain is still 12k+25.
 
 ### Boundary-Stratified Upper Bound (2026-09-06)
 
@@ -265,7 +581,7 @@ is assumed. The closed residue-two upper bound is `3k^2+7k+(2k+3)/3`, k>=2.
 
 `maxPreserved_ten_ten` proves `P(10)=42` by matching this bound to the known
 construction. With RailRepair, side 23 has the proved interval `[195,201]`; side 26 remains
-`[246,254]`. Counterexample-budget profiles and the local two-row packing
+`[246,253]` under the current BoundaryFive bound. Counterexample-budget profiles and the local two-row packing
 restriction are also checked, without asserting a sharp general exclusion.
 All new result axiom audits contain only the standard logical axioms.
 
