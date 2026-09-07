@@ -11,6 +11,17 @@ import GridGraphs.Constructions.ResidueTwo.ResidueTwoStaircaseForest
 import GridGraphs.Accounting.CarrierLengthBound
 import GridGraphs.Accounting.BoundaryStratifiedCarrierBound
 import GridGraphs.Accounting.ResidueTwoCounterexampleProfile
+import GridGraphs.Accounting.BoundarySix.Upper
+import GridGraphs.Accounting.CarrierLayers.Counterexamples
+import GridGraphs.Accounting.CarrierLayers.RadialTightExclusion
+import GridGraphs.Accounting.CarrierLayers.MissingSideSharp
+import GridGraphs.Accounting.CarrierLayers.RadialOneExcess
+import GridGraphs.Accounting.CarrierLayers.OneExcessSeparated
+import GridGraphs.Accounting.CarrierLayers.CoveredBoundary
+import GridGraphs.Accounting.CarrierLayers.ConcentratedGaps
+import GridGraphs.Accounting.CarrierLayers.CoveredDeficit
+import GridGraphs.Constructions.ResidueTwo.RailRepair.Score
+import GridGraphs.Constructions.ResidueTwo.Staircase.ComponentLedger
 import GridGraphs.Geometry.CarrierPacking
 import GridGraphs.Results.SmallDiagonalExact.Seven
 import GridGraphs.Results.SmallDiagonalExact.Ten
@@ -29,6 +40,114 @@ these `example`s and therefore break `lake build`.
 -/
 
 namespace GridGraphs
+
+/-! ## Boundary-six refinement and global carrier-layer restrictions -/
+
+example (F : Finset (GridVertex 9 9))
+    (hacyc : (forcedEdgeGraph (gridGraph 9 9) (↑F : Set _)).IsAcyclic)
+    (hinterval : ∀ j ∈ Finset.Icc (2 : Fin 9) 5, ((1 : Fin 9), j) ∈ F) :
+    (Finset.univ.filter (fun j : Fin 9 => ((3 : Fin 9), j) ∈ F)).card ≤ 7 := by
+  have h := CarrierLayers.concentrated_interval_row_capacity_loss F hacyc
+    (1 : Fin 9) 3 (by decide) (2 : Fin 9) 5 (by decide) hinterval
+  norm_num at h
+  omega
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hcost : 49 ≤ (coveredBoundaryShadow F).card + 2 * (pureBoundaryCarriers F).card +
+      boundaryDeficiencySum 17 17 (Finset.univ \ F) +
+      2 * Fintype.card (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).ConnectedComponent) :
+    F.card ≤ 110 := by
+  simpa using residueTwo_card_le_target_of_covered_shadow_cost (k := 5)
+    (by omega) F hacyc hcost
+
+example (k : Nat) (hk : 5 ≤ k) :
+    3 * k ^ 2 + 6 * k + 3 + (k - 1) / 2 ≤ maxPreserved (3 * k + 2) (3 * k + 2) ∧
+      maxPreserved (3 * k + 2) (3 * k + 2) ≤
+        3 * k ^ 2 + 7 * k + (2 * k + 2) / 3 := by
+  exact ⟨RailRepair.residueTwo_le_maxPreserved (by omega),
+    maxPreserved_residueTwo_le_boundary_six_refinement hk⟩
+
+example : maxPreserved 20 20 ≤ 154 := by
+  simpa using maxPreserved_residueTwo_le_boundary_six_refinement (k := 6) (by omega)
+
+example : 304 ≤ maxPreserved 29 29 ∧ maxPreserved 29 29 ≤ 312 := by
+  exact ⟨by simpa using RailRepair.residueTwo_le_maxPreserved (k := 9) (by omega),
+    by simpa using maxPreserved_residueTwo_le_boundary_six_refinement (k := 9) (by omega)⟩
+
+example : 110 ≤ maxPreserved 17 17 := by
+  simpa using RailRepair.residueTwo_le_maxPreserved (k := 5) (by omega)
+
+example : 195 ≤ maxPreserved 23 23 := by
+  simpa using RailRepair.residueTwo_le_maxPreserved (k := 7) (by omega)
+
+example : 149 ≤ maxPreserved 20 20 := by
+  simpa using RailRepair.residueTwo_le_maxPreserved (k := 6) (by omega)
+
+example (F : Finset (GridVertex 23 23))
+    (hacyc : (forcedEdgeGraph (gridGraph 23 23) (↑F : Set _)).IsAcyclic)
+    (hp : (pureBoundaryCarriers F).card ≤ 3) : F.card ≤ 197 := by
+  simpa using residueTwo_card_le_target_add_one_of_pure_carriers_le_three (k := 7)
+    (by omega) F hacyc hp
+
+example (F : Finset (GridVertex 23 23))
+    (hacyc : (forcedEdgeGraph (gridGraph 23 23) (↑F : Set _)).IsAcyclic)
+    (hcard : 197 ≤ F.card) : 3 ≤ (pureBoundaryCarriers F).card := by
+  exact residueTwo_stable_counterexample_three_le_pureBoundaryCarriers (k := 7)
+    (by omega) F hacyc (by simpa using hcard)
+
+example (k : Nat) (hk : 5 ≤ k)
+    (F : Finset (GridVertex (3 * k + 2) (3 * k + 2)))
+    (hacyc : (forcedEdgeGraph (gridGraph (3 * k + 2) (3 * k + 2))
+      (↑F : Set _)).IsAcyclic)
+    (hp : (pureBoundaryCarriers F).card ≤ 3) :
+    2 * k + 3 ≤ boundaryDeficiencySum (3 * k + 2) (3 * k + 2) (Finset.univ \ F) :=
+  two_mul_add_three_le_boundaryDeficiencySum_of_pure_carriers_le_three hk F hacyc hp
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hp : (pureBoundaryCarriers F).card ≤ 3) (hcard : 112 ≤ F.card) :
+    F.card = 112 ∧
+      Fintype.card ((gridGraph 17 17).induce (↑F : Set _)).ConnectedComponent = 7 ∧
+      Fintype.card (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).ConnectedComponent = 1 ∧
+      boundaryDeficiencySum 17 17 (Finset.univ \ F) = 13 := by
+  simpa using residueTwo_two_excess_three_carrier_profile_unique (k := 5)
+    (by omega) F hacyc hp hcard
+
+example (k : Nat) (hk : 5 ≤ k)
+    (F : Finset (GridVertex (3 * k + 2) (3 * k + 2)))
+    (hacyc : (forcedEdgeGraph (gridGraph (3 * k + 2) (3 * k + 2))
+      (↑F : Set _)).IsAcyclic)
+    (hmissing : ∃ s : Fin 4, ∀ C ∈ pureBoundaryCarriers F, ∀ v ∈ C.supp,
+      ¬ CarrierLayers.OnOpenSide s v.val) : F.card ≤ 3 * k ^ 2 + 7 * k + 1 :=
+  residueTwo_card_le_target_add_one_of_missing_side hk F hacyc hmissing
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hp : (pureBoundaryCarriers F).card ≤ 3) : F.card ≤ 111 := by
+  simpa using residueTwo_card_le_target_add_one_of_pure_carriers_le_three (k := 5)
+    (by omega) F hacyc hp
+
+example (F : Finset (GridVertex 17 17))
+    (hacyc : (forcedEdgeGraph (gridGraph 17 17) (↑F : Set _)).IsAcyclic)
+    (hcard : 112 ≤ F.card) : 4 ≤ (pureBoundaryCarriers F).card := by
+  obtain ⟨_, _, _, hp⟩ := residueTwo_four_distinct_pure_carriers_of_two_excess (k := 5)
+    (by omega) F hacyc hcard
+  exact hp
+
+example (F : Finset (GridVertex 9 9))
+    (hacyc : (forcedEdgeGraph (gridGraph 9 9) (↑F : Set _)).IsAcyclic)
+    (hb : boundaryDeficiencySum 9 9 (Finset.univ \ F) = 6)
+    (v w : GridVertex 9 9) (hv : v ∈ F) (hw : w ∈ F)
+    (hvr : IsNextRing v) (hwr : IsNextRing w) : v = w :=
+  boundaryDeficiencySum_compl_eq_six_next_ring_unique (by omega) F hacyc hb hv hw hvr hwr
+
+example :
+    Fintype.card (forcedEdgeGraph (gridGraph 11 11)
+      (↑(BoundaryFiveConstruction.Ffull (ResidueTwoStaircase.A 2)) : Set _)).ConnectedComponent = 7 ∧
+    Fintype.card (forcedEdgeGraph (gridGraph 14 14)
+      (↑(BoundaryFiveConstruction.Ffull (ResidueTwoStaircase.A 3)) : Set _)).ConnectedComponent = 7 :=
+  ⟨ResidueTwoStaircase.seed_two_profile.2.2.1, ResidueTwoStaircase.seed_three_profile.2.2.1⟩
 
 /-! ## Unconditional carrier-length upper bounds -/
 

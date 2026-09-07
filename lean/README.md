@@ -60,10 +60,27 @@ previously unimported modules remain outside the aggregate import closure;
 check them explicitly when verifying every source file. See `STATUS.md` for
 current verification rather than inferring it from this directory structure.
 
-The reorganized source tree has passed strict verification on Lean/mathlib
-4.33.1: all 202 modules, zero errors and zero warnings.
-Use `lake --wfail build GridGraphs` for the aggregate; `../docs/ROADMAP.md` records the full command
-including the five additional modules.
+The latest 2026-09-06 U1/U3/L2 snapshot passed strict cached verification on Lean/mathlib
+4.33.1: **8,941 jobs, exit 0, zero errors and zero warnings**. It contains
+**234 modules under `GridGraphs/`** (84,372 lines), plus the 179-line aggregate
+root: 235 library source files and 84,551 lines in total. All **163 public
+theorems** in the audited BoundarySix, CarrierLayers, CarrierLayerBound, and
+staircase ComponentLedger and RailRepair modules passed with axiom lists
+contained in `{propext, Classical.choice, Quot.sound}`: the previous 72+31+44
+were rerun alongside all 16 new public theorems; one is axiom-free.
+Root and Regression import both new modules, ConcentratedGaps and CoveredDeficit.
+New regressions passed unchanged: a length-four interval on a 9x9 board bounds
+occupancy two rows away by seven; k=5 shadow-cost threshold 49 implies f<=110.
+Previous lower/upper and missing-side checks also passed. No proof or test
+files were edited in this verification pass.
+See `STATUS.md` and `EVIDENCE.md` for coverage, logs, and the 11 existing
+modules exceeding 1,000 lines.
+ConcentratedGaps and CoveredDeficit are 297 and 244 lines, with 7 and 9 public
+theorems. The previous OneExcessSeparated, CoveredBoundary, and RailRepair
+Geometry, Forest, and Score are respectively 303, 276, 141, 97, and 146 lines, with 6, 7, 9, 6,
+and 16 public theorems, all below 1,000 lines. The audit is not library-wide:
+six legacy `native_decide` uses remain in the three separately built
+counterexample tests, outside these 163 audited results.
 
 Before extending a Lean file over 1,000 lines, split it into focused modules;
 sub-subfolders are encouraged. Keep changed modules warning-free. The former
@@ -104,9 +121,52 @@ large `Results/SmallDiagonalExact.lean` is now an aggregate over its
   `P(n)<=n*(n*n+4*n-6)/(3*n+1)` for n>=5, from preserved-component lengths.
 - `GridGraphs/Accounting/BoundaryStratifiedCarrierBound.lean`: stronger numerator-minus-seven
   bound for n>=7, from boundary/deep carrier separation and the b>=6 ledger.
+- `GridGraphs/Accounting/BoundarySix/`: boundary-six decomposition, next-ring
+  uniqueness, boundary balance, and carrier bounds. `Upper.lean` proves the
+  unconditional `P(3k+2)<=3k^2+7k+(2k+2)/3` for k>=5.
+- `GridGraphs/Geometry/GridLayers.lean`: generic `IsNextRing` predicate.
+- `GridGraphs/Accounting/CarrierLayerBound.lean` and `CarrierLayers/`: global
+  layer injections, pure boundary carrier bounds, radial-side packing, and
+  stable counterexample reductions. For feasible F on side 3k+2, k>=5,
+  `MissingSideSharp.lean` proves **f<=T+1 for any missing open side**,
+  T=3k^2+7k, independently of pure-carrier count p. Missing means no pure
+  carrier meets that side, not no preserved vertices. The missing-side
+  boundary bound is b>=2k+3; no maximality or connectivity is assumed beyond
+  forced-graph acyclicity. In particular p<=3 implies f<=T+1.
+  `RadialNearTightExclusion.lean` excludes the former two-excess three-carrier
+  profile; MissingSideSharp extends this to every missing side. All feasible
+  f>=T+2 sets cover all four open sides with distinct physical pure carriers,
+  hence p>=4. The one-excess and all-sides-covered branches remain open.
+- `GridGraphs/Accounting/CarrierLayers/RadialOneExcess.lean`: for k>=5, p<=3,
+  f>=T+1, proves f=T+1 and exact natural slack `a+d+e=3` with
+  `r=k+2+a`, `c=1+d`, `b=2k+3+e`. For q missing-side roots, m=k-q satisfies
+  m<=e+1 and p<=a+m+2. Root saturation r=q+p makes distinct empty-block
+  middles ambient isolates, giving c>=k-q+1 and m<=d. No distinct inward
+  carriers are assumed for different blocks; this is not a sharp exclusion.
 - `GridGraphs/Accounting/ResidueTwoCounterexampleProfile.lean` and
   `GridGraphs/Geometry/CarrierPacking.lean`: checked counterexample restrictions
   and local interval-overlap geometry for the next upper-bound steps.
+- `GridGraphs/Accounting/CarrierLayers/OneExcessSeparated.lean`: proves
+  `q+p+|S|+1<=r+c` for actual root-separated hole middles. The sharp bound
+  f<=T follows conditionally if `p+|S|>=7`; no existence of such S is asserted.
+- `GridGraphs/Accounting/CarrierLayers/CoveredBoundary.lean`: actual pure
+  boundary mass P gives `B<=P+2*(r-p)` and `B<=P+E`; for n>=7,
+  `4n-4<=P+2b` and `4n-4<=P+b+2*(r-p)`. Here P is occupancy, not P(n).
+  These bounds charge the same physical contacts and cannot be added as
+  independent charges. Both upper branches remain open.
+- `GridGraphs/Accounting/CarrierLayers/ConcentratedGaps.lean`: a missing-side
+  root-free inclusive interval has length <=16 only for k>=5, p<=3, f>=T+1.
+  Shared inward carriers force root-free intervals, excluding inclusive spans
+  >=17 in that branch. A preserved interval of length L independently costs
+  `floor(L/2)` capacity two rows away; this local loss is not globally addable.
+- `GridGraphs/Accounting/CarrierLayers/CoveredDeficit.lean`: the shadow union S
+  consists of actual boundary holes, counted once. For n>=7, p=4 gives
+  shortfall `D=n*p-P>=|S|+4`. A top next-ring segment of length L>=2 with
+  endpoints in one carrier and columns in [1,n-2] casts L+2 holes (n>=5),
+  hence D>=L+6 for n>=7, p=4. The cost bound is `|S|+2p<=b+2r` (n>=7).
+  For k>=5, `|S|+2p+b+2c>=6k+19` suffices for f<=T; this certificate is
+  not guaranteed. Neither new module improves an unconditional upper or lower
+  bound or closes the remaining upper branches.
 - `GridGraphs/Results/SmallDiagonalExact/`: structural exact proofs for sides
   3, 5, 7, and 10, including the equalities `P(7)=22` and `P(10)=42`.
 - `GridGraphs/Accounting/CotreeWaste.lean`: identifies grid cotree support with
@@ -123,8 +183,15 @@ large `Results/SmallDiagonalExact.lean` is now an aggregate over its
 - `GridGraphs/Constructions/ResidueZero/`: recursive phase construction, exact
   cardinality, and the symbolic arbitrary-width construction proofs.
 - `GridGraphs/Constructions/ResidueTwo/ResidueTwoStaircaseForest.lean`: the
-  unconditional improved lower bound `3k^2+6k+2+k/2`, for k>=3. This does not
+  historical unconditional lower bound `3k^2+6k+2+k/2`, for k>=3. This does not
   attain the conjectured stable target at all widths.
+- `GridGraphs/Constructions/ResidueTwo/Staircase/ComponentLedger.lean`: uniform
+  combined component ledger, fixed 11x11/14x14 seed profiles, and actual
+  six-width step gain one short of the target. No target-count pump is proved.
+- `GridGraphs/Constructions/ResidueTwo/RailRepair/`: Geometry, Forest, and
+  Score prove a single terminal parity repair, its unconditional acyclicity,
+  and the new uniform lower bound `3k^2+6k+3+(k-1)/2`, k>=3.
+
 - `GridGraphs/Results/DiagonalUpper.lean` and `DiagonalFormula.lean`: residue-wise
   conditional upper bounds and assembly of the proposed exact formula from
   four named structural/construction hypotheses.
@@ -139,6 +206,20 @@ large `Results/SmallDiagonalExact.lean` is now an aggregate over its
 - `EVIDENCE.md`: Annotated lemma index plus empirical comparison against
   ground-truth `P(m,n)` from the Rust DP for all `1 ≤ m, n ≤ 10`.
 - `results-empirical.csv`: Regenerated Rust output backing `EVIDENCE.md`.
+
+The global upper formula remains `P(3k+2)<=T+(2k+2)/3`, k>=5. The current
+formal lower bound is `L(k)=3k^2+6k+3+floor((k-1)/2)`, k>=3, via
+`GridGraphs.RailRepair.residueTwo_le_maxPreserved`. It improves the staircase
+by one at odd k and agrees at even k: 110 at side 17, 195 at side 23, and
+304 at side 29. The current intervals are [110,114], [195,201], and [304,312];
+in particular side 17 is not proved exact.
+
+This terminal repair is not a target-count pump: k->k+2 still gains 12k+25,
+not 12k+26. Its deficit from the stable target `3k^2+7k-1` is
+`floor(k/2)-2` for k>=5. Lower-side Python experiments and L2 research
+documents remain separate paper-level evidence, not a formal target pump.
+Joint-notch and new paper searches remain finite side-11/14 research with no
+new formal claim.
 
 ## Headline Proven Lemmas (zero `sorry`)
 
@@ -209,6 +290,24 @@ lake build      # build the project; should print "Build completed successfully"
 ```
 
 To open in VS Code, open the `lean/` folder with the Lean 4 extension.
+
+For full strict cached verification, run from `lean/` without cleaning the
+existing project/mathlib artifacts:
+
+```bash
+LEAN_NUM_THREADS=2 lake --no-cache --wfail build \
+  GridGraphs \
+  GridGraphs.Tests.FourCropBoundaryCounterexample \
+  GridGraphs.Tests.GroupedAlternatingClosureCounterexample \
+  GridGraphs.Tests.InsertionReflexCounterexample \
+  GridGraphs.Constructions.ResidueZero.ResidueZeroPersistentEnds \
+  GridGraphs.Results.SmallDiagonal
+```
+
+This exact command passed for the snapshot above; its log is
+`/tmp/opencode/u1-u3-l2-gap-shadow-full-build.log`. No competing full build was active at
+the initial check. Existing artifacts were reused, not deleted or rebuilt from
+scratch. The axiom-audit command and complete coverage are in `EVIDENCE.md`.
 
 ## Sorry-free Verification
 

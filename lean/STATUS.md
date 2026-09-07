@@ -2,18 +2,23 @@
 
 This is the ledger of formally proved results and remaining obligations.
 
-All 202 source modules are organized into proof-area subfolders. Existing public
-declaration names are preserved, and the exact-case proofs now have focused submodules. Full
-verification on 2026-09-06 with Lean/mathlib **4.33.1** passed with **zero errors and zero
-warnings**, using `--wfail` and explicitly including the five modules outside
-the aggregate closure: **8,909 jobs, exit 0**. See `../docs/ROADMAP.md` for the
-complete command. The completed log is
-`/tmp/opencode/boundary-stratified-final-build.log`.
+The latest 2026-09-06 U1/U3/L2 snapshot contains **234 source modules under
+`GridGraphs/`**, totaling **84,372 lines**, plus the **179-line** aggregate
+`GridGraphs.lean` (235 library source files, 84,551 lines including that root).
+Full strict cached verification on Lean/mathlib **4.33.1** passed with
+**zero errors and zero warnings: 8,941 jobs, exit 0**. The command explicitly
+includes the five modules outside the aggregate closure; see `README.md`.
+The completed log is `/tmp/opencode/u1-u3-l2-gap-shadow-full-build.log`.
+Root and Regression now also import ConcentratedGaps and CoveredDeficit.
+The new regressions check a length-four interval on a 9x9 board gives at most
+seven preserved vertices two rows away, and the k=5 shadow-cost threshold 49
+implies f<=110. Both passed unchanged, alongside the previous lower/upper,
+missing-side, and two-excess checks. No proof or test files were edited in this pass.
 
 Migration preserved theorem statements and certificate data. Kernel-checked
 fixed-entry replay replaces expensive simplification in the existing finite
 certificates; no native proof axioms, global backward flags, linter suppressions,
-or proof placeholders were added. The improved staircase lower bound below
+or proof placeholders were added. The terminal-rail repair lower bound below
 is included in the full verified build. Historical build counts later in this
 document refer to earlier milestones, not the current verification total.
 
@@ -39,6 +44,171 @@ reduction, in addition to the algebraic bound expressions.
 
 ## Proved (sorry-free)
 
+### Boundary Six, Global Carrier Layers, And Seed Ledgers
+
+For the current research route labels, U1 means boundary-six control, U3 means
+global near-extremal packing, and L2 means six-width pumping. Older U1-U4
+labels in the historical contour ledger below refer to a different program.
+
+`Accounting/BoundarySix/Upper.lean` proves the unconditional stable bound
+`P(3k+2)<=3k^2+7k+(2k+2)/3`, k>=5, covering all boundary budgets.
+It improves the earlier floor `(2k+3)/3` by one when k is divisible by three:
+`P(20)<=154` and `P(29)<=312`. Division is natural-number floor division.
+For feasible F at b=6, the supporting next-ring theorem gives E<=1 for n>=9;
+the boundary balance gives B>=4n-10 and B+E<=4n-9. For n>=12 the carrier
+bound is `f<=(n-4)r+7`, also available under b<=6.
+
+Here f=|F|, r counts induced preserved carriers, c counts ambient forced-graph
+components including isolates, b is complement boundary deficiency, p counts
+pure boundary carriers, and B/E count preserved boundary/next-ring vertices.
+`Accounting/CarrierLayerBound.lean` proves, for n>=5,
+`p<=r`, `B<=n*p+E`, and `f<=B+E+(n-4)*(r-p)`.
+`Accounting/CarrierLayers/NextRingInjection.lean` proves
+`E<=|unpreserved boundary|<=b` and `4n-4<=n*p+2b` (n>=7 for the latter).
+These are global statements, not b=5 or b=6 assumptions.
+
+For n=3k+2, k>=5, let T=3k^2+7k. A missing side means an open side met
+by no pure boundary carrier, not a side with no preserved vertices.
+`GridGraphs.residueTwo_card_le_target_add_one_of_missing_side` in
+`MissingSideSharp.lean` proves **f<=T+1 for any missing
+side**, with no bound on p, maximality, or connectivity assumption beyond
+forced-graph acyclicity. In particular p<=3 implies f<=T+1. The missing-side
+boundary bound b>=2k+3 also holds independently of p.
+
+`RadialNearTightExclusion.lean` excludes the former two-excess three-carrier
+profile `(r,c,b)=(k+2,1,2k+3)`: an empty boundary triple forces an inward
+carrier distinct from all radial root carriers and pure carriers, exceeding
+the component budget. `MissingSideSharp.lean` extends this exclusion to any
+missing side. Every feasible set with f>=T+2 therefore covers all four open
+sides with **four distinct physical pure carriers**, hence p>=4. The older
+profile implications remain valid but their missing-side premises at two
+excess are now impossible; they do not supply constructions.
+
+`RadialOneExcess.lean` proves, for k>=5, p<=3, f>=T+1, the exact profile
+f=T+1, r=k+2+a, c=1+d, b=2k+3+e with natural **a+d+e=3**.
+On a missing side with q preserved roots and m=k-q, it gives m<=e+1 and
+p<=a+m+2. At root saturation r=q+p (equivalently p=a+m+2), distinct
+empty-block middles are ambient isolates: c>=k-q+1, hence m<=d.
+This does not assume distinct inward carriers for different empty blocks.
+The c=4 case further forces p=3, q=k-1, two off-side near-corner holes,
+preserved corners, and an ambient isolate. These are necessary conditions;
+the one-excess exclusion and all-sides-covered branch remain open.
+
+The global upper formula is unchanged: P(3k+2)<=T+(2k+2)/3, k>=5.
+`OneExcessSeparated.lean` proves the root-separated hole charge
+`q+p+|S|+1<=r+c`: selected hole middles charge distinct extra induced carriers
+or ambient isolates. An intervening preserved root is essential; arbitrary
+empty blocks need not have distinct inward carriers. It gives the conditional
+sharp bound f<=T when `p+|S|>=7`, but does not assert such an S exists.
+
+`CoveredBoundary.lean` retains actual pure boundary mass P (here occupancy,
+not the maximum P(n)), with `P<=n*p`, `B<=P+2*(r-p)`, and `B<=P+E`.
+For n>=7 it proves `4n-4<=P+2b` and `4n-4<=P+b+2*(r-p)`.
+These are bounds on the same physical contacts, not independent additive
+charges. Neither the one-excess missing-side nor all-sides-covered upper
+branch is closed.
+
+### Concentrated Gaps And Covered Shadows
+
+`CarrierLayers/ConcentratedGaps.lean` proves `3q+L<=3k+4` for an inclusive
+root-free interval of length L on a missing open side (k>=1). Only under
+**k>=5, p<=3, f>=T+1**, T=3k^2+7k, does it give **L<=16**.
+Shared inward-carrier witnesses force the whole intervening interval to be
+root-free; inclusive span >=17 is therefore excluded in that one-excess
+branch. This is not an unconditional bound on gaps. Independently, a preserved
+interval of length L costs `floor(L/2)` row capacity two rows away, even if
+the opposite preserved set is disconnected. This local physical loss is not
+globally addable to component charges.
+
+`CarrierLayers/CoveredDeficit.lean` defines S as the union of physical boundary
+shadows of preserved next-ring vertices: every point of S is an actual boundary
+hole, with shared witnesses counted once. If P is pure boundary mass and
+D=n*p-P is full-side shortfall, then for n>=7 and p=4, `D>=|S|+4`.
+A top next-ring segment of length L>=2, with endpoints in one actual carrier
+and columns from 1 through n-2, casts L+2 distinct holes (n>=5), hence
+`D>=L+6` when n>=7 and p=4. The physical cost bound is
+`|S|+2p<=b+2r` for n>=7. For k>=5,
+`|S|+2p+b+2c>=6k+19` is a **sufficient certificate for f<=T**, not a
+guaranteed property of covered configurations. No new unconditional upper or
+lower bound follows; both remaining upper branches stay open.
+
+### Terminal-Rail Repair Lower Bound
+
+`Constructions/ResidueTwo/RailRepair/{Geometry,Forest,Score}.lean` proves
+the actual repaired coordinates, physical support attachments, unconditional
+forced-forest acyclicity, and exact score. The current uniform lower bound is
+
+```text
+L(k) = 3k^2+6k+3+floor((k-1)/2) <= P(3k+2),    k>=3.
+```
+
+The endpoint is `GridGraphs.RailRepair.residueTwo_le_maxPreserved`. It gains
+one over the historical staircase at odd k and agrees at even k. It gives
+110 at side 17, 195 at side 23, and 304 at side 29. Side 17 is not proved
+exact: the current interval is [110,114]; sides 23 and 29 have intervals
+[195,201] and [304,312].
+
+This is a single terminal parity repair, not an accumulating target pump.
+The checked k->k+2 score gain is still 12k+25, one below the stable target
+gain 12k+26. Against the stable target `3k^2+7k-1` (k>=5), the deficit is
+`floor(k/2)-2`. Python experiments and L2 research documents remain separate
+paper-level evidence; they do not prove a target-count pump. Joint-notch and
+new paper searches remain finite side-11/14 research, with no new formal claim.
+
+### Historical Staircase Seed Ledger
+
+`Constructions/ResidueTwo/Staircase/ComponentLedger.lean` proves b=5 and
+`r+c+3*((s+1)/2)=6*s+7` for the actual staircase, s>=2, n=3s+5.
+Its fixed seeds have `(f,r,c,b)=(48,9,7,5)` at n=11 and `(76,12,7,5)`
+at n=14; induced edge counts 39 and 64 are checked by kernel `decide`.
+The actual s->s+2 step raises r+c by 9 and f by 12s+37, one short of the
+target gain 12s+38 (equivalently 12k+25 versus 12k+26, k=s+1).
+Separate uniform r and c formulas and a target-count geometric pump are not
+proved for this historical staircase. Its lower bound remains valid but is
+superseded by the terminal-rail repair at odd k.
+
+### Snapshot Audit And Module Sizes
+
+All **163 public theorems** passed `#print axioms` with warnings as errors:
+the previous 72 in `/tmp/opencode/U1U3L2Audit.lean` and 31 in
+`/tmp/opencode/U1U3L2MissingSideAudit.lean`, plus the previous 44 in
+`/tmp/opencode/U1U3L2RailRepairAudit.lean`, were rerun. All 16 new public
+theorems are listed in `/tmp/opencode/U1U3L2GapShadowAudit.lean`.
+Every dependency list is a subset of `propext`, `Classical.choice`, and
+`Quot.sound`; no `sorryAx` or native proof axiom occurs. Private helpers were
+not individually printed; dependencies used by public results are included
+transitively. `RailRepair.attachment_subsingleton` has no axioms at all.
+See `EVIDENCE.md` for audit commands and logs. This is snapshot coverage,
+not an axiom audit of the entire library: the three separately built legacy
+counterexample tests still contain six `native_decide` uses.
+
+`rg --files GridGraphs -g '*.lean' | sort | xargs wc -l` produced
+`/tmp/opencode/u1-u3-l2-gap-shadow-source-lengths.log`. The 31 audited modules
+range from 55 to 380 lines; `Geometry/GridLayers.lean` is 12 lines.
+The two new modules are `ConcentratedGaps.lean` (297 lines, 7 public theorems)
+and `CoveredDeficit.lean` (244 lines, 9). The previous five additions are
+`OneExcessSeparated.lean` (303 lines, 6 public
+theorems), `CoveredBoundary.lean` (276 lines, 7), and RailRepair
+`Geometry.lean` (141 lines, 9), `Forest.lean` (97 lines, 6), and `Score.lean`
+(146 lines, 16), all below 1,000 lines.
+The following **11 existing modules exceed 1,000 lines** (paths relative to
+`GridGraphs/`). They were not edited in this verification pass and must be
+split before extension:
+
+| Module | Lines |
+|---|---:|
+| `Constructions/ResidueTwo/ResidueTwoAffineStep.lean` | 2,720 |
+| `Core/Spanning.lean` | 1,112 |
+| `Forests/MarkedCycleFirstStop.lean` | 1,054 |
+| `Geometry/BareCombTransition.lean` | 1,027 |
+| `Geometry/GridCrosscutCycle.lean` | 1,708 |
+| `Geometry/GridDual.lean` | 1,745 |
+| `Geometry/GridExpandedContourCollar.lean` | 1,028 |
+| `Geometry/OccurrenceLabelledCotreeDualForest.lean` | 1,482 |
+| `Routing/CanonicalExpandedCollisionRouting.lean` | 3,479 |
+| `Routing/CanonicalReconvergenceLens.lean` | 12,460 |
+| `Routing/TerminalCarrierQuotientRouting.lean` | 1,004 |
+
 ### Boundary-Stratified Upper Bound And Exact Side Ten
 
 `Accounting/BoundaryStratifiedCarrierBound.lean` proves the stronger bound
@@ -49,7 +219,7 @@ boundary carriers from deep carriers. Its residue-two corollary is
 
 `Results/SmallDiagonalExact/Ten.lean` combines the upper bound with the
 existing residue-one lower construction to prove `maxPreserved 10 10 = 42`.
-The current proved intervals include `[194,201]` at side 23 and `[246,254]`
+The current proved intervals include `[195,201]` at side 23 and `[246,254]`
 at side 26. All divisions in these formulas are natural-number floor divisions.
 
 `Accounting/ResidueTwoCounterexampleProfile.lean` checks the low-budget
@@ -84,7 +254,7 @@ module was split into six focused modules, the largest 708 lines, with all 17
 prior public declarations preserved. Its entry point additionally imports the
 7x7 and 10x10 theorems. No existing oversized Lean file was extended.
 
-### Improved Residue-Two Staircase (Lean 4.33.1)
+### Historical Residue-Two Staircase (Lean 4.33.1)
 
 `ResidueTwoStaircase.lean` defines the actual family in ambient coordinates,
 proves disjointness of its centers, placement in the twice-cropped square, and
@@ -101,7 +271,8 @@ canonical frame. Its `Ffull_isAcyclic` is unconditional for s>=2. The final
 
 The only hypothesis is the stated arithmetic range. No missing connectivity
 or attachment assumption is hidden in this result. This improves the affine
-bound for k>=8 but does not prove the conjectured optimum.
+bound for k>=8 but does not prove the conjectured optimum. The terminal-rail
+repair above now improves this historical formula by one at odd k.
 
 ### Canonical Boundary-Five Extension (2026-09-05, Lean 4.33.1)
 
