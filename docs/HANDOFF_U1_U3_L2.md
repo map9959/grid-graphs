@@ -1,7 +1,7 @@
 # U1, U3, And L2 Checkpoint
 
-Date: 2026-09-06. Updated after the formal terminal repair, both upper-front
-lemmas, and full strict verification.
+Date: 2026-09-06. Updated after concentrated-gap and covered-shadow theorems,
+the two-rail/notch follow-up, and full strict verification. Numerical bounds unchanged.
 
 ## Latest Continuation
 
@@ -12,12 +12,18 @@ proves `L(k)=3k^2+6k+3+floor((k-1)/2)<=P(3k+2)`, k>=3. Writing
 at odd k and agrees with the historical staircase at even k. It is not a
 target pump: its checked six-width gain remains 12k+25, not 12k+26.
 
-The five new strictly compiled modules are `CarrierLayers/OneExcessSeparated.lean`,
+The previous five strictly compiled modules are `CarrierLayers/OneExcessSeparated.lean`,
 `CarrierLayers/CoveredBoundary.lean`, and
 `Constructions/ResidueTwo/RailRepair/{Geometry,Forest,Score}.lean`.
 The upper modules prove root-separated hole charges and actual pure-mass
 budgets, with the precise conditional scope below. Neither changes the global
 upper formula or closes either upper branch.
+
+The latest two modules are `CarrierLayers/ConcentratedGaps.lean` (7 public
+theorems, 297 lines) and `CarrierLayers/CoveredDeficit.lean` (9 public theorems,
+244 lines). They bound concentrated root-free gaps and link physical boundary
+shadows to carrier length. Their conditional certificates and local losses do
+not close either upper branch or improve the numerical bounds.
 
 **Previous checked U3 result (still valid):** for n=3k+2, k>=5, ANY missing open side implies
 `f<=T(k)+1` and `b>=2k+3`, independently of p. A missing side is met by no
@@ -41,9 +47,9 @@ Public endpoints in namespace GridGraphs:
 The root and Regression cover all five leaves transitively. Regressions check
 f<=T+1 at k=5/7, the uniform missing-side bound, and p>=4 at f>=T+2, k=5.
 
-**Verification complete:** full strict build passed with 8,939 jobs, zero
-warnings/errors, exit 0. All 147 audited public theorems (previous 72+31 rerun
-plus all 44 new theorems) use only standard logical axioms. There are 232
+**Verification complete:** full strict build passed with 8,941 jobs, zero
+warnings/errors, exit 0. All 163 audited public theorems (previous 147 rerun
+plus all 16 new theorems) use only standard logical axioms. There are 234
 modules under GridGraphs, plus the aggregate root. Root and Regression cover
 both new upper fronts and the repaired lower bound. Details and logs are below.
 
@@ -66,10 +72,22 @@ at n=11/14: with the original frame and earlier rows fixed, last-four-deep-row
 repacking has maxima 49/76, not global optima. The historical packaging pass
 passed three focused and seven layout tests, replaying fixed witnesses without
 searching. Those finite tests did not establish the uniform theorem; the later
-Lean proof does. The latest main-agent run passed 13 tests (three terminal,
+Lean proof does. The previous main-agent run passed 13 tests (three terminal,
 three propagating, seven layout), without searches. The separate
 [propagating-interface alternative](L2_PROPAGATING_INTERFACE.md) remains a
 paper forest argument for a candidate that fails the actual target gain.
+
+The [two-rail/notch follow-up](L2_TWO_RAIL_INTERFACE.md#notch-follow-up) reports
+n11/n14 restricted maxima 49/76 unrestricted, 48/75 rootless, and 47/75
+joined-rootless. All six notch searches had 100,000-node caps and finished
+exhaustively within the specified windows, not globally. An explicit independent
+joined output reaches the lower extension, but adding the next center without
+deletion closes a cycle. Deleting the obstructing tail center permits a
+count-neutral continuation. The following step consumes independence through
+the frame at n11 or hits the next tail square at n14. No uniform pump follows.
+The latest main-agent run passed 19 tests without searches during tests;
+the note separately records its deliberately one-node budget-status test.
+These new lower results remain finite/paper evidence, not Lean theorems.
 
 ## What The Route Labels Mean
 
@@ -119,8 +137,8 @@ instead of 313. At that historical milestone the uniform staircase lower was
 `3k^2+6k+2+floor(k/2)` for k>=3. It remains valid, but the new terminal
 repair improves it at odd k. No target-count lower pump has been found.
 
-The latest milestone changes the uniform lower formula to L(k), not the
-global upper formula. Current bounds are:
+The previous terminal milestone changed the uniform lower formula to L(k).
+The latest gap/shadow and notch pass changes neither bound. Current bounds are:
 
 | Side | Formal lower | Global upper |
 |---:|---:|---:|
@@ -290,6 +308,35 @@ For n>=7, `4n-4<=P+2b` and `4n-4<=P+b+2(r-p)`.
 These measure the SAME physical resources, not independent charges to add.
 Neither this nor the separated-hole theorem is a new unconditional upper bound.
 
+### Concentrated Gaps And Covered Shadows
+
+`ConcentratedGaps.lean` proves `3q+L<=3k+4` for an inclusive root-free interval
+of length L on a missing open side (k>=1). Under k>=5, p<=3, f>=T+1 it gives
+`L<=16` and `L+6k<=3b-2` (also `L<=3e+7` in the exact slack profile).
+Shared inward-carrier witnesses force the intervening interval to be root-free,
+excluding inclusive spans >=17 in this branch only. This does not reduce the
+whole proof to finite-board search: distant component identifications remain.
+Independently, a preserved interval of length L forces at least `floor(L/2)`
+actual holes two rows away, for arbitrary disconnected preserved row occupancy.
+This local row loss is not globally addable without overlap control.
+
+`CoveredDeficit.lean` defines S as a union of actual boundary holes shadowed by
+preserved next-ring vertices, counting shared witnesses once. Here S is the
+shadow union, not the earlier selected root-separated middles. For pure boundary
+mass P and `D=n*p-P`, n>=7 gives `P+|S|<=4n-4`; at p=4,
+`D>=|S|+4`, and with all sides covered `D>=n*(p-4)+|S|+4`.
+A top next-ring segment of length L>=2 with endpoints in one actual carrier
+and columns in [1,n-2] casts L+2 contiguous boundary holes (n>=5), hence
+`D>=L+6` for n>=7, p=4.
+
+Cancellation against the existing contact budget gives `|S|+2p<=b+2r`
+(n>=7), not an additional independent charge. For k>=5 the certificate
+`|S|+2p+b+2c>=6k+19` suffices for f<=T, but is NOT guaranteed.
+At p=4, `|S|<=b` means it forces `b+c>=3k+6`, already stronger than the old
+sufficient `b+c>=2k+8`. Do not treat this as a new sharp branch solution:
+the actual new value is the physical shadow/length link. Both upper branches
+remain open, with no new unconditional numerical bound.
+
 ### Formal Terminal Repair
 
 `RailRepair/Geometry.lean` proves coordinates, deep placement, and physical
@@ -341,47 +388,53 @@ reachable. Regression tests cover the new upper bounds, global p>=3 condition,
 the conditional three-carrier bound, b=6 next-ring uniqueness, and c=7 seeds.
 
 The latest full strict command in ROADMAP.md, including the five modules outside
-the aggregate closure, passed after integrating OneExcessSeparated,
-CoveredBoundary, and RailRepair: **8,939 jobs, zero warnings/errors, exit 0**.
-The inventory is 232 modules / 83,811 lines under GridGraphs, plus the 177-line
-root (233 library files / 83,988 lines total). The five new modules have
-303, 276, 141, 97, and 146 lines respectively, all below 1,000.
+the aggregate closure, passed after integrating ConcentratedGaps and
+CoveredDeficit: **8,941 jobs, zero warnings/errors, exit 0**.
+The inventory is 234 modules / 84,372 lines under GridGraphs, plus the 179-line
+root (235 library files / 84,551 lines total). The two new modules have
+297 and 244 lines, with 7 and 9 public theorems respectively, all below 1,000.
 The 11 pre-existing oversized modules listed in lean/STATUS.md were untouched.
-Root and Regression include the symbolic lower/upper interval and lower
+Root and Regression import both new modules. New regressions give row occupancy
+<=7 two rows away from an L=4 interval on a 9x9 board, and f<=110 at k=5
+under shadow-cost threshold 49. They retain the symbolic lower/upper interval and lower
 regressions at sides 17, 20, 23, 29, plus the existing upper restrictions.
 
-All 147 public theorems in the 29 audited modules passed strict `#print axioms`
-checks: the previous 72+31 were rerun alongside all 44 new public theorems;
+All 163 public theorems in the 31 audited modules passed strict `#print axioms`
+checks: the previous 72+31+44 were rerun alongside all 16 new public theorems;
 dependencies are subsets of `propext`, `Classical.choice`, and `Quot.sound`.
 No `sorryAx` or native proof axiom appeared. Logs:
 
-- `/tmp/opencode/u1-u3-l2-rail-repair-full-build.log`
-- `/tmp/opencode/u1-u3-l2-rail-repair-previous72-axioms.log`
-- `/tmp/opencode/u1-u3-l2-rail-repair-previous31-axioms.log`
-- `/tmp/opencode/u1-u3-l2-rail-repair-new44-axioms.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-full-build.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-previous72-axioms.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-previous31-axioms.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-previous44-axioms.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-new16-axioms.log`
 - `/tmp/opencode/U1U3L2Audit.lean`
 - `/tmp/opencode/U1U3L2MissingSideAudit.lean`
 - `/tmp/opencode/U1U3L2RailRepairAudit.lean`
-- `/tmp/opencode/u1-u3-l2-rail-repair-source-lengths.log`
+- `/tmp/opencode/U1U3L2GapShadowAudit.lean`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-source-lengths.log`
 
 Private helpers are covered transitively where used, not individually printed.
 `RailRepair.attachment_subsingleton` is axiom-free. This is not a library-wide
 audit; six legacy `native_decide` uses in three separately built counterexample
-tests are outside these 147 audited results.
+tests are outside these 163 audited results.
 See [Lean STATUS](../lean/STATUS.md), [README](../lean/README.md), and
 [EVIDENCE](../lean/EVIDENCE.md) for the verified snapshot and audit coverage.
 These are recorded verification results, not a build rerun for this docs update.
 
 ## Next Concrete Goals
 
-1. U3: exclude one-excess configurations using a+d+e=3 and the checked
-   root-separated charge. Prove a sufficiently large S with p+|S|>=7, or a
-   different obstruction. Use m<=d only at saturation; do not claim nonreuse
-   inside a shared root-free gap.
+1. U3: exclude one-excess configurations using a+d+e=3, the root-separated
+   charge, and concentrated gaps <=16. Develop global gap-loss accounting from
+   actual two-row holes with overlap control and distant component identities
+   retained. Prove enough separated holes or another obstruction; bounded gaps
+   are not a finite-board reduction. Use m<=d only at saturation.
 2. U3: address the all-sides-covered branch. At f>=T+2 there are four distinct
    actual pure carriers covering the open sides. Use actual pure mass P,
-   nonpure contacts, radial roots, and perimeter UU gaps without adding the
-   CoveredBoundary inequalities as independent physical charges.
+   nonpure contacts, radial roots, and the new physical shadow/length link
+   without adding overlapping charges. The p=4 shadow-cost certificate is
+   already inside the old sufficient high-budget branch, not a new solution.
 3. L2: find a propagating rail/attachment repair compatible with both n11/n14
    seed branches and gain 12s+38 (12k+26) per six-width step. The terminal
    repair is formally verified but gains only once; its attempted repetition collides through existing
@@ -389,7 +442,11 @@ These are recorded verification results, not a build rerun for this docs update.
    actual component partition and allowing unattached components. Neither fixed
    c=7 nor a single main component is a required invariant. The separate paper
    propagating-interface sweep pays for the attachment cut without recovering
-   the needed center; it is not a successful actual-gain candidate.
+   the needed center; it is not a successful actual-gain candidate. Following
+   the notch tests, jointly free the remaining tail from `(h,s+6)` and the
+   right endpoint/frame continuation `(h+1,h+2..h+4)`, with h=3s. Retain an
+   independent output after the last join and pay for deletions and Delta b.
+   The current paid continuation is count-neutral, not a gain mechanism.
 
 ## Lower Research Caution
 

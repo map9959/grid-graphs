@@ -15,7 +15,7 @@ forced-graph acyclicity is required. In particular p<=3 implies f<=T+1.
 The last two-excess profile is excluded; f>=T+2 requires four distinct actual
 pure carriers covering all four open sides. Those results remain valid.
 
-The latest milestone strictly compiles five new modules: CarrierLayers
+The previous milestone strictly compiled five new modules: CarrierLayers
 `OneExcessSeparated.lean`, `CoveredBoundary.lean`, and
 `Constructions/ResidueTwo/RailRepair/{Geometry,Forest,Score}.lean`.
 The terminal repair now has a uniform Lean forest and score theorem:
@@ -24,9 +24,14 @@ The terminal repair now has a uniform Lean forest and score theorem:
 It gains one over the staircase at odd k and agrees at even k. Full strict
 verification passed with 8,939 jobs and 147 public axiom audits (72+31+44).
 
-Next goals: obtain enough root-separated holes to exclude one excess; address
-the all-sides-covered branch using actual pure mass without double counting;
-and find a propagating rail/attachment repair with the required
+The latest pass adds `CarrierLayers/ConcentratedGaps.lean` (7 public theorems,
+297 lines) and `CoveredDeficit.lean` (9 public theorems, 244 lines). Full strict
+verification now passes 8,941 jobs and 163 public audits (147 rerun + 16 new).
+Neither numerical bound changes in this pass.
+
+Next goals: turn local gap/row losses into global accounting with overlap
+control; link covered shadows to carrier length without double counting;
+and jointly change the notch, remaining tail, and frame for a repair with the required
 six-width gain. **PROOF NOT FINISHED:** no target pump or sharp general upper
 bound is claimed. The global upper formula above is unchanged; the formal
 lower bound is now L(k), not just the historical staircase score.
@@ -63,6 +68,26 @@ Each nonpure carrier has at most two boundary contacts, giving
 preserved occupancy. These charge the SAME resources and cannot be added as
 independent budgets. Neither upper front yields a new unconditional upper bound.
 
+`ConcentratedGaps` proves that, for k>=5, p<=3, f>=T+1, every inclusive
+root-free interval on a missing open side has `L<=16` and `L+6k<=3b-2`.
+Shared inward-carrier witnesses force the intervening interval to be root-free,
+so inclusive spans >=17 are excluded in this branch. Independently, a preserved
+interval of length L forces at least `floor(L/2)` actual holes two rows away,
+even for arbitrary disconnected preserved occupancy on that row. This local
+loss is not globally addable without overlap control. Bounded gaps do not
+reduce the whole proof to finite-board search: distant component identifications remain.
+
+`CoveredDeficit` defines the shadow union S of actual boundary holes, counting
+shared witnesses once (not the earlier selected root-separated middles).
+Write P for pure boundary mass and `D=n*p-P`. For n>=7, p=4 gives
+`D>=|S|+4`; all-side coverage gives `D>=n*(p-4)+|S|+4`.
+A top next-ring segment of length L>=2, with endpoints in one actual carrier
+and columns in [1,n-2], casts L+2 contiguous holes (n>=5), hence `D>=L+6`
+for n>=7, p=4. For k>=5, `|S|+2p+b+2c>=6k+19` suffices for f<=T,
+but is NOT guaranteed. Importantly, `|S|<=b` makes this certificate at p=4
+force `b+c>=3k+6`, already stronger than the old sufficient `b+c>=2k+8`.
+It is not a new sharp branch solution; the new value is the physical shadow/length link.
+
 For L2, [the fixed-rail pocket note](L2_FIXED_RAIL_POCKET.md) gives a scoped paper argument:
 repacking only the bottom two deep rows while keeping the frame and rails fixed
 cannot beat the existing count. This is not yet a Lean theorem and does not
@@ -79,11 +104,22 @@ original frame and earlier rows fixed, last-four-deep-row repacking has finite
 restricted-class maxima 49/76, not global optima. The historical packaging pass
 passed three focused repair tests and seven layout tests without searches
 during tests. An actual propagating repair must change the attachments that
-cause the attempted repeated motif's component collision. The latest main-agent
+cause the attempted repeated motif's component collision. The previous main-agent
 test run passed 13 tests (three terminal, three propagating, seven layout),
 without searches. The [propagating-interface alternative](L2_PROPAGATING_INTERFACE.md)
 remains a paper forest argument for an unsuccessful actual-gain candidate,
 not the verified single terminal repair or a target pump.
+
+The [two-rail/notch follow-up](L2_TWO_RAIL_INTERFACE.md#notch-follow-up) gives
+restricted n11/n14 maxima 49/76 unrestricted, 48/75 rootless, and 47/75
+joined-rootless. All six notch searches were capped at 100,000 nodes and
+finished exhaustively within their restricted windows, not as global bounds.
+Explicit independent joined outputs exist, but the unchanged extra continuation
+closes a cycle; deleting the obstructing tail center makes the extension
+count-neutral. The next step either meets another tail square or consumes
+independence through the frame. The latest main-agent run passed 19 tests,
+with no searches during tests. This finite/paper evidence is not Lean-formalized
+and establishes neither a recurring gain nor a target pump.
 
 ## Research Route Labels
 
@@ -116,7 +152,7 @@ completion means a feasible target-count family at every required width.
 Matching the two proves the optimum. A seed budget or a count recurrence alone
 does not complete a lower route.
 
-Source layout: the 232 Lean modules under `GridGraphs/` are grouped under `Core`, `Forests`,
+Source layout: the 234 Lean modules under `GridGraphs/` are grouped under `Core`, `Forests`,
 `Geometry`, `Accounting`, `Routing`, `Surgery`, `Constructions`, `Results`,
 and `Tests`. Construction families have their own subfolders. Public theorem
 namespaces and the `import GridGraphs` entry point are unchanged; module
@@ -135,7 +171,7 @@ checks pass (29 tests total), with no optimization searches.
 ## Verification Status
 
 Lean and mathlib are pinned to `v4.33.1`. The reorganized project passed full
-verification with **zero errors and zero warnings**: 8,939 jobs, exit 0.
+verification with **zero errors and zero warnings**: 8,941 jobs, exit 0.
 The command, run from `lean/`, was:
 
 ```bash
@@ -147,22 +183,24 @@ LEAN_NUM_THREADS=2 lake --no-cache --wfail build GridGraphs \
   GridGraphs.Results.SmallDiagonal
 ```
 
-This covers all 232 source modules, including the five outside the aggregate closure. It
+This covers all 234 source modules, including the five outside the aggregate closure. It
 reuses cached mathlib dependencies rather than running a separate mathlib-wide
-verification. The completed log is `/tmp/opencode/u1-u3-l2-rail-repair-full-build.log`.
-There are 83,811 lines under GridGraphs, plus the 177-line root: 233 library
-source files and 83,988 lines total. All 147 public theorems in the 29 audited
+verification. The completed log is `/tmp/opencode/u1-u3-l2-gap-shadow-full-build.log`.
+There are 84,372 lines under GridGraphs, plus the 179-line root: 235 library
+source files and 84,551 lines total. All 163 public theorems in the 31 audited
 modules depend only on subsets of `propext`, `Classical.choice`, and `Quot.sound`.
-The previous 72+31 were rerun alongside all 44 new public theorems, with warnings
+The previous 72+31+44 were rerun alongside all 16 new public theorems, with warnings
 as errors and no `sorryAx` or native proof axiom. Audit logs:
 
-- `/tmp/opencode/u1-u3-l2-rail-repair-previous72-axioms.log`
-- `/tmp/opencode/u1-u3-l2-rail-repair-previous31-axioms.log`
-- `/tmp/opencode/u1-u3-l2-rail-repair-new44-axioms.log`
-- `/tmp/opencode/U1U3L2RailRepairAudit.lean` (new audit driver)
-- `/tmp/opencode/u1-u3-l2-rail-repair-source-lengths.log` (source inventory)
+- `/tmp/opencode/u1-u3-l2-gap-shadow-previous72-axioms.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-previous31-axioms.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-previous44-axioms.log`
+- `/tmp/opencode/u1-u3-l2-gap-shadow-new16-axioms.log`
+- `/tmp/opencode/U1U3L2GapShadowAudit.lean` (new audit driver)
+- `/tmp/opencode/u1-u3-l2-gap-shadow-source-lengths.log` (source inventory)
 
-OneExcessSeparated, CoveredBoundary, and RailRepair Geometry, Forest, Score
+ConcentratedGaps and CoveredDeficit have 297 and 244 lines respectively.
+The previous OneExcessSeparated, CoveredBoundary, and RailRepair Geometry, Forest, Score
 have 303, 276, 141, 97, and 146 lines respectively, all below 1,000.
 The 11 pre-existing modules over 1,000 lines are listed
 in [Lean STATUS](../lean/STATUS.md); none was extended. Private helpers are
@@ -170,7 +208,8 @@ covered transitively where used, not individually printed. See
 [README](../lean/README.md) and [EVIDENCE](../lean/EVIDENCE.md) for the snapshot,
 audit commands, and regression coverage. These are recorded results, not a
 Lean build or Python test rerun for this documentation-only update. Root and
-Regression cover both new upper fronts and the lower theorem, including the
+Regression import both new modules: L=4 on a 9x9 board gives row occupancy <=7
+two rows away, and the k=5 shadow-cost threshold 49 implies f<=110. They retain the
 symbolic lower/upper interval and lower regressions at sides 17, 20, 23, 29.
 This is not a whole-library axiom audit; six legacy `native_decide` uses in
 three separately built counterexample tests are outside these audited results.
@@ -247,6 +286,7 @@ and does not establish an upper bound for b>=6.
 | Any missing open side gives f<=T+1, k>=5, independent of p | Established in Lean: `CarrierLayers/MissingSideSharp.lean`; two excess requires four distinct side-covering pure carriers |
 | Exact p<=3 one-excess slack and saturated-root isolate bounds | Established in Lean: `CarrierLayers/RadialOneExcess.lean`; exclusion remains open |
 | Root-separated holes and covered-boundary pure mass | Established in Lean: `OneExcessSeparated.lean`, `CoveredBoundary.lean`; conditional sharpness only, no new global upper |
+| Concentrated gaps and covered shadows | Established in Lean: `ConcentratedGaps.lean`, `CoveredDeficit.lean`; scoped gap bound, local row loss, and physical shadow/length link, not a new numerical bound |
 | Terminal rail repair L(k) | Uniform formal lower `3k^2+6k+3+floor((k-1)/2)`, k>=3, in `RailRepair/Score.lean`; not an accumulating pump |
 | Propagating-interface alternative J(s) | Paper-only forest argument; actual score fails the target pump gain |
 | General sharp square upper bounds | Still open |
@@ -541,7 +581,7 @@ Completion gates:
 ### Current Unconditional Upper Bound
 
 The current stable residue-two bound, from `Accounting/BoundarySix/Upper.lean`, is
-`P(3k+2)<=T(k)+floor((2k+2)/3)` for k>=5. The latest separated-hole and pure-mass work
+`P(3k+2)<=T(k)+floor((2k+2)/3)` for k>=5. The latest gap and covered-shadow work
 does not improve this global formula. The following boundary-stratified result
 is an earlier milestone, still valid over its broader range.
 
@@ -614,13 +654,14 @@ and the bound `length(C1)+length(C2)<=n+1` for wholly preserved horizontal
 intervals two rows apart. This local result has not yet been summed into a
 stronger global packing inequality.
 
-Next upper gates: use the exact three-unit slack and root-separated charge to
-force a sufficiently large S, or find another obstruction; control the
-all-sides-covered branch using pure mass and contacts without adding overlapping
-budgets. Boundary-five equality remains a useful subcase, not a global
-normalization. Next lower gate: a propagating six-width rail repair with
-compatible seeds and gain 12k+26. The formal terminal repair improves L(k),
-but neither it nor the paper propagating alternative supplies that pump.
+Next upper gates: combine exact three-unit slack, bounded concentrated gaps,
+and local row loss into global gap-loss accounting with overlap and distant
+component identifications controlled. Use the covered shadow/length link, not
+the p=4 certificate as a new solved branch. Boundary-five equality remains a
+useful subcase, not a global normalization. Next lower gate: jointly change the
+notch, remaining tail, and frame contact while retaining an independent output
+and paying for all deletions and Delta b. Compatible seeds, gain 12k+26, and
+uniform six-width closure remain required; no current repair supplies that pump.
 
 ### Sharp Upper Obligations
 
@@ -730,6 +771,9 @@ a full Lean build and must not be reported as one.
 | `docs/L2_FIXED_RAIL_POCKET.md` | Paper-only obstruction with frame and rails fixed |
 | `docs/L2_RAIL_REPAIR_RESEARCH.md` | Now-formal terminal repair, historical finite searches, and scoped propagation obstruction |
 | `docs/L2_PROPAGATING_INTERFACE.md` | Separate paper alternative with unsuccessful actual target gain |
+| `docs/L2_TWO_RAIL_INTERFACE.md` | Two-rail/notch restricted searches, independent outputs, count-neutral continuation, and remaining tail/frame gate |
+| `lean/GridGraphs/Accounting/CarrierLayers/ConcentratedGaps.lean` | Scoped root-free gap bound and local two-row capacity loss |
+| `lean/GridGraphs/Accounting/CarrierLayers/CoveredDeficit.lean` | Actual shadow union, carrier-length shortfall, and sufficient-only certificate |
 | `lean/GridGraphs/Constructions/ResidueTwo/RailRepair/Score.lean` | Current uniform formal lower bound and insufficient six-width gain |
 | `lean/GridGraphs/Accounting/CarrierLayers/OneExcessSeparated.lean` | Root-separated hole charge without saturation; conditional sharp bound |
 | `lean/GridGraphs/Accounting/CarrierLayers/CoveredBoundary.lean` | Actual pure mass and shared physical boundary budgets |
