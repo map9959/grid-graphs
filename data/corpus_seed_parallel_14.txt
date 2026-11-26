@@ -1,0 +1,16 @@
+# Explicit feasible full-height rods on columns 0,3,6,9,12.
+# U = hole, . = preserved. Score 70; a structural seed, not an optimum claim.
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U
+.UU.UU.UU.UU.U

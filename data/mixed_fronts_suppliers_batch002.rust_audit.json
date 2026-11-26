@@ -1,0 +1,37 @@
+{
+  "candidate_transitions_checked": 832,
+  "certificate": {
+    "endpoint_error": 2,
+    "inequalities_checked": 300,
+    "initial_max": 0,
+    "kind": "integer_potential",
+    "minimum_slack": 0,
+    "potential_max": 0,
+    "potential_min": -3,
+    "terminal_min": -2,
+    "terminal_states_checked": 34,
+    "tight_edges": 116
+  },
+  "edges": 300,
+  "exact_ordered_graph_arrays": true,
+  "initials": 8,
+  "integer_term_checks": 2100,
+  "integer_weight_checks": 300,
+  "method": "explicit adjacency traversal; old-component stars; multiplicity-preserving E=V-components",
+  "physical_check": {
+    "assignments_checked": 131072,
+    "cyclic_assignments": 126608,
+    "direct_strip_vs_frontier_checks": 131072,
+    "forest_assignments": 4464,
+    "full_observe_vs_direct_strip_checks": 131072,
+    "n": 11,
+    "rows": 7,
+    "variables": 17
+  },
+  "rejected_transitions": 532,
+  "schema": 1,
+  "scope": "finite reachable rooted relaxation and specified n=11 fixture only; no uniform geometric soundness or supplier nonreuse proof",
+  "states": 104,
+  "status": "passed",
+  "suppliers": true
+}

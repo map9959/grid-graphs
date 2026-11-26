@@ -88,6 +88,36 @@ consecutive run in A_t can be assembled from carriers on different nearby
 rows. Counting its runs does not count its carriers. Singleton preserved
 vertices contribute no FF edge directly.
 
+## Fourth-Step Propagation
+
+Write `delta_t=3(Q-|V_t|)-|A_t|`, so `sum_t delta_t=3Lambda`.
+If a horizontal edge set B is compatible with V_t, the ordinary path count
+on the columns left outside the vertical blocks gives
+`|B minus A_t|<=delta_t`.
+
+For a good row y, its omitted compatible step is `o(y)=y-2` when y is two
+modulo three, and `o(y)=y+1` otherwise, whenever that step is valid. All
+rows assigned there are within distance two of y except possibly
+`sigma(y)=y-3` in the first case, or `sigma(y)=y+3` in the second. Nearby
+horizontal edge-column sets are disjoint. Hence
+
+```text
+|E_y minus E_sigma(y)| <= delta_o(y);
+sum_{valid omitted steps} |E_y minus E_sigma(y)| <= 3Lambda.
+```
+
+The omitted-step map is injective: the three row residues map to three
+different step residues. No step budget is reused. Invalid successor rows
+have empty edge sets. This bounds column-labelled interior termination events,
+not the length of all their continuations and not a number of physical paths.
+
+At zero loss, residue-zero edge sets are nested toward the bottom and
+residue-two sets toward the top. The residue-one chain terminates in the
+invalid row N, so all its sets vanish. The
+[zero-loss proof](PAPER_ZERO_LOSS_UPPER.md) uses this to classify mixed bands.
+For positive loss, the propagation inequality alone does not make continuations
+into disjoint physical paths or bound the number of later mergers by Lambda.
+
 ## Exact Boundary Reserve
 
 On each of the four middle boundary paths, retain all hole vertices and
@@ -164,6 +194,11 @@ resources must be counted; it does not establish that enough exist.
 
 ## A Constant-Bound Saturated Subcase
 
+The subsequent [zero-loss paper](PAPER_ZERO_LOSS_UPPER.md) now treats mixed
+saturated configurations as well, proving `f<=T+3` for k>=3 and `f<=T+1`
+for k>=5. Those arguments passed independent paper reviews but are not Lean
+theorems. The special vertical argument below is retained as a simpler route.
+
 The following is a completed paper deduction, not a general stability theorem.
 Assume Lambda=0 and that there are no good horizontal edges.
 
@@ -233,10 +268,11 @@ These facts reduce this case to a concrete small-width paper problem:
 s+t <= N+C, for an absolute constant C.
 ```
 
-That inequality is not proved here. Nor would proving it complete the general
-upper theorem: mixed saturated tilings and positive Lambda would still require
-a quantitative propagation argument. The completed result in this section is
-the internal-free-column case, not a blanket assertion about all saturated sets.
+The [endpoint-strip certificate](PAPER_ENDPOINT_STRIP.md) now proves this
+inequality with C=2, using an explicit finite-state potential whose complete
+transition table was independently checked on paper. It gives e<=4 by this
+reduction. The newer zero-loss paper gives the stronger saturated bounds above
+by a different argument. Positive Lambda remains outside both conclusions.
 
 ## Physical-Lift Obstruction
 
@@ -272,14 +308,24 @@ presence in a three-column block.
 
 ## Remaining Research
 
-The unresolved upper step is to connect the local tilings across successive
-steps and to their actual boundary attachments. A useful proof must show how
-replacement rods, turns, and singly attached teeth produce distinct measured
-vacancies, boundary reserve, or actual final components.
+Zero loss is not implied merely by attaining the target score. For example,
+the existing RailRepair family at s=4 (k=5, side 17) has deep horizontal
+interval lengths `11,10,9,5,2,3,4,3` and four deep singleton centers. Thus its
+deep mass is 51 and its FF-edge count is 39. None of those edges is a bad
+deep-boundary edge. Since `Q(N-1)=4*12=48`, this target-count construction
+has `Lambda=9`, despite `f=T=110`. This is a symbolic count from the existing
+coordinates, not a new grid search or a new named Lean count theorem.
+
+The zero-loss paper connects exactly saturated tilings across successive steps
+and accounts for their actual boundary attachments. The unresolved upper step
+is now quantitative stability for positive Lambda: show how replacement rods,
+turns, and disputed contacts produce distinct measured vacancies, boundary
+reserve, or actual final components, without magnifying one defect along a
+long continuation.
 
 The pointwise identities do not prove such a propagation law. In particular,
 no linear lower bound on the total reserve with coefficient two has been
-established, and no constant upper excess is claimed.
+established, and no global constant upper excess is claimed.
 
 For the lower side, the nested-frame obstruction and moving-phase strip in
 the companion note are separate results. Correct count growth does not make

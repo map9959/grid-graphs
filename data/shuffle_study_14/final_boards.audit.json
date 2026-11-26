@@ -1,0 +1,101 @@
+{
+  "records": [
+    {
+      "accepted": true,
+      "f": 76,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_00.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 76,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_00.operator.txt"
+    },
+    {
+      "accepted": true,
+      "f": 76,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_01.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 76,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_01.operator.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_02.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_02.operator.txt"
+    },
+    {
+      "accepted": true,
+      "f": 76,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_03.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 76,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_03.operator.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_04.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_04.operator.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_05.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_05.operator.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_06.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_06.operator.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_07.baseline.txt"
+    },
+    {
+      "accepted": true,
+      "f": 77,
+      "n": 14,
+      "path": "data/shuffle_study_14/case_07.operator.txt"
+    }
+  ],
+  "schema": "grid-graphs.independent-board-batch-audit.v1"
+}

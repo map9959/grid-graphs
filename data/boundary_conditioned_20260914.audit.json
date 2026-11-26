@@ -1,0 +1,301 @@
+{
+  "input_sha256": "634c65a359a49edec79e36a942a2f835292cb61893011a03ff2827350a0557cf",
+  "families": {
+    "four_square": {
+      "cases": 576,
+      "fillings": 36864,
+      "legal": 2278,
+      "positive_price": 523,
+      "max_price": 3,
+      "first_max_price_case": {
+        "baseline": [
+          "...U",
+          "UUUU",
+          ".UUU",
+          "UU.U"
+        ],
+        "name": "exterior_295",
+        "outside_closed": 0,
+        "ports": [
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 1
+          },
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 2
+          },
+          {
+            "preserved": false,
+            "root": 0,
+            "vertex": 3
+          },
+          {
+            "preserved": false,
+            "root": 0,
+            "vertex": 4
+          },
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 8
+          },
+          {
+            "preserved": false,
+            "root": 1,
+            "vertex": 13
+          },
+          {
+            "preserved": true,
+            "root": 1,
+            "vertex": 14
+          },
+          {
+            "preserved": false,
+            "root": 1,
+            "vertex": 15
+          }
+        ],
+        "region": [
+          5,
+          6,
+          7,
+          9,
+          10,
+          11
+        ],
+        "result": {
+          "best_rows": [
+            "...U",
+            "UUUU",
+            ".UUU",
+            "UU.U"
+          ],
+          "feasible": 1,
+          "identifications": 6,
+          "optimum": 0,
+          "relaxed_best_rows": [
+            "...U",
+            "U...",
+            ".UUU",
+            "UU.U"
+          ],
+          "relaxed_feasible": 24,
+          "relaxed_optimum": 3,
+          "tested": 64
+        }
+      },
+      "cases_with_unit_rank_penalty_failure": 14,
+      "first_unit_rank_penalty_failure": {
+        "case": "exterior_301",
+        "baseline": [
+          ".U..",
+          "UUUU",
+          ".UUU",
+          "UU.U"
+        ],
+        "region": [
+          5,
+          6,
+          7,
+          9,
+          10,
+          11
+        ],
+        "ports": [
+          {
+            "preserved": false,
+            "root": 0,
+            "vertex": 1
+          },
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 2
+          },
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 3
+          },
+          {
+            "preserved": false,
+            "root": 0,
+            "vertex": 4
+          },
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 8
+          },
+          {
+            "preserved": false,
+            "root": 1,
+            "vertex": 13
+          },
+          {
+            "preserved": true,
+            "root": 1,
+            "vertex": 14
+          },
+          {
+            "preserved": false,
+            "root": 1,
+            "vertex": 15
+          }
+        ],
+        "candidate_rows": [
+          ".U..",
+          "UU..",
+          ".UUU",
+          "UU.U"
+        ],
+        "gain": 2,
+        "cycle_rank": 1,
+        "actual_optimum": 0
+      }
+    },
+    "moving_seams": {
+      "cases": 279,
+      "fillings": 189056,
+      "legal": 308,
+      "positive_price": 246,
+      "max_price": 4,
+      "first_max_price_case": {
+        "baseline": [
+          "UUUUUUUUU",
+          "U...UUUUU",
+          "UUUUU...U",
+          "UUUUUUUUU",
+          "U..UUUUUU",
+          "UUUU....U",
+          "UUUUUUUUU",
+          "UUUUUUUUU",
+          "UUUUUUUUU"
+        ],
+        "name": "seam_3_2_outside_None",
+        "outside_closed": 35,
+        "ports": [
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 11
+          },
+          {
+            "preserved": true,
+            "root": 0,
+            "vertex": 12
+          },
+          {
+            "preserved": false,
+            "root": 0,
+            "vertex": 13
+          },
+          {
+            "preserved": false,
+            "root": 1,
+            "vertex": 14
+          },
+          {
+            "preserved": false,
+            "root": 0,
+            "vertex": 19
+          },
+          {
+            "preserved": true,
+            "root": 2,
+            "vertex": 24
+          },
+          {
+            "preserved": false,
+            "root": 3,
+            "vertex": 28
+          },
+          {
+            "preserved": false,
+            "root": 2,
+            "vertex": 33
+          },
+          {
+            "preserved": true,
+            "root": 3,
+            "vertex": 37
+          },
+          {
+            "preserved": false,
+            "root": 4,
+            "vertex": 42
+          },
+          {
+            "preserved": false,
+            "root": 5,
+            "vertex": 47
+          },
+          {
+            "preserved": false,
+            "root": 4,
+            "vertex": 48
+          },
+          {
+            "preserved": true,
+            "root": 4,
+            "vertex": 49
+          },
+          {
+            "preserved": true,
+            "root": 4,
+            "vertex": 50
+          }
+        ],
+        "region": [
+          20,
+          21,
+          22,
+          23,
+          29,
+          30,
+          31,
+          32,
+          38,
+          39,
+          40,
+          41
+        ],
+        "result": {
+          "best_rows": [
+            "UUUUUUUUU",
+            "U...UUUUU",
+            "UUUUU...U",
+            "UUUUUUUUU",
+            "U..UUUUUU",
+            "UUUU....U",
+            "UUUUUUUUU",
+            "UUUUUUUUU",
+            "UUUUUUUUU"
+          ],
+          "feasible": 1,
+          "identifications": 8,
+          "optimum": 0,
+          "relaxed_best_rows": [
+            "UUUUUUUUU",
+            "U...UUUUU",
+            "UU......U",
+            "UUUUUUUUU",
+            "U..UU.UUU",
+            "UUUU....U",
+            "UUUUUUUUU",
+            "UUUUUUUUU",
+            "UUUUUUUUU"
+          ],
+          "relaxed_feasible": 70,
+          "relaxed_optimum": 4,
+          "tested": 1024
+        }
+      },
+      "cases_with_unit_rank_penalty_failure": 0,
+      "first_unit_rank_penalty_failure": null
+    }
+  }
+}

@@ -4,23 +4,84 @@ Updated: 2026-09-07, after the verified EndpointUpper milestone.
 
 ## New Paper Track
 
-The latest argument is in
+The current clean-strand continuation is in
+[Clean Metric Closure](PAPER_CLEAN_METRIC_CLOSURE.md) and
+[Clean Allocation](PAPER_CLEAN_ALLOCATION.md). Reviewed proofs pay all narrow
+banks, leave at most thirteen wide banks in K<n, remove overlap-capacity
+reuse, and close the explicit full-height two-root moving seam at T+10.
+The global obligation remains partial-terminal and height-weighted front
+payment. A bounded number of banks or fronts is not a constant debt bound.
+[Maximum-specific](PAPER_MAXIMUM_CLEAN_UPPER.md) and
+[terminal-transport](PAPER_TERMINAL_TRANSPORT.md) continuations identify
+additional exact conditions without proving that final payment. No new
+unconditional upper formula or Lean result follows.
+
+The newest continuation is the reviewed
+[isolate allocation](PAPER_ISOLATE_ROUTING_UPPER.md). Its conservative clean
+certificate has no isolate-count error, but clean short-strand debt remains
+unpaid in general. [Global cap payment](PAPER_GLOBAL_CAP_PAYMENT.md) adds
+constant-bound subclasses and records a withdrawn overbroad packet transfer;
+the corrected version requires explicit outer-J_3 anchors. The
+[metric continuation](PAPER_GLOBAL_METRIC_UPPER.md) proves width-sensitive
+charges without establishing the necessary global exposure theorem.
+No unconditional constant bound follows, and the formal milestone is unchanged.
+
+The newest upper-only route is
+[Planar Dual Upper Research](PAPER_DUAL_UPPER_RESEARCH.md). Its independently
+reviewed corridor geometry gives T+3 and T+6 bounds for explicit classes,
+including classes with arbitrarily many junctions and through strands. The
+global constant-gap theorem remains open. Its natural target is r+b+c, not
+a stronger weighted excess. The unresolved costs are surviving interior caps
+and isolate-induced routing; the note gives exact budgets and guards against
+counting matching gains and unused corridor length as independent credits.
+
+Companion [contact charging](PAPER_CONTACT_CHARGING_RESEARCH.md),
+[projection](PAPER_PROJECTION_UPPER_RESEARCH.md), and
+[nested-cycle](PAPER_NESTED_CYCLE_UPPER_RESEARCH.md) notes retain the precise
+scope of their identities and failed local proof rules. No new global bound
+or Lean verification is claimed by this continuation.
+
+The best unconditional paper argument remains in
 [Paper Half-Coefficient Upper Bound](PAPER_HALF_COEFFICIENT_UPPER.md):
 `P(3k+2)<=T+floor(k/2)+1` for every k>=3, at paper level. The fixed
 residue schedule and nonempty middle-boundary path proof make it independent
 of the missing-side reduction. It has not changed the checked global theorem.
 
 [Paper Packing Stability](PAPER_PACKING_STABILITY.md) develops its exact
-defect identity and a constant-bound saturated subcase. The global estimate
-needed to reach `T+O(1)` remains unproved; local equality is not automatically
-a global rail configuration, and virtual UU mirror edges cannot be used as
-physical forced connections.
+defect identity and fourth-step propagation. The
+[endpoint strip](PAPER_ENDPOINT_STRIP.md) has a complete finite-state paper
+certificate. The subsequent [zero-loss proof](PAPER_ZERO_LOSS_UPPER.md)
+classifies mixed saturated configurations and counts two actual contacts per
+deep component, giving `f<=T+3` for k>=3 and `f<=T+1` for k>=5 when
+`Lambda=0`. Independent paper reviews passed; no new Lean theorem is claimed.
+The general positive-loss stability estimate needed for `T+O(1)` remains
+unproved. Virtual UU mirrors must not be used as physical forced connections.
+
+The [fault-line continuation](PAPER_FAULT_LINE_ANALYSIS.md) proves a uniform
+constant bound for one specified interrupted-rail family through a complete
+58-state certificate. It permits arbitrary interruptions, but not arbitrary
+fault networks or phase switches with preserved vertices in the fixed empty
+column. The certificate passed independent paper review.
+
+The [positive-loss contact program](PAPER_POSITIVE_LOSS_UPPER.md) supplies
+exact corrections and a joint bad-edge bound. Its original universal
+nonnegative-loss target is now REFUTED; restricting to positive excess avoids
+that counterexample but does not prove the target. Signed full contact surplus
+must be retained, and the weighted contact target is stronger than a bound
+on excess alone. No general constant-gap upper is claimed.
 
 The lower-side work is in
 [Paper Constant-Gap Lower Research](PAPER_CONSTANT_GAP_LOWER.md). Its new
 moving-phase interior has the desired count recurrence, but the proposed
-boundary closure creates linearly many cycles. No constant-gap lower bound
-is claimed. The rest of this document records the formal milestone and its
+boundary closure creates linearly many cycles. The
+[moving-phase cap analysis](PAPER_MOVING_PHASE_CAP.md) shows that arbitrary
+replacement of the top two rows, with its specified interior fixed, does not
+remove the linear loss. Distributed exchanges remain possible research, not
+a proved repair. No constant-gap lower bound is claimed.
+The [distributed endpoint-shift attempt](PAPER_DISTRIBUTED_LOWER_REPAIR.md)
+preserves GOOD but still has a four-rod attachment collision. Its restricted
+failure does not rule out boundary redesign or changed rod rows.
+The rest of this document records the formal milestone and its
 earlier proof chains, not a formalization of the new paper track.
 
 ## Status And Notation

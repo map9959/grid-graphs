@@ -4,4 +4,7 @@
 *.html
 __pycache__/
 *.pyc
+.ruff_cache/
+*.olean
+*.progress.jsonl
 analysis/annulus-side7-work/

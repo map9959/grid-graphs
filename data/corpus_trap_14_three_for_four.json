@@ -1,0 +1,40 @@
+{
+  "schema": "grid-graphs.deletion-first-result-summary.v1",
+  "input": "data/corpus_trap_14.txt",
+  "input_sha256": "08d0408b293ec53fceabe69f4d4dd27b59c1348dd902e47786ea89f9c5429e91",
+  "search_source": "src/deletion_search.rs",
+  "search_source_sha256": "80f2153ee3c6841d3e8da676f42c154637052153f45181cb0a06e67d7652b8ad",
+  "command": "target/release/certificate_corpus delete-first data/corpus_trap_14.txt 3 100000000 60000",
+  "n": 14,
+  "original_f": 76,
+  "deletions_per_set": 3,
+  "additions_required": 4,
+  "total_deletion_sets": 70300,
+  "deletion_sets_started": 70300,
+  "deletion_sets_completed": 70300,
+  "status": "exhausted_neighborhood",
+  "node_limit": 100000000,
+  "nodes": 8508729,
+  "time_limit_ms": 60000,
+  "elapsed_seconds": 0.334216002,
+  "initially_legal_hole_histogram": {
+    "0": 40177,
+    "1": 17871,
+    "2": 8707,
+    "3": 2682,
+    "4": 738,
+    "5": 116,
+    "6": 9
+  },
+  "improvement": null,
+  "unfiltered_check": {
+    "command": "cargo test --lib certificate_corpus::tests::trap_14_three_deletions_have_no_gain_without_candidate_prefilter",
+    "deletion_sets_checked": 70300,
+    "result": "passed; no improvement",
+    "method": "enumerate all original-hole insertion prefixes using the original mutating DSU kernel; no can_insert prefilter",
+    "debug_test_seconds": 6.76
+  },
+  "full_output_at_run_time": "/tmp/opencode/exchange-n14-three-for-four.json",
+  "full_output_sha256": "0de05f0f090cd8d219fbfa6cd3f78f225501038a974f2c6d85f06b39007f6615",
+  "scope": "No gain by exactly three original-F deletions followed by four original-hole additions for this input. Combined with earlier zero-through-two-deletion checks, every strictly better feasible board must omit at least four of this input's original F vertices. Not a global optimum claim, a claim that four deletions suffice, or a restriction on neutral move sequences."
+}

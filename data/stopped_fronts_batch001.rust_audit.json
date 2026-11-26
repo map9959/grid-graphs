@@ -1,0 +1,66 @@
+{
+  "checks": [
+    "exact stopped-rail skeletons and optional variables",
+    "every mask: literal primal feasibility and exact archived feasible list",
+    "every feasible mask: actual isolate or distinct right-side deficiency witnesses",
+    "exact integer demand and 2a invoice units",
+    "invoice histograms and corner-hole cases",
+    "first example masks, witness lists and actual rail component counts"
+  ],
+  "cyclic_masks": 1284631,
+  "feasible_masks": 26089,
+  "fixtures": [
+    {
+      "corner_hole_cases": 0,
+      "cyclic_masks": 254881,
+      "demand_denominator": 10,
+      "demand_numerator": 22,
+      "examples_checked": 5,
+      "feasible_masks": 7263,
+      "invoice_histogram": {
+        "z0_h4": 72,
+        "z1_h3": 528,
+        "z2_h2": 1593,
+        "z3_h1": 2820,
+        "z4_h0": 2250
+      },
+      "invoice_units_checked": 29052,
+      "invoices_checked": 7263,
+      "masks_checked": 262144,
+      "n": 11,
+      "optional_variables": 18,
+      "units_per_invoice": 4
+    },
+    {
+      "corner_hole_cases": 4461,
+      "cyclic_masks": 1029750,
+      "demand_denominator": 13,
+      "demand_numerator": 51,
+      "examples_checked": 7,
+      "feasible_masks": 18826,
+      "invoice_histogram": {
+        "z0_h6": 16,
+        "z1_h5": 184,
+        "z2_h4": 917,
+        "z3_h3": 2708,
+        "z4_h2": 5185,
+        "z5_h1": 6216,
+        "z6_h0": 3600
+      },
+      "invoice_units_checked": 112956,
+      "invoices_checked": 18826,
+      "masks_checked": 1048576,
+      "n": 14,
+      "optional_variables": 20,
+      "units_per_invoice": 6
+    }
+  ],
+  "input": "data/stopped_fronts_batch001.json",
+  "invoice_units_checked": 142008,
+  "invoices_checked": 26089,
+  "masks_checked": 1310720,
+  "oracle": "grid_graphs::certificate_corpus::observe",
+  "schema": 1,
+  "scope": "complete specified stopped-front two-column exterior families; finite computational audit, not a uniform theorem",
+  "validated": true
+}

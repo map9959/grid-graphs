@@ -1,1 +1,11 @@
+pub mod boundary_conditioned;
+pub mod boundary_shuffle;
+pub mod certificate_corpus;
+pub mod deletion_search;
 pub mod exact_centered_square;
+pub mod exchange_analysis;
+pub mod holdout_study;
+pub mod neutral_search;
+pub mod shuffle_study_data;
+pub mod terminal_separation;
+pub mod trace_simplify;

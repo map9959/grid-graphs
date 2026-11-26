@@ -1,0 +1,17 @@
+# Score-76 witness from random_v1, unseeded, first seed 20260910.
+# compare 14 10000 8 20260910 256: variant 0, run 0 best_rows.
+# A feasible local-search output, not an optimality claim.
+..............
+UUUUUUUUUUUUUU
+.UUUUUUUUU.UU.
+.U......UU.UU.
+.UUUUUUUUU.UU.
+.UUUU.UU.UUUU.
+.U..UUUU.UUUU.
+.UUUU..UUU..U.
+.UU.UUUU.UUUU.
+.UUUUUUUUUUUU.
+.UUU........U.
+.U.UUUUUUUUUU.
+.UUUUUUUUUUUU.
+.UU.........U.

@@ -1,0 +1,23 @@
+{
+  "accepted": true,
+  "escape": true,
+  "missing_original_f": 12,
+  "schema": "grid-graphs.neutral-trace-audit.v1",
+  "scope": "literal forced-edge replay of this trace; not search coverage or shortest-path validation",
+  "scores": [
+    76,
+    76,
+    76,
+    76,
+    76,
+    76,
+    76,
+    76,
+    76,
+    76,
+    76,
+    76,
+    77
+  ],
+  "steps_checked": 12
+}

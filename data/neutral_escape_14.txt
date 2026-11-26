@@ -1,0 +1,15 @@
+# Verified neutral escape: 76 -> 77. U=hole; .=preserved.
+..............
+UUUUUUUUUUUUUU
+.UUUUUUUUU.UU.
+.UU......U.UU.
+.UUUUUUUUU.UU.
+.U.UUUUUUU.UU.
+.UUU.....UUUU.
+.UUUUUUUUUU.U.
+.U..UU.UU.UUU.
+.UUUUUUUUUUUU.
+.UUU........U.
+.U.UUUUUUUUUU.
+.UUUUUUUUUUUU.
+.UU.........U.

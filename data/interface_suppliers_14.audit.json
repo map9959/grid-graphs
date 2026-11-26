@@ -1,0 +1,51 @@
+{
+  "input_sha256": "f0ef14ebfdb00cf0e1cf4621087aad5b38401efa06086eee301d036837b54f34",
+  "scope": "independent exhaustive enumeration plus all saved frontier witnesses",
+  "boards": [
+    {
+      "name": "prepared76_suppliers",
+      "families": {
+        "supplier": {
+          "regions": 112,
+          "fillings": 917504,
+          "actual_improvements": 1,
+          "relaxed_improvements": 112,
+          "max_relaxed_gain": 3,
+          "best_positive_rank_margin": -1
+        }
+      },
+      "controls": [],
+      "audited_rank_witnesses": 1179,
+      "improvements": [
+        {
+          "region": "supplier_10",
+          "deleted": [
+            73,
+            101
+          ],
+          "added": [
+            10,
+            88,
+            114
+          ],
+          "rows": [
+            "..............",
+            "UUUUUUUUUUUUUU",
+            ".UUUUUUUUU.UU.",
+            ".UU......U.UU.",
+            ".UUUUUUUUU.UU.",
+            ".U.UUUUUUU.UU.",
+            ".UUU.....UUUU.",
+            ".UUUUUUUUUU.U.",
+            ".U..UU.UU.UUU.",
+            ".UUUUUUUUUUUU.",
+            ".UUU........U.",
+            ".U.UUUUUUUUUU.",
+            ".UUUUUUUUUUUU.",
+            ".UU.........U."
+          ]
+        }
+      ]
+    }
+  ]
+}

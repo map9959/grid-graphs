@@ -1,8 +1,327 @@
 # Astra Roadmap: Exact Square-Grid Optimum
 
-Updated: 2026-09-07.
+Updated: 2026-11-24.
 
 ## Active Checkpoint
+
+**Lean:** `GridGraphs.PitchCut.pitch_upper_verified` checks the physical
+residue-one upper bound on either kind of pitch line for every `k≥5`,
+including boundary lines. The [physical trace and bill proof](UNIFORM_PITCH_CAP_PRICE.md#lean-replay-and-the-physical-cut)
+uses no cap witnesses in the theorem statement. With the checked comb,
+`exact_of_no_pitch_verified` leaves the no-pitch maximizer bound as
+the remaining stable residue-one formalization obligation.
+
+**Exact for all positive square sizes:** the [square formula and
+certificate replay](EXACT_SQUARE_FORMULA.md) combine the uniform pitch
+induction, a transported exact no-pitch dual and the physical comb.
+The following branch and interval records describe earlier stages.
+
+**All residue-one widths, pitch class:** a [stationary slit-language
+certificate](UNIFORM_PITCH_CAP_PRICE.md) now gives the comb upper for
+every `k≥5` in the presence of a pitch line. The induction closes at
+25 triples (24 with vertex arrows), independent of cap height.
+
+**Side 103 is exact: `P(103,103)=3646`.** The
+[arbitrary-height directed-slit cap proof](FINITE_CAP_SLIT_PRICE_103.md)
+excludes score 3647 at any pitch cut. The [free-count face/line
+dual](FREE_FACE_LEDGER_103.md) excludes it without a pitch cut, and
+the comb physically attains 3646. These certificates supersede the
+earlier branch restrictions below; the cap proof is at fixed width.
+
+**Residue two:** the [odd-fan speed proof](ODD_FAN_SPEED.md) closes
+the final exceptional tail. The table of [fourteen progressions](RESIDUE_TWO_CLASSIFICATION.md)
+now has matching constructions and unrestricted bounds in every cell.
+Residue one was the last obstruction to an eventual square formula.
+
+At side 103, the [segment/face certificate](SEGMENT_FACE_EXCLUSION.md)
+excludes every no-pitch 3647 candidate with exactly 43 off-skeleton
+marks. The [line/face word certificates](RANK44_FACE_PRICE.md) also
+exclude exactly 44. Their [three-component extension](RANK45_FACE_PRICE.md)
+excludes exactly 45, and the [four-component extension](RANK46_FACE_PRICE.md)
+excludes exactly 46 and the whole zero-slack boundary. Any remaining
+no-pitch candidate now has slack at least two by the
+[one-slack certificate](RANK47_FACE_PRICE.md) and at least 49 off-skeleton
+marks by the [weighted row certificate](RANK48_FACE_PRICE.md). The
+[F=49 certificates and slack transport](RANK49_FACE_PRICE.md) strengthen
+these necessary conditions to at least 51 off-skeleton marks and slack at least six. The
+historical interval at that stage was 3646–3647.
+
+**Residue one:** [unrestricted cheap separators](RESIDUE_ONE_CHEAP_SEPARATORS.md)
+give many cuts with at most five intervals in each direction.
+Crossing these cuts forces a [physical pitch frame](RESIDUE_ONE_PITCH_FRAME.md)
+of linear dimensions with an exact interior mark bound.
+The [joint aligned frame price](JOINT_ALIGNED_FRAME.md) handles both
+three-column side wings and the two caps with their shared contacts.
+The [unrestricted boundary interface debit](BOUNDARY_INTERFACE_DEBIT.md)
+charges aligned-strip defects at every length and propagates boundary
+omissions through depth. A [crossing cut exchange](INTERIOR_PHASE_LENGTH_EXCHANGE.md)
+prices mixed orientations by comparison to the solved residue-two family.
+The [sparse component exchange](SPARSE_COMPONENT_EXCHANGE.md) restores
+separated side holes without loss, using the actual interior component
+rank, and gives a constant loss bound for nonconsecutive holes.
+The [end-band rank exchange](END_BAND_RANK.md) prices correction of
+arbitrary end words against the actual joint exterior partition.
+The [four-layer collar cap and crop reduction](COLLAR_PEEL.md) bound
+arbitrary four-layer markings by `8n-40` and transfer to a smaller
+residue-one square with a quantified saving.
+The [crop/end coupling](CROP_END_COUPLING.md) measures which leftover
+donors can pay for an end repair and gives a bounded-gap family that
+defeats both fixed-depth tests.
+The [blocked-rim exchange](BLOCKED_RIM_EXCHANGE.md) pays that family's
+crop excess by releasing the interior blockers. Its port-rank bound
+uses the discarded collar without assuming the smaller square's wiring.
+The [arbitrary six-layer comparison](ARBITRARY_SIX_COLLAR.md) gives
+a `16n-170` ten-layer cap and bounds net crop cost with free refill
+words. Mixed collars defeat even optimal four-layer restoration.
+The [retained-core envelope](RETAINED_CORE_ENVELOPE.md) transfers
+actual boundary components to the two solved residues. An
+arbitrary-length interface inequality excludes the extensive mixed
+regime even without observing any deeper core marks.
+The [dense collar price](DENSE_COLLAR_PRICE.md) couples a closed
+four-layer sweep to the core component ledger; a rank bound on eight
+seams gives a comb-increment reduction by 18 for dense pitch-ended arms.
+The [movable-cut sweep](MOVABLE_DENSE_CUT.md) removes the pitch
+requirement altogether when depth-nine holes are three apart on
+each straight arm. Its no-pitch case uses equality on the same square
+viewed from several different cuts.
+The complementary [nine-deep bar-and-teeth frame](NINE_DEEP_FRAME.md)
+has a direct all-length comb upper. An [unrestricted radial component
+ledger](RADIAL_COMPONENT_LEDGER.md) keeps the actual boundary join
+budget when iterating through arbitrarily many nested squares.
+[Multiscale cap cuts](MULTISCALE_CAP_CUTS.md) split the outer collars
+into straight-profile rectangles with total artificial side length `o(n)`.
+The [wired pitch cap theorem](WIRED_ENDPOINT_PRICE.md) proves the sharp
+`1/10` per-column bonus at arbitrary height and the partial-wiring price
+`3/4` per independent terminal join.
+A [spanning pitch separator](WIRED_PITCH_SEPARATOR.md) wired on one
+side now gives a uniform two-mark error, or the comb upper if its
+two ends have at least three vacancy runs in total.
+[Shifted-profile prices](SHIFTED_PROFILE_SEAM.md) handle exact opposing
+phases and a single moving slip; the [rim tariff](RESIDUE_ONE_RIM_TARIFF.md)
+limits a canonical maximizer on the `103+9t` upper branch to at most
+six missing perimeter edges. [Column colors and corner charges](PITCH_RUN_COLOR.md)
+exclude all combinations of the recurrent nine-layer arm modes at 103;
+changes of mode within a straight arm remain open.
+
+**Side 581:** **P(581,581)=113,071**. The [ledger](../analysis/research_program/exceptional_287_ledger.py)
+replays five one-gap certificates covering all 191 isolate distances on each axis
+and verifies a physical spanning tree with 337,560 edges. Replay with
+`PYTHONPATH=target/pb-python python3 -B -m analysis.research_program.exceptional_287_ledger --581 --drat`.
+
+**Side 539:** the [proof ledger](../analysis/research_program/exceptional_287_ledger.py)
+gives **P(539,539)=97,351**. Run `PYTHONPATH=target/pb-python python3 -B -m analysis.research_program.exceptional_287_ledger --539 --drat`
+to verify the five one-gap exclusions and replay the spanning tree.
+
+**Side 497:** [the one-gap certificates and tree replay](EXCEPTIONAL_497.md)
+give **P(497,497)=82,807**.
+
+**Side 455:** [the one-gap certificates and tree replay](EXCEPTIONAL_455.md)
+give **P(455,455)=69,439**.
+
+**Side 413:** [the enlarged core and rooted-tile proofs](EXCEPTIONAL_413.md)
+give **P(413,413)=57,247**.
+The [413 core transfer](CORE_413_UNIFORM.md) handles row insertions
+and excludes north exits within 305 of either end for all larger sides.
+At 581 the two required corner distances would sum to at least 616,
+but the side spans only 580 edges.
+
+**Side 371:** [the shared-edge full-board and rooted-tile proofs](EXCEPTIONAL_371.md)
+give **P(371,371)=46,231**.
+
+**Side 329:** [the ordinary-bridge and rooted-tile exclusions](EXCEPTIONAL_329.md)
+give **P(329,329)=36,391**.
+The [exit-window transfer](TWO_GAP_EXIT_TRANSFER.md) excludes the
+tangential deep axis and both 104-site end ranges for `0011` uniformly.
+At 371 only 53 normal-axis exit columns remain in that case.
+
+**Side 287 and the exceptional tail:** [the equality-case audit](EXCEPTIONAL_287.md)
+proves **P(287,287)=27,727**. Throughout the open tail a two-gap
+witness, if it exists, may be put in the single frame `0011` and the
+inter-arc bridge must attach at ordinary teeth.
+
+**Side 245:** the [bulk-axis theorem](BULK_AXIS.md)
+gives one common direction for all deep marked-center adjacencies,
+and a checked full-board proof eliminates every two-gap case at 245.
+The [frame-exchange lemma](ONE_GAP_FRAME_EXCHANGE.md) reduces the
+remaining existence test to a single perimeter. The [rooted-tile
+certificates](TILE_CASES_245.md) exhaust all 32 remaining distances
+and both axes. **P(245,245)=20,239.**
+
+**`P(161,161)=8791`.** Both gap counts have checked full-board
+exclusions. A [seven-layer L certificate](ODD_SINGLE_DEFECT.md#seven-layers-exclude-the-one-gap-patch-case-on-the-whole-open-tail)
+now excludes the entire one-gap patch case on every remaining tail
+side, including defects outside the L. A one-gap target must instead
+spend its charge on a north- or west-side depth-two star.
+
+**Two-gap meeting test:** [the two arms can meet through the center](ODD_SINGLE_DEFECT.md#the-two-arms-can-meet-in-a-zero-charge-neighborhood-through-the-center)
+with locally zero interior charges and correct edge directions for
+all four corner roots in every remaining frame. A 21-column transfer
+on each half-corridor gives this result uniformly on `119+42s`;
+extension to the untested quadrants remains open.
+
+**Two-gap interior connector:** [checked common-path tests](ODD_SINGLE_DEFECT.md#depth-of-the-connector-and-the-full-board-test-at-203)
+force the connector beyond the width-eight annulus on every open tail
+size. At side 203, a separate full-board proof excludes all ten remaining
+two-gap classes with no depth restriction. Only a one-gap witness could
+raise the rail score from 13927 to 13928.
+
+**Uniform two-gap progress:** the [joined annulus transfer](ODD_SINGLE_DEFECT.md#joining-the-strips-eliminates-five-two-gap-classes-on-the-whole-tail)
+excludes five of the fifteen two-gap frame classes at every
+`119+42s`. The ten surviving classes are rim-feasible, not whole-grid
+witnesses.
+
+**Side 119 is exact:** `P(119,119)=4831`. [Checked full-board
+exclusions](ODD_SINGLE_DEFECT.md#full-board-decision-test-for-the-remaining-eight-one-gap-frames-at-119)
+cover both perimeter gap counts at 4832. The new 42-column strip
+test restricts exit phases uniformly but does not exclude two-gap
+frames on the whole tail.
+
+**Residue one, diagonal sectors:** [a rational upper valid for every
+`k>=14`](DIAGONAL_SECTOR_UPPER.md) gives
+`P(3k+1,3k+1) <= 3k²+5k+floor(k/3)-1`. This changes the linear
+coefficient and narrows the asymptotic gap to `k/30+O(1)`. The deeper
+chart gives `floor(3k²+16k/3−7/6)` for `k>=18`, hence
+**4077–4078** at side 109. New exact scores are 1066 at 55,
+1182 at 58 (checked UNSAT above), and 1433 at 64.
+
+**Residue two, open odd tail:** [exact charge-profile exclusions and a
+parity test](ODD_SINGLE_DEFECT.md) show that every `35+42t` forest
+attaining the upper floor must have one 72-unit defect, with all other
+physical stencil charges zero. Existence on this tail is still open
+beyond the finite exclusions at 35 and 77.
+
+**Residue one:** [uniform nine-row pricing](CAP_PERIOD_UPPER_BARRIER.md#uniform-nine-row-upper-for-residue-one)
+proves `P(3k+1,3k+1) <= 3k²+6k−9` for every `k>=36`.
+At side 109 the [joint fifteen-row dual excludes 4092](CAP_PERIOD_UPPER_BARRIER.md#fifteen-rows-exclude-4092);
+the whole-grid interval is **4077–4091**.
+
+**Side 109, fourteen rows:** [the exact joint-strip dual excludes 4093](CAP_PERIOD_UPPER_BARRIER.md#fourteen-rows-fixed-point-test-and-pricing).
+The whole-grid interval is now 4077–4092.
+
+**Side 109, thirteen rows:** [an exact dual excludes 4094 even after redistribution](CAP_PERIOD_UPPER_BARRIER.md#thirteen-rows-the-fixed-support-dies-inside-the-left-boundary).
+The verified whole-grid interval is 4077–4093.
+
+**Side 109, twelve rows:** [redistribution preserves the fractional score `12283/3`](CAP_PERIOD_UPPER_BARRIER.md#twelve-rows-preserve-the-score-but-not-the-eleven-row-point).
+The integer upper remains 4094.
+
+**Side 109:** [eleven joint rows exclude 4095](CAP_PERIOD_UPPER_BARRIER.md#eleven-rows-the-first-vertical-bulk-patch).
+The whole-grid interval is 4077–4094.
+
+[Residue-two classification](RESIDUE_TWO_CLASSIFICATION.md): thirteen
+sharp tails grouped by construction and by the two phases `k mod 7`
+and `k mod 2`. The side-119 unrestricted matching run reached its
+2 GiB proof limit without a checked exclusion; the interval remains
+4831–4832.
+
+**Residue-two target refuted for the tail (computer-assisted, not Lean):**
+[period-three overlap dual](UNRESTRICTED_PERIOD_THREE_UPPER.md) gives the
+unrestricted bound `P(3k+2) <= T(k)+floor((23-2k)/14)` for `k>=6`.
+In particular no family can attain the old target `T=3k²+7k` for
+`k>=12`. The physical verifier replays the rational stencil on all 3,549
+local atom/type orbits; boundary counts give an exact polynomial in k.
+The older checkpoints below predate this result. The exact tail optimum
+and a matching replacement lower family are not determined.
+
+**2026-09-15 autonomous batch003 completed:**
+[Batch report](research_batches/BATCH_003.md) and
+[reviews](research_batches/BATCH_003_REVIEWS.md) record reviewed
+[bilateral payment](PAPER_BILATERAL_FRONT_PAYMENT.md) without common
+roots when each actual bank level has a carrier spanning[3,A-3]. The
+2,424-state/22,508-edge certificate combines with existing payments as
+`sum D <= R_used+6N_e+11N_m+16N_b`, with R_used<=R_av. The uncovered
+debt still has only R_av-R_used available. This is not width-only coverage.
+[Nested renewal](PAPER_NESTED_RENEWAL_OBSTRUCTION.md) proves the forced
+crop deficit2k-1 and excludes literal or bounded-cardinality-edit constant-
+gap nesting for the current cores. A25->75 gap-one step is verified, but
+its delete-only template cannot continue from any eligible75 n14 seed.
+Global and Lean bounds are unchanged. Batch003 is paused; batch004 has
+not begun.
+
+**2026-09-14 autonomous batch002 completed:**
+[Batch report](research_batches/BATCH_002.md) and
+[reviews](research_batches/BATCH_002_REVIEWS.md) record the reviewed
+[rooted mixed-front payment](PAPER_MIXED_FRONT_PAYMENT.md). A104-state/
+300-edge certificate pays arbitrary endpoint mixtures using actual
+singletons and protected whole supplier-bank units; simultaneous
+allocation is `sum D <= R_av+6N_exposed+11N_mixed`. The first restricted
+invoice was refuted by an actual periodic family, not hidden by a revised
+definition. Common-root localization and global coverage remain open.
+[Renewal tests](PAPER_RENEWAL_ANNULUS_TEST.md) give the restricted solver
+result M_3(4)=75 (no independently checked UNSAT trace) and prove guarded
+pendant conversion cannot itself remove cap cycle rank. Global and Lean
+bounds are unchanged. Batch002 is paused; batch003 has not started.
+
+**2026-09-14 autonomous batch001 completed:**
+[Program charter](RESEARCH_PROGRAM.md), [batch report](research_batches/BATCH_001.md),
+and [independent reviews](research_batches/BATCH_001_REVIEWS.md) record the
+new reviewed [stopped-front payment](PAPER_STOPPED_FRONT_PAYMENT.md).
+Whole banks stopped at depth three are paid at zero additive error from
+original isolates and side-labelled boundary holes, WITHOUT a boundary
+spine or common roots. Their invoices do not reuse each other or existing
+exposed-bank coupons, yielding `sum D <= R_av+6N_exposed` for the selected
+disjoint wide-bank classes. Mixed/variable-depth coverage is still open;
+the unconditional global and Lean bounds below are unchanged. Both
+implementations completely checked1,703,936 bounded masks. Batch001 is
+paused at its three-cycle checkpoint; batch002 has not begun.
+
+**Rust experiment and 17-square evidence:**
+[RUST_CERTIFICATE_CORPUS.md](RUST_CERTIFICATE_CORPUS.md) records the new bounded
+Rust sampler, independent primal checker, and finite inequality checker.
+The historical mirrored and unmirrored exhaustive records claim P(17)=110;
+the Lean interval [110,113] is a separate verification level. The unmirrored
+source still matches its recorded hash, and the 110 witness passes independent
+primal replay. This audit found no correctness bug but did not reproduce the
+large historical negative computation or its missing early checkpoint.
+
+**Current paper continuation:**
+[clean metric research](PAPER_CLEAN_METRIC_CLOSURE.md) pays all narrow banks
+and reduces every hypothetical K=r+b+c<n configuration to at most thirteen
+wide banks. Exposed banks have a reviewed simultaneous boundary payment;
+an explicit full-height moving-seam skeleton has f<=T+10, including arbitrary
+feasible additions. Neither theorem covers arbitrary partial bank terminals.
+[Clean allocation](PAPER_CLEAN_ALLOCATION.md) removes all duplicate rectangle
+capacity and preserves exact fragment refunds, but the remaining weighted
+terminal demand is not paid. A bounded front count or unweighted front length
+does not imply a constant excess.
+
+[Maximum-specific research](PAPER_MAXIMUM_CLEAN_UPPER.md) proves a precise
+translation alternative, not a boundary-exposure normalization.
+[Terminal transport](PAPER_TERMINAL_TRANSPORT.md) retains the longitudinal
+cost even on an actual connected carrier. These four complete notes received
+independent paper review. The unconditional bound remains unchanged; no Lean
+work or optimization ran in this continuation, and explicit grid checks
+stayed within side 14.
+
+**Latest paper continuation:** [isolate routing](PAPER_ISOLATE_ROUTING_UPPER.md)
+now pays arbitrary isolate-induced routing relative to its conservative
+clean certificate, with no O(z) error. It proves T+6 when all clean through
+strands have at least five pairs, regardless of isolate count. The remaining
+global obligation is clean short-strand payment, not a second independent
+isolate budget. [Cap payment](PAPER_GLOBAL_CAP_PAYMENT.md) adds backed-fold
+and specified flat-packet cases. An overbroad arbitrary-isolate flat-packet
+transfer failed review and is withdrawn; its corrected outer-J_3 version
+passed re-review. [Metric research](PAPER_GLOBAL_METRIC_UPPER.md) gives
+non-reusing rail-width charges but no global exposure theorem.
+All three notes received independent paper review. The unconditional paper
+upper remains T+floor(k/2)+1; no Lean result changed. Bounded examples and
+strip work stayed within dimension 15.
+
+**Upper-only continuation:** [planar-dual research](PAPER_DUAL_UPPER_RESEARCH.md)
+now proves reviewed paper bounds T+3 or T+6 in several geometric classes,
+including isolate-free configurations with arbitrarily many junctions and
+long through strands. The no-junction, no-through, long-strand, eligible-end,
+and cap-inset hypotheses are stated separately in that note. They do not
+cover every feasible set. The general proof still lacks a joint payment for
+surviving interior caps and clean short strands. The unconditional paper
+and Lean bounds below remain unchanged.
+
+[Contact charging](PAPER_CONTACT_CHARGING_RESEARCH.md) retains the component
+credits needed for the exact excess target. [Projection research](PAPER_PROJECTION_UPPER_RESEARCH.md)
+and [nested-cycle research](PAPER_NESTED_CYCLE_UPPER_RESEARCH.md) record precise
+obstructions to disjoint boxes, local cycle charges, and bounded-error peeling;
+none refutes the global target. The dual, contact, and projection deductions
+received independent paper review. No Lean build or optimization was run in
+this upper-only pass; its literal examples have side at most 14.
 
 **Latest paper research, not a new Lean milestone:**
 [the half-coefficient proof](PAPER_HALF_COEFFICIENT_UPPER.md) now proves on
@@ -10,18 +329,48 @@ paper `P(3k+2)<=T+floor(k/2)+1` for every k>=3. The fixed residue schedule
 and nonempty middle-boundary path argument remove the earlier orientation,
 row-count, and all-covered hypotheses. The checked bound below is unchanged.
 
+The latest [positive-loss analysis](PAPER_POSITIVE_LOSS_UPPER.md) retains exact
+boundary/contact corrections but does not close the global constant gap. Its
+original universal nonnegative contact-loss bound is REFUTED by a low-score
+feasible family; the positive-excess-only version remains open. Actual hole
+vertices have at most two forced neighbors, so the canonical contact count is
+explicit and excess contacts must not be silently discarded.
+
+[Fault-line analysis](PAPER_FAULT_LINE_ANALYSIS.md) now proves a constant
+upper excess of four for its specified interrupted-rail family, independent
+of the number of interruptions. A complete 58-state strip certificate passed
+independent paper review. This is not a theorem for arbitrary fault networks.
+
 [Packing stability](PAPER_PACKING_STABILITY.md) records exact nonnegative
 packing and boundary reserves. Their signed-excess identity is
 `4(f-T)+c+h+K+Lambda+Omega=2k+11`. A constant upper excess still needs a
 geometric lower bound of `2k-O(1)` on the reserve, not this identity alone.
-The internal-free-column, saturated vertical subcase has a paper constant
-bound; endpoint free columns and general stability remain open.
+The [endpoint strip](PAPER_ENDPOINT_STRIP.md) is now closed by an explicit
+finite-state potential, and [zero-loss upper analysis](PAPER_ZERO_LOSS_UPPER.md)
+handles mixed saturated configurations as well. Independent paper reviews
+support `Lambda=0 => f<=T+3` for k>=3 and `f<=T+1` for k>=5. These are not
+Lean theorems or a global constant-gap bound: positive-loss stability remains
+open. The fourth-step continuation budget in the stability note controls
+interior terminal events, not the multiplicity of physical fan mergers.
 
 [Constant-gap lower research](PAPER_CONSTANT_GAP_LOWER.md) gives an exact
 nested-frame class obstruction and a moving-phase interior with target count
 growth. Its proposed cap creates k+1 cycles, so it is NOT a feasible lower
-family. No `T-O(1)` construction is claimed. This paper pass changed only
-documentation; it ran no builds, experiments, or grid searches.
+family. [Moving-phase cap research](PAPER_MOVING_PHASE_CAP.md) now allows
+arbitrary top-boundary and next-ring replacement but still finds a linear
+loss in that fixed-interior class. No `T-O(1)` construction is claimed.
+The paper continuations leave Lean unchanged. Their notes distinguish
+bounded strip/cap computations from uniform paper arguments; no Lean build
+or optimization above side 15 was performed.
+
+[Distributed lower repair](PAPER_DISTRIBUTED_LOWER_REPAIR.md) preserves the
+GOOD-edge count while moving paired endpoints. Its proposed isolated-star
+promotions are nevertheless blocked by a connection through four rods and
+the frame. The restricted family does not improve the source staircase.
+The new bounded experiment and three focused tests are under
+`analysis/searches/distributed_lower_repair.py` and its mirrored test module;
+the main-agent run passed those tests plus the seven layout tests (10 total).
+No global constant-gap lower construction or new Lean bound is claimed.
 
 **Latest EndpointUpper milestone:** `P(3k+2)<=T+floor(2k/3)` for ALL k>=5,
 with no b/c/r or coverage premises, where `T=3k^2+7k`.
@@ -410,6 +759,67 @@ added. The staircase construction, boundary-stratified upper bound, and exact
 This is the working roadmap. Historical roadmaps and analysis notes retain
 the previous programs, evidence, and failed approaches for reference. Their
 task ordering is not binding. Reuse valid mathematics, not accumulated workflow.
+
+**Updated residue-zero result:** [exact for every positive multiple of three](EXACT_RESIDUE_ZERO.md).
+**Side 109, tenth row:** [a redistributed joint flow scores `28667/7`](CAP_PERIOD_UPPER_BARRIER.md#ten-rows-retain-the-integer-upper-of-4095);
+the integer upper remains 4095.
+**Side 109, ninth row:** [exact dual excludes 4096 after redistribution](CAP_PERIOD_UPPER_BARRIER.md#nine-rows-exclude-4096).
+The whole-grid interval is now 4077–4095.
+**Side 109, eighth row:** [the seven-row point fails to lift, but a redistributed flow scores `12289/3`](CAP_PERIOD_UPPER_BARRIER.md#eight-rows-retain-the-integer-upper-of-4096).
+The complete eight-row relaxation still has integer floor 4096.
+**Side 109:** [the complete seven-row strip excludes 4097](CAP_PERIOD_UPPER_BARRIER.md#seven-rows-exclude-4097-even-after-redistribution);
+its certified integer floor is 4096. The grid interval is now 4077–4096.
+**Side 119:** the rail replay gives 4831 full-degree vertices and the
+unrestricted dual gives `67649/14`, hence an integer upper of 4832.
+`python3 -B -m analysis.research_program.side119` also constructs trees
+with exactly 4754 and 4753 full-degree vertices. For the upper candidate
+4832 a DRAT-checked exclusion applies if the central 79×79 marked pattern
+is fixed to the rail construction, with the entire 20-site boundary strip
+free. Regenerate that restricted CNF with `tight_corner_sat --side 119
+--roots 1 --matching --free-rail-margin 20`; it has 348311 variables and
+2424497 clauses. This exclusion does not rule out changing the center.
+**Residue two, alternating bands:** [exact at every `56+42t`](ALTERNATING_ZIPPER.md),
+including 1097 at side 56 and 3293 at side 98. This settles the remaining
+even-`k` progression; only `n ≡ 35 (mod 42)` lacks a tail formula.
+**Residue two, even `k`:** [delayed right-front construction](DELAYED_RIGHT_ZIPPER.md)
+is sharp on the six tails beginning at 38, 44, 50, 62, 68, and 74 modulo
+42. Together with the odd-`k` results this settles twelve of fourteen
+tail progressions; the exceptions are sides 14 and 35 modulo 42.
+**Residue-two one-waiting-row repair:** [exact on `71+42t`](REPAIRED_ZIPPER_PROGRESSION.md#one-waiting-row-the-progression-beginning-at-71),
+including 1746 at 71 and 4362 at 113.
+**Side-109 complete six-row test:** [exact primal and dual bracket](CAP_PERIOD_UPPER_BARRIER.md#complete-six-row-transfer-the-integer-upper-stays-at-4097)
+proves that the integer upper remains 4097 even with the full joint six-row strip.
+**Side 109:** [complete four-row top-strip transfer](CAP_PERIOD_UPPER_BARRIER.md#complete-top-strip-transfer-at-109)
+lowers the verified integer upper to 4097 (construction 4077).
+**Residue-one upper update:** [all pinned single-bit agreements](CAP_PERIOD_UPPER_BARRIER.md#enforcing-all-single-site-agreements-on-pinned-neighboring-patches)
+give `P(3k+1,3k+1)<=3k²+6k−6` for `k>=8`.
+**Residue-one repeating upper search:** [period-30 test and fractional barrier](CAP_PERIOD_UPPER_BARRIER.md);
+for `k=16+10j`, the unpooled square-patch LP cannot certify the cap target from `j=2` onward.
+**Finite closures:** [P(49,49)=851](FOUR_ROW_COMB_CAP.md#exact-side-49)
+by unpooled dual replay; [P(77,77)=2047](SIDE_77_TEST.md) by checked
+infeasibility of the corner-rooted matching model at 2048.
+**Four-row cap:** [P(46,46)=753 and a period-ten growing lower correction](FOUR_ROW_COMB_CAP.md).
+**Residue-one finite result:** [P(43,43)=660](RESIDUE_ONE_WITNESS_EXTENSION.md#side-43-the-upper-rounds-to-661-but-661-is-impossible);
+the unpooled upper permits 661, excluded by a checked SAT certificate.
+**Residue-two waiting-row repair:** [exact on all sides `47+42t`](REPAIRED_ZIPPER_PROGRESSION.md#two-waiting-rows-the-progression-beginning-at-47),
+including 779 at 47 and 2723 at 89.
+**Residue-two transition:** [P(35,35)=439 and P(38,38)=515](UNRESTRICTED_PERIOD_THREE_UPPER.md#replay).
+The former uses a checked SAT exclusion; the latter attains the repeating
+upper's integer floor with an explicit forced forest.
+**Sharp residue-two subprogression:** [a seven-row rail transition](RESIDUE_TWO_ZIPPER.md)
+also has [sharp five- and six-row endings at all `23+42t` and `41+42t`](PARTIAL_BAND_PROGRESSIONS.md).
+and the [repaired-prefix induction for all `53+42t`](REPAIRED_ZIPPER_PROGRESSION.md)
+and its [upper-left repair at 53](RESIDUE_TWO_ZIPPER.md#side-53-the-last-band-cannot-fix-the-deficit-but-the-opposite-corner-can)
+gives `P(41,41)=597` and attains the certified tail upper at every
+`n=59+42t`, `t>=0` (computer-assisted construction proof).
+**Updated residue-one counterexample:** [P(28,28)=289, not 288](RESIDUE_ONE_STRIP_CUT.md#exact-optimum-at-side-28-the-larger-value-is-attained).
+The [repeatable witness extension](RESIDUE_ONE_WITNESS_EXTENSION.md) proves a
+one-vertex improvement for every `k>=9`, with `P(31,31)=351` exact.
+At [side 34](RESIDUE_ONE_WITNESS_EXTENSION.md#side-34-the-unpooled-patch-lp-crosses-the-next-integer),
+a different forest gives `P(34,34)=420`, one above that family.
+Its [repeatable extension](RESIDUE_ONE_WITNESS_EXTENSION.md#extending-the-side-34-rails)
+gives `P(37,37)=494` and `P(3k+1,3k+1)>=3k²+5k+2` for every `k>=11`.
+The previously conjectural upper half now has a rational certificate.
 
 ## 1. Goal And Completion Criterion
 

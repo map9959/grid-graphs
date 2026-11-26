@@ -1,0 +1,90 @@
+{
+  "scope": "literal side14 realization only; all-size formulas require the accompanying paper proof",
+  "rows": [
+    ".UUUUUUUUUUUUU",
+    ".UUUUUUUUUUUUU",
+    ".U..........UU",
+    ".UUUUUUUUUUUU.",
+    ".UUUUUUUUUUUU.",
+    ".U..........U.",
+    ".UUUUUUUUUUUU.",
+    ".UUUUUUUUUUUU.",
+    ".U.........UUU",
+    ".UUUUUUUUUUU..",
+    ".UUUUUUUUUUUUU",
+    ".U..........UU",
+    ".UUUUUUUUUUUUU",
+    ".UUUUUUUUUUUUU"
+  ],
+  "ledger": {
+    "f": 60,
+    "r": 7,
+    "b": 34,
+    "c": 31,
+    "z": 30
+  },
+  "rooted_back_cut": 10,
+  "marked_levels": [
+    2,
+    5,
+    8,
+    11
+  ],
+  "word": [
+    1,
+    4,
+    4,
+    5,
+    4,
+    4,
+    0,
+    6,
+    0
+  ],
+  "singleton_carriers": [],
+  "deep_isolates": [
+    109
+  ],
+  "near_isolates": [],
+  "span_holes": [
+    41,
+    125,
+    153,
+    167
+  ],
+  "window_holes": [
+    27,
+    41,
+    125,
+    153,
+    167,
+    181
+  ],
+  "pure_boundary_runs": [
+    [
+      55,
+      69,
+      83,
+      97,
+      111
+    ]
+  ],
+  "supplier_dimer": [
+    138,
+    139
+  ],
+  "actual_main_bank_straight_cells": 25,
+  "symbolic_family": {
+    "n": "9L+5",
+    "A": "9L+4",
+    "f": "27L^2+27L+6",
+    "r": "5L+2",
+    "b": "21L+13",
+    "c": "19L+12",
+    "K": "45L+27",
+    "r1": "0",
+    "X_main": "L(3A-14)",
+    "window_invoice": "5L+3",
+    "actual_demand_minus_invoice": "L-3-42L/A"
+  }
+}

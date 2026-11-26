@@ -1,0 +1,294 @@
+{
+  "baseline_only": 4,
+  "baseline_successes": 4,
+  "both": 0,
+  "cases": [
+    {
+      "arms": [
+        {
+          "best_f": 77,
+          "first_target_seconds": 1.133295423,
+          "iterations": 175358,
+          "method": "random_v1",
+          "stop_reason": "target_found",
+          "success": true,
+          "wall_seconds": 1.133450162
+        },
+        {
+          "attempts": 4,
+          "beam_discards": 20340,
+          "best_f": 76,
+          "first_target_seconds": null,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 0,
+          "stop_reason": "time_limit",
+          "success": false,
+          "use_certified_radius": false,
+          "wall_seconds": 10.001003249,
+          "winning_trace_steps": null,
+          "work_nodes": 268631339
+        }
+      ],
+      "id": 0,
+      "shape": {
+        "b": 7,
+        "c": 5,
+        "r": 12,
+        "z": 4
+      },
+      "source_id": 11
+    },
+    {
+      "arms": [
+        {
+          "attempts": 1,
+          "beam_discards": 0,
+          "best_f": 76,
+          "first_target_seconds": null,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 0,
+          "stop_reason": "no_seed_dependent_frontier",
+          "success": false,
+          "use_certified_radius": false,
+          "wall_seconds": 0.41595106,
+          "winning_trace_steps": null,
+          "work_nodes": 10352342
+        },
+        {
+          "best_f": 76,
+          "first_target_seconds": null,
+          "iterations": 1450372,
+          "method": "random_v1",
+          "stop_reason": "time_limit",
+          "success": false,
+          "wall_seconds": 10.00020148
+        }
+      ],
+      "id": 1,
+      "shape": {
+        "b": 6,
+        "c": 2,
+        "r": 16,
+        "z": 1
+      },
+      "source_id": 22
+    },
+    {
+      "arms": [
+        {
+          "best_f": 76,
+          "first_target_seconds": null,
+          "iterations": 1397500,
+          "method": "random_v1",
+          "stop_reason": "time_limit",
+          "success": false,
+          "wall_seconds": 10.000229818
+        },
+        {
+          "attempts": 4,
+          "beam_discards": 15396,
+          "best_f": 76,
+          "first_target_seconds": null,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 1,
+          "stop_reason": "time_limit",
+          "success": false,
+          "use_certified_radius": false,
+          "wall_seconds": 10.001377671,
+          "winning_trace_steps": null,
+          "work_nodes": 280041861
+        }
+      ],
+      "id": 2,
+      "shape": {
+        "b": 8,
+        "c": 2,
+        "r": 14,
+        "z": 1
+      },
+      "source_id": 0
+    },
+    {
+      "arms": [
+        {
+          "attempts": 4,
+          "beam_discards": 21955,
+          "best_f": 76,
+          "first_target_seconds": null,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 1,
+          "stop_reason": "time_limit",
+          "success": false,
+          "use_certified_radius": false,
+          "wall_seconds": 10.000687841,
+          "winning_trace_steps": null,
+          "work_nodes": 269958943
+        },
+        {
+          "best_f": 77,
+          "first_target_seconds": 6.966604252,
+          "iterations": 1033982,
+          "method": "random_v1",
+          "stop_reason": "target_found",
+          "success": true,
+          "wall_seconds": 6.966732088
+        }
+      ],
+      "id": 3,
+      "shape": {
+        "b": 7,
+        "c": 3,
+        "r": 14,
+        "z": 2
+      },
+      "source_id": 21
+    },
+    {
+      "arms": [
+        {
+          "best_f": 77,
+          "first_target_seconds": 1.51103436,
+          "iterations": 226018,
+          "method": "random_v1",
+          "stop_reason": "target_found",
+          "success": true,
+          "wall_seconds": 1.511183401
+        },
+        {
+          "attempts": 4,
+          "beam_discards": 17621,
+          "best_f": 76,
+          "first_target_seconds": null,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 1,
+          "stop_reason": "time_limit",
+          "success": false,
+          "use_certified_radius": false,
+          "wall_seconds": 10.001057014,
+          "winning_trace_steps": null,
+          "work_nodes": 270522409
+        }
+      ],
+      "id": 4,
+      "shape": {
+        "b": 6,
+        "c": 3,
+        "r": 15,
+        "z": 2
+      },
+      "source_id": 7
+    },
+    {
+      "arms": [
+        {
+          "attempts": 4,
+          "beam_discards": 20393,
+          "best_f": 76,
+          "first_target_seconds": null,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 0,
+          "stop_reason": "time_limit",
+          "success": false,
+          "use_certified_radius": false,
+          "wall_seconds": 10.001533645,
+          "winning_trace_steps": null,
+          "work_nodes": 269237216
+        },
+        {
+          "best_f": 76,
+          "first_target_seconds": null,
+          "iterations": 1419968,
+          "method": "random_v1",
+          "stop_reason": "time_limit",
+          "success": false,
+          "wall_seconds": 10.000180097
+        }
+      ],
+      "id": 5,
+      "shape": {
+        "b": 5,
+        "c": 4,
+        "r": 15,
+        "z": 3
+      },
+      "source_id": 15
+    },
+    {
+      "arms": [
+        {
+          "best_f": 76,
+          "first_target_seconds": null,
+          "iterations": 1476227,
+          "method": "random_v1",
+          "stop_reason": "time_limit",
+          "success": false,
+          "wall_seconds": 10.000242444
+        },
+        {
+          "attempts": 1,
+          "beam_discards": 6290,
+          "best_f": 77,
+          "first_target_seconds": 2.34792481,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 0,
+          "stop_reason": "target_found",
+          "success": true,
+          "use_certified_radius": false,
+          "wall_seconds": 2.347925041,
+          "winning_trace_steps": 12,
+          "work_nodes": 63704430
+        }
+      ],
+      "id": 6,
+      "shape": {
+        "b": 5,
+        "c": 5,
+        "r": 14,
+        "z": 4
+      },
+      "source_id": 5
+    },
+    {
+      "arms": [
+        {
+          "attempts": 4,
+          "beam_discards": 23115,
+          "best_f": 76,
+          "first_target_seconds": null,
+          "method": "neutral_unpruned",
+          "probe_cutoffs": 1,
+          "stop_reason": "time_limit",
+          "success": false,
+          "use_certified_radius": false,
+          "wall_seconds": 10.000882108,
+          "winning_trace_steps": null,
+          "work_nodes": 275817211
+        },
+        {
+          "best_f": 77,
+          "first_target_seconds": 7.942076411,
+          "iterations": 1144546,
+          "method": "random_v1",
+          "stop_reason": "target_found",
+          "success": true,
+          "wall_seconds": 7.942212237
+        }
+      ],
+      "id": 7,
+      "shape": {
+        "b": 6,
+        "c": 6,
+        "r": 12,
+        "z": 5
+      },
+      "source_id": 13
+    }
+  ],
+  "inputs": 8,
+  "neither": 3,
+  "neutral_only": 1,
+  "neutral_successes": 1,
+  "schema": "grid-graphs.neutral-heldout-summary.v1",
+  "scope": "descriptive paired outcomes on the frozen diverse selection; no significance claim or inferred hybrid performance",
+  "seconds_allowed_per_method_per_input": 10
+}

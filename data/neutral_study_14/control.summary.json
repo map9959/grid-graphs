@@ -1,0 +1,228 @@
+{
+  "arms": [
+    {
+      "attempts": 1,
+      "first_target_seconds": 1.839272614,
+      "probes_skipped_by_original_bound": 0,
+      "success": true,
+      "use_certified_radius": false,
+      "wall_seconds": 1.839272827,
+      "winning_trace": [
+        {
+          "added": [
+            101
+          ],
+          "deleted": [
+            86
+          ]
+        },
+        {
+          "added": [
+            73
+          ],
+          "deleted": [
+            75
+          ]
+        },
+        {
+          "added": [
+            90
+          ],
+          "deleted": [
+            103
+          ]
+        },
+        {
+          "added": [
+            118
+          ],
+          "deleted": [
+            120
+          ]
+        },
+        {
+          "added": [
+            121
+          ],
+          "deleted": [
+            108
+          ]
+        },
+        {
+          "added": [
+            80
+          ],
+          "deleted": [
+            38
+          ]
+        },
+        {
+          "added": [
+            50
+          ],
+          "deleted": [
+            78
+          ]
+        },
+        {
+          "added": [
+            91
+          ],
+          "deleted": [
+            104
+          ]
+        },
+        {
+          "added": [
+            38
+          ],
+          "deleted": [
+            10
+          ]
+        },
+        {
+          "added": [
+            89
+          ],
+          "deleted": [
+            44
+          ]
+        },
+        {
+          "added": [
+            72
+          ],
+          "deleted": [
+            87
+          ]
+        },
+        {
+          "added": [
+            10,
+            88,
+            114
+          ],
+          "deleted": [
+            73,
+            101
+          ]
+        }
+      ],
+      "work_nodes": 51452291
+    },
+    {
+      "attempts": 1,
+      "first_target_seconds": 1.73904807,
+      "probes_skipped_by_original_bound": 130,
+      "success": true,
+      "use_certified_radius": true,
+      "wall_seconds": 1.739048258,
+      "winning_trace": [
+        {
+          "added": [
+            101
+          ],
+          "deleted": [
+            86
+          ]
+        },
+        {
+          "added": [
+            73
+          ],
+          "deleted": [
+            75
+          ]
+        },
+        {
+          "added": [
+            90
+          ],
+          "deleted": [
+            103
+          ]
+        },
+        {
+          "added": [
+            118
+          ],
+          "deleted": [
+            120
+          ]
+        },
+        {
+          "added": [
+            121
+          ],
+          "deleted": [
+            108
+          ]
+        },
+        {
+          "added": [
+            80
+          ],
+          "deleted": [
+            38
+          ]
+        },
+        {
+          "added": [
+            50
+          ],
+          "deleted": [
+            78
+          ]
+        },
+        {
+          "added": [
+            91
+          ],
+          "deleted": [
+            104
+          ]
+        },
+        {
+          "added": [
+            38
+          ],
+          "deleted": [
+            10
+          ]
+        },
+        {
+          "added": [
+            89
+          ],
+          "deleted": [
+            44
+          ]
+        },
+        {
+          "added": [
+            72
+          ],
+          "deleted": [
+            87
+          ]
+        },
+        {
+          "added": [
+            10,
+            88,
+            114
+          ],
+          "deleted": [
+            73,
+            101
+          ]
+        }
+      ],
+      "work_nodes": 50041310
+    }
+  ],
+  "schema": "grid-graphs.original-pruning-control.v1",
+  "scope": "training-input control, excluded from held-out results",
+  "seed": 20260908,
+  "time_budget_ms_per_arm": 10000
+}

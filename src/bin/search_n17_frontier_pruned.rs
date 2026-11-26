@@ -19,6 +19,10 @@ use grid_graphs::exact_centered_square::{
 };
 use hashbrown::HashMap;
 
+#[cfg(test)]
+#[path = "../frontier_primal_tests.rs"]
+mod independent_primal_tests;
+
 const MAX_N: usize = 17;
 const LABEL_BITS: usize = 5;
 const MAX_BAG: usize = 128 / LABEL_BITS;

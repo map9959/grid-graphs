@@ -1,0 +1,139 @@
+{
+  "all_rows_control": {
+    "after": {
+      "b": 39,
+      "c": 66,
+      "f": 46,
+      "r": 9,
+      "z": 65
+    },
+    "before": {
+      "b": 36,
+      "c": 71,
+      "f": 46,
+      "r": 7,
+      "z": 70
+    },
+    "delta": {
+      "b": 3,
+      "c": -5,
+      "f": 0,
+      "r": 2,
+      "z": -5
+    }
+  },
+  "checks": [
+    "exact skeletons, patches, levels and frozen labels",
+    "optional list completeness and exact feasible mask lists",
+    "literal rail/guard and isolated-hole witnesses",
+    "simultaneous exchanges and all five physical ledger deltas",
+    "all-rows endpoint control"
+  ],
+  "cyclic_masks": 393008,
+  "exchanges_checked": 208,
+  "feasible_masks": 208,
+  "fixtures": [
+    {
+      "base_ledger": {
+        "b": 36,
+        "c": 71,
+        "f": 46,
+        "r": 7,
+        "z": 70
+      },
+      "cyclic_masks": 131071,
+      "exchanges_checked": 1,
+      "feasible_masks": 1,
+      "isolate_witness_checks": 2,
+      "masks_checked": 131072,
+      "n": 14,
+      "name": "rooted14_middle",
+      "optional_variables": 17,
+      "verified_delta": {
+        "b": 1,
+        "c": -2,
+        "f": 0,
+        "r": 1,
+        "z": -2
+      }
+    },
+    {
+      "base_ledger": {
+        "b": 36,
+        "c": 71,
+        "f": 46,
+        "r": 7,
+        "z": 70
+      },
+      "cyclic_masks": 65411,
+      "exchanges_checked": 125,
+      "feasible_masks": 125,
+      "isolate_witness_checks": 250,
+      "masks_checked": 65536,
+      "n": 14,
+      "name": "rooted14_cap",
+      "optional_variables": 16,
+      "verified_delta": {
+        "b": 1,
+        "c": -2,
+        "f": 0,
+        "r": 1,
+        "z": -2
+      }
+    },
+    {
+      "base_ledger": {
+        "b": 44,
+        "c": 78,
+        "f": 42,
+        "r": 4,
+        "z": 74
+      },
+      "cyclic_masks": 65455,
+      "exchanges_checked": 81,
+      "feasible_masks": 81,
+      "isolate_witness_checks": 162,
+      "masks_checked": 65536,
+      "n": 14,
+      "name": "rootless14_cap",
+      "optional_variables": 16,
+      "verified_delta": {
+        "b": 1,
+        "c": -2,
+        "f": 0,
+        "r": 1,
+        "z": -2
+      }
+    },
+    {
+      "base_ledger": {
+        "b": 31,
+        "c": 19,
+        "f": 76,
+        "r": 7,
+        "z": 18
+      },
+      "cyclic_masks": 131071,
+      "exchanges_checked": 1,
+      "feasible_masks": 1,
+      "isolate_witness_checks": 4,
+      "masks_checked": 131072,
+      "n": 15,
+      "name": "rooted15_cap",
+      "optional_variables": 17,
+      "verified_delta": {
+        "b": 2,
+        "c": -4,
+        "f": 0,
+        "r": 2,
+        "z": -4
+      }
+    }
+  ],
+  "input": "data/guarded_fronts_batch001.json",
+  "masks_checked": 393216,
+  "oracle": "grid_graphs::certificate_corpus::observe; literal Rust primal traversal",
+  "schema": 1,
+  "scope": "complete four batch001 optional-extension families; finite audit, not a uniform theorem or global optimization",
+  "validated": true
+}

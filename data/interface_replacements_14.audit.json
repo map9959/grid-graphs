@@ -1,0 +1,813 @@
+{
+  "input_sha256": "1168680c7a0a07a75a59b93867828af53bea8cd044347eef5669d312c4874697",
+  "scope": "independent traversal of all saved frontier witnesses, not independent exhaustive search",
+  "boards": [
+    {
+      "name": "trap76",
+      "families": {
+        "compact": {
+          "regions": 144,
+          "fillings": 73728,
+          "actual_improvements": 0,
+          "relaxed_improvements": 118,
+          "max_relaxed_gain": 3,
+          "best_positive_rank_margin": -1
+        },
+        "strip": {
+          "regions": 16,
+          "fillings": 524288,
+          "actual_improvements": 0,
+          "relaxed_improvements": 12,
+          "max_relaxed_gain": 2,
+          "best_positive_rank_margin": -2
+        },
+        "pair": {
+          "regions": 66,
+          "fillings": 270336,
+          "actual_improvements": 0,
+          "relaxed_improvements": 38,
+          "max_relaxed_gain": 2,
+          "best_positive_rank_margin": -2
+        },
+        "control": {
+          "regions": 3,
+          "fillings": 536576,
+          "actual_improvements": 1,
+          "relaxed_improvements": 3,
+          "max_relaxed_gain": 4,
+          "best_positive_rank_margin": -1
+        }
+      },
+      "controls": [
+        {
+          "region": "control_core",
+          "old": 3,
+          "actual": 3,
+          "relaxed": 6,
+          "rank_profile": [
+            {
+              "best_optional": 3,
+              "count": 21,
+              "mask": 1048,
+              "rank": 0
+            },
+            {
+              "best_optional": 3,
+              "count": 37,
+              "mask": 385,
+              "rank": 1
+            },
+            {
+              "best_optional": 4,
+              "count": 49,
+              "mask": 1170,
+              "rank": 2
+            },
+            {
+              "best_optional": 4,
+              "count": 75,
+              "mask": 449,
+              "rank": 3
+            },
+            {
+              "best_optional": 5,
+              "count": 65,
+              "mask": 1543,
+              "rank": 4
+            },
+            {
+              "best_optional": 5,
+              "count": 67,
+              "mask": 775,
+              "rank": 5
+            },
+            {
+              "best_optional": 5,
+              "count": 47,
+              "mask": 583,
+              "rank": 6
+            },
+            {
+              "best_optional": 6,
+              "count": 20,
+              "mask": 3591,
+              "rank": 7
+            },
+            {
+              "best_optional": 6,
+              "count": 11,
+              "mask": 2823,
+              "rank": 8
+            },
+            {
+              "best_optional": 6,
+              "count": 2,
+              "mask": 2631,
+              "rank": 9
+            }
+          ]
+        },
+        {
+          "region": "control_core_boundary",
+          "old": 4,
+          "actual": 4,
+          "relaxed": 7,
+          "rank_profile": [
+            {
+              "best_optional": 4,
+              "count": 42,
+              "mask": 5144,
+              "rank": 0
+            },
+            {
+              "best_optional": 4,
+              "count": 74,
+              "mask": 4481,
+              "rank": 1
+            },
+            {
+              "best_optional": 5,
+              "count": 98,
+              "mask": 5266,
+              "rank": 2
+            },
+            {
+              "best_optional": 5,
+              "count": 150,
+              "mask": 4545,
+              "rank": 3
+            },
+            {
+              "best_optional": 6,
+              "count": 130,
+              "mask": 5639,
+              "rank": 4
+            },
+            {
+              "best_optional": 6,
+              "count": 134,
+              "mask": 4871,
+              "rank": 5
+            },
+            {
+              "best_optional": 6,
+              "count": 94,
+              "mask": 4679,
+              "rank": 6
+            },
+            {
+              "best_optional": 7,
+              "count": 40,
+              "mask": 7687,
+              "rank": 7
+            },
+            {
+              "best_optional": 7,
+              "count": 22,
+              "mask": 6919,
+              "rank": 8
+            },
+            {
+              "best_optional": 7,
+              "count": 4,
+              "mask": 6727,
+              "rank": 9
+            }
+          ]
+        },
+        {
+          "region": "control_trace_support",
+          "old": 9,
+          "actual": 10,
+          "relaxed": 13,
+          "rank_profile": [
+            {
+              "best_optional": 10,
+              "count": 11568,
+              "mask": 364326,
+              "rank": 0
+            },
+            {
+              "best_optional": 10,
+              "count": 13598,
+              "mask": 118566,
+              "rank": 1
+            },
+            {
+              "best_optional": 11,
+              "count": 12423,
+              "mask": 331747,
+              "rank": 2
+            },
+            {
+              "best_optional": 11,
+              "count": 8678,
+              "mask": 85987,
+              "rank": 3
+            },
+            {
+              "best_optional": 12,
+              "count": 5029,
+              "mask": 364515,
+              "rank": 4
+            },
+            {
+              "best_optional": 12,
+              "count": 2455,
+              "mask": 118755,
+              "rank": 5
+            },
+            {
+              "best_optional": 12,
+              "count": 1018,
+              "mask": 118631,
+              "rank": 6
+            },
+            {
+              "best_optional": 13,
+              "count": 389,
+              "mask": 249827,
+              "rank": 7
+            },
+            {
+              "best_optional": 13,
+              "count": 106,
+              "mask": 249703,
+              "rank": 8
+            },
+            {
+              "best_optional": 13,
+              "count": 26,
+              "mask": 247795,
+              "rank": 9
+            },
+            {
+              "best_optional": 13,
+              "count": 6,
+              "mask": 247671,
+              "rank": 10
+            }
+          ]
+        }
+      ],
+      "audited_rank_witnesses": 1781,
+      "improvements": [
+        {
+          "region": "control_trace_support",
+          "deleted": [
+            44,
+            75,
+            78,
+            86,
+            87,
+            103,
+            104,
+            108,
+            120
+          ],
+          "added": [
+            50,
+            72,
+            80,
+            88,
+            89,
+            90,
+            91,
+            114,
+            118,
+            121
+          ],
+          "rows": [
+            "..............",
+            "UUUUUUUUUUUUUU",
+            ".UUUUUUUUU.UU.",
+            ".UU......U.UU.",
+            ".UUUUUUUUU.UU.",
+            ".U.UUUUUUU.UU.",
+            ".UUU.....UUUU.",
+            ".UUUUUUUUUU.U.",
+            ".U..UU.UU.UUU.",
+            ".UUUUUUUUUUUU.",
+            ".UUU........U.",
+            ".U.UUUUUUUUUU.",
+            ".UUUUUUUUUUUU.",
+            ".UU.........U."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prepared76",
+      "families": {
+        "compact": {
+          "regions": 144,
+          "fillings": 73728,
+          "actual_improvements": 0,
+          "relaxed_improvements": 117,
+          "max_relaxed_gain": 3,
+          "best_positive_rank_margin": -1
+        },
+        "strip": {
+          "regions": 16,
+          "fillings": 524288,
+          "actual_improvements": 0,
+          "relaxed_improvements": 14,
+          "max_relaxed_gain": 2,
+          "best_positive_rank_margin": -1
+        },
+        "pair": {
+          "regions": 66,
+          "fillings": 270336,
+          "actual_improvements": 0,
+          "relaxed_improvements": 45,
+          "max_relaxed_gain": 3,
+          "best_positive_rank_margin": -1
+        },
+        "control": {
+          "regions": 3,
+          "fillings": 536576,
+          "actual_improvements": 1,
+          "relaxed_improvements": 3,
+          "max_relaxed_gain": 4,
+          "best_positive_rank_margin": -1
+        }
+      },
+      "controls": [
+        {
+          "region": "control_core",
+          "old": 4,
+          "actual": 4,
+          "relaxed": 6,
+          "rank_profile": [
+            {
+              "best_optional": 4,
+              "count": 52,
+              "mask": 1155,
+              "rank": 0
+            },
+            {
+              "best_optional": 4,
+              "count": 66,
+              "mask": 771,
+              "rank": 1
+            },
+            {
+              "best_optional": 5,
+              "count": 82,
+              "mask": 1573,
+              "rank": 2
+            },
+            {
+              "best_optional": 5,
+              "count": 80,
+              "mask": 805,
+              "rank": 3
+            },
+            {
+              "best_optional": 5,
+              "count": 64,
+              "mask": 613,
+              "rank": 4
+            },
+            {
+              "best_optional": 6,
+              "count": 34,
+              "mask": 3591,
+              "rank": 5
+            },
+            {
+              "best_optional": 6,
+              "count": 13,
+              "mask": 2853,
+              "rank": 6
+            },
+            {
+              "best_optional": 6,
+              "count": 3,
+              "mask": 2631,
+              "rank": 7
+            }
+          ]
+        },
+        {
+          "region": "control_core_boundary",
+          "old": 4,
+          "actual": 5,
+          "relaxed": 7,
+          "rank_profile": [
+            {
+              "best_optional": 5,
+              "count": 92,
+              "mask": 5665,
+              "rank": 0
+            },
+            {
+              "best_optional": 5,
+              "count": 121,
+              "mask": 4897,
+              "rank": 1
+            },
+            {
+              "best_optional": 5,
+              "count": 144,
+              "mask": 1573,
+              "rank": 2
+            },
+            {
+              "best_optional": 6,
+              "count": 160,
+              "mask": 5669,
+              "rank": 3
+            },
+            {
+              "best_optional": 6,
+              "count": 132,
+              "mask": 4713,
+              "rank": 4
+            },
+            {
+              "best_optional": 6,
+              "count": 82,
+              "mask": 3591,
+              "rank": 5
+            },
+            {
+              "best_optional": 7,
+              "count": 40,
+              "mask": 7687,
+              "rank": 6
+            },
+            {
+              "best_optional": 7,
+              "count": 14,
+              "mask": 6949,
+              "rank": 7
+            },
+            {
+              "best_optional": 7,
+              "count": 3,
+              "mask": 6727,
+              "rank": 8
+            }
+          ]
+        },
+        {
+          "region": "control_trace_support",
+          "old": 8,
+          "actual": 8,
+          "relaxed": 12,
+          "rank_profile": [
+            {
+              "best_optional": 8,
+              "count": 2599,
+              "mask": 265891,
+              "rank": 0
+            },
+            {
+              "best_optional": 9,
+              "count": 3025,
+              "mask": 331427,
+              "rank": 1
+            },
+            {
+              "best_optional": 9,
+              "count": 6254,
+              "mask": 85667,
+              "rank": 2
+            },
+            {
+              "best_optional": 10,
+              "count": 4877,
+              "mask": 331683,
+              "rank": 3
+            },
+            {
+              "best_optional": 10,
+              "count": 4692,
+              "mask": 85923,
+              "rank": 4
+            },
+            {
+              "best_optional": 11,
+              "count": 2905,
+              "mask": 364451,
+              "rank": 5
+            },
+            {
+              "best_optional": 11,
+              "count": 1708,
+              "mask": 118691,
+              "rank": 6
+            },
+            {
+              "best_optional": 11,
+              "count": 946,
+              "mask": 187051,
+              "rank": 7
+            },
+            {
+              "best_optional": 12,
+              "count": 421,
+              "mask": 249763,
+              "rank": 8
+            },
+            {
+              "best_optional": 11,
+              "count": 130,
+              "mask": 184895,
+              "rank": 9
+            },
+            {
+              "best_optional": 12,
+              "count": 79,
+              "mask": 247731,
+              "rank": 10
+            },
+            {
+              "best_optional": 11,
+              "count": 6,
+              "mask": 231223,
+              "rank": 11
+            },
+            {
+              "best_optional": 12,
+              "count": 6,
+              "mask": 247607,
+              "rank": 12
+            }
+          ]
+        }
+      ],
+      "audited_rank_witnesses": 1835,
+      "improvements": [
+        {
+          "region": "control_core_boundary",
+          "deleted": [
+            73,
+            101
+          ],
+          "added": [
+            10,
+            88,
+            114
+          ],
+          "rows": [
+            "..............",
+            "UUUUUUUUUUUUUU",
+            ".UUUUUUUUU.UU.",
+            ".UU......U.UU.",
+            ".UUUUUUUUU.UU.",
+            ".U.UUUUUUU.UU.",
+            ".UUU.....UUUU.",
+            ".UUUUUUUUUU.U.",
+            ".U..UU.UU.UUU.",
+            ".UUUUUUUUUUUU.",
+            ".UUU........U.",
+            ".U.UUUUUUUUUU.",
+            ".UUUUUUUUUUUU.",
+            ".UU.........U."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "endpoint77",
+      "families": {
+        "compact": {
+          "regions": 144,
+          "fillings": 73728,
+          "actual_improvements": 0,
+          "relaxed_improvements": 112,
+          "max_relaxed_gain": 3,
+          "best_positive_rank_margin": -1
+        },
+        "strip": {
+          "regions": 16,
+          "fillings": 524288,
+          "actual_improvements": 0,
+          "relaxed_improvements": 12,
+          "max_relaxed_gain": 2,
+          "best_positive_rank_margin": -2
+        },
+        "pair": {
+          "regions": 66,
+          "fillings": 270336,
+          "actual_improvements": 0,
+          "relaxed_improvements": 38,
+          "max_relaxed_gain": 3,
+          "best_positive_rank_margin": -2
+        },
+        "control": {
+          "regions": 3,
+          "fillings": 536576,
+          "actual_improvements": 0,
+          "relaxed_improvements": 3,
+          "max_relaxed_gain": 3,
+          "best_positive_rank_margin": -2
+        }
+      },
+      "controls": [
+        {
+          "region": "control_core",
+          "old": 4,
+          "actual": 4,
+          "relaxed": 6,
+          "rank_profile": [
+            {
+              "best_optional": 4,
+              "count": 40,
+              "mask": 1569,
+              "rank": 0
+            },
+            {
+              "best_optional": 4,
+              "count": 55,
+              "mask": 801,
+              "rank": 1
+            },
+            {
+              "best_optional": 4,
+              "count": 62,
+              "mask": 568,
+              "rank": 2
+            },
+            {
+              "best_optional": 5,
+              "count": 80,
+              "mask": 1573,
+              "rank": 3
+            },
+            {
+              "best_optional": 5,
+              "count": 68,
+              "mask": 617,
+              "rank": 4
+            },
+            {
+              "best_optional": 5,
+              "count": 48,
+              "mask": 613,
+              "rank": 5
+            },
+            {
+              "best_optional": 6,
+              "count": 27,
+              "mask": 3591,
+              "rank": 6
+            },
+            {
+              "best_optional": 6,
+              "count": 11,
+              "mask": 2853,
+              "rank": 7
+            },
+            {
+              "best_optional": 6,
+              "count": 3,
+              "mask": 2631,
+              "rank": 8
+            }
+          ]
+        },
+        {
+          "region": "control_core_boundary",
+          "old": 5,
+          "actual": 5,
+          "relaxed": 7,
+          "rank_profile": [
+            {
+              "best_optional": 5,
+              "count": 92,
+              "mask": 5665,
+              "rank": 0
+            },
+            {
+              "best_optional": 5,
+              "count": 121,
+              "mask": 4897,
+              "rank": 1
+            },
+            {
+              "best_optional": 5,
+              "count": 144,
+              "mask": 1573,
+              "rank": 2
+            },
+            {
+              "best_optional": 6,
+              "count": 160,
+              "mask": 5669,
+              "rank": 3
+            },
+            {
+              "best_optional": 6,
+              "count": 132,
+              "mask": 4713,
+              "rank": 4
+            },
+            {
+              "best_optional": 6,
+              "count": 82,
+              "mask": 3591,
+              "rank": 5
+            },
+            {
+              "best_optional": 7,
+              "count": 40,
+              "mask": 7687,
+              "rank": 6
+            },
+            {
+              "best_optional": 7,
+              "count": 14,
+              "mask": 6949,
+              "rank": 7
+            },
+            {
+              "best_optional": 7,
+              "count": 3,
+              "mask": 6727,
+              "rank": 8
+            }
+          ]
+        },
+        {
+          "region": "control_trace_support",
+          "old": 10,
+          "actual": 10,
+          "relaxed": 13,
+          "rank_profile": [
+            {
+              "best_optional": 10,
+              "count": 11568,
+              "mask": 364326,
+              "rank": 0
+            },
+            {
+              "best_optional": 10,
+              "count": 13598,
+              "mask": 118566,
+              "rank": 1
+            },
+            {
+              "best_optional": 11,
+              "count": 12423,
+              "mask": 331747,
+              "rank": 2
+            },
+            {
+              "best_optional": 11,
+              "count": 8678,
+              "mask": 85987,
+              "rank": 3
+            },
+            {
+              "best_optional": 12,
+              "count": 5029,
+              "mask": 364515,
+              "rank": 4
+            },
+            {
+              "best_optional": 12,
+              "count": 2455,
+              "mask": 118755,
+              "rank": 5
+            },
+            {
+              "best_optional": 12,
+              "count": 1018,
+              "mask": 118631,
+              "rank": 6
+            },
+            {
+              "best_optional": 13,
+              "count": 389,
+              "mask": 249827,
+              "rank": 7
+            },
+            {
+              "best_optional": 13,
+              "count": 106,
+              "mask": 249703,
+              "rank": 8
+            },
+            {
+              "best_optional": 13,
+              "count": 26,
+              "mask": 247795,
+              "rank": 9
+            },
+            {
+              "best_optional": 13,
+              "count": 6,
+              "mask": 247671,
+              "rank": 10
+            }
+          ]
+        }
+      ],
+      "audited_rank_witnesses": 1851,
+      "improvements": []
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "batch": "batch003",
+  "candidate_transitions_checked": 155136,
+  "certificate": {
+    "endpoint_error": 2,
+    "inequalities_checked": 22508,
+    "initial_max": 0,
+    "initial_states_checked": 64,
+    "initial_terminal_bound_checks": 44160,
+    "kind": "integer_potential",
+    "minimum_slack": 0,
+    "potential_max": 0,
+    "potential_min": -3,
+    "terminal_min": -2,
+    "terminal_states_checked": 690,
+    "tight_edges": 1057
+  },
+  "edges": 22508,
+  "exact_ordered_graph_arrays": true,
+  "initials": 64,
+  "integer_term_checks": 292604,
+  "integer_weight_checks": 22508,
+  "method": "explicit adjacency components; old-partition star forest; multiplicity-preserving E=V-components; one marked PL--PR path; no persistent root",
+  "physical_check": {
+    "A": 10,
+    "all_other_labels": "U",
+    "assignments_checked": 1048576,
+    "block_size": 4,
+    "central_fixed_F_columns": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "cyclic_count": 1011968,
+    "direct_strip_checks": 1048576,
+    "direct_strip_vs_frontier_checks": 1048576,
+    "feasible_count": 36608,
+    "frontier_acceptance_checks": 1048576,
+    "full_observe_checks": 1048576,
+    "full_observe_vs_direct_strip_checks": 1048576,
+    "full_observe_vs_frontier_checks": 1048576,
+    "local_bit_columns": [
+      2,
+      1,
+      0,
+      8,
+      9,
+      10
+    ],
+    "marked_rows": [
+      3,
+      6
+    ],
+    "n": 11,
+    "off_P_fixed_U_columns": [
+      2,
+      8
+    ],
+    "off_P_fixed_U_rows": [
+      4,
+      5
+    ],
+    "physical_rows": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "scope": "specified n=11 local topology fixture only",
+    "variable_vertices_row_major": [
+      33,
+      34,
+      35,
+      41,
+      42,
+      43,
+      44,
+      45,
+      53,
+      54,
+      55,
+      56,
+      64,
+      65,
+      66,
+      67,
+      68,
+      74,
+      75,
+      76
+    ],
+    "variables": 20
+  },
+  "rejected_transitions": 132628,
+  "schema": 1,
+  "scope": "complete finite bilateral necessary-condition graph and specified n=11 local topology fixture only; no uniform geometric or n>15 claim",
+  "states": 2424,
+  "status": "passed"
+}

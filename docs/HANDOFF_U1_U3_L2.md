@@ -6,6 +6,89 @@ coverage premises. Entire missing-side T closure and the formal lower are unchan
 
 ## Latest Continuation
 
+**Computation checkpoint:** See [RUST_CERTIFICATE_CORPUS.md](RUST_CERTIFICATE_CORPUS.md)
+for the bounded Rust corpus tool and source/witness audit. Historical exhaustive
+records claim P(17)=110, whereas [110,113] is the current Lean interval. Do not
+describe the historical 110 as merely a beam-search incumbent, or the new
+primal replay as an independent reproduction of the historical UNSAT result.
+The byte-identical unmirrored source and old result artifacts are preserved.
+
+**Newest clean-strand checkpoint:** Read
+[PAPER_CLEAN_METRIC_CLOSURE.md](PAPER_CLEAN_METRIC_CLOSURE.md) and
+[PAPER_CLEAN_ALLOCATION.md](PAPER_CLEAN_ALLOCATION.md) first. All narrow banks
+are now paid without an epsilon remainder. Under K=r+b+c<n, at most thirteen
+wide banks remain; their named rectangle overlaps are discounted jointly
+with zero error. Boundary-exposed banks have a six-unit-per-bank payment,
+and the explicit full-height two-root moving seam gives f<=T+10 even under
+arbitrary feasible additions. The common-root and boundary-exposure
+hypotheses must not be dropped.
+
+The current gap is a joint payment for partial wide-bank terminals and
+their height-weighted fronts. Actual root restoration leaves incidence-cycle
+and singleton-restoration costs; interior windows retain escaping components.
+The available fragment pool is s_B-(q_B-1), not a new full s_B alongside
+protected boundary units. A vertex-disjoint carrier-path cover can discard
+too much packet area to be funded by one unit per fragment. An edge-path
+cover retains packets but may reuse carriers. Neither is a global closure.
+
+[PAPER_MAXIMUM_CLEAN_UPPER.md](PAPER_MAXIMUM_CLEAN_UPPER.md) proves the exact
+support-intersection criterion and a tie-broken maximum translation lemma.
+Repeated attachments can block a slide even for a pendant wide-bank hull.
+[PAPER_TERMINAL_TRANSPORT.md](PAPER_TERMINAL_TRANSPORT.md) shows why legal
+carrier contraction does not erase longitudinal metric cost; its assigned
+loads are not claimed actual seam demands. All four notes were independently
+reviewed through their final appendices. No unconditional constant theorem,
+new Lean build, or optimization is claimed; grid checks stayed at side 14
+or below. Earlier formal bounds and verification totals remain unchanged.
+
+**Newer upper-only checkpoint:**
+[PAPER_ISOLATE_ROUTING_UPPER.md](PAPER_ISOLATE_ROUTING_UPPER.md) has a reviewed
+simultaneous donor allocation with no isolate-count error. Use its retained
+clean bank, not a previous certificate that spends V_rem or T_rem again.
+This gives T+6 with arbitrary isolates when clean through strands are long;
+the clean short-strand obligation remains open. Its endpoint-resource
+appendix retains additional private port and join-surplus payments.
+
+[PAPER_GLOBAL_CAP_PAYMENT.md](PAPER_GLOBAL_CAP_PAYMENT.md) proves backed-fold
+and specified flat-packet cases, and a restricted T+floor(k/3)+4 bound.
+Review refuted the original unrestricted flat-packet isolate transfer:
+an outer packet anchor can be J_4. That transfer is withdrawn; the explicit
+outer-J_3 version passed re-review. The packet's 3t_F and four 3/4 endpoint
+slots are the same credit, never additive.
+
+[PAPER_GLOBAL_METRIC_UPPER.md](PAPER_GLOBAL_METRIC_UPPER.md) gives disjoint
+distance-four width charges and a wider replacement-carrier example. It
+does not prove every low-budget configuration exposes enough such windows.
+All three complete notes received independent review, including corrections.
+No unconditional constant bound or Lean change is claimed. Bounded checks
+and strip experiments stayed within dimension 15.
+
+**2026-09-08 upper-only research:** The next active route is
+[PAPER_DUAL_UPPER_RESEARCH.md](PAPER_DUAL_UPPER_RESEARCH.md). The connected
+UU-edge dual, pruned once, decomposes into straight corridors, bend strands,
+and actual junctions. Reviewed paper theorems give T+3 without junctions and
+T+6 for several isolate-free classes with unboundedly many through strands.
+The opening table states the separate hypotheses. This is not a universal
+constant-gap theorem, even under the assumption of no isolated holes.
+
+The global metric conversion is A^2=3X_2+Q_exc, Q_exc<=10(r+b+c), A=n-1.
+An adequate straight-length budget gives 3(f-T)<19+D. Matching/rank and
+boundary accounting pay all but specified interior corridor ends. Pendant
+paths pay non-immediate caps; literal boundary witnesses pay several shallow
+cap types; axial insets pay sufficiently deep caps. Remaining immediate caps
+can be backed by preserved pure boundary intervals, so a fresh hole token per
+cap is false. Spare length and matching credit cannot be spent separately.
+Isolate-induced routing remains open despite the valid exceptional-area bound.
+
+Independent reviews covered the complete dual argument through the final
+cap appendix. They corrected the definition of complement-separating rods to
+exclude full boundary rods; subsequent reviews found no mathematical errors.
+The new [contact](PAPER_CONTACT_CHARGING_RESEARCH.md) and
+[projection](PAPER_PROJECTION_UPPER_RESEARCH.md) notes were also reviewed.
+[Nested-cycle research](PAPER_NESTED_CYCLE_UPPER_RESEARCH.md) records additional
+scoped obstructions. No Lean build or optimization was run, and no literal
+example above side 14 was checked. All formal totals below remain unchanged.
+
 **Latest PAPER-only continuation:**
 [PAPER_HALF_COEFFICIENT_UPPER.md](PAPER_HALF_COEFFICIENT_UPPER.md) contains
 the full audited argument for `P(3k+2)<=T+floor(k/2)+1`, now for every k>=3.
@@ -16,23 +99,63 @@ number of rows. Each middle-boundary auxiliary path is nonempty even without
 coverage: either it has a hole or an adjacent preserved pair forces a pure
 carrier. Thus `BAD<=b+p-8` and the GOOD cap are unconditional.
 
+**Latest continuation toward constant gaps:**
+[PAPER_FAULT_LINE_ANALYSIS.md](PAPER_FAULT_LINE_ANALYSIS.md) now has a complete
+58-state certificate for `TOTAL_F<=2N+2` in the five-column strip with column
+3 unpreserved and column 4 arbitrary. It was independently reviewed, including
+all 928 transitions. The stated square-family reduction gives `f<=T+4` even
+with arbitrarily many rail interruptions. Phase switches and arbitrary fault
+networks are not covered. A separate feasible loss-two example disproves
+single-phase deletion stability; it does not refute constant-excess stability.
+
+[PAPER_POSITIVE_LOSS_UPPER.md](PAPER_POSITIVE_LOSS_UPPER.md) records the joint
+bound `2 BAD_H+3 BAD_V<=6Lambda`, refined physical-contact accounting, and a
+refutation of its originally proposed universal nonnegative-loss certificate.
+Full deep horizontal rows 1,4,...,N with an empty annulus violate that
+certificate for every fixed constant, while having negative excess. Thus only
+the positive-excess restriction is a live candidate. Its required geometric
+inequality remains unproved. Canonical contacts retain their full signed
+surplus; every actual hole has at most two preserved neighbors, necessarily
+opposite. Generic degree-three/four connector reasoning is unnecessary here.
+
 [PAPER_PACKING_STABILITY.md](PAPER_PACKING_STABILITY.md) retains the exact
 signed identity `4(f-T)+c+h+K+Lambda+Omega=2k+11`, with actual nonnegative
 reserves. It gives a physical vacancy/run decomposition of Lambda and warns
 that auxiliary UU mirrors are not forced edges: converting their components
 to physical merger counts introduces a subtraction for those virtual edges.
-At zero packing loss with only good vertical edges, full rails leave one free
-column. The internal-free-column case has paper upper excess at most 2;
-the endpoint case reduces to an unresolved rooted side-strip bound. Neither
-case establishes general `T+O(1)` stability.
+The new fourth-step propagation law bounds column-labelled interior
+terminations by `3Lambda`, without treating these continuations as physical
+paths. The [endpoint strip](PAPER_ENDPOINT_STRIP.md) is closed by a complete
+22-state/176-transition potential certificate, independently audited on paper.
+
+[PAPER_ZERO_LOSS_UPPER.md](PAPER_ZERO_LOSS_UPPER.md) now proves on paper
+`Lambda=0 => f<=T+3` for k>=3 and, using the checked coverage input,
+`f<=T+1` for k>=5. Independent classification and physical-contact reviews
+found no fatal gap. Residue-one good rows vanish, leaving nested upper bands,
+an optional inactive corridor, and nested lower bands. Actual deep components,
+including singleton intersections extending into the annulus, each receive
+two distinct physical contacts. Their forest rank gives `c_A>=d+1`.
+The stable arithmetic is `6(f-T)+3p+3h+c<=23`. No virtual UU mirror edge
+is used in that contraction. Positive Lambda is NOT covered by this proof.
 
 [PAPER_CONSTANT_GAP_LOWER.md](PAPER_CONSTANT_GAP_LOWER.md) records a different
 nested-frame obstruction and a moving-phase cell with exact `12k+26` count
 growth. Its nonboundary interior is a forest, but the displayed cap has
 cycle rank k+1. It is not a feasible witness. Constant-gap lower construction
-remains open. This continuation edited only documentation, with no builds,
-experiments, or grid searches; all verification totals below remain those
-of the previous formal milestone.
+remains open. [PAPER_MOVING_PHASE_CAP.md](PAPER_MOVING_PHASE_CAP.md) adds a
+fixed-interior top-cap obstruction and bounded side-11/14 computations; it
+does not rule out distributed count-balanced interior exchanges. The latest
+paper and bounded experimental continuations ran no Lean builds or
+optimization above side 15. All verification totals below still describe
+the previous formal milestone, not these paper arguments.
+
+[PAPER_DISTRIBUTED_LOWER_REPAIR.md](PAPER_DISTRIBUTED_LOWER_REPAIR.md) and its
+new packaged experiment/test investigate count-balanced endpoint shifts that
+preserve GOOD exactly. Descending seams expose isolated centers, but two
+insertion ports are connected through four rods and the frame. This refutes
+the specified promotion family, not distributed exchanges generally. The
+bounded checks use sides 11/14 and explicit node caps; the main-agent focused
+and layout run passed 10 tests. No constant-gap lower witness was obtained.
 
 **Latest checked upper result:**
 `GridGraphs.maxPreserved_residueTwo_le_endpoint_refinement` in

@@ -1,0 +1,290 @@
+{
+  "input_sha256": "3de0212a22b7c8a53fa191c95a6dee63f377ce5fdde2fbf87c9ef4436c31cbc1",
+  "scope": "independent exhaustive enumeration and monotonic path exclusions",
+  "boards": [
+    {
+      "name": "trap76",
+      "terminals": 3,
+      "compatible_pairs": 534,
+      "monotonic_obstructions": 534,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "prepared76",
+      "terminals": 4,
+      "compatible_pairs": 708,
+      "monotonic_obstructions": 645,
+      "separator_deficit_histogram": {
+        "0": 1,
+        "1": 53,
+        "2": 9
+      },
+      "neutral_separators": 1,
+      "fillings_audited": 258048,
+      "first_counterexample": {
+        "region": [
+          15,
+          16,
+          17,
+          29,
+          30,
+          31,
+          43,
+          44,
+          45,
+          57,
+          58,
+          59
+        ],
+        "terminal": {
+          "v": 10,
+          "w": 24
+        },
+        "old_score": 1,
+        "best_separated": 0,
+        "original_rows": [
+          "..........U...",
+          "UUUUUUUUUUUUUU",
+          ".UUUUUUUUU.UU.",
+          ".UU......U.UU.",
+          ".UUUUUUUUU.UU.",
+          ".U..UUUUUU.UU.",
+          ".UUUU....UUUU.",
+          ".UU.UUUUUUU.U.",
+          ".UU.UU.UU.UUU.",
+          ".UUUUUUUUUUUU.",
+          ".UUU........U.",
+          ".U.UUUUUUUUUU.",
+          ".UUUUUUUUUUUU.",
+          ".UU.........U."
+        ],
+        "best_rows": [
+          "..........U...",
+          "UUUUUUUUUUUUUU",
+          ".UUUUUUUUU.UU.",
+          ".UUU.....U.UU.",
+          ".UUUUUUUUU.UU.",
+          ".U..UUUUUU.UU.",
+          ".UUUU....UUUU.",
+          ".UU.UUUUUUU.U.",
+          ".UU.UU.UU.UUU.",
+          ".UUUUUUUUUUUU.",
+          ".UUU........U.",
+          ".U.UUUUUUUUUU.",
+          ".UUUUUUUUUUUU.",
+          ".UU.........U."
+        ]
+      },
+      "successes": [
+        {
+          "region": [
+            72,
+            73,
+            74,
+            86,
+            87,
+            88,
+            100,
+            101,
+            102,
+            114,
+            115,
+            116
+          ],
+          "best_mask": 1569,
+          "best_separated": 4,
+          "clearing_separates": true,
+          "neutral_added": [
+            88,
+            114
+          ],
+          "neutral_components": 3,
+          "neutral_deleted": [
+            73,
+            101
+          ],
+          "neutral_mask": 1569,
+          "promoted_rows": [
+            "..............",
+            "UUUUUUUUUUUUUU",
+            ".UUUUUUUUU.UU.",
+            ".UU......U.UU.",
+            ".UUUUUUUUU.UU.",
+            ".U.UUUUUUU.UU.",
+            ".UUU.....UUUU.",
+            ".UUUUUUUUUU.U.",
+            ".U..UU.UU.UUU.",
+            ".UUUUUUUUUUUU.",
+            ".UUU........U.",
+            ".U.UUUUUUUUUU.",
+            ".UUUUUUUUUUUU.",
+            ".UU.........U."
+          ],
+          "terminal": {
+            "v": 10,
+            "w": 24
+          }
+        }
+      ]
+    },
+    {
+      "name": "endpoint77",
+      "terminals": 3,
+      "compatible_pairs": 534,
+      "monotonic_obstructions": 534,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "comparison_00",
+      "terminals": 3,
+      "compatible_pairs": 534,
+      "monotonic_obstructions": 534,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "comparison_01",
+      "terminals": 3,
+      "compatible_pairs": 534,
+      "monotonic_obstructions": 534,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "comparison_02",
+      "terminals": 2,
+      "compatible_pairs": 356,
+      "monotonic_obstructions": 356,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "comparison_03",
+      "terminals": 3,
+      "compatible_pairs": 530,
+      "monotonic_obstructions": 479,
+      "separator_deficit_histogram": {
+        "1": 36,
+        "2": 15
+      },
+      "neutral_separators": 0,
+      "fillings_audited": 208896,
+      "first_counterexample": {
+        "region": [
+          16,
+          17,
+          18,
+          30,
+          31,
+          32,
+          44,
+          45,
+          46,
+          58,
+          59,
+          60
+        ],
+        "terminal": {
+          "v": 42,
+          "w": 43
+        },
+        "old_score": 3,
+        "best_separated": 2,
+        "original_rows": [
+          ".U............",
+          ".UUUUUUUUUUUUU",
+          ".UUUUUUUUU.UU.",
+          "UU.......U.UU.",
+          ".UUUUUUUUU.UU.",
+          ".UU.UUU.UU.UU.",
+          ".UUUU.U.UU.UU.",
+          ".U.UUUU.UU.UU.",
+          ".UUU.UU.UU.UU.",
+          ".UUUUUUUUU.UU.",
+          ".U.....U.UUUU.",
+          ".UUUUUUU.UU.U.",
+          ".UUUUUUUUUUUU.",
+          ".UU........UU."
+        ],
+        "best_rows": [
+          ".U............",
+          ".UUUUUUUUUUUUU",
+          ".UUUUUUUUU.UU.",
+          "UUU......U.UU.",
+          ".UUUUUUUUU.UU.",
+          ".UU.UUU.UU.UU.",
+          ".UUUU.U.UU.UU.",
+          ".U.UUUU.UU.UU.",
+          ".UUU.UU.UU.UU.",
+          ".UUUUUUUUU.UU.",
+          ".U.....U.UUUU.",
+          ".UUUUUUU.UU.U.",
+          ".UUUUUUUUUUUU.",
+          ".UU........UU."
+        ]
+      },
+      "successes": []
+    },
+    {
+      "name": "comparison_04",
+      "terminals": 3,
+      "compatible_pairs": 534,
+      "monotonic_obstructions": 534,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "comparison_05",
+      "terminals": 3,
+      "compatible_pairs": 534,
+      "monotonic_obstructions": 534,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "comparison_06",
+      "terminals": 3,
+      "compatible_pairs": 534,
+      "monotonic_obstructions": 534,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    },
+    {
+      "name": "comparison_07",
+      "terminals": 2,
+      "compatible_pairs": 356,
+      "monotonic_obstructions": 356,
+      "separator_deficit_histogram": {},
+      "neutral_separators": 0,
+      "fillings_audited": 0,
+      "first_counterexample": null,
+      "successes": []
+    }
+  ]
+}

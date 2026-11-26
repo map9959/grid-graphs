@@ -1,0 +1,404 @@
+{
+  "baseline_only": 0,
+  "baseline_successes": 5,
+  "both": 5,
+  "inputs": 8,
+  "neither": 3,
+  "operator_only": 0,
+  "operator_variant_successes": 5,
+  "records": [
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 76,
+            "first_target_method": null,
+            "first_target_seconds": null,
+            "iterations": 1375647,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "time_limit",
+            "success": false,
+            "wall_seconds": 10.000201083
+          },
+          {
+            "best_f": 76,
+            "first_target_method": null,
+            "first_target_seconds": null,
+            "iterations": 1454455,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 8,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.000259193,
+            "shuffle_successes": 0,
+            "shuffle_tests": 2056,
+            "shuffle_unchanged_skips": 11354,
+            "stop_reason": "time_limit",
+            "success": false,
+            "wall_seconds": 10.000199826
+          }
+        ],
+        "benchmark_seed": 910000000,
+        "id": 0,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "unseeded",
+        "source_id": 10,
+        "source_seed": 20261211,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": false
+    },
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 76,
+            "first_target_method": null,
+            "first_target_seconds": null,
+            "iterations": 1413293,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "time_limit",
+            "success": false,
+            "wall_seconds": 10.000177168
+          },
+          {
+            "best_f": 76,
+            "first_target_method": null,
+            "first_target_seconds": null,
+            "iterations": 1457928,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 7,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.000215323,
+            "shuffle_successes": 0,
+            "shuffle_tests": 1792,
+            "shuffle_unchanged_skips": 11383,
+            "stop_reason": "time_limit",
+            "success": false,
+            "wall_seconds": 10.000183138
+          }
+        ],
+        "benchmark_seed": 910001000,
+        "id": 1,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "parallel_rods",
+        "source_id": 14,
+        "source_seed": 20261215,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": false
+    },
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 2.00897363,
+            "iterations": 257765,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 2,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.00005997,
+            "shuffle_successes": 0,
+            "shuffle_tests": 508,
+            "shuffle_unchanged_skips": 2011,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 2.009114454
+          },
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 1.861771601,
+            "iterations": 257765,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 1.861911414
+          }
+        ],
+        "benchmark_seed": 910002000,
+        "id": 2,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "unseeded",
+        "source_id": 7,
+        "source_seed": 20261208,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": true
+    },
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 76,
+            "first_target_method": null,
+            "first_target_seconds": null,
+            "iterations": 1416431,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 3,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.000103381,
+            "shuffle_successes": 0,
+            "shuffle_tests": 776,
+            "shuffle_unchanged_skips": 11062,
+            "stop_reason": "time_limit",
+            "success": false,
+            "wall_seconds": 10.0001769
+          },
+          {
+            "best_f": 76,
+            "first_target_method": null,
+            "first_target_seconds": null,
+            "iterations": 1485903,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "time_limit",
+            "success": false,
+            "wall_seconds": 10.000179695
+          }
+        ],
+        "benchmark_seed": 910003000,
+        "id": 3,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "parallel_rods",
+        "source_id": 21,
+        "source_seed": 20261222,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": false
+    },
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 3.471966362,
+            "iterations": 492637,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 3.472108379
+          },
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 3.396306291,
+            "iterations": 492637,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 6,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.000196144,
+            "shuffle_successes": 0,
+            "shuffle_tests": 1544,
+            "shuffle_unchanged_skips": 3842,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 3.396438395
+          }
+        ],
+        "benchmark_seed": 910004000,
+        "id": 4,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "unseeded",
+        "source_id": 8,
+        "source_seed": 20261209,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": true
+    },
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 4.125428646,
+            "iterations": 579258,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 4.125566777
+          },
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 4.321482898,
+            "iterations": 579258,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 4,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.000127096,
+            "shuffle_successes": 0,
+            "shuffle_tests": 1044,
+            "shuffle_unchanged_skips": 4521,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 4.321614761
+          }
+        ],
+        "benchmark_seed": 910005000,
+        "id": 5,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "parallel_rods",
+        "source_id": 22,
+        "source_seed": 20261223,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": true
+    },
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 3.93811167,
+            "iterations": 553457,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 5,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.000166896,
+            "shuffle_successes": 0,
+            "shuffle_tests": 1292,
+            "shuffle_unchanged_skips": 4318,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 3.938254069
+          },
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 3.800039214,
+            "iterations": 553457,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 3.800163502
+          }
+        ],
+        "benchmark_seed": 910006000,
+        "id": 6,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "unseeded",
+        "source_id": 5,
+        "source_seed": 20261206,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": true
+    },
+    {
+      "case": {
+        "arms": [
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 7.983786044,
+            "iterations": 1179601,
+            "method": "random_plus_shuffle_v1",
+            "shuffle_calls": 6,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.000188418,
+            "shuffle_successes": 0,
+            "shuffle_tests": 1548,
+            "shuffle_unchanged_skips": 9209,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 7.983920547
+          },
+          {
+            "best_f": 77,
+            "first_target_method": "random",
+            "first_target_seconds": 8.241319969,
+            "iterations": 1179601,
+            "method": "random_v1",
+            "shuffle_calls": 0,
+            "shuffle_cutoffs": 0,
+            "shuffle_seconds": 0.0,
+            "shuffle_successes": 0,
+            "shuffle_tests": 0,
+            "shuffle_unchanged_skips": 0,
+            "stop_reason": "target_found",
+            "success": true,
+            "wall_seconds": 8.241459344
+          }
+        ],
+        "benchmark_seed": 910007000,
+        "id": 7,
+        "method_order": "serial, balanced within each starting family",
+        "schema": "grid-graphs.shuffle-heldout-case.v1",
+        "source_family": "parallel_rods",
+        "source_id": 15,
+        "source_seed": 20261216,
+        "target_f": 77,
+        "time_budget_ms_per_method": 10000
+      },
+      "paired_random_target_identical": true
+    }
+  ],
+  "schema": "grid-graphs.shuffle-heldout-summary.v1",
+  "scope": "frozen paired ten-second trials; descriptive outcomes, not a significance or universal performance claim",
+  "shuffle_boundary_tests": 0,
+  "shuffle_calls": 41,
+  "shuffle_cutoffs": 0,
+  "shuffle_feasible_cores": 0,
+  "shuffle_gains": 0,
+  "shuffle_seconds": 0.0013164210000000001,
+  "shuffle_tests": 10560
+}
