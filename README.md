@@ -38,6 +38,14 @@ The bracket is $1$ when $n\equiv 35\pmod{42}$ and $0$ otherwise. The remaining s
 
 The [Lean theorem `GridGraphs.maxPreserved_square_exact`](lean/GridGraphs/Results/SquareFormula.lean) proves the formula for every positive side. See the [proof overview](docs/EXACT_SQUARE_FORMULA.md) and the [Lean build instructions](lean/README.md).
 
+## Generate an optimal spanning tree
+
+```sh
+python3 generate_square_tree.py 17 > tree.json
+```
+
+The script uses the constructions directly, with no search or Lean build. The JSON gives the optimal `score`, the `full_degree_vertices`, and the tree's `edges`, using zero-based `[row, column]` coordinates.
+
 ## Citations
 
 Acquaviva, Sarah, "The Full Degree Spanning Tree Problem" (2023). Theses, Dissertations and Culminating Projects. 1292.
