@@ -1,6 +1,6 @@
 # Full Degree Spanning Tree Problem on Square Grid Graphs
 
-This repository contains Lean code, as well as all accompanying documentation and Python/Rust support code to search for results. I assembled this repository to both publicly verify the formula and show the full work process in hopes that AI can be
+This repository contains Lean code, as well as all accompanying documentation and Python/Rust support code to search for results. I assembled this repository to both publicly verify the formula and show the full work process in hopes that it can be used to advance further LLM-assisted mathematical proofs.
 
 ## The problem
 
