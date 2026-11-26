@@ -3,6 +3,23 @@
 A Lean 4 + mathlib project formalizing combinatorial identities and bound
 expressions from `docs/DERIVATION.md` for the m×n grid graph.
 
+For the proved square formula, import `GridGraphs.Results.SquareFormula`
+and use `GridGraphs.maxPreserved_square_exact`. Build just that target
+with `LEAN_NUM_THREADS=4 lake build +GridGraphs.Results.SquareFormula:olean`
+from this directory.
+
+To check the southern coverage certificate on its own:
+
+```sh
+LEAN_NUM_THREADS=4 lake build +SouthCapCertificate:olean
+```
+
+Lake tracks the compressed witness and builds and loads the native RUP
+checker. The independent row checks share a decoded witness and run on
+Lean's worker pool. For the 41 windows in which switching the corner
+bit leaves all local clauses unchanged, the proof transports the first
+refutation instead of replaying a second one.
+
 ## Problem
 
 The **grid graph** `G(m, n)` has `m × n` vertices arranged in a rectangular

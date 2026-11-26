@@ -1,0 +1,101 @@
+import GridGraphs.Geometry.SlitData.DFA0
+import GridGraphs.Geometry.SlitData.DFA1
+import GridGraphs.Geometry.SlitData.DFA2
+import GridGraphs.Geometry.SlitData.DFA3
+import GridGraphs.Geometry.SlitData.DFA4
+import GridGraphs.Geometry.SlitData.Local0
+import GridGraphs.Geometry.SlitData.Local1
+import GridGraphs.Geometry.SlitData.Local2
+import GridGraphs.Geometry.SlitData.Local3
+
+namespace GridGraphs.Slit.Data
+def reflect : Local := ⟨#[[0,49,42,59,4,21,14,31]],#[1]⟩
+def langs : Array DFA := #[d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,
+d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,
+d24,d25,d26,d27,d28,d29,d30,d31,d32,d33,d34,d35,
+d36,d37,d38,d39,d40,d41,d42,d43,d44,d45,d46,d47,
+d48,d49,d50,d51,d52,d53,d54,d55,d56,d57,d58,d59,
+d60,d61,d62,d63,d64,d65,d66,d67,d68,d69]
+def localTables : Array Local := #[t0,t1,t2,t3,reflect]
+def siteStates : Array (Array Nat) := #[states0,states1,states2,states3]
+def layers : Array (Array (Option (Int × Array Nat))) := #[
+#[some (0,#[2,2,2,2,2]),none,none,none,
+none,none,none,none,
+none,none,none,none],
+#[some (3,#[3,4]),some (2,#[2,5,6]),none,none,
+none,none,none,none,
+none,none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[11,12]),none,
+none,none,none,none,
+none,none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,16]),
+none,none,none,none,
+none,none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,19]),none,none,none,
+none,none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,22]),none,none,
+none,none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),none,
+none,none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,26]),
+none,none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,29]),none,none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,32]),none,none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[34,35]),none],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,14]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[37])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,38]),some (3,#[15,17]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,42]),
+some (3,#[18,20]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[44,45]),some (3,#[21,23]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[46,47]),some (3,#[48,1]),some (4,#[24]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[51]),some (3,#[25,27]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,53]),
+some (3,#[28,30]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,55]),some (3,#[31,33]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,56]),some (3,#[57,58]),some (3,#[36,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,56]),some (3,#[57,59]),some (3,#[60,1]),some (4,#[39])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,40]),some (3,#[41,43]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,56]),some (3,#[57,59]),some (3,#[61,1]),some (4,#[62])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,63]),some (3,#[41,43]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,56]),some (3,#[57,59]),some (3,#[61,1]),some (4,#[62])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,63]),some (3,#[41,64]),
+some (3,#[46,49]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,56]),some (3,#[57,59]),some (3,#[61,1]),some (4,#[62])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,63]),some (3,#[41,65]),
+some (3,#[66,67]),some (3,#[50,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,56]),some (3,#[57,59]),some (3,#[61,1]),some (4,#[62])],
+#[some (3,#[7,8]),some (3,#[9,10]),some (3,#[13,63]),some (3,#[41,65]),
+some (3,#[46,68]),some (3,#[69,1]),some (4,#[52]),some (3,#[25,54]),
+some (3,#[28,56]),some (3,#[57,59]),some (3,#[61,1]),some (4,#[62])]]
+
+end GridGraphs.Slit.Data
